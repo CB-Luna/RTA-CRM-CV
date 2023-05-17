@@ -1,36 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_portal/flutter_portal.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:url_strategy/url_strategy.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/router/router.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/providers/providers.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  setPathUrlStrategy();
+
+  await Supabase.initialize(
+    url: supabaseUrl,
+    anonKey: anonKey,
+  );
+
+  await initGlobals();
+
+  // Configuration? conf = await SupabaseQueries.getUserTheme();
+
+  //obtener tema
+  // AppTheme.initConfiguration(conf);
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => UserState(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(),
-    );
-  }
+  State<MyApp> createState() => _MyAppState();
+
+  static _MyAppState of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>()!;
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+class _MyAppState extends State<MyApp> {
+  Locale _locale = const Locale('es');
+  ThemeMode _themeMode = AppTheme.themeMode;
 
-class _MyHomePageState extends State<MyHomePage> {
+  void setLocale(Locale value) => setState(() => _locale = value);
+  void setThemeMode(ThemeMode mode) => setState(() {
+        _themeMode = mode;
+        AppTheme.saveThemeMode(mode);
+      });
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Column(),
+    return Portal(
+      child: MaterialApp.router(
+        title: 'RTA CRM',
+        debugShowCheckedModeBanner: false,
+        locale: _locale,
+        supportedLocales: const [Locale('en', 'US')],
+        theme: ThemeData(
+          brightness: Brightness.light,
+          dividerColor: Colors.grey,
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          dividerColor: Colors.grey,
+        ),
+        themeMode: _themeMode,
+        routerConfig: router,
       ),
     );
   }
