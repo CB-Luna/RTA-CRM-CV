@@ -8,7 +8,6 @@
 
 import 'package:app_links/src/app_links_web.dart';
 import 'package:flutter_secure_storage_web/flutter_secure_storage_web.dart';
-import 'package:fluttertoast/fluttertoast_web.dart';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 import 'package:sign_in_with_apple_web/sign_in_with_apple_web.dart';
@@ -19,7 +18,6 @@ void registerPlugins([final Registrar? pluginRegistrar]) {
   final Registrar registrar = pluginRegistrar ?? webPluginRegistrar;
   AppLinksPluginWeb.registerWith(registrar);
   FlutterSecureStorageWeb.registerWith(registrar);
-  FluttertoastWebPlugin.registerWith(registrar);
   ImagePickerPlugin.registerWith(registrar);
   SharedPreferencesPlugin.registerWith(registrar);
   SignInWithApplePlugin.registerWith(registrar);

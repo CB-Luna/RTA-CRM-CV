@@ -71,6 +71,10 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           brightness: Brightness.light,
           dividerColor: Colors.grey,
+          inputDecorationTheme: InputDecorationTheme(
+            labelStyle: TextStyle(color: AppTheme.of(context).primaryColor),
+            hintStyle: TextStyle(color: AppTheme.of(context).primaryColor),
+          ),
         ),
         darkTheme: ThemeData(
           brightness: Brightness.dark,

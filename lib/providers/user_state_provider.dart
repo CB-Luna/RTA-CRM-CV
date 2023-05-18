@@ -34,7 +34,7 @@ class UserState extends ChangeNotifier {
   //Controlador para LoginScreen
   TextEditingController passwordController = TextEditingController();
 
-  bool recuerdame = false;
+  bool rememberMe = false;
 
   //Variables para editar perfil
   TextEditingController nombrePerfil = TextEditingController();
@@ -51,9 +51,9 @@ class UserState extends ChangeNotifier {
 
   //Constructor de provider
   UserState() {
-    recuerdame = prefs.getBool('recuerdame') ?? false;
+    rememberMe = prefs.getBool('recuerdame') ?? false;
 
-    if (recuerdame == true) {
+    if (rememberMe == true) {
       _email = prefs.getString('email') ?? _email;
       _password = prefs.getString('password') ?? password;
     }
@@ -79,6 +79,7 @@ class UserState extends ChangeNotifier {
     }
   }
 
+  //TODO: agregar info de perfil
   // void initPerfilUsuario() {
   //   if (currentUser == null) return;
   //   nombrePerfil.text = currentUser!.nombre;
@@ -152,8 +153,8 @@ class UserState extends ChangeNotifier {
   }
 
   Future<void> updateRecuerdame() async {
-    recuerdame = !recuerdame;
-    await prefs.setBool('recuerdame', recuerdame);
+    rememberMe = !rememberMe;
+    await prefs.setBool('recuerdame', rememberMe);
     notifyListeners();
   }
 
