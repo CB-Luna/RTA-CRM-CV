@@ -2,6 +2,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'package:rta_crm_cv/pages/login_page/widgets/login_button.dart';
 import 'package:rta_crm_cv/pages/login_page/widgets/login_input_field.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -89,24 +91,48 @@ class _LoginFormState extends State<LoginForm> {
                 return null;
               },
             ),
-            Text('Remember Me'),
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                onTap: () {
-                  //TODO: go to forgot password
-                },
-                child: Text(
-                  'Forgot password?',
+            SizedBox(
+              width: 170,
+              child: CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                title: Text(
+                  'Remember Me',
                   style: GoogleFonts.poppins(
-                    color: AppTheme.of(context).primaryColor,
                     fontSize: 15,
-                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFF4D4D4D),
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                value: userState.rememberMe,
+                onChanged: (value) async {
+                  await userState.updateRecuerdame();
+                },
+                controlAffinity: ListTileControlAffinity.leading,
+                activeColor: AppTheme.of(context).primaryColor,
+                splashRadius: 0,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 40, left: 5),
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: () {
+                    //TODO: go to forgot password
+                  },
+                  child: Text(
+                    'Forgot password?',
+                    style: GoogleFonts.poppins(
+                      color: AppTheme.of(context).primaryColor,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
               ),
             ),
-            Text('Login'),
+            LoginButton(buttonColor: AppTheme.of(context).primaryColor),
           ],
         ),
       ),
