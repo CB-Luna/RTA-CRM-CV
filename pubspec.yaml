@@ -40,6 +40,7 @@ dependencies:
   intl: ^0.18.1
   path: ^1.8.3
   provider: ^6.0.5
+  rive: ^0.11.0
   shared_preferences: ^2.1.1
   supabase_flutter: ^1.9.2
   url_strategy: ^0.2.0
