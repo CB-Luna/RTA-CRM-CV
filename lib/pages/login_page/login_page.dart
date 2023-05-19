@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/pages/login_page/widgets/bottom_svg.dart';
+import 'package:rta_crm_cv/pages/login_page/widgets/custom_shape.dart';
 import 'package:rta_crm_cv/pages/login_page/widgets/login_form.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -22,14 +23,25 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: AppTheme.of(context).primaryColor,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: const Stack(
+        child: Stack(
           children: [
             Positioned(
               left: 32,
               top: 98,
-              child: LoginForm(),
+              child: Row(
+                children: [
+                  const LoginForm(),
+                  Transform.translate(
+                    offset: const Offset(-17, 0),
+                    child: CustomPaint(
+                      size: const Size(143, 642),
+                      painter: CustomShape(),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Positioned(
+            const Positioned(
               bottom: 0,
               child: BottomSVG(),
             )
