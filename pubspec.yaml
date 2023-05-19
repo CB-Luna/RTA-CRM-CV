@@ -40,6 +40,7 @@ dependencies:
   image_picker: ^0.8.7+5
   intl: ^0.18.1
   path: ^1.8.3
+  pluto_grid: ^7.0.2
   provider: ^6.0.5
   rive: ^0.11.0
   shared_preferences: ^2.1.1
@@ -64,7 +65,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/icons/
+    - assets/rive/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
