@@ -1,36 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_portal/flutter_portal.dart';
+import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/internationalization/internationalization.dart';
+import 'package:rta_crm_cv/router/router.dart';
+import 'package:rta_crm_cv/side_menu_provider.dart';
+import 'package:rta_crm_cv/widgets/horizontalscroll.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    Material(
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => SideMenuProvider(context),
+          )
+        ],
+        child: const MyApp(),
+      ),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(),
-    );
-  }
+  State<MyApp> createState() => _MyAppState();
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+class _MyAppState extends State<MyApp> {
+  Locale _locale = const Locale('es');
+  /* ThemeMode _themeMode = AppTheme.themeMode; */
 
-class _MyHomePageState extends State<MyHomePage> {
+  void setLocale(Locale value) => setState(() => _locale = value);
+  /*  void setThemeMode(ThemeMode mode) => setState(() {
+        _themeMode = mode;
+        AppTheme.saveThemeMode(mode);
+      }); */
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Column(),
+    return Portal(
+      child: MaterialApp.router(
+        title: 'Arux',
+        debugShowCheckedModeBanner: false,
+        locale: _locale,
+        localizationsDelegates: const [
+          AppLocalizationsDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en', 'US')],
+        theme: ThemeData(
+          brightness: Brightness.light,
+          dividerColor: Colors.grey,
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          dividerColor: Colors.grey,
+        ),
+        //themeMode: _themeMode,
+        routerConfig: router,
+        scrollBehavior: MyCustomScrollBehavior(),
       ),
     );
   }
