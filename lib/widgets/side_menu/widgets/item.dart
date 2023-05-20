@@ -61,7 +61,8 @@ class _SideMenuItemState extends State<SideMenuItem> {
               onExit: widget.onExit,
               child: InkWell(
                 hoverColor: Colors.transparent,
-                splashColor: primaryColor,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 onTap: widget.onTap,
                 child: Row(
                   mainAxisAlignment: widget.isOpen ? MainAxisAlignment.start : MainAxisAlignment.center,

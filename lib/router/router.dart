@@ -10,7 +10,7 @@ import 'package:rta_crm_cv/pages/pages.dart';
 import 'package:rta_crm_cv/pages/reports_page.dart';
 import 'package:rta_crm_cv/pages/schedulings_page.dart';
 import 'package:rta_crm_cv/pages/tickets_page.dart';
-import 'package:rta_crm_cv/pages/users_page.dart';
+import 'package:rta_crm_cv/pages/users/users_page.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 
 /// The route configuration.

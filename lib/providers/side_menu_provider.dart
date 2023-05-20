@@ -8,7 +8,7 @@ class SideMenuProvider extends ChangeNotifier {
   }
 
   bool isOpen = true;
-  bool forcedOpen = true;
+  bool forcedOpen = false;
 
   void checkWindowSize(BuildContext context) {
     if (forcedOpen && MediaQuery.of(context).size.width > 1440) {

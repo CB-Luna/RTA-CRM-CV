@@ -1,7 +1,64 @@
+import 'package:flutter/material.dart';
+import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
+
 //////// DEV ////////
-const String supabaseUrl = 'https://supabase.cbluna-dev.com';
+const String supabaseUrl = 'https://aadohnxjagooqvqaufqb.supabase.co';
 const String anonKey =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UiLAogICAgImlhdCI6IDE2NTc2OTU2MDAsCiAgICAiZXhwIjogMTgxNTQ2MjAwMAp9.8h6s6K2rRn20SOc7robvygAWNhZsSWD4xFRdIZMyYVI';
-const redirectUrl =
-    'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhZG9obnhqYWdvb3F2cWF1ZnFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODM2NDg2MDIsImV4cCI6MTk5OTIyNDYwMn0.YYFVT0MzXW5J35XwhwqnZ0vqgmuZRfswODbfCHH0bfE.8h6s6K2rRn20SOc7robvygAWNhZsSWD4xFRdIZMyYVI';
+const redirectUrl = 'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
+
+PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
+  return PlutoGridScrollbarConfig(
+    isAlwaysShown: true,
+    scrollbarThickness: 5,
+    hoverWidth: 20,
+    scrollBarColor: AppTheme.of(context).primaryColor,
+  );
+}
+
+double rowHeight = 60;
+
+PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
+  return AppTheme.themeMode == ThemeMode.light
+      ? PlutoGridStyleConfig(
+          //columnContextIcon: Icons.more_horiz,
+          rowHeight: rowHeight,
+          iconColor: AppTheme.of(context).primaryColor,
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0XFFC7EDDD) : const Color(0XFF4B4B4B),
+          /////////////////////////////////////
+          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          /////////////////////////////////////
+          rowColor: AppTheme.of(context).primaryBackground,
+          enableRowColorAnimation: true,
+          /////////////////////////////////////
+          menuBackgroundColor: AppTheme.of(context).primaryBackground,
+          activatedColor: AppTheme.of(context).primaryBackground,
+          /////////////////////////////////////
+          enableCellBorderVertical: false,
+          borderColor: AppTheme.of(context).primaryBackground,
+          gridBorderColor: Colors.transparent,
+          gridBackgroundColor: AppTheme.of(context).primaryBackground,
+        )
+      : PlutoGridStyleConfig.dark(
+          rowHeight: rowHeight,
+          iconColor: AppTheme.of(context).primaryColor,
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0XFFC7EDDD) : const Color(0XFF4B4B4B),
+          /////////////////////////////////////
+          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          /////////////////////////////////////
+          rowColor: AppTheme.of(context).primaryBackground,
+          enableRowColorAnimation: true,
+          /////////////////////////////////////
+          menuBackgroundColor: AppTheme.of(context).primaryBackground,
+          activatedColor: AppTheme.of(context).primaryBackground,
+          /////////////////////////////////////
+          enableCellBorderVertical: false,
+          borderColor: AppTheme.of(context).primaryBackground,
+          gridBorderColor: Colors.transparent,
+          gridBackgroundColor: AppTheme.of(context).primaryBackground,
+        );
+}
