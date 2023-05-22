@@ -13,16 +13,14 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(topLeft: Radius.circular(39), topRight: Radius.circular(15), bottomRight: Radius.circular(15), bottomLeft: Radius.circular(15)),
-        gradient: blueGradient,
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(15), bottomRight: Radius.circular(40), bottomLeft: Radius.circular(15)),gradient: blueGradient,
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
           height: 40,
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(15), bottomRight: Radius.circular(15), bottomLeft: Radius.circular(15)),
-            gradient: blueRadial,
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(4), bottomRight: Radius.circular(30), bottomLeft: Radius.circular(4)),gradient: blueRadial,
           ),
           child: Center(
             child: Text(

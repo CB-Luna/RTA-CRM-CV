@@ -3,6 +3,7 @@ import 'package:flutter_portal/flutter_portal.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/providers/users_providers/add_users_provider.dart';
 import 'package:rta_crm_cv/providers/users_providers/users_provider.dart';
+import 'package:rta_crm_cv/providers/visual_state_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -44,6 +45,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => AddUsersProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => VisualStateProvider(context),
         ),
       ],
       child: const MyApp(),

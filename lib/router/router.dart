@@ -4,7 +4,7 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/accounts_page.dart';
-import 'package:rta_crm_cv/pages/config_page.dart';
+import 'package:rta_crm_cv/pages/config_page/config_page.dart';
 import 'package:rta_crm_cv/pages/dashboards_page.dart';
 import 'package:rta_crm_cv/pages/inventory_page.dart';
 import 'package:rta_crm_cv/pages/network_page.dart';
