@@ -25,12 +25,15 @@ class _CustomCardState extends State<CustomCard> {
           borderRadius: const BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(15), bottomRight: Radius.circular(15), bottomLeft: Radius.circular(15)),
           gradient: whiteGradient),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Header(text: widget.title),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Expanded(child: widget.child),
+          SizedBox(
+            height: widget.height! - 65,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: widget.child,
+            ),
           ),
         ],
       ),

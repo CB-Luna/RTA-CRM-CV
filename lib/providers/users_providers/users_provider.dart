@@ -55,7 +55,7 @@ class UsersProvider extends ChangeNotifier {
               'ID_Column': PlutoCell(value: randomNumber.toString()),
               'AVATAR_Column': PlutoCell(value: 'https://i.pravatar.cc/300'),
               'USER_Column': PlutoCell(value: 'Carlos Ramirez'),
-              'ROL_Column': PlutoCell(value: 'Administrator'),
+              'ROLE_Column': PlutoCell(value: 'Administrator'),
               'EMAIL_Column': PlutoCell(value: 'email@email.com'),
               'MOBILE_Column': PlutoCell(value: '664-614-8974'),
               'STATE_Column': PlutoCell(value: 'Texas'),

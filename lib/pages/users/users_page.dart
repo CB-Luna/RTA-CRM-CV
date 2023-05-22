@@ -124,7 +124,7 @@ class _UsersPageState extends State<UsersPage> {
                                         return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                       } else if (column.field == 'USER_Column') {
                                         return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                                      } else if (column.field == 'ROL_Column') {
+                                      } else if (column.field == 'ROLE_Column') {
                                         return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                       } else if (column.field == 'EMAIL_Column') {
                                         return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
@@ -208,9 +208,9 @@ class _UsersPageState extends State<UsersPage> {
                                     },
                                   ),
                                   PlutoColumn(
-                                    titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.local_offer_outlined)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'ROL')]),
-                                    title: 'ROL',
-                                    field: 'ROL_Column',
+                                    titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.local_offer_outlined)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'ROLE')]),
+                                    title: 'ROLE',
+                                    field: 'ROLE_Column',
                                     width: 150,
                                     titleTextAlign: PlutoColumnTextAlign.start,
                                     textAlign: PlutoColumnTextAlign.center,
