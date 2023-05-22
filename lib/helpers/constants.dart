@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
@@ -61,4 +62,12 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           gridBorderColor: Colors.transparent,
           gridBackgroundColor: AppTheme.of(context).primaryBackground,
         );
+}
+
+CustomTransitionPage<void> pageTransition(BuildContext context, GoRouterState state, Widget page) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    child: page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
+  );
 }

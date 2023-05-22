@@ -26,7 +26,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
         children: [
           SideMenuItem(
             selected: provider.indexSelected[0],
-            index: 0,
             leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
             title: 'Dashbords',
@@ -42,7 +41,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           ),
           SideMenuItem(
             selected: provider.indexSelected[1],
-            index: 1,
             leading: provider.aRAccounts != null ? Rive(artboard: provider.aRAccounts!) : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
             title: 'Accounts',
@@ -58,7 +56,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           ),
           SideMenuItem(
             selected: provider.indexSelected[2],
-            index: 2,
             leading: provider.aRSchedulings != null ? Rive(artboard: provider.aRSchedulings!) : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
             title: 'Scheduling',
@@ -74,7 +71,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           ),
           SideMenuItem(
             selected: provider.indexSelected[3],
-            index: 3,
             leading: provider.aRNetworks != null ? Rive(artboard: provider.aRNetworks!) : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
             title: 'Network',
@@ -90,7 +86,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           ),
           SideMenuItem(
             selected: provider.indexSelected[4],
-            index: 4,
             leading: provider.aRTickets != null ? Rive(artboard: provider.aRTickets!) : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
             title: 'Tickets',
@@ -106,7 +101,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           ),
           SideMenuItem(
             selected: provider.indexSelected[5],
-            index: 5,
             leading: provider.aRInventories != null ? Rive(artboard: provider.aRInventories!) : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
             title: 'Inventory',
@@ -122,7 +116,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           ),
           SideMenuItem(
             selected: provider.indexSelected[6],
-            index: 6,
             leading: provider.aRReports != null ? Rive(artboard: provider.aRReports!) : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
             title: 'Reports',
@@ -138,7 +131,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           ),
           SideMenuItem(
             selected: provider.indexSelected[7],
-            index: 7,
             leading: provider.aRUsers != null ? Rive(artboard: provider.aRUsers!) : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
             title: 'Users',
@@ -150,6 +142,21 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             },
             onExit: (event) {
               provider.iHoverUsers?.change(false);
+            },
+          ),
+          SideMenuItem(
+            selected: provider.indexSelected[8],
+            leading: Icon(Icons.color_lens_outlined, color: Color(Colors.grey[300]!.value)),
+            isOpen: widget.isOpen,
+            title: 'Configurator',
+            onTap: () async {
+              context.pushReplacement('/config');
+            },
+            onEnter: (event) {
+              //provider.iHoverUsers?.change(true);
+            },
+            onExit: (event) {
+              //provider.iHoverUsers?.change(false);
             },
           ),
         ],

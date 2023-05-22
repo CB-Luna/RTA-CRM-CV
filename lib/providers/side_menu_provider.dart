@@ -32,6 +32,7 @@ class SideMenuProvider extends ChangeNotifier {
     false,
     false,
     false,
+    false,
   ];
 
   Future<void> loadRiveMenuAssets() async {

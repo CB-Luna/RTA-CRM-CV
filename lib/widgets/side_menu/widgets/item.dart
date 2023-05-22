@@ -12,12 +12,10 @@ class SideMenuItem extends StatefulWidget {
     required this.onEnter,
     required this.onExit,
     required this.isOpen,
-    required this.index,
     required this.onTap,
   });
 
   final bool isOpen;
-  final int index;
   final bool selected;
   final Widget leading;
   final String? title;

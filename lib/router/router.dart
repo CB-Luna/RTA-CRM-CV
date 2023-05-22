@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/accounts_page.dart';
+import 'package:rta_crm_cv/pages/config_page.dart';
 import 'package:rta_crm_cv/pages/dashboards_page.dart';
 import 'package:rta_crm_cv/pages/inventory_page.dart';
 import 'package:rta_crm_cv/pages/network_page.dart';
@@ -80,11 +82,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const DashboardsPage();
       },
-      pageBuilder: (context, state) => CustomTransitionPage<void>(
-        key: state.pageKey,
-        child: const DashboardsPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
-      ),
+      pageBuilder: (context, state) => pageTransition(context, state, const DashboardsPage()),
     ),
     GoRoute(
       path: '/accounts',
@@ -92,11 +90,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const AccountsPage();
       },
-      pageBuilder: (context, state) => CustomTransitionPage<void>(
-        key: state.pageKey,
-        child: const AccountsPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
-      ),
+      pageBuilder: (context, state) => pageTransition(context, state, const AccountsPage()),
     ),
     GoRoute(
       path: '/schedulings',
@@ -104,11 +98,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const SchedulingsPage();
       },
-      pageBuilder: (context, state) => CustomTransitionPage<void>(
-        key: state.pageKey,
-        child: const SchedulingsPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
-      ),
+      pageBuilder: (context, state) => pageTransition(context, state, const SchedulingsPage()),
     ),
     GoRoute(
       path: '/network',
@@ -116,11 +106,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const NetworkPage();
       },
-      pageBuilder: (context, state) => CustomTransitionPage<void>(
-        key: state.pageKey,
-        child: const NetworkPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
-      ),
+      pageBuilder: (context, state) => pageTransition(context, state, const NetworkPage()),
     ),
     GoRoute(
       path: '/tickets',
@@ -128,11 +114,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const TicketsPage();
       },
-      pageBuilder: (context, state) => CustomTransitionPage<void>(
-        key: state.pageKey,
-        child: const TicketsPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
-      ),
+      pageBuilder: (context, state) => pageTransition(context, state, const TicketsPage()),
     ),
     GoRoute(
       path: '/inventory',
@@ -140,11 +122,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const InventoryPage();
       },
-      pageBuilder: (context, state) => CustomTransitionPage<void>(
-        key: state.pageKey,
-        child: const InventoryPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
-      ),
+      pageBuilder: (context, state) => pageTransition(context, state, const InventoryPage()),
     ),
     GoRoute(
       path: '/reports',
@@ -152,11 +130,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const ReportsPage();
       },
-      pageBuilder: (context, state) => CustomTransitionPage<void>(
-        key: state.pageKey,
-        child: const ReportsPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
-      ),
+      pageBuilder: (context, state) => pageTransition(context, state, const ReportsPage()),
     ),
     GoRoute(
       path: '/users',
@@ -164,11 +138,19 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const UsersPage();
       },
-      pageBuilder: (context, state) => CustomTransitionPage<void>(
-        key: state.pageKey,
-        child: const UsersPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
-      ),
+      pageBuilder: (context, state) => pageTransition(context, state, const UsersPage()),
+    ),
+
+    /////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+    GoRoute(
+      path: '/config',
+      name: 'Configurator',
+      builder: (BuildContext context, GoRouterState state) {
+        return const ConfigPage();
+      },
+      pageBuilder: (context, state) => pageTransition(context, state, const ConfigPage()),
     ),
   ],
 );
