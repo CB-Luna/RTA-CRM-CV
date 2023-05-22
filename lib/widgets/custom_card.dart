@@ -17,25 +17,28 @@ class CustomCard extends StatefulWidget {
 class _CustomCardState extends State<CustomCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: widget.height,
-      width: widget.width,
-      decoration: BoxDecoration(
-          border: Border.all(color: primaryColor, width: 2),
-          borderRadius: const BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(15), bottomRight: Radius.circular(15), bottomLeft: Radius.circular(15)),
-          gradient: whiteGradient),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Header(text: widget.title),
-          SizedBox(
-            height: widget.height! - 65,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: widget.child,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        height: widget.height,
+        width: widget.width,
+        decoration: BoxDecoration(
+            border: Border.all(color: primaryColor, width: 2),
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(15), bottomRight: Radius.circular(15), bottomLeft: Radius.circular(15)),
+            gradient: whiteGradient),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Header(text: widget.title),
+            SizedBox(
+              height: widget.height != null ? widget.height! - 65 : null,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: widget.child,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

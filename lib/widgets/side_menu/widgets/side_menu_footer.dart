@@ -71,8 +71,8 @@ class _SideMenuFooterState extends State<SideMenuFooter> {
               )
             : Image.network(
                 widget.image,
-                height: 50,
-                width: 50,
+                height: getWidth(60, context),
+                width: getWidth(60, context),
               ),
       ),
     );
