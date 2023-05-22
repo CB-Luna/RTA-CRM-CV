@@ -1,10 +1,6 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as p;
 import 'package:rta_crm_cv/models/modelo_pantalla/tema_descargado.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
@@ -17,20 +13,6 @@ import '../models/modelo_pantalla/configuration.dart';
 
 class VisualStateProvider extends ChangeNotifier {
   //OPCIONES MENU:
-  List<bool> isTaped = [
-    true, //Home
-    false, //Usuarios
-    false, //jefes de area
-    false, //dashboards
-    false, //cotizador
-    false, //saldo
-    false, //empleados
-    false, //productos
-    false, //validacion puntaje
-    false, //eventos
-    false, //eCommerce
-    false, //cotizador
-  ];
 
   //THEME
   late Color primaryColorLight;
@@ -157,13 +139,6 @@ class VisualStateProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setTapedOption(int index) {
-    for (var i = 0; i < isTaped.length; i++) {
-      isTaped[i] = false;
-    }
-    isTaped[index] = true;
-  }
-
   Configuration getCurrentConfiguration() {
     final Mode light = Mode(
       primaryColor: int.parse(primaryColorLightController.text, radix: 16),
@@ -180,11 +155,7 @@ class VisualStateProvider extends ChangeNotifier {
       primaryText: int.parse(primaryTextDarkController.text, radix: 16),
       primaryBackground: int.parse(primaryBackgroundDarkController.text, radix: 16),
     );
-    final Logos logo = Logos(
-        logoColor: 'logoColor',
-        logoBlanco: 'logoBlanco',
-        backgroundImage: 'backgroundImage',
-        animationBackground: 'animationBackground');
+    final Logos logo = Logos(logoColor: 'logoColor', logoBlanco: 'logoBlanco', backgroundImage: 'backgroundImage', animationBackground: 'animationBackground');
 
     return Configuration(light: light, dark: dark, logos: logo);
   }

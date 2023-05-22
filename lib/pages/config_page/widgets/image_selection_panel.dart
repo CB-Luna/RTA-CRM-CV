@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/providers/visual_state_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_buttom.dart';
-
-
 
 class ImageSelectionPanel extends StatefulWidget {
   const ImageSelectionPanel({Key? key}) : super(key: key);
@@ -21,8 +17,6 @@ class _ImageSelectionPanelState extends State<ImageSelectionPanel> {
 
   @override
   Widget build(BuildContext context) {
-    final VisualStateProvider visualState =
-        Provider.of<VisualStateProvider>(context);
     fToast.init(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
@@ -153,9 +147,6 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final VisualStateProvider visualState =
-        Provider.of<VisualStateProvider>(context);
-
     const double containerWidth = 400;
     const double containerHeight = 100;
 
@@ -192,11 +183,12 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
                             height: containerHeight,
                             width: containerWidth,
                           )
-                        : */ Image(
-                            width: containerWidth,
-                            height: containerHeight,
-                            image: NetworkImage(widget.imageUrl),
-                          ),
+                        : */
+                        Image(
+                      width: containerWidth,
+                      height: containerHeight,
+                      image: NetworkImage(widget.imageUrl),
+                    ),
                   ),
                   Visibility(
                     visible: isHover,
@@ -213,7 +205,7 @@ class _SelectImageWidgetState extends State<SelectImageWidget> {
                         child: IconButton(
                           padding: EdgeInsets.zero,
                           onPressed: () {
-                           // visualState.selectImage(widget.assetName);
+                            // visualState.selectImage(widget.assetName);
                           },
                           icon: const Icon(
                             Icons.edit,

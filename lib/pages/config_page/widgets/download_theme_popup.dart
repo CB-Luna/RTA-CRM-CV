@@ -8,8 +8,6 @@ import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
 
-
-
 class DownloadThemePopup extends StatefulWidget {
   const DownloadThemePopup({Key? key}) : super(key: key);
 
@@ -24,21 +22,12 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      VisualStateProvider provider = Provider.of<VisualStateProvider>(
-        context,
-        listen: false,
-      );
-      //await provider.descargarTemas();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
-    final VisualStateProvider provider =
-        Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider provider = Provider.of<VisualStateProvider>(context);
     return Dialog(
       insetPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
@@ -104,10 +93,8 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                                   scrollDirection: Axis.vertical,
                                   itemCount: provider.temas.length,
                                   itemBuilder: (context, index) {
-                                    final TemaDescargado tema =
-                                        provider.temas[index];
-                                    final bool seleccionado = tema.id ==
-                                        provider.temaSeleccionado?.id;
+                                    final TemaDescargado tema = provider.temas[index];
+                                    final bool seleccionado = tema.id == provider.temaSeleccionado?.id;
                                     return ThemeCardWidget(
                                       tema: tema,
                                       seleccionado: seleccionado,
@@ -128,7 +115,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                             );
                             return;
                           }
-                         /*  final res = await provider.actualizarTema(
+                          /*  final res = await provider.actualizarTema(
                             tema: provider.temaSeleccionado!.tema,
                           );
                           if (!res) {
@@ -190,15 +177,13 @@ class _ThemeCardWidgetState extends State<ThemeCardWidget> {
   final bool isLight = AppTheme.themeMode == ThemeMode.light;
   @override
   Widget build(BuildContext context) {
-    final VisualStateProvider provider =
-        Provider.of<VisualStateProvider>(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
           onTap: () {
-           // provider.setTemaSeleccionado(widget.tema);
+            // provider.setTemaSeleccionado(widget.tema);
           },
           child: Container(
             padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
@@ -220,13 +205,10 @@ class _ThemeCardWidgetState extends State<ThemeCardWidget> {
                 ),
                 const Spacer(),
                 ColorContainer(colorValue: widget.tema.tema.light.primaryColor),
-                ColorContainer(
-                    colorValue: widget.tema.tema.light.secondaryColor),
-                ColorContainer(
-                    colorValue: widget.tema.tema.light.tertiaryColor),
+                ColorContainer(colorValue: widget.tema.tema.light.secondaryColor),
+                ColorContainer(colorValue: widget.tema.tema.light.tertiaryColor),
                 ColorContainer(colorValue: widget.tema.tema.light.primaryText),
-                ColorContainer(
-                    colorValue: widget.tema.tema.light.primaryBackground),
+                ColorContainer(colorValue: widget.tema.tema.light.primaryBackground),
               ],
             ),
           ),
