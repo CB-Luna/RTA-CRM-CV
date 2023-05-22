@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/pages/login_page/widgets/bottom_svg.dart';
+
+import 'package:rta_crm_cv/pages/login_page/widgets/bottom_bar.dart';
 import 'package:rta_crm_cv/pages/login_page/widgets/custom_shape.dart';
 import 'package:rta_crm_cv/pages/login_page/widgets/login_form.dart';
-import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class LoginPage extends StatefulWidget {
@@ -43,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const Positioned(
               bottom: 0,
-              child: BottomSVG(),
+              child: BottomBar(),
             )
           ],
         ),
