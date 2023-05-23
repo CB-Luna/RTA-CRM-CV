@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:rta_crm_cv/pages/login_page/widgets/bottom_bar.dart';
-import 'package:rta_crm_cv/pages/login_page/widgets/custom_shape.dart';
+import 'package:rta_crm_cv/pages/login_page/widgets/custom_shape_bottom.dart';
+import 'package:rta_crm_cv/pages/login_page/widgets/image_carousel.dart';
 import 'package:rta_crm_cv/pages/login_page/widgets/login_form.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
@@ -34,11 +35,15 @@ class _LoginPageState extends State<LoginPage> {
                     offset: const Offset(-17, 0),
                     child: CustomPaint(
                       size: const Size(143, 642),
-                      painter: CustomShape(),
+                      painter: CustomShapeBottom(),
                     ),
                   ),
                 ],
               ),
+            ),
+            const Positioned(
+              right: 0,
+              child: ImageCarousel(),
             ),
             const Positioned(
               bottom: 0,

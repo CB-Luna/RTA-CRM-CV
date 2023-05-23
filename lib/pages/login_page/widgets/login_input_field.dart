@@ -89,6 +89,13 @@ class _LoginInputFieldState extends State<LoginInputField> {
                 ),
                 borderRadius: BorderRadius.circular(4.88),
               ),
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.red,
+                  width: 0.4,
+                ),
+                borderRadius: BorderRadius.circular(4.88),
+              ),
               focusColor: AppTheme.of(context).primaryColor,
               prefixIcon: widget.isPasswordField
                   ? const Icon(Icons.key_sharp)

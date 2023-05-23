@@ -1,14 +1,26 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/helpers/supabase/queries.dart';
+import 'package:rta_crm_cv/providers/providers.dart';
+import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' show AuthException;
 
 class LoginButton extends StatefulWidget {
   const LoginButton({
     Key? key,
     required this.buttonColor,
+    required this.formKey,
   }) : super(key: key);
 
   final Color buttonColor;
+  final GlobalKey<FormState> formKey;
 
   @override
   State<LoginButton> createState() => _LoginButtonState();
@@ -36,6 +48,7 @@ class _LoginButtonState extends State<LoginButton> {
 
   @override
   Widget build(BuildContext context) {
+    final UserState userState = Provider.of<UserState>(context);
     return MouseRegion(
       onEnter: (event) {
         buttonColor = lighten(buttonColor, 10);
@@ -47,7 +60,69 @@ class _LoginButtonState extends State<LoginButton> {
       },
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: () {},
+        onTap: () async {
+          if (!widget.formKey.currentState!.validate()) {
+            return;
+          }
+
+          //Login
+          try {
+            await supabase.auth.signInWithPassword(
+              email: userState.emailController.text,
+              password: userState.passwordController.text,
+            );
+
+            if (userState.rememberMe == true) {
+              await userState.setEmail();
+              await userState.setPassword();
+            } else {
+              userState.emailController.text = '';
+              userState.passwordController.text = '';
+              await prefs.remove('email');
+              await prefs.remove('password');
+            }
+
+            //   if (supabase.auth.currentUser == null) {
+            //     await ApiErrorHandler.callToast();
+            //     return;
+            //   }
+
+            //   currentUser = await SupabaseQueries.getCurrentUserData();
+
+            //   if (currentUser == null) {
+            //     await ApiErrorHandler.callToast();
+            //     return;
+            //   }
+
+            //   if (currentUser!.activado == false) {
+            //     await ApiErrorHandler.callToast('El usuario está desactivado');
+            //     await supabase.auth.signOut();
+            //     return;
+            //   }
+
+            //   if (!mounted) return;
+
+            //   if (!currentUser!.cambioContrasena) {
+            //     context.pushReplacement('/cambio-contrasena');
+            //     return;
+            //   }
+
+            //   // AppTheme.initConfiguration(
+            //   //   await SupabaseQueries.getUserTheme(),
+            //   // );
+
+            //   // if (!mounted) return;
+
+            //   if (!mounted) return;
+            //   context.pushReplacement('/seguimiento-proveedores');
+          } catch (e) {
+            if (e is AuthException) {
+              // await ApiErrorHandler.callToast('Credenciales inválidas');
+              return;
+            }
+            log('Error al iniciar sesion - $e');
+          }
+        },
         child: Container(
           height: 41,
           width: double.infinity,

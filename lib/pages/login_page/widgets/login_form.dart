@@ -122,7 +122,10 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
             ),
-            LoginButton(buttonColor: AppTheme.of(context).primaryColor),
+            LoginButton(
+              buttonColor: AppTheme.of(context).primaryColor,
+              formKey: formKey,
+            ),
           ],
         ),
       ),
