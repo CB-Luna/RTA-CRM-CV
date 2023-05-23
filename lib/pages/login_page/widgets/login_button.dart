@@ -82,30 +82,21 @@ class _LoginButtonState extends State<LoginButton> {
               await prefs.remove('password');
             }
 
-            //   if (supabase.auth.currentUser == null) {
-            //     await ApiErrorHandler.callToast();
-            //     return;
-            //   }
+            if (supabase.auth.currentUser == null) {
+              await ApiErrorHandler.callToast();
+              return;
+            }
 
-            //   currentUser = await SupabaseQueries.getCurrentUserData();
+            currentUser = await SupabaseQueries.getCurrentUserData();
 
-            //   if (currentUser == null) {
-            //     await ApiErrorHandler.callToast();
-            //     return;
-            //   }
+            if (currentUser == null) {
+              await ApiErrorHandler.callToast();
+              return;
+            }
 
-            //   if (currentUser!.activado == false) {
-            //     await ApiErrorHandler.callToast('El usuario está desactivado');
-            //     await supabase.auth.signOut();
-            //     return;
-            //   }
+            print(currentUser!.name);
 
             //   if (!mounted) return;
-
-            //   if (!currentUser!.cambioContrasena) {
-            //     context.pushReplacement('/cambio-contrasena');
-            //     return;
-            //   }
 
             //   // AppTheme.initConfiguration(
             //   //   await SupabaseQueries.getUserTheme(),
@@ -113,11 +104,11 @@ class _LoginButtonState extends State<LoginButton> {
 
             //   // if (!mounted) return;
 
-            //   if (!mounted) return;
-            //   context.pushReplacement('/seguimiento-proveedores');
+            if (!mounted) return;
+            context.pushReplacement('/dashboards');
           } catch (e) {
             if (e is AuthException) {
-              // await ApiErrorHandler.callToast('Credenciales inválidas');
+              await ApiErrorHandler.callToast('Credenciales inválidas');
               return;
             }
             log('Error al iniciar sesion - $e');

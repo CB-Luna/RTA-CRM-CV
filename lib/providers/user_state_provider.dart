@@ -137,14 +137,14 @@ class UserState extends ChangeNotifier {
 
   Future<bool> editarPerfilDeUsuario() async {
     try {
-      await supabase.from('perfil_usuario').update(
+      await supabase.from('user_profile').update(
         {
           'nombre': nombrePerfil.text,
           'apellidos': apellidosPerfil.text,
           'telefono': telefonoPerfil.text,
           'imagen': imageName,
         },
-      ).eq('perfil_usuario_id', currentUser!.id);
+      ).eq('user_profile_id', currentUser!.id);
       return true;
     } catch (e) {
       log('Error en editarPerfilDeUsuario() - $e');

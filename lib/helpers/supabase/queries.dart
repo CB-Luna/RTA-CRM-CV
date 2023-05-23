@@ -12,7 +12,7 @@ class SupabaseQueries {
       if (user == null) return null;
 
       final PostgrestFilterBuilder query =
-          supabase.from('users').select().eq('perfil_usuario_id', user.id);
+          supabase.from('users').select().eq('user_profile_id', user.id);
 
       final res = await query;
 
@@ -45,9 +45,9 @@ class SupabaseQueries {
     try {
       if (currentUser == null) return null;
       final res = await supabase
-          .from('perfil_usuario')
+          .from('user_profile')
           .select('configuracion')
-          .eq('perfil_usuario_id', currentUser!.id);
+          .eq('user_profile_id', currentUser!.id);
       return Configuration.fromJson(jsonEncode(res[0]['configuracion']));
     } catch (e) {
       log('Error en getUserTheme() - $e');
