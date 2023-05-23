@@ -43,6 +43,7 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           enableCellBorderVertical: false,
           borderColor: AppTheme.of(context).primaryBackground,
           gridBorderColor: primaryColor,
+          gridBorderRadius: BorderRadius.circular(15),
         )
       : PlutoGridStyleConfig.dark(
           rowHeight: rowHeight,
@@ -62,6 +63,7 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           borderColor: AppTheme.of(context).primaryBackground,
           gridBorderColor: Colors.transparent,
           gridBackgroundColor: AppTheme.of(context).primaryBackground,
+          gridBorderRadius: BorderRadius.circular(15),
         );
 }
 

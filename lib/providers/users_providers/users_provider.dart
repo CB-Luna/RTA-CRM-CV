@@ -89,7 +89,7 @@ class UsersProvider extends ChangeNotifier {
       // var users = (response as List<dynamic>).map((user) => ModelGestorPull.fromJson(jsonEncode(factura))).toList();
       Random random = Random();
 
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < 200; i++) {
         int randomNumber = random.nextInt(200);
         rows.add(
           PlutoRow(

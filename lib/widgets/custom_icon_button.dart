@@ -43,7 +43,7 @@ class CustomIconButtonState extends State<CustomIconButton> {
           child: AnimatedContainer(
             height: 35,
             duration: const Duration(milliseconds: 100),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: primaryColor, boxShadow: [
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white, boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 0.1,
@@ -63,7 +63,7 @@ class CustomIconButtonState extends State<CustomIconButton> {
               child: Center(
                 child: Icon(
                   widget.icon,
-                  color: AppTheme.of(context).primaryBackground,
+                  color: primaryColor,
                 ),
               ),
             ),

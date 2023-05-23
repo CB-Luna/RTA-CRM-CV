@@ -128,7 +128,12 @@ class _UsersPageState extends State<UsersPage> {
                             ),
                             columns: [
                               PlutoColumn(
-                                titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.vpn_key_outlined)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'ID')]),
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(child: Icon(Icons.vpn_key_outlined, color: AppTheme.of(context).primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(text: 'ID', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                ]),
+                                backgroundColor: Color(0XFF6491F7),
                                 title: 'ID',
                                 field: 'ID_Column',
                                 titleTextAlign: PlutoColumnTextAlign.start,
@@ -185,7 +190,12 @@ class _UsersPageState extends State<UsersPage> {
                                 },
                               ), */
                               PlutoColumn(
-                                titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.person_outline)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'USER')]),
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(text: 'USER', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                ]),
+                                backgroundColor: Color(0XFF6491F7),
                                 title: 'USER',
                                 field: 'USER_Column',
                                 width: 225,
@@ -204,7 +214,12 @@ class _UsersPageState extends State<UsersPage> {
                                 },
                               ),
                               PlutoColumn(
-                                titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.local_offer_outlined)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'ROLE')]),
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(text: 'ROLE', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                ]),
+                                backgroundColor: Color(0XFF6491F7),
                                 title: 'ROLE',
                                 field: 'ROLE_Column',
                                 width: 150,
@@ -223,7 +238,12 @@ class _UsersPageState extends State<UsersPage> {
                                 },
                               ),
                               PlutoColumn(
-                                titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.alternate_email)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'EMAIL')]),
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(child: Icon(Icons.alternate_email, color: AppTheme.of(context).primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(text: 'EMAIL', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                ]),
+                                backgroundColor: Color(0XFF6491F7),
                                 title: 'EMAIL',
                                 field: 'EMAIL_Column',
                                 width: 225,
@@ -242,7 +262,12 @@ class _UsersPageState extends State<UsersPage> {
                                 },
                               ),
                               PlutoColumn(
-                                titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.phone_outlined)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'MOBILE PHONE')]),
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(child: Icon(Icons.phone_outlined, color: AppTheme.of(context).primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(text: 'MOBILE PHONE', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                ]),
+                                backgroundColor: Color(0XFF6491F7),
                                 title: 'MOBILE PHONE',
                                 field: 'MOBILE_Column',
                                 width: 200,
@@ -261,7 +286,12 @@ class _UsersPageState extends State<UsersPage> {
                                 },
                               ),
                               PlutoColumn(
-                                titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.location_on_outlined)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'STATE')]),
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(child: Icon(Icons.location_on_outlined, color: AppTheme.of(context).primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(text: 'STATE', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                ]),
+                                backgroundColor: Color(0XFF6491F7),
                                 title: 'STATE',
                                 field: 'STATE_Column',
                                 width: 175,
@@ -291,7 +321,10 @@ class _UsersPageState extends State<UsersPage> {
                                           },
                                         ),
                                         const SizedBox(width: 10),
-                                        Text(provider.pageRowCount.toString()),
+                                        Text(
+                                          provider.pageRowCount.toString(),
+                                          style: TextStyle(color: Colors.white),
+                                        ),
                                         const SizedBox(width: 10),
                                         CustomIconButton(
                                           icon: Icons.keyboard_arrow_up_outlined,
@@ -314,7 +347,12 @@ class _UsersPageState extends State<UsersPage> {
                                 },
                               ),
                               PlutoColumn(
-                                titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.list)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'ACTIONS')]),
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(child: Icon(Icons.list, color: AppTheme.of(context).primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(text: 'ACTIONS', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                ]),
+                                backgroundColor: Color(0XFF6491F7),
                                 title: 'ACTIONS',
                                 field: 'ACTIONS_Column',
                                 width: 190,
@@ -397,7 +435,7 @@ class _UsersPageState extends State<UsersPage> {
                                           },
                                         ),
                                         const SizedBox(width: 5),
-                                        SizedBox(width: 30, child: Center(child: Text(provider.page.toString()))),
+                                        SizedBox(width: 30, child: Center(child: Text(provider.page.toString(), style: TextStyle(color: Colors.white)))),
                                         const SizedBox(width: 5),
                                         CustomIconButton(
                                           icon: Icons.keyboard_arrow_right_outlined,
