@@ -33,7 +33,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           color: Colors.grey.withOpacity(0.5),
           spreadRadius: 0.1,
           blurRadius: 3,
-          offset: Offset(0, 0), // changes position of shadow
+          offset: const Offset(0, 0), // changes position of shadow
         ),
       ]),
       child: Form(
@@ -44,7 +44,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               borderSide: BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
               borderRadius: BorderRadius.circular(5),
             ),
-            enabledBorder: OutlineInputBorder(
+            enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent),
             ),
             focusedBorder: OutlineInputBorder(

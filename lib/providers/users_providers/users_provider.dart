@@ -57,6 +57,12 @@ class UsersProvider extends ChangeNotifier {
       case 'previous':
         if (page > 1) page--;
         break;
+      case 'start':
+        page = 1;
+        break;
+      case 'end':
+        page = stateManager!.totalPage;
+        break;
       default:
         return;
     }
@@ -83,7 +89,7 @@ class UsersProvider extends ChangeNotifier {
       // var users = (response as List<dynamic>).map((user) => ModelGestorPull.fromJson(jsonEncode(factura))).toList();
       Random random = Random();
 
-      for (var i = 0; i < 200; i++) {
+      for (var i = 0; i < 10; i++) {
         int randomNumber = random.nextInt(200);
         rows.add(
           PlutoRow(

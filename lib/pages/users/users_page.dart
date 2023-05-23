@@ -64,9 +64,9 @@ class _UsersPageState extends State<UsersPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CustomIconButton(
-                              icon: Icon(Icons.filter_alt_outlined, color: primaryColor),
-                              toolTip: 'Filter',
+                            CustomTextIconButton(
+                              icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                              text: 'Filter',
                               onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
                             ),
                             CustomTextField(
@@ -76,7 +76,7 @@ class _UsersPageState extends State<UsersPage> {
                               label: 'Search',
                             ),
                             CustomTextIconButton(
-                              icon: Icon(Icons.add, color: primaryColor),
+                              icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                               text: 'Add User',
                               onTap: () {
                                 showDialog(
@@ -121,8 +121,6 @@ class _UsersPageState extends State<UsersPage> {
                                     return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                   } else if (column.field == 'STATE_Column') {
                                     return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                                  } else if (column.field == 'ACTIONS_Column') {
-                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                   }
                                   return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                 },
@@ -158,7 +156,7 @@ class _UsersPageState extends State<UsersPage> {
                                   );
                                 },
                               ),
-                              PlutoColumn(
+                              /* PlutoColumn(
                                 titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.image_outlined)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'AVATAR')]),
                                 title: 'AVATAR',
                                 field: 'AVATAR_Column',
@@ -173,17 +171,19 @@ class _UsersPageState extends State<UsersPage> {
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
-                                    child: Container(
-                                      decoration: BoxDecoration(shape: BoxShape.circle),
-                                      child: Image.network(
-                                        rendererContext.cell.value,
-                                        height: 10,
-                                        width: 10,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2),
+                                      child: CircleAvatar(
+                                        backgroundImage: Image.network(
+                                          rendererContext.cell.value,
+                                          height: 10,
+                                          width: 10,
+                                        ).image,
                                       ),
                                     ),
                                   );
                                 },
-                              ),
+                              ), */
                               PlutoColumn(
                                 titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.person_outline)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'USER')]),
                                 title: 'USER',
@@ -281,9 +281,10 @@ class _UsersPageState extends State<UsersPage> {
                                 footerRenderer: (context) {
                                   return SizedBox(
                                     child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         CustomIconButton(
-                                          icon: const Icon(Icons.keyboard_arrow_down_outlined),
+                                          icon: Icons.keyboard_arrow_down_outlined,
                                           toolTip: 'less',
                                           onTap: () {
                                             provider.setPageSize('less');
@@ -293,8 +294,8 @@ class _UsersPageState extends State<UsersPage> {
                                         Text(provider.pageRowCount.toString()),
                                         const SizedBox(width: 10),
                                         CustomIconButton(
-                                          icon: const Icon(Icons.keyboard_arrow_up_outlined),
-                                          toolTip: 'less',
+                                          icon: Icons.keyboard_arrow_up_outlined,
+                                          toolTip: 'more',
                                           onTap: () {
                                             provider.setPageSize('more');
                                           },
@@ -316,13 +317,14 @@ class _UsersPageState extends State<UsersPage> {
                                 titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.list)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'ACTIONS')]),
                                 title: 'ACTIONS',
                                 field: 'ACTIONS_Column',
-                                width: 175,
+                                width: 190,
                                 titleTextAlign: PlutoColumnTextAlign.start,
                                 textAlign: PlutoColumnTextAlign.center,
                                 type: PlutoColumnType.text(),
                                 enableEditingMode: false,
                                 enableSorting: false,
                                 enableContextMenu: false,
+                                enableDropToResize: false,
                                 cellPadding: EdgeInsets.zero,
                                 renderer: (rendererContext) {
                                   return Container(
@@ -332,7 +334,26 @@ class _UsersPageState extends State<UsersPage> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
-                                        InkWell(
+                                        CustomTextIconButton(
+                                          icon: const Icon(
+                                            Icons.fact_check_outlined,
+                                            //TODO : usar tema
+                                            color: Colors.white,
+                                          ),
+                                          text: 'Edit',
+                                          onTap: () {},
+                                        ),
+                                        CustomTextIconButton(
+                                          icon: const Icon(
+                                            Icons.shopping_basket_outlined,
+                                            //TODO : usar tema
+                                            color: Colors.white,
+                                          ),
+                                          color: secondaryColor,
+                                          text: 'Delete',
+                                          onTap: () {},
+                                        ),
+                                        /* InkWell(
                                           hoverColor: Colors.transparent,
                                           child: Icon(
                                             Icons.fact_check_outlined,
@@ -349,7 +370,7 @@ class _UsersPageState extends State<UsersPage> {
                                             color: textColor,
                                           ),
                                           onTap: () {},
-                                        )
+                                        ) */
                                       ],
                                     ),
                                   );
@@ -358,22 +379,39 @@ class _UsersPageState extends State<UsersPage> {
                                   return SizedBox(
                                     height: 50,
                                     child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         CustomIconButton(
-                                          icon: const Icon(Icons.chevron_left),
-                                          toolTip: 'less',
+                                          icon: Icons.keyboard_double_arrow_left,
+                                          toolTip: 'start',
+                                          onTap: () {
+                                            provider.setPage('start');
+                                          },
+                                        ),
+                                        const SizedBox(width: 2),
+                                        CustomIconButton(
+                                          icon: Icons.keyboard_arrow_left_outlined,
+                                          toolTip: 'previous',
                                           onTap: () {
                                             provider.setPage('previous');
                                           },
                                         ),
-                                        const SizedBox(width: 10),
-                                        Text(provider.page.toString()),
-                                        const SizedBox(width: 10),
+                                        const SizedBox(width: 5),
+                                        SizedBox(width: 30, child: Center(child: Text(provider.page.toString()))),
+                                        const SizedBox(width: 5),
                                         CustomIconButton(
-                                          icon: const Icon(Icons.chevron_right),
-                                          toolTip: 'less',
+                                          icon: Icons.keyboard_arrow_right_outlined,
+                                          toolTip: 'next',
                                           onTap: () {
                                             provider.setPage('next');
+                                          },
+                                        ),
+                                        const SizedBox(width: 2),
+                                        CustomIconButton(
+                                          icon: Icons.keyboard_double_arrow_right,
+                                          toolTip: 'end',
+                                          onTap: () {
+                                            provider.setPage('end');
                                           },
                                         ),
                                       ],

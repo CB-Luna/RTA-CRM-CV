@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/public/colors.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 
 class CustomTextIconButton extends StatefulWidget {
-  const CustomTextIconButton({super.key, required this.icon, required this.text, this.onTap});
+  const CustomTextIconButton({super.key, required this.icon, required this.text, this.onTap, this.color});
 
   final Widget icon;
+  final Color? color;
   final String text;
   final Function()? onTap;
 
@@ -39,7 +41,7 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
         child: AnimatedContainer(
           height: 35,
           duration: const Duration(milliseconds: 100),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white, boxShadow: [
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: widget.color ?? primaryColor, boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 0.1,
@@ -60,10 +62,10 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
               child: Row(
                 children: [
                   widget.icon,
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   Text(
                     widget.text,
-                    style: TextStyle(color: primaryColor),
+                    style: TextStyle(color: AppTheme.of(context).primaryBackground),
                   ),
                 ],
               ),

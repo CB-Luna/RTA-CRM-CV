@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 //////// DEV ////////
@@ -35,13 +36,13 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           rowColor: AppTheme.of(context).primaryBackground,
           enableRowColorAnimation: true,
           /////////////////////////////////////
+          gridBackgroundColor: Colors.transparent,
           menuBackgroundColor: AppTheme.of(context).primaryBackground,
           activatedColor: AppTheme.of(context).primaryBackground,
           /////////////////////////////////////
           enableCellBorderVertical: false,
           borderColor: AppTheme.of(context).primaryBackground,
-          gridBorderColor: Colors.transparent,
-          gridBackgroundColor: AppTheme.of(context).primaryBackground,
+          gridBorderColor: primaryColor,
         )
       : PlutoGridStyleConfig.dark(
           rowHeight: rowHeight,

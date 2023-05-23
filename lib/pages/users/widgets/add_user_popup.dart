@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/users_providers/add_users_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
@@ -55,11 +56,11 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: CustomTextField(label: 'Role', icon: Icons.local_offer_outlined, controller: provider.roleController, enabled: true, width: 350),
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomTextIconButton(icon: Icon(Icons.save_outlined), text: 'Save User'),
-                CustomTextIconButton(icon: Icon(Icons.refresh_outlined), text: 'Refresh'),
+                CustomTextIconButton(icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground), text: 'Save User'),
+                CustomTextIconButton(icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground), text: 'Refresh'),
               ],
             )
           ],

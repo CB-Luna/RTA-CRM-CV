@@ -32,7 +32,7 @@ class _SideMenuFooterState extends State<SideMenuFooter> {
         borderRadius: BorderRadius.circular(50),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: widget.isOpen ? 20 : 10, vertical: widget.isOpen ? 20 : 0),
         child: widget.isOpen
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,8 +71,8 @@ class _SideMenuFooterState extends State<SideMenuFooter> {
               )
             : Image.network(
                 widget.image,
-                height: getWidth(60, context),
-                width: getWidth(60, context),
+                height: getWidth(100, context),
+                width: getWidth(100, context),
               ),
       ),
     );
