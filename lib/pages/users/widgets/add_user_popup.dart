@@ -4,7 +4,7 @@ import 'package:rta_crm_cv/providers/users_providers/add_users_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
-import 'package:rta_crm_cv/widgets/custom_ddown_menu.dart';
+import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_ddown_menu.dart';
 import 'package:rta_crm_cv/widgets/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
@@ -62,6 +62,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                       list: provider.states,
                       dropdownValue: provider.stateSelecValue,
                       onChanged: (p0) {
+                        //print(p0);
                         if (p0 != null) provider.selecState(p0);
                       },
                     ),

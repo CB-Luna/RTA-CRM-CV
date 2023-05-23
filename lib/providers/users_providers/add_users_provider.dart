@@ -27,9 +27,37 @@ class AddUsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> roles = ['Admin', 'Sales', 'Financy', 'Operative', ' Sales', 'Sen Exec'];
+  /*List<DDownSelected> roles = [
+    DDownSelected('Admin', false),
+    DDownSelected('Sales', false),
+    DDownSelected('Financy', false),
+    DDownSelected('Operative', false),
+    DDownSelected('Sen Exec', false),
+  ];
   late String roleSelecValue;
-  List<String> states = ['Texas', 'Louisiana', 'Oklahoma', 'New Mexico'];
+  List<DDownSelected> states = [
+    DDownSelected('Texas', false),
+    DDownSelected('Louisiana', false),
+    DDownSelected('Oklahoma', false),
+    DDownSelected('New Mexico', false),
+  ];
+  late String stateSelecValue;*/
+
+  List<String> roles = [
+    'Admin',
+    'Sales',
+    'Financy',
+    'Operative',
+    ' Sales',
+    'Sen Exec',
+  ];
+  late String roleSelecValue;
+  List<String> states = [
+    'Texas',
+    'Louisiana',
+    'Oklahoma',
+    'New Mexico',
+  ];
   late String stateSelecValue;
 
   final nameController = TextEditingController();
