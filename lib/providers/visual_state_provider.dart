@@ -66,76 +66,97 @@ class VisualStateProvider extends ChangeNotifier {
     primaryTextColorDark = darkTheme.primaryText;
     primaryBackgroundColorDark = darkTheme.primaryBackground;
 
-    primaryColorLightController = TextEditingController(text: primaryColorLight.value.toRadixString(16).toUpperCase());
-    secondaryColorLightController = TextEditingController(text: secondaryColorLight.value.toRadixString(16).toUpperCase());
-    tertiaryColorLightController = TextEditingController(text: tertiaryColorLight.value.toRadixString(16).toUpperCase());
-    primaryTextLightController = TextEditingController(text: primaryTextColorLight.value.toRadixString(16).toUpperCase());
-    primaryBackgroundLightController = TextEditingController(text: primaryBackgroundColorLight.value.toRadixString(16).toUpperCase());
+    primaryColorLightController = TextEditingController(
+        text: primaryColorLight.value.toRadixString(16).toUpperCase());
+    secondaryColorLightController = TextEditingController(
+        text: secondaryColorLight.value.toRadixString(16).toUpperCase());
+    tertiaryColorLightController = TextEditingController(
+        text: tertiaryColorLight.value.toRadixString(16).toUpperCase());
+    primaryTextLightController = TextEditingController(
+        text: primaryTextColorLight.value.toRadixString(16).toUpperCase());
+    primaryBackgroundLightController = TextEditingController(
+        text:
+            primaryBackgroundColorLight.value.toRadixString(16).toUpperCase());
 
-    primaryColorDarkController = TextEditingController(text: primaryColorDark.value.toRadixString(16).toUpperCase());
-    secondaryColorDarkController = TextEditingController(text: secondaryColorDark.value.toRadixString(16).toUpperCase());
-    tertiaryColorDarkController = TextEditingController(text: tertiaryColorDark.value.toRadixString(16).toUpperCase());
-    primaryTextDarkController = TextEditingController(text: primaryTextColorDark.value.toRadixString(16).toUpperCase());
-    primaryBackgroundDarkController = TextEditingController(text: primaryBackgroundColorDark.value.toRadixString(16).toUpperCase());
+    primaryColorDarkController = TextEditingController(
+        text: primaryColorDark.value.toRadixString(16).toUpperCase());
+    secondaryColorDarkController = TextEditingController(
+        text: secondaryColorDark.value.toRadixString(16).toUpperCase());
+    tertiaryColorDarkController = TextEditingController(
+        text: tertiaryColorDark.value.toRadixString(16).toUpperCase());
+    primaryTextDarkController = TextEditingController(
+        text: primaryTextColorDark.value.toRadixString(16).toUpperCase());
+    primaryBackgroundDarkController = TextEditingController(
+        text: primaryBackgroundColorDark.value.toRadixString(16).toUpperCase());
   }
 
   void setPrimaryColorLight(Color color) {
     primaryColorLight = color;
-    primaryColorLightController.text = color.value.toRadixString(16).toUpperCase();
+    primaryColorLightController.text =
+        color.value.toRadixString(16).toUpperCase();
     notifyListeners();
   }
 
   void setSecondaryColorLight(Color color) {
     secondaryColorLight = color;
-    secondaryColorLightController.text = color.value.toRadixString(16).toUpperCase();
+    secondaryColorLightController.text =
+        color.value.toRadixString(16).toUpperCase();
     notifyListeners();
   }
 
   void setTerciaryColorLight(Color color) {
     tertiaryColorLight = color;
-    tertiaryColorLightController.text = color.value.toRadixString(16).toUpperCase();
+    tertiaryColorLightController.text =
+        color.value.toRadixString(16).toUpperCase();
     notifyListeners();
   }
 
   void setPrimaryTextColorLight(Color color) {
     primaryTextColorLight = color;
-    primaryTextLightController.text = color.value.toRadixString(16).toUpperCase();
+    primaryTextLightController.text =
+        color.value.toRadixString(16).toUpperCase();
     notifyListeners();
   }
 
   void setPrimaryBackgroundColorLight(Color color) {
     primaryBackgroundColorLight = color;
-    primaryBackgroundLightController.text = color.value.toRadixString(16).toUpperCase();
+    primaryBackgroundLightController.text =
+        color.value.toRadixString(16).toUpperCase();
     notifyListeners();
   }
 
   void setPrimaryColorDark(Color color) {
     primaryColorDark = color;
-    primaryColorDarkController.text = color.value.toRadixString(16).toUpperCase();
+    primaryColorDarkController.text =
+        color.value.toRadixString(16).toUpperCase();
     notifyListeners();
   }
 
   void setSecondaryColorDark(Color color) {
     secondaryColorDark = color;
-    secondaryColorDarkController.text = color.value.toRadixString(16).toUpperCase();
+    secondaryColorDarkController.text =
+        color.value.toRadixString(16).toUpperCase();
     notifyListeners();
   }
 
   void setTerciaryColorDark(Color color) {
     tertiaryColorDark = color;
-    tertiaryColorDarkController.text = color.value.toRadixString(16).toUpperCase();
+    tertiaryColorDarkController.text =
+        color.value.toRadixString(16).toUpperCase();
     notifyListeners();
   }
 
   void setPrimaryTextColorDark(Color color) {
     primaryTextColorDark = color;
-    primaryTextDarkController.text = color.value.toRadixString(16).toUpperCase();
+    primaryTextDarkController.text =
+        color.value.toRadixString(16).toUpperCase();
     notifyListeners();
   }
 
   void setPrimaryBackgroundColorDark(Color color) {
     primaryBackgroundColorDark = color;
-    primaryBackgroundDarkController.text = color.value.toRadixString(16).toUpperCase();
+    primaryBackgroundDarkController.text =
+        color.value.toRadixString(16).toUpperCase();
     notifyListeners();
   }
 
@@ -145,7 +166,8 @@ class VisualStateProvider extends ChangeNotifier {
       secondaryColor: int.parse(secondaryColorLightController.text, radix: 16),
       tertiaryColor: int.parse(tertiaryColorLightController.text, radix: 16),
       primaryText: int.parse(primaryTextLightController.text, radix: 16),
-      primaryBackground: int.parse(primaryBackgroundLightController.text, radix: 16),
+      primaryBackground:
+          int.parse(primaryBackgroundLightController.text, radix: 16),
     );
 
     final Mode dark = Mode(
@@ -153,9 +175,14 @@ class VisualStateProvider extends ChangeNotifier {
       secondaryColor: int.parse(secondaryColorDarkController.text, radix: 16),
       tertiaryColor: int.parse(tertiaryColorDarkController.text, radix: 16),
       primaryText: int.parse(primaryTextDarkController.text, radix: 16),
-      primaryBackground: int.parse(primaryBackgroundDarkController.text, radix: 16),
+      primaryBackground:
+          int.parse(primaryBackgroundDarkController.text, radix: 16),
     );
-    final Logos logo = Logos(logoColor: 'logoColor', logoBlanco: 'logoBlanco', backgroundImage: 'backgroundImage', animationBackground: 'animationBackground');
+    final Logos logo = Logos(
+        logoColor: 'logoColor',
+        logoBlanco: 'logoBlanco',
+        backgroundImage: 'backgroundImage',
+        animationBackground: 'animationBackground');
 
     return Configuration(light: light, dark: dark, logos: logo);
   }
@@ -170,11 +197,11 @@ class VisualStateProvider extends ChangeNotifier {
     }
 
     final res = await supabase
-        .from('perfil_usuario')
+        .from('user_profile')
         .update({
           'configuracion': conf.toMap(),
         })
-        .eq('perfil_usuario_id', currentUser!.id)
+        .eq('user_profile_id', currentUser!.id)
         .select();
 
     if (res == null) {
@@ -243,11 +270,11 @@ class VisualStateProvider extends ChangeNotifier {
     }
 
     final res = await supabase
-        .from('perfil_usuario')
+        .from('user_profile')
         .update({
           'configuracion': conf.toMap(),
         })
-        .eq('perfil_usuario_id', currentUser!.id)
+        .eq('user_profile_id', currentUser!.id)
         .select();
 
     if (res == null) {

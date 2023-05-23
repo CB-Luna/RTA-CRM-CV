@@ -8,22 +8,30 @@ class Usuario {
     required this.sequentialId,
     required this.email,
     required this.name,
+    required this.middleName,
     required this.lastName,
+    required this.homePhone,
+    required this.mobilePhone,
+    required this.address,
     this.image,
-    required this.phone,
-    required this.country,
+    required this.birthDate,
     required this.role,
+    required this.company,
   });
 
   String id;
   int sequentialId;
   String email;
   String name;
+  String? middleName;
   String lastName;
+  String homePhone;
+  String mobilePhone;
+  String address;
   String? image;
-  String phone;
-  Country country;
+  DateTime birthDate;
   Role role;
+  Company company;
 
   String get fullName => '$name $lastName';
 
@@ -35,11 +43,15 @@ class Usuario {
       sequentialId: json['sequential_id'],
       email: json["email"],
       name: json['name'],
+      middleName: json['middle_name'],
       lastName: json['last_name'],
+      homePhone: json['home_phone'],
+      mobilePhone: json['mobile_phone'],
+      address: json['address'],
       image: json['image'],
-      phone: json['phone'],
-      country: Country.fromJson(jsonEncode(json['country'])),
+      birthDate: DateTime.parse(json['birthdate']),
       role: Role.fromJson(jsonEncode(json['role'])),
+      company: Company.fromJson(jsonEncode(json['company'])),
     );
     return usuario;
   }

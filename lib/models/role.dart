@@ -2,45 +2,35 @@ import 'dart:convert';
 
 class Role {
   Role({
-    required this.nombreRol,
-    required this.idRolPk,
-    required this.permisos,
+    required this.id,
+    required this.roleName,
+    required this.permissions,
   });
 
-  String nombreRol;
-  int idRolPk;
-  Permisos permisos;
+  int id;
+  String roleName;
+  Permissions permissions;
 
   factory Role.fromJson(String str) => Role.fromMap(json.decode(str));
 
-  String toJson() => json.encode(toMap());
-
   factory Role.fromMap(Map<String, dynamic> json) => Role(
-        nombreRol: json["nombre_rol"],
-        idRolPk: json["id_rol_pk"],
-        permisos: Permisos.fromMap(json["permisos"]),
+        id: json["id"],
+        roleName: json["name"],
+        permissions: Permissions.fromMap(json["permissions"]),
       );
-
-  Map<String, dynamic> toMap() => {
-        "nombre_rol": nombreRol,
-        "id_rol_pk": idRolPk,
-        "permisos": permisos.toMap(),
-      };
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is Role &&
-        other.nombreRol == nombreRol &&
-        other.idRolPk == idRolPk;
+    return other is Role && other.roleName == roleName && other.id == id;
   }
 
   @override
-  int get hashCode => Object.hash(nombreRol, idRolPk, permisos);
+  int get hashCode => Object.hash(roleName, id, permissions);
 }
 
-class Permisos {
-  Permisos({
+class Permissions {
+  Permissions({
     required this.home,
     required this.homeProveedor,
     required this.extraccionDeFacturas,
@@ -76,11 +66,12 @@ class Permisos {
   String? reportes;
   String? perfilDeUsuario;
 
-  factory Permisos.fromJson(String str) => Permisos.fromMap(json.decode(str));
+  factory Permissions.fromJson(String str) =>
+      Permissions.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Permisos.fromMap(Map<String, dynamic> json) => Permisos(
+  factory Permissions.fromMap(Map<String, dynamic> json) => Permissions(
         home: json['Home'],
         homeProveedor: json['HomeProveedor'],
         extraccionDeFacturas: json["Extraccion de Facturas"],
