@@ -56,7 +56,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
         ),
         Positioned(
           bottom: 200,
-          right: 350,
+          right: 250,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: List.generate(
@@ -64,17 +64,14 @@ class _ImageCarouselState extends State<ImageCarousel> {
               (index) => GestureDetector(
                 onTap: () => carouselController.animateToPage(index),
                 child: Container(
-                  height: 10,
-                  width: 10,
+                  height: 6.18,
+                  width: 61.84,
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.circular(6),
                     color: index == currentReview
                         ? AppTheme.of(context).primaryColor
-                        : Colors.white,
-                    border: Border.all(
-                      color: AppTheme.of(context).primaryColor,
-                    ),
+                        : Colors.grey,
                   ),
                 ),
               ),

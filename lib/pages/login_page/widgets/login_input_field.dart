@@ -39,7 +39,7 @@ class _LoginInputFieldState extends State<LoginInputField> {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: SizedBox(
         width: 445,
-        height: 50,
+        height: 65,
         child: FocusScope(
           onFocusChange: (value) {
             if (value) {
@@ -85,6 +85,13 @@ class _LoginInputFieldState extends State<LoginInputField> {
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppTheme.of(context).primaryColor,
+                  width: 0.4,
+                ),
+                borderRadius: BorderRadius.circular(4.88),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.red,
                   width: 0.4,
                 ),
                 borderRadius: BorderRadius.circular(4.88),
