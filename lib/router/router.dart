@@ -19,7 +19,7 @@ import 'package:rta_crm_cv/services/navigation_service.dart';
 final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
   navigatorKey: NavigationService.navigatorKey,
-  initialLocation: '/users',
+  initialLocation: '/',
   redirect: (BuildContext context, GoRouterState state) {
     final bool loggedIn = currentUser != null;
     final bool isLoggingIn = state.location == '/login';
@@ -27,10 +27,10 @@ final GoRouter router = GoRouter(
     if (state.location == '/change-password') return null;
 
     //If user is not logged in and not in the login page
-    //if (!loggedIn && !isLoggingIn) return '/login';
+    if (!loggedIn && !isLoggingIn) return '/login';
 
     //if user is logged in and in the login page
-    //if (loggedIn && isLoggingIn) return '/';
+    if (loggedIn && isLoggingIn) return '/';
 
     return null;
   },
