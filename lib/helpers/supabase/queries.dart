@@ -3,10 +3,10 @@ import 'dart:developer';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 class SupabaseQueries {
-  static Future<Usuario?> getCurrentUserData() async {
+  static Future<User?> getCurrentUserData() async {
     try {
       final user = supabase.auth.currentUser;
       if (user == null) return null;
@@ -20,7 +20,7 @@ class SupabaseQueries {
       userProfile['id'] = user.id;
       userProfile['email'] = user.email!;
 
-      final usuario = Usuario.fromJson(jsonEncode(userProfile));
+      final usuario = User.fromJson(jsonEncode(userProfile));
 
       return usuario;
     } catch (e) {

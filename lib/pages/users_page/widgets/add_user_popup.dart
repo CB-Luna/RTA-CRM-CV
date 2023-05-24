@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/providers/users_providers/add_users_provider.dart';
+
+import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -18,7 +19,7 @@ class AddUserPopUp extends StatefulWidget {
 class _AddUserPopUpState extends State<AddUserPopUp> {
   @override
   Widget build(BuildContext context) {
-    AddUsersProvider provider = Provider.of<AddUsersProvider>(context);
+    UsersProvider provider = Provider.of<UsersProvider>(context);
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
@@ -35,23 +36,45 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                   Container(
                     height: 105,
                     width: 105,
-                    decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: primaryColor)),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: primaryColor)),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: CustomTextField(label: 'Name', icon: Icons.person_outline, controller: provider.nameController, enabled: true, width: 350),
+                    child: CustomTextField(
+                        label: 'Name',
+                        icon: Icons.person_outline,
+                        controller: provider.nameController,
+                        enabled: true,
+                        width: 350),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: CustomTextField(label: 'Last Name', icon: Icons.person_outline, controller: provider.lastNameController, enabled: true, width: 350),
+                    child: CustomTextField(
+                        label: 'Last Name',
+                        icon: Icons.person_outline,
+                        controller: provider.lastNameController,
+                        enabled: true,
+                        width: 350),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: CustomTextField(label: 'Email', icon: Icons.alternate_email, controller: provider.emailController, enabled: true, width: 350),
+                    child: CustomTextField(
+                        label: 'Email',
+                        icon: Icons.alternate_email,
+                        controller: provider.emailController,
+                        enabled: true,
+                        width: 350),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: CustomTextField(label: 'Mobile Phone', icon: Icons.phone_outlined, controller: provider.phoneController, enabled: true, width: 350),
+                    child: CustomTextField(
+                        label: 'Mobile Phone',
+                        icon: Icons.phone_outlined,
+                        controller: provider.phoneController,
+                        enabled: true,
+                        width: 350),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
@@ -94,8 +117,14 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomTextIconButton(icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground), text: 'Save User'),
-                CustomTextIconButton(icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground), text: 'Refresh'),
+                CustomTextIconButton(
+                    icon: Icon(Icons.save_outlined,
+                        color: AppTheme.of(context).primaryBackground),
+                    text: 'Save User'),
+                CustomTextIconButton(
+                    icon: Icon(Icons.refresh_outlined,
+                        color: AppTheme.of(context).primaryBackground),
+                    text: 'Refresh'),
               ],
             )
           ],

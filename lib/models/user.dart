@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:rta_crm_cv/models/models.dart';
 
-class Usuario {
-  Usuario({
+class User {
+  User({
     required this.id,
     required this.sequentialId,
     required this.email,
@@ -35,10 +35,10 @@ class Usuario {
 
   String get fullName => '$name $lastName';
 
-  factory Usuario.fromJson(String str) => Usuario.fromMap(json.decode(str));
+  factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
-  factory Usuario.fromMap(Map<String, dynamic> json) {
-    Usuario usuario = Usuario(
+  factory User.fromMap(Map<String, dynamic> json) {
+    User usuario = User(
       id: json["id"],
       sequentialId: json['sequential_id'],
       email: json["email"],

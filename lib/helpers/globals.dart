@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rta_crm_cv/helpers/supabase/queries.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 import 'package:rta_crm_cv/models/models.dart';
 
@@ -17,7 +17,7 @@ late final SharedPreferences prefs;
 
 late final Assets assets;
 
-Usuario? currentUser;
+User? currentUser;
 
 Future<void> initGlobals() async {
   prefs = await SharedPreferences.getInstance();
