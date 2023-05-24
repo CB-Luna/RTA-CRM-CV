@@ -140,7 +140,7 @@ class UsersProvider extends ChangeNotifier {
               'ROLE_Column': PlutoCell(value: user.role.roleName),
               'EMAIL_Column': PlutoCell(value: user.email),
               'MOBILE_Column': PlutoCell(value: user.mobilePhone),
-              'STATE_Column': PlutoCell(value: user.address),
+              'STATE_Column': PlutoCell(value: user.state.name),
               'ACTIONS_Column': PlutoCell(value: user.id),
             },
           ),

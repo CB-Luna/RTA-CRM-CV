@@ -17,6 +17,7 @@ class User {
     required this.birthDate,
     required this.role,
     required this.company,
+    required this.state,
   });
 
   String id;
@@ -32,6 +33,7 @@ class User {
   DateTime birthDate;
   Role role;
   Company company;
+  State state;
 
   String get fullName => '$name $lastName';
 
@@ -52,6 +54,7 @@ class User {
       birthDate: DateTime.parse(json['birthdate']),
       role: Role.fromJson(jsonEncode(json['role'])),
       company: Company.fromJson(jsonEncode(json['company'])),
+      state: State.fromJson(jsonEncode(json['state'])),
     );
     return usuario;
   }
