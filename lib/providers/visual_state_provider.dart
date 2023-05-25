@@ -1,19 +1,18 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as p;
+import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/models/configuration.dart';
 import 'package:rta_crm_cv/models/modelo_pantalla/tema_descargado.dart';
+import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
-/* import 'package:sistema_puntaje_bd/models/models.dart';
-import 'package:sistema_puntaje_bd/helpers/globals.dart';
-import 'package:sistema_puntaje_bd/services/api_error_handler.dart';
-import 'package:sistema_puntaje_bd/theme/theme.dart'; */
-
-import '../models/modelo_pantalla/configuration.dart';
-
 class VisualStateProvider extends ChangeNotifier {
-  //OPCIONES MENU:
-
   //THEME
   late Color primaryColorLight;
   late Color secondaryColorLight;
@@ -43,12 +42,17 @@ class VisualStateProvider extends ChangeNotifier {
   TextEditingController nombreTema = TextEditingController();
   List<TemaDescargado> temas = [];
   TemaDescargado? temaSeleccionado;
+  PlutoGridStateManager? stateManager;
 
   //IMAGENES
   Uint8List? logoColor;
   Uint8List? logoBlanco;
   Uint8List? bg1;
   Uint8List? bgLogin;
+
+  Future<void> updateState() async {
+    await descargarTemas();
+  }
 
   VisualStateProvider(BuildContext context) {
     final lightTheme = AppTheme.lightTheme;
@@ -186,7 +190,8 @@ class VisualStateProvider extends ChangeNotifier {
 
     return Configuration(light: light, dark: dark, logos: logo);
   }
-/* 
+
+//Actualizar tema por usuario
   Future<bool> actualizarTema({Configuration? tema}) async {
     late final Configuration conf;
 
@@ -213,39 +218,44 @@ class VisualStateProvider extends ChangeNotifier {
     notifyListeners();
     return true;
   }
-
-  Future<bool> cargarTema() async {
+  //crear nuevo tema en la base de datos
+  Future<bool> creatTema() async {
     try {
       final conf = getCurrentConfiguration();
 
-      final res = await supabase.from('TemasUsuario').insert({
-        'usuario_fk': currentUser!.id,
-        'nombre': nombreTema.text,
-        'tema': conf.toMap(),
+      final res = await supabase.from('temas').insert({
+        'nombre_tema': nombreTema.text,
+        'configuracion': conf.toMap(),
       }).select();
 
       if (res == null) {
-        log('Error en cargarTema()');
+        log('Error en Crear()');
         return false;
       }
 
       return true;
     } catch (e) {
-      log('Error en cargarTema() - $e');
+      log('Error en Crear() - $e');
       return false;
     }
   }
 
+//seleccionar el tema de la base de datos
   Future<void> descargarTemas() async {
     try {
-      final res = await supabase.from('TemasUsuario').select().eq('usuario_fk', currentUser!.id);
+      final res = await supabase
+          .from('temas')
+          .select('nombre_tema');
+          
 
       if (res == null) {
         log('Error en descargarTemas()');
         return;
       }
 
-      temas = (res as List<dynamic>).map((usuario) => TemaDescargado.fromJson(jsonEncode(usuario))).toList();
+      temas = (res as List<dynamic>)
+          .map((usuario) => TemaDescargado.fromJson(jsonEncode(usuario)))
+          .toList();
 
       notifyListeners();
       return;
@@ -258,33 +268,6 @@ class VisualStateProvider extends ChangeNotifier {
   void setTemaSeleccionado(TemaDescargado tema) {
     temaSeleccionado = tema;
     notifyListeners();
-  }
-
-  Future<bool> actualizarTemas({Configuration? tema}) async {
-    late final Configuration conf;
-
-    if (tema != null) {
-      conf = tema;
-    } else {
-      conf = getCurrentConfiguration();
-    }
-
-    final res = await supabase
-        .from('user_profile')
-        .update({
-          'configuracion': conf.toMap(),
-        })
-        .eq('user_profile_id', currentUser!.id)
-        .select();
-
-    if (res == null) {
-      log('Error en actualizarTemas()');
-      return false;
-    }
-
-    AppTheme.initConfiguration(conf);
-    notifyListeners();
-    return true;
   }
 
   Future<void> selectImage(String assetName) async {
@@ -378,5 +361,5 @@ class VisualStateProvider extends ChangeNotifier {
     primaryTextDarkController.dispose();
     primaryBackgroundDarkController.dispose();
     super.dispose();
-  } */
+  }
 }

@@ -96,13 +96,11 @@ class _LoginButtonState extends State<LoginButton> {
 
             print(currentUser!.name);
 
-            //   if (!mounted) return;
-
-            //   // AppTheme.initConfiguration(
-            //   //   await SupabaseQueries.getUserTheme(),
-            //   // );
-
-            //   // if (!mounted) return;
+               if (!mounted) return;
+                AppTheme.initConfiguration(
+                  await SupabaseQueries.getUserTheme(),
+                );
+                if (!mounted) return;
 
             if (!mounted) return;
             context.pushReplacement('/dashboards');

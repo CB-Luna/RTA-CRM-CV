@@ -45,13 +45,44 @@ class SupabaseQueries {
     try {
       if (currentUser == null) return null;
       final res = await supabase
-          .from('user_profile')
+          .from('users')
           .select('configuracion')
-          .eq('user_profile_id', currentUser!.id);
-      return Configuration.fromJson(jsonEncode(res[0]['configuracion']));
+          .eq('id', currentUser!.id)
+          .select();
+      //print(res.toString());
+      Configuration config =
+          Configuration.fromJson(jsonEncode(res[0]['configuracion']));
+      /* assets = await getLogos(config.logos.logoColor, config.logos.logoBlanco,
+          config.logos.backgroundImage, config.logos.animationBackground); */
+      return config;
     } catch (e) {
       log('Error en getUserTheme() - $e');
       return null;
+    }
+  }
+
+  static Future<Assets> getLogos(
+      logoColor, logoBlanco, backgroundImage, animationBackground) async {
+    Map<String, String> assetMap = {
+      'logoColor': 'assets/images/LogoColor.png',
+      'logoBlanco': 'assets/images/LogoColor.png',
+      'backgroundImage': 'assets/images/bg1.png',
+      'animationBackground': 'assets/images/bg1.png',
+    };
+    try {
+      //Logo Color
+      if (logoColor != null) assetMap['logoColor'] = logoColor;
+      //Logo Blanco
+      if (logoBlanco != null) assetMap['logoBlanco'] = logoBlanco;
+      //BG 1
+      if (backgroundImage != null)
+        assetMap['backgroundImage'] = backgroundImage;
+      //BG Login
+      if (animationBackground != null)
+        assetMap['animationBackground'] = animationBackground;
+      return Assets.fromMap(assetMap);
+    } catch (e) {
+      return Assets.fromMap(assetMap);
     }
   }
 
@@ -64,18 +95,17 @@ class SupabaseQueries {
     };
     try {
       //Logo Color
-      assetMap['logoColor'] =
-          supabase.storage.from('assets').getPublicUrl('LogoColor.png');
-
-      assetMap['logoBlanco'] =
-          supabase.storage.from('assets').getPublicUrl('LogoBlanco.png');
-
+      var res = supabase.storage.from('assets').getPublicUrl('LogoColor.png');
+      if (res != null) assetMap['logoColor'] = res;
+      //Logo Blanco
+      res = supabase.storage.from('assets').getPublicUrl('LogoColor.png');
+      if (res != null) assetMap['logoBlanco'] = res;
       //BG 1
-      assetMap['bg1'] = supabase.storage.from('assets').getPublicUrl('bg1.png');
-
+      res = supabase.storage.from('assets').getPublicUrl('bg1.png');
+      if (res != null) assetMap['bg1'] = res;
       //BG Login
-      assetMap['bgLogin'] =
-          supabase.storage.from('assets').getPublicUrl('bgLogin.png');
+      res = supabase.storage.from('assets').getPublicUrl('bgLogin.png');
+      if (res != null) assetMap['bgLogin'] = res;
 
       return Assets.fromMap(assetMap);
     } catch (e) {

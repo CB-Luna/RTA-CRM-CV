@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rta_crm_cv/helpers/supabase/queries.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
@@ -25,6 +26,10 @@ Future<void> initGlobals() async {
   assets = await SupabaseQueries.getAssets();
 
   currentUser = await SupabaseQueries.getCurrentUserData();
-
-  if (currentUser == null) return;
+   if (currentUser == null) return;
+  Configuration? config = await SupabaseQueries.getUserTheme();
+  if (config == null) return;
+  assets.logoBlanco = config.logos.logoBlanco;
+  assets.logoColor = config.logos.logoColor;
+  AppTheme.initConfiguration(config);
 }

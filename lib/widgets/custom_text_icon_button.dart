@@ -41,7 +41,7 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
         child: AnimatedContainer(
           height: 35,
           duration: const Duration(milliseconds: 100),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: widget.color ?? primaryColor, boxShadow: [
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: widget.color ?? AppTheme.of(context).primaryColor, boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 0.1,

@@ -4,8 +4,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/pages/config_page/widgets/theme_buttons.dart';
 import 'package:rta_crm_cv/providers/visual_state_provider.dart';
+import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_buttom.dart';
+import 'package:rta_crm_cv/widgets/succes_toast.dart';
 
 class ThemeSelectionPanel extends StatefulWidget {
   const ThemeSelectionPanel({Key? key}) : super(key: key);
@@ -30,6 +32,7 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
         key: formKey,
         child: Column(
           children: [
+            //Botones
             ThemeButtons(key: UniqueKey()),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -168,13 +171,13 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
                 )
               ],
             ),
-            const SizedBox(height: 20),
+           /*  const SizedBox(height: 20),
             Align(
               alignment: Alignment.center,
               child: CustomButton(
                 key: UniqueKey(),
                 onPressed: () async {
-                  /*  if (!formKey.currentState!.validate()) {
+                   if (!formKey.currentState!.validate()) {
                     return;
                   }
                   final res = await visualState.actualizarTema();
@@ -190,7 +193,7 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
                       gravity: ToastGravity.BOTTOM,
                       toastDuration: const Duration(seconds: 2),
                     );
-                  } */
+                  }
                 },
                 text: 'Actualizar temas',
                 options: ButtonOptions(
@@ -211,7 +214,7 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
                 ),
               ),
             ),
-          ],
+           */],
         ),
       ),
     );
