@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
-
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/pages/users/widgets/add_user_popup.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/providers/users_providers/users_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
@@ -15,14 +14,14 @@ import 'package:rta_crm_cv/widgets/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
-class UsersPage extends StatefulWidget {
-  const UsersPage({super.key});
+class AccountsPage extends StatefulWidget {
+  const AccountsPage({super.key});
 
   @override
-  State<UsersPage> createState() => _UsersPageState();
+  State<AccountsPage> createState() => _AccountsPageState();
 }
 
-class _UsersPageState extends State<UsersPage> {
+class _AccountsPageState extends State<AccountsPage> {
   @override
   void initState() {
     super.initState();
@@ -41,7 +40,7 @@ class _UsersPageState extends State<UsersPage> {
     UsersProvider provider = Provider.of<UsersProvider>(context);
 
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
-    sideM.setIndex(7);
+    sideM.setIndex(1);
 
     return Material(
       child: SizedBox(
@@ -55,7 +54,7 @@ class _UsersPageState extends State<UsersPage> {
               child: Container(
                 decoration: BoxDecoration(gradient: whiteGradient),
                 child: CustomCard(
-                  title: 'User List',
+                  title: 'Accounts',
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -78,15 +77,9 @@ class _UsersPageState extends State<UsersPage> {
                             ),
                             CustomTextIconButton(
                               icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                              text: 'Add User',
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(builder: (context, setState) {
-                                        return const AddUserPopUp();
-                                      });
-                                    });
+                              text: 'Add Quote',
+                              onTap: () async {
+                                context.pushReplacement('/add_quote');
                               },
                             )
                           ],

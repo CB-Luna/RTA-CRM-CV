@@ -34,7 +34,7 @@ class _CustomCardState extends State<CustomCard> {
               height: widget.height != null ? widget.height! - 65 : null,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: widget.child,
+                child: SingleChildScrollView(child: widget.child),
               ),
             ),
           ],

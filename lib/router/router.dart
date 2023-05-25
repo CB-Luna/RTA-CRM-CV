@@ -3,16 +3,20 @@ import 'package:go_router/go_router.dart';
 
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/pages/accounts_page.dart';
+import 'package:rta_crm_cv/pages/accounts/accounts_page.dart';
+import 'package:rta_crm_cv/pages/accounts/widgets/cotizador.dart';
 import 'package:rta_crm_cv/pages/config_page/config_page.dart';
 import 'package:rta_crm_cv/pages/dashboards_page.dart';
+import 'package:rta_crm_cv/pages/home_page.dart';
 import 'package:rta_crm_cv/pages/inventory_page.dart';
+import 'package:rta_crm_cv/pages/login_page/change_password_page.dart';
+import 'package:rta_crm_cv/pages/login_page/login_page.dart';
 import 'package:rta_crm_cv/pages/network_page.dart';
-import 'package:rta_crm_cv/pages/pages.dart';
+import 'package:rta_crm_cv/pages/page_not_found.dart';
 import 'package:rta_crm_cv/pages/reports_page.dart';
 import 'package:rta_crm_cv/pages/schedulings_page.dart';
 import 'package:rta_crm_cv/pages/tickets_page.dart';
-import 'package:rta_crm_cv/pages/users/users_page.dart';
+import 'package:rta_crm_cv/pages/users_page/users_page.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 
 /// The route configuration.
@@ -88,6 +92,14 @@ final GoRouter router = GoRouter(
         return const AccountsPage();
       },
       pageBuilder: (context, state) => pageTransition(context, state, const AccountsPage()),
+    ),
+    GoRoute(
+      path: '/adD_quote',
+      name: 'Add Quote',
+      builder: (BuildContext context, GoRouterState state) {
+        return const AccountsPage();
+      },
+      pageBuilder: (context, state) => pageTransition(context, state, const Cotizador()),
     ),
     GoRoute(
       path: '/schedulings',

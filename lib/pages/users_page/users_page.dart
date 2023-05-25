@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/functions/sizes.dart';
 
+import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/pages/users/widgets/add_user_popup.dart';
+import 'package:rta_crm_cv/pages/users_page/widgets/add_user_popup.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/providers/users_providers/users_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
