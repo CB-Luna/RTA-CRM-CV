@@ -152,16 +152,18 @@ class CotizadorProvider extends ChangeNotifier {
     rows.add(
       PlutoRow(
         cells: {
-          'ORDER_TYPE_Column': PlutoCell(value: '0'),
-          'CIRCUIT_INFO_Column': PlutoCell(value: '0'),
-          'DATA_CENTER_Column': PlutoCell(value: '0'),
+          'ORDER_INFO_Column': PlutoCell(value: 'OI'),
+          // 'ORDER_TYPE_Column': PlutoCell(value: '0'),
+          'CIRCUIT_INFO_Column': PlutoCell(value: 'CI'),
+          /* 'DATA_CENTER_Column': PlutoCell(value: '0'),
           'DDOS_Column': PlutoCell(value: '0'),
           'BGM_Column': PlutoCell(value: '0'),
-          'IP_Column': PlutoCell(value: '0'),
+          'IP_Column': PlutoCell(value: '0'), */
           'LINE_ITEM_Column': PlutoCell(value: lineItemCenterController.text),
           'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text)),
           'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text) * -1),
           'QUANTITY_Column': PlutoCell(value: int.parse(quantityController.text)),
+          'ACTIONS_Column': PlutoCell(value: 'Actions'),
         },
       ),
     );

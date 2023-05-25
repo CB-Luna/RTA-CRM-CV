@@ -33,7 +33,7 @@ class CustomTabButtonState extends State<CustomTabButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 35,
+      height: 51,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

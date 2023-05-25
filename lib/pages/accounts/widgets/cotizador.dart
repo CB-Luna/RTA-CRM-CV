@@ -14,6 +14,7 @@ import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_ddown_menu.dart';
 import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
 import 'package:rta_crm_cv/widgets/custom_tab_button.dart';
 import 'package:rta_crm_cv/widgets/custom_text_field.dart';
+import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 class Cotizador extends StatefulWidget {
@@ -53,266 +54,282 @@ class _CotizadorState extends State<Cotizador> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Container(
-                              //color: Colors.amber,
-                              child: SizedBox(
-                                height: 225,
-                                width: MediaQuery.of(context).size.width - 790,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context).size.width - 250,
-                                    child: GridView.count(
-                                      crossAxisCount: 4,
-                                      crossAxisSpacing: 10, // Horizontal
-                                      mainAxisSpacing: 0, // Vertical
-                                      childAspectRatio: 5,
-                                      children: [
-                                        CustomTabButton(
-                                          on: provider.orderTypesSelectedValue == 'Internal Circuit',
-                                          label: 'Order Type',
-                                          option1: 'Internal Circuit',
-                                          option2: 'External Customer',
-                                          onTap: () => provider.selectOT(),
-                                        ),
-                                        CustomDDownMenu(
-                                          list: provider.typesList,
-                                          dropdownValue: provider.typesSelectedValue,
-                                          onChanged: (p0) {
-                                            if (p0 != null) provider.selectType(p0);
-                                          },
-                                          icon: Icons.file_copy_outlined,
-                                          label: 'Type',
-                                          width: txfFieldWidth,
-                                        ),
-                                        if (provider.typesSelectedValue == 'Disconnect' || provider.typesSelectedValue == 'Upgrade')
-                                          Column(
-                                            children: [
-                                              const SizedBox(height: 15),
-                                              CustomTextField(
-                                                enabled: true,
-                                                width: txfFieldWidth,
-                                                controller: provider.existingCircuitIDController,
-                                                label: 'Existing Circuit ID',
-                                                icon: Icons.cable_outlined,
-                                                keyboardType: TextInputType.text,
-                                              ),
-                                            ],
-                                          ),
-                                        if (provider.typesSelectedValue == 'Upgrade')
-                                          Column(
-                                            children: [
-                                              const SizedBox(height: 15),
-                                              CustomTextField(
-                                                enabled: true,
-                                                width: txfFieldWidth,
-                                                controller: provider.newCircuitIDController,
-                                                label: 'New Circuit ID',
-                                                icon: Icons.cable_outlined,
-                                                keyboardType: TextInputType.text,
-                                              ),
-                                            ],
-                                          ),
-                                        CustomDDownMenu(
-                                          list: provider.dataCentersList,
-                                          dropdownValue: provider.dataCenterSelectedValue,
-                                          onChanged: (p0) {
-                                            if (p0 != null) provider.selectDataCenter(p0);
-                                          },
-                                          icon: Icons.location_on_outlined,
-                                          label: 'Data Center Location',
-                                          width: txfFieldWidth,
-                                        ),
-                                        if (provider.dataCenterSelectedValue == 'New')
-                                          Column(
-                                            children: [
-                                              const SizedBox(height: 15),
-                                              CustomTextField(
-                                                enabled: true,
-                                                width: txfFieldWidth,
-                                                controller: provider.newDataCenterController,
-                                                label: 'New Data Center',
-                                                icon: Icons.location_on_outlined,
-                                                keyboardType: TextInputType.text,
-                                              ),
-                                            ],
-                                          ),
-                                        CustomDDownMenu(
-                                          list: provider.circuitInfosList,
-                                          dropdownValue: provider.circuitInfoSelectedValue,
-                                          onChanged: (p0) {
-                                            if (p0 != null) provider.selectCircuitInfo(p0);
-                                          },
-                                          icon: Icons.info_outline,
-                                          label: 'Circuit Info',
-                                          width: txfFieldWidth,
-                                        ),
-                                        if (provider.circuitInfoSelectedValue == 'EVCoD')
-                                          CustomDDownMenu(
-                                            list: provider.evcodList,
-                                            dropdownValue: provider.evcodSelectedValue,
-                                            onChanged: (p0) {
-                                              if (p0 != null) provider.selectEVCOD(p0);
-                                            },
-                                            icon: Icons.electrical_services,
-                                            label: 'EVCoD',
-                                            width: txfFieldWidth,
-                                          ),
-                                        if (provider.evcodSelectedValue == 'Existing EVC')
-                                          Column(
-                                            children: [
-                                              const SizedBox(height: 15),
-                                              CustomTextField(
-                                                enabled: true,
-                                                width: txfFieldWidth,
-                                                controller: provider.existingEVCController,
-                                                label: 'Circuit ID',
-                                                icon: Icons.electrical_services,
-                                                keyboardType: TextInputType.text,
-                                              ),
-                                            ],
-                                          ),
-                                        CustomTabButton(
-                                          on: provider.ddosSelectedValue,
-                                          //icon: Icons.security_outlined,
-                                          label: 'DDoS Migration',
-                                          option1: 'Yes',
-                                          option2: 'No',
-                                          onTap: () => provider.selectDDOS(),
-                                        ),
-                                        CustomDDownMenu(
-                                          list: provider.bgpList,
-                                          dropdownValue: provider.bgpSelectedValue,
-                                          onChanged: (p0) {
-                                            if (p0 != null) provider.selectBGP(p0);
-                                          },
-                                          icon: Icons.bug_report_outlined,
-                                          label: 'BGP Peering',
-                                          width: txfFieldWidth,
-                                        ),
-                                        CustomTabButton(
-                                          on: provider.ipAdressSelectedValue,
-                                          label: 'IP Adresses',
-                                          option1: 'Interface',
-                                          option2: 'IP Subnet',
-                                          onTap: () => provider.selectIPAdress(),
-                                        ),
-                                        if (provider.ipAdressSelectedValue)
-                                          CustomTabButton(
-                                            on: provider.ipSelectedValue == 'IPv4',
-                                            label: 'IP Interface',
-                                            option1: 'IPv4',
-                                            option2: 'IPv6',
-                                            onTap: () => provider.selectIPInterface(),
-                                          ),
-                                        if (!provider.ipAdressSelectedValue)
-                                          CustomDDownMenu(
-                                            list: provider.subnetList,
-                                            dropdownValue: provider.subnetSelectedValue,
-                                            onChanged: (p0) {
-                                              if (p0 != null) provider.selectSubnet(p0);
-                                            },
-                                            icon: Icons.signal_cellular_alt,
-                                            label: 'IP Subnet',
-                                            width: txfFieldWidth,
-                                          ),
-                                      ],
-                                    ),
+                          CustomCard(
+                            height: MediaQuery.of(context).size.height / 3,
+                            width: MediaQuery.of(context).size.width / 5,
+                            title: 'Order Info',
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomTabButton(
+                                  on: provider.orderTypesSelectedValue == 'Internal Circuit',
+                                  label: 'Order Type',
+                                  option1: 'Internal Circuit',
+                                  option2: 'External Customer',
+                                  onTap: () => provider.selectOT(),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: CustomDDownMenu(
+                                    list: provider.typesList,
+                                    dropdownValue: provider.typesSelectedValue,
+                                    onChanged: (p0) {
+                                      if (p0 != null) provider.selectType(p0);
+                                    },
+                                    icon: Icons.file_copy_outlined,
+                                    label: 'Type',
+                                    width: txfFieldWidth,
                                   ),
                                 ),
-                              ),
+                                if (provider.typesSelectedValue == 'Disconnect' || provider.typesSelectedValue == 'Upgrade')
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    child: CustomTextField(
+                                      enabled: true,
+                                      width: txfFieldWidth,
+                                      controller: provider.existingCircuitIDController,
+                                      label: 'Existing Circuit ID',
+                                      icon: Icons.cable_outlined,
+                                      keyboardType: TextInputType.text,
+                                    ),
+                                  ),
+                                if (provider.typesSelectedValue == 'Upgrade')
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    child: CustomTextField(
+                                      enabled: true,
+                                      width: txfFieldWidth,
+                                      controller: provider.newCircuitIDController,
+                                      label: 'New Circuit ID',
+                                      icon: Icons.cable_outlined,
+                                      keyboardType: TextInputType.text,
+                                    ),
+                                  ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: CustomDDownMenu(
+                                    list: provider.dataCentersList,
+                                    dropdownValue: provider.dataCenterSelectedValue,
+                                    onChanged: (p0) {
+                                      if (p0 != null) provider.selectDataCenter(p0);
+                                    },
+                                    icon: Icons.location_on_outlined,
+                                    label: 'Data Center Location',
+                                    width: txfFieldWidth,
+                                  ),
+                                ),
+                                if (provider.dataCenterSelectedValue == 'New')
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    child: CustomTextField(
+                                      enabled: true,
+                                      width: txfFieldWidth,
+                                      controller: provider.newDataCenterController,
+                                      label: 'New Data Center',
+                                      icon: Icons.location_on_outlined,
+                                      keyboardType: TextInputType.text,
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
-                          const CustomCard(
-                            height: 225,
-                            width: 600,
+                          CustomCard(
+                            height: MediaQuery.of(context).size.height / 3,
+                            width: MediaQuery.of(context).size.width / 5,
+                            title: 'Circuit Type',
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomDDownMenu(
+                                  list: provider.circuitInfosList,
+                                  dropdownValue: provider.circuitInfoSelectedValue,
+                                  onChanged: (p0) {
+                                    if (p0 != null) provider.selectCircuitInfo(p0);
+                                  },
+                                  icon: Icons.info_outline,
+                                  label: 'Circuit Info',
+                                  width: txfFieldWidth,
+                                ),
+                                if (provider.circuitInfoSelectedValue == 'EVCoD')
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    child: CustomDDownMenu(
+                                      list: provider.evcodList,
+                                      dropdownValue: provider.evcodSelectedValue,
+                                      onChanged: (p0) {
+                                        if (p0 != null) provider.selectEVCOD(p0);
+                                      },
+                                      icon: Icons.electrical_services,
+                                      label: 'EVCoD',
+                                      width: txfFieldWidth,
+                                    ),
+                                  ),
+                                if (provider.evcodSelectedValue == 'Existing EVC')
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    child: CustomTextField(
+                                      enabled: true,
+                                      width: txfFieldWidth,
+                                      controller: provider.existingEVCController,
+                                      label: 'Circuit ID',
+                                      icon: Icons.electrical_services,
+                                      keyboardType: TextInputType.text,
+                                    ),
+                                  ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: CustomTabButton(
+                                    on: provider.ddosSelectedValue,
+                                    //icon: Icons.security_outlined,
+                                    label: 'DDoS Migration',
+                                    option1: 'Yes',
+                                    option2: 'No',
+                                    onTap: () => provider.selectDDOS(),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: CustomDDownMenu(
+                                    list: provider.bgpList,
+                                    dropdownValue: provider.bgpSelectedValue,
+                                    onChanged: (p0) {
+                                      if (p0 != null) provider.selectBGP(p0);
+                                    },
+                                    icon: Icons.bug_report_outlined,
+                                    label: 'BGP Peering',
+                                    width: txfFieldWidth,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: CustomTabButton(
+                                    on: provider.ipAdressSelectedValue,
+                                    label: 'IP Adresses',
+                                    option1: 'Interface',
+                                    option2: 'IP Subnet',
+                                    onTap: () => provider.selectIPAdress(),
+                                  ),
+                                ),
+                                if (provider.ipAdressSelectedValue)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    child: CustomTabButton(
+                                      on: provider.ipSelectedValue == 'IPv4',
+                                      label: 'IP Interface',
+                                      option1: 'IPv4',
+                                      option2: 'IPv6',
+                                      onTap: () => provider.selectIPInterface(),
+                                    ),
+                                  ),
+                                if (!provider.ipAdressSelectedValue)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    child: CustomDDownMenu(
+                                      list: provider.subnetList,
+                                      dropdownValue: provider.subnetSelectedValue,
+                                      onChanged: (p0) {
+                                        if (p0 != null) provider.selectSubnet(p0);
+                                      },
+                                      icon: Icons.signal_cellular_alt,
+                                      label: 'IP Subnet',
+                                      width: txfFieldWidth,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          CustomCard(
+                            height: MediaQuery.of(context).size.height / 3,
+                            width: MediaQuery.of(context).size.width / 2.1,
                             title: 'Totals',
-                            child: SizedBox(),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [],
+                            ),
                           )
                         ],
                       ),
-                      Container(
-                        //color: Colors.blue,
-                        child: SizedBox(
-                          height: 35,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: CustomTextField(
-                                  enabled: true,
-                                  width: txfFieldWidth,
-                                  controller: provider.lineItemCenterController,
-                                  label: 'Line Item',
-                                  icon: Icons.local_offer_outlined,
-                                  keyboardType: TextInputType.text,
-                                ),
+                      SizedBox(
+                        height: 35,
+                        width: MediaQuery.of(context).size.width - 20,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: CustomTextField(
+                                enabled: true,
+                                width: txfFieldWidth,
+                                controller: provider.lineItemCenterController,
+                                label: 'Line Item',
+                                icon: Icons.local_offer_outlined,
+                                keyboardType: TextInputType.text,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: CustomTextField(
-                                  enabled: true,
-                                  width: txfFieldWidth,
-                                  controller: provider.unitPriceController,
-                                  label: 'Unit Price',
-                                  icon: Icons.attach_money_outlined,
-                                  keyboardType: TextInputType.text,
-                                  /* inputFormatters: <TextInputFormatter>[
-                                              FilteringTextInputFormatter.digitsOnly,
-                                            ], */
-                                ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: CustomTextField(
+                                enabled: true,
+                                width: txfFieldWidth,
+                                controller: provider.unitPriceController,
+                                label: 'Unit Price',
+                                icon: Icons.attach_money_outlined,
+                                keyboardType: TextInputType.text,
+                                /* inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter.digitsOnly,
+                                          ], */
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: CustomTextField(
-                                  enabled: true,
-                                  width: txfFieldWidth,
-                                  controller: provider.unitCostController,
-                                  label: 'Unit Cost',
-                                  icon: Icons.price_check_outlined,
-                                  keyboardType: TextInputType.text,
-                                  /* inputFormatters: <TextInputFormatter>[
-                                              FilteringTextInputFormatter.digitsOnly,
-                                            ], */
-                                ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: CustomTextField(
+                                enabled: true,
+                                width: txfFieldWidth,
+                                controller: provider.unitCostController,
+                                label: 'Unit Cost',
+                                icon: Icons.price_check_outlined,
+                                keyboardType: TextInputType.text,
+                                /* inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter.digitsOnly,
+                                          ], */
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: CustomTextField(
-                                  enabled: true,
-                                  width: txfFieldWidth,
-                                  controller: provider.quantityController,
-                                  label: 'Quantity',
-                                  icon: Icons.shopping_cart_outlined,
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.digitsOnly,
-                                  ],
-                                ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: CustomTextField(
+                                enabled: true,
+                                width: txfFieldWidth,
+                                controller: provider.quantityController,
+                                label: 'Quantity',
+                                icon: Icons.shopping_cart_outlined,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: CustomIconButton(
-                                  icon: Icons.add,
-                                  toolTip: 'Add',
-                                  onTap: () => provider.addRow(),
-                                ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: CustomTextIconButton(
+                                icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                                text: 'Add',
+                                onTap: () => provider.addRow(),
                               ),
-                              CustomIconButton(
-                                icon: Icons.remove,
-                                toolTip: 'Reset',
-                                onTap: () => provider.resetForm(),
-                              ),
-                            ],
-                          ),
+                            ),
+                            CustomTextIconButton(
+                              icon: Icon(Icons.remove, color: AppTheme.of(context).primaryBackground),
+                              text: 'Reset',
+                              onTap: () => provider.resetForm(),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 10),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height - 205,
+                        height: MediaQuery.of(context).size.height / 2,
                         width: MediaQuery.of(context).size.width - 20,
                         child: PlutoGrid(
                           key: UniqueKey(),
@@ -351,14 +368,14 @@ class _CotizadorState extends State<Cotizador> {
                             ),
                           ),
                           columns: [
-                            PlutoColumn(
+                            /* PlutoColumn(
                               titleSpan: TextSpan(children: [
                                 WidgetSpan(child: Icon(Icons.file_copy_outlined, color: AppTheme.of(context).primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
                                 TextSpan(text: 'Order Type', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
-                              title: 'ORDER TYPE',
+                              title: 'ORDER Info',
                               field: 'ORDER_TYPE_Column',
                               width: 225,
                               titleTextAlign: PlutoColumnTextAlign.start,
@@ -396,13 +413,13 @@ class _CotizadorState extends State<Cotizador> {
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(child: Icon(Icons.cable_outlined, color: AppTheme.of(context).primaryBackground)),
+                                WidgetSpan(child: Icon(Icons.location_on_outlined, color: AppTheme.of(context).primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(text: 'Circuit Info', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                TextSpan(text: 'Data Center', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
-                              title: 'CIRCUIT INFO',
-                              field: 'CIRCUIT_INFO_Column',
+                              title: 'DATA CENTER',
+                              field: 'DATA_CENTER_Column',
                               width: 225,
                               titleTextAlign: PlutoColumnTextAlign.start,
                               textAlign: PlutoColumnTextAlign.center,
@@ -417,16 +434,16 @@ class _CotizadorState extends State<Cotizador> {
                                   child: Center(child: Text(rendererContext.cell.value)),
                                 );
                               },
-                            ),
-                            PlutoColumn(
+                            ), */
+                            /*  PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(child: Icon(Icons.location_on_outlined, color: AppTheme.of(context).primaryBackground)),
+                                WidgetSpan(child: Icon(Icons.cable_outlined, color: AppTheme.of(context).primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(text: 'Data Center', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                TextSpan(text: 'Circuit Info', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
-                              title: 'DATA CENTER',
-                              field: 'DATA_CENTER_Column',
+                              title: 'CIRCUIT INFO',
+                              field: 'CIRCUIT_INFO_Column',
                               width: 225,
                               titleTextAlign: PlutoColumnTextAlign.start,
                               textAlign: PlutoColumnTextAlign.center,
@@ -499,6 +516,74 @@ class _CotizadorState extends State<Cotizador> {
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'IP',
                               field: 'IP_Column',
+                              width: 225,
+                              titleTextAlign: PlutoColumnTextAlign.start,
+                              textAlign: PlutoColumnTextAlign.center,
+                              type: PlutoColumnType.text(),
+                              enableEditingMode: false,
+                              cellPadding: EdgeInsets.zero,
+                              renderer: (rendererContext) {
+                                return Container(
+                                  height: rowHeight,
+                                  width: rendererContext.cell.column.width,
+                                  decoration: BoxDecoration(gradient: whiteGradient),
+                                  child: Center(child: Text(rendererContext.cell.value)),
+                                );
+                              },
+                            ),
+                             */
+                            PlutoColumn(
+                              titleSpan: TextSpan(children: [
+                                WidgetSpan(child: Icon(Icons.file_copy_outlined, color: AppTheme.of(context).primaryBackground)),
+                                const WidgetSpan(child: SizedBox(width: 10)),
+                                TextSpan(text: 'Order Info', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                              ]),
+                              backgroundColor: const Color(0XFF6491F7),
+                              title: 'Order Info',
+                              field: 'ORDER_INFO_Column',
+                              width: 225,
+                              titleTextAlign: PlutoColumnTextAlign.start,
+                              textAlign: PlutoColumnTextAlign.center,
+                              type: PlutoColumnType.text(),
+                              enableEditingMode: false,
+                              cellPadding: EdgeInsets.zero,
+                              renderer: (rendererContext) {
+                                return Container(
+                                  height: rowHeight,
+                                  width: rendererContext.cell.column.width,
+                                  decoration: BoxDecoration(gradient: whiteGradient),
+                                  child: Center(child: Text(rendererContext.cell.value, style: TextStyle(color: AppTheme.of(context).primaryText))),
+                                );
+                              },
+                              footerRenderer: (rendererContext) {
+                                return PlutoAggregateColumnFooter(
+                                  rendererContext: rendererContext,
+                                  type: PlutoAggregateColumnType.count,
+                                  alignment: Alignment.center,
+                                  titleSpanBuilder: (text) {
+                                    return [
+                                      TextSpan(
+                                        text: 'Rows: ',
+                                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryBackground),
+                                      ),
+                                      TextSpan(
+                                        text: provider.rows.length.toString(),
+                                        style: TextStyle(color: AppTheme.of(context).primaryBackground),
+                                      ),
+                                    ];
+                                  },
+                                );
+                              },
+                            ),
+                            PlutoColumn(
+                              titleSpan: TextSpan(children: [
+                                WidgetSpan(child: Icon(Icons.cable_outlined, color: AppTheme.of(context).primaryBackground)),
+                                const WidgetSpan(child: SizedBox(width: 10)),
+                                TextSpan(text: 'Circuit Info', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                              ]),
+                              backgroundColor: const Color(0XFF6491F7),
+                              title: 'CIRCUIT INFO',
+                              field: 'CIRCUIT_INFO_Column',
                               width: 225,
                               titleTextAlign: PlutoColumnTextAlign.start,
                               textAlign: PlutoColumnTextAlign.center,
@@ -635,6 +720,30 @@ class _CotizadorState extends State<Cotizador> {
                               titleTextAlign: PlutoColumnTextAlign.start,
                               textAlign: PlutoColumnTextAlign.center,
                               type: PlutoColumnType.number(),
+                              enableEditingMode: false,
+                              cellPadding: EdgeInsets.zero,
+                              renderer: (rendererContext) {
+                                return Container(
+                                  height: rowHeight,
+                                  width: rendererContext.cell.column.width,
+                                  decoration: BoxDecoration(gradient: whiteGradient),
+                                  child: Center(child: Text(rendererContext.cell.value.toString())),
+                                );
+                              },
+                            ),
+                            PlutoColumn(
+                              titleSpan: TextSpan(children: [
+                                WidgetSpan(child: Icon(Icons.settings, color: AppTheme.of(context).primaryBackground)),
+                                const WidgetSpan(child: SizedBox(width: 10)),
+                                TextSpan(text: 'Actions', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                              ]),
+                              backgroundColor: const Color(0XFF6491F7),
+                              title: 'ACTIONS',
+                              field: 'ACTIONS_Column',
+                              width: 140,
+                              titleTextAlign: PlutoColumnTextAlign.start,
+                              textAlign: PlutoColumnTextAlign.center,
+                              type: PlutoColumnType.text(),
                               enableEditingMode: false,
                               cellPadding: EdgeInsets.zero,
                               renderer: (rendererContext) {
