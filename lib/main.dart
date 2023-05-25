@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
+import 'package:rta_crm_cv/providers/inventory_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/providers/users_providers/add_users_provider.dart';
 import 'package:rta_crm_cv/providers/users_providers/users_provider.dart';
@@ -47,6 +48,9 @@ void main() async {
           create: (_) => AddUsersProvider(),
         ),
         ChangeNotifierProvider(
+          create: (_) => InventoryProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),
         ),
       ],
@@ -62,7 +66,8 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 
-  static _MyAppState of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>()!;
+  static _MyAppState of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>()!;
 }
 
 class _MyAppState extends State<MyApp> {
