@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-import 'package:provider/provider.dart';
 
-import '../../../providers/users_providers/users_provider.dart';
 import '../../../theme/theme.dart';
 import '../../../widgets/custom_text_field.dart';
 import '../../../widgets/custom_text_icon_button.dart';
-import '../../users/widgets/add_user_popup.dart';
 
 class InventoryPageHeader extends StatefulWidget {
   InventoryPageHeader({
@@ -25,7 +22,6 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
   Widget build(BuildContext context) {
     // final EmpleadosProvider empleadoProvider =
     //     Provider.of<EmpleadosProvider>(context);
-    UsersProvider provider = Provider.of<UsersProvider>(context);
 
     return Container(
       padding: EdgeInsets.only(left: 10, right: 10),
@@ -34,9 +30,10 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
         children: [
           CustomTextField(
             enabled: true,
-            controller: provider.searchController,
+            controller: TextEditingController(),
             icon: Icons.search,
             label: 'Search',
+            keyboardType: TextInputType.text,
           ),
           const SizedBox(
             width: 20,
@@ -48,13 +45,13 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   color: AppTheme.of(context).primaryBackground),
               text: 'Add Vehicle',
               onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return StatefulBuilder(builder: (context, setState) {
-                        return const AddUserPopUp();
-                      });
-                    });
+                // showDialog(
+                //     context: context,
+                //     builder: (BuildContext context) {
+                //       return StatefulBuilder(builder: (context, setState) {
+                //         return const AddUserPopUp();
+                //       });
+                //     });
               },
             ),
           ),
@@ -68,13 +65,13 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   color: AppTheme.of(context).primaryBackground),
               text: 'Edit Vehicle',
               onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return StatefulBuilder(builder: (context, setState) {
-                        return const AddUserPopUp();
-                      });
-                    });
+                // showDialog(
+                //     context: context,
+                //     builder: (BuildContext context) {
+                //       return StatefulBuilder(builder: (context, setState) {
+                //         return const AddUserPopUp();
+                //       });
+                //     });
               },
             ),
           ),
@@ -89,13 +86,13 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   color: AppTheme.of(context).primaryBackground),
               text: 'Delete Vehicle',
               onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return StatefulBuilder(builder: (context, setState) {
-                        return const AddUserPopUp();
-                      });
-                    });
+                // showDialog(
+                //     context: context,
+                //     builder: (BuildContext context) {
+                //       return StatefulBuilder(builder: (context, setState) {
+                //         return const AddUserPopUp();
+                //       });
+                //     });
               },
             ),
           ),
@@ -109,13 +106,13 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   color: AppTheme.of(context).primaryBackground),
               text: 'Export Data',
               onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return StatefulBuilder(builder: (context, setState) {
-                        return const AddUserPopUp();
-                      });
-                    });
+                // showDialog(
+                //     context: context,
+                //     builder: (BuildContext context) {
+                //       return StatefulBuilder(builder: (context, setState) {
+                //         return const AddUserPopUp();
+                //       });
+                //     });
               },
             ),
           )

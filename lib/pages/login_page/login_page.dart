@@ -18,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: AppTheme.of(context).primaryColor,
@@ -26,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Stack(
           children: [
             Positioned(
-              left: 32,
+              left: size.width * 0.0222,
               top: 98,
               child: Row(
                 children: [

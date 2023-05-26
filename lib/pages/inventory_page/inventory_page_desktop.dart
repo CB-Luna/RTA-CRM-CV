@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/pages/inventory_page/widgets/cry_card.dart';
 import 'package:rta_crm_cv/pages/inventory_page/widgets/odi_card.dart';
 import 'package:rta_crm_cv/pages/inventory_page/widgets/smi_card.dart';
-import 'package:rta_crm_cv/widgets/header.dart';
+import 'package:rta_crm_cv/widgets/card_header.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 //import 'widgets/carga_de_ticket_popup.dart';
@@ -215,7 +215,7 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                             // Titulo de la tabla
                             Padding(
                                 padding: EdgeInsets.only(bottom: 10),
-                                child: Header(text: "Vehicle Inventory")),
+                                child: CardHeader(text: "Vehicle Inventory")),
                             // Container(
                             //     height: 60,
                             //     margin: const EdgeInsets.only(bottom: 10),

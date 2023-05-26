@@ -5,12 +5,12 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/pages/monitory_page/widgets/Search_bar_monitory.dart';
 import 'package:rta_crm_cv/pages/monitory_page/widgets/calendar.dart';
+import 'package:rta_crm_cv/widgets/card_header.dart';
 
 //import 'widgets/carga_de_ticket_popup.dart';
 import '../../helpers/constants.dart';
 import '../../providers/monitory_provider.dart';
 import '../../public/colors.dart';
-import '../../widgets/header.dart';
 import '../../widgets/side_menu/sidemenu.dart';
 
 final List<LinearGradient> gradients = [
@@ -96,7 +96,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                             // Titulo de la tabla
                             Padding(
                                 padding: EdgeInsets.only(bottom: 10),
-                                child: Header(text: "Vehicle Monitory")),
+                                child: CardHeader(text: "Vehicle Monitory")),
 
                             widget.provider.monitory.isEmpty
                                 ? const CircularProgressIndicator()

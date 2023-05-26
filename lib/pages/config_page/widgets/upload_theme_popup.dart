@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:rta_crm_cv/providers/visual_state_provider.dart';
+import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
+import 'package:rta_crm_cv/widgets/success_toast.dart';
 
 class UploadThemePopup extends StatefulWidget {
   const UploadThemePopup({Key? key}) : super(key: key);
@@ -61,7 +63,7 @@ class _UploadThemePopupState extends State<UploadThemePopup> {
                           horizontal: 25,
                         ),
                         child: Text(
-                          'Cargar Tema',
+                          'Crear Nuevo Tema',
                           style: AppTheme.of(context).title1.override(
                                 fontFamily: 'Gotham-Bold',
                                 color: AppTheme.of(context).primaryColor,
@@ -130,14 +132,14 @@ class _UploadThemePopupState extends State<UploadThemePopup> {
                             secondaryColor:
                                 AppTheme.of(context).primaryBackground,
                             onTap: () async {
-                             /*  if (!formKey.currentState!.validate()) {
+                              if (!formKey.currentState!.validate()) {
                                 return;
                               }
 
-                              final res = await provider.cargarTema();
+                              final res = await provider.creatTema();
                               if (!res) {
                                 await ApiErrorHandler.callToast(
-                                  'Error al cargar tema',
+                                  'Error al crear tema',
                                 );
                                 return;
                               }
@@ -149,7 +151,7 @@ class _UploadThemePopupState extends State<UploadThemePopup> {
                                 gravity: ToastGravity.BOTTOM,
                                 toastDuration: const Duration(seconds: 2),
                               );
-                              if (context.canPop()) context.pop(); */
+                              if (context.canPop()) context.pop();
                             },
                           ),
                         ],

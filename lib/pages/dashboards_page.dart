@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
-import 'package:rta_crm_cv/widgets/header.dart';
+import 'package:rta_crm_cv/widgets/card_header.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 class DashboardsPage extends StatefulWidget {
@@ -30,7 +30,7 @@ class _DashboardsPageState extends State<DashboardsPage> {
               child: Container(
                 alignment: Alignment.topCenter,
                 decoration: BoxDecoration(gradient: whiteGradient),
-                child: Header(text: "Dashboards"),
+                child: CardHeader(text: "Dashboards"),
               ),
             )
           ],

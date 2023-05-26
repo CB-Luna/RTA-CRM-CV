@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:rta_crm_cv/pages/pages.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/pages/accounts_page.dart';
-import 'package:rta_crm_cv/pages/config_page/config_page.dart';
-import 'package:rta_crm_cv/pages/dashboards_page.dart';
 import 'package:rta_crm_cv/pages/monitory_page/monitory_page.dart';
-import 'package:rta_crm_cv/pages/network_page.dart';
-import 'package:rta_crm_cv/pages/pages.dart';
-import 'package:rta_crm_cv/pages/reports_page.dart';
-import 'package:rta_crm_cv/pages/schedulings_page.dart';
-import 'package:rta_crm_cv/pages/tickets_page.dart';
-import 'package:rta_crm_cv/pages/users/users_page.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 
 import '../pages/inventory_page/inventory_page.dart';

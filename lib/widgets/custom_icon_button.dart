@@ -41,6 +41,7 @@ class CustomIconButtonState extends State<CustomIconButton> {
         child: MouseRegion(
           child: AnimatedContainer(
             height: 35,
+            width: 35,
             duration: const Duration(milliseconds: 100),
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white, boxShadow: [
               BoxShadow(

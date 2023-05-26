@@ -4,8 +4,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/pages/config_page/widgets/theme_buttons.dart';
 import 'package:rta_crm_cv/providers/visual_state_provider.dart';
+import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_buttom.dart';
+import 'package:rta_crm_cv/widgets/success_toast.dart';
 
 class ThemeSelectionPanel extends StatefulWidget {
   const ThemeSelectionPanel({Key? key}) : super(key: key);
@@ -22,7 +24,8 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
   Widget build(BuildContext context) {
     fToast.init(context);
     final bool isLight = AppTheme.themeMode == ThemeMode.light;
-    final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider visualState =
+        Provider.of<VisualStateProvider>(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
@@ -30,6 +33,7 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
         key: formKey,
         child: Column(
           children: [
+            //Botones
             ThemeButtons(key: UniqueKey()),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -61,19 +65,22 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
                                 ColorPickerWidget(
                                   nombre: 'Color Primario',
                                   color: visualState.primaryColorLight,
-                                  controller: visualState.primaryColorLightController,
+                                  controller:
+                                      visualState.primaryColorLightController,
                                   onSelect: visualState.setPrimaryColorLight,
                                 ),
                                 ColorPickerWidget(
                                   nombre: 'Color Secundario',
                                   color: visualState.secondaryColorLight,
-                                  controller: visualState.secondaryColorLightController,
+                                  controller:
+                                      visualState.secondaryColorLightController,
                                   onSelect: visualState.setSecondaryColorLight,
                                 ),
                                 ColorPickerWidget(
                                   nombre: 'Color Terciario',
                                   color: visualState.tertiaryColorDark,
-                                  controller: visualState.tertiaryColorLightController,
+                                  controller:
+                                      visualState.tertiaryColorLightController,
                                   onSelect: visualState.setTerciaryColorLight,
                                 ),
                               ],
@@ -83,14 +90,19 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
                                 ColorPickerWidget(
                                   nombre: 'Color de Texto Primario',
                                   color: visualState.primaryTextColorLight,
-                                  controller: visualState.primaryTextLightController,
-                                  onSelect: visualState.setPrimaryTextColorLight,
+                                  controller:
+                                      visualState.primaryTextLightController,
+                                  onSelect:
+                                      visualState.setPrimaryTextColorLight,
                                 ),
                                 ColorPickerWidget(
                                   nombre: 'Color de Fondo Primario',
-                                  color: visualState.primaryBackgroundColorLight,
-                                  controller: visualState.primaryBackgroundLightController,
-                                  onSelect: visualState.setPrimaryBackgroundColorLight,
+                                  color:
+                                      visualState.primaryBackgroundColorLight,
+                                  controller: visualState
+                                      .primaryBackgroundLightController,
+                                  onSelect: visualState
+                                      .setPrimaryBackgroundColorLight,
                                 ),
                               ],
                             ),
@@ -127,19 +139,22 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
                                 ColorPickerWidget(
                                   nombre: 'Color Primario',
                                   color: visualState.primaryColorDark,
-                                  controller: visualState.primaryColorDarkController,
+                                  controller:
+                                      visualState.primaryColorDarkController,
                                   onSelect: visualState.setPrimaryColorDark,
                                 ),
                                 ColorPickerWidget(
                                   nombre: 'Color Secundario',
                                   color: visualState.secondaryColorDark,
-                                  controller: visualState.secondaryColorDarkController,
+                                  controller:
+                                      visualState.secondaryColorDarkController,
                                   onSelect: visualState.setSecondaryColorDark,
                                 ),
                                 ColorPickerWidget(
                                   nombre: 'Color Terciario',
                                   color: visualState.tertiaryColorDark,
-                                  controller: visualState.tertiaryColorDarkController,
+                                  controller:
+                                      visualState.tertiaryColorDarkController,
                                   onSelect: visualState.setTerciaryColorDark,
                                 ),
                               ],
@@ -149,14 +164,17 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
                                 ColorPickerWidget(
                                   nombre: 'Color de Texto Primario',
                                   color: visualState.primaryTextColorDark,
-                                  controller: visualState.primaryTextDarkController,
+                                  controller:
+                                      visualState.primaryTextDarkController,
                                   onSelect: visualState.setPrimaryTextColorDark,
                                 ),
                                 ColorPickerWidget(
                                   nombre: 'Color de Fondo Primario',
                                   color: visualState.primaryBackgroundColorDark,
-                                  controller: visualState.primaryBackgroundDarkController,
-                                  onSelect: visualState.setPrimaryBackgroundColorDark,
+                                  controller: visualState
+                                      .primaryBackgroundDarkController,
+                                  onSelect:
+                                      visualState.setPrimaryBackgroundColorDark,
                                 ),
                               ],
                             ),
@@ -168,13 +186,13 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
                 )
               ],
             ),
-            const SizedBox(height: 20),
+            /*  const SizedBox(height: 20),
             Align(
               alignment: Alignment.center,
               child: CustomButton(
                 key: UniqueKey(),
                 onPressed: () async {
-                  /*  if (!formKey.currentState!.validate()) {
+                   if (!formKey.currentState!.validate()) {
                     return;
                   }
                   final res = await visualState.actualizarTema();
@@ -190,7 +208,7 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
                       gravity: ToastGravity.BOTTOM,
                       toastDuration: const Duration(seconds: 2),
                     );
-                  } */
+                  }
                 },
                 text: 'Actualizar temas',
                 options: ButtonOptions(
@@ -211,6 +229,7 @@ class _ThemeSelectionPanelState extends State<ThemeSelectionPanel> {
                 ),
               ),
             ),
+           */
           ],
         ),
       ),
@@ -365,7 +384,8 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
       },
     ).showPickerDialog(
       context,
-      constraints: const BoxConstraints(minHeight: 460, minWidth: 300, maxWidth: 320),
+      constraints:
+          const BoxConstraints(minHeight: 460, minWidth: 300, maxWidth: 320),
     );
   }
 }

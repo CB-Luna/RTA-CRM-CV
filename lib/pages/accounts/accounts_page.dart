@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/functions/sizes.dart';
 
+import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/pages/users/widgets/add_user_popup.dart';
-import 'package:rta_crm_cv/providers/side_menu_provider.dart';
-import 'package:rta_crm_cv/providers/users_providers/users_provider.dart';
+import 'package:rta_crm_cv/pages/users_page/widgets/add_user_popup.dart';
+import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -15,14 +14,14 @@ import 'package:rta_crm_cv/widgets/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
-class UsersPage extends StatefulWidget {
-  const UsersPage({super.key});
+class AccountsPage extends StatefulWidget {
+  const AccountsPage({super.key});
 
   @override
-  State<UsersPage> createState() => _UsersPageState();
+  State<AccountsPage> createState() => _AccountsPageState();
 }
 
-class _UsersPageState extends State<UsersPage> {
+class _AccountsPageState extends State<AccountsPage> {
   @override
   void initState() {
     super.initState();
@@ -32,7 +31,7 @@ class _UsersPageState extends State<UsersPage> {
         context,
         listen: false,
       );
-      await provider.clearAll();
+      await provider.updateState();
     });
   }
 
@@ -41,7 +40,7 @@ class _UsersPageState extends State<UsersPage> {
     UsersProvider provider = Provider.of<UsersProvider>(context);
 
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
-    sideM.setIndex(7);
+    sideM.setIndex(1);
 
     return Material(
       child: SizedBox(
@@ -55,7 +54,7 @@ class _UsersPageState extends State<UsersPage> {
               child: Container(
                 decoration: BoxDecoration(gradient: whiteGradient),
                 child: CustomCard(
-                  title: 'User List',
+                  title: 'Accounts',
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -79,6 +78,7 @@ class _UsersPageState extends State<UsersPage> {
                               controller: provider.searchController,
                               icon: Icons.search,
                               label: 'Search',
+                              keyboardType: TextInputType.text,
                             ),
                             CustomTextIconButton(
                               icon: Icon(Icons.add,
@@ -555,16 +555,12 @@ class _UsersPageState extends State<UsersPage> {
                                       ],
                                     ),
                                   );
-                                  //PlutoPagination(context.stateManager);
                                 },
                               ),
                             ],
                             rows: provider.rows,
                             onLoaded: (event) async {
                               provider.stateManager = event.stateManager;
-                              // provider.stateManager!.setShowColumnFilter(true);
-                              // provider.stateManager!.showFilterPopup(context);
-                              // provider.stateManager!.setPage(10);
                             },
                             createFooter: (stateManager) {
                               stateManager.setPageSize(provider.pageRowCount);

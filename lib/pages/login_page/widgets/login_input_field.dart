@@ -36,7 +36,7 @@ class _LoginInputFieldState extends State<LoginInputField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: SizedBox(
         width: 445,
         height: 65,

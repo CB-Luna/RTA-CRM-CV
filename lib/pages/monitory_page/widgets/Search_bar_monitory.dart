@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/users_providers/users_provider.dart';
 import '../../../theme/theme.dart';
 import '../../../widgets/custom_text_field.dart';
 import '../../../widgets/custom_text_icon_button.dart';
-import '../../users/widgets/add_user_popup.dart';
 
 class MonitoryPageHeader extends StatefulWidget {
   MonitoryPageHeader({
@@ -25,7 +23,6 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
   Widget build(BuildContext context) {
     // final EmpleadosProvider empleadoProvider =
     //     Provider.of<EmpleadosProvider>(context);
-    UsersProvider provider = Provider.of<UsersProvider>(context);
 
     return Container(
       padding: EdgeInsets.only(left: 10, right: 10),
@@ -34,9 +31,10 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
         children: [
           CustomTextField(
             enabled: true,
-            controller: provider.searchController,
+            controller: TextEditingController(),
             icon: Icons.search,
             label: 'Search',
+            keyboardType: TextInputType.phone,
           ),
           const SizedBox(
             width: 20,
@@ -52,13 +50,13 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
                   Icon(Icons.calendar_month_outlined, color: Color(0xffE0EAFF)),
               text: 'May 25 - 30 2023',
               onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return StatefulBuilder(builder: (context, setState) {
-                        return const AddUserPopUp();
-                      });
-                    });
+                // showDialog(
+                //     context: context,
+                //     builder: (BuildContext context) {
+                //       return StatefulBuilder(builder: (context, setState) {
+                //         return const AddUserPopUp();
+                //       });
+                //     });
               },
             ),
           ),
@@ -72,13 +70,13 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
                   color: AppTheme.of(context).primaryBackground),
               text: 'Export Data',
               onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return StatefulBuilder(builder: (context, setState) {
-                        return const AddUserPopUp();
-                      });
-                    });
+                // showDialog(
+                //     context: context,
+                //     builder: (BuildContext context) {
+                //       return StatefulBuilder(builder: (context, setState) {
+                //         return const AddUserPopUp();
+                //       });
+                //     });
               },
             ),
           )

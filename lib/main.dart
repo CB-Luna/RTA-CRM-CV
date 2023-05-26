@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
-import 'package:rta_crm_cv/providers/employees_provider/employees_provider.dart';
-import 'package:rta_crm_cv/providers/inventory_provider.dart';
-import 'package:rta_crm_cv/providers/monitory_provider.dart';
-import 'package:rta_crm_cv/providers/side_menu_provider.dart';
-import 'package:rta_crm_cv/providers/users_providers/add_users_provider.dart';
-import 'package:rta_crm_cv/providers/users_providers/users_provider.dart';
-import 'package:rta_crm_cv/providers/visual_state_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 
+import 'package:rta_crm_cv/helpers/supabase/queries.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/router/router.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+
+import 'models/configuration.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,10 +25,10 @@ void main() async {
 
   await initGlobals();
 
-  // Configuration? conf = await SupabaseQueries.getUserTheme();
+  Configuration? conf = await SupabaseQueries.getUserTheme();
 
   //obtener tema
-  // AppTheme.initConfiguration(conf);
+  AppTheme.initConfiguration(conf);
 
   runApp(
     MultiProvider(
@@ -48,9 +44,6 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => MonitoryProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => AddUsersProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => InventoryProvider(),
