@@ -85,15 +85,18 @@ class _UsersPageState extends State<UsersPage> {
                                   color:
                                       AppTheme.of(context).primaryBackground),
                               text: 'Add User',
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                          builder: (context, setState) {
-                                        return const AddUserPopUp();
-                                      });
-                                    });
+                              onTap: () async {
+                                provider.clearControllers(notify: false);
+                                await provider.getRoles(notify: false);
+                                await provider.getStates(notify: false);
+                                if (!mounted) return;
+                                await showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const AddUserPopUp();
+                                  },
+                                );
+                                await provider.updateState();
                               },
                             )
                           ],

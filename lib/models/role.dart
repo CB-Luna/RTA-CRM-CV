@@ -14,7 +14,7 @@ class Role {
   factory Role.fromJson(String str) => Role.fromMap(json.decode(str));
 
   factory Role.fromMap(Map<String, dynamic> json) => Role(
-        id: json["id"],
+        id: json["id"] ?? json['role_id'],
         roleName: json["name"],
         permissions: Permissions.fromMap(json["permissions"]),
       );

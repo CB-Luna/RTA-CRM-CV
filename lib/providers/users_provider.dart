@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide State;
 import 'package:flutter/services.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rive/rive.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
 
@@ -24,51 +27,44 @@ class UsersProvider extends ChangeNotifier {
     await getUsers();
   }
 
-  clearAll() {
-    nameController.clear();
-    lastNameController.clear();
-    emailController.clear();
-    phoneController.clear();
-    roleSelecValue = roles.first;
-    stateSelecValue = states.first;
-  }
+  List<Role> roles = [];
 
-  void selecRole(String selected) {
-    roleSelecValue = selected;
-    notifyListeners();
-  }
+  Role? selectedRole;
 
-  void selecState(String selected) {
-    stateSelecValue = selected;
-    notifyListeners();
-  }
+  List<State> states = [];
 
-  List<String> roles = [
-    'Admin',
-    'Sales',
-    'Financy',
-    'Operative',
-    ' Sales',
-    'Sen Exec',
-  ];
+  State? selectedState;
 
-  late String roleSelecValue;
-
-  List<String> states = [
-    'Texas',
-    'Louisiana',
-    'Oklahoma',
-    'New Mexico',
-  ];
-
-  late String stateSelecValue;
+  String? imageName;
+  Uint8List? webImage;
 
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
-  final coutryController = TextEditingController();
+  final stateController = TextEditingController();
   final roleController = TextEditingController();
+
+  void clearControllers({bool notify = true}) {
+    nameController.clear();
+    lastNameController.clear();
+    emailController.clear();
+    phoneController.clear();
+    stateController.clear();
+    roleController.clear();
+
+    if (notify) notifyListeners();
+  }
+
+  void selectRole(String role) {
+    selectedRole = roles.firstWhere((elem) => elem.roleName == role);
+    notifyListeners();
+  }
+
+  void selectState(String state) {
+    selectedState = states.firstWhere((elem) => elem.name == state);
+    notifyListeners();
+  }
 
   void setPageSize(String x) {
     switch (x) {
@@ -108,6 +104,32 @@ class UsersProvider extends ChangeNotifier {
 
   void load() {
     stateManager!.setShowLoading(true);
+  }
+
+  Future<void> getStates({bool notify = true}) async {
+    final res = await supabase.from('state').select().order(
+          'name',
+          ascending: true,
+        );
+
+    states = (res as List<dynamic>)
+        .map((pais) => State.fromJson(jsonEncode(pais)))
+        .toList();
+
+    if (notify) notifyListeners();
+  }
+
+  Future<void> getRoles({bool notify = true}) async {
+    final res = await supabase.from('role').select().order(
+          'name',
+          ascending: true,
+        );
+
+    roles = (res as List<dynamic>)
+        .map((rol) => Role.fromJson(jsonEncode(rol)))
+        .toList();
+
+    if (notify) notifyListeners();
   }
 
   Future<void> getUsers() async {
@@ -152,6 +174,58 @@ class UsersProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  Future<Map<String, String>?> registerUser() async {
+    try {
+      //Registrar al usuario con una contraseña temporal
+      var response = await http.post(
+        Uri.parse('$supabaseUrl/auth/v1/signup'),
+        headers: {'Content-Type': 'application/json', 'apikey': anonKey},
+        body: json.encode(
+          {
+            "email": emailController.text,
+            "password": 'default',
+          },
+        ),
+      );
+      if (response.statusCode > 204)
+        return {'Error': 'The user already exists'};
+
+      final String? userId = jsonDecode(response.body)['user']['id'];
+
+      //retornar el id del usuario
+      if (userId != null) return {'userId': userId};
+
+      return {'Error': 'Error registering user'};
+    } catch (e) {
+      log('Error en registrarUsuario() - $e');
+      return {'Error': 'Error registering user'};
+    }
+  }
+
+  Future<bool> createUserProfile(String userId) async {
+    if (selectedState == null || selectedRole == null) return false;
+    try {
+      await supabase.from('user_profile').insert(
+        {
+          'user_profile_id': userId,
+          'name': nameController.text,
+          'last_name': lastNameController.text,
+          'home_phone': phoneController.text,
+          'mobile_phone': phoneController.text,
+          'address': '123 Main St.',
+          'image': imageName,
+          'birthdate': DateTime.now().toIso8601String(),
+          'id_role_fk': selectedRole!.id,
+          'state_fk': selectedState!.id,
+        },
+      );
+      return true;
+    } catch (e) {
+      log('Error in createUserProfile() - $e');
+      return false;
+    }
   }
 
   ////////////////////////////////////////////////////////

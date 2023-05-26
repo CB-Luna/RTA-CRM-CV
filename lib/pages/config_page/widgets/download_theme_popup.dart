@@ -7,9 +7,7 @@ import 'package:rta_crm_cv/providers/visual_state_provider.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
-import 'package:rta_crm_cv/widgets/succes_toast.dart';
-
-
+import 'package:rta_crm_cv/widgets/success_toast.dart';
 
 class DownloadThemePopup extends StatefulWidget {
   const DownloadThemePopup({Key? key}) : super(key: key);
