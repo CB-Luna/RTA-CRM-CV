@@ -90,28 +90,28 @@ final GoRouter router = GoRouter(
       path: '/accounts',
       name: 'Accounts',
       builder: (BuildContext context, GoRouterState state) {
-        return const AccountsPage();
+        return MonitoryPage();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const AccountsPage()),
+          pageTransition(context, state, MonitoryPage()),
     ),
     GoRoute(
       path: '/schedulings',
       name: 'Schedulings',
       builder: (BuildContext context, GoRouterState state) {
-        return const SchedulingsPage();
+        return InventoryPage();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const SchedulingsPage()),
+          pageTransition(context, state, InventoryPage()),
     ),
     GoRoute(
       path: '/network',
       name: 'Network',
       builder: (BuildContext context, GoRouterState state) {
-        return MonitoryPage();
+        return DashboardsPage();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, MonitoryPage()),
+          pageTransition(context, state, DashboardsPage()),
     ),
     GoRoute(
       path: '/tickets',

@@ -32,49 +32,61 @@ class _SideMenuFooterState extends State<SideMenuFooter> {
         borderRadius: BorderRadius.circular(50),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: widget.isOpen ? 20 : 10, vertical: widget.isOpen ? 20 : 0),
-        child: widget.isOpen
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Row(
-                      children: [
-                        Image.network(
-                          widget.image,
-                          height: getWidth(60, context),
-                        ),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          width: getWidth(160, context),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(widget.text1),
-                              Divider(
-                                thickness: 0.67,
-                                color: textColor,
-                              ),
-                              Text(widget.text2),
-                            ],
+          padding: EdgeInsets.symmetric(
+              horizontal: widget.isOpen ? 20 : 10,
+              vertical: widget.isOpen ? 20 : 0),
+          child: widget.isOpen
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            widget.image,
+                            height: getHeight(100, context),
+                            width: getWidth(100, context),
                           ),
-                        )
-                      ],
+                          // Image.network(
+                          //   widget.image,
+                          //   height: getWidth(60, context),
+                          // ),
+                          const SizedBox(width: 10),
+                          SizedBox(
+                            width: getWidth(170, context),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(widget.text1),
+                                Divider(
+                                  thickness: 0.67,
+                                  color: textColor,
+                                ),
+                                Text(widget.text2),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  const Icon(
-                    Icons.settings,
-                    size: 30,
-                  )
-                ],
-              )
-            : Image.network(
-                widget.image,
-                height: getWidth(100, context),
-                width: getWidth(100, context),
-              ),
-      ),
+                    const Icon(
+                      Icons.settings,
+                      size: 30,
+                    )
+                  ],
+                )
+              : Image.asset(
+                  widget.image,
+                  height: getHeight(100, context),
+                  width: getWidth(100, context),
+                )
+          // : Image.network(
+          //     widget.image,
+          //     height: getWidth(100, context),
+          //     width: getWidth(100, context),
+          //   ),
+          ),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/pages/inventory_page/widgets/cry_card.dart';
 import 'package:rta_crm_cv/pages/inventory_page/widgets/odi_card.dart';
 import 'package:rta_crm_cv/pages/inventory_page/widgets/smi_card.dart';
+import 'package:rta_crm_cv/widgets/header.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 //import 'widgets/carga_de_ticket_popup.dart';
@@ -212,31 +213,34 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                               height: 20,
                             ),
                             // Titulo de la tabla
-                            Container(
-                                height: 60,
-                                margin: const EdgeInsets.only(bottom: 10),
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  gradient: gradients[0],
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(30),
-                                    topRight: Radius.circular(4),
-                                    bottomLeft: Radius.circular(4),
-                                    bottomRight: Radius.circular(30),
-                                  ),
-                                  border: Border.all(
-                                      color: const Color(0xff9ABEFF),
-                                      width: 10,
-                                      style: BorderStyle.solid),
-                                ),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: const Text(
-                                    'Vehicle Inventory',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 30),
-                                  ),
-                                )),
+                            Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Header(text: "Vehicle Inventory")),
+                            // Container(
+                            //     height: 60,
+                            //     margin: const EdgeInsets.only(bottom: 10),
+                            //     width: MediaQuery.of(context).size.width,
+                            //     decoration: BoxDecoration(
+                            //       gradient: gradients[0],
+                            //       borderRadius: const BorderRadius.only(
+                            //         topLeft: Radius.circular(30),
+                            //         topRight: Radius.circular(4),
+                            //         bottomLeft: Radius.circular(4),
+                            //         bottomRight: Radius.circular(30),
+                            //       ),
+                            //       border: Border.all(
+                            //           color: const Color(0xff9ABEFF),
+                            //           width: 10,
+                            //           style: BorderStyle.solid),
+                            //     ),
+                            //     child: Container(
+                            //       alignment: Alignment.center,
+                            //       child: const Text(
+                            //         'Vehicle Inventory',
+                            //         style: TextStyle(
+                            //             color: Colors.white, fontSize: 30),
+                            //       ),
+                            //     )),
                             // PLUTO GRID
                             widget.provider.vehicles.isEmpty
                                 ? const CircularProgressIndicator()

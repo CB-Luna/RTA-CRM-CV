@@ -114,10 +114,11 @@ class _SideMenuState extends State<SideMenu> {
                 ),
                 SideMenuFooter(
                   isOpen: provider.isOpen,
-                  image:
-                      'https://www.sadm.gob.mx/AyD_Aclaraciones/Content/user.png',
-                  text1: 'Loremipsum 1',
-                  text2: 'Loermipsum 2',
+                  // image:
+                  //     'https://www.sadm.gob.mx/AyD_Aclaraciones/Content/user.png',
+                  image: "assets/images/user.png",
+                  text1: 'Michael Scott ',
+                  text2: 'Administrator',
                 )
               ],
             ),

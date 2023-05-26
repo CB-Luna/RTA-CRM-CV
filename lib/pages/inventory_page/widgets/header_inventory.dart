@@ -42,7 +42,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             width: 20,
           ),
           Container(
-            width: 200,
+            width: MediaQuery.of(context).size.width * 0.1,
             child: CustomTextIconButton(
               icon: Icon(Icons.add_box_outlined,
                   color: AppTheme.of(context).primaryBackground),
@@ -62,7 +62,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             width: 20,
           ),
           Container(
-            width: 200,
+            width: MediaQuery.of(context).size.width * 0.1,
             child: CustomTextIconButton(
               icon: Icon(Icons.mode_edit_outlined,
                   color: AppTheme.of(context).primaryBackground),
@@ -82,7 +82,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             width: 20,
           ),
           Container(
-            width: 200,
+            width: MediaQuery.of(context).size.width * 0.1,
             child: CustomTextIconButton(
               color: const Color(0xffBF2135),
               icon: Icon(Icons.delete_outline_outlined,
@@ -103,7 +103,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             width: 20,
           ),
           Container(
-            width: 200,
+            width: MediaQuery.of(context).size.width * 0.1,
             child: CustomTextIconButton(
               icon: Icon(Icons.download_outlined,
                   color: AppTheme.of(context).primaryBackground),
