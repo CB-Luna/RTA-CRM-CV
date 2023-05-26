@@ -17,12 +17,12 @@ class CotizadorProvider extends ChangeNotifier {
     orderTypesSelectedValue = orderTypesList.first;
     typesSelectedValue = typesList.first;
     dataCenterSelectedValue = dataCentersList.first;
-    circuitInfoSelectedValue = circuitInfosList.first;
+    circuitTypeSelectedValue = circuitInfosList.first;
     evcodSelectedValue = evcodList.first;
-    ddosSelectedValue = false;
+    ddosSelectedValue = ddosList.first;
     bgpSelectedValue = bgpList.first;
-    ipAdressSelectedValue = false;
-    ipSelectedValue = ipList.first;
+    ipAdressSelectedValue = ipAdressList.first;
+    ipInterfaceSelectedValue = ipInterfaceList.first;
     subnetSelectedValue = subnetList.first;
 
     lineItemCenterController.clear();
@@ -44,12 +44,12 @@ class CotizadorProvider extends ChangeNotifier {
   late String orderTypesSelectedValue;
   late String typesSelectedValue;
   late String dataCenterSelectedValue;
-  late String circuitInfoSelectedValue;
+  late String circuitTypeSelectedValue;
   late String evcodSelectedValue;
-  late bool ddosSelectedValue = false; //['Yes', 'No']
+  late String ddosSelectedValue; //['Yes', 'No']
   late String bgpSelectedValue;
-  late bool ipAdressSelectedValue = false;
-  late String ipSelectedValue;
+  late String ipAdressSelectedValue;
+  late String ipInterfaceSelectedValue;
   late String subnetSelectedValue;
 
   List<String> orderTypesList = ['Internal Circuit', 'External Customer'];
@@ -80,9 +80,11 @@ class CotizadorProvider extends ChangeNotifier {
     'Cross-Connect',
     'EVCoD',
   ];
+  List<String> ddosList = ['Yes', 'No'];
   List<String> evcodList = ['No', 'New', 'Existing EVC'];
   List<String> bgpList = ['No', 'IPv4', 'IPv6', 'Current ASN(s)'];
-  List<String> ipList = ['IPv4', 'IPv6'];
+  List<String> ipAdressList = ['Interface', 'IP Subnet'];
+  List<String> ipInterfaceList = ['IPv4', 'IPv6'];
   List<String> subnetList = ['No', 'IPv4', 'IPv6'];
 
   final lineItemCenterController = TextEditingController();
@@ -90,37 +92,48 @@ class CotizadorProvider extends ChangeNotifier {
   final unitCostController = TextEditingController();
   final quantityController = TextEditingController();
 
-  void selectOT() {
-    if (orderTypesSelectedValue == 'Internal Circuit') {
-      orderTypesSelectedValue = orderTypesList[1];
-    } else {
-      orderTypesSelectedValue = orderTypesList[0];
-    }
+  final companyController = TextEditingController();
+  final nameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+
+  void selectOT(String selected) {
+    orderTypesSelectedValue = selected;
     notifyListeners();
   }
 
   void selectType(String selected) {
     typesSelectedValue = selected;
+    existingCircuitIDController.clear();
+    newCircuitIDController.clear();
     notifyListeners();
   }
 
   void selectDataCenter(String selected) {
     dataCenterSelectedValue = selected;
+    newDataCenterController.clear();
     notifyListeners();
   }
 
   void selectCircuitInfo(String selected) {
-    circuitInfoSelectedValue = selected;
+    circuitTypeSelectedValue = selected;
+    selectEVCOD(evcodList.first);
     notifyListeners();
   }
 
   void selectEVCOD(String selected) {
     evcodSelectedValue = selected;
+    existingEVCController.clear();
     notifyListeners();
   }
 
   void selectDDOS() {
-    ddosSelectedValue = !ddosSelectedValue;
+    if (ddosSelectedValue == 'Yes') {
+      ddosSelectedValue = ddosList[1];
+    } else {
+      ddosSelectedValue = ddosList[0];
+    }
     notifyListeners();
   }
 
@@ -130,15 +143,21 @@ class CotizadorProvider extends ChangeNotifier {
   }
 
   void selectIPAdress() {
-    ipAdressSelectedValue = !ipAdressSelectedValue;
+    if (ipAdressSelectedValue == 'Interface') {
+      ipAdressSelectedValue = ipAdressList[1];
+    } else {
+      ipAdressSelectedValue = ipAdressList[0];
+    }
+    selectIPInterface();
+    selectSubnet(subnetList.first);
     notifyListeners();
   }
 
   void selectIPInterface() {
-    if (ipSelectedValue == 'IPv4') {
-      ipSelectedValue = ipList[1];
+    if (ipInterfaceSelectedValue == 'IPv4') {
+      ipInterfaceSelectedValue = ipInterfaceList[1];
     } else {
-      ipSelectedValue = ipList[0];
+      ipInterfaceSelectedValue = ipInterfaceList[0];
     }
     notifyListeners();
   }
@@ -149,16 +168,39 @@ class CotizadorProvider extends ChangeNotifier {
   }
 
   void addRow() {
+    var dataCenterType = '';
+    if (dataCenterSelectedValue != 'New') {
+      dataCenterType = 'Existing';
+    } else {
+      dataCenterType = 'New';
+    }
+
+    var dataCenterLocation = '';
+    if (dataCenterSelectedValue != 'New') {
+      dataCenterLocation = dataCenterSelectedValue;
+    } else {
+      dataCenterLocation = newDataCenterController.text;
+    }
+
     rows.add(
       PlutoRow(
         cells: {
-          'ORDER_INFO_Column': PlutoCell(value: 'OI'),
-          // 'ORDER_TYPE_Column': PlutoCell(value: '0'),
-          'CIRCUIT_INFO_Column': PlutoCell(value: 'CI'),
-          /* 'DATA_CENTER_Column': PlutoCell(value: '0'),
-          'DDOS_Column': PlutoCell(value: '0'),
-          'BGM_Column': PlutoCell(value: '0'),
-          'IP_Column': PlutoCell(value: '0'), */
+          'ORDER_TYPE_Column': PlutoCell(value: orderTypesSelectedValue),
+          'TYPE_Column': PlutoCell(value: typesSelectedValue),
+          'EXISTING_CIRCUIT_Column': PlutoCell(value: existingCircuitIDController.text),
+          'NEW_CIRCUIT_Column': PlutoCell(value: newCircuitIDController.text),
+          'DATA_CENTER_TYPE_Column': PlutoCell(value: dataCenterType),
+          'DATA_CENTER_LOCATION_Column': PlutoCell(value: dataCenterLocation),
+          ////////////////////////////////////////////////////////////////////
+          'CIRCUIT_TYPE_Column': PlutoCell(value: circuitTypeSelectedValue),
+          'EVCOD_TYPE_Column': PlutoCell(value: evcodSelectedValue),
+          'CIRCUIT_ID_Column': PlutoCell(value: existingEVCController.text),
+          'DDOS_Column': PlutoCell(value: ddosSelectedValue),
+          'BGP_Column': PlutoCell(value: bgpSelectedValue),
+          'IP_ADRESS_Column': PlutoCell(value: ipAdressSelectedValue),
+          'IP_INTERFACE_Column': PlutoCell(value: ipInterfaceSelectedValue),
+          'IP_SUBNET_Column': PlutoCell(value: subnetSelectedValue),
+          ////////////////////////////////////////////////////////////////////
           'LINE_ITEM_Column': PlutoCell(value: lineItemCenterController.text),
           'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text)),
           'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text) * -1),
@@ -174,6 +216,29 @@ class CotizadorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isValidated() {
+    if (typesSelectedValue == 'Disconnect' && existingCircuitIDController.text.isEmpty) {
+      return false;
+    } else if (typesSelectedValue == 'Upgrade' && existingCircuitIDController.text.isEmpty && newCircuitIDController.text.isEmpty) {
+      return false;
+    } else if (dataCenterSelectedValue == 'New' && existingCircuitIDController.text.isEmpty && newCircuitIDController.text.isEmpty) {
+      return false;
+    } else if (evcodSelectedValue == 'Existing EVC' && existingEVCController.text.isEmpty) {
+      return false;
+    } else if (lineItemCenterController.text.isEmpty ||
+        unitPriceController.text.isEmpty ||
+        double.parse(unitPriceController.text) < 0 ||
+        unitCostController.text.isEmpty ||
+        double.parse(unitCostController.text) < 0 ||
+        quantityController.text.isEmpty ||
+        double.parse(quantityController.text) < 0) {
+      return false;
+    } else {
+      addRow();
+      return true;
+    }
+  }
+
   void resetForm() {
     existingCircuitIDController.clear();
     newCircuitIDController.clear();
@@ -183,12 +248,12 @@ class CotizadorProvider extends ChangeNotifier {
     orderTypesSelectedValue = orderTypesList.first;
     typesSelectedValue = typesList.first;
     dataCenterSelectedValue = dataCentersList.first;
-    circuitInfoSelectedValue = circuitInfosList.first;
+    circuitTypeSelectedValue = circuitInfosList.first;
     evcodSelectedValue = evcodList.first;
-    ddosSelectedValue = false;
+    ddosSelectedValue = ddosList.first;
     bgpSelectedValue = bgpList.first;
-    ipAdressSelectedValue = false;
-    ipSelectedValue = ipList.first;
+    ipAdressSelectedValue = ipAdressList.first;
+    ipInterfaceSelectedValue = ipInterfaceList.first;
     subnetSelectedValue = subnetList.first;
 
     lineItemCenterController.clear();

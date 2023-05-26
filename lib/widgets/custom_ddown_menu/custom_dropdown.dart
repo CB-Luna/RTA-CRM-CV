@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
-class CustomDropDown extends StatefulWidget {
-  const CustomDropDown({
+class CustomDDownMenu extends StatefulWidget {
+  const CustomDDownMenu({
     super.key,
     required this.list,
     required this.dropdownValue,
@@ -23,10 +23,10 @@ class CustomDropDown extends StatefulWidget {
   final String? hint;
 
   @override
-  State<CustomDropDown> createState() => _CustomDropDownState();
+  State<CustomDDownMenu> createState() => _CustomDDownMenuState();
 }
 
-class _CustomDropDownState extends State<CustomDropDown> {
+class _CustomDDownMenuState extends State<CustomDDownMenu> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -47,11 +47,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
             borderRadius: BorderRadius.circular(5),
             color: AppTheme.of(context).primaryBackground,
             boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 0.1,
-                  blurRadius: 3,
-                  offset: const Offset(0, 0) // changes position of shadow
+              BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 0.1, blurRadius: 3, offset: const Offset(0, 0) // changes position of shadow
                   )
             ],
           ),
@@ -88,8 +84,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                   underline: const SizedBox.shrink(),
                   onChanged: widget.onChanged,
                   value: widget.dropdownValue,
-                  items:
-                      widget.list.map<DropdownMenuItem<String>>((String value) {
+                  items: widget.list.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(

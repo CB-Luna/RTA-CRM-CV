@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:rta_crm_cv/helpers/supabase/queries.dart';
+import 'package:rta_crm_cv/providers/cotizador_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -43,6 +44,9 @@ void main() async {
           create: (_) => UsersProvider(),
         ),
         ChangeNotifierProvider(
+          create: (_) => CotizadorProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),
         ),
       ],
@@ -58,8 +62,7 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 
-  static _MyAppState of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>()!;
+  static _MyAppState of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>()!;
 }
 
 class _MyAppState extends State<MyApp> {

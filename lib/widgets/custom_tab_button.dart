@@ -11,8 +11,10 @@ class CustomTabButton extends StatefulWidget {
     required this.option2,
     this.color,
     this.onTap,
+    this.width,
   });
 
+  final double? width;
   final bool on;
   final String label;
   final String option1;
@@ -34,6 +36,7 @@ class CustomTabButtonState extends State<CustomTabButton> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 51,
+      width: widget.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

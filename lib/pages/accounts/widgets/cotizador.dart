@@ -1,17 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/cotizador_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_dropdown.dart';
-import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
 import 'package:rta_crm_cv/widgets/custom_tab_button.dart';
 import 'package:rta_crm_cv/widgets/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
@@ -51,235 +47,288 @@ class _CotizadorState extends State<Cotizador> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomCard(
-                            height: MediaQuery.of(context).size.height / 3,
-                            width: MediaQuery.of(context).size.width / 5,
-                            title: 'Order Info',
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomTabButton(
-                                  on: provider.orderTypesSelectedValue ==
-                                      'Internal Circuit',
-                                  label: 'Order Type',
-                                  option1: 'Internal Circuit',
-                                  option2: 'External Customer',
-                                  onTap: () => provider.selectOT(),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: CustomDropDown(
-                                    list: provider.typesList,
-                                    dropdownValue: provider.typesSelectedValue,
-                                    onChanged: (p0) {
-                                      if (p0 != null) provider.selectType(p0);
-                                    },
-                                    icon: Icons.file_copy_outlined,
-                                    label: 'Type',
-                                    width: txfFieldWidth,
-                                  ),
-                                ),
-                                if (provider.typesSelectedValue ==
-                                        'Disconnect' ||
-                                    provider.typesSelectedValue == 'Upgrade')
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: CustomTextField(
-                                      enabled: true,
-                                      width: txfFieldWidth,
-                                      controller:
-                                          provider.existingCircuitIDController,
-                                      label: 'Existing Circuit ID',
-                                      icon: Icons.cable_outlined,
-                                      keyboardType: TextInputType.text,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 1.9,
+                        width: MediaQuery.of(context).size.width - 30,
+                        child: SingleChildScrollView(
+                          clipBehavior: Clip.antiAlias,
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              CustomCard(
+                                height: MediaQuery.of(context).size.height / 2,
+                                width: MediaQuery.of(context).size.width / 5,
+                                title: 'Order Info',
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      child: CustomDDownMenu(
+                                        list: provider.orderTypesList,
+                                        label: 'Order Type',
+                                        onChanged: (p0) {
+                                          if (p0 != null) provider.selectOT(p0);
+                                        },
+                                        dropdownValue: provider.orderTypesSelectedValue,
+                                        icon: Icons.file_copy_outlined,
+                                        width: txfFieldWidth,
+                                      ),
                                     ),
-                                  ),
-                                if (provider.typesSelectedValue == 'Upgrade')
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: CustomTextField(
-                                      enabled: true,
-                                      width: txfFieldWidth,
-                                      controller:
-                                          provider.newCircuitIDController,
-                                      label: 'New Circuit ID',
-                                      icon: Icons.cable_outlined,
-                                      keyboardType: TextInputType.text,
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      child: CustomDDownMenu(
+                                        list: provider.typesList,
+                                        dropdownValue: provider.typesSelectedValue,
+                                        onChanged: (p0) {
+                                          if (p0 != null) provider.selectType(p0);
+                                        },
+                                        icon: Icons.file_copy_outlined,
+                                        label: 'Type',
+                                        width: txfFieldWidth,
+                                      ),
                                     ),
-                                  ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: CustomDropDown(
-                                    list: provider.dataCentersList,
-                                    dropdownValue:
-                                        provider.dataCenterSelectedValue,
-                                    onChanged: (p0) {
-                                      if (p0 != null)
-                                        provider.selectDataCenter(p0);
-                                    },
-                                    icon: Icons.location_on_outlined,
-                                    label: 'Data Center Location',
-                                    width: txfFieldWidth,
-                                  ),
-                                ),
-                                if (provider.dataCenterSelectedValue == 'New')
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: CustomTextField(
-                                      enabled: true,
-                                      width: txfFieldWidth,
-                                      controller:
-                                          provider.newDataCenterController,
-                                      label: 'New Data Center',
-                                      icon: Icons.location_on_outlined,
-                                      keyboardType: TextInputType.text,
+                                    if (provider.typesSelectedValue == 'Disconnect' || provider.typesSelectedValue == 'Upgrade')
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        child: CustomTextField(
+                                          enabled: true,
+                                          width: txfFieldWidth,
+                                          controller: provider.existingCircuitIDController,
+                                          label: 'Existing Circuit ID',
+                                          icon: Icons.cable_outlined,
+                                          keyboardType: TextInputType.text,
+                                        ),
+                                      ),
+                                    if (provider.typesSelectedValue == 'Upgrade')
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        child: CustomTextField(
+                                          enabled: true,
+                                          width: txfFieldWidth,
+                                          controller: provider.newCircuitIDController,
+                                          label: 'New Circuit ID',
+                                          icon: Icons.cable_outlined,
+                                          keyboardType: TextInputType.text,
+                                        ),
+                                      ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      child: CustomDDownMenu(
+                                        list: provider.dataCentersList,
+                                        dropdownValue: provider.dataCenterSelectedValue,
+                                        onChanged: (p0) {
+                                          if (p0 != null) provider.selectDataCenter(p0);
+                                        },
+                                        icon: Icons.location_on_outlined,
+                                        label: 'Data Center Location',
+                                        width: txfFieldWidth,
+                                      ),
                                     ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                          CustomCard(
-                            height: MediaQuery.of(context).size.height / 3,
-                            width: MediaQuery.of(context).size.width / 5,
-                            title: 'Circuit Type',
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomDropDown(
-                                  list: provider.circuitInfosList,
-                                  dropdownValue:
-                                      provider.circuitInfoSelectedValue,
-                                  onChanged: (p0) {
-                                    if (p0 != null)
-                                      provider.selectCircuitInfo(p0);
-                                  },
-                                  icon: Icons.info_outline,
-                                  label: 'Circuit Info',
-                                  width: txfFieldWidth,
+                                    if (provider.dataCenterSelectedValue == 'New')
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        child: CustomTextField(
+                                          enabled: true,
+                                          width: txfFieldWidth,
+                                          controller: provider.newDataCenterController,
+                                          label: 'New Data Center',
+                                          icon: Icons.location_on_outlined,
+                                          keyboardType: TextInputType.text,
+                                        ),
+                                      ),
+                                  ],
                                 ),
-                                if (provider.circuitInfoSelectedValue ==
-                                    'EVCoD')
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: CustomDropDown(
-                                      list: provider.evcodList,
-                                      dropdownValue:
-                                          provider.evcodSelectedValue,
+                              ),
+                              CustomCard(
+                                height: MediaQuery.of(context).size.height / 2,
+                                width: MediaQuery.of(context).size.width / 5,
+                                title: 'Circuit Info',
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomDDownMenu(
+                                      list: provider.circuitInfosList,
+                                      dropdownValue: provider.circuitTypeSelectedValue,
                                       onChanged: (p0) {
-                                        if (p0 != null)
-                                          provider.selectEVCOD(p0);
+                                        if (p0 != null) provider.selectCircuitInfo(p0);
                                       },
-                                      icon: Icons.electrical_services,
-                                      label: 'EVCoD',
+                                      icon: Icons.info_outline,
+                                      label: 'Circuit Type',
                                       width: txfFieldWidth,
                                     ),
-                                  ),
-                                if (provider.evcodSelectedValue ==
-                                    'Existing EVC')
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: CustomTextField(
-                                      enabled: true,
-                                      width: txfFieldWidth,
-                                      controller:
-                                          provider.existingEVCController,
-                                      label: 'Circuit ID',
-                                      icon: Icons.electrical_services,
-                                      keyboardType: TextInputType.text,
+                                    if (provider.circuitTypeSelectedValue == 'EVCoD')
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        child: CustomDDownMenu(
+                                          list: provider.evcodList,
+                                          dropdownValue: provider.evcodSelectedValue,
+                                          onChanged: (p0) {
+                                            if (p0 != null) provider.selectEVCOD(p0);
+                                          },
+                                          icon: Icons.electrical_services,
+                                          label: 'EVCoD',
+                                          width: txfFieldWidth,
+                                        ),
+                                      ),
+                                    if (provider.evcodSelectedValue == 'Existing EVC')
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        child: CustomTextField(
+                                          enabled: true,
+                                          width: txfFieldWidth,
+                                          controller: provider.existingEVCController,
+                                          label: 'Circuit ID',
+                                          icon: Icons.electrical_services,
+                                          keyboardType: TextInputType.text,
+                                        ),
+                                      ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      child: CustomTabButton(
+                                        on: provider.ddosSelectedValue == 'Yes',
+                                        //icon: Icons.security_outlined,
+                                        label: 'DDoS Migration',
+                                        option1: 'Yes',
+                                        option2: 'No',
+                                        width: txfFieldWidth,
+                                        onTap: () => provider.selectDDOS(),
+                                      ),
                                     ),
-                                  ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: CustomTabButton(
-                                    on: provider.ddosSelectedValue,
-                                    //icon: Icons.security_outlined,
-                                    label: 'DDoS Migration',
-                                    option1: 'Yes',
-                                    option2: 'No',
-                                    onTap: () => provider.selectDDOS(),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: CustomDropDown(
-                                    list: provider.bgpList,
-                                    dropdownValue: provider.bgpSelectedValue,
-                                    onChanged: (p0) {
-                                      if (p0 != null) provider.selectBGP(p0);
-                                    },
-                                    icon: Icons.bug_report_outlined,
-                                    label: 'BGP Peering',
-                                    width: txfFieldWidth,
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: CustomTabButton(
-                                    on: provider.ipAdressSelectedValue,
-                                    label: 'IP Adresses',
-                                    option1: 'Interface',
-                                    option2: 'IP Subnet',
-                                    onTap: () => provider.selectIPAdress(),
-                                  ),
-                                ),
-                                if (provider.ipAdressSelectedValue)
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: CustomTabButton(
-                                      on: provider.ipSelectedValue == 'IPv4',
-                                      label: 'IP Interface',
-                                      option1: 'IPv4',
-                                      option2: 'IPv6',
-                                      onTap: () => provider.selectIPInterface(),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      child: CustomDDownMenu(
+                                        list: provider.bgpList,
+                                        dropdownValue: provider.bgpSelectedValue,
+                                        onChanged: (p0) {
+                                          if (p0 != null) provider.selectBGP(p0);
+                                        },
+                                        icon: Icons.bug_report_outlined,
+                                        label: 'BGP Peering',
+                                        width: txfFieldWidth,
+                                      ),
                                     ),
-                                  ),
-                                if (!provider.ipAdressSelectedValue)
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: CustomDropDown(
-                                      list: provider.subnetList,
-                                      dropdownValue:
-                                          provider.subnetSelectedValue,
-                                      onChanged: (p0) {
-                                        if (p0 != null)
-                                          provider.selectSubnet(p0);
-                                      },
-                                      icon: Icons.signal_cellular_alt,
-                                      label: 'IP Subnet',
-                                      width: txfFieldWidth,
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      child: CustomTabButton(
+                                        on: provider.ipAdressSelectedValue == 'Interface',
+                                        label: 'IP Adresses',
+                                        option1: 'Interface',
+                                        option2: 'IP Subnet',
+                                        width: txfFieldWidth,
+                                        onTap: () => provider.selectIPAdress(),
+                                      ),
                                     ),
-                                  ),
-                              ],
-                            ),
+                                    if (provider.ipAdressSelectedValue == 'Interface')
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        child: CustomTabButton(
+                                          on: provider.ipInterfaceSelectedValue == 'IPv4',
+                                          label: 'IP Interface',
+                                          option1: 'IPv4',
+                                          option2: 'IPv6',
+                                          width: txfFieldWidth,
+                                          onTap: () => provider.selectIPInterface(),
+                                        ),
+                                      ),
+                                    if (provider.ipAdressSelectedValue == 'IP Subnet')
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        child: CustomDDownMenu(
+                                          list: provider.subnetList,
+                                          dropdownValue: provider.subnetSelectedValue,
+                                          onChanged: (p0) {
+                                            if (p0 != null) provider.selectSubnet(p0);
+                                          },
+                                          icon: Icons.signal_cellular_alt,
+                                          label: 'IP Subnet',
+                                          width: txfFieldWidth,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                              CustomCard(
+                                height: MediaQuery.of(context).size.height / 2,
+                                width: MediaQuery.of(context).size.width / 5,
+                                title: 'Customer Info',
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      child: CustomTextField(
+                                        enabled: true,
+                                        width: txfFieldWidth,
+                                        controller: provider.companyController,
+                                        label: 'Company',
+                                        icon: Icons.location_city_outlined,
+                                        keyboardType: TextInputType.text,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      child: CustomTextField(
+                                        enabled: true,
+                                        width: txfFieldWidth,
+                                        controller: provider.nameController,
+                                        label: 'Name',
+                                        icon: Icons.person_outline,
+                                        keyboardType: TextInputType.text,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      child: CustomTextField(
+                                        enabled: true,
+                                        width: txfFieldWidth,
+                                        controller: provider.lastNameController,
+                                        label: 'Last Name',
+                                        icon: Icons.person_outline,
+                                        keyboardType: TextInputType.text,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      child: CustomTextField(
+                                        enabled: true,
+                                        width: txfFieldWidth,
+                                        controller: provider.emailController,
+                                        label: 'Email',
+                                        icon: Icons.alternate_email_outlined,
+                                        keyboardType: TextInputType.text,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      child: CustomTextField(
+                                        enabled: true,
+                                        width: txfFieldWidth,
+                                        controller: provider.phoneController,
+                                        label: 'Mobile Phone Number',
+                                        icon: Icons.phone_outlined,
+                                        keyboardType: TextInputType.text,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              CustomCard(
+                                height: MediaQuery.of(context).size.height / 2,
+                                width: MediaQuery.of(context).size.width / 5,
+                                title: 'Totals',
+                                child: const Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [],
+                                ),
+                              ),
+                            ],
                           ),
-                          CustomCard(
-                            height: MediaQuery.of(context).size.height / 3,
-                            width: MediaQuery.of(context).size.width / 2.1,
-                            title: 'Totals',
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [],
-                            ),
-                          )
-                        ],
+                        ),
                       ),
                       SizedBox(
                         height: 35,
@@ -307,9 +356,9 @@ class _CotizadorState extends State<Cotizador> {
                                 label: 'Unit Price',
                                 icon: Icons.attach_money_outlined,
                                 keyboardType: TextInputType.text,
-                                /* inputFormatters: <TextInputFormatter>[
-                                            FilteringTextInputFormatter.digitsOnly,
-                                          ], */
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                               ),
                             ),
                             Padding(
@@ -321,9 +370,9 @@ class _CotizadorState extends State<Cotizador> {
                                 label: 'Unit Cost',
                                 icon: Icons.price_check_outlined,
                                 keyboardType: TextInputType.text,
-                                /* inputFormatters: <TextInputFormatter>[
-                                            FilteringTextInputFormatter.digitsOnly,
-                                          ], */
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                               ),
                             ),
                             Padding(
@@ -343,17 +392,13 @@ class _CotizadorState extends State<Cotizador> {
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: CustomTextIconButton(
-                                icon: Icon(Icons.add,
-                                    color:
-                                        AppTheme.of(context).primaryBackground),
+                                icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                                 text: 'Add',
-                                onTap: () => provider.addRow(),
+                                onTap: () => provider.isValidated(),
                               ),
                             ),
                             CustomTextIconButton(
-                              icon: Icon(Icons.remove,
-                                  color:
-                                      AppTheme.of(context).primaryBackground),
+                              icon: Icon(Icons.remove, color: AppTheme.of(context).primaryBackground),
                               text: 'Reset',
                               onTap: () => provider.resetForm(),
                             ),
@@ -362,7 +407,7 @@ class _CotizadorState extends State<Cotizador> {
                       ),
                       const SizedBox(height: 10),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 2,
+                        height: MediaQuery.of(context).size.height / 3,
                         width: MediaQuery.of(context).size.width - 20,
                         child: PlutoGrid(
                           key: UniqueKey(),
@@ -376,41 +421,19 @@ class _CotizadorState extends State<Cotizador> {
                               ],
                               resolveDefaultColumnFilter: (column, resolver) {
                                 if (column.field == 'ORDER_TYPE_Column') {
-                                  return resolver<PlutoFilterTypeContains>()
-                                      as PlutoFilterType;
-                                } else if (column.field ==
-                                    'CIRCUIT_INFO_Column') {
-                                  return resolver<PlutoFilterTypeContains>()
-                                      as PlutoFilterType;
-                                } else if (column.field ==
-                                    'DATA_CENTER_Column') {
-                                  return resolver<PlutoFilterTypeContains>()
-                                      as PlutoFilterType;
-                                } else if (column.field == 'DDOS_Column') {
-                                  return resolver<PlutoFilterTypeContains>()
-                                      as PlutoFilterType;
-                                } else if (column.field == 'BGM_Column') {
-                                  return resolver<PlutoFilterTypeContains>()
-                                      as PlutoFilterType;
-                                } else if (column.field == 'IP_Column') {
-                                  return resolver<PlutoFilterTypeContains>()
-                                      as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                } else if (column.field == 'CIRCUIT_TYPE_Column') {
+                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                 } else if (column.field == 'LINE_ITEM_Column') {
-                                  return resolver<PlutoFilterTypeContains>()
-                                      as PlutoFilterType;
-                                } else if (column.field ==
-                                    'UNIT_PRICE_Column') {
-                                  return resolver<PlutoFilterTypeContains>()
-                                      as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                } else if (column.field == 'UNIT_PRICE_Column') {
+                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                 } else if (column.field == 'UNIT_COST_Column') {
-                                  return resolver<PlutoFilterTypeContains>()
-                                      as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                 } else if (column.field == 'QUANTITY_Column') {
-                                  return resolver<PlutoFilterTypeContains>()
-                                      as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                 }
-                                return resolver<PlutoFilterTypeContains>()
-                                    as PlutoFilterType;
+                                return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                               },
                             ),
                           ),
@@ -581,20 +604,13 @@ class _CotizadorState extends State<Cotizador> {
                              */
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(
-                                    child: Icon(Icons.file_copy_outlined,
-                                        color: AppTheme.of(context)
-                                            .primaryBackground)),
+                                WidgetSpan(child: Icon(Icons.file_copy_outlined, color: AppTheme.of(context).primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(
-                                    text: 'Order Info',
-                                    style: TextStyle(
-                                        color: AppTheme.of(context)
-                                            .primaryBackground))
+                                TextSpan(text: 'Order Info', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'Order Info',
-                              field: 'ORDER_INFO_Column',
+                              field: 'ORDER_TYPE_Column',
                               width: 225,
                               titleTextAlign: PlutoColumnTextAlign.start,
                               textAlign: PlutoColumnTextAlign.center,
@@ -605,13 +621,8 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration:
-                                      BoxDecoration(gradient: whiteGradient),
-                                  child: Center(
-                                      child: Text(rendererContext.cell.value,
-                                          style: TextStyle(
-                                              color: AppTheme.of(context)
-                                                  .primaryText))),
+                                  decoration: BoxDecoration(gradient: whiteGradient),
+                                  child: Center(child: Text(rendererContext.cell.value, style: TextStyle(color: AppTheme.of(context).primaryText))),
                                 );
                               },
                               footerRenderer: (rendererContext) {
@@ -623,19 +634,11 @@ class _CotizadorState extends State<Cotizador> {
                                     return [
                                       TextSpan(
                                         text: 'Rows: ',
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false,
-                                                color: AppTheme.of(context)
-                                                    .primaryBackground),
+                                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryBackground),
                                       ),
                                       TextSpan(
                                         text: provider.rows.length.toString(),
-                                        style: TextStyle(
-                                            color: AppTheme.of(context)
-                                                .primaryBackground),
+                                        style: TextStyle(color: AppTheme.of(context).primaryBackground),
                                       ),
                                     ];
                                   },
@@ -644,20 +647,13 @@ class _CotizadorState extends State<Cotizador> {
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(
-                                    child: Icon(Icons.cable_outlined,
-                                        color: AppTheme.of(context)
-                                            .primaryBackground)),
+                                WidgetSpan(child: Icon(Icons.cable_outlined, color: AppTheme.of(context).primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(
-                                    text: 'Circuit Info',
-                                    style: TextStyle(
-                                        color: AppTheme.of(context)
-                                            .primaryBackground))
+                                TextSpan(text: 'Circuit Info', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'CIRCUIT INFO',
-                              field: 'CIRCUIT_INFO_Column',
+                              field: 'CIRCUIT_TYPE_Column',
                               width: 225,
                               titleTextAlign: PlutoColumnTextAlign.start,
                               textAlign: PlutoColumnTextAlign.center,
@@ -668,25 +664,16 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration:
-                                      BoxDecoration(gradient: whiteGradient),
-                                  child: Center(
-                                      child: Text(rendererContext.cell.value)),
+                                  decoration: BoxDecoration(gradient: whiteGradient),
+                                  child: Center(child: Text(rendererContext.cell.value)),
                                 );
                               },
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(
-                                    child: Icon(Icons.local_offer_outlined,
-                                        color: AppTheme.of(context)
-                                            .primaryBackground)),
+                                WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(
-                                    text: 'Line Item',
-                                    style: TextStyle(
-                                        color: AppTheme.of(context)
-                                            .primaryBackground))
+                                TextSpan(text: 'Line Item', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'LINE ITEM',
@@ -701,25 +688,16 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration:
-                                      BoxDecoration(gradient: whiteGradient),
-                                  child: Center(
-                                      child: Text(rendererContext.cell.value)),
+                                  decoration: BoxDecoration(gradient: whiteGradient),
+                                  child: Center(child: Text(rendererContext.cell.value)),
                                 );
                               },
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(
-                                    child: Icon(Icons.attach_money_outlined,
-                                        color: AppTheme.of(context)
-                                            .primaryBackground)),
+                                WidgetSpan(child: Icon(Icons.attach_money_outlined, color: AppTheme.of(context).primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(
-                                    text: 'Unit Price',
-                                    style: TextStyle(
-                                        color: AppTheme.of(context)
-                                            .primaryBackground))
+                                TextSpan(text: 'Unit Price', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'UNIT PRICE',
@@ -734,11 +712,8 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration:
-                                      BoxDecoration(gradient: whiteGradient),
-                                  child: Center(
-                                      child: Text(rendererContext.cell.value
-                                          .toString())),
+                                  decoration: BoxDecoration(gradient: whiteGradient),
+                                  child: Center(child: Text(rendererContext.cell.value.toString())),
                                 );
                               },
                               footerRenderer: (rendererContext) {
@@ -749,22 +724,12 @@ class _CotizadorState extends State<Cotizador> {
                                   alignment: Alignment.center,
                                   titleSpanBuilder: (text) {
                                     return [
-                                      TextSpan(
-                                          text: ' \$ ',
-                                          style: TextStyle(
-                                              color: AppTheme.of(context)
-                                                  .primaryBackground)),
+                                      TextSpan(text: ' \$ ', style: TextStyle(color: AppTheme.of(context).primaryBackground)),
                                       TextSpan(
                                         text: text,
-                                        style: TextStyle(
-                                            color: AppTheme.of(context)
-                                                .primaryBackground),
+                                        style: TextStyle(color: AppTheme.of(context).primaryBackground),
                                       ),
-                                      TextSpan(
-                                          text: ' USD',
-                                          style: TextStyle(
-                                              color: AppTheme.of(context)
-                                                  .primaryBackground)),
+                                      TextSpan(text: ' USD', style: TextStyle(color: AppTheme.of(context).primaryBackground)),
                                     ];
                                   },
                                 );
@@ -772,16 +737,9 @@ class _CotizadorState extends State<Cotizador> {
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(
-                                    child: Icon(Icons.price_check_outlined,
-                                        color: AppTheme.of(context)
-                                            .primaryBackground)),
+                                WidgetSpan(child: Icon(Icons.price_check_outlined, color: AppTheme.of(context).primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(
-                                    text: 'Unit Cost',
-                                    style: TextStyle(
-                                        color: AppTheme.of(context)
-                                            .primaryBackground))
+                                TextSpan(text: 'Unit Cost', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'UNIT COST',
@@ -796,11 +754,8 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration:
-                                      BoxDecoration(gradient: whiteGradient),
-                                  child: Center(
-                                      child: Text(rendererContext.cell.value
-                                          .toString())),
+                                  decoration: BoxDecoration(gradient: whiteGradient),
+                                  child: Center(child: Text(rendererContext.cell.value.toString())),
                                 );
                               },
                               footerRenderer: (rendererContext) {
@@ -811,22 +766,12 @@ class _CotizadorState extends State<Cotizador> {
                                   alignment: Alignment.center,
                                   titleSpanBuilder: (text) {
                                     return [
-                                      TextSpan(
-                                          text: ' \$ ',
-                                          style: TextStyle(
-                                              color: AppTheme.of(context)
-                                                  .primaryBackground)),
+                                      TextSpan(text: ' \$ ', style: TextStyle(color: AppTheme.of(context).primaryBackground)),
                                       TextSpan(
                                         text: text,
-                                        style: TextStyle(
-                                            color: AppTheme.of(context)
-                                                .primaryBackground),
+                                        style: TextStyle(color: AppTheme.of(context).primaryBackground),
                                       ),
-                                      TextSpan(
-                                          text: ' USD',
-                                          style: TextStyle(
-                                              color: AppTheme.of(context)
-                                                  .primaryBackground)),
+                                      TextSpan(text: ' USD', style: TextStyle(color: AppTheme.of(context).primaryBackground)),
                                     ];
                                   },
                                 );
@@ -834,16 +779,9 @@ class _CotizadorState extends State<Cotizador> {
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(
-                                    child: Icon(Icons.shopping_cart_outlined,
-                                        color: AppTheme.of(context)
-                                            .primaryBackground)),
+                                WidgetSpan(child: Icon(Icons.shopping_cart_outlined, color: AppTheme.of(context).primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(
-                                    text: 'Quantity',
-                                    style: TextStyle(
-                                        color: AppTheme.of(context)
-                                            .primaryBackground))
+                                TextSpan(text: 'Quantity', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'QUANTITY',
@@ -858,26 +796,16 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration:
-                                      BoxDecoration(gradient: whiteGradient),
-                                  child: Center(
-                                      child: Text(rendererContext.cell.value
-                                          .toString())),
+                                  decoration: BoxDecoration(gradient: whiteGradient),
+                                  child: Center(child: Text(rendererContext.cell.value.toString())),
                                 );
                               },
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(
-                                    child: Icon(Icons.settings,
-                                        color: AppTheme.of(context)
-                                            .primaryBackground)),
+                                WidgetSpan(child: Icon(Icons.settings, color: AppTheme.of(context).primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(
-                                    text: 'Actions',
-                                    style: TextStyle(
-                                        color: AppTheme.of(context)
-                                            .primaryBackground))
+                                TextSpan(text: 'Actions', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'ACTIONS',
@@ -892,11 +820,8 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration:
-                                      BoxDecoration(gradient: whiteGradient),
-                                  child: Center(
-                                      child: Text(rendererContext.cell.value
-                                          .toString())),
+                                  decoration: BoxDecoration(gradient: whiteGradient),
+                                  child: Center(child: Text(rendererContext.cell.value.toString())),
                                 );
                               },
                             ),
