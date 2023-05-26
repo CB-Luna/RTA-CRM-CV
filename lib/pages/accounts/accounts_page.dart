@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/pages/users_page/widgets/add_user_popup.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -84,9 +84,16 @@ class _AccountsPageState extends State<AccountsPage> {
                               icon: Icon(Icons.add,
                                   color:
                                       AppTheme.of(context).primaryBackground),
-                              text: 'Add Quote',
-                              onTap: () async {
-                                context.pushReplacement('/add_quote');
+                              text: 'Add User',
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(
+                                          builder: (context, setState) {
+                                        return const AddUserPopUp();
+                                      });
+                                    });
                               },
                             )
                           ],
@@ -217,7 +224,7 @@ class _AccountsPageState extends State<AccountsPage> {
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
-                                      text: 'User',
+                                      text: 'USER',
                                       style: TextStyle(
                                           color: AppTheme.of(context)
                                               .primaryBackground))
@@ -251,7 +258,7 @@ class _AccountsPageState extends State<AccountsPage> {
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
-                                      text: 'Role',
+                                      text: 'ROLE',
                                       style: TextStyle(
                                           color: AppTheme.of(context)
                                               .primaryBackground))
@@ -285,7 +292,7 @@ class _AccountsPageState extends State<AccountsPage> {
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
-                                      text: 'Email',
+                                      text: 'EMAIL',
                                       style: TextStyle(
                                           color: AppTheme.of(context)
                                               .primaryBackground))
@@ -319,7 +326,7 @@ class _AccountsPageState extends State<AccountsPage> {
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
-                                      text: 'Mobile Phone',
+                                      text: 'MOBILE PHONE',
                                       style: TextStyle(
                                           color: AppTheme.of(context)
                                               .primaryBackground))
@@ -353,7 +360,7 @@ class _AccountsPageState extends State<AccountsPage> {
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
-                                      text: 'State',
+                                      text: 'STATE',
                                       style: TextStyle(
                                           color: AppTheme.of(context)
                                               .primaryBackground))
@@ -427,7 +434,7 @@ class _AccountsPageState extends State<AccountsPage> {
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
-                                      text: 'Actions',
+                                      text: 'ACTIONS',
                                       style: TextStyle(
                                           color: AppTheme.of(context)
                                               .primaryBackground))

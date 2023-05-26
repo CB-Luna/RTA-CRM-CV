@@ -54,15 +54,15 @@ class _SideMenuState extends State<SideMenu> {
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                AppTheme.themeMode == ThemeMode.dark
-                                    ? Image.network(
-                                        assets.logoBlanco,
-                                        height: getHeight(60, context),
-                                      )
-                                    : Image.network(
-                                        assets.logoColor,
-                                        height: getHeight(60, context),
-                                      ),
+                                // Image.network(
+                                //   'https://rtatel.com/wp-content/uploads/2022/11/cropped-RTAREGISTERED.png',
+                                //   height: getHeight(60, context),
+                                // ),
+                                Image.asset(
+                                  "assets/images/rta_logo.png",
+                                  height: getHeight(60, context),
+                                ),
+
                                 InkWell(
                                   hoverColor: Colors.transparent,
                                   child: Icon(
@@ -83,15 +83,15 @@ class _SideMenuState extends State<SideMenu> {
                           : Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                AppTheme.themeMode == ThemeMode.dark
-                                    ? Image.network(
-                                        assets.logoBlanco,
-                                        height: getHeight(60, context),
-                                      )
-                                    : Image.network(
-                                        assets.logoColor,
-                                        height: getHeight(60, context),
-                                      ),
+                                // Image.network(
+                                //   'https://rtatel.com/wp-content/uploads/2022/11/cropped-RTAREGISTERED.png',
+                                //   height: getHeight(30, context),
+                                // ),
+                                Image.asset(
+                                  "assets/images/rta_logo.png",
+                                  height: getHeight(30, context),
+                                ),
+
                                 InkWell(
                                   hoverColor: Colors.transparent,
                                   child: Icon(
@@ -116,10 +116,11 @@ class _SideMenuState extends State<SideMenu> {
                 ),
                 SideMenuFooter(
                   isOpen: provider.isOpen,
-                  image:
-                      'https://www.sadm.gob.mx/AyD_Aclaraciones/Content/user.png',
-                  text1: 'Loremipsum 1',
-                  text2: 'Loermipsum 2',
+                  // image:
+                  //     'https://www.sadm.gob.mx/AyD_Aclaraciones/Content/user.png',
+                  image: "assets/images/user.png",
+                  text1: 'Michael Scott ',
+                  text2: 'Administrator',
                 )
               ],
             ),

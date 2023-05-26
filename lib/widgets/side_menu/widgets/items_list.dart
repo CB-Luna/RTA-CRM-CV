@@ -31,7 +31,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 ? Rive(artboard: provider.aRDashboards!)
                 : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
-            title: 'Dashbords',
+            title: 'Employees',
             onTap: () async {
               context.pushReplacement('/dashboards');
             },
@@ -48,7 +48,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 ? Rive(artboard: provider.aRAccounts!)
                 : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
-            title: 'Accounts',
+            title: 'Monitory',
             onTap: () async {
               context.pushReplacement('/accounts');
             },
@@ -65,7 +65,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 ? Rive(artboard: provider.aRSchedulings!)
                 : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
-            title: 'Scheduling',
+            //title: 'Scheduling',
+            title: 'Inventory',
+
             onTap: () async {
               context.pushReplacement('/schedulings');
             },
@@ -82,7 +84,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 ? Rive(artboard: provider.aRNetworks!)
                 : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
-            title: 'Network',
+            title: 'Dashboards',
             onTap: () async {
               context.pushReplacement('/network');
             },
@@ -93,6 +95,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               provider.iHoverNetworks?.change(false);
             },
           ),
+          /*
           SideMenuItem(
             selected: provider.indexSelected[4],
             leading: provider.aRTickets != null
@@ -110,6 +113,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               provider.iHoverTickets?.change(false);
             },
           ),
+          
           SideMenuItem(
             selected: provider.indexSelected[5],
             leading: provider.aRInventories != null
@@ -161,6 +165,24 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               provider.iHoverUsers?.change(false);
             },
           ),
+          SideMenuItem(
+            selected: provider.indexSelected[9],
+            leading: provider.aRUsers != null
+                ? Rive(artboard: provider.aRUsers!)
+                : const CircularProgressIndicator(),
+            isOpen: widget.isOpen,
+            title: 'Employees',
+            onTap: () async {
+              context.pushReplacement('/employees');
+            },
+            onEnter: (event) {
+              provider.iHoverUsers?.change(false);
+            },
+            onExit: (event) {
+              provider.iHoverUsers?.change(false);
+            },
+          ),
+          */
           SideMenuItem(
             selected: provider.indexSelected[8],
             leading: Icon(Icons.color_lens_outlined,

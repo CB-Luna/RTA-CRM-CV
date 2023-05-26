@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:rta_crm_cv/pages/accounts/widgets/cotizador.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/pages/monitory_page/monitory_page.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
+
+import '../pages/employees_page/employees_page.dart';
+import '../pages/inventory_page/inventory_page.dart';
 
 /// The route configuration.
 final GoRouter router = GoRouter(
@@ -70,46 +73,37 @@ final GoRouter router = GoRouter(
       path: '/dashboards',
       name: 'Dashboards',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsPage();
+        return const EmployeesPage();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const DashboardsPage()),
+          pageTransition(context, state, const EmployeesPage()),
     ),
     GoRoute(
       path: '/accounts',
       name: 'Accounts',
       builder: (BuildContext context, GoRouterState state) {
-        return const AccountsPage();
+        return MonitoryPage();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const AccountsPage()),
-    ),
-    GoRoute(
-      path: '/adD_quote',
-      name: 'Add Quote',
-      builder: (BuildContext context, GoRouterState state) {
-        return const AccountsPage();
-      },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const Cotizador()),
+          pageTransition(context, state, MonitoryPage()),
     ),
     GoRoute(
       path: '/schedulings',
       name: 'Schedulings',
       builder: (BuildContext context, GoRouterState state) {
-        return const SchedulingsPage();
+        return InventoryPage();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const SchedulingsPage()),
+          pageTransition(context, state, InventoryPage()),
     ),
     GoRoute(
       path: '/network',
       name: 'Network',
       builder: (BuildContext context, GoRouterState state) {
-        return const NetworkPage();
+        return DashboardsPage();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const NetworkPage()),
+          pageTransition(context, state, DashboardsPage()),
     ),
     GoRoute(
       path: '/tickets',
@@ -124,10 +118,10 @@ final GoRouter router = GoRouter(
       path: '/inventory',
       name: 'Inventory',
       builder: (BuildContext context, GoRouterState state) {
-        return const InventoryPage();
+        return InventoryPage();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const InventoryPage()),
+          pageTransition(context, state, InventoryPage()),
     ),
     GoRoute(
       path: '/reports',
@@ -146,6 +140,15 @@ final GoRouter router = GoRouter(
       },
       pageBuilder: (context, state) =>
           pageTransition(context, state, const UsersPage()),
+    ),
+    GoRoute(
+      path: '/employees',
+      name: 'Employees',
+      builder: (BuildContext context, GoRouterState state) {
+        return const EmployeesPage();
+      },
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const EmployeesPage()),
     ),
 
     /////////////////////////////////////////////////////////////////////////////////

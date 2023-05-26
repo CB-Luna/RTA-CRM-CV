@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
-import 'package:rta_crm_cv/helpers/supabase/queries.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 
+import 'package:rta_crm_cv/helpers/supabase/queries.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/router/router.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
@@ -41,6 +41,15 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => UsersProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MonitoryProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => InventoryProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => EmployeesProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),
