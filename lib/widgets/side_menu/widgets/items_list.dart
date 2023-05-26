@@ -31,7 +31,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 ? Rive(artboard: provider.aRDashboards!)
                 : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
-            title: 'Employees',
+            title: 'Dashbords',
             onTap: () async {
               context.pushReplacement('/dashboards');
             },
@@ -48,7 +48,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 ? Rive(artboard: provider.aRAccounts!)
                 : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
-            title: 'Monitory',
+            title: 'Accounts',
             onTap: () async {
               context.pushReplacement('/accounts');
             },
@@ -65,9 +65,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 ? Rive(artboard: provider.aRSchedulings!)
                 : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
-            //title: 'Scheduling',
-            title: 'Inventory',
-
+            title: 'Scheduling',
             onTap: () async {
               context.pushReplacement('/schedulings');
             },
@@ -84,7 +82,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 ? Rive(artboard: provider.aRNetworks!)
                 : const CircularProgressIndicator(),
             isOpen: widget.isOpen,
-            title: 'Dashboards',
+            title: 'Network',
             onTap: () async {
               context.pushReplacement('/network');
             },
@@ -95,7 +93,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               provider.iHoverNetworks?.change(false);
             },
           ),
-          /*
           SideMenuItem(
             selected: provider.indexSelected[4],
             leading: provider.aRTickets != null
@@ -113,7 +110,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               provider.iHoverTickets?.change(false);
             },
           ),
-          
           SideMenuItem(
             selected: provider.indexSelected[5],
             leading: provider.aRInventories != null
@@ -182,7 +178,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               provider.iHoverUsers?.change(false);
             },
           ),
-          */
           SideMenuItem(
             selected: provider.indexSelected[8],
             leading: Icon(Icons.color_lens_outlined,
