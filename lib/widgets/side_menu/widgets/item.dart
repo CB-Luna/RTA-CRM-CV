@@ -30,7 +30,7 @@ class SideMenuItem extends StatefulWidget {
 class _SideMenuItemState extends State<SideMenuItem> {
   @override
   Widget build(BuildContext context) {
-    double padding = 25;
+    double padding = 20;
     String? title = widget.title;
 
     return Material(
@@ -63,7 +63,9 @@ class _SideMenuItemState extends State<SideMenuItem> {
                 highlightColor: Colors.transparent,
                 onTap: widget.onTap,
                 child: Row(
-                  mainAxisAlignment: widget.isOpen ? MainAxisAlignment.start : MainAxisAlignment.center,
+                  mainAxisAlignment: widget.isOpen
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.center,
                   children: [
                     SizedBox(height: 40, width: 40, child: widget.leading),
                     if (title != null && widget.isOpen == true)
@@ -77,7 +79,8 @@ class _SideMenuItemState extends State<SideMenuItem> {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 5,
                               blurRadius: 2,
-                              offset: const Offset(0, 3), // changes position of shadow
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
                             ),
                           ],
                         ),

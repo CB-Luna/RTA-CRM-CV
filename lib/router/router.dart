@@ -15,6 +15,7 @@ import 'package:rta_crm_cv/pages/tickets_page.dart';
 import 'package:rta_crm_cv/pages/users/users_page.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 
+import '../pages/employees_page/employees_page.dart';
 import '../pages/inventory_page/inventory_page.dart';
 
 /// The route configuration.
@@ -147,6 +148,15 @@ final GoRouter router = GoRouter(
       },
       pageBuilder: (context, state) =>
           pageTransition(context, state, const UsersPage()),
+    ),
+    GoRoute(
+      path: '/employees',
+      name: 'Employees',
+      builder: (BuildContext context, GoRouterState state) {
+        return const EmployeesPage();
+      },
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const EmployeesPage()),
     ),
 
     /////////////////////////////////////////////////////////////////////////////////
