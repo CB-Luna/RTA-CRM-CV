@@ -24,7 +24,9 @@ class _SideMenuState extends State<SideMenu> {
         decoration: BoxDecoration(gradient: whiteGradient),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          width: provider.isOpen ? MediaQuery.of(context).size.width * 300 / 1440 : 100,
+          width: provider.isOpen
+              ? MediaQuery.of(context).size.width * 300 / 1440
+              : 100,
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             //color: primaryColor,
@@ -44,15 +46,21 @@ class _SideMenuState extends State<SideMenu> {
                 Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 10, bottom: 10, right: 10),
+                      padding: const EdgeInsets.only(
+                          left: 10, bottom: 10, right: 10),
                       child: provider.isOpen
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Image.network(
-                                  'https://rtatel.com/wp-content/uploads/2022/11/cropped-RTAREGISTERED.png',
+                                // Image.network(
+                                //   'https://rtatel.com/wp-content/uploads/2022/11/cropped-RTAREGISTERED.png',
+                                //   height: getHeight(60, context),
+                                // ),
+                                Image.asset(
+                                  "assets/images/rta_logo.png",
                                   height: getHeight(60, context),
                                 ),
+
                                 InkWell(
                                   hoverColor: Colors.transparent,
                                   child: Icon(
@@ -63,7 +71,8 @@ class _SideMenuState extends State<SideMenu> {
                                   onTap: () {
                                     setState(() {
                                       provider.isOpen = !provider.isOpen;
-                                      provider.forcedOpen = !provider.forcedOpen;
+                                      provider.forcedOpen =
+                                          !provider.forcedOpen;
                                     });
                                   },
                                 )
@@ -72,10 +81,15 @@ class _SideMenuState extends State<SideMenu> {
                           : Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Image.network(
-                                  'https://rtatel.com/wp-content/uploads/2022/11/cropped-RTAREGISTERED.png',
+                                // Image.network(
+                                //   'https://rtatel.com/wp-content/uploads/2022/11/cropped-RTAREGISTERED.png',
+                                //   height: getHeight(30, context),
+                                // ),
+                                Image.asset(
+                                  "assets/images/rta_logo.png",
                                   height: getHeight(30, context),
                                 ),
+
                                 InkWell(
                                   hoverColor: Colors.transparent,
                                   child: Icon(
@@ -86,7 +100,8 @@ class _SideMenuState extends State<SideMenu> {
                                   onTap: () {
                                     setState(() {
                                       provider.isOpen = !provider.isOpen;
-                                      provider.forcedOpen = !provider.forcedOpen;
+                                      provider.forcedOpen =
+                                          !provider.forcedOpen;
                                     });
                                   },
                                 )
@@ -99,7 +114,8 @@ class _SideMenuState extends State<SideMenu> {
                 ),
                 SideMenuFooter(
                   isOpen: provider.isOpen,
-                  image: 'https://www.sadm.gob.mx/AyD_Aclaraciones/Content/user.png',
+                  image:
+                      'https://www.sadm.gob.mx/AyD_Aclaraciones/Content/user.png',
                   text1: 'Loremipsum 1',
                   text2: 'Loermipsum 2',
                 )

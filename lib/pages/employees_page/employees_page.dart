@@ -45,7 +45,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
 
     return Material(
       child: SizedBox(
-        height: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height * 200,
         width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -53,6 +53,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
             const SideMenu(),
             Flexible(
               child: Container(
+                alignment: Alignment.topCenter,
                 decoration: BoxDecoration(gradient: whiteGradient),
                 child: CustomCard(
                   title: 'Employees',
@@ -100,7 +101,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.7,
                         width: getWidth(2450, context),
                         child: PlutoGrid(
                           key: UniqueKey(),

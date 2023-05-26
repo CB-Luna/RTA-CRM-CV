@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:flutter/material.dart';
@@ -149,10 +151,30 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                           PlutoColumn(
                                             title: 'id_Control_Form',
                                             field: 'id_control_form',
+                                            titleSpan: const TextSpan(
+                                              children: [
+                                                WidgetSpan(
+                                                  child: Icon(
+                                                    Icons.view_agenda_outlined,
+                                                    color: Color(0xffF3F7F9),
+                                                    size: 30,
+                                                  ),
+                                                ),
+                                                WidgetSpan(
+                                                    child: SizedBox(
+                                                  width: 10,
+                                                )),
+                                                TextSpan(
+                                                    text: 'idControlForm',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
+                                              ],
+                                            ),
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.12,
+                                                0.16,
                                             cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
@@ -180,7 +202,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.12,
+                                                0.14,
                                             titleSpan: const TextSpan(
                                               children: [
                                                 WidgetSpan(
@@ -194,10 +216,15 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'id_Vehicle'),
+                                                TextSpan(
+                                                    text: 'id_Vehicle',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
                                               ],
                                             ),
-                                            backgroundColor: Color(0XFF6491F7),
+                                            backgroundColor:
+                                                const Color(0XFF6491F7),
                                             cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
@@ -235,13 +262,17 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'employee'),
+                                                TextSpan(
+                                                    text: 'Employee',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.12,
+                                                0.14,
                                             cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
@@ -278,13 +309,17 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'typeForm'),
+                                                TextSpan(
+                                                    text: 'TypeForm',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.11,
+                                                0.13,
                                             cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
@@ -301,8 +336,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     gradient: whiteGradient),
                                                 child: Center(
                                                     child: Text(rendererContext
-                                                        .cell.value
-                                                        .toString())),
+                                                                .cell.value ==
+                                                            true
+                                                        ? "Received"
+                                                        : "Delivered")),
                                               );
                                             },
                                           ),
@@ -322,7 +359,11 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'VIN'),
+                                                TextSpan(
+                                                    text: 'VIN',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
@@ -366,13 +407,16 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                   width: 10,
                                                 )),
                                                 TextSpan(
-                                                    text: 'License Plates'),
+                                                    text: 'License Plates',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.14,
+                                                0.16,
                                             cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
@@ -410,13 +454,17 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'Company'),
+                                                TextSpan(
+                                                    text: 'Company',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.11,
+                                                0.13,
                                             cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
@@ -453,13 +501,17 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'gas'),
+                                                TextSpan(
+                                                    text: 'gas',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.08,
+                                                0.10,
                                             cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
@@ -497,7 +549,11 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'mileage'),
+                                                TextSpan(
+                                                    text: 'mileage',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
@@ -542,7 +598,11 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'Date Added'),
+                                                TextSpan(
+                                                    text: 'Date Added',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
                                               ],
                                             ),
                                             width: 300,
@@ -726,8 +786,9 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                   ),
                             Container(
                               padding: EdgeInsets.only(top: 40, bottom: 40),
-                              height: 400,
-                              //child: Calendario(),
+                              //color: Colors.red,
+                              height: 905,
+                              child: Calendario(),
                             )
                           ],
                         ),
