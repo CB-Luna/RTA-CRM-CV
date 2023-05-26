@@ -25,7 +25,7 @@ class _SideMenuFooterState extends State<SideMenuFooter> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      width: widget.isOpen ? getWidth(500, context) : 80,
+      width: widget.isOpen ? getWidth(380, context) : 80,
       decoration: BoxDecoration(
         gradient: whiteGradient,
         border: Border.all(color: textColor),
@@ -34,40 +34,45 @@ class _SideMenuFooterState extends State<SideMenuFooter> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: widget.isOpen ? 20 : 10, vertical: widget.isOpen ? 20 : 0),
         child: widget.isOpen
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Row(
-                      children: [
-                        Image.network(
-                          widget.image,
-                          height: getWidth(60, context),
-                        ),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          width: getWidth(160, context),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(widget.text1),
-                              Divider(
-                                thickness: 0.67,
-                                color: textColor,
+            ? SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: SizedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Row(
+                          children: [
+                            Image.network(
+                              widget.image,
+                              height: getWidth(60, context),
+                            ),
+                            const SizedBox(width: 10),
+                            SizedBox(
+                              width: getWidth(160, context),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(widget.text1),
+                                  Divider(
+                                    thickness: 0.67,
+                                    color: textColor,
+                                  ),
+                                  Text(widget.text2),
+                                ],
                               ),
-                              Text(widget.text2),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const Icon(
+                        Icons.settings,
+                        size: 30,
+                      )
+                    ],
                   ),
-                  const Icon(
-                    Icons.settings,
-                    size: 30,
-                  )
-                ],
+                ),
               )
             : Image.network(
                 widget.image,
