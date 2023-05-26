@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 
 class CustomTextField extends StatefulWidget {
   const CustomTextField({
     super.key,
-    required this.label,
-    required this.icon,
-    required this.controller,
-    required this.enabled,
     this.width = 500,
+    required this.enabled,
+    required this.controller,
+    required this.icon,
+    required this.label,
+    required this.keyboardType,
+    this.inputFormatters,
   });
 
   final String label;
   final IconData icon;
   final TextEditingController controller;
   final bool enabled;
+  final TextInputType keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
   final double width;
 
   @override
@@ -43,6 +48,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         child: TextField(
           controller: widget.controller,
           enabled: widget.enabled,
+          keyboardType: widget.keyboardType,
+          inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
             disabledBorder: OutlineInputBorder(
               borderSide:

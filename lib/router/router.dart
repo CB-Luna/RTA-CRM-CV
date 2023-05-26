@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:rta_crm_cv/pages/accounts/widgets/cotizador.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
@@ -82,6 +83,15 @@ final GoRouter router = GoRouter(
       },
       pageBuilder: (context, state) =>
           pageTransition(context, state, const AccountsPage()),
+    ),
+    GoRoute(
+      path: '/adD_quote',
+      name: 'Add Quote',
+      builder: (BuildContext context, GoRouterState state) {
+        return const AccountsPage();
+      },
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const Cotizador()),
     ),
     GoRoute(
       path: '/schedulings',

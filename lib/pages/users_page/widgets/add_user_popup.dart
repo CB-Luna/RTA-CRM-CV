@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/get_image_widget.dart';
 
 import 'package:rta_crm_cv/providers/providers.dart';
-import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -73,6 +72,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         controller: provider.nameController,
                         enabled: true,
                         width: 350,
+                        keyboardType: TextInputType.name,
                       ),
                     ),
                     Padding(
@@ -83,6 +83,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         controller: provider.lastNameController,
                         enabled: true,
                         width: 350,
+                        keyboardType: TextInputType.name,
                       ),
                     ),
                     Padding(
@@ -93,6 +94,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         controller: provider.emailController,
                         enabled: true,
                         width: 350,
+                        keyboardType: TextInputType.emailAddress,
                       ),
                     ),
                     Padding(
@@ -103,11 +105,12 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         controller: provider.phoneController,
                         enabled: true,
                         width: 350,
+                        keyboardType: TextInputType.phone,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomDrowDown(
+                      child: CustomDropDown(
                         hint: 'Choose a state',
                         label: 'State',
                         icon: Icons.location_on_outlined,
@@ -122,7 +125,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomDrowDown(
+                      child: CustomDropDown(
                         hint: 'Choose a role',
                         label: 'Role',
                         icon: Icons.local_offer_outlined,

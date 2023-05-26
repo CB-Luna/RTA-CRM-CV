@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/pages/users_page/widgets/add_user_popup.dart';
-import 'package:rta_crm_cv/providers/side_menu_provider.dart';
-import 'package:rta_crm_cv/providers/users_provider.dart';
+import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -15,14 +14,14 @@ import 'package:rta_crm_cv/widgets/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
-class UsersPage extends StatefulWidget {
-  const UsersPage({super.key});
+class AccountsPage extends StatefulWidget {
+  const AccountsPage({super.key});
 
   @override
-  State<UsersPage> createState() => _UsersPageState();
+  State<AccountsPage> createState() => _AccountsPageState();
 }
 
-class _UsersPageState extends State<UsersPage> {
+class _AccountsPageState extends State<AccountsPage> {
   @override
   void initState() {
     super.initState();
@@ -41,7 +40,7 @@ class _UsersPageState extends State<UsersPage> {
     UsersProvider provider = Provider.of<UsersProvider>(context);
 
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
-    sideM.setIndex(7);
+    sideM.setIndex(1);
 
     return Material(
       child: SizedBox(
@@ -55,7 +54,7 @@ class _UsersPageState extends State<UsersPage> {
               child: Container(
                 decoration: BoxDecoration(gradient: whiteGradient),
                 child: CustomCard(
-                  title: 'User List',
+                  title: 'Accounts',
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -85,19 +84,9 @@ class _UsersPageState extends State<UsersPage> {
                               icon: Icon(Icons.add,
                                   color:
                                       AppTheme.of(context).primaryBackground),
-                              text: 'Add User',
+                              text: 'Add Quote',
                               onTap: () async {
-                                provider.clearControllers(notify: false);
-                                await provider.getRoles(notify: false);
-                                await provider.getStates(notify: false);
-                                if (!mounted) return;
-                                await showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return const AddUserPopUp();
-                                  },
-                                );
-                                await provider.updateState();
+                                context.pushReplacement('/add_quote');
                               },
                             )
                           ],
@@ -228,7 +217,7 @@ class _UsersPageState extends State<UsersPage> {
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
-                                      text: 'USER',
+                                      text: 'User',
                                       style: TextStyle(
                                           color: AppTheme.of(context)
                                               .primaryBackground))
@@ -262,7 +251,7 @@ class _UsersPageState extends State<UsersPage> {
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
-                                      text: 'ROLE',
+                                      text: 'Role',
                                       style: TextStyle(
                                           color: AppTheme.of(context)
                                               .primaryBackground))
@@ -296,7 +285,7 @@ class _UsersPageState extends State<UsersPage> {
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
-                                      text: 'EMAIL',
+                                      text: 'Email',
                                       style: TextStyle(
                                           color: AppTheme.of(context)
                                               .primaryBackground))
@@ -330,7 +319,7 @@ class _UsersPageState extends State<UsersPage> {
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
-                                      text: 'MOBILE PHONE',
+                                      text: 'Mobile Phone',
                                       style: TextStyle(
                                           color: AppTheme.of(context)
                                               .primaryBackground))
@@ -364,7 +353,7 @@ class _UsersPageState extends State<UsersPage> {
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
-                                      text: 'STATE',
+                                      text: 'State',
                                       style: TextStyle(
                                           color: AppTheme.of(context)
                                               .primaryBackground))
@@ -433,19 +422,15 @@ class _UsersPageState extends State<UsersPage> {
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
                                   WidgetSpan(
-                                    child: Icon(Icons.list,
-                                        color: AppTheme.of(context)
-                                            .primaryBackground),
-                                  ),
-                                  const WidgetSpan(
-                                    child: SizedBox(width: 10),
-                                  ),
+                                      child: Icon(Icons.list,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
-                                    text: 'ACTIONS',
-                                    style: TextStyle(
-                                        color: AppTheme.of(context)
-                                            .primaryBackground),
-                                  )
+                                      text: 'Actions',
+                                      style: TextStyle(
+                                          color: AppTheme.of(context)
+                                              .primaryBackground))
                                 ]),
                                 backgroundColor: Color(0XFF6491F7),
                                 title: 'ACTIONS',
@@ -486,12 +471,7 @@ class _UsersPageState extends State<UsersPage> {
                                           ),
                                           color: secondaryColor,
                                           text: 'Delete',
-                                          onTap: () async {
-                                            await provider.deleteUser(
-                                              rendererContext.cell.value,
-                                            );
-                                            await provider.getUsers();
-                                          },
+                                          onTap: () {},
                                         ),
                                         /* InkWell(
                                           hoverColor: Colors.transparent,
@@ -541,16 +521,12 @@ class _UsersPageState extends State<UsersPage> {
                                         ),
                                         const SizedBox(width: 5),
                                         SizedBox(
-                                          width: 30,
-                                          child: Center(
-                                            child: Text(
-                                              provider.page.toString(),
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                            width: 30,
+                                            child: Center(
+                                                child: Text(
+                                                    provider.page.toString(),
+                                                    style: TextStyle(
+                                                        color: Colors.white)))),
                                         const SizedBox(width: 5),
                                         CustomIconButton(
                                           icon: Icons
@@ -572,16 +548,12 @@ class _UsersPageState extends State<UsersPage> {
                                       ],
                                     ),
                                   );
-                                  //PlutoPagination(context.stateManager);
                                 },
                               ),
                             ],
                             rows: provider.rows,
                             onLoaded: (event) async {
                               provider.stateManager = event.stateManager;
-                              // provider.stateManager!.setShowColumnFilter(true);
-                              // provider.stateManager!.showFilterPopup(context);
-                              // provider.stateManager!.setPage(10);
                             },
                             createFooter: (stateManager) {
                               stateManager.setPageSize(provider.pageRowCount);

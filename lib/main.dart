@@ -25,10 +25,10 @@ void main() async {
 
   await initGlobals();
 
-   Configuration? conf = await SupabaseQueries.getUserTheme();
+  Configuration? conf = await SupabaseQueries.getUserTheme();
 
   //obtener tema
-   AppTheme.initConfiguration(conf);
+  AppTheme.initConfiguration(conf);
 
   runApp(
     MultiProvider(

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
-class CustomDrowDown extends StatefulWidget {
-  const CustomDrowDown({
+class CustomDropDown extends StatefulWidget {
+  const CustomDropDown({
     super.key,
     required this.list,
     required this.dropdownValue,
@@ -11,7 +11,7 @@ class CustomDrowDown extends StatefulWidget {
     required this.icon,
     required this.label,
     required this.width,
-    required this.hint,
+    this.hint,
   });
 
   final double width;
@@ -20,13 +20,13 @@ class CustomDrowDown extends StatefulWidget {
   final List<String> list;
   final String? dropdownValue;
   final Function(String?) onChanged;
-  final String hint;
+  final String? hint;
 
   @override
-  State<CustomDrowDown> createState() => _CustomDrowDownState();
+  State<CustomDropDown> createState() => _CustomDropDownState();
 }
 
-class _CustomDrowDownState extends State<CustomDrowDown> {
+class _CustomDropDownState extends State<CustomDropDown> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -64,7 +64,7 @@ class _CustomDrowDownState extends State<CustomDrowDown> {
                 width: widget.width - 50,
                 child: DropdownButton<String>(
                   hint: Text(
-                    widget.hint,
+                    widget.hint ?? '',
                     style: TextStyle(color: primaryColor),
                   ),
                   icon: Expanded(
