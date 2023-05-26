@@ -7,7 +7,7 @@ import 'package:rta_crm_cv/pages/accounts_page.dart';
 import 'package:rta_crm_cv/pages/config_page/config_page.dart';
 import 'package:rta_crm_cv/pages/dashboards_page.dart';
 import 'package:rta_crm_cv/pages/monitory_page/monitory_page.dart';
-import 'package:rta_crm_cv/pages/network_page.dart';
+//import 'package:rta_crm_cv/pages/network_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 import 'package:rta_crm_cv/pages/reports_page.dart';
 import 'package:rta_crm_cv/pages/schedulings_page.dart';
@@ -110,7 +110,7 @@ final GoRouter router = GoRouter(
         return MonitoryPage();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const NetworkPage()),
+          pageTransition(context, state, MonitoryPage()),
     ),
     GoRoute(
       path: '/tickets',

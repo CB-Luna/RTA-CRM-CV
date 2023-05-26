@@ -1,10 +1,14 @@
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:flutter/material.dart';
+import 'package:rta_crm_cv/pages/monitory_page/widgets/Search_bar_monitory.dart';
+import 'package:rta_crm_cv/pages/monitory_page/widgets/calendar.dart';
 
 //import 'widgets/carga_de_ticket_popup.dart';
 import '../../helpers/constants.dart';
 import '../../providers/monitory_provider.dart';
+import '../../public/colors.dart';
+import '../../widgets/side_menu/sidemenu.dart';
 
 final List<LinearGradient> gradients = [
   const LinearGradient(colors: [
@@ -65,30 +69,24 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
-              // TopMenuWidget(
-              //     //title: currentUser!.rol.rolId == 3
-              //     title: 'Inventory Vehicle'
-              //     //: 'Inventory',
-              //     ),
               // ROW que abarca desde el sideMenuWidget y el gran container de toda la información
               Expanded(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    //const SideMenuWidget(),
+                    const SideMenu(),
                     Expanded(
                       child: Padding(
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
-                        child: Column(
+                        child: ListView(
                           children: [
                             //HEADER
                             const SizedBox(
                               height: 20,
                             ),
 
-                            // InventoryPageHeader(),
-                            //ESTATUS STEPPER
+                            MonitoryPageHeader(),
                             const SizedBox(
                               height: 20,
                             ),
@@ -120,7 +118,9 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                 )),
                             widget.provider.monitory.isEmpty
                                 ? const CircularProgressIndicator()
-                                : Flexible(
+                                : Container(
+                                    padding: EdgeInsets.only(bottom: 40),
+                                    height: 400,
                                     child: Material(
                                       shadowColor: const Color(0xff9ABEFF),
                                       elevation: 10,
@@ -153,12 +153,26 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     .size
                                                     .width *
                                                 0.12,
+                                            cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
                                                 PlutoColumnTextAlign.center,
                                             type: PlutoColumnType.number(),
                                             enableEditingMode: false,
+                                            backgroundColor: Color(0XFF6491F7),
+                                            renderer: (rendererContext) {
+                                              return Container(
+                                                height: rowHeight,
+                                                // width: rendererContext.cell.column.width,
+                                                decoration: BoxDecoration(
+                                                    gradient: whiteGradient),
+                                                child: Center(
+                                                    child: Text(rendererContext
+                                                        .cell.value
+                                                        .toString())),
+                                              );
+                                            },
                                           ),
                                           PlutoColumn(
                                             title: 'id_Vehicle',
@@ -183,12 +197,26 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 TextSpan(text: 'id_Vehicle'),
                                               ],
                                             ),
+                                            backgroundColor: Color(0XFF6491F7),
+                                            cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
                                                 PlutoColumnTextAlign.center,
-                                            type: PlutoColumnType.text(),
+                                            type: PlutoColumnType.number(),
                                             enableEditingMode: false,
+                                            renderer: (rendererContext) {
+                                              return Container(
+                                                height: rowHeight,
+                                                // width: rendererContext.cell.column.width,
+                                                decoration: BoxDecoration(
+                                                    gradient: whiteGradient),
+                                                child: Center(
+                                                    child: Text(rendererContext
+                                                        .cell.value
+                                                        .toString())),
+                                              );
+                                            },
                                           ),
                                           PlutoColumn(
                                             title: 'employee',
@@ -214,12 +242,25 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     .size
                                                     .width *
                                                 0.12,
+                                            cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
                                                 PlutoColumnTextAlign.center,
                                             type: PlutoColumnType.text(),
                                             enableEditingMode: false,
+                                            backgroundColor: Color(0XFF6491F7),
+                                            renderer: (rendererContext) {
+                                              return Container(
+                                                height: rowHeight,
+                                                //// width: rendererContext.cell.column.width,Context.cell.column.width,
+                                                decoration: BoxDecoration(
+                                                    gradient: whiteGradient),
+                                                child: Center(
+                                                    child: Text(rendererContext
+                                                        .cell.value)),
+                                              );
+                                            },
                                           ),
                                           PlutoColumn(
                                             title: 'typeForm',
@@ -244,14 +285,27 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     .size
                                                     .width *
                                                 0.11,
+                                            cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
                                                 PlutoColumnTextAlign.center,
                                             type: PlutoColumnType.text(),
                                             enableEditingMode: false,
+                                            backgroundColor: Color(0XFF6491F7),
+                                            renderer: (rendererContext) {
+                                              return Container(
+                                                height: rowHeight,
+                                                // // width: rendererContext.cell.column.width,Context.cell.column.width,
+                                                decoration: BoxDecoration(
+                                                    gradient: whiteGradient),
+                                                child: Center(
+                                                    child: Text(rendererContext
+                                                        .cell.value
+                                                        .toString())),
+                                              );
+                                            },
                                           ),
-
                                           PlutoColumn(
                                             title: 'Vin',
                                             field: 'vin',
@@ -275,12 +329,25 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     .size
                                                     .width *
                                                 0.14,
+                                            cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
                                                 PlutoColumnTextAlign.center,
                                             type: PlutoColumnType.text(),
                                             enableEditingMode: false,
+                                            backgroundColor: Color(0XFF6491F7),
+                                            renderer: (rendererContext) {
+                                              return Container(
+                                                height: rowHeight,
+                                                // width: rendererContext.cell.column.width,
+                                                decoration: BoxDecoration(
+                                                    gradient: whiteGradient),
+                                                child: Center(
+                                                    child: Text(rendererContext
+                                                        .cell.value)),
+                                              );
+                                            },
                                           ),
                                           PlutoColumn(
                                             title: 'License Plates',
@@ -306,12 +373,25 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     .size
                                                     .width *
                                                 0.14,
+                                            cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
                                                 PlutoColumnTextAlign.center,
                                             type: PlutoColumnType.text(),
                                             enableEditingMode: false,
+                                            backgroundColor: Color(0XFF6491F7),
+                                            renderer: (rendererContext) {
+                                              return Container(
+                                                height: rowHeight,
+                                                // width: rendererContext.cell.column.width,
+                                                decoration: BoxDecoration(
+                                                    gradient: whiteGradient),
+                                                child: Center(
+                                                    child: Text(rendererContext
+                                                        .cell.value)),
+                                              );
+                                            },
                                           ),
 
                                           PlutoColumn(
@@ -337,12 +417,25 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     .size
                                                     .width *
                                                 0.11,
+                                            cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
                                                 PlutoColumnTextAlign.center,
                                             type: PlutoColumnType.text(),
                                             enableEditingMode: false,
+                                            backgroundColor: Color(0XFF6491F7),
+                                            renderer: (rendererContext) {
+                                              return Container(
+                                                height: rowHeight,
+                                                // width: rendererContext.cell.column.width,
+                                                decoration: BoxDecoration(
+                                                    gradient: whiteGradient),
+                                                child: Center(
+                                                    child: Text(rendererContext
+                                                        .cell.value)),
+                                              );
+                                            },
                                           ),
                                           PlutoColumn(
                                             title: 'gas',
@@ -367,12 +460,25 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     .size
                                                     .width *
                                                 0.08,
+                                            cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
                                                 PlutoColumnTextAlign.center,
                                             type: PlutoColumnType.text(),
                                             enableEditingMode: false,
+                                            backgroundColor: Color(0XFF6491F7),
+                                            renderer: (rendererContext) {
+                                              return Container(
+                                                height: rowHeight,
+                                                // width: rendererContext.cell.column.width,
+                                                decoration: BoxDecoration(
+                                                    gradient: whiteGradient),
+                                                child: Center(
+                                                    child: Text(rendererContext
+                                                        .cell.value)),
+                                              );
+                                            },
                                           ),
                                           PlutoColumn(
                                             title: 'mileage',
@@ -398,12 +504,26 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     .size
                                                     .width *
                                                 0.12,
+                                            cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
                                                 PlutoColumnTextAlign.center,
                                             type: PlutoColumnType.number(),
                                             enableEditingMode: false,
+                                            backgroundColor: Color(0XFF6491F7),
+                                            renderer: (rendererContext) {
+                                              return Container(
+                                                height: rowHeight,
+                                                // width: rendererContext.cell.column.width,
+                                                decoration: BoxDecoration(
+                                                    gradient: whiteGradient),
+                                                child: Center(
+                                                    child: Text(rendererContext
+                                                        .cell.value
+                                                        .toString())),
+                                              );
+                                            },
                                           ),
                                           PlutoColumn(
                                             title: 'Date Added',
@@ -426,12 +546,26 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                               ],
                                             ),
                                             width: 300,
+                                            cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
                                                 PlutoColumnTextAlign.center,
-                                            type: PlutoColumnType.text(),
+                                            type: PlutoColumnType.date(),
                                             enableEditingMode: false,
+                                            backgroundColor: Color(0XFF6491F7),
+                                            renderer: (rendererContext) {
+                                              return Container(
+                                                height: rowHeight,
+                                                // width: rendererContext.cell.column.width,
+                                                decoration: BoxDecoration(
+                                                    gradient: whiteGradient),
+                                                child: Center(
+                                                    child: Text(rendererContext
+                                                        .cell.value
+                                                        .toString())),
+                                              );
+                                            },
                                           ),
                                           // PlutoColumn(
                                           //     title: 'Acciones',
@@ -591,8 +725,9 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                     ),
                                   ),
                             Container(
-                              color: Colors.white,
+                              padding: EdgeInsets.only(top: 40, bottom: 40),
                               height: 400,
+                              //child: Calendario(),
                             )
                           ],
                         ),

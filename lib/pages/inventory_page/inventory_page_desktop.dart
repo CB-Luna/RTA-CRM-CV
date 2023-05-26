@@ -279,18 +279,18 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
                                                 PlutoColumnTextAlign.center,
-                                            type: PlutoColumnType.text(),
+                                            type: PlutoColumnType.number(),
                                             enableEditingMode: false,
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                width: rendererContext
-                                                    .cell.column.width,
+                                                //width: rendererContext.cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(
                                                     child: Text(rendererContext
-                                                        .cell.value)),
+                                                        .cell.value
+                                                        .toString())),
                                               );
                                             },
                                           ),
@@ -329,8 +329,8 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                width: rendererContext
-                                                    .cell.column.width,
+                                                // width: rendererContext
+                                                //.cell.column.width,                                                    .cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(
@@ -365,7 +365,6 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                           PlutoColumn(
                                             title: 'Make',
                                             field: 'make',
-                                            backgroundColor: Color(0XFF6491F7),
                                             titleSpan: const TextSpan(
                                               children: [
                                                 WidgetSpan(
@@ -387,6 +386,7 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                     .size
                                                     .width *
                                                 0.09,
+                                            backgroundColor: Color(0XFF6491F7),
                                             cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
@@ -397,8 +397,8 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                width: rendererContext
-                                                    .cell.column.width,
+                                                // width: rendererContext
+                                                //.cell.column.width,                                                    .cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(
@@ -442,8 +442,8 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                width: rendererContext
-                                                    .cell.column.width,
+                                                // width: rendererContext
+                                                //.cell.column.width,                                                    .cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(
@@ -487,8 +487,8 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                width: rendererContext
-                                                    .cell.column.width,
+                                                // width: rendererContext
+                                                //.cell.column.width,                                                    .cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(
@@ -531,8 +531,8 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                width: rendererContext
-                                                    .cell.column.width,
+                                                // width: rendererContext
+                                                //.cell.column.width,                                                    .cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(
@@ -575,8 +575,8 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                width: rendererContext
-                                                    .cell.column.width,
+                                                // width: rendererContext
+                                                //.cell.column.width,                                                    .cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(
@@ -621,8 +621,8 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                width: rendererContext
-                                                    .cell.column.width,
+                                                // width: rendererContext
+                                                //.cell.column.width,                                                    .cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(
@@ -665,8 +665,8 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                width: rendererContext
-                                                    .cell.column.width,
+                                                // width: rendererContext
+                                                //.cell.column.width,                                                    .cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(
@@ -713,8 +713,8 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                width: rendererContext
-                                                    .cell.column.width,
+                                                // width: rendererContext
+                                                //.cell.column.width,                                                    .cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(
@@ -758,8 +758,8 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                width: rendererContext
-                                                    .cell.column.width,
+                                                // width: rendererContext
+                                                //.cell.column.width,                                                    .cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(
@@ -801,8 +801,8 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                width: rendererContext
-                                                    .cell.column.width,
+                                                // width: rendererContext
+                                                //.cell.column.width,                                                    .cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(

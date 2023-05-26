@@ -1,14 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:path/path.dart' as p;
-import 'package:uuid/uuid.dart';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:http/http.dart' as http;
 
 import '../helpers/globals.dart';
 import '../models/monitory.dart';

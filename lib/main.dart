@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:rta_crm_cv/providers/inventory_provider.dart';
+import 'package:rta_crm_cv/providers/monitory_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/providers/users_providers/add_users_provider.dart';
 import 'package:rta_crm_cv/providers/users_providers/users_provider.dart';
@@ -43,6 +44,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => UsersProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MonitoryProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => AddUsersProvider(),
