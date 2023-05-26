@@ -807,7 +807,8 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                     gradient: whiteGradient),
                                                 child: Center(
                                                     child: Text(rendererContext
-                                                        .cell.value)),
+                                                        .cell.value
+                                                        .toString())),
                                               );
                                             },
                                           ),
