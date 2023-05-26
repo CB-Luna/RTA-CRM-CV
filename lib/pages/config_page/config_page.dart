@@ -5,8 +5,8 @@ import 'package:rta_crm_cv/pages/config_page/widgets/theme_selection_panel.dart'
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
-import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
+import 'package:rta_crm_cv/pages/widgets/custom_text_icon_button.dart';
+import 'package:rta_crm_cv/pages/widgets/side_menu/sidemenu.dart';
 
 class ConfigPage extends StatefulWidget {
   const ConfigPage({super.key});
@@ -28,6 +28,7 @@ class _ConfigPageState extends State<ConfigPage> {
       await provider.updateState();
     });
   }
+
   int currentStep = 0;
   continueStep() {
     if (currentStep < 5) {
@@ -73,8 +74,8 @@ class _ConfigPageState extends State<ConfigPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   bool isThemeSelectionOpen = true;
   bool isImageSelectionOpen = true;
-  bool isLoginPictureSelectionOpen=true;
-  bool isAnimationSelectionOpen=true;
+  bool isLoginPictureSelectionOpen = true;
+  bool isAnimationSelectionOpen = true;
   @override
   Widget build(BuildContext context) {
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
@@ -185,7 +186,7 @@ class _ConfigPageState extends State<ConfigPage> {
                                             );
                                           },
                                           child: (isThemeSelectionOpen)
-                                              ? const ThemeSelectionPanel()//Tema
+                                              ? const ThemeSelectionPanel() //Tema
                                               : const SizedBox.shrink(),
                                         ),
                                       ],
@@ -275,12 +276,12 @@ class _ConfigPageState extends State<ConfigPage> {
                               ],
                             )),
                         Step(
-                          isActive: currentStep >= 1,
-                          state: currentStep > 1
-                              ? StepState.complete
-                              : StepState.indexed,
-                          title: const Text('Login'),
-                          content:Column(
+                            isActive: currentStep >= 1,
+                            state: currentStep > 1
+                                ? StepState.complete
+                                : StepState.indexed,
+                            title: const Text('Login'),
+                            content: Column(
                               children: [
                                 //Configuracion de Imagenes Login
                                 Padding(
@@ -329,7 +330,8 @@ class _ConfigPageState extends State<ConfigPage> {
                                             ),
                                             trailing: ExpandIcon(
                                               size: 32,
-                                              isExpanded: isLoginPictureSelectionOpen,
+                                              isExpanded:
+                                                  isLoginPictureSelectionOpen,
                                               padding: EdgeInsets.zero,
                                               onPressed: (_) {
                                                 setState(() =>
@@ -409,7 +411,8 @@ class _ConfigPageState extends State<ConfigPage> {
                                             ),
                                             trailing: ExpandIcon(
                                               size: 32,
-                                              isExpanded: isAnimationSelectionOpen,
+                                              isExpanded:
+                                                  isAnimationSelectionOpen,
                                               padding: EdgeInsets.zero,
                                               onPressed: (_) {
                                                 setState(() =>
@@ -443,8 +446,7 @@ class _ConfigPageState extends State<ConfigPage> {
                                   ),
                                 ),
                               ],
-                            )
-                        ),
+                            )),
                         Step(
                           isActive: currentStep >= 2,
                           state: currentStep > 2

@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
-import 'package:rta_crm_cv/widgets/side_menu/widgets/item.dart';
+import 'package:rta_crm_cv/pages/widgets/side_menu/widgets/item.dart';
 
 class SideMenuItemsList extends StatefulWidget {
   const SideMenuItemsList({super.key, required this.isOpen});

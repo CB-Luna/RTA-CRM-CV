@@ -5,8 +5,8 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:rta_crm_cv/widgets/side_menu/widgets/items_list.dart';
-import 'package:rta_crm_cv/widgets/side_menu/widgets/side_menu_footer.dart';
+import 'package:rta_crm_cv/pages/widgets/side_menu/widgets/items_list.dart';
+import 'package:rta_crm_cv/pages/widgets/side_menu/widgets/side_menu_footer.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({super.key});

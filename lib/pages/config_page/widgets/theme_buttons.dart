@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/pages/config_page/widgets/download_theme_popup.dart';
 import 'package:rta_crm_cv/pages/config_page/widgets/upload_theme_popup.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
+import 'package:rta_crm_cv/pages/widgets/animated_hover_buttom.dart';
 
 class ThemeButtons extends StatefulWidget {
   const ThemeButtons({Key? key}) : super(key: key);

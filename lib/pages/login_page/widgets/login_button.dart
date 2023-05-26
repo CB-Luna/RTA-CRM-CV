@@ -94,22 +94,19 @@ class _LoginButtonState extends State<LoginButton> {
               return;
             }
 
-            print(currentUser!.name);
-
-               if (!mounted) return;
-                AppTheme.initConfiguration(
-                  await SupabaseQueries.getUserTheme(),
-                );
-                if (!mounted) return;
+            if (!mounted) return;
+            AppTheme.initConfiguration(
+              await SupabaseQueries.getUserTheme(),
+            );
 
             if (!mounted) return;
             context.pushReplacement('/dashboards');
           } catch (e) {
             if (e is AuthException) {
-              await ApiErrorHandler.callToast('Credenciales inválidas');
+              await ApiErrorHandler.callToast('Invalid credentials');
               return;
             }
-            log('Error al iniciar sesion - $e');
+            log('Error when logging in - $e');
           }
         },
         child: Container(

@@ -3,13 +3,17 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart' hide State;
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rive/rive.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as p;
 
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide User;
+import 'package:uuid/uuid.dart';
 
 class UsersProvider extends ChangeNotifier {
   bool isOpen = true;
@@ -239,6 +243,52 @@ class UsersProvider extends ChangeNotifier {
       log('Error in deleteUser() - $e');
       return false;
     }
+  }
+
+  Future<void> selectImage() async {
+    final ImagePicker picker = ImagePicker();
+
+    final XFile? pickedImage = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedImage == null) return;
+
+    final String fileExtension = p.extension(pickedImage.name);
+    const uuid = Uuid();
+    final String fileName = uuid.v1();
+    imageName = 'avatar-$fileName$fileExtension';
+
+    webImage = await pickedImage.readAsBytes();
+
+    notifyListeners();
+  }
+
+  void clearImage() {
+    webImage = null;
+    imageName = null;
+    notifyListeners();
+  }
+
+  Future<String?> uploadImage() async {
+    if (webImage != null && imageName != null) {
+      try {
+        await supabase.storage.from('avatars').uploadBinary(
+              imageName!,
+              webImage!,
+              fileOptions: const FileOptions(
+                cacheControl: '3600',
+                upsert: false,
+              ),
+            );
+
+        return imageName;
+      } catch (e) {
+        log('Error in uploadImage() - $e');
+        return null;
+      }
+    }
+    return null;
   }
 
   ////////////////////////////////////////////////////////
