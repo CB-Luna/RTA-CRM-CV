@@ -432,15 +432,19 @@ class _UsersPageState extends State<UsersPage> {
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
                                   WidgetSpan(
-                                      child: Icon(Icons.list,
-                                          color: AppTheme.of(context)
-                                              .primaryBackground)),
-                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                    child: Icon(Icons.list,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground),
+                                  ),
+                                  const WidgetSpan(
+                                    child: SizedBox(width: 10),
+                                  ),
                                   TextSpan(
-                                      text: 'ACTIONS',
-                                      style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .primaryBackground))
+                                    text: 'ACTIONS',
+                                    style: TextStyle(
+                                        color: AppTheme.of(context)
+                                            .primaryBackground),
+                                  )
                                 ]),
                                 backgroundColor: Color(0XFF6491F7),
                                 title: 'ACTIONS',
@@ -481,7 +485,12 @@ class _UsersPageState extends State<UsersPage> {
                                           ),
                                           color: secondaryColor,
                                           text: 'Delete',
-                                          onTap: () {},
+                                          onTap: () async {
+                                            await provider.deleteUser(
+                                              rendererContext.cell.value,
+                                            );
+                                            await provider.getUsers();
+                                          },
                                         ),
                                         /* InkWell(
                                           hoverColor: Colors.transparent,
@@ -531,12 +540,16 @@ class _UsersPageState extends State<UsersPage> {
                                         ),
                                         const SizedBox(width: 5),
                                         SizedBox(
-                                            width: 30,
-                                            child: Center(
-                                                child: Text(
-                                                    provider.page.toString(),
-                                                    style: TextStyle(
-                                                        color: Colors.white)))),
+                                          width: 30,
+                                          child: Center(
+                                            child: Text(
+                                              provider.page.toString(),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                         const SizedBox(width: 5),
                                         CustomIconButton(
                                           icon: Icons

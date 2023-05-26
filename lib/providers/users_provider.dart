@@ -228,6 +228,19 @@ class UsersProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> deleteUser(String userId) async {
+    try {
+      await supabase.rpc(
+        'delete_user',
+        params: {'user_id': userId},
+      );
+      return true;
+    } catch (e) {
+      log('Error in deleteUser() - $e');
+      return false;
+    }
+  }
+
   ////////////////////////////////////////////////////////
   //////////////////////////RIVE//////////////////////////
   ////////////////////////////////////////////////////////
