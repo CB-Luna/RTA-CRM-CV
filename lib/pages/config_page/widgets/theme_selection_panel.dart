@@ -6,8 +6,8 @@ import 'package:rta_crm_cv/pages/config_page/widgets/theme_buttons.dart';
 import 'package:rta_crm_cv/providers/visual_state_provider.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:rta_crm_cv/pages/widgets/custom_buttom.dart';
-import 'package:rta_crm_cv/pages/widgets/success_toast.dart';
+import 'package:rta_crm_cv/widgets/custom_buttom.dart';
+import 'package:rta_crm_cv/widgets/success_toast.dart';
 
 class ThemeSelectionPanel extends StatefulWidget {
   const ThemeSelectionPanel({Key? key}) : super(key: key);

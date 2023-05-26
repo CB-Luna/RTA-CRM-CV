@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/pages/widgets/get_image_widget.dart';
+import 'package:rta_crm_cv/widgets/get_image_widget.dart';
 
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:rta_crm_cv/pages/widgets/custom_card.dart';
-import 'package:rta_crm_cv/pages/widgets/custom_ddown_menu/custom_dropdown.dart';
-import 'package:rta_crm_cv/pages/widgets/custom_text_field.dart';
-import 'package:rta_crm_cv/pages/widgets/custom_text_icon_button.dart';
-import 'package:rta_crm_cv/pages/widgets/success_toast.dart';
+import 'package:rta_crm_cv/widgets/custom_card.dart';
+import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_dropdown.dart';
+import 'package:rta_crm_cv/widgets/custom_text_field.dart';
+import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
+import 'package:rta_crm_cv/widgets/success_toast.dart';
 
 class AddUserPopUp extends StatefulWidget {
   const AddUserPopUp({super.key});

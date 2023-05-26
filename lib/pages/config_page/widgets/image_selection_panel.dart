@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/visual_state_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:rta_crm_cv/pages/widgets/custom_buttom.dart';
-import 'package:rta_crm_cv/pages/widgets/success_toast.dart';
+import 'package:rta_crm_cv/widgets/custom_buttom.dart';
+import 'package:rta_crm_cv/widgets/success_toast.dart';
 
 class ImageSelectionPanel extends StatefulWidget {
   const ImageSelectionPanel({Key? key}) : super(key: key);

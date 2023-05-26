@@ -9,11 +9,11 @@ import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/providers/users_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:rta_crm_cv/pages/widgets/custom_card.dart';
-import 'package:rta_crm_cv/pages/widgets/custom_icon_button.dart';
-import 'package:rta_crm_cv/pages/widgets/custom_text_field.dart';
-import 'package:rta_crm_cv/pages/widgets/custom_text_icon_button.dart';
-import 'package:rta_crm_cv/pages/widgets/side_menu/sidemenu.dart';
+import 'package:rta_crm_cv/widgets/custom_card.dart';
+import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
+import 'package:rta_crm_cv/widgets/custom_text_field.dart';
+import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
+import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
