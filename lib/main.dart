@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
+import 'package:rta_crm_cv/providers/employees_provider/employees_provider.dart';
 import 'package:rta_crm_cv/providers/inventory_provider.dart';
 import 'package:rta_crm_cv/providers/monitory_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
@@ -53,6 +54,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => InventoryProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => EmployeesProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),

@@ -162,6 +162,23 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             },
           ),
           SideMenuItem(
+            selected: provider.indexSelected[9],
+            leading: provider.aRUsers != null
+                ? Rive(artboard: provider.aRUsers!)
+                : const CircularProgressIndicator(),
+            isOpen: widget.isOpen,
+            title: 'Employees',
+            onTap: () async {
+              context.pushReplacement('/employees');
+            },
+            onEnter: (event) {
+              provider.iHoverUsers?.change(false);
+            },
+            onExit: (event) {
+              provider.iHoverUsers?.change(false);
+            },
+          ),
+          SideMenuItem(
             selected: provider.indexSelected[8],
             leading: Icon(Icons.color_lens_outlined,
                 color: Color(Colors.grey[300]!.value)),
