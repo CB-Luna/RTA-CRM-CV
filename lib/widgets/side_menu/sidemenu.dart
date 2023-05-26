@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/items_list.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/side_menu_footer.dart';
 
@@ -24,7 +26,9 @@ class _SideMenuState extends State<SideMenu> {
         decoration: BoxDecoration(gradient: whiteGradient),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          width: provider.isOpen ? MediaQuery.of(context).size.width * 300 / 1440 : 100,
+          width: provider.isOpen
+              ? MediaQuery.of(context).size.width * 300 / 1440
+              : 100,
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             //color: primaryColor,
@@ -44,15 +48,21 @@ class _SideMenuState extends State<SideMenu> {
                 Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 10, bottom: 10, right: 10),
+                      padding: const EdgeInsets.only(
+                          left: 10, bottom: 10, right: 10),
                       child: provider.isOpen
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Image.network(
-                                  'https://rtatel.com/wp-content/uploads/2022/11/cropped-RTAREGISTERED.png',
-                                  height: getHeight(60, context),
-                                ),
+                                AppTheme.themeMode == ThemeMode.dark
+                                    ? Image.network(
+                                        assets.logoBlanco,
+                                        height: getHeight(60, context),
+                                      )
+                                    : Image.network(
+                                        assets.logoColor,
+                                        height: getHeight(60, context),
+                                      ),
                                 InkWell(
                                   hoverColor: Colors.transparent,
                                   child: Icon(
@@ -63,7 +73,8 @@ class _SideMenuState extends State<SideMenu> {
                                   onTap: () {
                                     setState(() {
                                       provider.isOpen = !provider.isOpen;
-                                      provider.forcedOpen = !provider.forcedOpen;
+                                      provider.forcedOpen =
+                                          !provider.forcedOpen;
                                     });
                                   },
                                 )
@@ -72,10 +83,15 @@ class _SideMenuState extends State<SideMenu> {
                           : Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Image.network(
-                                  'https://rtatel.com/wp-content/uploads/2022/11/cropped-RTAREGISTERED.png',
-                                  height: getHeight(30, context),
-                                ),
+                                AppTheme.themeMode == ThemeMode.dark
+                                    ? Image.network(
+                                        assets.logoBlanco,
+                                        height: getHeight(60, context),
+                                      )
+                                    : Image.network(
+                                        assets.logoColor,
+                                        height: getHeight(60, context),
+                                      ),
                                 InkWell(
                                   hoverColor: Colors.transparent,
                                   child: Icon(
@@ -86,7 +102,8 @@ class _SideMenuState extends State<SideMenu> {
                                   onTap: () {
                                     setState(() {
                                       provider.isOpen = !provider.isOpen;
-                                      provider.forcedOpen = !provider.forcedOpen;
+                                      provider.forcedOpen =
+                                          !provider.forcedOpen;
                                     });
                                   },
                                 )
@@ -99,7 +116,8 @@ class _SideMenuState extends State<SideMenu> {
                 ),
                 SideMenuFooter(
                   isOpen: provider.isOpen,
-                  image: 'https://www.sadm.gob.mx/AyD_Aclaraciones/Content/user.png',
+                  image:
+                      'https://www.sadm.gob.mx/AyD_Aclaraciones/Content/user.png',
                   text1: 'Loremipsum 1',
                   text2: 'Loermipsum 2',
                 )

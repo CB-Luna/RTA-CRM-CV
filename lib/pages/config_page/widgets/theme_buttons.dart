@@ -4,8 +4,6 @@ import 'package:rta_crm_cv/pages/config_page/widgets/upload_theme_popup.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
 
-
-
 class ThemeButtons extends StatefulWidget {
   const ThemeButtons({Key? key}) : super(key: key);
 
@@ -24,10 +22,10 @@ class _ThemeButtonsState extends State<ThemeButtons> {
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: AnimatedHoverButton(
-              tooltip: 'Cargar tema',
+              tooltip: 'Crear Nuevo Tema',
               primaryColor: AppTheme.of(context).primaryColor,
               secondaryColor: AppTheme.of(context).primaryBackground,
-              icon: Icons.upload,
+              icon: Icons.add,
               onTap: () async {
                 await showDialog(
                   context: context,
@@ -41,10 +39,10 @@ class _ThemeButtonsState extends State<ThemeButtons> {
           Padding(
             padding: const EdgeInsets.only(right: 250),
             child: AnimatedHoverButton(
-              tooltip: 'Descargar tema',
+              tooltip: 'Cargar Tema',
               primaryColor: AppTheme.of(context).primaryColor,
               secondaryColor: AppTheme.of(context).primaryBackground,
-              icon: Icons.download,
+              icon: Icons.file_upload_outlined,
               onTap: () async {
                 await showDialog(
                   context: context,

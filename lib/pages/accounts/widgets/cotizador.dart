@@ -10,7 +10,7 @@ import 'package:rta_crm_cv/providers/cotizador_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
-import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_ddown_menu.dart';
+import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_dropdown.dart';
 import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
 import 'package:rta_crm_cv/widgets/custom_tab_button.dart';
 import 'package:rta_crm_cv/widgets/custom_text_field.dart';
@@ -63,15 +63,17 @@ class _CotizadorState extends State<Cotizador> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CustomTabButton(
-                                  on: provider.orderTypesSelectedValue == 'Internal Circuit',
+                                  on: provider.orderTypesSelectedValue ==
+                                      'Internal Circuit',
                                   label: 'Order Type',
                                   option1: 'Internal Circuit',
                                   option2: 'External Customer',
                                   onTap: () => provider.selectOT(),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: CustomDDownMenu(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: CustomDropDown(
                                     list: provider.typesList,
                                     dropdownValue: provider.typesSelectedValue,
                                     onChanged: (p0) {
@@ -82,13 +84,17 @@ class _CotizadorState extends State<Cotizador> {
                                     width: txfFieldWidth,
                                   ),
                                 ),
-                                if (provider.typesSelectedValue == 'Disconnect' || provider.typesSelectedValue == 'Upgrade')
+                                if (provider.typesSelectedValue ==
+                                        'Disconnect' ||
+                                    provider.typesSelectedValue == 'Upgrade')
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomTextField(
                                       enabled: true,
                                       width: txfFieldWidth,
-                                      controller: provider.existingCircuitIDController,
+                                      controller:
+                                          provider.existingCircuitIDController,
                                       label: 'Existing Circuit ID',
                                       icon: Icons.cable_outlined,
                                       keyboardType: TextInputType.text,
@@ -96,23 +102,28 @@ class _CotizadorState extends State<Cotizador> {
                                   ),
                                 if (provider.typesSelectedValue == 'Upgrade')
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomTextField(
                                       enabled: true,
                                       width: txfFieldWidth,
-                                      controller: provider.newCircuitIDController,
+                                      controller:
+                                          provider.newCircuitIDController,
                                       label: 'New Circuit ID',
                                       icon: Icons.cable_outlined,
                                       keyboardType: TextInputType.text,
                                     ),
                                   ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: CustomDDownMenu(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: CustomDropDown(
                                     list: provider.dataCentersList,
-                                    dropdownValue: provider.dataCenterSelectedValue,
+                                    dropdownValue:
+                                        provider.dataCenterSelectedValue,
                                     onChanged: (p0) {
-                                      if (p0 != null) provider.selectDataCenter(p0);
+                                      if (p0 != null)
+                                        provider.selectDataCenter(p0);
                                     },
                                     icon: Icons.location_on_outlined,
                                     label: 'Data Center Location',
@@ -121,11 +132,13 @@ class _CotizadorState extends State<Cotizador> {
                                 ),
                                 if (provider.dataCenterSelectedValue == 'New')
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomTextField(
                                       enabled: true,
                                       width: txfFieldWidth,
-                                      controller: provider.newDataCenterController,
+                                      controller:
+                                          provider.newDataCenterController,
                                       label: 'New Data Center',
                                       icon: Icons.location_on_outlined,
                                       keyboardType: TextInputType.text,
@@ -142,44 +155,54 @@ class _CotizadorState extends State<Cotizador> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CustomDDownMenu(
+                                CustomDropDown(
                                   list: provider.circuitInfosList,
-                                  dropdownValue: provider.circuitInfoSelectedValue,
+                                  dropdownValue:
+                                      provider.circuitInfoSelectedValue,
                                   onChanged: (p0) {
-                                    if (p0 != null) provider.selectCircuitInfo(p0);
+                                    if (p0 != null)
+                                      provider.selectCircuitInfo(p0);
                                   },
                                   icon: Icons.info_outline,
                                   label: 'Circuit Info',
                                   width: txfFieldWidth,
                                 ),
-                                if (provider.circuitInfoSelectedValue == 'EVCoD')
+                                if (provider.circuitInfoSelectedValue ==
+                                    'EVCoD')
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
-                                    child: CustomDDownMenu(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: CustomDropDown(
                                       list: provider.evcodList,
-                                      dropdownValue: provider.evcodSelectedValue,
+                                      dropdownValue:
+                                          provider.evcodSelectedValue,
                                       onChanged: (p0) {
-                                        if (p0 != null) provider.selectEVCOD(p0);
+                                        if (p0 != null)
+                                          provider.selectEVCOD(p0);
                                       },
                                       icon: Icons.electrical_services,
                                       label: 'EVCoD',
                                       width: txfFieldWidth,
                                     ),
                                   ),
-                                if (provider.evcodSelectedValue == 'Existing EVC')
+                                if (provider.evcodSelectedValue ==
+                                    'Existing EVC')
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomTextField(
                                       enabled: true,
                                       width: txfFieldWidth,
-                                      controller: provider.existingEVCController,
+                                      controller:
+                                          provider.existingEVCController,
                                       label: 'Circuit ID',
                                       icon: Icons.electrical_services,
                                       keyboardType: TextInputType.text,
                                     ),
                                   ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTabButton(
                                     on: provider.ddosSelectedValue,
                                     //icon: Icons.security_outlined,
@@ -190,8 +213,9 @@ class _CotizadorState extends State<Cotizador> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: CustomDDownMenu(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: CustomDropDown(
                                     list: provider.bgpList,
                                     dropdownValue: provider.bgpSelectedValue,
                                     onChanged: (p0) {
@@ -203,7 +227,8 @@ class _CotizadorState extends State<Cotizador> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTabButton(
                                     on: provider.ipAdressSelectedValue,
                                     label: 'IP Adresses',
@@ -214,7 +239,8 @@ class _CotizadorState extends State<Cotizador> {
                                 ),
                                 if (provider.ipAdressSelectedValue)
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomTabButton(
                                       on: provider.ipSelectedValue == 'IPv4',
                                       label: 'IP Interface',
@@ -225,12 +251,15 @@ class _CotizadorState extends State<Cotizador> {
                                   ),
                                 if (!provider.ipAdressSelectedValue)
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
-                                    child: CustomDDownMenu(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: CustomDropDown(
                                       list: provider.subnetList,
-                                      dropdownValue: provider.subnetSelectedValue,
+                                      dropdownValue:
+                                          provider.subnetSelectedValue,
                                       onChanged: (p0) {
-                                        if (p0 != null) provider.selectSubnet(p0);
+                                        if (p0 != null)
+                                          provider.selectSubnet(p0);
                                       },
                                       icon: Icons.signal_cellular_alt,
                                       label: 'IP Subnet',
@@ -314,13 +343,17 @@ class _CotizadorState extends State<Cotizador> {
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: CustomTextIconButton(
-                                icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                                icon: Icon(Icons.add,
+                                    color:
+                                        AppTheme.of(context).primaryBackground),
                                 text: 'Add',
                                 onTap: () => provider.addRow(),
                               ),
                             ),
                             CustomTextIconButton(
-                              icon: Icon(Icons.remove, color: AppTheme.of(context).primaryBackground),
+                              icon: Icon(Icons.remove,
+                                  color:
+                                      AppTheme.of(context).primaryBackground),
                               text: 'Reset',
                               onTap: () => provider.resetForm(),
                             ),
@@ -343,27 +376,41 @@ class _CotizadorState extends State<Cotizador> {
                               ],
                               resolveDefaultColumnFilter: (column, resolver) {
                                 if (column.field == 'ORDER_TYPE_Column') {
-                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                                } else if (column.field == 'CIRCUIT_INFO_Column') {
-                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                                } else if (column.field == 'DATA_CENTER_Column') {
-                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
+                                } else if (column.field ==
+                                    'CIRCUIT_INFO_Column') {
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
+                                } else if (column.field ==
+                                    'DATA_CENTER_Column') {
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
                                 } else if (column.field == 'DDOS_Column') {
-                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
                                 } else if (column.field == 'BGM_Column') {
-                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
                                 } else if (column.field == 'IP_Column') {
-                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
                                 } else if (column.field == 'LINE_ITEM_Column') {
-                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                                } else if (column.field == 'UNIT_PRICE_Column') {
-                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
+                                } else if (column.field ==
+                                    'UNIT_PRICE_Column') {
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
                                 } else if (column.field == 'UNIT_COST_Column') {
-                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
                                 } else if (column.field == 'QUANTITY_Column') {
-                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
                                 }
-                                return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                return resolver<PlutoFilterTypeContains>()
+                                    as PlutoFilterType;
                               },
                             ),
                           ),
@@ -534,9 +581,16 @@ class _CotizadorState extends State<Cotizador> {
                              */
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(child: Icon(Icons.file_copy_outlined, color: AppTheme.of(context).primaryBackground)),
+                                WidgetSpan(
+                                    child: Icon(Icons.file_copy_outlined,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(text: 'Order Info', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                TextSpan(
+                                    text: 'Order Info',
+                                    style: TextStyle(
+                                        color: AppTheme.of(context)
+                                            .primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'Order Info',
@@ -551,8 +605,13 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value, style: TextStyle(color: AppTheme.of(context).primaryText))),
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(rendererContext.cell.value,
+                                          style: TextStyle(
+                                              color: AppTheme.of(context)
+                                                  .primaryText))),
                                 );
                               },
                               footerRenderer: (rendererContext) {
@@ -564,11 +623,19 @@ class _CotizadorState extends State<Cotizador> {
                                     return [
                                       TextSpan(
                                         text: 'Rows: ',
-                                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryBackground),
+                                        style: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false,
+                                                color: AppTheme.of(context)
+                                                    .primaryBackground),
                                       ),
                                       TextSpan(
                                         text: provider.rows.length.toString(),
-                                        style: TextStyle(color: AppTheme.of(context).primaryBackground),
+                                        style: TextStyle(
+                                            color: AppTheme.of(context)
+                                                .primaryBackground),
                                       ),
                                     ];
                                   },
@@ -577,9 +644,16 @@ class _CotizadorState extends State<Cotizador> {
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(child: Icon(Icons.cable_outlined, color: AppTheme.of(context).primaryBackground)),
+                                WidgetSpan(
+                                    child: Icon(Icons.cable_outlined,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(text: 'Circuit Info', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                TextSpan(
+                                    text: 'Circuit Info',
+                                    style: TextStyle(
+                                        color: AppTheme.of(context)
+                                            .primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'CIRCUIT INFO',
@@ -594,16 +668,25 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value)),
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(rendererContext.cell.value)),
                                 );
                               },
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
+                                WidgetSpan(
+                                    child: Icon(Icons.local_offer_outlined,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(text: 'Line Item', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                TextSpan(
+                                    text: 'Line Item',
+                                    style: TextStyle(
+                                        color: AppTheme.of(context)
+                                            .primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'LINE ITEM',
@@ -618,16 +701,25 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value)),
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(rendererContext.cell.value)),
                                 );
                               },
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(child: Icon(Icons.attach_money_outlined, color: AppTheme.of(context).primaryBackground)),
+                                WidgetSpan(
+                                    child: Icon(Icons.attach_money_outlined,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(text: 'Unit Price', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                TextSpan(
+                                    text: 'Unit Price',
+                                    style: TextStyle(
+                                        color: AppTheme.of(context)
+                                            .primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'UNIT PRICE',
@@ -642,8 +734,11 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value.toString())),
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(rendererContext.cell.value
+                                          .toString())),
                                 );
                               },
                               footerRenderer: (rendererContext) {
@@ -654,12 +749,22 @@ class _CotizadorState extends State<Cotizador> {
                                   alignment: Alignment.center,
                                   titleSpanBuilder: (text) {
                                     return [
-                                      TextSpan(text: ' \$ ', style: TextStyle(color: AppTheme.of(context).primaryBackground)),
+                                      TextSpan(
+                                          text: ' \$ ',
+                                          style: TextStyle(
+                                              color: AppTheme.of(context)
+                                                  .primaryBackground)),
                                       TextSpan(
                                         text: text,
-                                        style: TextStyle(color: AppTheme.of(context).primaryBackground),
+                                        style: TextStyle(
+                                            color: AppTheme.of(context)
+                                                .primaryBackground),
                                       ),
-                                      TextSpan(text: ' USD', style: TextStyle(color: AppTheme.of(context).primaryBackground)),
+                                      TextSpan(
+                                          text: ' USD',
+                                          style: TextStyle(
+                                              color: AppTheme.of(context)
+                                                  .primaryBackground)),
                                     ];
                                   },
                                 );
@@ -667,9 +772,16 @@ class _CotizadorState extends State<Cotizador> {
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(child: Icon(Icons.price_check_outlined, color: AppTheme.of(context).primaryBackground)),
+                                WidgetSpan(
+                                    child: Icon(Icons.price_check_outlined,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(text: 'Unit Cost', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                TextSpan(
+                                    text: 'Unit Cost',
+                                    style: TextStyle(
+                                        color: AppTheme.of(context)
+                                            .primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'UNIT COST',
@@ -684,8 +796,11 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value.toString())),
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(rendererContext.cell.value
+                                          .toString())),
                                 );
                               },
                               footerRenderer: (rendererContext) {
@@ -696,12 +811,22 @@ class _CotizadorState extends State<Cotizador> {
                                   alignment: Alignment.center,
                                   titleSpanBuilder: (text) {
                                     return [
-                                      TextSpan(text: ' \$ ', style: TextStyle(color: AppTheme.of(context).primaryBackground)),
+                                      TextSpan(
+                                          text: ' \$ ',
+                                          style: TextStyle(
+                                              color: AppTheme.of(context)
+                                                  .primaryBackground)),
                                       TextSpan(
                                         text: text,
-                                        style: TextStyle(color: AppTheme.of(context).primaryBackground),
+                                        style: TextStyle(
+                                            color: AppTheme.of(context)
+                                                .primaryBackground),
                                       ),
-                                      TextSpan(text: ' USD', style: TextStyle(color: AppTheme.of(context).primaryBackground)),
+                                      TextSpan(
+                                          text: ' USD',
+                                          style: TextStyle(
+                                              color: AppTheme.of(context)
+                                                  .primaryBackground)),
                                     ];
                                   },
                                 );
@@ -709,9 +834,16 @@ class _CotizadorState extends State<Cotizador> {
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(child: Icon(Icons.shopping_cart_outlined, color: AppTheme.of(context).primaryBackground)),
+                                WidgetSpan(
+                                    child: Icon(Icons.shopping_cart_outlined,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(text: 'Quantity', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                TextSpan(
+                                    text: 'Quantity',
+                                    style: TextStyle(
+                                        color: AppTheme.of(context)
+                                            .primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'QUANTITY',
@@ -726,16 +858,26 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value.toString())),
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(rendererContext.cell.value
+                                          .toString())),
                                 );
                               },
                             ),
                             PlutoColumn(
                               titleSpan: TextSpan(children: [
-                                WidgetSpan(child: Icon(Icons.settings, color: AppTheme.of(context).primaryBackground)),
+                                WidgetSpan(
+                                    child: Icon(Icons.settings,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(text: 'Actions', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                                TextSpan(
+                                    text: 'Actions',
+                                    style: TextStyle(
+                                        color: AppTheme.of(context)
+                                            .primaryBackground))
                               ]),
                               backgroundColor: const Color(0XFF6491F7),
                               title: 'ACTIONS',
@@ -750,8 +892,11 @@ class _CotizadorState extends State<Cotizador> {
                                 return Container(
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
-                                  decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value.toString())),
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(rendererContext.cell.value
+                                          .toString())),
                                 );
                               },
                             ),
