@@ -659,52 +659,52 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
     // double txfFieldPadding = 10;
 
     CotizadorProvider provider = Provider.of<CotizadorProvider>(context);
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: TableTopText(
-                  text: 'Order Info',
-                  style: AppTheme.of(context).contenidoTablas,
-                  group: provider.tableTopGroup,
-                ),
+    return Column(
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: TableTopText(
+                text: 'Order Info',
+                style: AppTheme.of(context).contenidoTablas,
+                group: provider.tableTopGroup,
               ),
-              Expanded(
-                child: TableTopText(
-                  text: 'Circuit Info',
-                  style: AppTheme.of(context).contenidoTablas,
-                  group: provider.tableTopGroup,
-                ),
+            ),
+            Expanded(
+              child: TableTopText(
+                text: 'Circuit Info',
+                style: AppTheme.of(context).contenidoTablas,
+                group: provider.tableTopGroup,
               ),
-              Expanded(
-                child: TableTopText(
-                  text: 'DDOS Migration',
-                  style: AppTheme.of(context).contenidoTablas,
-                  group: provider.tableTopGroup,
-                ),
+            ),
+            Expanded(
+              child: TableTopText(
+                text: 'DDOS Migration',
+                style: AppTheme.of(context).contenidoTablas,
+                group: provider.tableTopGroup,
               ),
-              Expanded(
-                child: TableTopText(
-                  text: 'BGP Perring',
-                  style: AppTheme.of(context).contenidoTablas,
-                  group: provider.tableTopGroup,
-                ),
+            ),
+            Expanded(
+              child: TableTopText(
+                text: 'BGP Perring',
+                style: AppTheme.of(context).contenidoTablas,
+                group: provider.tableTopGroup,
               ),
-              Expanded(
-                child: TableTopText(
-                  text: 'IP Info',
-                  style: AppTheme.of(context).contenidoTablas,
-                  group: provider.tableTopGroup,
-                ),
+            ),
+            Expanded(
+              child: TableTopText(
+                text: 'IP Info',
+                style: AppTheme.of(context).contenidoTablas,
+                group: provider.tableTopGroup,
               ),
-              const SizedBox(width: 50),
-            ],
-          ),
-          ListView.builder(
+            ),
+            const SizedBox(width: 50),
+          ],
+        ),
+        Expanded(
+          child: ListView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
@@ -750,11 +750,11 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                     RichText(
                                       text: TextSpan(
                                         children: [
-                                          const TextSpan(text: 'Existing ID:', style: TextStyle(color: Colors.red)),
-                                          TextSpan(text: provider.quotes[index].existingCircuitID, style: TextStyle(color: AppTheme.of(context).primaryBackground)),
+                                          const TextSpan(text: 'Existing ID: ', style: TextStyle(color: Colors.red)),
+                                          TextSpan(text: provider.quotes[index].existingCircuitID),
                                           const TextSpan(text: ' - '),
                                           const TextSpan(text: 'New ID: ', style: TextStyle(color: Colors.green)),
-                                          TextSpan(text: provider.quotes[index].newCircuitID, style: TextStyle(color: AppTheme.of(context).primaryBackground)),
+                                          TextSpan(text: provider.quotes[index].newCircuitID),
                                         ],
                                       ),
                                     ),
@@ -991,6 +991,9 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                                 onTap: () {
                                                   setState(() {
                                                     provider.quotes[index].items.removeAt(rendererContext.rowIdx);
+                                                    if (provider.quotes[index].items.isEmpty) {
+                                                      provider.quotes.removeAt(index);
+                                                    }
                                                   });
                                                   provider.countRows();
                                                 },
@@ -1024,8 +1027,8 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
               );
             },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
