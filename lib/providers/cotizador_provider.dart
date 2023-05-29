@@ -1,7 +1,9 @@
 // import 'dart:developer';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/pages/accounts/models/orders.dart';
 
 class CotizadorProvider extends ChangeNotifier {
   CotizadorProvider() {
@@ -9,6 +11,11 @@ class CotizadorProvider extends ChangeNotifier {
   }
 
   clearAll() {
+    subtotal = 0;
+    cost = 0;
+    total = 0;
+    margin = 0;
+
     existingCircuitIDController.clear();
     newCircuitIDController.clear();
     newDataCenterController.clear();
@@ -30,11 +37,22 @@ class CotizadorProvider extends ChangeNotifier {
     unitCostController.clear();
     quantityController.clear();
 
-    rows.clear();
+    globalRows.clear();
   }
 
-  PlutoGridStateManager? stateManager;
-  List<PlutoRow> rows = [];
+  List<PlutoGridStateManager> listStateManager = [];
+  List<PlutoRow> globalRows = [];
+  List<QuoteOrder> quotes = [];
+
+  var tableTop1Group = AutoSizeGroup();
+  var tableTopGroup = AutoSizeGroup();
+  var tableContentGroup = AutoSizeGroup();
+
+  int totalItems = 0;
+  double subtotal = 0;
+  double cost = 0;
+  double total = 0;
+  double margin = 0;
 
   final existingCircuitIDController = TextEditingController();
   final newCircuitIDController = TextEditingController();
@@ -68,18 +86,9 @@ class CotizadorProvider extends ChangeNotifier {
     'San Antonio',
     'Seattle',
     'St. Louis',
-    'New',
+    'New'
   ];
-  List<String> circuitInfosList = [
-    'Provider: ATT, Fiberlight, etc.',
-    'NNI',
-    'DIA',
-    'CIR',
-    'Port Size',
-    'Multicast Required',
-    'Cross-Connect',
-    'EVCoD',
-  ];
+  List<String> circuitInfosList = ['Provider: ATT, Fiberlight, etc.', 'NNI', 'DIA', 'CIR', 'Port Size', 'Multicast Required', 'Cross-Connect', 'EVCoD'];
   List<String> ddosList = ['Yes', 'No'];
   List<String> evcodList = ['No', 'New', 'Existing EVC'];
   List<String> bgpList = ['No', 'IPv4', 'IPv6', 'Current ASN(s)'];
@@ -167,55 +176,6 @@ class CotizadorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addRow() {
-    var dataCenterType = '';
-    if (dataCenterSelectedValue != 'New') {
-      dataCenterType = 'Existing';
-    } else {
-      dataCenterType = 'New';
-    }
-
-    var dataCenterLocation = '';
-    if (dataCenterSelectedValue != 'New') {
-      dataCenterLocation = dataCenterSelectedValue;
-    } else {
-      dataCenterLocation = newDataCenterController.text;
-    }
-
-    rows.add(
-      PlutoRow(
-        cells: {
-          'ORDER_TYPE_Column': PlutoCell(value: orderTypesSelectedValue),
-          'TYPE_Column': PlutoCell(value: typesSelectedValue),
-          'EXISTING_CIRCUIT_Column': PlutoCell(value: existingCircuitIDController.text),
-          'NEW_CIRCUIT_Column': PlutoCell(value: newCircuitIDController.text),
-          'DATA_CENTER_TYPE_Column': PlutoCell(value: dataCenterType),
-          'DATA_CENTER_LOCATION_Column': PlutoCell(value: dataCenterLocation),
-          ////////////////////////////////////////////////////////////////////
-          'CIRCUIT_TYPE_Column': PlutoCell(value: circuitTypeSelectedValue),
-          'EVCOD_TYPE_Column': PlutoCell(value: evcodSelectedValue),
-          'CIRCUIT_ID_Column': PlutoCell(value: existingEVCController.text),
-          'DDOS_Column': PlutoCell(value: ddosSelectedValue),
-          'BGP_Column': PlutoCell(value: bgpSelectedValue),
-          'IP_ADRESS_Column': PlutoCell(value: ipAdressSelectedValue),
-          'IP_INTERFACE_Column': PlutoCell(value: ipInterfaceSelectedValue),
-          'IP_SUBNET_Column': PlutoCell(value: subnetSelectedValue),
-          ////////////////////////////////////////////////////////////////////
-          'LINE_ITEM_Column': PlutoCell(value: lineItemCenterController.text),
-          'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text)),
-          'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text) * -1),
-          'QUANTITY_Column': PlutoCell(value: int.parse(quantityController.text)),
-          'ACTIONS_Column': PlutoCell(value: 'Actions'),
-        },
-      ),
-    );
-    lineItemCenterController.clear();
-    unitPriceController.clear();
-    unitCostController.clear();
-    quantityController.clear();
-    notifyListeners();
-  }
-
   bool isValidated() {
     if (typesSelectedValue == 'Disconnect' && existingCircuitIDController.text.isEmpty) {
       return false;
@@ -238,6 +198,162 @@ class CotizadorProvider extends ChangeNotifier {
       return true;
     }
   }
+
+  void addRow() {
+    var dataCenterType = 'New';
+    if (dataCenterSelectedValue != 'New') {
+      dataCenterType = 'Existing';
+    }
+
+    var dataCenterLocation = '';
+    if (dataCenterSelectedValue != 'New') {
+      dataCenterLocation = dataCenterSelectedValue;
+    } else {
+      dataCenterLocation = newDataCenterController.text;
+    }
+
+    var evcod = '';
+    var evcodId = '';
+    if (circuitTypeSelectedValue == 'EVCoD') {
+      evcod = evcodSelectedValue;
+      if (evcodSelectedValue == 'Existing EVC') {
+        evcodId = existingEVCController.text;
+      }
+    }
+
+    var ipInterface = '';
+    var ipSubnet = '';
+    if (ipAdressSelectedValue == 'Interface') {
+      ipInterface = ipInterfaceSelectedValue;
+    } else {
+      ipSubnet = subnetSelectedValue;
+    }
+
+    var row = PlutoRow(
+      cells: {
+        'ORDER_TYPE_Column': PlutoCell(value: orderTypesSelectedValue),
+        'TYPE_Column': PlutoCell(value: typesSelectedValue),
+        'EXISTING_CIRCUIT_Column': PlutoCell(value: existingCircuitIDController.text),
+        'NEW_CIRCUIT_Column': PlutoCell(value: newCircuitIDController.text),
+        'DATA_CENTER_TYPE_Column': PlutoCell(value: dataCenterType),
+        'DATA_CENTER_LOCATION_Column': PlutoCell(value: dataCenterLocation),
+        ////////////////////////////////////////////////////////////////////
+        'CIRCUIT_TYPE_Column': PlutoCell(value: circuitTypeSelectedValue),
+        'EVCOD_TYPE_Column': PlutoCell(value: evcod),
+        'CIRCUIT_ID_Column': PlutoCell(value: evcodId),
+        'DDOS_Column': PlutoCell(value: ddosSelectedValue),
+        'BGP_Column': PlutoCell(value: bgpSelectedValue),
+        'IP_ADRESS_Column': PlutoCell(value: ipAdressSelectedValue),
+        'IP_INTERFACE_Column': PlutoCell(value: ipInterface),
+        'IP_SUBNET_Column': PlutoCell(value: ipSubnet),
+        ////////////////////////////////////////////////////////////////////
+        'LINE_ITEM_Column': PlutoCell(value: lineItemCenterController.text),
+        'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text)),
+        'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text) * -1),
+        'QUANTITY_Column': PlutoCell(value: int.parse(quantityController.text)),
+        'ACTIONS_Column': PlutoCell(value: 'Actions'),
+      },
+    );
+
+    globalRows.add(row);
+
+    bool founded = false;
+    for (var quote in quotes) {
+      if (orderTypesSelectedValue == quote.orderType &&
+          typesSelectedValue == quote.type &&
+          existingCircuitIDController.text == quote.existingCircuitID &&
+          newCircuitIDController.text == quote.newCircuitID &&
+          dataCenterType == quote.dataCenterType &&
+          dataCenterLocation == quote.dataCenterLocation &&
+          circuitTypeSelectedValue == quote.circuitType &&
+          evcod == quote.evcodType &&
+          evcodId == quote.evcodCircuitID &&
+          ddosSelectedValue == quote.ddos &&
+          bgpSelectedValue == quote.bgp &&
+          ipAdressSelectedValue == quote.ipAdress &&
+          ipInterface == quote.ipInterface &&
+          ipSubnet == quote.ipSubnet) {
+        founded = true;
+        quote.items.add(PlutoRow(cells: {
+          'LINE_ITEM_Column': PlutoCell(value: row.cells['LINE_ITEM_Column']!.value.toString()),
+          'UNIT_PRICE_Column': PlutoCell(value: row.cells['UNIT_PRICE_Column']!.value),
+          'UNIT_COST_Column': PlutoCell(value: row.cells['UNIT_COST_Column']!.value),
+          'QUANTITY_Column': PlutoCell(value: row.cells['QUANTITY_Column']!.value),
+          'ACTIONS_Column': PlutoCell(value: 'Actions'),
+        }));
+      }
+    }
+    if (!founded) {
+      quotes.add(
+        QuoteOrder(
+          rowId: row.sortIdx,
+          orderType: row.cells['ORDER_TYPE_Column']!.value.toString(),
+          type: row.cells['TYPE_Column']!.value.toString(),
+          existingCircuitID: row.cells['EXISTING_CIRCUIT_Column']!.value.toString(),
+          newCircuitID: row.cells['NEW_CIRCUIT_Column']!.value.toString(),
+          dataCenterType: row.cells['DATA_CENTER_TYPE_Column']!.value.toString(),
+          dataCenterLocation: row.cells['DATA_CENTER_LOCATION_Column']!.value.toString(),
+          ////////////////////////////////////////////////////////////////////
+          circuitType: row.cells['CIRCUIT_TYPE_Column']!.value.toString(),
+          evcodType: row.cells['EVCOD_TYPE_Column']!.value.toString(),
+          evcodCircuitID: row.cells['CIRCUIT_ID_Column']!.value.toString(),
+          ddos: row.cells['DDOS_Column']!.value.toString(),
+          bgp: row.cells['BGP_Column']!.value.toString(),
+          ipAdress: row.cells['IP_ADRESS_Column']!.value.toString(),
+          ipInterface: row.cells['IP_INTERFACE_Column']!.value.toString(),
+          ipSubnet: row.cells['IP_SUBNET_Column']!.value.toString(),
+          items: [
+            PlutoRow(
+              cells: {
+                'LINE_ITEM_Column': PlutoCell(value: row.cells['LINE_ITEM_Column']!.value.toString()),
+                'UNIT_PRICE_Column': PlutoCell(value: row.cells['UNIT_PRICE_Column']!.value),
+                'UNIT_COST_Column': PlutoCell(value: row.cells['UNIT_COST_Column']!.value),
+                'QUANTITY_Column': PlutoCell(value: row.cells['QUANTITY_Column']!.value),
+                'ACTIONS_Column': PlutoCell(value: 'Actions'),
+              },
+            )
+          ],
+        ),
+      );
+    }
+
+    lineItemCenterController.clear();
+    unitPriceController.clear();
+    unitCostController.clear();
+    quantityController.clear();
+    countRows();
+    notifyListeners();
+  }
+
+  void countRows() {
+    totalItems = 0;
+    subtotal = 0;
+    cost = 0;
+    total = 0;
+    margin = 0;
+
+    // ExpansionPanelList
+    for (var quote in quotes) {
+      for (var item in quote.items) {
+        totalItems++;
+        subtotal = (item.cells['UNIT_PRICE_Column']!.value * item.cells['QUANTITY_Column']!.value) + subtotal;
+        cost = ((item.cells['UNIT_COST_Column']!.value * -1) * item.cells['QUANTITY_Column']!.value) + cost;
+      }
+    }
+
+    // PlutoGrid
+    /* for (var row in globalRows) {
+      totalItems++;
+      subtotal = (row.cells['UNIT_PRICE_Column']!.value * row.cells['QUANTITY_Column']!.value) + subtotal;
+      cost = ((row.cells['UNIT_COST_Column']!.value * -1) * row.cells['QUANTITY_Column']!.value) + cost;
+    } */
+
+    total = subtotal - cost;
+    margin = total * 100 / subtotal;
+    notifyListeners();
+  }
+
+  void deleteRow() {}
 
   void resetForm() {
     existingCircuitIDController.clear();
@@ -263,6 +379,4 @@ class CotizadorProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  void deleteRow() {}
 }
