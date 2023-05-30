@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:rta_crm_cv/helpers/supabase/queries.dart';
-import 'package:rta_crm_cv/providers/cotizador_provider.dart';
+import 'package:rta_crm_cv/providers/accounts/create_quote_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -13,6 +13,7 @@ import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 import 'models/configuration.dart';
+import 'providers/accounts/detail_quote_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +45,10 @@ void main() async {
           create: (_) => UsersProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => CotizadorProvider(),
+          create: (_) => CreateQuoteProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DetailQuoteProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),

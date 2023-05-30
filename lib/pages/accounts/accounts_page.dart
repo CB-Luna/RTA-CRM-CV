@@ -59,19 +59,14 @@ class _AccountsPageState extends State<AccountsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 30),
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomTextIconButton(
-                              icon: Icon(Icons.filter_alt_outlined,
-                                  color:
-                                      AppTheme.of(context).primaryBackground),
+                              icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
                               text: 'Filter',
-                              onTap: () => provider.stateManager!
-                                  .setShowColumnFilter(
-                                      !provider.stateManager!.showColumnFilter),
+                              onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
                             ),
                             CustomTextField(
                               enabled: true,
@@ -81,12 +76,10 @@ class _AccountsPageState extends State<AccountsPage> {
                               keyboardType: TextInputType.text,
                             ),
                             CustomTextIconButton(
-                              icon: Icon(Icons.add,
-                                  color:
-                                      AppTheme.of(context).primaryBackground),
-                              text: 'Add Quote',
+                              icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                              text: 'Create Quote',
                               onTap: () async {
-                                context.pushReplacement('/add_quote');
+                                context.pushReplacement('/quote_creation');
                               },
                             )
                           ],
@@ -109,45 +102,30 @@ class _AccountsPageState extends State<AccountsPage> {
                                 ],
                                 resolveDefaultColumnFilter: (column, resolver) {
                                   if (column.field == 'ID_Column') {
-                                    return resolver<PlutoFilterTypeContains>()
-                                        as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                   } else if (column.field == 'AVATAR_Column') {
-                                    return resolver<PlutoFilterTypeContains>()
-                                        as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                   } else if (column.field == 'USER_Column') {
-                                    return resolver<PlutoFilterTypeContains>()
-                                        as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                   } else if (column.field == 'ROLE_Column') {
-                                    return resolver<PlutoFilterTypeContains>()
-                                        as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                   } else if (column.field == 'EMAIL_Column') {
-                                    return resolver<PlutoFilterTypeContains>()
-                                        as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                   } else if (column.field == 'MOBILE_Column') {
-                                    return resolver<PlutoFilterTypeContains>()
-                                        as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                   } else if (column.field == 'STATE_Column') {
-                                    return resolver<PlutoFilterTypeContains>()
-                                        as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                   }
-                                  return resolver<PlutoFilterTypeContains>()
-                                      as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                 },
                               ),
                             ),
                             columns: [
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(
-                                      child: Icon(Icons.vpn_key_outlined,
-                                          color: AppTheme.of(context)
-                                              .primaryBackground)),
+                                  WidgetSpan(child: Icon(Icons.vpn_key_outlined, color: AppTheme.of(context).primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(
-                                      text: 'ID',
-                                      style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .primaryBackground))
+                                  TextSpan(text: 'ID', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
                                 backgroundColor: Color(0XFF6491F7),
                                 title: 'ID',
@@ -163,18 +141,14 @@ class _AccountsPageState extends State<AccountsPage> {
                                   return Container(
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
-                                    decoration:
-                                        BoxDecoration(gradient: whiteGradient),
+                                    decoration: BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                       child: Text(
                                         rendererContext.cell.value.toString(),
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(
+                                        style: AppTheme.of(context).contenidoTablas.override(
                                               fontFamily: 'Gotham-Regular',
                                               useGoogleFonts: false,
-                                              color: AppTheme.of(context)
-                                                  .primaryColor,
+                                              color: AppTheme.of(context).primaryColor,
                                             ),
                                       ),
                                     ),
@@ -211,16 +185,9 @@ class _AccountsPageState extends State<AccountsPage> {
                               ), */
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(
-                                      child: Icon(Icons.person_outline,
-                                          color: AppTheme.of(context)
-                                              .primaryBackground)),
+                                  WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(
-                                      text: 'User',
-                                      style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .primaryBackground))
+                                  TextSpan(text: 'User', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
                                 backgroundColor: Color(0XFF6491F7),
                                 title: 'USER',
@@ -235,26 +202,16 @@ class _AccountsPageState extends State<AccountsPage> {
                                   return Container(
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
-                                    decoration:
-                                        BoxDecoration(gradient: whiteGradient),
-                                    child: Center(
-                                        child:
-                                            Text(rendererContext.cell.value)),
+                                    decoration: BoxDecoration(gradient: whiteGradient),
+                                    child: Center(child: Text(rendererContext.cell.value)),
                                   );
                                 },
                               ),
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(
-                                      child: Icon(Icons.local_offer_outlined,
-                                          color: AppTheme.of(context)
-                                              .primaryBackground)),
+                                  WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(
-                                      text: 'Role',
-                                      style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .primaryBackground))
+                                  TextSpan(text: 'Role', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
                                 backgroundColor: Color(0XFF6491F7),
                                 title: 'ROLE',
@@ -269,26 +226,16 @@ class _AccountsPageState extends State<AccountsPage> {
                                   return Container(
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
-                                    decoration:
-                                        BoxDecoration(gradient: whiteGradient),
-                                    child: Center(
-                                        child:
-                                            Text(rendererContext.cell.value)),
+                                    decoration: BoxDecoration(gradient: whiteGradient),
+                                    child: Center(child: Text(rendererContext.cell.value)),
                                   );
                                 },
                               ),
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(
-                                      child: Icon(Icons.alternate_email,
-                                          color: AppTheme.of(context)
-                                              .primaryBackground)),
+                                  WidgetSpan(child: Icon(Icons.alternate_email, color: AppTheme.of(context).primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(
-                                      text: 'Email',
-                                      style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .primaryBackground))
+                                  TextSpan(text: 'Email', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
                                 backgroundColor: Color(0XFF6491F7),
                                 title: 'EMAIL',
@@ -303,26 +250,16 @@ class _AccountsPageState extends State<AccountsPage> {
                                   return Container(
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
-                                    decoration:
-                                        BoxDecoration(gradient: whiteGradient),
-                                    child: Center(
-                                        child:
-                                            Text(rendererContext.cell.value)),
+                                    decoration: BoxDecoration(gradient: whiteGradient),
+                                    child: Center(child: Text(rendererContext.cell.value)),
                                   );
                                 },
                               ),
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(
-                                      child: Icon(Icons.phone_outlined,
-                                          color: AppTheme.of(context)
-                                              .primaryBackground)),
+                                  WidgetSpan(child: Icon(Icons.phone_outlined, color: AppTheme.of(context).primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(
-                                      text: 'Mobile Phone',
-                                      style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .primaryBackground))
+                                  TextSpan(text: 'Mobile Phone', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
                                 backgroundColor: Color(0XFF6491F7),
                                 title: 'MOBILE PHONE',
@@ -337,26 +274,16 @@ class _AccountsPageState extends State<AccountsPage> {
                                   return Container(
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
-                                    decoration:
-                                        BoxDecoration(gradient: whiteGradient),
-                                    child: Center(
-                                        child:
-                                            Text(rendererContext.cell.value)),
+                                    decoration: BoxDecoration(gradient: whiteGradient),
+                                    child: Center(child: Text(rendererContext.cell.value)),
                                   );
                                 },
                               ),
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(
-                                      child: Icon(Icons.location_on_outlined,
-                                          color: AppTheme.of(context)
-                                              .primaryBackground)),
+                                  WidgetSpan(child: Icon(Icons.location_on_outlined, color: AppTheme.of(context).primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(
-                                      text: 'State',
-                                      style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .primaryBackground))
+                                  TextSpan(text: 'State', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
                                 backgroundColor: Color(0XFF6491F7),
                                 title: 'STATE',
@@ -371,22 +298,17 @@ class _AccountsPageState extends State<AccountsPage> {
                                   return Container(
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
-                                    decoration:
-                                        BoxDecoration(gradient: whiteGradient),
-                                    child: Center(
-                                        child:
-                                            Text(rendererContext.cell.value)),
+                                    decoration: BoxDecoration(gradient: whiteGradient),
+                                    child: Center(child: Text(rendererContext.cell.value)),
                                   );
                                 },
                                 footerRenderer: (context) {
                                   return SizedBox(
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         CustomIconButton(
-                                          icon: Icons
-                                              .keyboard_arrow_down_outlined,
+                                          icon: Icons.keyboard_arrow_down_outlined,
                                           toolTip: 'less',
                                           onTap: () {
                                             provider.setPageSize('less');
@@ -399,8 +321,7 @@ class _AccountsPageState extends State<AccountsPage> {
                                         ),
                                         const SizedBox(width: 10),
                                         CustomIconButton(
-                                          icon:
-                                              Icons.keyboard_arrow_up_outlined,
+                                          icon: Icons.keyboard_arrow_up_outlined,
                                           toolTip: 'more',
                                           onTap: () {
                                             provider.setPageSize('more');
@@ -421,16 +342,9 @@ class _AccountsPageState extends State<AccountsPage> {
                               ),
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(
-                                      child: Icon(Icons.list,
-                                          color: AppTheme.of(context)
-                                              .primaryBackground)),
+                                  WidgetSpan(child: Icon(Icons.list, color: AppTheme.of(context).primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(
-                                      text: 'Actions',
-                                      style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .primaryBackground))
+                                  TextSpan(text: 'Actions', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
                                 backgroundColor: Color(0XFF6491F7),
                                 title: 'ACTIONS',
@@ -448,11 +362,9 @@ class _AccountsPageState extends State<AccountsPage> {
                                   return Container(
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
-                                    decoration:
-                                        BoxDecoration(gradient: whiteGradient),
+                                    decoration: BoxDecoration(gradient: whiteGradient),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
                                         CustomTextIconButton(
                                           icon: const Icon(
@@ -499,12 +411,10 @@ class _AccountsPageState extends State<AccountsPage> {
                                   return SizedBox(
                                     height: 50,
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         CustomIconButton(
-                                          icon:
-                                              Icons.keyboard_double_arrow_left,
+                                          icon: Icons.keyboard_double_arrow_left,
                                           toolTip: 'start',
                                           onTap: () {
                                             provider.setPage('start');
@@ -512,25 +422,17 @@ class _AccountsPageState extends State<AccountsPage> {
                                         ),
                                         const SizedBox(width: 2),
                                         CustomIconButton(
-                                          icon: Icons
-                                              .keyboard_arrow_left_outlined,
+                                          icon: Icons.keyboard_arrow_left_outlined,
                                           toolTip: 'previous',
                                           onTap: () {
                                             provider.setPage('previous');
                                           },
                                         ),
                                         const SizedBox(width: 5),
-                                        SizedBox(
-                                            width: 30,
-                                            child: Center(
-                                                child: Text(
-                                                    provider.page.toString(),
-                                                    style: TextStyle(
-                                                        color: Colors.white)))),
+                                        SizedBox(width: 30, child: Center(child: Text(provider.page.toString(), style: TextStyle(color: Colors.white)))),
                                         const SizedBox(width: 5),
                                         CustomIconButton(
-                                          icon: Icons
-                                              .keyboard_arrow_right_outlined,
+                                          icon: Icons.keyboard_arrow_right_outlined,
                                           toolTip: 'next',
                                           onTap: () {
                                             provider.setPage('next');
@@ -538,8 +440,7 @@ class _AccountsPageState extends State<AccountsPage> {
                                         ),
                                         const SizedBox(width: 2),
                                         CustomIconButton(
-                                          icon:
-                                              Icons.keyboard_double_arrow_right,
+                                          icon: Icons.keyboard_double_arrow_right,
                                           toolTip: 'end',
                                           onTap: () {
                                             provider.setPage('end');

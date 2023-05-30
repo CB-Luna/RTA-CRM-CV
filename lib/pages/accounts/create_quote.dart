@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/pages/accounts/widgets/table_top_text.dart';
-import 'package:rta_crm_cv/providers/cotizador_provider.dart';
+import 'package:rta_crm_cv/providers/accounts/create_quote_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -16,20 +15,20 @@ import 'package:rta_crm_cv/widgets/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
-class Cotizador extends StatefulWidget {
-  const Cotizador({super.key});
+class CreateQuotePage extends StatefulWidget {
+  const CreateQuotePage({super.key});
 
   @override
-  State<Cotizador> createState() => _CotizadorState();
+  State<CreateQuotePage> createState() => _CreateQuotePageState();
 }
 
-class _CotizadorState extends State<Cotizador> {
+class _CreateQuotePageState extends State<CreateQuotePage> {
   @override
   Widget build(BuildContext context) {
     double txfFieldWidth = (MediaQuery.of(context).size.width / 7);
     // double txfFieldPadding = 10;
 
-    CotizadorProvider provider = Provider.of<CotizadorProvider>(context);
+    CreateQuoteProvider provider = Provider.of<CreateQuoteProvider>(context);
 
     return Material(
       child: SizedBox(
@@ -481,7 +480,7 @@ class _CotizadorState extends State<Cotizador> {
                                             child: Padding(
                                               padding: const EdgeInsets.all(10),
                                               child: Text(
-                                                provider.totalItems.toString(),
+                                                provider.quotes.length.toString(),
                                                 style: AppTheme.of(context).encabezadoTablas,
                                               ),
                                             ),
@@ -655,10 +654,9 @@ class ExpansionPanelListCotizador extends StatefulWidget {
 class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizador> {
   @override
   Widget build(BuildContext context) {
-    double txfFieldWidth = (MediaQuery.of(context).size.width / 7);
     // double txfFieldPadding = 10;
 
-    CotizadorProvider provider = Provider.of<CotizadorProvider>(context);
+    CreateQuoteProvider provider = Provider.of<CreateQuoteProvider>(context);
     return Column(
       children: [
         Row(
@@ -1043,10 +1041,9 @@ class PlutoGridCotizador extends StatefulWidget {
 class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
   @override
   Widget build(BuildContext context) {
-    double txfFieldWidth = (MediaQuery.of(context).size.width / 7);
     // double txfFieldPadding = 10;
 
-    CotizadorProvider provider = Provider.of<CotizadorProvider>(context);
+    CreateQuoteProvider provider = Provider.of<CreateQuoteProvider>(context);
     return PlutoGrid(
       key: UniqueKey(),
       configuration: PlutoGridConfiguration(
