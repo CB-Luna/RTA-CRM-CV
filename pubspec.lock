@@ -169,6 +169,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.17"
+  enum_to_string:
+    dependency: transitive
+    description:
+      name: enum_to_string
+      sha256: bd9e83a33b754cb43a75b36a9af2a0b92a757bfd9847d2621ca0b1bed45f8e7a
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   equatable:
     dependency: transitive
     description:
@@ -688,6 +696,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.2"
+  pluto_grid_export:
+    dependency: "direct main"
+    description:
+      name: pluto_grid_export
+      sha256: "7e39f939624742ec51ec81da015922c1f61ee516657ab04e2a14f682ad8efef6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   pointycastle:
     dependency: transitive
     description:
@@ -933,6 +949,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  swiss_knife:
+    dependency: transitive
+    description:
+      name: swiss_knife
+      sha256: "3066fc2ed9a90139cf69f1733f6f9714f7a0a4e6a9d668451d5a1e371da8897b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.5"
   syncfusion_flutter_calendar:
     dependency: "direct main"
     description:
