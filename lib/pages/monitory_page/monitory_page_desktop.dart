@@ -1,5 +1,7 @@
 // ignore_for_file: unrelated_type_equality_checks
 
+
+
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +9,17 @@ import 'package:rta_crm_cv/pages/monitory_page/widgets/Search_bar_monitory.dart'
 import 'package:rta_crm_cv/pages/monitory_page/widgets/calendar.dart';
 import 'package:rta_crm_cv/widgets/card_header.dart';
 
+
 //import 'widgets/carga_de_ticket_popup.dart';
 import '../../helpers/constants.dart';
 import '../../providers/monitory_provider.dart';
 import '../../public/colors.dart';
 import '../../widgets/side_menu/sidemenu.dart';
+
+
+
+
+
 
 final List<LinearGradient> gradients = [
   const LinearGradient(colors: [

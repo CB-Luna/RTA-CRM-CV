@@ -1,3 +1,4 @@
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -18,6 +19,13 @@ class MonitoryPageHeader extends StatefulWidget {
 }
 
 class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
+
+  // Future<void> _exportExcel(){
+  //   final excel  = Excel.createExcel();
+  //   final sheet = excel.sheets[excel.getDefaultSheet() as String];
+  //   sheet?.setColWidth(2, 50);
+  //   sheet?.setColAutoFit(3);
+  // }
   @override
   Widget build(BuildContext context) {
     // final EmpleadosProvider empleadoProvider =

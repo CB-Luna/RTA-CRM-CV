@@ -169,14 +169,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.17"
-  enum_to_string:
+  equatable:
     dependency: transitive
     description:
-      name: enum_to_string
-      sha256: bd9e83a33b754cb43a75b36a9af2a0b92a757bfd9847d2621ca0b1bed45f8e7a
+      name: equatable
+      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.5"
+  excel:
+    dependency: "direct main"
+    description:
+      name: excel
+      sha256: f6a76fff6ac14f48fd44a6528e72705965e02cbc593e00427ab1d9a9f5d3bffa
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -585,7 +593,7 @@ packages:
     source: hosted
     version: "1.0.1"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       sha256: "3087813781ab814e4157b172f1a11c46be20179fcc9bea043e0fba36bc0acaa2"
@@ -680,14 +688,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.2"
-  pluto_grid_export:
-    dependency: "direct main"
-    description:
-      name: pluto_grid_export
-      sha256: "7e39f939624742ec51ec81da015922c1f61ee516657ab04e2a14f682ad8efef6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.6"
   pointycastle:
     dependency: transitive
     description:
@@ -933,14 +933,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
-  swiss_knife:
-    dependency: transitive
+  syncfusion_flutter_calendar:
+    dependency: "direct main"
     description:
-      name: swiss_knife
-      sha256: "3066fc2ed9a90139cf69f1733f6f9714f7a0a4e6a9d668451d5a1e371da8897b"
+      name: syncfusion_flutter_calendar
+      sha256: "05af3bbaf83b6a923496b9a3c14398db0d910b08c442c7b3815c03ac66cc3699"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.5"
+    version: "21.2.6"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "998d242c1f022eccf53f414a4343af34ab980700fee36cef8f78d94538ca749f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "21.2.6"
+  syncfusion_flutter_datepicker:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_datepicker
+      sha256: "93e2cad846282391bfa6cd769e0ac59f3fdf2d4ea75f09db75cd1545308696c9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "21.2.6"
   term_glyph:
     dependency: transitive
     description:
@@ -957,6 +973,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+  timezone:
+    dependency: transitive
+    description:
+      name: timezone
+      sha256: "24c8fcdd49a805d95777a39064862133ff816ebfffe0ceff110fb5960e557964"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.1"
   typed_data:
     dependency: transitive
     description:
