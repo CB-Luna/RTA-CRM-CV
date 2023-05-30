@@ -1,39 +1,56 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:file_saver/file_saver.dart';
+import 'package:pluto_grid_export/pluto_grid_export.dart' as pluto_grid_export;
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/models/company_api.dart';
+import 'package:rta_crm_cv/models/status_api.dart';
+import 'package:uuid/uuid.dart';
+import 'package:path/path.dart' as p;
+import 'package:http/http.dart' as http;
 
+import '../helpers/constants.dart';
 import '../helpers/globals.dart';
 import '../models/vehicle.dart';
 
 class InventoryProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
   List<PlutoRow> rows = [];
-  //ALTA USUARIO
-  TextEditingController nombreController = TextEditingController();
-  TextEditingController correoController = TextEditingController();
-  TextEditingController apellidosController = TextEditingController();
-  TextEditingController telefonoController = TextEditingController();
-  TextEditingController areaTrabajoController = TextEditingController();
-  TextEditingController extController = TextEditingController();
-  TextEditingController proveedorController = TextEditingController();
-  TextEditingController nombreProveedorController = TextEditingController();
-  TextEditingController cuentaProveedorController = TextEditingController();
-  TextEditingController puntosController = TextEditingController();
-  String altaDropValue = "";
-  int areaTrabajoId = 7; //por definir
+  //Alta Inventario
+  TextEditingController brandController = TextEditingController();
+  TextEditingController modelController = TextEditingController();
+  TextEditingController vinController = TextEditingController();
+  TextEditingController plateNumberController = TextEditingController();
+  TextEditingController motorController = TextEditingController();
+  TextEditingController colorController = TextEditingController();
+  TextEditingController dateTimeControllerOil = TextEditingController();
+  TextEditingController dateTimeControllerReg = TextEditingController();
+  TextEditingController dateTimeControllerIRD = TextEditingController();
+  TextEditingController searchController = TextEditingController();
+  TextEditingController yearController = TextEditingController();
+  TextEditingController statusController = TextEditingController();
 
-  String? cuentasDropValue = '';
-  late int rolParaRegistro;
-  String headerText = 'Nuevo usuario';
+  Future<void> updateState() async {
+    rows.clear();
+    await getInventory();
+  }
+
   String? imageName;
+  String? imageBase64;
   Uint8List? webImage;
+  int idvehicle = 13;
 
   //List<RolApi> roles = [];
   List<String> dropdownMenuItems = [];
-
+  StatusApi? statusSelected;
+  CompanyApi? companySelected;
+  List<CompanyApi> company = [];
+  List<StatusApi> status = [];
   List<Vehicle> vehicles = [];
   //List<Empleados> usuarios = [];
   //List<Empleados> usuariosTesoreros = [];
@@ -70,45 +87,121 @@ class InventoryProvider extends ChangeNotifier {
   String? avatarNew;
   String? nombreNew;
 //------------------------------------------
-  //PANTALLA USUARIOS
-  final busquedaController = TextEditingController();
-  late final TextEditingController filasController;
-  int countF = 20;
-  String orden = "usuario_id_secuencial";
-  bool asc = true;
-  bool filtroSimple = false;
-  final AutoSizeGroup tableTopGroup = AutoSizeGroup();
-  final AutoSizeGroup tableContentGroup = AutoSizeGroup();
+
+  // void selectCompany(String state) {
+  //   companySelected = companyApi.firstWhere((elem) => elem.company == company);
+  //   notifyListeners();
+  // }
 
   //----------------------------------------------Paginador variables
 
-  int seccionActual = 1;
-  int totalSecciones = 1;
-  int totalFilas = 0;
-  int from = 0;
-  int hasta = 20;
   //----------------------------------------------
 
   InventoryProvider() {
     getInventory();
-    filasController = TextEditingController(text: countF.toString());
   }
 
 //---------------------------------------------
-  Future<void> setSeccionActual(int value) async {
-    seccionActual = value;
-    await getInventory();
+
+//---------------------------------------------
+
+//---------------------------------------------
+
+  Future<void> selectImage() async {
+    final ImagePicker picker = ImagePicker();
+
+    final XFile? pickedImage = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedImage == null) return;
+
+    final String fileExtension = p.extension(pickedImage.name);
+    const uuid = Uuid();
+    final String fileName = uuid.v1();
+    imageName = 'car-$fileName$fileExtension';
+
+    webImage = await pickedImage.readAsBytes();
+    imageBase64 = base64Encode(webImage!);
+
+    notifyListeners();
+  }
+//---------------------------------------------
+
+  Future<void> getCompanies({bool notify = true}) async {
+    final res = await supabase.from('company').select().order(
+          'company',
+          ascending: true,
+        );
+
+    company = (res as List<dynamic>)
+        .map((companys) => CompanyApi.fromJson(jsonEncode(companys)))
+        .toList();
+
+    if (notify) notifyListeners();
   }
 
-  updaterolParaRegistro(int valor, String header) {
-    rolParaRegistro = valor;
-    headerText = header;
-    /*  notifyListeners(); */
-    clearControllers();
-    return;
+  Future<void> getStatus({bool notify = true}) async {
+    final res = await supabase.from('status').select().order(
+          'status',
+          ascending: true,
+        );
+
+    status = (res as List<dynamic>)
+        .map((statu) => StatusApi.fromJson(jsonEncode(statu)))
+        .toList();
+
+    if (notify) notifyListeners();
   }
+//---------------------------------------------
+
+  void selectCompany(String companys) {
+    companySelected = company.firstWhere((elem) => elem.company == companys);
+    notifyListeners();
+  }
+
+  void selectStatu(String statu) {
+    statusSelected = status.firstWhere((elem) => elem.status == statu);
+    notifyListeners();
+  }
+//---------------------------------------------
+
+//---------------------------------------------
+
+  Future<bool> createVehicleInventory() async {
+    try {
+      await supabase.from('vehicle').insert(
+        {
+          'id_vehicle': idvehicle,
+          'make': brandController.text,
+          'model': modelController.text,
+          'year': yearController.text,
+          'vin': vinController.text,
+          'license_plates': plateNumberController.text,
+          'motor': motorController.text,
+          'color': colorController.text,
+          'image': imageBase64,
+          'id_status_fk': statusSelected?.statusId,
+          'id_company_fk': companySelected?.companyId,
+          'date_added': DateTime.now().toIso8601String(),
+          'oil_change_due': dateTimeControllerOil.text,
+          'registration_due': dateTimeControllerReg.text,
+          'insurance_renewal_due': dateTimeControllerIRD.text
+        },
+      );
+      return true;
+    } catch (e) {
+      print('Error in createVehicleInventory() - $e');
+      return false;
+    }
+  }
+  //---------------------------------------------
 
   Future<void> getInventory() async {
+    if (stateManager != null) {
+      stateManager!.setShowLoading(true);
+      notifyListeners();
+    }
     try {
       final res = await supabase.from('inventory_view').select();
       vehicles = (res as List<dynamic>)
@@ -188,64 +281,33 @@ class InventoryProvider extends ChangeNotifier {
         );
       }
 
-      if (stateManager != null) {
-        stateManager!.notifyListeners();
-      } else {
-        notifyListeners();
-        return;
+      void exportToCsv() async {
+        String title = "pluto_grid_export";
+
+        var exported = const Utf8Encoder().convert(
+            pluto_grid_export.PlutoGridExport.exportCSV(stateManager!));
+
+        // use file_saver from pub.dev
+        await FileSaver.instance.saveFile(name: "$title.csv", ext: '.csv');
       }
+
+      if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
-      print("erro en: InventoryProvider: getInventory() $e");
+      log('Error en getInventory() - $e');
     }
+
+    notifyListeners();
   }
 
-  Future<bool> editarPerfilDeEmpleado(String userId) async {
-    final res = await supabase
-        .from('perfil_usuario')
-        .update(
-          {
-            'perfil_usuario_id': userId,
-            'nombre': nombreController.text,
-            'apellidos': apellidosController.text,
-            'email': correoController.text,
-            'telefono': telefonoController.text,
-            'id_area_fk': areaTrabajoId,
-            'avatar': imageName ??
-                'https://xpbhozetzdxldzcbhcei.supabase.co/storage/v1/object/public/avatars/avatar-e42c5bd0-9110-11ed-98e7-3f1db831fd3c.png',
-          },
-        )
-        .eq('perfil_usuario_id', userId)
-        .select();
-
-    if (res == null) {
-      print(res.error!.message);
-      return false;
-    }
-    return true;
-  }
-
-  // void initEditarUsuario(Empleados usuario) {
-  //   nombreController.text = usuario.nombre;
-  //   apellidosController.text = usuario.apellidos;
-  //   correoController.text = usuario.email;
-  //   webImage = null;
-  //   //TODO: revisar roles e inicializar
-  //   isProveedor = false;
-  //   isTesoreroLocal = false;
-  //   proveedorId = null;
-  //   responsableId = null;
-  // }
 //----------------------------------------------
 
   void clearControllers() {
-    nombreController.clear();
-    correoController.clear();
-    apellidosController.clear();
-    telefonoController.clear();
-    extController.clear();
-    proveedorController.clear();
-    nombreProveedorController.clear();
-    cuentaProveedorController.clear();
+    brandController.clear();
+    modelController.clear();
+    vinController.clear();
+    plateNumberController.clear();
+    motorController.clear();
+    colorController.clear();
 
 /*     paisesSeleccionados = []; */
     //rolesSeleccionados = [];
@@ -263,15 +325,13 @@ class InventoryProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    busquedaController.dispose();
-    nombreController.dispose();
-    correoController.dispose();
-    apellidosController.dispose();
-    telefonoController.dispose();
-    extController.dispose();
-    proveedorController.dispose();
-    nombreProveedorController.dispose();
-    cuentaProveedorController.dispose();
+    brandController.dispose();
+    modelController.dispose();
+    vinController.dispose();
+    plateNumberController.dispose();
+    motorController.dispose();
+    colorController.dispose();
+
     super.dispose();
   }
 }

@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/providers/inventory_provider.dart';
 
 import '../../../theme/theme.dart';
 import '../../../widgets/custom_text_field.dart';
 import '../../../widgets/custom_text_icon_button.dart';
+import 'add_vehicle_pop_up.dart';
 
 class InventoryPageHeader extends StatefulWidget {
   InventoryPageHeader({
@@ -20,8 +25,7 @@ class InventoryPageHeader extends StatefulWidget {
 class _InventoryPageHeaderState extends State<InventoryPageHeader> {
   @override
   Widget build(BuildContext context) {
-    // final EmpleadosProvider empleadoProvider =
-    //     Provider.of<EmpleadosProvider>(context);
+    final InventoryProvider provider = Provider.of<InventoryProvider>(context);
 
     return Container(
       padding: EdgeInsets.only(left: 10, right: 10),
@@ -30,7 +34,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
         children: [
           CustomTextField(
             enabled: true,
-            controller: TextEditingController(),
+            controller: provider.searchController,
             icon: Icons.search,
             label: 'Search',
             keyboardType: TextInputType.text,
@@ -44,14 +48,20 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
               icon: Icon(Icons.add_box_outlined,
                   color: AppTheme.of(context).primaryBackground),
               text: 'Add Vehicle',
-              onTap: () {
-                // showDialog(
-                //     context: context,
-                //     builder: (BuildContext context) {
-                //       return StatefulBuilder(builder: (context, setState) {
-                //         return const AddUserPopUp();
-                //       });
-                //     });
+              onTap: () async {
+                provider.clearControllers();
+                await provider.getCompanies(notify: false);
+                await provider.getStatus(notify: false);
+
+                // ignore: use_build_context_synchronously
+                await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return StatefulBuilder(builder: (context, setState) {
+                        return const AddVehiclePopUp();
+                      });
+                    });
+                await provider.updateState();
               },
             ),
           ),
@@ -101,6 +111,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.1,
+            padding: EdgeInsets.all(10),
             child: CustomTextIconButton(
               icon: Icon(Icons.download_outlined,
                   color: AppTheme.of(context).primaryBackground),
@@ -115,7 +126,14 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                 //     });
               },
             ),
-          )
+          ),
+          CustomTextIconButton(
+            icon: Icon(Icons.filter_alt_outlined,
+                color: AppTheme.of(context).primaryBackground),
+            text: 'Filter',
+            onTap: () => provider.stateManager!
+                .setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+          ),
           //Buscar(empleadoProvider: empleadoProvider),
           /*
           // Add Vehicle
@@ -231,86 +249,3 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
     );
   }
 }
-
-// class Buscar extends StatelessWidget {
-//   const Buscar({
-//     Key? key,
-//     required this.empleadoProvider,
-//   }) : super(key: key);
-
-//   final EmpleadosProvider empleadoProvider;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 15, 0),
-//       child: Container(
-//         width: 250,
-//         height: 51,
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(25),
-//           border: Border.all(
-//             color: AppTheme.of(context).primaryColor,
-//             width: 1.5,
-//           ),
-//         ),
-//         child: Row(
-//           mainAxisSize: MainAxisSize.max,
-//           children: [
-//             Padding(
-//               padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-//               child: Icon(
-//                 Icons.search,
-//                 color: AppTheme.of(context).primaryColor,
-//                 size: 24,
-//               ),
-//             ),
-//             Center(
-//               child: SizedBox(
-//                 width: 200,
-//                 child: Padding(
-//                   padding: const EdgeInsets.symmetric(
-//                     horizontal: 5,
-//                   ),
-//                   child: TextFormField(
-//                     controller: empleadoProvider.busquedaController,
-//                     /* autofocus: true, */
-//                     decoration: InputDecoration(
-//                       labelText: 'Buscar',
-//                       /*  hintText: 'Buscar', */
-//                       hintStyle: AppTheme.of(context).subtitle1.override(
-//                             fontSize: 14,
-//                             fontFamily: 'Gotham-Light',
-//                             fontWeight: FontWeight.normal,
-//                             useGoogleFonts: false,
-//                           ),
-//                       enabledBorder: const UnderlineInputBorder(
-//                         borderSide: BorderSide(
-//                           color: Colors.transparent,
-//                         ),
-//                       ),
-//                       focusedBorder: const UnderlineInputBorder(
-//                         borderSide: BorderSide(
-//                           color: Colors.transparent,
-//                         ),
-//                       ),
-//                     ),
-//                     style: AppTheme.of(context).bodyText1.override(
-//                           fontFamily: 'Poppins',
-//                           fontSize: 15,
-//                           fontWeight: FontWeight.normal,
-//                         ),
-//                     onChanged: (value) async {
-//                       //await provider.getUsuarios();
-//                       await empleadoProvider.getEmpleado();
-//                     },
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

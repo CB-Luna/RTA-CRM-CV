@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +9,7 @@ import 'package:rta_crm_cv/pages/inventory_page/widgets/odi_card.dart';
 import 'package:rta_crm_cv/pages/inventory_page/widgets/smi_card.dart';
 import 'package:rta_crm_cv/widgets/card_header.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
+import 'package:pluto_grid_export/pluto_grid_export.dart' as pluto_grid_export;
 
 //import 'widgets/carga_de_ticket_popup.dart';
 import '../../helpers/constants.dart';
@@ -213,34 +216,10 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                               height: 20,
                             ),
                             // Titulo de la tabla
-                            Padding(
+                            const Padding(
                                 padding: EdgeInsets.only(bottom: 10),
                                 child: CardHeader(text: "Vehicle Inventory")),
-                            // Container(
-                            //     height: 60,
-                            //     margin: const EdgeInsets.only(bottom: 10),
-                            //     width: MediaQuery.of(context).size.width,
-                            //     decoration: BoxDecoration(
-                            //       gradient: gradients[0],
-                            //       borderRadius: const BorderRadius.only(
-                            //         topLeft: Radius.circular(30),
-                            //         topRight: Radius.circular(4),
-                            //         bottomLeft: Radius.circular(4),
-                            //         bottomRight: Radius.circular(30),
-                            //       ),
-                            //       border: Border.all(
-                            //           color: const Color(0xff9ABEFF),
-                            //           width: 10,
-                            //           style: BorderStyle.solid),
-                            //     ),
-                            //     child: Container(
-                            //       alignment: Alignment.center,
-                            //       child: const Text(
-                            //         'Vehicle Inventory',
-                            //         style: TextStyle(
-                            //             color: Colors.white, fontSize: 30),
-                            //       ),
-                            //     )),
+
                             // PLUTO GRID
                             widget.provider.vehicles.isEmpty
                                 ? const CircularProgressIndicator()
@@ -320,7 +299,10 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'Image'),
+                                                TextSpan(
+                                                    text: 'Image',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
                                               ],
                                             ),
                                             cellPadding: EdgeInsets.zero,
@@ -383,7 +365,10 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'Make'),
+                                                TextSpan(
+                                                    text: 'Make',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
@@ -429,7 +414,10 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'Model'),
+                                                TextSpan(
+                                                    text: 'Model',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
@@ -474,7 +462,10 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'Year'),
+                                                TextSpan(
+                                                    text: 'Year',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
@@ -518,7 +509,10 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'VIN'),
+                                                TextSpan(
+                                                    text: 'VIN',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
@@ -608,7 +602,10 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'Motor'),
+                                                TextSpan(
+                                                    text: 'Motor',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
@@ -653,13 +650,16 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'Color'),
+                                                TextSpan(
+                                                    text: 'Color',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.08,
+                                                0.10,
                                             cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
@@ -700,13 +700,16 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'Status'),
+                                                TextSpan(
+                                                    text: 'Status',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.09,
+                                                0.11,
                                             cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
@@ -718,7 +721,7 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                               return Container(
                                                 height: rowHeight,
                                                 // width: rendererContext
-                                                //.cell.column.width,                                                    .cell.column.width,
+                                                //.cell.column.width,.cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
                                                 child: Center(
@@ -745,13 +748,16 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'Company'),
+                                                TextSpan(
+                                                    text: 'Company',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
                                               ],
                                             ),
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.11,
+                                                0.13,
                                             cellPadding: EdgeInsets.zero,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
@@ -791,7 +797,10 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                     child: SizedBox(
                                                   width: 10,
                                                 )),
-                                                TextSpan(text: 'Date Added'),
+                                                TextSpan(
+                                                    text: 'Date Added',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
                                               ],
                                             ),
                                             width: 300,

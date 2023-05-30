@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-import 'package:provider/provider.dart';
 
 import '../../../theme/theme.dart';
 import '../../../widgets/custom_text_field.dart';
