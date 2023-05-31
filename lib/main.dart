@@ -49,9 +49,6 @@ void main() async {
           create: (_) => InventoryProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => EmployeesProvider(),
-        ),
-        ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),
         ),
       ],
