@@ -43,6 +43,12 @@ void main() async {
           create: (_) => UsersProvider(),
         ),
         ChangeNotifierProvider(
+          create: (_) => MonitoryProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => InventoryProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),
         ),
       ],
