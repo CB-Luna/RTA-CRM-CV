@@ -25,7 +25,7 @@ class _SideMenuFooterState extends State<SideMenuFooter> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      width: widget.isOpen ? getWidth(380, context) : 80,
+      width: widget.isOpen ? 280 : 80,
       decoration: BoxDecoration(
         gradient: whiteGradient,
         border: Border.all(color: textColor),
@@ -46,7 +46,7 @@ class _SideMenuFooterState extends State<SideMenuFooter> {
                           children: [
                             Image.network(
                               widget.image,
-                              height: getWidth(60, context),
+                              height: getWidth(30, context),
                             ),
                             const SizedBox(width: 10),
                             SizedBox(

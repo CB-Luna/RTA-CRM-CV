@@ -758,7 +758,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                         decoration: BoxDecoration(
                           color: provider.quotes[index].expanded == true
                               ? AppTheme.of(context).primaryColor
-                              : AppTheme.of(context).primaryBackground == Colors.white
+                              : AppTheme.of(context).primaryBackground == AppTheme.of(context).primaryBackground
                                   ? AppTheme.of(context).secondaryText
                                   : Colors.grey,
                         ),
@@ -873,7 +873,6 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                 child: PlutoGrid(
                                   key: UniqueKey(),
                                   configuration: PlutoGridConfiguration(
-                                    localeText: const PlutoGridLocaleText.spanish(),
                                     scrollbar: plutoGridScrollbarConfig(context),
                                     style: plutoGridStyleConfig(context),
                                     columnFilter: PlutoGridColumnFilterConfig(
@@ -915,7 +914,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           height: rowHeight,
                                           width: rendererContext.cell.column.width,
                                           decoration: BoxDecoration(gradient: whiteGradient),
-                                          child: Center(child: Text(rendererContext.cell.value)),
+                                          child: Center(child: Text(rendererContext.cell.value ?? '-')),
                                         );
                                       },
                                     ),
@@ -987,7 +986,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           height: rowHeight,
                                           width: rendererContext.cell.column.width,
                                           decoration: BoxDecoration(gradient: whiteGradient),
-                                          child: Center(child: Text(rendererContext.cell.value.toString())),
+                                          child: Center(child: Text(rendererContext.cell.value ?? '-'.toString())),
                                         );
                                       },
                                     ),
@@ -1079,7 +1078,6 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
     return PlutoGrid(
       key: UniqueKey(),
       configuration: PlutoGridConfiguration(
-        localeText: const PlutoGridLocaleText.spanish(),
         scrollbar: plutoGridScrollbarConfig(context),
         style: plutoGridStyleConfig(context),
         columnFilter: PlutoGridColumnFilterConfig(
@@ -1126,7 +1124,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
                                   decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value, style: TextStyle(color: AppTheme.of(context).primaryText))),
+                                  child: Center(child: Text(rendererContext.cell.value ?? '-', style: TextStyle(color: AppTheme.of(context).primaryText))),
                                 );
                               },
                               footerRenderer: (rendererContext) {
@@ -1169,7 +1167,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
                                   decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value)),
+                                  child: Center(child: Text(rendererContext.cell.value ?? '-')),
                                 );
                               },
                             ), */
@@ -1193,7 +1191,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
                                   decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value)),
+                                  child: Center(child: Text(rendererContext.cell.value ?? '-')),
                                 );
                               },
                             ),
@@ -1217,7 +1215,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
                                   decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value)),
+                                  child: Center(child: Text(rendererContext.cell.value ?? '-')),
                                 );
                               },
                             ),
@@ -1241,7 +1239,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
                                   decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value)),
+                                  child: Center(child: Text(rendererContext.cell.value ?? '-')),
                                 );
                               },
                             ),
@@ -1265,7 +1263,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
                                   height: rowHeight,
                                   width: rendererContext.cell.column.width,
                                   decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value)),
+                                  child: Center(child: Text(rendererContext.cell.value ?? '-')),
                                 );
                               },
                             ),
@@ -1290,7 +1288,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               height: rowHeight,
               width: rendererContext.cell.column.width,
               decoration: BoxDecoration(gradient: whiteGradient),
-              child: Center(child: Text(rendererContext.cell.value, style: TextStyle(color: AppTheme.of(context).primaryText))),
+              child: Center(child: Text(rendererContext.cell.value ?? '-', style: TextStyle(color: AppTheme.of(context).primaryText))),
             );
           },
           footerRenderer: (rendererContext) {
@@ -1333,7 +1331,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               height: rowHeight,
               width: rendererContext.cell.column.width,
               decoration: BoxDecoration(gradient: whiteGradient),
-              child: Center(child: Text(rendererContext.cell.value)),
+              child: Center(child: Text(rendererContext.cell.value ?? '-')),
             );
           },
         ),
@@ -1358,7 +1356,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               height: rowHeight,
               width: rendererContext.cell.column.width,
               decoration: BoxDecoration(gradient: whiteGradient),
-              child: Center(child: Text(rendererContext.cell.value)),
+              child: Center(child: Text(rendererContext.cell.value ?? '-')),
             );
           },
         ),
@@ -1466,7 +1464,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               height: rowHeight,
               width: rendererContext.cell.column.width,
               decoration: BoxDecoration(gradient: whiteGradient),
-              child: Center(child: Text(rendererContext.cell.value.toString())),
+              child: Center(child: Text(rendererContext.cell.value ?? '-'.toString())),
             );
           },
         ),

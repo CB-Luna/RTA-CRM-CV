@@ -40,7 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             width: widget.width,
             height: 35,
             duration: const Duration(milliseconds: 100),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white, boxShadow: [
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppTheme.of(context).primaryBackground, boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 0.1,

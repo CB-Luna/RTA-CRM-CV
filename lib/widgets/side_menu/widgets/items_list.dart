@@ -23,7 +23,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
     return Padding(
       padding: EdgeInsets.only(left: widget.isOpen ? 40 : 0),
       child: SizedBox(
-        width: !widget.isOpen ? getWidth(90, context) : null,
+        width: !widget.isOpen ? 70 : null,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,

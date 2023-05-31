@@ -5,5 +5,5 @@ double getHeight(double y, BuildContext context) {
 }
 
 double getWidth(double x, BuildContext context) {
-  return MediaQuery.of(context).size.height * x / 1440;
+  return MediaQuery.of(context).size.width * x / 1440;
 }

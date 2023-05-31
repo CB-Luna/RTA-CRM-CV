@@ -104,7 +104,6 @@ class _UsersPageState extends State<UsersPage> {
                           child: PlutoGrid(
                             key: UniqueKey(),
                             configuration: PlutoGridConfiguration(
-                              localeText: const PlutoGridLocaleText.spanish(),
                               scrollbar: plutoGridScrollbarConfig(context),
                               style: plutoGridStyleConfig(context),
                               columnFilter: PlutoGridColumnFilterConfig(
@@ -214,7 +213,7 @@ class _UsersPageState extends State<UsersPage> {
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
-                                    child: Center(child: Text(rendererContext.cell.value)),
+                                    child: Center(child: Text(rendererContext.cell.value ?? '-')),
                                   );
                                 },
                               ),
@@ -238,7 +237,7 @@ class _UsersPageState extends State<UsersPage> {
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
-                                    child: Center(child: Text(rendererContext.cell.value)),
+                                    child: Center(child: Text(rendererContext.cell.value ?? '-')),
                                   );
                                 },
                               ),
@@ -262,7 +261,7 @@ class _UsersPageState extends State<UsersPage> {
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
-                                    child: Center(child: Text(rendererContext.cell.value)),
+                                    child: Center(child: Text(rendererContext.cell.value ?? '-')),
                                   );
                                 },
                               ),
@@ -286,7 +285,7 @@ class _UsersPageState extends State<UsersPage> {
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
-                                    child: Center(child: Text(rendererContext.cell.value)),
+                                    child: Center(child: Text(rendererContext.cell.value ?? '-')),
                                   );
                                 },
                               ),
@@ -310,7 +309,7 @@ class _UsersPageState extends State<UsersPage> {
                                     height: rowHeight,
                                     width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
-                                    child: Center(child: Text(rendererContext.cell.value)),
+                                    child: Center(child: Text(rendererContext.cell.value ?? '-')),
                                   );
                                 },
                                 footerRenderer: (context) {
@@ -385,19 +384,17 @@ class _UsersPageState extends State<UsersPage> {
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
                                         CustomTextIconButton(
-                                          icon: const Icon(
+                                          icon: Icon(
                                             Icons.fact_check_outlined,
-                                            //TODO : usar tema
-                                            color: Colors.white,
+                                            color: AppTheme.of(context).primaryBackground,
                                           ),
                                           text: 'Edit',
                                           onTap: () {},
                                         ),
                                         CustomTextIconButton(
-                                          icon: const Icon(
+                                          icon: Icon(
                                             Icons.shopping_basket_outlined,
-                                            //TODO : usar tema
-                                            color: Colors.white,
+                                            color: AppTheme.of(context).primaryBackground,
                                           ),
                                           color: secondaryColor,
                                           text: 'Delete',

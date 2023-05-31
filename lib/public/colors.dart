@@ -19,7 +19,16 @@ Gradient blueGradient = const LinearGradient(
   end: Alignment.topCenter,
   colors: [
     Color(0XFF2E78FF),
-    Color(0xFFFFFFFF),
+    Color(0x00FFFFFF),
+  ],
+);
+
+Gradient greenGradient = const LinearGradient(
+  begin: Alignment.bottomCenter,
+  end: Alignment.topCenter,
+  colors: [
+    Color(0XFF3EFF2E),
+    Color(0x00FFFFFF),
   ],
 );
 
@@ -40,5 +49,25 @@ Gradient blueRadial = const LinearGradient(
     Color(0XFF3166B7),
     Color(0XFF2C5EAE),
     Color(0XFF234FA1),
+  ],
+);
+
+Gradient greenRadial = const LinearGradient(
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+  colors: [
+    Color(0XFF2FDC40),
+    Color(0XFF39E068),
+    Color(0XFF3DE462),
+    Color(0XFF42DC48),
+    Color(0XFF3AD853),
+    Color(0XFF27BD3F),
+    Color(0XFF29BF5C),
+    Color(0XFF2FBE35),
+    Color(0XFF33BE49),
+    Color(0XFF38BA4D),
+    Color(0XFF31B757),
+    Color(0XFF2CAE41),
+    Color(0XFF23A128),
   ],
 );

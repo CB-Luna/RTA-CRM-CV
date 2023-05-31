@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
-import 'package:rta_crm_cv/helpers/supabase/queries.dart';
-import 'package:rta_crm_cv/providers/accounts/create_quote_provider.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -12,8 +11,16 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
+import 'helpers/supabase/queries.dart';
 import 'models/configuration.dart';
+import 'providers/accounts/accounts_provider.dart';
+import 'providers/accounts/billing_provider.dart';
+import 'providers/accounts/campaigns_provider.dart';
+import 'providers/accounts/create_quote_provider.dart';
 import 'providers/accounts/detail_quote_provider.dart';
+import 'providers/accounts/leads_provider.dart';
+import 'providers/accounts/opportunities_provider.dart';
+import 'providers/accounts/quotes_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +52,24 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => UsersProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AccountsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => QuotesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LeadsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => OpportunitiesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CampaignsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => BillingProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => CreateQuoteProvider(),

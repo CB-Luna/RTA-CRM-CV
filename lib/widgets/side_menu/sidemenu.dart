@@ -26,7 +26,7 @@ class _SideMenuState extends State<SideMenu> {
         decoration: BoxDecoration(gradient: whiteGradient),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          width: provider.isOpen ? getWidth(400, context) : getWidth(120, context),
+          width: provider.isOpen ? 300 : 100,
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             //color:AppTheme.of(context).primaryColor
@@ -35,7 +35,7 @@ class _SideMenuState extends State<SideMenu> {
               topRight: Radius.circular(15),
               bottomRight: Radius.circular(15),
             ),
-            border: Border.all(width: 1.5, color: Colors.white),
+            border: Border.all(width: 1.5, color: AppTheme.of(context).primaryBackground),
           ),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -49,7 +49,7 @@ class _SideMenuState extends State<SideMenu> {
                     padding: const EdgeInsets.only(left: 10, bottom: 10, right: 10),
                     child: provider.isOpen
                         ? SizedBox(
-                            width: getWidth(350, context),
+                            width: 250,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

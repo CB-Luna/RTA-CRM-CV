@@ -9,8 +9,6 @@ import 'package:rta_crm_cv/providers/accounts/detail_quote_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
-import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
-import 'package:rta_crm_cv/widgets/captura/custom_tab_button.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
@@ -747,7 +745,6 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                 child: PlutoGrid(
                                   key: UniqueKey(),
                                   configuration: PlutoGridConfiguration(
-                                    localeText: const PlutoGridLocaleText.spanish(),
                                     scrollbar: plutoGridScrollbarConfig(context),
                                     style: plutoGridStyleConfig(context),
                                     columnFilter: PlutoGridColumnFilterConfig(
@@ -789,7 +786,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           height: rowHeight,
                                           width: rendererContext.cell.column.width,
                                           decoration: BoxDecoration(gradient: whiteGradient),
-                                          child: Center(child: Text(rendererContext.cell.value)),
+                                          child: Center(child: Text(rendererContext.cell.value ?? '-')),
                                         );
                                       },
                                     ),
@@ -861,7 +858,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           height: rowHeight,
                                           width: rendererContext.cell.column.width,
                                           decoration: BoxDecoration(gradient: whiteGradient),
-                                          child: Center(child: Text(rendererContext.cell.value.toString())),
+                                          child: Center(child: Text(rendererContext.cell.value ?? '-'.toString())),
                                         );
                                       },
                                     ),
