@@ -37,11 +37,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
 
     Color pickerColor = const Color(0xff2196f3);
     Color colors = Colors.white;
-    // final List<String> statesNames =
-    //     provider.states.map((state) => state.name).toList();
-
-    // final List<String> rolesNames =
-    //     provider.roles.map((role) => role.roleName).toList();
+    Color finalas = Color(0xffffff);
     final List<String> companyName =
         provider.company.map((companies) => companies.company).toList();
     final List<String> statusName =
@@ -62,20 +58,6 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // InkWell(
-                    //   onTap: () async {
-                    //     await provider.selectImage();
-                    //   },
-                    //   child: Container(
-                    //     width: 105,
-                    //     height: 105,
-                    //     clipBehavior: Clip.antiAlias,
-                    //     decoration: const BoxDecoration(
-                    //       shape: BoxShape.circle,
-                    //     ),
-                    //     child: getUserImage(provider.webImage),
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDropDownInventory(
@@ -90,7 +72,6 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                         },
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
@@ -127,7 +108,6 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                                   return AlertDialog(
                                     title: const Text("Select Year"),
                                     content: Container(
-                                      // Need to use container to add size constraint.
                                       width: 300,
                                       height: 300,
                                       child: YearPicker(
@@ -136,20 +116,13 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                                         lastDate: DateTime(
                                             DateTime.now().year + 100, 1),
                                         initialDate: DateTime.now(),
-                                        // save the selected date to _selectedDate DateTime variable.
-                                        // It's used to set the previous selected date when
-                                        // re-showing the dialog.
                                         onChanged: (DateTime dateTime) {
                                           selectedDate = dateTime;
                                           provider.yearController.text =
                                               DateFormat("yyyy")
                                                   .format(selectedDate);
 
-                                          // close the dialog when year is selected.
                                           Navigator.pop(context);
-
-                                          // Do something with the dateTime selected.
-                                          // Remember that you need to use dateTime.year to get the year
                                         },
                                         selectedDate: selectedDate,
                                       ),
@@ -158,7 +131,6 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                                 },
                               );
                             })),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
@@ -193,7 +165,6 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                         },
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
@@ -204,28 +175,24 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                         keyboardType: TextInputType.name,
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
                         label: '8. Color',
-                        controller: provider.colorController,
                         enabled: true,
+                        controller: TextEditingController(),
                         onTapCheck: true,
                         width: 350,
                         keyboardType: TextInputType.name,
                         onTap: () async {
-                          // ColorPickerPage();
-
-                          setState(() async {
-                            colors = await showColorPickerDialog(
-                                context, pickerColor);
-
-                            provider.colorController.text =
-                                "0x${colors.hexAlpha.toLowerCase()}";
-                          });
+                          colors =
+                              await showColorPickerDialog(context, pickerColor);
+                          String colorString =
+                              "0x${colors.hexAlpha.toLowerCase()}";
+                          provider.updateColor(
+                              int.parse(colorString), colorString);
                         },
-                        //designColor: Color(colors.alpha),
+                        designColor: provider.colorController,
                       ),
                     ),
                     Padding(
@@ -294,7 +261,6 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                             }
                           }),
                     ),
-
                     Column(
                       children: [
                         Text(

@@ -13,7 +13,7 @@ class CustomTextFieldForm extends StatefulWidget {
       this.inputFormatters,
       this.onTap,
       this.onTapCheck = false,
-      this.designColor = Colors.white});
+      this.designColor = 0xffffffff});
 
   final String label;
   //final IconData icon;
@@ -24,7 +24,7 @@ class CustomTextFieldForm extends StatefulWidget {
   final double width;
   final void Function()? onTap;
   final bool onTapCheck;
-  final Color designColor;
+  final int designColor;
 
   @override
   State<CustomTextFieldForm> createState() => _CustomTextFieldFormState();
@@ -39,7 +39,7 @@ class _CustomTextFieldFormState extends State<CustomTextFieldForm> {
       duration: const Duration(milliseconds: 100),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Colors.white,
+          color: Color(widget.designColor),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),

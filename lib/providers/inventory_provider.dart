@@ -27,7 +27,7 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController vinController = TextEditingController();
   TextEditingController plateNumberController = TextEditingController();
   TextEditingController motorController = TextEditingController();
-  TextEditingController colorController = TextEditingController();
+  int colorController = 0xffffffff;
   TextEditingController dateTimeControllerOil = TextEditingController();
   TextEditingController dateTimeControllerReg = TextEditingController();
   TextEditingController dateTimeControllerIRD = TextEditingController();
@@ -43,7 +43,8 @@ class InventoryProvider extends ChangeNotifier {
   String? imageName;
   String? imageBase64;
   Uint8List? webImage;
-  int idvehicle = 13;
+  int idvehicle = 14;
+  String colorString = "0xffffffff";
 
   //List<RolApi> roles = [];
   List<String> dropdownMenuItems = [];
@@ -164,8 +165,13 @@ class InventoryProvider extends ChangeNotifier {
     statusSelected = status.firstWhere((elem) => elem.status == statu);
     notifyListeners();
   }
-//---------------------------------------------
 
+//---------------------------------------------
+  void updateColor(int colors, String colorStrings) {
+    colorController = colors;
+    colorString = colorStrings;
+    notifyListeners();
+  }
 //---------------------------------------------
 
   Future<bool> createVehicleInventory() async {
@@ -179,7 +185,7 @@ class InventoryProvider extends ChangeNotifier {
           'vin': vinController.text,
           'license_plates': plateNumberController.text,
           'motor': motorController.text,
-          'color': colorController.text,
+          'color': colorString,
           'image': imageBase64,
           'id_status_fk': statusSelected?.statusId,
           'id_company_fk': companySelected?.companyId,
@@ -275,7 +281,8 @@ class InventoryProvider extends ChangeNotifier {
               "color": PlutoCell(value: vehicle.color),
               "status": PlutoCell(value: vehicle.status.status),
               "company": PlutoCell(value: vehicle.company.company),
-              "date_added": PlutoCell(value: vehicle.dateAdded)
+              "date_added": PlutoCell(value: vehicle.dateAdded),
+              "details": PlutoCell(value: vehicle)
             },
           ),
         );
@@ -307,7 +314,7 @@ class InventoryProvider extends ChangeNotifier {
     vinController.clear();
     plateNumberController.clear();
     motorController.clear();
-    colorController.clear();
+    colorController = 0xffffffff;
 
 /*     paisesSeleccionados = []; */
     //rolesSeleccionados = [];
@@ -330,7 +337,7 @@ class InventoryProvider extends ChangeNotifier {
     vinController.dispose();
     plateNumberController.dispose();
     motorController.dispose();
-    colorController.dispose();
+    // colorController.dispose();
 
     super.dispose();
   }
