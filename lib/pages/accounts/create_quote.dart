@@ -9,9 +9,9 @@ import 'package:rta_crm_cv/providers/accounts/create_quote_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
-import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_dropdown.dart';
-import 'package:rta_crm_cv/widgets/custom_tab_button.dart';
-import 'package:rta_crm_cv/widgets/custom_text_field.dart';
+import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
+import 'package:rta_crm_cv/widgets/captura/custom_tab_button.dart';
+import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
@@ -27,6 +27,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
   Widget build(BuildContext context) {
     double txfFieldWidth = (MediaQuery.of(context).size.width / 7);
     // double txfFieldPadding = 10;
+
+    double cardHeight = 2.5;
 
     CreateQuoteProvider provider = Provider.of<CreateQuoteProvider>(context);
 
@@ -50,7 +52,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 1.9,
+                        height: MediaQuery.of(context).size.height / cardHeight + 20,
                         width: MediaQuery.of(context).size.width - 30,
                         child: SingleChildScrollView(
                           clipBehavior: Clip.antiAlias,
@@ -58,7 +60,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                           child: Row(
                             children: [
                               CustomCard(
-                                height: MediaQuery.of(context).size.height / 2,
+                                height: MediaQuery.of(context).size.height / cardHeight,
                                 width: MediaQuery.of(context).size.width / 5,
                                 title: 'Order Info',
                                 child: Column(
@@ -79,7 +81,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      padding: const EdgeInsets.only(bottom: 10),
                                       child: CustomDDownMenu(
                                         list: provider.typesList,
                                         dropdownValue: provider.typesSelectedValue,
@@ -93,7 +95,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                     ),
                                     if (provider.typesSelectedValue == 'Disconnect' || provider.typesSelectedValue == 'Upgrade')
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomTextField(
                                           enabled: true,
                                           width: txfFieldWidth,
@@ -105,7 +107,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                       ),
                                     if (provider.typesSelectedValue == 'Upgrade')
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomTextField(
                                           enabled: true,
                                           width: txfFieldWidth,
@@ -116,7 +118,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         ),
                                       ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      padding: const EdgeInsets.only(bottom: 10),
                                       child: CustomDDownMenu(
                                         list: provider.dataCentersList,
                                         dropdownValue: provider.dataCenterSelectedValue,
@@ -130,7 +132,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                     ),
                                     if (provider.dataCenterSelectedValue == 'New')
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomTextField(
                                           enabled: true,
                                           width: txfFieldWidth,
@@ -144,26 +146,29 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                 ),
                               ),
                               CustomCard(
-                                height: MediaQuery.of(context).size.height / 2,
+                                height: MediaQuery.of(context).size.height / cardHeight,
                                 width: MediaQuery.of(context).size.width / 5,
                                 title: 'Circuit Info',
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CustomDDownMenu(
-                                      list: provider.circuitInfosList,
-                                      dropdownValue: provider.circuitTypeSelectedValue,
-                                      onChanged: (p0) {
-                                        if (p0 != null) provider.selectCircuitInfo(p0);
-                                      },
-                                      icon: Icons.info_outline,
-                                      label: 'Circuit Type',
-                                      width: txfFieldWidth,
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 10),
+                                      child: CustomDDownMenu(
+                                        list: provider.circuitInfosList,
+                                        dropdownValue: provider.circuitTypeSelectedValue,
+                                        onChanged: (p0) {
+                                          if (p0 != null) provider.selectCircuitInfo(p0);
+                                        },
+                                        icon: Icons.info_outline,
+                                        label: 'Circuit Type',
+                                        width: txfFieldWidth,
+                                      ),
                                     ),
                                     if (provider.circuitTypeSelectedValue == 'EVCoD')
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomDDownMenu(
                                           list: provider.evcodList,
                                           dropdownValue: provider.evcodSelectedValue,
@@ -177,7 +182,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                       ),
                                     if (provider.evcodSelectedValue == 'Existing EVC')
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomTextField(
                                           enabled: true,
                                           width: txfFieldWidth,
@@ -188,72 +193,80 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         ),
                                       ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
-                                      child: CustomTabButton(
-                                        on: provider.ddosSelectedValue == 'Yes',
-                                        //icon: Icons.security_outlined,
-                                        label: 'DDoS Migration',
-                                        option1: 'Yes',
-                                        option2: 'No',
-                                        width: txfFieldWidth,
-                                        onTap: () => provider.selectDDOS(),
+                                      padding: const EdgeInsets.only(bottom: 10),
+                                      child: Row(
+                                        children: [
+                                          CustomTabButton(
+                                            on: provider.ddosSelectedValue == 'Yes',
+                                            //icon: Icons.security_outlined,
+                                            label: 'DDoS Migration',
+                                            option1: 'Yes',
+                                            option2: 'No',
+                                            width: txfFieldWidth / 1.7,
+                                            onTap: () => provider.selectDDOS(),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 10),
+                                            child: CustomDDownMenu(
+                                              list: provider.bgpList,
+                                              dropdownValue: provider.bgpSelectedValue,
+                                              onChanged: (p0) {
+                                                if (p0 != null) provider.selectBGP(p0);
+                                              },
+                                              icon: Icons.bug_report_outlined,
+                                              label: 'BGP Peering',
+                                              width: txfFieldWidth / 1.6,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
-                                      child: CustomDDownMenu(
-                                        list: provider.bgpList,
-                                        dropdownValue: provider.bgpSelectedValue,
-                                        onChanged: (p0) {
-                                          if (p0 != null) provider.selectBGP(p0);
-                                        },
-                                        icon: Icons.bug_report_outlined,
-                                        label: 'BGP Peering',
-                                        width: txfFieldWidth,
+                                      padding: const EdgeInsets.only(bottom: 10),
+                                      child: Row(
+                                        children: [
+                                          CustomTabButton(
+                                            on: provider.ipAdressSelectedValue == 'Interface',
+                                            label: 'IP Adresses',
+                                            option1: 'Interface',
+                                            option2: 'IP Subnet',
+                                            width: txfFieldWidth / 1.7,
+                                            onTap: () => provider.selectIPAdress(),
+                                          ),
+                                          if (provider.ipAdressSelectedValue == 'Interface')
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 10),
+                                              child: CustomTabButton(
+                                                on: provider.ipInterfaceSelectedValue == 'IPv4',
+                                                label: 'IP Interface',
+                                                option1: 'IPv4',
+                                                option2: 'IPv6',
+                                                width: txfFieldWidth / 2,
+                                                onTap: () => provider.selectIPInterface(),
+                                              ),
+                                            ),
+                                          if (provider.ipAdressSelectedValue == 'IP Subnet')
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 10),
+                                              child: CustomDDownMenu(
+                                                list: provider.subnetList,
+                                                dropdownValue: provider.subnetSelectedValue,
+                                                onChanged: (p0) {
+                                                  if (p0 != null) provider.selectSubnet(p0);
+                                                },
+                                                icon: Icons.signal_cellular_alt,
+                                                label: 'IP Subnet',
+                                                width: txfFieldWidth / 1.6,
+                                              ),
+                                            ),
+                                        ],
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
-                                      child: CustomTabButton(
-                                        on: provider.ipAdressSelectedValue == 'Interface',
-                                        label: 'IP Adresses',
-                                        option1: 'Interface',
-                                        option2: 'IP Subnet',
-                                        width: txfFieldWidth,
-                                        onTap: () => provider.selectIPAdress(),
-                                      ),
-                                    ),
-                                    if (provider.ipAdressSelectedValue == 'Interface')
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
-                                        child: CustomTabButton(
-                                          on: provider.ipInterfaceSelectedValue == 'IPv4',
-                                          label: 'IP Interface',
-                                          option1: 'IPv4',
-                                          option2: 'IPv6',
-                                          width: txfFieldWidth,
-                                          onTap: () => provider.selectIPInterface(),
-                                        ),
-                                      ),
-                                    if (provider.ipAdressSelectedValue == 'IP Subnet')
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
-                                        child: CustomDDownMenu(
-                                          list: provider.subnetList,
-                                          dropdownValue: provider.subnetSelectedValue,
-                                          onChanged: (p0) {
-                                            if (p0 != null) provider.selectSubnet(p0);
-                                          },
-                                          icon: Icons.signal_cellular_alt,
-                                          label: 'IP Subnet',
-                                          width: txfFieldWidth,
-                                        ),
-                                      ),
                                   ],
                                 ),
                               ),
                               CustomCard(
-                                height: MediaQuery.of(context).size.height / 2,
+                                height: MediaQuery.of(context).size.height / cardHeight,
                                 width: MediaQuery.of(context).size.width / 5,
                                 title: 'Customer Info',
                                 child: Column(
@@ -261,7 +274,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 15, bottom: 10),
+                                      padding: const EdgeInsets.only(bottom: 10),
                                       child: CustomTextField(
                                         enabled: true,
                                         width: txfFieldWidth,
@@ -272,7 +285,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      padding: const EdgeInsets.only(bottom: 10),
                                       child: CustomTextField(
                                         enabled: true,
                                         width: txfFieldWidth,
@@ -283,7 +296,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      padding: const EdgeInsets.only(bottom: 10),
                                       child: CustomTextField(
                                         enabled: true,
                                         width: txfFieldWidth,
@@ -294,7 +307,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      padding: const EdgeInsets.only(bottom: 10),
                                       child: CustomTextField(
                                         enabled: true,
                                         width: txfFieldWidth,
@@ -305,7 +318,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      padding: const EdgeInsets.only(bottom: 10),
                                       child: CustomTextField(
                                         enabled: true,
                                         width: txfFieldWidth,
@@ -319,230 +332,240 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                 ),
                               ),
                               CustomCard(
-                                height: MediaQuery.of(context).size.height / 2,
+                                height: MediaQuery.of(context).size.height / cardHeight,
                                 width: MediaQuery.of(context).size.width / 5,
                                 title: 'Totals',
-                                child: SizedBox(
-                                  height: MediaQuery.of(context).size.height / 2 - 100,
-                                  width: MediaQuery.of(context).size.width / 5,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        // mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: SizedBox(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(10),
-                                                child: Text(
-                                                  'Quotes',
-                                                  style: AppTheme.of(context).encabezadoTablas,
-                                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      //width: 300,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 130,
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 10),
+                                                    child: Icon(Icons.format_list_numbered, color: AppTheme.of(context).encabezadoTablas.color, size: 25),
+                                                  ),
+                                                  Text(
+                                                    'Items',
+                                                    style: AppTheme.of(context).encabezadoTablas,
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: SizedBox(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(10),
-                                                child: Text(
-                                                  'Subtotal',
-                                                  style: AppTheme.of(context).encabezadoTablas,
-                                                ),
+                                            SizedBox(
+                                              width: 20,
+                                              child: Text(
+                                                ':',
+                                                style: AppTheme.of(context).encabezadoTablas,
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: SizedBox(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(10),
-                                                child: Text(
-                                                  'Cost',
-                                                  style: AppTheme.of(context).encabezadoTablas,
-                                                ),
+                                            SizedBox(
+                                              width: 200,
+                                              child: Text(
+                                                moneyFormat(provider.globalRows.length.toDouble()).substring(0, moneyFormat(provider.globalRows.length.toDouble()).length - 3),
+                                                style: AppTheme.of(context).encabezadoTablas,
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: SizedBox(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(10),
-                                                child: Text(
-                                                  'Total',
-                                                  style: AppTheme.of(context).encabezadoTablas,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: provider.margin < 20 ? secondaryColor : primaryColor,
-                                                borderRadius: const BorderRadius.only(
-                                                  topLeft: Radius.circular(15),
-                                                  bottomLeft: Radius.circular(15),
-                                                ),
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(10),
-                                                child: Text(
-                                                  'Margin',
-                                                  style: TextStyle(
-                                                      fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                      fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                      fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                      color: AppTheme.of(context).primaryBackground),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                      Column(
-                                        // mainAxisAlignment: MainAxisAlignment.center,
-                                        // crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10),
+                                    ),
+                                    SizedBox(
+                                      //width: MediaQuery.of(context).size.width / 5 - 150,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 130,
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 10),
+                                                    child: Icon(Icons.attach_money, color: AppTheme.of(context).encabezadoTablas.color, size: 25),
+                                                  ),
+                                                  Text(
+                                                    'Subtotal',
+                                                    style: AppTheme.of(context).encabezadoTablas,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
                                               child: Text(
                                                 ':',
                                                 style: AppTheme.of(context).encabezadoTablas,
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: Text(
-                                                ':',
-                                                style: AppTheme.of(context).encabezadoTablas,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: Text(
-                                                ':',
-                                                style: AppTheme.of(context).encabezadoTablas,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: Text(
-                                                ':',
-                                                style: AppTheme.of(context).encabezadoTablas,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Container(
-                                              color: provider.margin < 20 ? secondaryColor : primaryColor,
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(10),
-                                                child: Text(
-                                                  ':',
-                                                  style: TextStyle(
-                                                      fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                      fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                      fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                      color: AppTheme.of(context).primaryBackground),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        // mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: Text(
-                                                provider.quotes.length.toString(),
-                                                style: AppTheme.of(context).encabezadoTablas,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10),
+                                            SizedBox(
+                                              width: 200,
                                               child: Text(
                                                 '\$ ${moneyFormat(provider.subtotal)} USD',
                                                 style: AppTheme.of(context).encabezadoTablas,
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      //width: MediaQuery.of(context).size.width / 5 - 150,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 130,
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 10),
+                                                    child: Icon(Icons.money_off, color: AppTheme.of(context).encabezadoTablas.color, size: 25),
+                                                  ),
+                                                  Text(
+                                                    'Cost',
+                                                    style: AppTheme.of(context).encabezadoTablas,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                              child: Text(
+                                                ':',
+                                                style: AppTheme.of(context).encabezadoTablas,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 200,
                                               child: Text(
                                                 '\$ ${moneyFormat(provider.cost)} USD',
                                                 style: AppTheme.of(context).encabezadoTablas,
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      //width: MediaQuery.of(context).size.width / 5 - 150,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 130,
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 10),
+                                                    child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).encabezadoTablas.color, size: 25),
+                                                  ),
+                                                  Text(
+                                                    'Total',
+                                                    style: AppTheme.of(context).encabezadoTablas,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                              child: Text(
+                                                ':',
+                                                style: AppTheme.of(context).encabezadoTablas,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 200,
                                               child: Text(
                                                 '\$ ${moneyFormat(provider.total)} USD',
                                                 style: AppTheme.of(context).encabezadoTablas,
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: provider.margin < 20 ? secondaryColor : primaryColor,
-                                                borderRadius: const BorderRadius.only(
-                                                  topRight: Radius.circular(15),
-                                                  bottomRight: Radius.circular(15),
-                                                ),
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(10),
-                                                child: Text(
-                                                  '${moneyFormat(provider.margin)}%',
-                                                  style: TextStyle(
-                                                      fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                      fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                      fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                      color: AppTheme.of(context).primaryBackground),
-                                                ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      //width: MediaQuery.of(context).size.width / 5 - 150,
+                                      decoration: BoxDecoration(
+                                        color: provider.margin < 20 ? secondaryColor : AppTheme.of(context).primaryColor,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(15),
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 130,
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 10),
+                                                    child: Icon(Icons.percent, color: AppTheme.of(context).primaryBackground, size: 25),
+                                                  ),
+                                                  Text(
+                                                    'Margin',
+                                                    style: TextStyle(
+                                                        fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                        fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                        fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                        fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                        color: AppTheme.of(context).primaryBackground),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                            SizedBox(
+                                              width: 20,
+                                              child: Text(
+                                                ':',
+                                                style: TextStyle(
+                                                    fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                    fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                    fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                    color: AppTheme.of(context).primaryBackground),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 200,
+                                              child: Text(
+                                                '${moneyFormat(provider.margin)}%',
+                                                style: TextStyle(
+                                                    fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                    fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                    fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                    color: AppTheme.of(context).primaryBackground),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -618,19 +641,28 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                   onTap: () => provider.isValidated(),
                                 ),
                               ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: CustomTextIconButton(
+                                  icon: Icon(Icons.refresh, color: AppTheme.of(context).primaryBackground),
+                                  text: 'Reset',
+                                  onTap: () async => provider.GetQuotes(),
+                                ),
+                              ),
                               CustomTextIconButton(
-                                icon: Icon(Icons.remove, color: AppTheme.of(context).primaryBackground),
-                                text: 'Reset',
-                                onTap: () => provider.resetForm(),
+                                icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
+                                text: 'Create',
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                onTap: () {},
                               ),
                             ],
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 3,
+                        height: MediaQuery.of(context).size.height / 2.25,
                         width: MediaQuery.of(context).size.width - 20,
-                        child: const ExpansionPanelListCotizador(),
+                        child: const PlutoGridCotizador(),
                       ),
                     ],
                   ),
@@ -993,7 +1025,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                                       provider.quotes.removeAt(index);
                                                     }
                                                   });
-                                                  provider.countRows();
+                                                  provider.countRowsExpansionPanel();
                                                 },
                                               ),
                                             ),
@@ -1055,11 +1087,12 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
             ...FilterHelper.defaultFilters,
           ],
           resolveDefaultColumnFilter: (column, resolver) {
-            if (column.field == 'ORDER_TYPE_Column') {
+            /* if (column.field == 'ORDER_TYPE_Column') {
               return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
             } else if (column.field == 'CIRCUIT_TYPE_Column') {
               return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-            } else if (column.field == 'LINE_ITEM_Column') {
+            } else  */
+            if (column.field == 'LINE_ITEM_Column') {
               return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
             } else if (column.field == 'UNIT_PRICE_Column') {
               return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
@@ -1237,7 +1270,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
                               },
                             ),
                              */
-        PlutoColumn(
+        /*   PlutoColumn(
           titleSpan: TextSpan(children: [
             WidgetSpan(child: Icon(Icons.file_copy_outlined, color: AppTheme.of(context).primaryBackground)),
             const WidgetSpan(child: SizedBox(width: 10)),
@@ -1304,6 +1337,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
             );
           },
         ),
+        */
         PlutoColumn(
           titleSpan: TextSpan(children: [
             WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
@@ -1463,6 +1497,12 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
                     icon: Icon(Icons.shopping_basket_outlined, color: AppTheme.of(context).primaryBackground),
                     text: 'Delete',
                     color: secondaryColor,
+                    onTap: () {
+                      setState(() {
+                        provider.globalRows.removeAt(rendererContext.rowIdx);
+                      });
+                      provider.countRowsPlutoGrid();
+                    },
                   ),
                 ),
               ),

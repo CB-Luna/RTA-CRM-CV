@@ -83,14 +83,14 @@ class _AnimatedHoverButtonState extends State<AnimatedHoverButton> {
                         color: secondaryColor,
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: primaryColor,
+                          color: AppTheme.of(context).primaryColor,
                           width: 2,
                         ),
                       ),
                       child: Center(
                         child: Icon(
                           widget.icon,
-                          color: primaryColor,
+                          color: AppTheme.of(context).primaryColor,
                           size: widget.iconSize,
                         ),
                       ),
@@ -116,14 +116,14 @@ class _AnimatedHoverButtonState extends State<AnimatedHoverButton> {
                     color: secondaryColor,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: primaryColor,
+                      color: AppTheme.of(context).primaryColor,
                       width: 2,
                     ),
                   ),
                   child: Center(
                     child: Icon(
                       widget.icon,
-                      color: primaryColor,
+                      color: AppTheme.of(context).primaryColor,
                       size: widget.iconSize,
                     ),
                   ),

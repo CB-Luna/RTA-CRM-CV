@@ -29,7 +29,7 @@ class _SideMenuState extends State<SideMenu> {
           width: provider.isOpen ? getWidth(400, context) : getWidth(120, context),
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
-            //color: primaryColor,
+            //color:AppTheme.of(context).primaryColor
             gradient: whiteGradient,
             borderRadius: const BorderRadius.only(
               topRight: Radius.circular(15),
@@ -66,7 +66,7 @@ class _SideMenuState extends State<SideMenu> {
                                   hoverColor: Colors.transparent,
                                   child: Icon(
                                     Icons.menu,
-                                    color: primaryColor,
+                                    color: AppTheme.of(context).primaryColor,
                                     size: getHeight(40, context),
                                   ),
                                   onTap: () {
@@ -95,7 +95,7 @@ class _SideMenuState extends State<SideMenu> {
                                 hoverColor: Colors.transparent,
                                 child: Icon(
                                   Icons.menu,
-                                  color: primaryColor,
+                                  color: AppTheme.of(context).primaryColor,
                                   size: getHeight(40, context),
                                 ),
                                 onTap: () {

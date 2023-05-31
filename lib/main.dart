@@ -20,10 +20,12 @@ void main() async {
 
   setPathUrlStrategy();
 
-  await Supabase.initialize(
-    url: supabaseUrl,
-    anonKey: anonKey,
-  );
+  /* supabaseCRM = SupabaseClient('http://10.5.24.43:8000', key, schema: 'crm');
+  supabasePublic = SupabaseClient('http://10.5.24.43:8000', key); */
+  //supabaseCtrlV = (await Supabase.initialize(url: supabaseUrl, anonKey: anonKey, schema: 'ctrl_v')).client;
+
+  await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);
+  /* supabaseCRMJuan = SupabaseClient(supabaseUrl, anonKey, schema: 'crm'); */
 
   await initGlobals();
 
