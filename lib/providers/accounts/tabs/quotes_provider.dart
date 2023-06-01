@@ -5,7 +5,7 @@ import 'package:flutter/material.dart' hide State;
 import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/models.dart';
+import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
 
 class QuotesProvider extends ChangeNotifier {
   final searchController = TextEditingController();
@@ -20,7 +20,7 @@ class QuotesProvider extends ChangeNotifier {
 
   Future<void> updateState() async {
     rows.clear();
-    await getUsers();
+    await getQuotes();
   }
 
   void clearControllers({bool notify = true}) {
@@ -69,94 +69,37 @@ class QuotesProvider extends ChangeNotifier {
     stateManager!.setShowLoading(true);
   }
 
-  Future<void> getUsers() async {
+  Future<void> getQuotes() async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
     }
     try {
-      final res = await supabase.from('users').select().like('name', '%${searchController.text}%');
+      final res = await supabaseCRM.from('quotes').select();
 
       if (res == null) {
         log('Error en getUsuarios()');
         return;
       }
-      List<User> users = (res as List<dynamic>).map((usuario) => User.fromJson(jsonEncode(usuario))).toList();
+      List<Quotes> quotes = (res as List<dynamic>).map((quote) => Quotes.fromJson(jsonEncode(quote))).toList();
 
       rows.clear();
-      /* for (User user in users) {
+      for (Quotes quote in quotes) {
         rows.add(
           PlutoRow(
             cells: {
-              'ID_Column': PlutoCell(value: user.sequentialId),
-              'NAME_Column': PlutoCell(value: 'LCR-10G'),
-              'PROBABILITY_Column': PlutoCell(value: 40),
-              'CLOSED_Column': PlutoCell(value: DateTime(2023, 4, 30)),
+              'ID_Column': PlutoCell(value: quote.id),
+              'NAME_Column': PlutoCell(value: quote.orderInfo.dataCenterLocation),
+              'PROBABILITY_Column': PlutoCell(value: quote.probability),
+              'CLOSED_Column': PlutoCell(value: quote.expCloseDate),
               'ASSIGNED_Column': PlutoCell(value: 'Frank Befera'),
-              'LAST_Column': PlutoCell(value: DateTime(2023, 3, 16)),
-              'STATUS_Column': PlutoCell(value: user.role.roleName),
+              'LAST_Column': PlutoCell(value: quote.updatedAt),
+              'STATUS_Column': PlutoCell(value: quote.status),
               'ACTIONS_Column': PlutoCell(value: ''),
             },
           ),
         );
-      } */
-
-      rows.add(
-        PlutoRow(
-          cells: {
-            'ID_Column': PlutoCell(value: 1),
-            'NAME_Column': PlutoCell(value: 'LCR-10G'),
-            'PROBABILITY_Column': PlutoCell(value: 40),
-            'CLOSED_Column': PlutoCell(value: DateTime(2023, 4, 30)),
-            'ASSIGNED_Column': PlutoCell(value: 'Frank Befera'),
-            'LAST_Column': PlutoCell(value: DateTime(2023, 3, 16)),
-            'STATUS_Column': PlutoCell(value: '-'),
-            'ACTIONS_Column': PlutoCell(value: ''),
-          },
-        ),
-      );
-      rows.add(
-        PlutoRow(
-          cells: {
-            'ID_Column': PlutoCell(value: 2),
-            'NAME_Column': PlutoCell(value: 'LCR-5G'),
-            'PROBABILITY_Column': PlutoCell(value: 40),
-            'CLOSED_Column': PlutoCell(value: DateTime(2023, 4, 30)),
-            'ASSIGNED_Column': PlutoCell(value: 'Frank Befera'),
-            'LAST_Column': PlutoCell(value: DateTime(2023, 3, 16)),
-            'STATUS_Column': PlutoCell(value: '-'),
-            'ACTIONS_Column': PlutoCell(value: ''),
-          },
-        ),
-      );
-      rows.add(
-        PlutoRow(
-          cells: {
-            'ID_Column': PlutoCell(value: 3),
-            'NAME_Column': PlutoCell(value: 'LCR-2G'),
-            'PROBABILITY_Column': PlutoCell(value: 40),
-            'CLOSED_Column': PlutoCell(value: DateTime(2023, 4, 30)),
-            'ASSIGNED_Column': PlutoCell(value: 'Frank Befera'),
-            'LAST_Column': PlutoCell(value: DateTime(2023, 3, 16)),
-            'STATUS_Column': PlutoCell(value: '-'),
-            'ACTIONS_Column': PlutoCell(value: ''),
-          },
-        ),
-      );
-      rows.add(
-        PlutoRow(
-          cells: {
-            'ID_Column': PlutoCell(value: 4),
-            'NAME_Column': PlutoCell(value: 'Uber 10G'),
-            'PROBABILITY_Column': PlutoCell(value: 20),
-            'CLOSED_Column': PlutoCell(value: DateTime(2023, 1, 31)),
-            'ASSIGNED_Column': PlutoCell(value: 'Frank Befera'),
-            'LAST_Column': PlutoCell(value: DateTime(2023, 3, 16)),
-            'STATUS_Column': PlutoCell(value: '-'),
-            'ACTIONS_Column': PlutoCell(value: ''),
-          },
-        ),
-      );
+      }
 
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {

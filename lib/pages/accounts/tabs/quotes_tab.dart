@@ -23,6 +23,19 @@ class QuotesTab extends StatefulWidget {
 
 class _QuotesTabState extends State<QuotesTab> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final QuotesProvider provider = Provider.of<QuotesProvider>(
+        context,
+        listen: false,
+      );
+      await provider.updateState();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     QuotesProvider provider = Provider.of<QuotesProvider>(context);
     return CustomCard(

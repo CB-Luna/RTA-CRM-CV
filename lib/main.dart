@@ -27,7 +27,7 @@ void main() async {
 
   setPathUrlStrategy();
 
-  // supabaseCRM = SupabaseClient('https://supa43.rtatel.com', key, schema: 'crm');
+  supabaseCRM = SupabaseClient('https://supa43.rtatel.com', key, schema: 'crm');
   // supabaseCtrlV = SupabaseClient('https://supa43.rtatel.com', key, schema: 'ctrl_v');
 
   await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);

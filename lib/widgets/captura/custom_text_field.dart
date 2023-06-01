@@ -7,6 +7,7 @@ class CustomTextField extends StatefulWidget {
   const CustomTextField({
     super.key,
     this.width = 500,
+    this.height = 35,
     required this.enabled,
     required this.controller,
     required this.icon,
@@ -22,6 +23,7 @@ class CustomTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final double width;
+  final double height;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -38,7 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         children: [
           AnimatedContainer(
             width: widget.width,
-            height: 35,
+            height: widget.height,
             duration: const Duration(milliseconds: 100),
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppTheme.of(context).primaryBackground, boxShadow: [
               BoxShadow(

@@ -5,6 +5,7 @@ class CustomTextIconButton extends StatefulWidget {
   const CustomTextIconButton({
     super.key,
     this.width,
+    this.height = 35,
     required this.icon,
     required this.text,
     this.onTap,
@@ -13,6 +14,7 @@ class CustomTextIconButton extends StatefulWidget {
   });
 
   final double? width;
+  final double? height;
   final Widget icon;
   final Color? color;
   final String text;
@@ -48,7 +50,7 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
       },
       child: MouseRegion(
         child: AnimatedContainer(
-          height: 35,
+          height: widget.height,
           width: widget.width,
           duration: const Duration(milliseconds: 100),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: widget.color ?? AppTheme.of(context).primaryColor, boxShadow: [
