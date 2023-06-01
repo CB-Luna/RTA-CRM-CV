@@ -48,36 +48,37 @@ class _CustomTextFieldFormState extends State<CustomTextFieldForm> {
       ]),
       child: Form(
         child: TextField(
-            readOnly: widget.onTapCheck ? true : false,
-            onTap: widget.onTap,
-            controller: widget.controller,
-            enabled: widget.enabled,
-            keyboardType: widget.keyboardType,
-            inputFormatters: widget.inputFormatters,
-            decoration: InputDecoration(
-              disabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppTheme.of(context).primaryColor, width: 0.5),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: secondaryColor, width: 0.5),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              //prefixIcon: Icon(widget.icon),
-              prefixIconColor: AppTheme.of(context).primaryColor,
-              label: Text(
-                widget.label,
-                style: TextStyle(color: AppTheme.of(context).primaryColor),
-              ),
+          readOnly: widget.onTapCheck ? true : false,
+          onTap: widget.onTap,
+          controller: widget.controller,
+          enabled: widget.enabled,
+          keyboardType: widget.keyboardType,
+          inputFormatters: widget.inputFormatters,
+          decoration: InputDecoration(
+            disabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
+              borderRadius: BorderRadius.circular(5),
             ),
-            cursorColor: AppTheme.of(context).primaryColor),
+            enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppTheme.of(context).primaryColor, width: 0.5),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: secondaryColor, width: 0.5),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            //prefixIcon: Icon(widget.icon),
+            prefixIconColor: AppTheme.of(context).primaryColor,
+            label: Text(
+              widget.label,
+              style: TextStyle(color: AppTheme.of(context).primaryColor),
+            ),
+          ),
+          cursorColor: AppTheme.of(context).primaryColor,
+        ),
       ),
     );
   }

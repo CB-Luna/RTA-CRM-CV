@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:rta_crm_cv/pages/monitory_page/monitory_page.dart';
 import 'package:rta_crm_cv/pages/accounts/create_quote.dart';
 import 'package:rta_crm_cv/pages/accounts/detail_quote.dart';
+import 'package:rta_crm_cv/pages/monitory_page/monitory_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
 import 'package:rta_crm_cv/helpers/constants.dart';
@@ -153,7 +153,7 @@ final GoRouter router = GoRouter(
 
     GoRoute(
       path: '/monitory',
-      name: 'monitory',
+      name: 'Monitory',
       builder: (BuildContext context, GoRouterState state) {
         return MonitoryPage();
       },
