@@ -7,8 +7,7 @@ import 'package:rta_crm_cv/models/models.dart';
 
 const kThemeModeKey = '__theme_mode__';
 
-void setDarkModeSetting(BuildContext context, ThemeMode themeMode) =>
-    MyApp.of(context).setThemeMode(themeMode);
+void setDarkModeSetting(BuildContext context, ThemeMode themeMode) => MyApp.of(context).setThemeMode(themeMode);
 
 abstract class AppTheme {
   static ThemeMode get themeMode {
@@ -28,12 +27,9 @@ abstract class AppTheme {
     darkTheme = DarkModeTheme(mode: conf?.dark);
   }
 
-  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system
-      ? prefs.remove(kThemeModeKey)
-      : prefs.setBool(kThemeModeKey, mode == ThemeMode.dark);
+  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system ? prefs.remove(kThemeModeKey) : prefs.setBool(kThemeModeKey, mode == ThemeMode.dark);
 
-  static AppTheme of(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark ? darkTheme : lightTheme;
+  static AppTheme of(BuildContext context) => Theme.of(context).brightness == Brightness.dark ? darkTheme : lightTheme;
 
   abstract Color primaryColor;
   abstract Color secondaryColor;
@@ -76,7 +72,7 @@ class LightModeTheme extends AppTheme {
   @override
   Color primaryColor = const Color(0XFF345694);
   @override
-  Color secondaryColor = const Color(0XFF5FD39E);
+  Color secondaryColor = const Color(0XFFB2333A);
   @override
   Color tertiaryColor = const Color(0xFF102047);
   @override
@@ -105,9 +101,9 @@ class LightModeTheme extends AppTheme {
 
 class DarkModeTheme extends AppTheme {
   @override
-  Color primaryColor = const Color(0XFF00C774);
+  Color primaryColor = const Color(0XFF345694);
   @override
-  Color secondaryColor = const Color(0XFF5FD39E);
+  Color secondaryColor = const Color(0XFFB2333A);
   @override
   Color tertiaryColor = const Color(0xFF102047);
   @override
@@ -302,11 +298,7 @@ class ThemeTypography extends Typography {
       );
 
   @override
-  TextStyle get encabezadoSubTablas => TextStyle(
-      fontSize: 35,
-      fontFamily: 'Bicyclette-Bold',
-      fontWeight: FontWeight.w800,
-      color: theme.primaryColor);
+  TextStyle get encabezadoSubTablas => TextStyle(fontSize: 35, fontFamily: 'Bicyclette-Bold', fontWeight: FontWeight.w800, color: theme.primaryColor);
 
   @override
   TextStyle get contenidoTablas => TextStyle(

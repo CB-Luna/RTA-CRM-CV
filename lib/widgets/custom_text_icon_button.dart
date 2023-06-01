@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class CustomTextIconButton extends StatefulWidget {
-  const CustomTextIconButton(
-      {super.key,
-      required this.icon,
-      required this.text,
-      this.onTap,
-      this.color});
 
+  const CustomTextIconButton({
+    super.key,
+    this.width,
+    required this.icon,
+    required this.text,
+    this.onTap,
+    this.color,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+  });
+
+  final double? width;
   final Widget icon;
   final Color? color;
   final String text;
   final Function()? onTap;
+  final MainAxisAlignment mainAxisAlignment;
 
   @override
   State<CustomTextIconButton> createState() => CustomTextIconButtonState();
@@ -44,6 +50,7 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
       child: MouseRegion(
         child: AnimatedContainer(
           height: 35,
+          width: widget.width,
           duration: const Duration(milliseconds: 100),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
@@ -67,6 +74,8 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
             child: Center(
               child: Row(
+                mainAxisAlignment: widget.mainAxisAlignment,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   widget.icon,
                   const SizedBox(width: 5),

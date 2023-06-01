@@ -56,17 +56,8 @@ class _ConfigPageState extends State<ConfigPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        if (currentStep != 0)
-          CustomTextIconButton(
-              onTap: details.onStepCancel,
-              icon: Icon(Icons.chevron_left,
-                  color: AppTheme.of(context).primaryBackground),
-              text: 'Previous'),
-        CustomTextIconButton(
-            onTap: details.onStepContinue,
-            icon: Icon(Icons.chevron_right,
-                color: AppTheme.of(context).primaryBackground),
-            text: 'Next'),
+        if (currentStep != 0) CustomTextIconButton(onTap: details.onStepCancel, icon: Icon(Icons.chevron_left, color: AppTheme.of(context).primaryBackground), text: 'Previous'),
+        CustomTextIconButton(onTap: details.onStepContinue, icon: Icon(Icons.chevron_right, color: AppTheme.of(context).primaryBackground), text: 'Next'),
       ],
     );
   }
@@ -82,10 +73,8 @@ class _ConfigPageState extends State<ConfigPage> {
     sideM.setIndex(8);
     final bool isLight = AppTheme.themeMode == ThemeMode.light;
     final Color iconColor = isLight
-        ? Color.alphaBlend(AppTheme.of(context).primaryColor.withAlpha(0x99),
-            const Color(0xFF121313))
-        : Color.alphaBlend(AppTheme.of(context).primaryColor.withAlpha(0x7F),
-            const Color(0XFFB6B6B6));
+        ? Color.alphaBlend(AppTheme.of(context).primaryColor.withAlpha(0x99), const Color(0xFF121313))
+        : Color.alphaBlend(AppTheme.of(context).primaryColor.withAlpha(0x7F), const Color(0XFFB6B6B6));
 
     return Material(
       color: Colors.transparent,
@@ -107,9 +96,7 @@ class _ConfigPageState extends State<ConfigPage> {
                       steps: [
                         Step(
                             isActive: currentStep >= 0,
-                            state: currentStep > 0
-                                ? StepState.complete
-                                : StepState.indexed,
+                            state: currentStep > 0 ? StepState.complete : StepState.indexed,
                             title: const Text('Theme and Logo'),
                             content: Column(
                               children: [
@@ -121,11 +108,9 @@ class _ConfigPageState extends State<ConfigPage> {
                                   ),
                                   child: Card(
                                     margin: EdgeInsets.zero,
-                                    color:
-                                        AppTheme.of(context).primaryBackground,
+                                    color: AppTheme.of(context).primaryBackground,
                                     shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(16)),
+                                      borderRadius: BorderRadius.all(Radius.circular(16)),
                                       side: BorderSide(
                                         color: Color(0x1E090909),
                                         width: 1,
@@ -138,48 +123,35 @@ class _ConfigPageState extends State<ConfigPage> {
                                         Material(
                                           type: MaterialType.card,
                                           color: Color.alphaBlend(
-                                            AppTheme.of(context)
-                                                .primaryColor
-                                                .withAlpha(20),
-                                            isLight
-                                                ? Colors.white
-                                                : const Color(0XFF262626),
+                                            AppTheme.of(context).primaryColor.withAlpha(20),
+                                            isLight ? AppTheme.of(context).primaryBackground : const Color(0XFF262626),
                                           ),
                                           child: ListTile(
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16.0),
+                                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
                                             leading: Icon(
                                               Icons.palette_outlined,
                                               color: iconColor,
                                             ),
                                             title: Text(
                                               'Configuración de temas',
-                                              style: AppTheme.of(context)
-                                                  .bodyText1,
+                                              style: AppTheme.of(context).bodyText1,
                                             ),
                                             trailing: ExpandIcon(
                                               size: 32,
                                               isExpanded: isThemeSelectionOpen,
                                               padding: EdgeInsets.zero,
                                               onPressed: (_) {
-                                                setState(() =>
-                                                    isThemeSelectionOpen =
-                                                        !isThemeSelectionOpen);
+                                                setState(() => isThemeSelectionOpen = !isThemeSelectionOpen);
                                               },
                                             ),
                                             onTap: () {
-                                              setState(() =>
-                                                  isThemeSelectionOpen =
-                                                      !isThemeSelectionOpen);
+                                              setState(() => isThemeSelectionOpen = !isThemeSelectionOpen);
                                             },
                                           ),
                                         ),
                                         AnimatedSwitcher(
-                                          duration:
-                                              const Duration(milliseconds: 200),
-                                          transitionBuilder: (Widget child,
-                                              Animation<double> animation) {
+                                          duration: const Duration(milliseconds: 200),
+                                          transitionBuilder: (Widget child, Animation<double> animation) {
                                             return SizeTransition(
                                               sizeFactor: animation,
                                               child: child,
@@ -201,11 +173,9 @@ class _ConfigPageState extends State<ConfigPage> {
                                   ),
                                   child: Card(
                                     margin: EdgeInsets.zero,
-                                    color:
-                                        AppTheme.of(context).primaryBackground,
+                                    color: AppTheme.of(context).primaryBackground,
                                     shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(16)),
+                                      borderRadius: BorderRadius.all(Radius.circular(16)),
                                       side: BorderSide(
                                         color: Color(0x1E090909),
                                         width: 1,
@@ -218,56 +188,41 @@ class _ConfigPageState extends State<ConfigPage> {
                                         Material(
                                           type: MaterialType.card,
                                           color: Color.alphaBlend(
-                                            AppTheme.of(context)
-                                                .primaryColor
-                                                .withAlpha(20),
-                                            isLight
-                                                ? Colors.white
-                                                : const Color(0XFF262626),
+                                            AppTheme.of(context).primaryColor.withAlpha(20),
+                                            isLight ? AppTheme.of(context).primaryBackground : const Color(0XFF262626),
                                           ),
                                           child: ListTile(
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16.0),
+                                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
                                             leading: Icon(
                                               Icons.image_outlined,
                                               color: iconColor,
                                             ),
                                             title: Text(
                                               'Configuración de imágenes',
-                                              style: AppTheme.of(context)
-                                                  .bodyText1,
+                                              style: AppTheme.of(context).bodyText1,
                                             ),
                                             trailing: ExpandIcon(
                                               size: 32,
                                               isExpanded: isImageSelectionOpen,
                                               padding: EdgeInsets.zero,
                                               onPressed: (_) {
-                                                setState(() =>
-                                                    isImageSelectionOpen =
-                                                        !isImageSelectionOpen);
+                                                setState(() => isImageSelectionOpen = !isImageSelectionOpen);
                                               },
                                             ),
                                             onTap: () {
-                                              setState(() =>
-                                                  isImageSelectionOpen =
-                                                      !isImageSelectionOpen);
+                                              setState(() => isImageSelectionOpen = !isImageSelectionOpen);
                                             },
                                           ),
                                         ),
                                         AnimatedSwitcher(
-                                          duration:
-                                              const Duration(milliseconds: 200),
-                                          transitionBuilder: (Widget child,
-                                              Animation<double> animation) {
+                                          duration: const Duration(milliseconds: 200),
+                                          transitionBuilder: (Widget child, Animation<double> animation) {
                                             return SizeTransition(
                                               sizeFactor: animation,
                                               child: child,
                                             );
                                           },
-                                          child: (isImageSelectionOpen)
-                                              ? const ImageSelectionPanel()
-                                              : const SizedBox.shrink(),
+                                          child: (isImageSelectionOpen) ? const ImageSelectionPanel() : const SizedBox.shrink(),
                                         ),
                                       ],
                                     ),
@@ -277,9 +232,7 @@ class _ConfigPageState extends State<ConfigPage> {
                             )),
                         Step(
                             isActive: currentStep >= 1,
-                            state: currentStep > 1
-                                ? StepState.complete
-                                : StepState.indexed,
+                            state: currentStep > 1 ? StepState.complete : StepState.indexed,
                             title: const Text('Login'),
                             content: Column(
                               children: [
@@ -291,11 +244,9 @@ class _ConfigPageState extends State<ConfigPage> {
                                   ),
                                   child: Card(
                                     margin: EdgeInsets.zero,
-                                    color:
-                                        AppTheme.of(context).primaryBackground,
+                                    color: AppTheme.of(context).primaryBackground,
                                     shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(16)),
+                                      borderRadius: BorderRadius.all(Radius.circular(16)),
                                       side: BorderSide(
                                         color: Color(0x1E090909),
                                         width: 1,
@@ -308,57 +259,41 @@ class _ConfigPageState extends State<ConfigPage> {
                                         Material(
                                           type: MaterialType.card,
                                           color: Color.alphaBlend(
-                                            AppTheme.of(context)
-                                                .primaryColor
-                                                .withAlpha(20),
-                                            isLight
-                                                ? Colors.white
-                                                : const Color(0XFF262626),
+                                            AppTheme.of(context).primaryColor.withAlpha(20),
+                                            isLight ? AppTheme.of(context).primaryBackground : const Color(0XFF262626),
                                           ),
                                           child: ListTile(
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16.0),
+                                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
                                             leading: Icon(
                                               Icons.image,
                                               color: iconColor,
                                             ),
                                             title: Text(
                                               'Login Pictures',
-                                              style: AppTheme.of(context)
-                                                  .bodyText1,
+                                              style: AppTheme.of(context).bodyText1,
                                             ),
                                             trailing: ExpandIcon(
                                               size: 32,
-                                              isExpanded:
-                                                  isLoginPictureSelectionOpen,
+                                              isExpanded: isLoginPictureSelectionOpen,
                                               padding: EdgeInsets.zero,
                                               onPressed: (_) {
-                                                setState(() =>
-                                                    isLoginPictureSelectionOpen =
-                                                        !isLoginPictureSelectionOpen);
+                                                setState(() => isLoginPictureSelectionOpen = !isLoginPictureSelectionOpen);
                                               },
                                             ),
                                             onTap: () {
-                                              setState(() =>
-                                                  isLoginPictureSelectionOpen =
-                                                      !isLoginPictureSelectionOpen);
+                                              setState(() => isLoginPictureSelectionOpen = !isLoginPictureSelectionOpen);
                                             },
                                           ),
                                         ),
                                         AnimatedSwitcher(
-                                          duration:
-                                              const Duration(milliseconds: 200),
-                                          transitionBuilder: (Widget child,
-                                              Animation<double> animation) {
+                                          duration: const Duration(milliseconds: 200),
+                                          transitionBuilder: (Widget child, Animation<double> animation) {
                                             return SizeTransition(
                                               sizeFactor: animation,
                                               child: child,
                                             );
                                           },
-                                          child: (isLoginPictureSelectionOpen)
-                                              ? const ImageSelectionPanel()
-                                              : const SizedBox.shrink(),
+                                          child: (isLoginPictureSelectionOpen) ? const ImageSelectionPanel() : const SizedBox.shrink(),
                                         ),
                                       ],
                                     ),
@@ -372,11 +307,9 @@ class _ConfigPageState extends State<ConfigPage> {
                                   ),
                                   child: Card(
                                     margin: EdgeInsets.zero,
-                                    color:
-                                        AppTheme.of(context).primaryBackground,
+                                    color: AppTheme.of(context).primaryBackground,
                                     shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(16)),
+                                      borderRadius: BorderRadius.all(Radius.circular(16)),
                                       side: BorderSide(
                                         color: Color(0x1E090909),
                                         width: 1,
@@ -389,57 +322,41 @@ class _ConfigPageState extends State<ConfigPage> {
                                         Material(
                                           type: MaterialType.card,
                                           color: Color.alphaBlend(
-                                            AppTheme.of(context)
-                                                .primaryColor
-                                                .withAlpha(20),
-                                            isLight
-                                                ? Colors.white
-                                                : const Color(0XFF262626),
+                                            AppTheme.of(context).primaryColor.withAlpha(20),
+                                            isLight ? AppTheme.of(context).primaryBackground : const Color(0XFF262626),
                                           ),
                                           child: ListTile(
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16.0),
+                                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
                                             leading: Icon(
                                               Icons.animation,
                                               color: iconColor,
                                             ),
                                             title: Text(
                                               'Animations',
-                                              style: AppTheme.of(context)
-                                                  .bodyText1,
+                                              style: AppTheme.of(context).bodyText1,
                                             ),
                                             trailing: ExpandIcon(
                                               size: 32,
-                                              isExpanded:
-                                                  isAnimationSelectionOpen,
+                                              isExpanded: isAnimationSelectionOpen,
                                               padding: EdgeInsets.zero,
                                               onPressed: (_) {
-                                                setState(() =>
-                                                    isAnimationSelectionOpen =
-                                                        !isAnimationSelectionOpen);
+                                                setState(() => isAnimationSelectionOpen = !isAnimationSelectionOpen);
                                               },
                                             ),
                                             onTap: () {
-                                              setState(() =>
-                                                  isAnimationSelectionOpen =
-                                                      !isAnimationSelectionOpen);
+                                              setState(() => isAnimationSelectionOpen = !isAnimationSelectionOpen);
                                             },
                                           ),
                                         ),
                                         AnimatedSwitcher(
-                                          duration:
-                                              const Duration(milliseconds: 200),
-                                          transitionBuilder: (Widget child,
-                                              Animation<double> animation) {
+                                          duration: const Duration(milliseconds: 200),
+                                          transitionBuilder: (Widget child, Animation<double> animation) {
                                             return SizeTransition(
                                               sizeFactor: animation,
                                               child: child,
                                             );
                                           },
-                                          child: (isAnimationSelectionOpen)
-                                              ? const ImageSelectionPanel()
-                                              : const SizedBox.shrink(),
+                                          child: (isAnimationSelectionOpen) ? const ImageSelectionPanel() : const SizedBox.shrink(),
                                         ),
                                       ],
                                     ),
@@ -449,33 +366,25 @@ class _ConfigPageState extends State<ConfigPage> {
                             )),
                         Step(
                           isActive: currentStep >= 2,
-                          state: currentStep > 2
-                              ? StepState.complete
-                              : StepState.indexed,
+                          state: currentStep > 2 ? StepState.complete : StepState.indexed,
                           title: const Text('-'),
                           content: Container(),
                         ),
                         Step(
                           isActive: currentStep >= 3,
-                          state: currentStep > 3
-                              ? StepState.complete
-                              : StepState.indexed,
+                          state: currentStep > 3 ? StepState.complete : StepState.indexed,
                           title: const Text('-'),
                           content: Container(),
                         ),
                         Step(
                           isActive: currentStep >= 4,
-                          state: currentStep > 4
-                              ? StepState.complete
-                              : StepState.indexed,
+                          state: currentStep > 4 ? StepState.complete : StepState.indexed,
                           title: const Text('-'),
                           content: Container(),
                         ),
                         Step(
                           isActive: currentStep >= 5,
-                          state: currentStep > 5
-                              ? StepState.complete
-                              : StepState.indexed,
+                          state: currentStep > 5 ? StepState.complete : StepState.indexed,
                           title: const Text('-'),
                           content: Container(),
                         ),

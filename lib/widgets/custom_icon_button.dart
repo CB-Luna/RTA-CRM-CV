@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/public/colors.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 
 class CustomIconButton extends StatefulWidget {
   const CustomIconButton({super.key, required this.icon, required this.toolTip, this.onTap});
@@ -61,10 +62,7 @@ class CustomIconButtonState extends State<CustomIconButton> {
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Center(
-                child: Icon(
-                  widget.icon,
-                  color: primaryColor,
-                ),
+                child: Icon(widget.icon, color: AppTheme.of(context).primaryColor),
               ),
             ),
           ),

@@ -11,8 +11,10 @@ class CustomTabButton extends StatefulWidget {
     required this.option2,
     this.color,
     this.onTap,
+    this.width,
   });
 
+  final double? width;
   final bool on;
   final String label;
   final String option1;
@@ -34,12 +36,14 @@ class CustomTabButtonState extends State<CustomTabButton> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 51,
+      width: widget.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 40),
-            child: Text(widget.label, style: TextStyle(color: primaryColor)),
+            child: Text(widget.label, style: TextStyle(color: AppTheme.of(context).primaryColor)),
           ),
           Row(
             children: [
@@ -66,7 +70,7 @@ class CustomTabButtonState extends State<CustomTabButton> {
                     duration: const Duration(milliseconds: 100),
                     decoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
-                        color: widget.on ? primaryColor : AppTheme.of(context).primaryBackground,
+                        color: widget.on ? AppTheme.of(context).primaryColor : AppTheme.of(context).primaryBackground,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
@@ -87,7 +91,7 @@ class CustomTabButtonState extends State<CustomTabButton> {
                       child: Center(
                         child: Text(
                           widget.option1,
-                          style: TextStyle(color: widget.on ? AppTheme.of(context).primaryBackground : primaryColor),
+                          style: TextStyle(color: widget.on ? AppTheme.of(context).primaryBackground : AppTheme.of(context).primaryColor),
                         ),
                       ),
                     ),
@@ -127,7 +131,7 @@ class CustomTabButtonState extends State<CustomTabButton> {
                     duration: const Duration(milliseconds: 100),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
-                        color: widget.on ? AppTheme.of(context).primaryBackground : primaryColor,
+                        color: widget.on ? AppTheme.of(context).primaryBackground : AppTheme.of(context).primaryColor,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
@@ -148,7 +152,7 @@ class CustomTabButtonState extends State<CustomTabButton> {
                       child: Center(
                         child: Text(
                           widget.option2,
-                          style: TextStyle(color: widget.on ? primaryColor : AppTheme.of(context).primaryBackground),
+                          style: TextStyle(color: widget.on ? AppTheme.of(context).primaryColor : AppTheme.of(context).primaryBackground),
                         ),
                       ),
                     ),

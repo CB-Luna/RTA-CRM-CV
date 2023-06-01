@@ -7,12 +7,19 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 import 'package:rta_crm_cv/models/models.dart';
 
-final GlobalKey<ScaffoldMessengerState> snackbarKey =
-    GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
 
 const storage = FlutterSecureStorage();
 
+late SupabaseClient supabaseCRM;
+late SupabaseClient supabaseCtrlV;
+late SupabaseClient supabasePublic;
+
+String key =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAic2VydmljZV9yb2xlIiwKICAgICJpc3MiOiAic3VwYWJhc2UiLAogICAgImlhdCI6IDE2ODQ4MjUyMDAsCiAgICAiZXhwIjogMTg0MjY3ODAwMAp9.gAA9u40KP0uFMjACjoUF1zMPpnxbrkUYCGP_ovgl9Io';
+
 final supabase = Supabase.instance.client;
+late SupabaseClient supabaseCRMJuan;
 
 late final SharedPreferences prefs;
 
@@ -26,7 +33,7 @@ Future<void> initGlobals() async {
   assets = await SupabaseQueries.getAssets();
 
   currentUser = await SupabaseQueries.getCurrentUserData();
-   if (currentUser == null) return;
+  if (currentUser == null) return;
   Configuration? config = await SupabaseQueries.getUserTheme();
   if (config == null) return;
   assets.logoBlanco = config.logos.logoBlanco;

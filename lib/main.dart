@@ -11,17 +11,27 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
+import 'helpers/supabase/queries.dart';
 import 'models/configuration.dart';
+import 'providers/accounts/account_page_provider.dart';
+import 'providers/accounts/create_quote_provider.dart';
+import 'providers/accounts/detail_quote_provider.dart';
+import 'providers/accounts/tabs/accounts_provider.dart';
+import 'providers/accounts/tabs/billing_provider.dart';
+import 'providers/accounts/tabs/campaigns_provider.dart';
+import 'providers/accounts/tabs/leads_provider.dart';
+import 'providers/accounts/tabs/opportunities_provider.dart';
+import 'providers/accounts/tabs/quotes_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   setPathUrlStrategy();
 
-  await Supabase.initialize(
-    url: supabaseUrl,
-    anonKey: anonKey,
-  );
+  // supabaseCRM = SupabaseClient('https://supa43.rtatel.com', key, schema: 'crm');
+  // supabaseCtrlV = SupabaseClient('https://supa43.rtatel.com', key, schema: 'ctrl_v');
+
+  await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);
 
   await initGlobals();
 
@@ -41,6 +51,33 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => UsersProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AccountsPageProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => QuotesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LeadsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => OpportunitiesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CampaignsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => BillingProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AccountsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CreateQuoteProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DetailQuoteProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => MonitoryProvider(),
@@ -64,8 +101,7 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 
-  static _MyAppState of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>()!;
+  static _MyAppState of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>()!;
 }
 
 class _MyAppState extends State<MyApp> {
