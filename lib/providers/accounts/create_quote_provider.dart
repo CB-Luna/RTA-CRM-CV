@@ -156,11 +156,10 @@ class CreateQuoteProvider extends ChangeNotifier {
     // var x = (await supabaseCRM.from('quotes').select()).toString();
     // var z = await supabase.from('temas').select();
 
-    /*    await supabasePublic.from('quotes').insert({'number': 6});
-    await supabasePublic.from('quotes').select(); */
-    await supabaseCRM.from('quotes').insert({'number': 6});
-    await supabaseCRM.from('quotes').select();
-    // await supabaseCRMJuan.from('quotes').select();
+    // await supabasePublic.from('quotes').insert({'number': 11});
+    // await supabasePublic.from('quotes').select();
+    // await supabaseCRM.from('quotes').insert({'number': 11});
+    // await supabaseCRM.from('quotes').select();
 
     notifyListeners();
   }

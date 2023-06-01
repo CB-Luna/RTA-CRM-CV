@@ -7,37 +7,20 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
 
-class OpportunitiesProvider extends ChangeNotifier {
+class AccountsProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
   int pageRowCount = 10;
   int page = 1;
 
-  OpportunitiesProvider() {
+  AccountsProvider() {
     updateState();
   }
 
   Future<void> updateState() async {
     rows.clear();
     await getUsers();
-  }
-
-  List<bool> tabBar = [
-    true,
-    false,
-    false,
-    false,
-    false,
-  ];
-
-  Future setIndex(int index) async {
-    for (var i = 0; i < tabBar.length; i++) {
-      tabBar[i] = false;
-    }
-    tabBar[index] = true;
-
-    notifyListeners();
   }
 
   void clearControllers({bool notify = true}) {
@@ -106,15 +89,14 @@ class OpportunitiesProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: user.sequentialId),
-              'NAME_Column': PlutoCell(value: 'LCR Wireless'),
-              'AMOUNT_Column': PlutoCell(value: 3000),
-              'PROBABILITY_Column': PlutoCell(value: 40),
-              'CLOSED_Column': PlutoCell(value: DateTime(2023, 4, 30)),
-              'CREATE_Column': PlutoCell(value: DateTime(2023, 3, 31)),
-              'LAST_Column': PlutoCell(value: DateTime(2023, 4, 30)),
+              'NAME_Column': PlutoCell(value: 'Unified Communications-Zochnet'),
+              'TYPE_Column': PlutoCell(value: null),
+              'REVENUE_Column': PlutoCell(value: 0),
+              'PHONE_Column': PlutoCell(value: '(979) 421-3794'),
+              'LAST_Column': PlutoCell(value: DateTime(2023, 4, 4)),
               'ASSIGNED_Column': PlutoCell(value: 'Frank Befera'),
-              'STATUS_Column': PlutoCell(value: 'Closed'),
-              'ACTIONS_Column': PlutoCell(value: ''),
+              'STATUS_Column': PlutoCell(value: null),
+              'ACTIONS_Column': PlutoCell(value: null),
             },
           ),
         );

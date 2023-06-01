@@ -13,26 +13,25 @@ import 'package:rta_crm_cv/theme/theme.dart';
 
 import 'helpers/supabase/queries.dart';
 import 'models/configuration.dart';
-import 'providers/accounts/accounts_provider.dart';
-import 'providers/accounts/billing_provider.dart';
-import 'providers/accounts/campaigns_provider.dart';
+import 'providers/accounts/account_page_provider.dart';
 import 'providers/accounts/create_quote_provider.dart';
 import 'providers/accounts/detail_quote_provider.dart';
-import 'providers/accounts/leads_provider.dart';
-import 'providers/accounts/opportunities_provider.dart';
-import 'providers/accounts/quotes_provider.dart';
+import 'providers/accounts/tabs/accounts_provider.dart';
+import 'providers/accounts/tabs/billing_provider.dart';
+import 'providers/accounts/tabs/campaigns_provider.dart';
+import 'providers/accounts/tabs/leads_provider.dart';
+import 'providers/accounts/tabs/opportunities_provider.dart';
+import 'providers/accounts/tabs/quotes_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   setPathUrlStrategy();
 
-  /* supabaseCRM = SupabaseClient('http://10.5.24.43:8000', key, schema: 'crm');
-  supabasePublic = SupabaseClient('http://10.5.24.43:8000', key); */
-  //supabaseCtrlV = (await Supabase.initialize(url: supabaseUrl, anonKey: anonKey, schema: 'ctrl_v')).client;
+  // supabaseCRM = SupabaseClient('https://supa43.rtatel.com', key, schema: 'crm');
+  // supabaseCtrlV = SupabaseClient('https://supa43.rtatel.com', key, schema: 'ctrl_v');
 
   await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);
-  /* supabaseCRMJuan = SupabaseClient(supabaseUrl, anonKey, schema: 'crm'); */
 
   await initGlobals();
 
@@ -54,7 +53,7 @@ void main() async {
           create: (_) => UsersProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => AccountsProvider(),
+          create: (_) => AccountsPageProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => QuotesProvider(),
@@ -70,6 +69,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => BillingProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AccountsProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => CreateQuoteProvider(),

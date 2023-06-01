@@ -23,23 +23,6 @@ class QuotesProvider extends ChangeNotifier {
     await getUsers();
   }
 
-  List<bool> tabBar = [
-    true,
-    false,
-    false,
-    false,
-    false,
-  ];
-
-  Future setIndex(int index) async {
-    for (var i = 0; i < tabBar.length; i++) {
-      tabBar[i] = false;
-    }
-    tabBar[index] = true;
-
-    notifyListeners();
-  }
-
   void clearControllers({bool notify = true}) {
     searchController.clear();
 

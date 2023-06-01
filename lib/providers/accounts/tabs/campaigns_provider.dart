@@ -7,37 +7,20 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
 
-class BillingProvider extends ChangeNotifier {
+class CampaignsProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
   int pageRowCount = 10;
   int page = 1;
 
-  BillingProvider() {
+  CampaignsProvider() {
     updateState();
   }
 
   Future<void> updateState() async {
     rows.clear();
     await getUsers();
-  }
-
-  List<bool> tabBar = [
-    true,
-    false,
-    false,
-    false,
-    false,
-  ];
-
-  Future setIndex(int index) async {
-    for (var i = 0; i < tabBar.length; i++) {
-      tabBar[i] = false;
-    }
-    tabBar[index] = true;
-
-    notifyListeners();
   }
 
   void clearControllers({bool notify = true}) {
@@ -106,10 +89,10 @@ class BillingProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: user.sequentialId),
-              'NAME_Column': PlutoCell(value: currentUser!.name),
-              'CONTACT_Column': PlutoCell(value: currentUser!.name),
+              'NAME_Column': PlutoCell(value: 'gigFAST® TV ODE'),
+              'CONTACT_Column': PlutoCell(value: 'ODE'),
               'SUPPRESSION_Column': PlutoCell(value: currentUser!.birthDate),
-              'SUBJECTS_Column': PlutoCell(value: null),
+              'SUBJECTS_Column': PlutoCell(value: 'gigFAST® TV Now Available for \$25/mo'),
               'LAUNCH_Column': PlutoCell(value: currentUser!.birthDate),
               'STATUS_Column': PlutoCell(value: user.role.roleName),
               'ACTIONS_Column': PlutoCell(value: ''),

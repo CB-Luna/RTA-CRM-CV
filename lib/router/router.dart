@@ -75,8 +75,8 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) => pageTransition(context, state, const DashboardsPage()),
     ),
     GoRoute(
-      path: '/accounts',
-      name: 'Accounts',
+      path: '/prospects',
+      name: 'Prospects',
       builder: (BuildContext context, GoRouterState state) {
         return const AccountsPage();
       },

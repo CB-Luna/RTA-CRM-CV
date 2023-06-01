@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/providers/accounts/billing_provider.dart';
+import 'package:rta_crm_cv/providers/accounts/tabs/billing_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';

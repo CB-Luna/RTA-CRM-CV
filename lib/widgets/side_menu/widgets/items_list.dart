@@ -47,9 +47,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               selected: provider.indexSelected[1],
               leading: provider.aRAccounts != null ? Rive(artboard: provider.aRAccounts!) : const CircularProgressIndicator(),
               isOpen: widget.isOpen,
-              title: 'Accounts',
+              title: 'Prospects',
               onTap: () async {
-                context.pushReplacement('/accounts');
+                context.pushReplacement('/prospects');
               },
               onEnter: (event) {
                 provider.iHoverAccounts?.change(true);

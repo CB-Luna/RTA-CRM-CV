@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
-import 'package:rta_crm_cv/pages/accounts/widgets/billing_tab.dart';
-import 'package:rta_crm_cv/pages/accounts/widgets/campaigns_tab.dart';
-import 'package:rta_crm_cv/pages/accounts/widgets/leads_tab.dart';
-import 'package:rta_crm_cv/pages/accounts/widgets/opportunities_tab.dart';
-import 'package:rta_crm_cv/pages/accounts/widgets/quotes_tab.dart';
+import 'package:rta_crm_cv/pages/accounts/tabs/accounts_tab.dart';
+import 'package:rta_crm_cv/pages/accounts/tabs/billing_tab.dart';
+import 'package:rta_crm_cv/pages/accounts/tabs/campaigns_tab.dart';
+import 'package:rta_crm_cv/pages/accounts/tabs/leads_tab.dart';
+import 'package:rta_crm_cv/pages/accounts/tabs/opportunities_tab.dart';
+import 'package:rta_crm_cv/pages/accounts/tabs/quotes_tab.dart';
 
-import 'package:rta_crm_cv/providers/accounts/accounts_provider.dart';
+import 'package:rta_crm_cv/providers/accounts/account_page_provider.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -23,25 +24,8 @@ class AccountsPage extends StatefulWidget {
 
 class _AccountsPageState extends State<AccountsPage> {
   @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final AccountsProvider provider = Provider.of<AccountsProvider>(
-        context,
-        listen: false,
-      );
-      await provider.updateState();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    AccountsProvider provider = Provider.of<AccountsProvider>(context);
-    /* AccountsProvider providerOpp = Provider.of<AccountsProvider>(context);
-    AccountsProvider providerLea = Provider.of<AccountsProvider>(context);
-    AccountsProvider providerCam = Provider.of<AccountsProvider>(context);
-    AccountsProvider providerBil = Provider.of<AccountsProvider>(context); */
+    AccountsPageProvider provider = Provider.of<AccountsPageProvider>(context);
 
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
     sideM.setIndex(1);
@@ -77,7 +61,7 @@ class _AccountsPageState extends State<AccountsPage> {
                               padding: const EdgeInsets.only(right: 10),
                               child: SizedBox(
                                 height: 40,
-                                child: Text('Accounts', style: AppTheme.of(context).title1),
+                                child: Text('Prospects', style: AppTheme.of(context).title1),
                               ),
                             ),
                           ],
@@ -138,7 +122,8 @@ class _AccountsPageState extends State<AccountsPage> {
                                 child: CustomTabBarOption(
                                   isOn: provider.tabBar[4],
                                   width: MediaQuery.of(context).size.width / 6,
-                                  text: 'Billing',
+                                  text: 'Accounts',
+                                  //text: 'Billing',
                                   border: greenGradient,
                                   gradient: greenRadial,
                                   onTap: () => provider.setIndex(4),
@@ -157,7 +142,8 @@ class _AccountsPageState extends State<AccountsPage> {
                       else if (provider.tabBar[3])
                         const CampaignsTab()
                       else
-                        const BillingTab()
+                        const AccountsTab()
+                      //const BillingTab()
                     ],
                   ),
                 ),

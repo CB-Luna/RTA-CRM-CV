@@ -6,7 +6,7 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/providers/accounts/quotes_provider.dart';
+import 'package:rta_crm_cv/providers/accounts/tabs/quotes_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';

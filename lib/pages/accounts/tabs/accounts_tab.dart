@@ -6,7 +6,7 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/providers/accounts/opportunities_provider.dart';
+import 'package:rta_crm_cv/providers/accounts/tabs/accounts_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -14,19 +14,19 @@ import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
-class OpportunitiesTab extends StatefulWidget {
-  const OpportunitiesTab({super.key});
+class AccountsTab extends StatefulWidget {
+  const AccountsTab({super.key});
 
   @override
-  State<OpportunitiesTab> createState() => _OpportunitiesTabState();
+  State<AccountsTab> createState() => _AccountsTabState();
 }
 
-class _OpportunitiesTabState extends State<OpportunitiesTab> {
+class _AccountsTabState extends State<AccountsTab> {
   @override
   Widget build(BuildContext context) {
-    OpportunitiesProvider provider = Provider.of<OpportunitiesProvider>(context);
+    AccountsProvider provider = Provider.of<AccountsProvider>(context);
     return CustomCard(
-      title: 'Opportunities',
+      title: 'Accounts',
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -74,13 +74,11 @@ class _OpportunitiesTabState extends State<OpportunitiesTab> {
                       return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'NAME_Column') {
                       return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'AMOUNT_Column') {
+                    } else if (column.field == 'TYPE_Column') {
                       return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'PROBABILITY_Column') {
+                    } else if (column.field == 'REVENUE_Column') {
                       return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'CLOSED_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'CREATE_Column') {
+                    } else if (column.field == 'PHONE_Column') {
                       return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'LAST_Column') {
                       return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
@@ -154,65 +152,17 @@ class _OpportunitiesTabState extends State<OpportunitiesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.attach_money_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Quote Amount', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Type', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'AMOUNT',
-                  field: 'AMOUNT_Column',
+                  title: 'TYPE',
+                  field: 'TYPE_Column',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.number(),
-                  enableEditingMode: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text('\$ ${moneyFormat(rendererContext.cell.value)} USD')),
-                    );
-                  },
-                ),
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.percent_outlined, color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Probability', style: TextStyle(color: AppTheme.of(context).primaryBackground))
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'PROBABILITY',
-                  field: 'PROBABILITY_Column',
-                  width: 225,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.number(),
-                  enableEditingMode: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text('${moneyFormat(rendererContext.cell.value)}%')),
-                    );
-                  },
-                ),
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Create Date', style: TextStyle(color: AppTheme.of(context).primaryBackground))
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'CREATE',
-                  field: 'CREATE_Column',
-                  width: 225,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.text(),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -221,6 +171,54 @@ class _OpportunitiesTabState extends State<OpportunitiesTab> {
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(child: Icon(Icons.attach_money, color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(text: 'Revenue', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'REVENUE',
+                  field: 'REVENUE_Column',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.number(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(child: Text('\$ ${moneyFormat(rendererContext.cell.value)}% USD')),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(child: Icon(Icons.phone_outlined, color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(text: 'Phone', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'PHONE',
+                  field: 'PHONE_Column',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(child: Text(rendererContext.cell.value)),
                     );
                   },
                 ),
@@ -228,35 +226,11 @@ class _OpportunitiesTabState extends State<OpportunitiesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.watch_later_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Last Activity', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Last Updated', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'LAST',
                   field: 'LAST_Column',
-                  width: 225,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
-                  enableEditingMode: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
-                    );
-                  },
-                ),
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Expected Close', style: TextStyle(color: AppTheme.of(context).primaryBackground))
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'CLOSED',
-                  field: 'CLOSED_Column',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,

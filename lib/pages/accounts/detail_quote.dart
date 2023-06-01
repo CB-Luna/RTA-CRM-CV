@@ -4,7 +4,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/pages/accounts/widgets/table_top_text.dart';
+import 'package:rta_crm_cv/pages/accounts/tabs/table_top_text.dart';
 import 'package:rta_crm_cv/providers/accounts/detail_quote_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
