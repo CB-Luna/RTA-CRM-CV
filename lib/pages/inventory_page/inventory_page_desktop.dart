@@ -230,6 +230,25 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                               field: 'id_vehicle',
                                               backgroundColor:
                                                   Color(0XFF6491F7),
+                                              titleSpan: const TextSpan(
+                                                children: [
+                                                  WidgetSpan(
+                                                    child: Icon(
+                                                      Icons.key_outlined,
+                                                      color: Color(0xffF3F7F9),
+                                                      size: 30,
+                                                    ),
+                                                  ),
+                                                  WidgetSpan(
+                                                      child: SizedBox(
+                                                    width: 10,
+                                                  )),
+                                                  TextSpan(
+                                                      text: 'ID',
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                ],
+                                              ),
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
@@ -796,7 +815,10 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                           color: Colors.white)),
                                                 ],
                                               ),
-                                              width: 300,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.13,
                                               cellPadding: EdgeInsets.zero,
                                               titleTextAlign:
                                                   PlutoColumnTextAlign.center,
@@ -844,7 +866,10 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                           color: Colors.white)),
                                                 ],
                                               ),
-                                              width: 300,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.10,
                                               cellPadding: EdgeInsets.zero,
                                               titleTextAlign:
                                                   PlutoColumnTextAlign.center,
@@ -859,6 +884,9 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                       gradient: whiteGradient),
                                                   child: Center(
                                                       child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       ElevatedButton(
                                                           onPressed: () {
@@ -880,8 +908,17 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                                   });
                                                                 });
                                                           },
-                                                          child:
-                                                              Text("Details"))
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .white),
+                                                          //remove_red_eye_outlined
+                                                          child: const Icon(
+                                                              Icons
+                                                                  .remove_red_eye_outlined,
+                                                              color:
+                                                                  Colors.black))
                                                     ],
                                                   )),
                                                 );

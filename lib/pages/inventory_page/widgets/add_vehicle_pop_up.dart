@@ -37,7 +37,6 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
 
     Color pickerColor = const Color(0xff2196f3);
     Color colors = Colors.white;
-    Color finalas = Color(0xffffff);
     final List<String> companyName =
         provider.company.map((companies) => companies.company).toList();
     final List<String> statusName =
