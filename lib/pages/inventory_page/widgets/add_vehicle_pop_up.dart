@@ -42,10 +42,8 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
 
     // final List<String> rolesNames =
     //     provider.roles.map((role) => role.roleName).toList();
-    final List<String> companyName =
-        provider.company.map((companies) => companies.company).toList();
-    final List<String> statusName =
-        provider.status.map((statu) => statu.status).toList();
+    final List<String> companyName = provider.company.map((companies) => companies.company).toList();
+    final List<String> statusName = provider.status.map((statu) => statu.status).toList();
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
@@ -131,19 +129,15 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                                       width: 300,
                                       height: 300,
                                       child: YearPicker(
-                                        firstDate: DateTime(
-                                            DateTime.now().year - 100, 1),
-                                        lastDate: DateTime(
-                                            DateTime.now().year + 100, 1),
+                                        firstDate: DateTime(DateTime.now().year - 100, 1),
+                                        lastDate: DateTime(DateTime.now().year + 100, 1),
                                         initialDate: DateTime.now(),
                                         // save the selected date to _selectedDate DateTime variable.
                                         // It's used to set the previous selected date when
                                         // re-showing the dialog.
                                         onChanged: (DateTime dateTime) {
                                           selectedDate = dateTime;
-                                          provider.yearController.text =
-                                              DateFormat("yyyy")
-                                                  .format(selectedDate);
+                                          provider.yearController.text = DateFormat("yyyy").format(selectedDate);
 
                                           // close the dialog when year is selected.
                                           Navigator.pop(context);
@@ -218,11 +212,9 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                           // ColorPickerPage();
 
                           setState(() async {
-                            colors = await showColorPickerDialog(
-                                context, pickerColor);
+                            colors = await showColorPickerDialog(context, pickerColor);
 
-                            provider.colorController.text =
-                                "0x${colors.hexAlpha.toLowerCase()}";
+                            provider.colorController.text = "0x${colors.hexAlpha.toLowerCase()}";
                           });
                         },
                         //designColor: Color(colors.alpha),
@@ -238,15 +230,10 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                           width: 350,
                           keyboardType: TextInputType.name,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(
-                                context: context,
-                                initialDate: date,
-                                firstDate: DateTime(1980),
-                                lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerOil.text =
-                                  DateFormat("MM/dd/yyyy").format(newDate);
+                              provider.dateTimeControllerOil.text = DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
@@ -260,15 +247,10 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                           width: 350,
                           keyboardType: TextInputType.name,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(
-                                context: context,
-                                initialDate: date,
-                                firstDate: DateTime(1980),
-                                lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerReg.text =
-                                  DateFormat("MM/dd/yyyy").format(newDate);
+                              provider.dateTimeControllerReg.text = DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
@@ -282,15 +264,10 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                           width: 350,
                           keyboardType: TextInputType.name,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(
-                                context: context,
-                                initialDate: date,
-                                firstDate: DateTime(1980),
-                                lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerIRD.text =
-                                  DateFormat("MM/dd/yyyy").format(newDate);
+                              provider.dateTimeControllerIRD.text = DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
@@ -300,7 +277,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                         Text(
                           "12. Add Vehicle Image",
                           style: TextStyle(
-                            color: primaryColor,
+                            color: AppTheme.of(context).primaryColor,
                           ),
                         ),
                         InkWell(
@@ -327,8 +304,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextIconButton(
-                    icon: Icon(Icons.save_outlined,
-                        color: AppTheme.of(context).primaryBackground),
+                    icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
                     text: 'Save Vehicle',
                     onTap: () async {
                       if (!formKey.currentState!.validate()) {
@@ -338,8 +314,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                       bool res = await provider.createVehicleInventory();
 
                       if (!res) {
-                        await ApiErrorHandler.callToast(
-                            'Error al agregar el vehiculo');
+                        await ApiErrorHandler.callToast('Error al agregar el vehiculo');
                         return;
                       }
 
@@ -355,8 +330,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                       if (context.canPop()) context.pop();
                     }),
                 CustomTextIconButton(
-                  icon: Icon(Icons.refresh_outlined,
-                      color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Refresh',
                 ),
               ],
