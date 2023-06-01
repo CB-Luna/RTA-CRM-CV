@@ -5,7 +5,6 @@ export 'package:rta_crm_cv/pages/page_not_found.dart';
 export 'package:rta_crm_cv/pages/accounts/accounts_page.dart';
 export 'package:rta_crm_cv/pages/config_page/config_page.dart';
 export 'package:rta_crm_cv/pages/dashboards_page.dart';
-export 'package:rta_crm_cv/pages/inventory_page.dart';
 export 'package:rta_crm_cv/pages/network_page.dart';
 export 'package:rta_crm_cv/pages/reports_page.dart';
 export 'package:rta_crm_cv/pages/schedulings_page.dart';

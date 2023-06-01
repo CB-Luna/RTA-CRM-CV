@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
-import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
-import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/items_list.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/side_menu_footer.dart';
 
@@ -53,15 +51,15 @@ class _SideMenuState extends State<SideMenu> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                AppTheme.themeMode == ThemeMode.dark
-                                    ? Image.network(
-                                        assets.logoBlanco,
-                                        height: getHeight(60, context),
-                                      )
-                                    : Image.network(
-                                        assets.logoColor,
-                                        height: getHeight(60, context),
-                                      ),
+                                // Image.network(
+                                //   'https://rtatel.com/wp-content/uploads/2022/11/cropped-RTAREGISTERED.png',
+                                //   height: getHeight(60, context),
+                                // ),
+                                Image.asset(
+                                  "assets/images/rta_logo.png",
+                                  height: getHeight(60, context),
+                                ),
+
                                 InkWell(
                                   hoverColor: Colors.transparent,
                                   child: Icon(
@@ -119,6 +117,7 @@ class _SideMenuState extends State<SideMenu> {
                   )
                 ],
               ),
+
             ),
           ),
         ),

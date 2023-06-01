@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class CustomTextIconButton extends StatefulWidget {
+
   const CustomTextIconButton({
     super.key,
     this.width,
@@ -52,21 +52,24 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
           height: 35,
           width: widget.width,
           duration: const Duration(milliseconds: 100),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: widget.color ?? AppTheme.of(context).primaryColor, boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 0.1,
-              blurRadius: 3,
-              offset: Offset(
-                0,
-                pressing
-                    ? -2
-                    : hover
-                        ? 5
-                        : 0,
-              ), // changes position of shadow
-            ),
-          ]),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: widget.color ?? AppTheme.of(context).primaryColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 0.1,
+                  blurRadius: 3,
+                  offset: Offset(
+                    0,
+                    pressing
+                        ? -2
+                        : hover
+                            ? 5
+                            : 0,
+                  ), // changes position of shadow
+                ),
+              ]),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
             child: Center(
@@ -78,7 +81,8 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
                   const SizedBox(width: 5),
                   Text(
                     widget.text,
-                    style: TextStyle(color: AppTheme.of(context).primaryBackground),
+                    // style: TextStyle(color: AppTheme.of(context).primaryBackground),
+                    style: TextStyle(color: Colors.black),
                   ),
                 ],
               ),
