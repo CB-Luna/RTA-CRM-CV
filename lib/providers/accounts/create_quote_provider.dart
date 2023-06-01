@@ -3,7 +3,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/accounts/models/orders.dart';
 
 class CreateQuoteProvider extends ChangeNotifier {

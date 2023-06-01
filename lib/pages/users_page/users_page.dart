@@ -137,7 +137,7 @@ class _UsersPageState extends State<UsersPage> {
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(text: 'ID', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
-                                backgroundColor: Color(0XFF6491F7),
+                                backgroundColor: const Color(0XFF6491F7),
                                 title: 'ID',
                                 field: 'ID_Column',
                                 titleTextAlign: PlutoColumnTextAlign.start,
@@ -199,7 +199,7 @@ class _UsersPageState extends State<UsersPage> {
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(text: 'USER', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
-                                backgroundColor: Color(0XFF6491F7),
+                                backgroundColor: const Color(0XFF6491F7),
                                 title: 'USER',
                                 field: 'USER_Column',
                                 width: 225,
@@ -223,7 +223,7 @@ class _UsersPageState extends State<UsersPage> {
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(text: 'ROLE', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
-                                backgroundColor: Color(0XFF6491F7),
+                                backgroundColor: const Color(0XFF6491F7),
                                 title: 'ROLE',
                                 field: 'ROLE_Column',
                                 width: 150,
@@ -247,7 +247,7 @@ class _UsersPageState extends State<UsersPage> {
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(text: 'EMAIL', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
-                                backgroundColor: Color(0XFF6491F7),
+                                backgroundColor: const Color(0XFF6491F7),
                                 title: 'EMAIL',
                                 field: 'EMAIL_Column',
                                 width: 225,
@@ -271,7 +271,7 @@ class _UsersPageState extends State<UsersPage> {
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(text: 'MOBILE PHONE', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
-                                backgroundColor: Color(0XFF6491F7),
+                                backgroundColor: const Color(0XFF6491F7),
                                 title: 'MOBILE PHONE',
                                 field: 'MOBILE_Column',
                                 width: 200,
@@ -295,7 +295,7 @@ class _UsersPageState extends State<UsersPage> {
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(text: 'STATE', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                                 ]),
-                                backgroundColor: Color(0XFF6491F7),
+                                backgroundColor: const Color(0XFF6491F7),
                                 title: 'STATE',
                                 field: 'STATE_Column',
                                 width: 175,
@@ -327,7 +327,7 @@ class _UsersPageState extends State<UsersPage> {
                                         const SizedBox(width: 10),
                                         Text(
                                           provider.pageRowCount.toString(),
-                                          style: TextStyle(color: Colors.white),
+                                          style: const TextStyle(color: Colors.white),
                                         ),
                                         const SizedBox(width: 10),
                                         CustomIconButton(
@@ -363,7 +363,7 @@ class _UsersPageState extends State<UsersPage> {
                                     style: TextStyle(color: AppTheme.of(context).primaryBackground),
                                   )
                                 ]),
-                                backgroundColor: Color(0XFF6491F7),
+                                backgroundColor: const Color(0XFF6491F7),
                                 title: 'ACTIONS',
                                 field: 'ACTIONS_Column',
                                 width: 190,
@@ -454,7 +454,7 @@ class _UsersPageState extends State<UsersPage> {
                                           child: Center(
                                             child: Text(
                                               provider.page.toString(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: Colors.white,
                                               ),
                                             ),

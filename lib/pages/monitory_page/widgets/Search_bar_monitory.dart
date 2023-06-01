@@ -1,4 +1,3 @@
-import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -31,7 +30,7 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
     //     Provider.of<EmpleadosProvider>(context);
 
     return Container(
-      padding: EdgeInsets.only(left: 10, right: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -48,11 +47,11 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
           const SizedBox(
             width: 20,
           ),
-          Container(
+          SizedBox(
             width: 200,
             child: CustomTextIconButton(
-              color: Color(0xffE0EAFF),
-              icon: Icon(Icons.calendar_month_outlined, color: Color(0xffE0EAFF)),
+              color: const Color(0xffE0EAFF),
+              icon: const Icon(Icons.calendar_month_outlined, color: Color(0xffE0EAFF)),
               text: 'May 25 - 30 2023',
               onTap: () {
                 // showDialog(
@@ -68,7 +67,7 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
           const SizedBox(
             width: 20,
           ),
-          Container(
+          SizedBox(
             width: 200,
             child: CustomTextIconButton(
               icon: Icon(Icons.download_outlined, color: AppTheme.of(context).primaryBackground),

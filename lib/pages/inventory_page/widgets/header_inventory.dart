@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -28,7 +26,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
     final InventoryProvider provider = Provider.of<InventoryProvider>(context);
 
     return Container(
-      padding: EdgeInsets.only(left: 10, right: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -42,7 +40,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           const SizedBox(
             width: 20,
           ),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width * 0.1,
             child: CustomTextIconButton(
               icon: Icon(Icons.add_box_outlined, color: AppTheme.of(context).primaryBackground),
@@ -67,7 +65,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           const SizedBox(
             width: 20,
           ),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width * 0.1,
             child: CustomTextIconButton(
               icon: Icon(Icons.mode_edit_outlined, color: AppTheme.of(context).primaryBackground),
@@ -86,7 +84,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           const SizedBox(
             width: 20,
           ),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width * 0.1,
             child: CustomTextIconButton(
               color: const Color(0xffBF2135),
@@ -108,7 +106,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.1,
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: CustomTextIconButton(
               icon: Icon(Icons.download_outlined, color: AppTheme.of(context).primaryBackground),
               text: 'Export Data',

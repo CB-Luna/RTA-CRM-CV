@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class CustomTabButton extends StatefulWidget {
@@ -130,7 +129,7 @@ class CustomTabButtonState extends State<CustomTabButton> {
                     height: 35,
                     duration: const Duration(milliseconds: 100),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
+                        borderRadius: const BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
                         color: widget.on ? AppTheme.of(context).primaryBackground : AppTheme.of(context).primaryColor,
                         boxShadow: [
                           BoxShadow(

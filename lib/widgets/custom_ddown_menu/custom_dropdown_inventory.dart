@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class CustomDropDownInventory extends StatefulWidget {
@@ -112,7 +111,7 @@ class _CustomDropDownInventoryState extends State<CustomDropDownInventory> {
                         child: Text(
                           item,
                           style: TextStyle(
-                            color: item == widget.dropdownValue ? AppTheme.of(context).primaryBackground : primaryColor,
+                            color: item == widget.dropdownValue ? AppTheme.of(context).primaryBackground :: AppTheme.of(context).primaryColor
                           ),
                         ),
                       );

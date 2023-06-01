@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:rta_crm_cv/pages/monitory_page/monitory_page.dart';
 import 'package:rta_crm_cv/pages/accounts/create_quote.dart';
 import 'package:rta_crm_cv/pages/accounts/detail_quote.dart';
+import 'package:rta_crm_cv/pages/monitory_page/monitory_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
 import 'package:rta_crm_cv/helpers/constants.dart';
@@ -11,7 +11,6 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 
 import '../pages/inventory_page/inventory_page.dart';
-import '../pages/inventory_page/inventory_page_desktop.dart';
 
 /// The route configuration.
 final GoRouter router = GoRouter(
@@ -151,6 +150,7 @@ final GoRouter router = GoRouter(
       },
       pageBuilder: (context, state) => pageTransition(context, state, const UsersPage()),
     ),
+
     GoRoute(
       path: '/monitory',
       name: 'Monitory',

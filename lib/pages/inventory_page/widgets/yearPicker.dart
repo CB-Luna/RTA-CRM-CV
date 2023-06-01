@@ -13,7 +13,7 @@ class _YearPickerPopUpState extends State<YearPickerPopUp> {
     DateTime _selectedYear = DateTime.now();
 
     return AlertDialog(
-        content: Container(
+        content: SizedBox(
       width: 300,
       height: 300,
       child: YearPicker(

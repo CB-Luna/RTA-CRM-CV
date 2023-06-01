@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_dropdown_inventory.dart';
 import 'package:rta_crm_cv/widgets/custom_text_fieldForm.dart';
 
@@ -124,7 +123,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: const Text("Select Year"),
-                                    content: Container(
+                                    content: SizedBox(
                                       // Need to use container to add size constraint.
                                       width: 300,
                                       height: 300,
