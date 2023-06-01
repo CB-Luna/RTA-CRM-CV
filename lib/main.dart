@@ -11,7 +11,6 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
-import 'helpers/supabase/queries.dart';
 import 'models/configuration.dart';
 import 'providers/accounts/account_page_provider.dart';
 import 'providers/accounts/create_quote_provider.dart';

@@ -16,7 +16,7 @@ class CryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 400,
       width: 400,
       child: CustomPaint(

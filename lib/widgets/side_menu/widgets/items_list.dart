@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
-import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/item.dart';
 
@@ -165,7 +164,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             ),
             SideMenuItem(
               selected: provider.indexSelected[8],
-              leading: Icon(Icons.power_settings_new_outlined, color: Colors.red),
+              leading: const Icon(Icons.power_settings_new_outlined, color: Colors.red),
               isOpen: widget.isOpen,
               title: 'Logout',
               onTap: () async {

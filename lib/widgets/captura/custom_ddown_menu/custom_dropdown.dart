@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class CustomDDownMenu extends StatefulWidget {

@@ -11,7 +11,6 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 
 import '../pages/inventory_page/inventory_page.dart';
-import '../pages/inventory_page/inventory_page_desktop.dart';
 
 /// The route configuration.
 final GoRouter router = GoRouter(
@@ -131,9 +130,9 @@ final GoRouter router = GoRouter(
       path: '/inventory',
       name: 'Inventory',
       builder: (BuildContext context, GoRouterState state) {
-        return const InventoryPage();
+        return InventoryPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const InventoryPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, InventoryPage()),
     ),
     GoRoute(
       path: '/reports',
@@ -151,23 +150,14 @@ final GoRouter router = GoRouter(
       },
       pageBuilder: (context, state) => pageTransition(context, state, const UsersPage()),
     ),
+
     GoRoute(
-      path: '/inventory',
-      name: 'Inventory',
-      builder: (BuildContext context, GoRouterState state) {
-        return InventoryPage();
-      },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, InventoryPage()),
-    ),
-    GoRoute(
-      path: '/network',
-      name: 'Network',
+      path: '/monitory',
+      name: 'monitory',
       builder: (BuildContext context, GoRouterState state) {
         return MonitoryPage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, MonitoryPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, MonitoryPage()),
     ),
 
     /////////////////////////////////////////////////////////////////////////////////

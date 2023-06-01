@@ -17,11 +17,7 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          primary: pickerColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
-          padding: const EdgeInsets.only(
-              left: 30.0, top: 0.0, right: 30.0, bottom: 0.0)),
+          backgroundColor: pickerColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)), padding: const EdgeInsets.only(left: 30.0, top: 0.0, right: 30.0, bottom: 0.0)),
       onPressed: (() {
         colorPickerDialog();
       }),
@@ -42,11 +38,7 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
         ),
         actions: <Widget>[
           TextButton(
-            style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0.0)),
-                padding: const EdgeInsets.only(
-                    left: 30.0, top: 0.0, right: 30.0, bottom: 0.0)),
+            style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)), padding: const EdgeInsets.only(left: 30.0, top: 0.0, right: 30.0, bottom: 0.0)),
             onPressed: () {
               Navigator.of(context).pop(false);
             },

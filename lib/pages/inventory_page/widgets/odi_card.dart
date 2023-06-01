@@ -6,16 +6,11 @@ class OdiCard extends StatelessWidget {
   final int totalRepairODE;
   final int totalAssignedODE;
   final int totalAvailableODE;
-  const OdiCard(
-      {super.key,
-      required this.totalVehicleODE,
-      required this.totalRepairODE,
-      required this.totalAssignedODE,
-      required this.totalAvailableODE});
+  const OdiCard({super.key, required this.totalVehicleODE, required this.totalRepairODE, required this.totalAssignedODE, required this.totalAvailableODE});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 400,
       width: 400,
       child: CustomPaint(

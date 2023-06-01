@@ -11,7 +11,6 @@ class Calendario extends StatelessWidget {
   Widget build(BuildContext context) {
     String inicio = mes.first;
     String fin = semana[3];
-    
 
     return Column(
       children: [
@@ -23,7 +22,7 @@ class Calendario extends StatelessWidget {
             children: [
               //TITULO O INTRO A CALENDARIO
               Container(
-                child: Text(
+                child: const Text(
                   'Vehicle: ',
                   style: TextStyle(fontSize: 45),
                 ),
@@ -35,14 +34,14 @@ class Calendario extends StatelessWidget {
                   children: [
                     //CRY selector
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 10, 25, 10),
+                      padding: const EdgeInsets.fromLTRB(0, 10, 25, 10),
                       child: Row(
                         children: [
                           Container(
                             height: 40,
                             width: 40,
                             decoration: BoxDecoration(
-                              color: Color.fromRGBO(52, 86, 148, 10),
+                              color: const Color.fromRGBO(52, 86, 148, 10),
                               borderRadius: BorderRadius.circular(50),
                             ),
                           ),
@@ -55,14 +54,14 @@ class Calendario extends StatelessWidget {
                     ),
                     //ODE selector
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 10, 25, 10),
+                      padding: const EdgeInsets.fromLTRB(0, 10, 25, 10),
                       child: Row(
                         children: [
                           Container(
                             height: 40,
                             width: 40,
                             decoration: BoxDecoration(
-                              color: Color.fromRGBO(191, 33, 53, 10),
+                              color: const Color.fromRGBO(191, 33, 53, 10),
                               borderRadius: BorderRadius.circular(50),
                             ),
                           ),
@@ -82,7 +81,7 @@ class Calendario extends StatelessWidget {
                             height: 40,
                             width: 40,
                             decoration: BoxDecoration(
-                              color: Color.fromRGBO(217, 217, 217, 10),
+                              color: const Color.fromRGBO(217, 217, 217, 10),
                               borderRadius: BorderRadius.circular(50),
                             ),
                           ),
@@ -102,7 +101,7 @@ class Calendario extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * .06,
                 width: MediaQuery.of(context).size.width * .15,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(224, 234, 255, 10),
+                  color: const Color.fromRGBO(224, 234, 255, 10),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: DropdownButton<String>(
@@ -115,7 +114,7 @@ class Calendario extends StatelessWidget {
                       value: value,
                       child: Text(
                         value,
-                        style: TextStyle(fontSize: 30),
+                        style: const TextStyle(fontSize: 30),
                       ),
                     );
                   }).toList(),
@@ -127,7 +126,7 @@ class Calendario extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * .06,
                 width: MediaQuery.of(context).size.width * .15,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(224, 234, 255, 10),
+                  color: const Color.fromRGBO(224, 234, 255, 10),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: DropdownButton<String>(
@@ -140,7 +139,7 @@ class Calendario extends StatelessWidget {
                       value: value,
                       child: Text(
                         value,
-                        style: TextStyle(fontSize: 30),
+                        style: const TextStyle(fontSize: 30),
                       ),
                     );
                   }).toList(),
@@ -154,19 +153,14 @@ class Calendario extends StatelessWidget {
             view: CalendarView.week,
             firstDayOfWeek: 1,
             dataSource: MeetingDataSource(getAppointments()),
-        
           ),
         ),
-          
       ],
     );
-    
   }
-
-  
 }
 
-List<Appointment> getAppointments(){
+List<Appointment> getAppointments() {
   List<Appointment> meet = <Appointment>[];
   final DateTime hoy = DateTime.now();
   final DateTime start = DateTime(hoy.year, hoy.month, hoy.day, 12, 0, 0);
@@ -176,15 +170,15 @@ List<Appointment> getAppointments(){
     startTime: start,
     endTime: end,
     subject: 'Jane Cooper\nMKS-1839',
-    color: Color.fromRGBO(191, 33, 53, 10),
+    color: const Color.fromRGBO(191, 33, 53, 10),
     // recurrenceRule: 'FREQ=DAILY;COUNT=10',
     // isAllDay: true,
   ));
-   meet.add(Appointment(
+  meet.add(Appointment(
     startTime: start,
     endTime: end,
     subject: 'Michael\nACT-7083',
-    color: Color.fromRGBO(52, 86, 148, 10),
+    color: const Color.fromRGBO(52, 86, 148, 10),
     // recurrenceRule: 'FREQ=DAILY;COUNT=10',
     // isAllDay: true,
   ));
@@ -192,15 +186,16 @@ List<Appointment> getAppointments(){
     startTime: DateTime(hoy.year, hoy.month, hoy.day, 13, 0, 0),
     endTime: end,
     subject: 'Gian\nOVX-6680',
-    color: Color.fromRGBO(217, 217, 217, 10),
+    color: const Color.fromRGBO(217, 217, 217, 10),
     // recurrenceRule: 'FREQ=DAILY;COUNT=10',
     // isAllDay: true,
   ));
 
   return meet;
 }
-class MeetingDataSource extends CalendarDataSource{
-  MeetingDataSource(List<Appointment> source){
+
+class MeetingDataSource extends CalendarDataSource {
+  MeetingDataSource(List<Appointment> source) {
     appointments = source;
   }
 }
