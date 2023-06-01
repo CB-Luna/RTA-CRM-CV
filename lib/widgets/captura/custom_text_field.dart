@@ -14,6 +14,7 @@ class CustomTextField extends StatefulWidget {
     required this.label,
     required this.keyboardType,
     this.inputFormatters,
+    this.onDone,
   });
 
   final String label;
@@ -24,6 +25,7 @@ class CustomTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final double width;
   final double height;
+  final Function(String)? onDone;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -52,34 +54,36 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ]),
             child: Form(
               child: TextField(
-                  controller: widget.controller,
-                  enabled: widget.enabled,
-                  keyboardType: widget.keyboardType,
-                  inputFormatters: widget.inputFormatters,
-                  decoration: InputDecoration(
-                    disabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppTheme.of(context).primaryColor, width: 0.5),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: secondaryColor, width: 0.5),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    prefixIcon: Icon(widget.icon),
-                    prefixIconColor: AppTheme.of(context).primaryColor,
-                    label: Text(
-                      widget.label,
-                      style: TextStyle(color: AppTheme.of(context).primaryColor),
-                    ),
+                controller: widget.controller,
+                enabled: widget.enabled,
+                keyboardType: widget.keyboardType,
+                inputFormatters: widget.inputFormatters,
+                decoration: InputDecoration(
+                  disabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                  cursorColor: AppTheme.of(context).primaryColor),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppTheme.of(context).primaryColor, width: 0.5),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: secondaryColor, width: 0.5),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  prefixIcon: Icon(widget.icon),
+                  prefixIconColor: AppTheme.of(context).primaryColor,
+                  label: Text(
+                    widget.label,
+                    style: TextStyle(color: AppTheme.of(context).primaryColor),
+                  ),
+                ),
+                cursorColor: AppTheme.of(context).primaryColor,
+                onSubmitted: widget.onDone,
+              ),
             ),
           ),
         ],

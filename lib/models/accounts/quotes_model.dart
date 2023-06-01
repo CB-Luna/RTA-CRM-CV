@@ -81,12 +81,12 @@ class Quotes {
 }
 
 class Comment {
-  String rol;
+  String role;
   String name;
   String comment;
 
   Comment({
-    required this.rol,
+    required this.role,
     required this.name,
     required this.comment,
   });
@@ -96,13 +96,13 @@ class Comment {
   String toJson() => json.encode(toMap());
 
   factory Comment.fromMap(Map<String, dynamic> json) => Comment(
-        rol: json["rol"],
+        role: json["role"],
         name: json["name"],
         comment: json["comment"],
       );
 
   Map<String, dynamic> toMap() => {
-        "rol": rol,
+        "role": role,
         "name": name,
         "comment": comment,
       };

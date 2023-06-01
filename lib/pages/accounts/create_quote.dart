@@ -666,7 +666,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   onTap: () async {
                                     if (provider.createValidation() && provider.globalRows.isNotEmpty) {
-                                      await provider.CreateQuote();
+                                      await provider.createQuote();
                                       context.pushReplacement('/quote_creation');
                                     }
                                   },
@@ -711,7 +711,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                             return Padding(
                                               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                                               child: Row(
-                                                mainAxisAlignment: provider.comments[index].name == currentUser!.name && provider.comments[index].rol == currentUser!.role.roleName
+                                                mainAxisAlignment: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName
                                                     ? MainAxisAlignment.end
                                                     : MainAxisAlignment.start,
                                                 children: [
@@ -721,7 +721,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.circular(5),
                                                       border: Border.all(
-                                                          color: provider.comments[index].name == currentUser!.name && provider.comments[index].rol == currentUser!.role.roleName
+                                                          color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName
                                                               ? AppTheme.of(context).secondaryColor
                                                               : AppTheme.of(context).primaryColor),
                                                       color: AppTheme.of(context).primaryBackground,
@@ -741,7 +741,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         Container(
                                                           height: 30,
                                                           decoration: BoxDecoration(
-                                                            color: provider.comments[index].name == currentUser!.name && provider.comments[index].rol == currentUser!.role.roleName
+                                                            color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName
                                                                 ? AppTheme.of(context).secondaryColor
                                                                 : AppTheme.of(context).primaryColor,
                                                           ),
@@ -750,7 +750,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                             child: Row(
                                                               children: [
                                                                 Text(
-                                                                  '${provider.comments[index].rol} - ${provider.comments[index].name}',
+                                                                  '${provider.comments[index].role} - ${provider.comments[index].name}',
                                                                   style: TextStyle(color: AppTheme.of(context).primaryBackground),
                                                                 ),
                                                               ],
@@ -793,6 +793,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                 label: 'Comment',
                                                 keyboardType: TextInputType.text,
                                                 width: (MediaQuery.of(context).size.width / 5 - 20) - 100,
+                                                // onDone: provider.addComment(),
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.only(left: 5),
@@ -803,7 +804,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     color: AppTheme.of(context).primaryBackground,
                                                   ),
                                                   text: 'Send',
-                                                  onTap: () => provider.AddComment(),
+                                                  onTap: () => provider.addComment(),
                                                 ),
                                               )
                                             ],

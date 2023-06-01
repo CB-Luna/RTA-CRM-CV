@@ -41,20 +41,23 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     globalRows.clear();
 
+    comments.clear();
     commentController.clear();
   }
 
   final commentController = TextEditingController();
   List<Comment> comments = [];
 
-  void AddComment() {
-    comments.add(Comment(
-      rol: 'asd',
-      name: 'asd',
-      comment: commentController.text,
-    ));
-    commentController.clear();
-    notifyListeners();
+  void addComment() {
+    if (commentController.text.isNotEmpty) {
+      comments.add(Comment(
+        role: currentUser!.role.roleName,
+        name: currentUser!.name,
+        comment: commentController.text,
+      ));
+      commentController.clear();
+      notifyListeners();
+    }
   }
 
   List<PlutoGridStateManager> listStateManager = [];
@@ -207,7 +210,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> CreateQuote() async {
+  Future<void> createQuote() async {
     // var x = (await supabaseCRM.from('quotes').select()).toString();
     // var z = await supabase.from('temas').select();
     // await supabasePublic.from('quotes').insert({'number': 11});
@@ -301,6 +304,16 @@ class CreateQuoteProvider extends ChangeNotifier {
         items.add(item);
       }
 
+      List<Map<String, dynamic>> commentsList = [];
+      for (var comment in comments) {
+        Map<String, dynamic> item = {
+          'role': comment.role,
+          'name': comment.name,
+          'comment': comment.comment,
+        };
+        commentsList.add(item);
+      }
+
       await supabaseCRM.from('quotes').insert({
         "created_by": currentUser!.id,
         "updated_by": currentUser!.id,
@@ -314,7 +327,7 @@ class CreateQuoteProvider extends ChangeNotifier {
         "probability": 100,
         "order_info": quoteInfo,
         "items": items,
-        "comments": []
+        "comments": commentsList
       });
     } catch (e) {
       print(e.toString());
