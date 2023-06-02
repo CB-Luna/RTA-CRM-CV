@@ -618,7 +618,7 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                             cellPadding: EdgeInsets.zero,
                                             titleTextAlign: PlutoColumnTextAlign.center,
                                             textAlign: PlutoColumnTextAlign.center,
-                                            type: PlutoColumnType.date(),
+                                            type: PlutoColumnType.date(format: 'MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                                             enableEditingMode: false,
                                             renderer: (rendererContext) {
                                               return Container(

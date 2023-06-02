@@ -50,11 +50,14 @@ class CreateQuoteProvider extends ChangeNotifier {
 
   void addComment() {
     if (commentController.text.isNotEmpty) {
-      comments.add(Comment(
-        role: currentUser!.role.roleName,
-        name: currentUser!.name,
-        comment: commentController.text,
-      ));
+      comments.add(
+        Comment(
+          role: currentUser!.role.roleName,
+          name: currentUser!.name,
+          comment: commentController.text,
+          sended: DateTime.now(),
+        ),
+      );
       commentController.clear();
       notifyListeners();
     }
@@ -310,6 +313,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           'role': comment.role,
           'name': comment.name,
           'comment': comment.comment,
+          'sended': comment.sended.toString(),
         };
         commentsList.add(item);
       }

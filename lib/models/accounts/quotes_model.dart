@@ -9,11 +9,11 @@ class Quotes {
   String status;
   int idCustomer;
   DateTime expCloseDate;
-  int subtotal;
-  int cost;
-  int total;
+  double subtotal;
+  double cost;
+  double total;
   double margin;
-  int probability;
+  double probability;
   OrderInfo orderInfo;
   List<Item> items;
   List<Comment> comments;
@@ -84,11 +84,13 @@ class Comment {
   String role;
   String name;
   String comment;
+  DateTime sended;
 
   Comment({
     required this.role,
     required this.name,
     required this.comment,
+    required this.sended,
   });
 
   factory Comment.fromJson(String str) => Comment.fromMap(json.decode(str));
@@ -99,20 +101,22 @@ class Comment {
         role: json["role"],
         name: json["name"],
         comment: json["comment"],
+        sended: DateTime.parse(json["sended"]),
       );
 
   Map<String, dynamic> toMap() => {
         "role": role,
         "name": name,
         "comment": comment,
+        "sended": sended.toIso8601String(),
       };
 }
 
 class Item {
   int quantity;
   String lineItem;
-  int unitCost;
-  int unitPrice;
+  double unitCost;
+  double unitPrice;
 
   Item({
     required this.quantity,

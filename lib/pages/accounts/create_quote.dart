@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
@@ -686,134 +687,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 20),
-                                child: CustomCard(
-                                  height: MediaQuery.of(context).size.height / 2.25,
-                                  width: MediaQuery.of(context).size.width / 5,
-                                  title: 'Comments',
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        height: MediaQuery.of(context).size.height / 2.25 - 150,
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppTheme.of(context).primaryBackground, boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 0.1,
-                                            blurRadius: 3,
-                                            offset: const Offset(0, 0), // changes position of shadow
-                                          ),
-                                        ]),
-                                        child: ListView.builder(
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: provider.comments.length,
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                                              child: Row(
-                                                mainAxisAlignment: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName
-                                                    ? MainAxisAlignment.end
-                                                    : MainAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    width: MediaQuery.of(context).size.width / 5 - 60,
-                                                    clipBehavior: Clip.antiAlias,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(5),
-                                                      border: Border.all(
-                                                          color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName
-                                                              ? AppTheme.of(context).secondaryColor
-                                                              : AppTheme.of(context).primaryColor),
-                                                      color: AppTheme.of(context).primaryBackground,
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey.withOpacity(0.5),
-                                                          spreadRadius: 0.1,
-                                                          blurRadius: 3,
-                                                          offset: const Offset(0, 0), // changes position of shadow
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          height: 30,
-                                                          decoration: BoxDecoration(
-                                                            color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName
-                                                                ? AppTheme.of(context).secondaryColor
-                                                                : AppTheme.of(context).primaryColor,
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                                                            child: Row(
-                                                              children: [
-                                                                Text(
-                                                                  '${provider.comments[index].role} - ${provider.comments[index].name}',
-                                                                  style: TextStyle(color: AppTheme.of(context).primaryBackground),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 50,
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(5),
-                                                            child: SingleChildScrollView(
-                                                              scrollDirection: Axis.vertical,
-                                                              child: Text(provider.comments[index].comment),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: SizedBox(
-                                          width: MediaQuery.of(context).size.width / 5 - 20,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              CustomTextField(
-                                                height: 48,
-                                                enabled: true,
-                                                controller: provider.commentController,
-                                                icon: Icons.comment_outlined,
-                                                label: 'Comment',
-                                                keyboardType: TextInputType.text,
-                                                width: (MediaQuery.of(context).size.width / 5 - 20) - 100,
-                                                // onDone: provider.addComment(),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(left: 5),
-                                                child: CustomTextIconButton(
-                                                  height: 48,
-                                                  icon: Icon(
-                                                    Icons.send,
-                                                    color: AppTheme.of(context).primaryBackground,
-                                                  ),
-                                                  text: 'Send',
-                                                  onTap: () => provider.addComment(),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                child: Comments(provider: provider),
                               )
                             ],
                           ),
@@ -826,6 +700,155 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class Comments extends StatelessWidget {
+  const Comments({
+    super.key,
+    required this.provider,
+  });
+
+  final CreateQuoteProvider provider;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomCard(
+      height: MediaQuery.of(context).size.height / 2.25,
+      width: MediaQuery.of(context).size.width / 5,
+      title: 'Comments',
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height / 2.25 - 150,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppTheme.of(context).primaryBackground, boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 0.1,
+                blurRadius: 3,
+                offset: const Offset(0, 0), // changes position of shadow
+              ),
+            ]),
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: provider.comments.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment:
+                        provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName ? MainAxisAlignment.end : MainAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width / 5 - 60,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName
+                                      ? AppTheme.of(context).secondaryColor
+                                      : AppTheme.of(context).primaryColor),
+                              color: AppTheme.of(context).primaryBackground,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0.1,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 0), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName
+                                        ? AppTheme.of(context).secondaryColor
+                                        : AppTheme.of(context).primaryColor,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          '${provider.comments[index].role} - ${provider.comments[index].name}',
+                                          style: TextStyle(color: AppTheme.of(context).primaryBackground),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.vertical,
+                                      child: Text(provider.comments[index].comment),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            dateFormat(provider.comments[index].sended, true),
+                            style: AppTheme.of(context).hintText,
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 5 - 20,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomTextField(
+                    height: 48,
+                    enabled: true,
+                    controller: provider.commentController,
+                    icon: Icons.comment_outlined,
+                    label: 'Comment',
+                    keyboardType: TextInputType.text,
+                    width: (MediaQuery.of(context).size.width / 5 - 20) - 100,
+                    // onDone: provider.addComment(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: CustomTextIconButton(
+                      height: 48,
+                      icon: Icon(
+                        Icons.send,
+                        color: AppTheme.of(context).primaryBackground,
+                      ),
+                      text: 'Send',
+                      onTap: () => provider.addComment(),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

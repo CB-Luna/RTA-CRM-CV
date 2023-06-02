@@ -212,7 +212,7 @@ class _OpportunitiesTabState extends State<OpportunitiesTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.date(format: 'MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -236,7 +236,7 @@ class _OpportunitiesTabState extends State<OpportunitiesTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.date(format: 'MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -260,7 +260,7 @@ class _OpportunitiesTabState extends State<OpportunitiesTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.date(format: 'MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {

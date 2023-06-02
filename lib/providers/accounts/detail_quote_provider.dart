@@ -1,14 +1,22 @@
 // import 'dart:developer';
 
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/pages/accounts/models/orders.dart';
 
 class DetailQuoteProvider extends ChangeNotifier {
-  DetailQuoteProvider() {
+  /* Future<void> updateState() async {
     clearAll();
-  }
+    await getData();
+  } */
+
+  late int? id;
 
   clearAll() {
     subtotal = 0;
@@ -38,6 +46,24 @@ class DetailQuoteProvider extends ChangeNotifier {
     quantityController.clear();
 
     globalRows.clear();
+    comments.clear();
+  }
+
+  final commentController = TextEditingController();
+  List<Comment> comments = [];
+  void addComment() {
+    if (commentController.text.isNotEmpty) {
+      comments.add(
+        Comment(
+          role: currentUser!.role.roleName,
+          name: currentUser!.name,
+          comment: commentController.text,
+          sended: DateTime.now(),
+        ),
+      );
+      commentController.clear();
+      notifyListeners();
+    }
   }
 
   List<PlutoGridStateManager> listStateManager = [];
@@ -64,7 +90,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   late String dataCenterSelectedValue;
   late String circuitTypeSelectedValue;
   late String evcodSelectedValue;
-  late String ddosSelectedValue; //['Yes', 'No']
+  late String ddosSelectedValue;
   late String bgpSelectedValue;
   late String ipAdressSelectedValue;
   late String ipInterfaceSelectedValue;
@@ -107,7 +133,84 @@ class DetailQuoteProvider extends ChangeNotifier {
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
 
-  void selectOT(String selected) {
+  Future<void> getData() async {
+    clearAll();
+
+    var response = await supabaseCRM.from('quotes').select().eq('id', id);
+
+    if (response == null) {
+      log('Error en getData()-DetailQuoteProvider');
+      return;
+    }
+
+    Quotes quote = Quotes.fromJson(jsonEncode(response[0]));
+
+    orderTypesSelectedValue = quote.orderInfo.orderType;
+    typesSelectedValue = quote.orderInfo.type;
+    if (quote.orderInfo.type == 'Disconnect') {
+      existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
+    } else if (quote.orderInfo.type == 'Upgrade') {
+      existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
+      newCircuitIDController.text = quote.orderInfo.newCircuitId!;
+    }
+
+    if (quote.orderInfo.dataCenterType == 'New') {
+      dataCenterSelectedValue = 'New';
+      newDataCenterController.text = quote.orderInfo.dataCenterLocation;
+    } else {
+      dataCenterSelectedValue = quote.orderInfo.dataCenterLocation;
+    }
+
+    circuitTypeSelectedValue = quote.orderInfo.circuitType;
+    if (quote.orderInfo.circuitType == 'EVCoD') {
+      evcodSelectedValue = quote.orderInfo.evcodType!;
+      if (quote.orderInfo.evcodType == 'Existing EVC') {
+        existingEVCController.text = quote.orderInfo.evcCircuitId!;
+      }
+    }
+
+    ddosSelectedValue = quote.orderInfo.ddosType;
+    bgpSelectedValue = quote.orderInfo.bgpType;
+
+    ipAdressSelectedValue = quote.orderInfo.ipType;
+    if (quote.orderInfo.ipType == 'Interface') {
+      ipInterfaceSelectedValue = quote.orderInfo.interfaceType!;
+    } else {
+      subnetSelectedValue = quote.orderInfo.subnetType!;
+    }
+
+    subtotal = quote.subtotal;
+    cost = quote.cost;
+    total = quote.total;
+    margin = quote.margin;
+
+    for (var item in quote.items) {
+      globalRows.add(PlutoRow(
+        cells: {
+          'LINE_ITEM_Column': PlutoCell(value: item.lineItem),
+          'UNIT_PRICE_Column': PlutoCell(value: item.unitPrice),
+          'UNIT_COST_Column': PlutoCell(value: item.unitCost),
+          'QUANTITY_Column': PlutoCell(value: item.quantity),
+          'ACTIONS_Column': PlutoCell(value: ''),
+        },
+      ));
+    }
+
+    for (var comment in quote.comments) {
+      comments.add(
+        Comment(
+          role: comment.role,
+          name: comment.name,
+          comment: comment.comment,
+          sended: comment.sended,
+        ),
+      );
+    }
+
+    notifyListeners();
+  }
+
+/*   void selectOT(String selected) {
     orderTypesSelectedValue = selected;
     notifyListeners();
   }
@@ -353,8 +456,6 @@ class DetailQuoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteRow() {}
-
   void resetForm() {
     existingCircuitIDController.clear();
     newCircuitIDController.clear();
@@ -378,5 +479,5 @@ class DetailQuoteProvider extends ChangeNotifier {
     quantityController.clear();
 
     notifyListeners();
-  }
+  } */
 }

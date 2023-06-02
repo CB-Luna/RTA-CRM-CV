@@ -6,6 +6,7 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/providers/accounts/detail_quote_provider.dart';
 import 'package:rta_crm_cv/providers/accounts/tabs/quotes_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -38,6 +39,7 @@ class _QuotesTabState extends State<QuotesTab> {
   @override
   Widget build(BuildContext context) {
     QuotesProvider provider = Provider.of<QuotesProvider>(context);
+    DetailQuoteProvider detailProvider = Provider.of<DetailQuoteProvider>(context);
     return CustomCard(
       title: 'Quotes',
       child: Column(
@@ -197,7 +199,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.date(format: 'MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -235,7 +237,7 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.watch_later_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Last Activity', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                   ]),
@@ -245,7 +247,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.date(format: 'MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -342,7 +344,11 @@ class _QuotesTabState extends State<QuotesTab> {
                               color: AppTheme.of(context).primaryBackground,
                             ),
                             text: 'Edit',
-                            onTap: () {},
+                            onTap: () async {
+                              detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
+                              await detailProvider.getData();
+                              context.pushReplacement('/quote_detail');
+                            },
                           ),
                           CustomTextIconButton(
                             icon: Icon(
