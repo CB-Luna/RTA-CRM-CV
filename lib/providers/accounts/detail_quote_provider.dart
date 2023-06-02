@@ -9,12 +9,17 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/pages/accounts/models/orders.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DetailQuoteProvider extends ChangeNotifier {
   /* Future<void> updateState() async {
     clearAll();
     await getData();
   } */
+
+  DetailQuoteProvider() {
+    realTimeSuscription();
+  }
 
   late int? id;
 
@@ -51,7 +56,7 @@ class DetailQuoteProvider extends ChangeNotifier {
 
   final commentController = TextEditingController();
   List<Comment> comments = [];
-  void addComment() {
+  Future<void> addComment() async {
     if (commentController.text.isNotEmpty) {
       comments.add(
         Comment(
@@ -62,6 +67,18 @@ class DetailQuoteProvider extends ChangeNotifier {
         ),
       );
       commentController.clear();
+      List<Map<String, dynamic>> commentsList = [];
+      for (var comment in comments) {
+        Map<String, dynamic> item = {
+          'role': comment.role,
+          'name': comment.name,
+          'comment': comment.comment,
+          'sended': comment.sended.toString(),
+        };
+        commentsList.add(item);
+      }
+      await supabaseCRM.from('quotes').update({'comments': commentsList}).eq('id', id);
+
       notifyListeners();
     }
   }
@@ -134,80 +151,96 @@ class DetailQuoteProvider extends ChangeNotifier {
   final phoneController = TextEditingController();
 
   Future<void> getData() async {
-    clearAll();
+    if (id != null) {
+      var response = await supabaseCRM.from('quotes').select().eq('id', id);
 
-    var response = await supabaseCRM.from('quotes').select().eq('id', id);
+      if (response == null) {
+        log('Error en getData()-DetailQuoteProvider');
+        return;
+      }
 
-    if (response == null) {
-      log('Error en getData()-DetailQuoteProvider');
-      return;
-    }
+      Quotes quote = Quotes.fromJson(jsonEncode(response[0]));
 
-    Quotes quote = Quotes.fromJson(jsonEncode(response[0]));
+      orderTypesSelectedValue = quote.orderInfo.orderType;
+      typesSelectedValue = quote.orderInfo.type;
+      if (quote.orderInfo.type == 'Disconnect') {
+        existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
+      } else if (quote.orderInfo.type == 'Upgrade') {
+        existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
+        newCircuitIDController.text = quote.orderInfo.newCircuitId!;
+      }
 
-    orderTypesSelectedValue = quote.orderInfo.orderType;
-    typesSelectedValue = quote.orderInfo.type;
-    if (quote.orderInfo.type == 'Disconnect') {
-      existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
-    } else if (quote.orderInfo.type == 'Upgrade') {
-      existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
-      newCircuitIDController.text = quote.orderInfo.newCircuitId!;
-    }
+      if (quote.orderInfo.dataCenterType == 'New') {
+        dataCenterSelectedValue = 'New';
+        newDataCenterController.text = quote.orderInfo.dataCenterLocation;
+      } else {
+        dataCenterSelectedValue = quote.orderInfo.dataCenterLocation;
+      }
 
-    if (quote.orderInfo.dataCenterType == 'New') {
-      dataCenterSelectedValue = 'New';
-      newDataCenterController.text = quote.orderInfo.dataCenterLocation;
-    } else {
-      dataCenterSelectedValue = quote.orderInfo.dataCenterLocation;
-    }
+      circuitTypeSelectedValue = quote.orderInfo.circuitType;
+      if (quote.orderInfo.circuitType == 'EVCoD') {
+        evcodSelectedValue = quote.orderInfo.evcodType!;
+        if (quote.orderInfo.evcodType == 'Existing EVC') {
+          existingEVCController.text = quote.orderInfo.evcCircuitId!;
+        }
+      }
 
-    circuitTypeSelectedValue = quote.orderInfo.circuitType;
-    if (quote.orderInfo.circuitType == 'EVCoD') {
-      evcodSelectedValue = quote.orderInfo.evcodType!;
-      if (quote.orderInfo.evcodType == 'Existing EVC') {
-        existingEVCController.text = quote.orderInfo.evcCircuitId!;
+      ddosSelectedValue = quote.orderInfo.ddosType;
+      bgpSelectedValue = quote.orderInfo.bgpType;
+
+      ipAdressSelectedValue = quote.orderInfo.ipType;
+      if (quote.orderInfo.ipType == 'Interface') {
+        ipInterfaceSelectedValue = quote.orderInfo.interfaceType!;
+      } else {
+        subnetSelectedValue = quote.orderInfo.subnetType!;
+      }
+
+      subtotal = quote.subtotal;
+      cost = quote.cost;
+      total = quote.total;
+      margin = quote.margin;
+
+      globalRows.clear();
+      for (var item in quote.items) {
+        globalRows.add(PlutoRow(
+          cells: {
+            'LINE_ITEM_Column': PlutoCell(value: item.lineItem),
+            'UNIT_PRICE_Column': PlutoCell(value: item.unitPrice),
+            'UNIT_COST_Column': PlutoCell(value: item.unitCost),
+            'QUANTITY_Column': PlutoCell(value: item.quantity),
+            'ACTIONS_Column': PlutoCell(value: ''),
+          },
+        ));
+      }
+
+      comments.clear();
+      for (var comment in quote.comments) {
+        comments.add(
+          Comment(
+            role: comment.role,
+            name: comment.name,
+            comment: comment.comment,
+            sended: comment.sended,
+          ),
+        );
       }
     }
 
-    ddosSelectedValue = quote.orderInfo.ddosType;
-    bgpSelectedValue = quote.orderInfo.bgpType;
-
-    ipAdressSelectedValue = quote.orderInfo.ipType;
-    if (quote.orderInfo.ipType == 'Interface') {
-      ipInterfaceSelectedValue = quote.orderInfo.interfaceType!;
-    } else {
-      subnetSelectedValue = quote.orderInfo.subnetType!;
-    }
-
-    subtotal = quote.subtotal;
-    cost = quote.cost;
-    total = quote.total;
-    margin = quote.margin;
-
-    for (var item in quote.items) {
-      globalRows.add(PlutoRow(
-        cells: {
-          'LINE_ITEM_Column': PlutoCell(value: item.lineItem),
-          'UNIT_PRICE_Column': PlutoCell(value: item.unitPrice),
-          'UNIT_COST_Column': PlutoCell(value: item.unitCost),
-          'QUANTITY_Column': PlutoCell(value: item.quantity),
-          'ACTIONS_Column': PlutoCell(value: ''),
-        },
-      ));
-    }
-
-    for (var comment in quote.comments) {
-      comments.add(
-        Comment(
-          role: comment.role,
-          name: comment.name,
-          comment: comment.comment,
-          sended: comment.sended,
-        ),
-      );
-    }
-
     notifyListeners();
+  }
+
+  final myChannel = supabaseCRM.channel('quotes');
+
+  Future<void> realTimeSuscription() async {
+    myChannel.on(
+        RealtimeListenTypes.postgresChanges,
+        ChannelFilter(
+          event: 'UPDATE',
+          schema: 'crm',
+          table: 'quotes',
+        ), (payload, [ref]) async {
+      await getData();
+    }).subscribe();
   }
 
 /*   void selectOT(String selected) {

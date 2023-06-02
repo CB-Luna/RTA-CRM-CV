@@ -846,7 +846,7 @@ class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
                         color: AppTheme.of(context).primaryBackground,
                       ),
                       text: 'Send',
-                      onTap: () => provider.addComment(),
+                      onTap: () async => await provider.addComment(),
                     ),
                   )
                 ],
