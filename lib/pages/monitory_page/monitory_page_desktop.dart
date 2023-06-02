@@ -15,6 +15,7 @@ import '../../helpers/constants.dart';
 import '../../providers/monitory_provider.dart';
 import '../../public/colors.dart';
 import '../../widgets/side_menu/sidemenu.dart';
+import 'Popup/details_pop_up.dart';
 
 
 
@@ -615,6 +616,78 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                               );
                                             },
                                           ),
+                                          PlutoColumn(
+                                              title: 'details',
+                                              field: 'details',
+                                              backgroundColor:
+                                                  const Color(0XFF6491F7),
+                                              titleSpan: const TextSpan(
+                                                children: [
+                                                  WidgetSpan(
+                                                    child: Icon(
+                                                      Icons
+                                                          .remove_red_eye_outlined,
+                                                      color: Color(0xffF3F7F9),
+                                                      size: 30,
+                                                    ),
+                                                  ),
+                                                  WidgetSpan(
+                                                      child: SizedBox(
+                                                    width: 10,
+                                                  )),
+                                                  TextSpan(
+                                                      text: 'details',
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                ],
+                                              ),
+                                              width: 300,
+                                              cellPadding: EdgeInsets.zero,
+                                              titleTextAlign:
+                                                  PlutoColumnTextAlign.center,
+                                              textAlign:
+                                                  PlutoColumnTextAlign.center,
+                                              type: PlutoColumnType.text(),
+                                              enableEditingMode: false,
+                                              renderer: (rendererContext) {
+                                                return Container(
+                                                  height: rowHeight,
+                                                  decoration: BoxDecoration(
+                                                      gradient: whiteGradient),
+                                                  child: Center(
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      ElevatedButton(
+                                                          onPressed: () {
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return StatefulBuilder(
+                                                                      builder:
+                                                                          (context,
+                                                                              setState) {
+                                                                    return DetailsPop(
+                                                                      vehicle: rendererContext
+                                                                          .cell
+                                                                          .value,
+                                                                    );
+                                                                  });
+                                                                });
+                                                          },
+                                                          child:
+                                                              Icon(Icons.remove_red_eye_outlined)
+                                                      ),
+                                                    ],
+                                                  )
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                            
                                           // PlutoColumn(
                                           //     title: 'Acciones',
                                           //     field: 'acciones',

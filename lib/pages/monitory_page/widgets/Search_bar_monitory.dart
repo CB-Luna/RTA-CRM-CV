@@ -1,4 +1,6 @@
 import 'package:excel/excel.dart';
+import 'package:csv/csv.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -20,12 +22,19 @@ class MonitoryPageHeader extends StatefulWidget {
 
 class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
 
-  // Future<void> _exportExcel(){
-  //   final excel  = Excel.createExcel();
-  //   final sheet = excel.sheets[excel.getDefaultSheet() as String];
-  //   sheet?.setColWidth(2, 50);
-  //   sheet?.setColAutoFit(3);
-  // }
+  
+
+   _exportExcel(){
+    final excel  = Excel.createExcel();
+    final sheet = excel.sheets[excel.getDefaultSheet() as String];
+    sheet?.setColWidth(2, 50);
+    sheet?.setColAutoFit(3);
+
+    sheet?.cell(CellIndex.indexByColumnRow(columnIndex:2, rowIndex: 3)).value = 'text string';
+    sheet?.cell(CellIndex.indexByColumnRow(columnIndex:3, rowIndex: 4)).value = 'cambios';
+
+    excel.save();
+  }
   @override
   Widget build(BuildContext context) {
     // final EmpleadosProvider empleadoProvider =
@@ -77,6 +86,7 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
                   color: AppTheme.of(context).primaryBackground),
               text: 'Export Data',
               onTap: () {
+                _exportExcel();
                 // showDialog(
                 //     context: context,
                 //     builder: (BuildContext context) {

@@ -114,6 +114,7 @@ class MonitoryProvider extends ChangeNotifier {
               "company": PlutoCell(value: monitory.company.company),
               "gas": PlutoCell(value: monitory.gas),
               "mileage": PlutoCell(value: monitory.mileage),
+              "details": PlutoCell(value: monitory),
             },
           ),
         );
