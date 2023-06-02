@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_dropdown_inventory.dart';
 import 'package:rta_crm_cv/widgets/custom_text_fieldForm.dart';
 
@@ -37,7 +36,6 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
 
     Color pickerColor = const Color(0xff2196f3);
     Color colors = Colors.white;
-    Color finalas = Color(0xffffff);
     final List<String> companyName =
         provider.company.map((companies) => companies.company).toList();
     final List<String> statusName =
@@ -111,16 +109,12 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                                       width: 300,
                                       height: 300,
                                       child: YearPicker(
-                                        firstDate: DateTime(
-                                            DateTime.now().year - 100, 1),
-                                        lastDate: DateTime(
-                                            DateTime.now().year + 100, 1),
+                                        firstDate: DateTime(DateTime.now().year - 100, 1),
+                                        lastDate: DateTime(DateTime.now().year + 100, 1),
                                         initialDate: DateTime.now(),
                                         onChanged: (DateTime dateTime) {
                                           selectedDate = dateTime;
-                                          provider.yearController.text =
-                                              DateFormat("yyyy")
-                                                  .format(selectedDate);
+                                          provider.yearController.text = DateFormat("yyyy").format(selectedDate);
 
                                           Navigator.pop(context);
                                         },
@@ -205,15 +199,10 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                           width: 350,
                           keyboardType: TextInputType.name,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(
-                                context: context,
-                                initialDate: date,
-                                firstDate: DateTime(1980),
-                                lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerOil.text =
-                                  DateFormat("MM/dd/yyyy").format(newDate);
+                              provider.dateTimeControllerOil.text = DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
@@ -227,15 +216,10 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                           width: 350,
                           keyboardType: TextInputType.name,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(
-                                context: context,
-                                initialDate: date,
-                                firstDate: DateTime(1980),
-                                lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerReg.text =
-                                  DateFormat("MM/dd/yyyy").format(newDate);
+                              provider.dateTimeControllerReg.text = DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
@@ -249,15 +233,10 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                           width: 350,
                           keyboardType: TextInputType.name,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(
-                                context: context,
-                                initialDate: date,
-                                firstDate: DateTime(1980),
-                                lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerIRD.text =
-                                  DateFormat("MM/dd/yyyy").format(newDate);
+                              provider.dateTimeControllerIRD.text = DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
@@ -266,7 +245,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                         Text(
                           "12. Add Vehicle Image",
                           style: TextStyle(
-                            color: primaryColor,
+                            color: AppTheme.of(context).primaryColor,
                           ),
                         ),
                         InkWell(
@@ -293,8 +272,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextIconButton(
-                    icon: Icon(Icons.save_outlined,
-                        color: AppTheme.of(context).primaryBackground),
+                    icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
                     text: 'Save Vehicle',
                     onTap: () async {
                       if (!formKey.currentState!.validate()) {
@@ -304,8 +282,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                       bool res = await provider.createVehicleInventory();
 
                       if (!res) {
-                        await ApiErrorHandler.callToast(
-                            'Error al agregar el vehiculo');
+                        await ApiErrorHandler.callToast('Error al agregar el vehiculo');
                         return;
                       }
 
@@ -321,8 +298,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                       if (context.canPop()) context.pop();
                     }),
                 CustomTextIconButton(
-                  icon: Icon(Icons.refresh_outlined,
-                      color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Refresh',
                 ),
               ],

@@ -6,16 +6,11 @@ class SmiCard extends StatelessWidget {
   final int totalRepairSMI;
   final int totalAssignedSMI;
   final int totalAvailableSMI;
-  const SmiCard(
-      {super.key,
-      required this.totalVehicleSMI,
-      required this.totalRepairSMI,
-      required this.totalAssignedSMI,
-      required this.totalAvailableSMI});
+  const SmiCard({super.key, required this.totalVehicleSMI, required this.totalRepairSMI, required this.totalAssignedSMI, required this.totalAvailableSMI});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 400,
       width: 400,
       child: CustomPaint(

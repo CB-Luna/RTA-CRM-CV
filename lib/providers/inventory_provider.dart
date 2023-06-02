@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:file_saver/file_saver.dart';
-import 'package:pluto_grid_export/pluto_grid_export.dart' as pluto_grid_export;
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,9 +9,7 @@ import 'package:rta_crm_cv/models/company_api.dart';
 import 'package:rta_crm_cv/models/status_api.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as p;
-import 'package:http/http.dart' as http;
 
-import '../helpers/constants.dart';
 import '../helpers/globals.dart';
 import '../models/vehicle.dart';
 
@@ -56,15 +51,6 @@ class InventoryProvider extends ChangeNotifier {
   //List<Empleados> usuarios = [];
   //List<Empleados> usuariosTesoreros = [];
 
-  //List<RolApi> rolesSeleccionados = [];
-  List<String> areaNames = [];
-  bool isProveedor = false;
-  bool isTesoreroLocal = false;
-  String? selectedRadio;
-  int? proveedorId;
-  String? responsableId;
-  String? estatusFiltrado;
-  bool botonTransferir = false;
   // Variables para las tarjetas de los vehiculos
   // Total
   int totalVehicleODE = 0;
@@ -83,10 +69,6 @@ class InventoryProvider extends ChangeNotifier {
   int totalAvailableCRY = 0;
   int totalAvailableSMI = 0;
 
-  //Variables usadas para el popup confirmar trnsaccion
-  String? jefeOld;
-  String? avatarNew;
-  String? nombreNew;
 //------------------------------------------
 
   // void selectCompany(String state) {
@@ -135,9 +117,7 @@ class InventoryProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    company = (res as List<dynamic>)
-        .map((companys) => CompanyApi.fromJson(jsonEncode(companys)))
-        .toList();
+    company = (res as List<dynamic>).map((companys) => CompanyApi.fromJson(jsonEncode(companys))).toList();
 
     if (notify) notifyListeners();
   }
@@ -148,9 +128,7 @@ class InventoryProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    status = (res as List<dynamic>)
-        .map((statu) => StatusApi.fromJson(jsonEncode(statu)))
-        .toList();
+    status = (res as List<dynamic>).map((statu) => StatusApi.fromJson(jsonEncode(statu))).toList();
 
     if (notify) notifyListeners();
   }
@@ -210,9 +188,7 @@ class InventoryProvider extends ChangeNotifier {
     }
     try {
       final res = await supabase.from('inventory_view').select();
-      vehicles = (res as List<dynamic>)
-          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
-          .toList();
+      vehicles = (res as List<dynamic>).map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles))).toList();
 
       rows.clear();
       totalVehicleODE = 0;
@@ -288,16 +264,6 @@ class InventoryProvider extends ChangeNotifier {
         );
       }
 
-      void exportToCsv() async {
-        String title = "pluto_grid_export";
-
-        var exported = const Utf8Encoder().convert(
-            pluto_grid_export.PlutoGridExport.exportCSV(stateManager!));
-
-        // use file_saver from pub.dev
-        await FileSaver.instance.saveFile(name: "$title.csv", ext: '.csv');
-      }
-
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
       log('Error en getInventory() - $e');
@@ -315,19 +281,11 @@ class InventoryProvider extends ChangeNotifier {
     plateNumberController.clear();
     motorController.clear();
     colorController = 0xffffffff;
-
-/*     paisesSeleccionados = []; */
-    //rolesSeleccionados = [];
-    isProveedor = false;
-    isTesoreroLocal = false;
-
-/*     notifyListeners(); */
   }
 
   void clearImage() {
     webImage = null;
     imageName = null;
-/*     notifyListeners(); */
   }
 
   @override

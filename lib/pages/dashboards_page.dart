@@ -30,7 +30,7 @@ class _DashboardsPageState extends State<DashboardsPage> {
               child: Container(
                 alignment: Alignment.topCenter,
                 decoration: BoxDecoration(gradient: whiteGradient),
-                child: CardHeader(text: "Dashboards"),
+                child: const CardHeader(text: "Dashboards"),
               ),
             )
           ],

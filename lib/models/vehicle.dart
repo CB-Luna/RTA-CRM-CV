@@ -17,7 +17,9 @@ class Vehicle {
     required this.status,
     required this.company,
     required this.dateAdded,
-    //required this.oilChangeDue,
+    required this.oilChangeDue,
+    required this.registrationDue,
+    required this.renewalInsDue,
   });
 
   int idVehicle;
@@ -30,26 +32,30 @@ class Vehicle {
   String? color;
   String image;
   DateTime dateAdded;
-  //DateTime oilChangeDue;
+  DateTime oilChangeDue;
+  DateTime registrationDue;
+  DateTime renewalInsDue;
   StatusApi status;
   CompanyApi company;
 
   factory Vehicle.fromJson(String str) => Vehicle.fromMap(json.decode(str));
 
   factory Vehicle.fromMap(Map<String, dynamic> json) => Vehicle(
-        idVehicle: json["id_vehicle"],
-        make: json["make"],
-        model: json["model"],
-        year: json["year"],
-        vin: json["vin"],
-        licesensePlates: json["license_plates"],
-        motor: json["motor"],
-        color: json["color"],
-        image: json["image"],
-        status: StatusApi.fromJson(jsonEncode(json['status'])),
-        company: CompanyApi.fromJson(jsonEncode(json['company'])),
-        dateAdded: DateTime.parse(json["date_added"]),
-      );
+      idVehicle: json["id_vehicle"],
+      make: json["make"],
+      model: json["model"],
+      year: json["year"],
+      vin: json["vin"],
+      licesensePlates: json["license_plates"],
+      motor: json["motor"],
+      color: json["color"],
+      image: json["image"],
+      status: StatusApi.fromJson(jsonEncode(json['status'])),
+      company: CompanyApi.fromJson(jsonEncode(json['company'])),
+      dateAdded: DateTime.parse(json["date_added"]),
+      oilChangeDue: DateTime.parse(json["oil_change_due"]),
+      registrationDue: DateTime.parse(json["registration_due"]),
+      renewalInsDue: DateTime.parse(json["insurance_renewal_due"]));
 
   Map<String, dynamic> toMap() => {
         "id_vehicle": idVehicle,
@@ -64,5 +70,8 @@ class Vehicle {
         "status": status.toMap(),
         "company": company.toMap(),
         "date_added": dateAdded.toIso8601String(),
+        "oil_change_due": oilChangeDue.toIso8601String(),
+        "registration_due": registrationDue.toIso8601String(),
+        "insurance_renewal_due": renewalInsDue.toIso8601String()
       };
 }
