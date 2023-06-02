@@ -44,7 +44,7 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
           ),
           Container(
             width: widget.width,
-            height: 35,
+            height: 32,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: AppTheme.of(context).primaryBackground,

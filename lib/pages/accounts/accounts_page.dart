@@ -5,7 +5,7 @@ import 'package:rive/rive.dart';
 import 'package:rta_crm_cv/pages/accounts/tabs/accounts_tab.dart';
 import 'package:rta_crm_cv/pages/accounts/tabs/campaigns_tab.dart';
 import 'package:rta_crm_cv/pages/accounts/tabs/leads_tab.dart';
-import 'package:rta_crm_cv/pages/accounts/tabs/opportunities_tab.dart';
+import 'package:rta_crm_cv/pages/accounts/tabs/opportunity_tab.dart';
 import 'package:rta_crm_cv/pages/accounts/tabs/quotes_tab.dart';
 
 import 'package:rta_crm_cv/providers/accounts/account_page_provider.dart';
@@ -136,7 +136,7 @@ class _AccountsPageState extends State<AccountsPage> {
                       if (provider.tabBar[0])
                         const QuotesTab()
                       else if (provider.tabBar[1])
-                        const OpportunitiesTab()
+                        const OpportunitysTab()
                       else if (provider.tabBar[2])
                         const LeadsTab()
                       else if (provider.tabBar[3])
