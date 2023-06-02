@@ -117,9 +117,7 @@ class InventoryProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    company = (res as List<dynamic>)
-        .map((companys) => CompanyApi.fromJson(jsonEncode(companys)))
-        .toList();
+    company = (res as List<dynamic>).map((companys) => CompanyApi.fromJson(jsonEncode(companys))).toList();
 
     if (notify) notifyListeners();
   }
@@ -130,9 +128,7 @@ class InventoryProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    status = (res as List<dynamic>)
-        .map((statu) => StatusApi.fromJson(jsonEncode(statu)))
-        .toList();
+    status = (res as List<dynamic>).map((statu) => StatusApi.fromJson(jsonEncode(statu))).toList();
 
     if (notify) notifyListeners();
   }
@@ -192,9 +188,7 @@ class InventoryProvider extends ChangeNotifier {
     }
     try {
       final res = await supabase.from('inventory_view').select();
-      vehicles = (res as List<dynamic>)
-          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
-          .toList();
+      vehicles = (res as List<dynamic>).map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles))).toList();
 
       rows.clear();
       totalVehicleODE = 0;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rta_crm_cv/public/colors.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 
 class CustomTextFieldForm extends StatefulWidget {
   const CustomTextFieldForm(
@@ -58,15 +59,14 @@ class _CustomTextFieldFormState extends State<CustomTextFieldForm> {
           inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
             disabledBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
+              borderSide: BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
               borderRadius: BorderRadius.circular(5),
             ),
             enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: primaryColor, width: 0.5),
+              borderSide: BorderSide(color: AppTheme.of(context).primaryColor, width: 0.5),
               borderRadius: BorderRadius.circular(5),
             ),
             errorBorder: OutlineInputBorder(
@@ -74,13 +74,13 @@ class _CustomTextFieldFormState extends State<CustomTextFieldForm> {
               borderRadius: BorderRadius.circular(5),
             ),
             //prefixIcon: Icon(widget.icon),
-            prefixIconColor: primaryColor,
+            prefixIconColor: AppTheme.of(context).primaryColor,
             label: Text(
               widget.label,
-              style: TextStyle(color: primaryColor),
+              style: TextStyle(color: AppTheme.of(context).primaryColor),
             ),
           ),
-          cursorColor: primaryColor,
+          cursorColor: AppTheme.of(context).primaryColor,
         ),
       ),
     );

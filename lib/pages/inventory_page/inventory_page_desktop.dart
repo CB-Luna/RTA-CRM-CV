@@ -18,12 +18,7 @@ import '../../public/colors.dart';
 import 'widgets/header_inventory.dart';
 
 class inventoryPageDesktop extends StatefulWidget {
-  inventoryPageDesktop(
-      {Key? key,
-      required this.drawerController,
-      required this.scaffoldKey,
-      required this.provider})
-      : super(key: key);
+  inventoryPageDesktop({Key? key, required this.drawerController, required this.scaffoldKey, required this.provider}) : super(key: key);
   final AdvancedDrawerController drawerController;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
@@ -75,113 +70,80 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                             Container(
                               margin: const EdgeInsets.only(bottom: 10),
                               height: 500,
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    // Carta de CRY
-                                    Container(
-                                      margin: const EdgeInsets.all(20),
-                                      height: 425,
-                                      width: 339,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          //gradient: gradients[0],
-                                          boxShadow: const [
-                                            BoxShadow(
-                                                blurRadius: 4,
-                                                color: Colors.grey,
-                                                offset: Offset(10, 10))
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(
-                                            height: 25,
-                                          ),
-                                          CryCard(
-                                            totalVehicleCRY:
-                                                widget.provider.totalVehicleCRY,
-                                            totalAssignedCRY: widget
-                                                .provider.totalAssignedCRY,
-                                            totalRepairCRY:
-                                                widget.provider.totalRepairCRY,
-                                            totalAvailableCRY: widget
-                                                .provider.totalAvailableCRY,
-                                          ),
-                                        ],
+                              child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                                // Carta de CRY
+                                Container(
+                                  margin: const EdgeInsets.all(20),
+                                  height: 425,
+                                  width: 339,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      //gradient: gradients[0],
+                                      boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))],
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 25,
                                       ),
-                                    ),
-                                    // Carta de ODE
-                                    Container(
-                                      margin: const EdgeInsets.all(20),
-                                      height: 425,
-                                      width: 339,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          //gradient: gradients[0],
-                                          boxShadow: const [
-                                            BoxShadow(
-                                                blurRadius: 4,
-                                                color: Colors.grey,
-                                                offset: Offset(10, 10))
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 25,
-                                          ),
-                                          OdiCard(
-                                            totalVehicleODE:
-                                                widget.provider.totalVehicleODE,
-                                            totalRepairODE:
-                                                widget.provider.totalRepairODE,
-                                            totalAssignedODE: widget
-                                                .provider.totalAssignedODE,
-                                            totalAvailableODE: widget
-                                                .provider.totalAvailableODE,
-                                          )
-                                        ],
+                                      CryCard(
+                                        totalVehicleCRY: widget.provider.totalVehicleCRY,
+                                        totalAssignedCRY: widget.provider.totalAssignedCRY,
+                                        totalRepairCRY: widget.provider.totalRepairCRY,
+                                        totalAvailableCRY: widget.provider.totalAvailableCRY,
                                       ),
-                                    ),
-                                    // Carta de SMI
-                                    Container(
-                                      margin: const EdgeInsets.all(20),
-                                      height: 425,
-                                      width: 339,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          //gradient: gradients[0],
-                                          boxShadow: const [
-                                            BoxShadow(
-                                                blurRadius: 4,
-                                                color: Colors.grey,
-                                                offset: Offset(10, 10))
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(
-                                            height: 25,
-                                          ),
-                                          SmiCard(
-                                            totalVehicleSMI:
-                                                widget.provider.totalVehicleSMI,
-                                            totalAssignedSMI: widget
-                                                .provider.totalAssignedSMI,
-                                            totalRepairSMI:
-                                                widget.provider.totalRepairSMI,
-                                            totalAvailableSMI: widget
-                                                .provider.totalAvailableSMI,
-                                          ),
-                                        ],
+                                    ],
+                                  ),
+                                ),
+                                // Carta de ODE
+                                Container(
+                                  margin: const EdgeInsets.all(20),
+                                  height: 425,
+                                  width: 339,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      //gradient: gradients[0],
+                                      boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))],
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 25,
                                       ),
-                                    ),
-                                  ]),
+                                      OdiCard(
+                                        totalVehicleODE: widget.provider.totalVehicleODE,
+                                        totalRepairODE: widget.provider.totalRepairODE,
+                                        totalAssignedODE: widget.provider.totalAssignedODE,
+                                        totalAvailableODE: widget.provider.totalAvailableODE,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                // Carta de SMI
+                                Container(
+                                  margin: const EdgeInsets.all(20),
+                                  height: 425,
+                                  width: 339,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      //gradient: gradients[0],
+                                      boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))],
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 25,
+                                      ),
+                                      SmiCard(
+                                        totalVehicleSMI: widget.provider.totalVehicleSMI,
+                                        totalAssignedSMI: widget.provider.totalAssignedSMI,
+                                        totalRepairSMI: widget.provider.totalRepairSMI,
+                                        totalAvailableSMI: widget.provider.totalAvailableSMI,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ]),
                             ),
                             InventoryPageHeader(),
                             //ESTATUS STEPPER
@@ -189,9 +151,7 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                               height: 20,
                             ),
                             // Titulo de la tabla
-                            const Padding(
-                                padding: EdgeInsets.only(bottom: 10),
-                                child: CardHeader(text: "Vehicle Inventory")),
+                            const Padding(padding: EdgeInsets.only(bottom: 10), child: CardHeader(text: "Vehicle Inventory")),
 
                             // PLUTO GRID
                             widget.provider.vehicles.isEmpty
