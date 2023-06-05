@@ -9,6 +9,7 @@ class CustomTextFieldForm extends StatefulWidget {
       this.width = 500,
       required this.enabled,
       required this.controller,
+      this.hint,
       required this.label,
       required this.keyboardType,
       this.inputFormatters,
@@ -26,6 +27,7 @@ class CustomTextFieldForm extends StatefulWidget {
   final void Function()? onTap;
   final bool onTapCheck;
   final int designColor;
+  final String? hint;
 
   @override
   State<CustomTextFieldForm> createState() => _CustomTextFieldFormState();
@@ -59,14 +61,16 @@ class _CustomTextFieldFormState extends State<CustomTextFieldForm> {
           inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
             disabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
+              borderSide:
+                  BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
               borderRadius: BorderRadius.circular(5),
             ),
             enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppTheme.of(context).primaryColor, width: 0.5),
+              borderSide: BorderSide(
+                  color: AppTheme.of(context).primaryColor, width: 0.5),
               borderRadius: BorderRadius.circular(5),
             ),
             errorBorder: OutlineInputBorder(

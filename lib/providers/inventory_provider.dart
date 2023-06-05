@@ -28,8 +28,21 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController dateTimeControllerIRD = TextEditingController();
   TextEditingController searchController = TextEditingController();
   TextEditingController yearController = TextEditingController();
-  TextEditingController statusController = TextEditingController();
+  //TextEditingController statusController = TextEditingController();
 
+  //Update Inventario
+  TextEditingController makeControllerUpdate = TextEditingController();
+  TextEditingController modelControllerUpdate = TextEditingController();
+  TextEditingController vinControllerUpdate = TextEditingController();
+  TextEditingController plateNumberControllerUpdate = TextEditingController();
+  TextEditingController motorControllerUpadte = TextEditingController();
+  int colorControllerUpdate = 0xffffffff;
+  TextEditingController dateTimeControllerOilUpdate = TextEditingController();
+  TextEditingController dateTimeControllerRegUpadte = TextEditingController();
+  TextEditingController dateTimeControllerIRDUpadte = TextEditingController();
+  TextEditingController searchControllerUpadte = TextEditingController();
+  TextEditingController yearControllerUpdate = TextEditingController();
+  //TextEditingController statusControllerUpadte = TextEditingController();
   Future<void> updateState() async {
     rows.clear();
     await getInventory();
@@ -37,14 +50,33 @@ class InventoryProvider extends ChangeNotifier {
 
   String? imageName;
   String? imageBase64;
+  String? imageBase64Update;
   Uint8List? webImage;
-  int idvehicle = 14;
+  int idvehicle = 13;
   String colorString = "0xffffffff";
 
   //List<RolApi> roles = [];
   List<String> dropdownMenuItems = [];
   StatusApi? statusSelected;
   CompanyApi? companySelected;
+  StatusApi? statusSelectedUpdate;
+  CompanyApi? companySelectedUpdate;
+
+  void updateInventoryControllers(Vehicle vehicle) {
+    makeControllerUpdate.text = vehicle.make;
+    modelControllerUpdate.text = vehicle.model;
+    vinControllerUpdate.text = vehicle.vin;
+    plateNumberControllerUpdate.text = vehicle.licesensePlates;
+    motorControllerUpadte.text = vehicle.motor;
+    yearControllerUpdate.text = vehicle.year.toString();
+    statusSelectedUpdate = statusSelected;
+    imageBase64Update = vehicle.image;
+    companySelectedUpdate = companySelected;
+    dateTimeControllerOilUpdate.text = vehicle.oilChangeDue.toString();
+    dateTimeControllerRegUpadte.text = vehicle.registrationDue.toString();
+    dateTimeControllerIRDUpadte.text = vehicle.renewalInsDue.toString();
+  }
+
   List<CompanyApi> company = [];
   List<StatusApi> status = [];
   List<Vehicle> vehicles = [];
@@ -117,7 +149,9 @@ class InventoryProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    company = (res as List<dynamic>).map((companys) => CompanyApi.fromJson(jsonEncode(companys))).toList();
+    company = (res as List<dynamic>)
+        .map((companys) => CompanyApi.fromJson(jsonEncode(companys)))
+        .toList();
 
     if (notify) notifyListeners();
   }
@@ -128,7 +162,9 @@ class InventoryProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    status = (res as List<dynamic>).map((statu) => StatusApi.fromJson(jsonEncode(statu))).toList();
+    status = (res as List<dynamic>)
+        .map((statu) => StatusApi.fromJson(jsonEncode(statu)))
+        .toList();
 
     if (notify) notifyListeners();
   }
@@ -144,11 +180,67 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void selectCompanyUpdate(String companys) {
+    companySelectedUpdate =
+        company.firstWhere((elem) => elem.company == companys);
+    notifyListeners();
+  }
+
+  void selectStatUpdate(String statu) {
+    statusSelectedUpdate = status.firstWhere((elem) => elem.status == statu);
+    notifyListeners();
+  }
+
 //---------------------------------------------
   void updateColor(int colors, String colorStrings) {
     colorController = colors;
+    colorControllerUpdate = colors;
     colorString = colorStrings;
     notifyListeners();
+  }
+
+//---------------------------------------------
+  Future<bool> updateVehicle(Vehicle vehicle) async {
+    try {
+      await supabase.from('vehicle').update({
+        'make': makeControllerUpdate.text,
+        'model': modelControllerUpdate.text,
+        'year': yearControllerUpdate.text,
+        'vin': vinControllerUpdate.text,
+        'license_plates': plateNumberControllerUpdate.text,
+        'motor': motorControllerUpadte.text,
+        'color': colorString,
+        'image': imageBase64Update,
+        'id_status_fk': statusSelectedUpdate?.statusId,
+        'id_company_fk': companySelectedUpdate?.companyId,
+        'date_added': DateTime.now().toIso8601String(),
+        'oil_change_due': dateTimeControllerOilUpdate.text,
+        'registration_due': dateTimeControllerRegUpadte.text,
+        'insurance_renewal_due': dateTimeControllerIRDUpadte.text
+      }).eq("id_vehicle", vehicle.idVehicle);
+      return true;
+    } catch (e) {
+      print('Error in updatevehicle() - $e');
+      return false;
+    }
+  }
+//---------------------------------------------
+
+  Future<bool> deleteVehicle(Vehicle vehicle) async {
+    try {
+      // await supabase.rpc(
+      //   'delete_vehicle',
+      //   params: {'id_vehicle': id_vehicle},
+      // );
+      await supabase
+          .from('vehicle')
+          .delete()
+          .match({'id_vehicle': vehicle.idVehicle});
+      return true;
+    } catch (e) {
+      log('Error in deleteVehicle() - $e');
+      return false;
+    }
   }
 //---------------------------------------------
 
@@ -188,7 +280,9 @@ class InventoryProvider extends ChangeNotifier {
     }
     try {
       final res = await supabase.from('inventory_view').select();
-      vehicles = (res as List<dynamic>).map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles))).toList();
+      vehicles = (res as List<dynamic>)
+          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
+          .toList();
 
       rows.clear();
       totalVehicleODE = 0;
@@ -258,7 +352,8 @@ class InventoryProvider extends ChangeNotifier {
               "status": PlutoCell(value: vehicle.status.status),
               "company": PlutoCell(value: vehicle.company.company),
               "date_added": PlutoCell(value: vehicle.dateAdded),
-              "details": PlutoCell(value: vehicle)
+              "details": PlutoCell(value: vehicle),
+              "actions": PlutoCell(value: vehicle),
             },
           ),
         );
@@ -268,7 +363,6 @@ class InventoryProvider extends ChangeNotifier {
     } catch (e) {
       log('Error en getInventory() - $e');
     }
-
     notifyListeners();
   }
 
