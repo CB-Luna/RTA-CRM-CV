@@ -38,7 +38,6 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                 Container(
                   height: (450 * 0.7586633663366337).toDouble(),
                   width: 650,
-                  color: Colors.green,
                   alignment: AlignmentDirectional.centerStart,
                   padding: const EdgeInsets.all(20.0),
                   child: CustomPaint(

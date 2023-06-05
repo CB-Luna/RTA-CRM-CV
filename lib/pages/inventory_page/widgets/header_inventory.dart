@@ -43,7 +43,8 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.1,
             child: CustomTextIconButton(
-              icon: Icon(Icons.add_box_outlined, color: AppTheme.of(context).primaryBackground),
+              icon: Icon(Icons.add_box_outlined,
+                  color: AppTheme.of(context).primaryBackground),
               text: 'Add Vehicle',
               onTap: () async {
                 provider.clearControllers();
@@ -62,45 +63,43 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
               },
             ),
           ),
-          const SizedBox(
-            width: 20,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.1,
-            child: CustomTextIconButton(
-              icon: Icon(Icons.mode_edit_outlined, color: AppTheme.of(context).primaryBackground),
-              text: 'Edit Vehicle',
-              onTap: () {
-                // showDialog(
-                //     context: context,
-                //     builder: (BuildContext context) {
-                //       return StatefulBuilder(builder: (context, setState) {
-                //         return const AddUserPopUp();
-                //       });
-                //     });
-              },
-            ),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.1,
-            child: CustomTextIconButton(
-              color: const Color(0xffBF2135),
-              icon: Icon(Icons.delete_outline_outlined, color: AppTheme.of(context).primaryBackground),
-              text: 'Delete Vehicle',
-              onTap: () {
-                // showDialog(
-                //     context: context,
-                //     builder: (BuildContext context) {
-                //       return StatefulBuilder(builder: (context, setState) {
-                //         return const AddUserPopUp();
-                //       });
-                //     });
-              },
-            ),
-          ),
+
+          // SizedBox(
+          //   width: MediaQuery.of(context).size.width * 0.1,
+          //   child: CustomTextIconButton(
+          //     icon: Icon(Icons.mode_edit_outlined, color: AppTheme.of(context).primaryBackground),
+          //     text: 'Edit Vehicle',
+          //     onTap: () {
+          //       // showDialog(
+          //       //     context: context,
+          //       //     builder: (BuildContext context) {
+          //       //       return StatefulBuilder(builder: (context, setState) {
+          //       //         return const AddUserPopUp();
+          //       //       });
+          //       //     });
+          //     },
+          //   ),
+          // ),
+          // const SizedBox(
+          //   width: 20,
+          // ),
+          // SizedBox(
+          //   width: MediaQuery.of(context).size.width * 0.1,
+          //   child: CustomTextIconButton(
+          //     color: const Color(0xffBF2135),
+          //     icon: Icon(Icons.delete_outline_outlined, color: AppTheme.of(context).primaryBackground),
+          //     text: 'Delete Vehicle',
+          //     onTap: () {
+          //       // showDialog(
+          //       //     context: context,
+          //       //     builder: (BuildContext context) {
+          //       //       return StatefulBuilder(builder: (context, setState) {
+          //       //         return const AddUserPopUp();
+          //       //       });
+          //       //     });
+          //     },
+          //   ),
+          // ),
           const SizedBox(
             width: 20,
           ),
@@ -108,7 +107,8 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             width: MediaQuery.of(context).size.width * 0.1,
             padding: const EdgeInsets.all(10),
             child: CustomTextIconButton(
-              icon: Icon(Icons.download_outlined, color: AppTheme.of(context).primaryBackground),
+              icon: Icon(Icons.download_outlined,
+                  color: AppTheme.of(context).primaryBackground),
               text: 'Export Data',
               onTap: () {
                 // showDialog(
@@ -122,9 +122,11 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             ),
           ),
           CustomTextIconButton(
-            icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+            icon: Icon(Icons.filter_alt_outlined,
+                color: AppTheme.of(context).primaryBackground),
             text: 'Filter',
-            onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+            onTap: () => provider.stateManager!
+                .setShowColumnFilter(!provider.stateManager!.showColumnFilter),
           ),
           //Buscar(empleadoProvider: empleadoProvider),
           /*
