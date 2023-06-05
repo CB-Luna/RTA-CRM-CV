@@ -143,13 +143,13 @@ class DetailsPop extends StatelessWidget  {
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(0,0,0,10),
-                                  child: Text("${vehicle.vehicle.renewalInsDue.month}-${vehicle.vehicle.renewalInsDue.day}-${vehicle.vehicle.renewalInsDue.year}",
+                                  child: Text(DateFormat("MMM-dd-yyyy").format(vehicle.vehicle.renewalInsDue).toString(),
                                   style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(0,0,0,10),
-                                  child: Text("${vehicle.vehicle.registrationDue.month}-${vehicle.vehicle.registrationDue.day}-${vehicle.vehicle.registrationDue.year}",
+                                  child: Text(DateFormat("MMM-dd-yyyy").format(vehicle.vehicle.registrationDue).toString(),
                                   style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
@@ -162,7 +162,7 @@ class DetailsPop extends StatelessWidget  {
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(0,0,0,10),
-                                  child: Text("${vehicle.dateAdded.month}-${vehicle.dateAdded.day}-",
+                                  child: Text(DateFormat("MMM-dd-yyyy").format(vehicle.dateAdded).toString(),
                                   style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
