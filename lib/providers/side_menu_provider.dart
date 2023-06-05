@@ -34,6 +34,7 @@ class SideMenuProvider extends ChangeNotifier {
     false,
     false,
     false,
+    false,
   ];
 
   Future<void> loadRiveMenuAssets() async {
@@ -45,6 +46,7 @@ class SideMenuProvider extends ChangeNotifier {
     await inventoriesIconRive();
     await reportsIconRive();
     await usersIconRive();
+    await monitoryIconRive();
     notifyListeners();
     setIndex(0);
   }
@@ -69,6 +71,7 @@ class SideMenuProvider extends ChangeNotifier {
     iSelectedInventories?.change(indexSelected[5]);
     iSelectedReports?.change(indexSelected[6]);
     iSelectedUsers?.change(indexSelected[7]);
+    iSelectedMonitory?.change(indexSelected[8]);
   }
 
   Artboard? aRDashboards;
@@ -265,5 +268,30 @@ class SideMenuProvider extends ChangeNotifier {
     }
 
     aRUsers = artboard;
+  }
+
+  Artboard? aRMonitory;
+  StateMachineController? sMCMonitory;
+  SMIInput<bool>? iHoverMonitory;
+  SMIInput<bool>? iSelectedMonitory;
+  Future<void> monitoryIconRive() async {
+    final ByteData data =
+        await rootBundle.load('assets/rive/inventories_icon.riv');
+
+    final file = RiveFile.import(data);
+
+    final artboard = file.mainArtboard;
+
+    sMCMonitory =
+        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+
+    if (sMCMonitory != null) {
+      artboard.addController(sMCInventories!);
+
+      iHoverMonitory = sMCMonitory!.findInput('isHovered');
+      iSelectedMonitory = sMCMonitory!.findInput('isSelected');
+    }
+
+    aRMonitory = artboard;
   }
 }

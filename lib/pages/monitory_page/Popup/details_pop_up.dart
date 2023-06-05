@@ -5,7 +5,7 @@ import 'package:rta_crm_cv/pages/monitory_page/widgets/forms_answer.dart';
 import '../../../models/monitory.dart';
 import '../../../public/colors.dart';
 
-class DetailsPop extends StatelessWidget {
+class DetailsPop extends StatelessWidget  {
   final Monitory vehicle;
   const DetailsPop({super.key, required this.vehicle});
 
@@ -54,14 +54,14 @@ class DetailsPop extends StatelessWidget {
                           Text(" VIN: ${vehicle.vin} ",
                               style: const TextStyle(color: Colors.white)),
                           Text(
-                            " Insurance Renewal Due: ",
+                            " Insurance Renewal Due: ${vehicle.vehicle.renewalInsDue.year}-${vehicle.vehicle.renewalInsDue.month}-${vehicle.vehicle.renewalInsDue.day} ",
                             style: const TextStyle(color: Colors.white),
                           ),
-                          Text(" Registration Due: ",
+                          Text(" Registration Due: ${vehicle.vehicle.registrationDue.year}-${vehicle.vehicle.registrationDue.month}-${vehicle.vehicle.registrationDue.day} ",
                               style: const TextStyle(color: Colors.white)),
-                          Text(" Oil Change Due: ",
+                          Text(" Oil Change Due: ${vehicle.vehicle.oilChangeDue.year}-${vehicle.vehicle.oilChangeDue.month}-${vehicle.vehicle.oilChangeDue.day} ",
                               style: const TextStyle(color: Colors.white)),
-                          Text(" Date Added: ${vehicle.dateAdded} ",
+                          Text(" Date Added: ${vehicle.dateAdded.year}-${vehicle.dateAdded.month}-${vehicle.dateAdded.day} ",
                               style: const TextStyle(color: Colors.white))
                         ]),
                   ),
@@ -108,12 +108,8 @@ class DetailsPop extends StatelessWidget {
                           ),
                     ),
                   ),
-                  const TabBarView(
-                    children: [
-                      AnswerForm(),
-                      AnswerForm(),
-                    ]
-                  ),
+                  //  TabBarView(
+                  // ),
                 ],
               ),
             )

@@ -17,7 +17,8 @@ class Monitory {
       required this.company,
       required this.gas,
       required this.mileage,
-      required this.vehicle});
+      required this.vehicle
+      });
 
   int idControlForm;
   int idVehicle;
@@ -44,7 +45,8 @@ class Monitory {
       company: CompanyApi.fromJson(jsonEncode(json['company'])),
       gas: json['gas'],
       mileage: json['mileage'],
-      vehicle: Vehicle.fromJson(jsonEncode(json['vehicle'])),);
+      vehicle: Vehicle.fromJson(jsonEncode(json['vehicle'])),
+      );
 
   Map<String, dynamic> toMap() => {
         "id_control_form": idControlForm,
