@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/accounts/tabs/leads_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -8,16 +7,15 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
-import 'package:rta_crm_cv/widgets/success_toast.dart';
 
-class CreateLead extends StatefulWidget {
-  const CreateLead({super.key});
+class DetailsLead extends StatefulWidget {
+  const DetailsLead({super.key});
 
   @override
-  State<CreateLead> createState() => _CreateLeadState();
+  State<DetailsLead> createState() => _DetailsLeadState();
 }
 
-class _CreateLeadState extends State<CreateLead> {
+class _DetailsLeadState extends State<DetailsLead> {
   FToast fToast = FToast();
   @override
   Widget build(BuildContext context) {
@@ -28,7 +26,8 @@ class _CreateLeadState extends State<CreateLead> {
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
-        title: 'Create Lead',
+        title:
+            'Details Lead: ${provider.firstNameController.text} ${provider.lastNameController.text}',
         height: 920,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,23 +52,25 @@ class _CreateLeadState extends State<CreateLead> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'First Name',
                                     icon: Icons.person_outline,
                                     controller: provider.firstNameController,
-                                    enabled: true,
+                                    enabled: provider.editmode,
                                     width: 350,
                                     keyboardType: TextInputType.name,
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Last Name',
                                     icon: Icons.person_outline,
                                     controller: provider.lastNameController,
-                                    enabled: true,
+                                    enabled: provider.editmode,
                                     width: 350,
                                     keyboardType: TextInputType.name,
                                   ),
@@ -86,35 +87,38 @@ class _CreateLeadState extends State<CreateLead> {
                                       dropdownValue:
                                           provider.selectSaleStoreValue,
                                       onChanged: (p0) {
-                                        if (p0 != null) {
+                                        /*  if (p0 != null) {
                                           provider.selectSaleStore(p0);
-                                        }
+                                        } */
                                       },
                                     )),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Account',
                                     icon: Icons.business_outlined,
                                     controller: provider.accountController,
-                                    enabled: true,
+                                    enabled: provider.editmode,
                                     width: 350,
                                     keyboardType: TextInputType.text,
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Email',
                                     icon: Icons.email,
                                     controller: provider.emailController,
-                                    enabled: true,
+                                    enabled: provider.editmode,
                                     width: 350,
                                     keyboardType: TextInputType.emailAddress,
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomDDownMenu(
                                     hint: 'None',
                                     label: 'Lead Source',
@@ -124,19 +128,20 @@ class _CreateLeadState extends State<CreateLead> {
                                     dropdownValue:
                                         provider.selectLeadSourceValue,
                                     onChanged: (p0) {
-                                      if (p0 != null) {
+                                      /* if (p0 != null) {
                                         provider.selectLeadSource(p0);
-                                      }
+                                      } */
                                     },
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Phone',
                                     icon: Icons.phone,
                                     controller: provider.phoneController,
-                                    enabled: true,
+                                    enabled: provider.editmode,
                                     width: 350,
                                     keyboardType: TextInputType.phone,
                                   ),
@@ -166,40 +171,44 @@ class _CreateLeadState extends State<CreateLead> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Expected Close Date',
                                     icon: Icons.calendar_month,
                                     controller: provider.closedateController,
-                                    enabled: true,
+                                    enabled: provider.editmode,
                                     width: 350,
                                     keyboardType: TextInputType.datetime,
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Quote Amount',
                                     icon: Icons.attach_money,
                                     controller: provider.quoteamountController,
-                                    enabled: true,
+                                    enabled: provider.editmode,
                                     width: 350,
                                     keyboardType: TextInputType.number,
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Probability',
                                     icon: Icons.percent,
                                     controller: provider.probabilityController,
-                                    enabled: true,
+                                    enabled: provider.editmode,
                                     width: 350,
                                     keyboardType: TextInputType.number,
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomDDownMenu(
                                     hint: 'None',
                                     label: 'Assigned To',
@@ -209,9 +218,9 @@ class _CreateLeadState extends State<CreateLead> {
                                     dropdownValue:
                                         provider.selectAssignedTValue,
                                     onChanged: (p0) {
-                                      if (p0 != null) {
+                                      /* if (p0 != null) {
                                         provider.selectAssigned(p0);
-                                      }
+                                      } */
                                     },
                                   ),
                                 ),
@@ -238,7 +247,7 @@ class _CreateLeadState extends State<CreateLead> {
                     label: 'Description',
                     icon: Icons.person_outline,
                     controller: provider.descriptionController,
-                    enabled: true,
+                    enabled: provider.editmode,
                     width: 740,
                     height: 51,
                     keyboardType: TextInputType.text,
@@ -253,11 +262,16 @@ class _CreateLeadState extends State<CreateLead> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomTextIconButton(
+                    icon: Icon(Icons.add,
+                        color: AppTheme.of(context).primaryBackground),
                     isLoading: false,
-                    icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                    text: 'Create',
+                    text: 'Edit',
                     onTap: () async {
-                      provider.createLead();
+                      setState(() {
+                        provider.editmode = true;
+                      });
+
+                      /* provider.createLead();
                       fToast.showToast(
                         child: const SuccessToast(
                           message: 'Usuario creado',
@@ -266,17 +280,22 @@ class _CreateLeadState extends State<CreateLead> {
                         toastDuration: const Duration(seconds: 2),
                       );
 
-                      if (context.canPop()) context.pop();
+                      if (context.canPop()) context.pop(); */
                     },
                   ),
-                  CustomTextIconButton(
-                    isLoading: false,
-                    icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
-                    text: 'Refresh',
-                    onTap: () async {
-                      provider.clearAll();
-                    },
-                  ),
+                  provider.editmode == true
+                      ? CustomTextIconButton(
+                          icon: Icon(Icons.save,
+                              color: AppTheme.of(context).primaryBackground),
+                          isLoading: false,
+                          text: 'Guardar',
+                          onTap: () {
+                            setState(() {
+                              provider.editmode = false;
+                            });
+                          },
+                        )
+                      : Container(),
                 ],
               ),
             )

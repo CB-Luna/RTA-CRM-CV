@@ -3,17 +3,15 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart' hide State;
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:rta_crm_cv/helpers/constants.dart';
-
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/leads_model.dart';
 import 'package:rta_crm_cv/models/models.dart';
-import 'package:http/http.dart' as http;
 
 class LeadsProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
+  bool editmode=false;
 
   State? selectedState;
   int pageRowCount = 10;
@@ -21,8 +19,8 @@ class LeadsProvider extends ChangeNotifier {
   List<State> states = [];
   List<Role> roles = [];
   //Controladores Basic Information
-  final nameController = TextEditingController();
-  final lastnameController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
   final accountController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
@@ -33,17 +31,65 @@ class LeadsProvider extends ChangeNotifier {
   //Controlador Description
   final descriptionController = TextEditingController();
 
-  Role? selectedRole;
-
-  String? imageName;
+//Listas DropdownMenu
+  late String selectSaleStoreValue, selectAssignedTValue, selectLeadSourceValue;
+  List<String> saleStoreList = [
+        'Mike Haddock',
+        'Rosalia Silvey',
+        'Tom Carrol',
+        'Vini Garcia',
+      ],
+      assignedList = [
+        'Frank Befera',
+        'Rosalia Silvey',
+        'Tom Carrol',
+        'Mike Haddock',
+      ],
+      leadSourceList = [
+        'lead1',
+        'lead2',
+        'lead3',
+      ];
+//
+  late int? id;
 ////////////////////////////////////////////////////////////////////////////
   LeadsProvider() {
+    clearAll();
     updateState();
+  }
+
+  clearAll() {
+    firstNameController.clear();
+    lastNameController.clear();
+    accountController.clear();
+    closedateController.clear();
+    quoteamountController.clear();
+    probabilityController.clear();
+    descriptionController.clear();
+
+    selectSaleStoreValue = saleStoreList.first;
+    selectAssignedTValue = assignedList.first;
+    selectLeadSourceValue = leadSourceList.first;
   }
 
   Future<void> updateState() async {
     rows.clear();
     await getLeads();
+  }
+
+  void selectSaleStore(String selected) {
+    selectSaleStoreValue = selected;
+    notifyListeners();
+  }
+
+  void selectAssigned(String selected) {
+    selectAssignedTValue = selected;
+    notifyListeners();
+  }
+
+  void selectLeadSource(String selected) {
+    selectLeadSourceValue = selected;
+    notifyListeners();
   }
 
   List<bool> tabBar = [
@@ -54,20 +100,6 @@ class LeadsProvider extends ChangeNotifier {
     false,
   ];
   //listas Drop Menu
-  void selectStage(String stage) {
-    selectedRole = roles.firstWhere((elem) => elem.roleName == stage);
-    notifyListeners();
-  }
-
-  void selectAssigned(String assigned) {
-    selectedRole = roles.firstWhere((elem) => elem.roleName == assigned);
-    notifyListeners();
-  }
-
-  void selectLead(String lead) {
-    selectedRole = roles.firstWhere((elem) => elem.roleName == lead);
-    notifyListeners();
-  }
 
 //Tabla Opportunities
   Future<void> getLeads() async {
@@ -91,7 +123,7 @@ class LeadsProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: lead.id),
-              'NAME_Column': PlutoCell(value: lead.name),
+              'NAME_Column': PlutoCell(value: lead.nameLead),
               'AMOUNT_Column': PlutoCell(value: lead.quoteAmount),
               'PROBABILITY_Column': PlutoCell(value: lead.probability),
               'CLOSED_Column': PlutoCell(value: lead.expectedClose),
@@ -113,81 +145,31 @@ class LeadsProvider extends ChangeNotifier {
   }
 
 //PopUp create Lead
-  Future<Map<String, String>?> registerUser() async {
+  Future<void> createLead() async {
     try {
       //Registrar al usuario con una contraseña temporal
-      var response = await http.post(
-        Uri.parse('$supabaseUrl/auth/v1/si'),
-        headers: {'Content-Type': 'application/json', 'apikey': anonKey},
-        body: json.encode(
-          {
-            "email": nameController.text,
-            "password": 'default',
-          },
-        ),
-      );
-      if (response.statusCode > 204)
-        return {'Error': 'The user already exists'};
-
-      final String? userId = jsonDecode(response.body)['user']['id'];
-
-      //retornar el id del usuario
-      if (userId != null) return {'userId': userId};
-
-      return {'Error': 'Error registering user'};
+      await supabaseCRM.from('leads').insert({
+        "name_lead": "${firstNameController.text} ${lastNameController.text}",
+        "quote_amount": quoteamountController.text,
+        "probability": probabilityController.text,
+        "expected_close":
+            DateTime.now().add(const Duration(days: 30)).toString(),
+        "assigned_to": selectAssignedTValue,
+        "status": "In proccess",
+        "organitation_name":
+            "${firstNameController.text} ${lastNameController.text}",
+        "first_name": firstNameController.text,
+        "last_name": lastNameController.text,
+        "phone_number": phoneController.text,
+        "email": emailController.text,
+        "sales_stage": selectSaleStoreValue,
+        "account": accountController.text,
+        "lead_source": selectLeadSourceValue,
+        "description": descriptionController.text,
+      });
     } catch (e) {
-      log('Error en registrarUsuario() - $e');
-      return {'Error': 'Error registering user'};
+      log('Error en registrarOpportunity() - $e');
     }
-  }
-
-  Future<bool> createUserProfile(String userId) async {
-    if (selectedState == null || selectedRole == null) return false;
-    try {
-      await supabase.from('user_p').insert(
-        {
-          'user_profile_id': userId,
-          'name': nameController.text,
-          'last_name': emailController.text,
-          'home_phone': closedateController.text,
-          'address': '123 Main St.',
-          'image': imageName,
-          'birthdate': DateTime.now().toIso8601String(),
-          'id_role_fk': selectedRole!.id,
-          'state_fk': selectedState!.id,
-        },
-      );
-      return true;
-    } catch (e) {
-      log('Error in createUserProfile() - $e');
-      return false;
-    }
-  }
-
-  Future<void> getStates({bool notify = true}) async {
-    final res = await supabase.from('state').select().order(
-          'name',
-          ascending: true,
-        );
-
-    states = (res as List<dynamic>)
-        .map((pais) => State.fromJson(jsonEncode(pais)))
-        .toList();
-
-    if (notify) notifyListeners();
-  }
-
-  Future<void> getRoles({bool notify = true}) async {
-    final res = await supabase.from('role').select().order(
-          'name',
-          ascending: true,
-        );
-
-    roles = (res as List<dynamic>)
-        .map((rol) => Role.fromJson(jsonEncode(rol)))
-        .toList();
-
-    if (notify) notifyListeners();
   }
 
   Future setIndex(int index) async {
@@ -195,6 +177,33 @@ class LeadsProvider extends ChangeNotifier {
       tabBar[i] = false;
     }
     tabBar[index] = true;
+
+    notifyListeners();
+  }
+
+//Leads details
+  Future<void> getData() async {
+    if (id != null) {
+      var response = await supabaseCRM.from('leads').select().eq('id', id);
+
+      if (response == null) {
+        log('Error en getData()');
+        return;
+      }
+      Leads leads = Leads.fromJson(jsonEncode(response[0]));
+      firstNameController.text = leads.firstName;
+      lastNameController.text = leads.lastName;
+      selectSaleStoreValue = leads.salesStage;
+      accountController.text = leads.account;
+      emailController.text = leads.email;
+      selectLeadSourceValue = leads.leadSource;
+      phoneController.text = leads.phoneNumber;
+      closedateController.text = leads.expectedClose.toString();
+      quoteamountController.text = leads.quoteAmount.toString();
+      probabilityController.text = leads.probability.toString();
+      selectAssignedTValue = leads.assignedTo;
+      descriptionController.text = leads.description;
+    }
 
     notifyListeners();
   }
@@ -245,5 +254,4 @@ class LeadsProvider extends ChangeNotifier {
   void load() {
     stateManager!.setShowLoading(true);
   }
-
 }

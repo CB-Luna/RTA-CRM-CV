@@ -1,47 +1,52 @@
 import 'dart:convert';
 
 class Opportunity {
-    final int id;
-    final DateTime createdAt;
-    final String name;
-    final int quoteAmount;
-    final int probability;
-    final DateTime lastActivity;
-    final DateTime expectedClose;
-    final String assignedTo;
-    final dynamic account;
-    final dynamic salesStage;
-    final dynamic contact;
-    final dynamic leadSource;
-    final dynamic timeLine;
-    final dynamic decisionMaker;
-    final dynamic teachSpec;
-    final String status;
+  final int id;
+  final DateTime createdAt;
+  final String name;
+  final int quoteAmount;
+  final int probability;
+  final DateTime lastActivity;
+  final DateTime expectedClose;
+  final String assignedTo;
+  final dynamic account;
+  final dynamic salesStage;
+  final dynamic contact;
+  final dynamic leadSource;
+  final dynamic timeLine;
+  final dynamic decisionMaker;
+  final dynamic teachSpec;
+  final dynamic budget;
+  final String status;
+  final String description;
 
-    Opportunity({
-        required this.id,
-        required this.createdAt,
-        required this.name,
-        required this.quoteAmount,
-        required this.probability,
-        required this.lastActivity,
-        required this.expectedClose,
-        required this.assignedTo,
-        required this.account,
-        required this.salesStage,
-        required this.contact,
-        required this.leadSource,
-        required this.timeLine,
-        required this.decisionMaker,
-        required this.teachSpec,
-        required this.status,
-    });
+  Opportunity({
+    required this.id,
+    required this.createdAt,
+    required this.name,
+    required this.quoteAmount,
+    required this.probability,
+    required this.lastActivity,
+    required this.expectedClose,
+    required this.assignedTo,
+    required this.account,
+    required this.salesStage,
+    required this.contact,
+    required this.leadSource,
+    required this.timeLine,
+    required this.decisionMaker,
+    required this.teachSpec,
+    required this.budget,
+    required this.status,
+    required this.description,
+  });
 
-    factory Opportunity.fromJson(String str) => Opportunity.fromMap(json.decode(str));
+  factory Opportunity.fromJson(String str) =>
+      Opportunity.fromMap(json.decode(str));
 
-    String toJson() => json.encode(toMap());
+  String toJson() => json.encode(toMap());
 
-    factory Opportunity.fromMap(Map<String, dynamic> json) => Opportunity(
+  factory Opportunity.fromMap(Map<String, dynamic> json) => Opportunity(
         id: json["id"],
         createdAt: DateTime.parse(json["created_at"]),
         name: json["name"],
@@ -57,10 +62,12 @@ class Opportunity {
         timeLine: json["time_line"],
         decisionMaker: json["decision_maker"],
         teachSpec: json["teach_spec"],
+        budget: json["budget"],
         status: json["status"],
-    );
+        description: json["description"],
+      );
 
-    Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap() => {
         "id": id,
         "created_at": createdAt.toIso8601String(),
         "name": name,
@@ -76,6 +83,8 @@ class Opportunity {
         "time_line": timeLine,
         "decision_maker": decisionMaker,
         "teach_spec": teachSpec,
+        "budget": budget,
         "status": status,
-    };
+        "description": description,
+      };
 }

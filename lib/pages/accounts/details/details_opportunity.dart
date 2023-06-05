@@ -3,7 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/accounts/tabs/opportunity_provider.dart';
-import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
@@ -11,14 +10,14 @@ import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/success_toast.dart';
 
-class CreateOpportunitysPage extends StatefulWidget {
-  const CreateOpportunitysPage({super.key});
+class DetailsOpportunity extends StatefulWidget {
+  const DetailsOpportunity({super.key});
 
   @override
-  State<CreateOpportunitysPage> createState() => _CreateOpportunitysPageState();
+  State<DetailsOpportunity> createState() => _DetailsOpportunityState();
 }
 
-class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
+class _DetailsOpportunityState extends State<DetailsOpportunity> {
   FToast fToast = FToast();
 
   @override
@@ -28,14 +27,16 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
     final formKey = GlobalKey<FormState>();
     final formKey2 = GlobalKey<FormState>();
 
-    final List<String> statesNames = provider.states.map((state) => state.name).toList();
+    final List<String> statesNames =
+        provider.states.map((state) => state.name).toList();
 
-    final List<String> rolesNames = provider.roles.map((role) => role.roleName).toList();
+    final List<String> rolesNames =
+        provider.roles.map((role) => role.roleName).toList();
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
-        title: 'Create Opportunity',
+        title: 'Details Opportunity: ${provider.nameController.text}',
         height: 910,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,32 +60,36 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                             key: formKey,
                             child: SingleChildScrollView(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomTextField(
                                       label: 'Name',
                                       icon: Icons.person_outline,
                                       controller: provider.nameController,
-                                      enabled: true,
+                                      enabled: false,
                                       width: 350,
                                       keyboardType: TextInputType.name,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomTextField(
                                       label: 'Account',
                                       icon: Icons.business_outlined,
                                       controller: provider.accountController,
-                                      enabled: true,
+                                      enabled: false,
                                       width: 350,
-                                      keyboardType: TextInputType.name,
+                                      keyboardType: TextInputType.text,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomDDownMenu(
                                       hint: 'None',
                                       label: 'Sales Stage',
@@ -93,30 +98,27 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                                       list: provider.saleStoreList,
                                       dropdownValue:
                                           provider.selectSaleStoreValue,
-                                      onChanged: (p0) {
-                                        if (p0 != null) {
-                                          provider.selectSaleStore(p0);
-                                        }
+                                      onChanged: (val) {
+                                        /* if (val == null) return;
+                                       // provider.selectStage(val); */
                                       },
-                                      /* (val) {
-                                        if (val == null) return;
-                                        provider.selectSaleStore(val);
-                                      }, */
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomTextField(
                                       label: 'Contact',
                                       icon: Icons.group,
                                       controller: provider.contactController,
-                                      enabled: true,
+                                      enabled: false,
                                       width: 350,
                                       keyboardType: TextInputType.emailAddress,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomDDownMenu(
                                       hint: 'None',
                                       label: 'Assigned To',
@@ -125,15 +127,15 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                                       list: provider.assignedList,
                                       dropdownValue:
                                           provider.selectAssignedTValue,
-                                      onChanged: (p0) {
-                                        if (p0 != null) {
-                                          provider.selectAssigned(p0);
-                                        }
+                                      onChanged: (val) {
+                                        /*  if (val == null) return;
+                                       // provider.selectAssigned(val); */
                                       },
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomDDownMenu(
                                       hint: 'None',
                                       label: 'Lead Source',
@@ -142,10 +144,9 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                                       list: provider.leadSourceList,
                                       dropdownValue:
                                           provider.selectLeadSourceValue,
-                                      onChanged: (p0) {
-                                        if (p0 != null) {
-                                          provider.selectLeadSource(p0);
-                                        }
+                                      onChanged: (val) {
+                                        /* if (val == null) return;
+                                       // provider.selectLead(val); */
                                       },
                                     ),
                                   ),
@@ -171,112 +172,142 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                             key: formKey2,
                             child: SingleChildScrollView(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomTextField(
                                       label: 'Expected Close Date',
                                       icon: Icons.calendar_month,
                                       controller: provider.closedateController,
-                                      enabled: true,
+                                      enabled: false,
                                       width: 350,
                                       keyboardType: TextInputType.name,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomTextField(
                                       label: 'Quote Amount',
                                       icon: Icons.attach_money,
-                                      controller: provider.quoteamountController,
-                                      enabled: true,
+                                      controller:
+                                          provider.quoteamountController,
+                                      enabled: false,
                                       width: 350,
                                       keyboardType: TextInputType.name,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CheckboxListTile(
                                       title: Text(
                                         'Time Line',
-                                        style: TextStyle(color: AppTheme.of(context).primaryColor),
+                                        style: TextStyle(
+                                            color: AppTheme.of(context)
+                                                .primaryColor),
                                       ),
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       value: provider.timeline,
                                       onChanged: (value) {
-                                        setState(
+                                        /*  setState(
                                           () {
                                             provider.timeline = value!;
                                           },
-                                        );
+                                        ); */
                                       },
-                                      activeColor: AppTheme.of(context).primaryColor,
-                                      checkColor: AppTheme.of(context).primaryBackground,
+                                      activeColor:
+                                          AppTheme.of(context).primaryColor,
+                                      checkColor: AppTheme.of(context)
+                                          .primaryBackground,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CheckboxListTile(
                                       title: Text(
                                         'Decision Maker',
-                                        style: TextStyle(color: AppTheme.of(context).primaryColor),
+                                        style: TextStyle(
+                                            color: AppTheme.of(context)
+                                                .primaryColor),
                                       ),
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       value: provider.decisionmaker,
                                       onChanged: (value) {
-                                        setState(
+                                        /* setState(
                                           () => provider.decisionmaker = value!,
-                                        );
+                                        ); */
                                       },
-                                      activeColor: AppTheme.of(context).primaryColor,
-                                      checkColor: AppTheme.of(context).primaryBackground,
+                                      activeColor:
+                                          AppTheme.of(context).primaryColor,
+                                      checkColor: AppTheme.of(context)
+                                          .primaryBackground,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CheckboxListTile(
                                       title: Text(
                                         'Tech Spec',
-                                        style: TextStyle(color: AppTheme.of(context).primaryColor),
+                                        style: TextStyle(
+                                            color: AppTheme.of(context)
+                                                .primaryColor),
                                       ),
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       value: provider.techspec,
                                       onChanged: (value) {
-                                        setState(
+                                        /*  setState(
                                           () => provider.techspec = value!,
-                                        );
+                                        ); */
                                       },
-                                      activeColor: AppTheme.of(context).primaryColor,
-                                      checkColor: AppTheme.of(context).primaryBackground,
+                                      activeColor:
+                                          AppTheme.of(context).primaryColor,
+                                      checkColor: AppTheme.of(context)
+                                          .primaryBackground,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CheckboxListTile(
                                       title: Text(
                                         'Budget',
-                                        style: TextStyle(color: AppTheme.of(context).primaryColor),
+                                        style: TextStyle(
+                                            color: AppTheme.of(context)
+                                                .primaryColor),
                                       ),
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       value: provider.budget,
                                       onChanged: (value) {
-                                        setState(
+                                        /*  setState(
                                           () => provider.budget = value!,
-                                        );
+                                        ); */
                                       },
-                                      activeColor: AppTheme.of(context).primaryColor,
-                                      checkColor: AppTheme.of(context).primaryBackground,
+                                      activeColor:
+                                          AppTheme.of(context).primaryColor,
+                                      checkColor: AppTheme.of(context)
+                                          .primaryBackground,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomTextField(
                                       label: 'Probability',
                                       icon: Icons.percent,
-                                      controller: provider.probabilityController,
-                                      enabled: true,
+                                      controller:
+                                          provider.probabilityController,
+                                      enabled: false,
                                       width: 350,
                                       keyboardType: TextInputType.name,
                                     ),
@@ -305,7 +336,7 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                     label: 'Description',
                     icon: Icons.person_outline,
                     controller: provider.descriptionController,
-                    enabled: true,
+                    enabled: false,
                     width: 740,
                     height: 51,
                     keyboardType: TextInputType.name,
@@ -320,11 +351,11 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomTextIconButton(
+                    icon: Icon(Icons.add,
+                        color: AppTheme.of(context).primaryBackground),
                     isLoading: false,
-                    icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                     text: 'Create',
                     onTap: () async {
-                      provider.createOpportunity();
                       fToast.showToast(
                         child: const SuccessToast(
                           message: 'Usuario creado',
@@ -337,12 +368,10 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                     },
                   ),
                   CustomTextIconButton(
+                    icon: Icon(Icons.refresh_outlined,
+                        color: AppTheme.of(context).primaryBackground),
                     isLoading: false,
-                    icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
                     text: 'Refresh',
-                    onTap: () async {
-                      provider.clearAll();
-                    },
                   ),
                 ],
               ),

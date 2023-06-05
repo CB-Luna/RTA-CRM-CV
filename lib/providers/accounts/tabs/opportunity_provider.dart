@@ -3,13 +3,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart' hide State;
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:rta_crm_cv/helpers/constants.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/opportunity_model.dart';
 import 'package:rta_crm_cv/models/models.dart';
-
-import 'package:http/http.dart' as http;
 
 class OpportunityProvider extends ChangeNotifier {
   final searchController = TextEditingController();
@@ -26,22 +23,46 @@ class OpportunityProvider extends ChangeNotifier {
   int page = 1;
   List<State> states = [];
   List<Role> roles = [];
+
+  bool editmode = false;
+
+  DateTime create = DateTime.now();
   //Controladores Basic Information
   final nameController = TextEditingController();
   final accountController = TextEditingController();
   final contactController = TextEditingController();
- //Controladores Other Information
+  //Controladores Other Information
   final closedateController = TextEditingController();
   final quoteamountController = TextEditingController();
   final probabilityController = TextEditingController();
- //Controlador Description
+  //Controlador Description
   final descriptionController = TextEditingController();
 
   Role? selectedRole;
   String? imageName;
+  late int? id;
 ////////////////////////////////////////////////////////////////////////////
   OpportunityProvider() {
+    clearAll();
     updateState();
+  }
+  clearAll() {
+    timeline = false;
+    decisionmaker = false;
+    techspec = false;
+    budget = false;
+
+    nameController.clear();
+    accountController.clear();
+    contactController.clear();
+    closedateController.clear();
+    quoteamountController.clear();
+    probabilityController.clear();
+    descriptionController.clear();
+
+    selectSaleStoreValue = saleStoreList.first;
+    selectAssignedTValue = assignedList.first;
+    selectLeadSourceValue = leadSourceList.first;
   }
 
   Future<void> updateState() async {
@@ -49,19 +70,37 @@ class OpportunityProvider extends ChangeNotifier {
     await getOpportunity();
   }
 
+  late String selectSaleStoreValue, selectAssignedTValue, selectLeadSourceValue;
+  List<String> saleStoreList = [
+        'Mike Haddock',
+        'Rosalia Silvey',
+        'Tom Carrol',
+        'Vini Garcia',
+      ],
+      assignedList = [
+        'Frank Befera',
+        'Rosalia Silvey',
+        'Tom Carrol',
+        'Mike Haddock',
+      ],
+      leadSourceList = [
+        'lead1',
+        'lead2',
+        'lead3',
+      ];
 //listas Drop Menu
-  void selectStage(String stage) {
-    selectedRole = roles.firstWhere((elem) => elem.roleName == stage);
+  void selectSaleStore(String selected) {
+    selectSaleStoreValue = selected;
     notifyListeners();
   }
 
-  void selectAssigned(String assigned) {
-    selectedRole = roles.firstWhere((elem) => elem.roleName == assigned);
+  void selectAssigned(String selected) {
+    selectAssignedTValue = selected;
     notifyListeners();
   }
 
-  void selectLead(String lead) {
-    selectedRole = roles.firstWhere((elem) => elem.roleName == lead);
+  void selectLeadSource(String selected) {
+    selectLeadSourceValue = selected;
     notifyListeners();
   }
 
@@ -109,81 +148,113 @@ class OpportunityProvider extends ChangeNotifier {
   }
 
 //PopUp create Opportunity
-  Future<Map<String, String>?> registerUser() async {
+  Future<void> createOpportunity() async {
     try {
       //Registrar al usuario con una contraseña temporal
-      var response = await http.post(
-        Uri.parse('$supabaseUrl/auth/v1/s'),
-        headers: {'Content-Type': 'application/json', 'apikey': anonKey},
-        body: json.encode(
-          {
-            "email": nameController.text,
-            "password": 'default',
-          },
-        ),
-      );
-      if (response.statusCode > 204)
-        return {'Error': 'The user already exists'};
-
-      final String? userId = jsonDecode(response.body)['user']['id'];
-
-      //retornar el id del usuario
-      if (userId != null) return {'userId': userId};
-
-      return {'Error': 'Error registering user'};
+      await supabaseCRM.from('opportunity').insert({
+        "name": nameController.text,
+        "quote_amount": quoteamountController.text,
+        "probability": probabilityController.text,
+        "last_activity": DateTime.now().toString(),
+        "expected_close":
+            DateTime.now().add(const Duration(days: 30)).toString(),
+        "assigned_to": selectAssignedTValue,
+        "status": "Opened",
+        "account": accountController.text,
+        "sales_stage": selectSaleStoreValue,
+        "contact": contactController.text,
+        "lead_source": selectLeadSourceValue,
+        "time_line": timeline,
+        "decision_maker": decisionmaker,
+        "teach_spec": techspec,
+        "budget": budget,
+        "description": descriptionController.text,
+      });
     } catch (e) {
-      log('Error en registrarUsuario() - $e');
-      return {'Error': 'Error registering user'};
+      log('Error en registrarOpportunity() - $e');
     }
   }
 
-  Future<bool> createUserProfile(String userId) async {
-    if (selectedState == null || selectedRole == null) return false;
+  Future<void> deleteOpportunity() async {
     try {
-      await supabase.from('user_pr').insert(
-        {
-          'user_profile_id': userId,
-          'name': nameController.text,
-          'last_name': contactController.text,
-          'home_phone': closedateController.text,
-          'address': '123 Main St.',
-          'image': imageName,
-          'birthdate': DateTime.now().toIso8601String(),
-          'id_role_fk': selectedRole!.id,
-          'state_fk': selectedState!.id,
-        },
-      );
-      return true;
+      var resp= await supabaseCRM.from('opportunity').delete().eq('id', id);
+      if (resp) {
+        
+      }
+
+      if (stateManager != null) stateManager!.notifyListeners();
+
+      notifyListeners();
     } catch (e) {
-      log('Error in createUserProfile() - $e');
-      return false;
+      log('Error en deleteOpportunity() - $e');
     }
+    await getOpportunity();
+    notifyListeners();
   }
 
-  Future<void> getStates({bool notify = true}) async {
-    final res = await supabase.from('state').select().order(
-          'name',
-          ascending: true,
-        );
+  /* Future<void> updateOpportunity() async {
+    try {
+      for (var element in rows) {
+        if (element.checked == true) {
+          await supabaseCRM.from('opportunity').update({
+            "name": nameController.text,
+            "quote_amount": quoteamountController.text,
+            "probability": probabilityController.text,
+            "last_activity": DateTime.now().toString(),
+            "expected_close":
+                DateTime.now().add(const Duration(days: 30)).toString(),
+            "assigned_to": selectAssignedTValue,
+            "status": "Opened",
+            "account": accountController.text,
+            "sales_stage": selectSaleStoreValue,
+            "contact": contactController.text,
+            "lead_source": selectLeadSourceValue,
+            "time_line": timeline,
+            "decision_maker": decisionmaker,
+            "teach_spec": techspec,
+          }).eq('id', element.cells['ID_Column']!.value);
+        } else {}
+      }
 
-    states = (res as List<dynamic>)
-        .map((pais) => State.fromJson(jsonEncode(pais)))
-        .toList();
+      if (stateManager != null) stateManager!.notifyListeners();
 
-    if (notify) notifyListeners();
+      notifyListeners();
+    } catch (e) {
+      log('Error en UpdateOpportunity() - $e');
+    }
+    await getOpportunity();
+    notifyListeners();
   }
+ */
+  //opportunity details
+  Future<void> getData() async {
+    if (id != null) {
+      var response =
+          await supabaseCRM.from('opportunity').select().eq('id', id);
 
-  Future<void> getRoles({bool notify = true}) async {
-    final res = await supabase.from('role').select().order(
-          'name',
-          ascending: true,
-        );
+      if (response == null) {
+        log('Error en getData()');
+        return;
+      }
+      Opportunity opportunity = Opportunity.fromJson(jsonEncode(response[0]));
+      nameController.text = opportunity.name;
+      accountController.text = opportunity.account;
+      selectSaleStoreValue = opportunity.salesStage;
+      accountController.text = opportunity.account;
+      contactController.text = opportunity.contact;
+      selectAssignedTValue = opportunity.assignedTo;
+      selectLeadSourceValue = opportunity.leadSource;
+      closedateController.text = opportunity.expectedClose.toString();
+      quoteamountController.text = opportunity.quoteAmount.toString();
+      timeline = opportunity.timeLine;
+      decisionmaker = opportunity.decisionMaker;
+      techspec = opportunity.teachSpec;
+      budget = opportunity.budget;
+      probabilityController.text = opportunity.probability.toString();
+      descriptionController.text = opportunity.description;
+    }
 
-    roles = (res as List<dynamic>)
-        .map((rol) => Role.fromJson(jsonEncode(rol)))
-        .toList();
-
-    if (notify) notifyListeners();
+    notifyListeners();
   }
 
 //Controladores Paginado Pluto?
