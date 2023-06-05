@@ -6,15 +6,21 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/accounts/leads_model.dart';
+import 'package:rta_crm_cv/models/accounts/opportunity_model.dart';
 import 'package:rta_crm_cv/models/models.dart';
+
 import 'package:http/http.dart' as http;
 
-class LeadsProvider extends ChangeNotifier {
+class OpportunityProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
-
+  //checks box pop up
+  bool timeline = false,
+      decisionmaker = false,
+      techspec = false,
+      budget = false;
+  //
   State? selectedState;
   int pageRowCount = 10;
   int page = 1;
@@ -22,38 +28,28 @@ class LeadsProvider extends ChangeNotifier {
   List<Role> roles = [];
   //Controladores Basic Information
   final nameController = TextEditingController();
-  final lastnameController = TextEditingController();
   final accountController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneController = TextEditingController();
-  //Controladores Other Information
+  final contactController = TextEditingController();
+ //Controladores Other Information
   final closedateController = TextEditingController();
   final quoteamountController = TextEditingController();
   final probabilityController = TextEditingController();
-  //Controlador Description
+ //Controlador Description
   final descriptionController = TextEditingController();
 
   Role? selectedRole;
-
   String? imageName;
 ////////////////////////////////////////////////////////////////////////////
-  LeadsProvider() {
+  OpportunityProvider() {
     updateState();
   }
 
   Future<void> updateState() async {
     rows.clear();
-    await getLeads();
+    await getOpportunity();
   }
 
-  List<bool> tabBar = [
-    false,
-    false,
-    true,
-    false,
-    false,
-  ];
-  //listas Drop Menu
+//listas Drop Menu
   void selectStage(String stage) {
     selectedRole = roles.firstWhere((elem) => elem.roleName == stage);
     notifyListeners();
@@ -70,35 +66,35 @@ class LeadsProvider extends ChangeNotifier {
   }
 
 //Tabla Opportunities
-  Future<void> getLeads() async {
+  Future<void> getOpportunity() async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
     }
     try {
-      final res = await supabaseCRM.from('leads').select();
+      final res = await supabaseCRM.from('opportunity').select();
       if (res == null) {
-        log('Error en getLeads()');
+        log('Error en getOpportunity()');
         return;
       }
-      List<Leads> leads = (res as List<dynamic>)
-          .map((lead) => Leads.fromJson(jsonEncode(lead)))
+      List<Opportunity> opportunity = (res as List<dynamic>)
+          .map((usuario) => Opportunity.fromJson(jsonEncode(usuario)))
           .toList();
 
       rows.clear();
-      for (Leads lead in leads) {
+      for (Opportunity user in opportunity) {
         rows.add(
           PlutoRow(
             cells: {
-              'ID_Column': PlutoCell(value: lead.id),
-              'NAME_Column': PlutoCell(value: lead.name),
-              'AMOUNT_Column': PlutoCell(value: lead.quoteAmount),
-              'PROBABILITY_Column': PlutoCell(value: lead.probability),
-              'CLOSED_Column': PlutoCell(value: lead.expectedClose),
-              'CREATE_Column': PlutoCell(value: lead.createdAt),
-              'LAST_Column': PlutoCell(value: lead.lastActivity),
-              'ASSIGNED_Column': PlutoCell(value: lead.assignedTo),
-              'STATUS_Column': PlutoCell(value: lead.status),
+              'ID_Column': PlutoCell(value: user.id),
+              'NAME_Column': PlutoCell(value: user.name),
+              'AMOUNT_Column': PlutoCell(value: user.quoteAmount),
+              'PROBABILITY_Column': PlutoCell(value: user.probability),
+              'CLOSED_Column': PlutoCell(value: user.expectedClose),
+              'CREATE_Column': PlutoCell(value: user.createdAt),
+              'LAST_Column': PlutoCell(value: user.lastActivity),
+              'ASSIGNED_Column': PlutoCell(value: user.assignedTo),
+              'STATUS_Column': PlutoCell(value: user.status),
               'ACTIONS_Column': PlutoCell(value: ''),
             },
           ),
@@ -106,18 +102,18 @@ class LeadsProvider extends ChangeNotifier {
       }
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
-      log('Error en getLeads() - $e');
+      log('Error en getOpportunity() - $e');
     }
 
     notifyListeners();
   }
 
-//PopUp create Lead
+//PopUp create Opportunity
   Future<Map<String, String>?> registerUser() async {
     try {
       //Registrar al usuario con una contraseña temporal
       var response = await http.post(
-        Uri.parse('$supabaseUrl/auth/v1/si'),
+        Uri.parse('$supabaseUrl/auth/v1/s'),
         headers: {'Content-Type': 'application/json', 'apikey': anonKey},
         body: json.encode(
           {
@@ -144,11 +140,11 @@ class LeadsProvider extends ChangeNotifier {
   Future<bool> createUserProfile(String userId) async {
     if (selectedState == null || selectedRole == null) return false;
     try {
-      await supabase.from('user_p').insert(
+      await supabase.from('user_pr').insert(
         {
           'user_profile_id': userId,
           'name': nameController.text,
-          'last_name': emailController.text,
+          'last_name': contactController.text,
           'home_phone': closedateController.text,
           'address': '123 Main St.',
           'image': imageName,
@@ -188,15 +184,6 @@ class LeadsProvider extends ChangeNotifier {
         .toList();
 
     if (notify) notifyListeners();
-  }
-
-  Future setIndex(int index) async {
-    for (var i = 0; i < tabBar.length; i++) {
-      tabBar[i] = false;
-    }
-    tabBar[index] = true;
-
-    notifyListeners();
   }
 
 //Controladores Paginado Pluto?
@@ -245,5 +232,4 @@ class LeadsProvider extends ChangeNotifier {
   void load() {
     stateManager!.setShowLoading(true);
   }
-
 }

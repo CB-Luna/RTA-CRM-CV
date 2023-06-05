@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/money_format.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/pages/accounts/popups%20tabs/create_lead.dart';
 import 'package:rta_crm_cv/providers/accounts/tabs/leads_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -22,6 +22,19 @@ class LeadsTab extends StatefulWidget {
 }
 
 class _LeadsTabState extends State<LeadsTab> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final LeadsProvider provider = Provider.of<LeadsProvider>(
+        context,
+        listen: false,
+      );
+      await provider.updateState();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     LeadsProvider provider = Provider.of<LeadsProvider>(context);
@@ -49,9 +62,15 @@ class _LeadsTabState extends State<LeadsTab> {
                 ),
                 CustomTextIconButton(
                   icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                  text: 'Create Quote',
+                  text: 'Create Lead',
                   onTap: () async {
-                    context.pushReplacement('/quote_creation');
+                    await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const CreateLead();
+                      },
+                    );
+                    await provider.updateState();
                   },
                 )
               ],

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/money_format.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/providers/accounts/tabs/opportunities_provider.dart';
+import 'package:rta_crm_cv/pages/accounts/popups%20tabs/create_opportunity.dart';
+import 'package:rta_crm_cv/providers/accounts/tabs/opportunity_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -14,17 +14,30 @@ import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
-class OpportunitiesTab extends StatefulWidget {
-  const OpportunitiesTab({super.key});
+class OpportunitysTab extends StatefulWidget {
+  const OpportunitysTab({super.key});
 
   @override
-  State<OpportunitiesTab> createState() => _OpportunitiesTabState();
+  State<OpportunitysTab> createState() => _OpportunitysTabState();
 }
 
-class _OpportunitiesTabState extends State<OpportunitiesTab> {
+class _OpportunitysTabState extends State<OpportunitysTab> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final OpportunityProvider provider = Provider.of<OpportunityProvider>(
+        context,
+        listen: false,
+      );
+      await provider.updateState();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    OpportunitiesProvider provider = Provider.of<OpportunitiesProvider>(context);
+    OpportunityProvider provider = Provider.of<OpportunityProvider>(context);
     return CustomCard(
       title: 'Opportunities',
       child: Column(
@@ -49,9 +62,15 @@ class _OpportunitiesTabState extends State<OpportunitiesTab> {
                 ),
                 CustomTextIconButton(
                   icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                  text: 'Create Quote',
+                  text: 'Create Opportunity',
                   onTap: () async {
-                    context.pushReplacement('/quote_creation');
+                    await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const CreateOpportunitysPage();
+                      },
+                    );
+                    await provider.updateState();
                   },
                 )
               ],

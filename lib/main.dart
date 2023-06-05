@@ -19,7 +19,7 @@ import 'providers/accounts/tabs/accounts_provider.dart';
 import 'providers/accounts/tabs/billing_provider.dart';
 import 'providers/accounts/tabs/campaigns_provider.dart';
 import 'providers/accounts/tabs/leads_provider.dart';
-import 'providers/accounts/tabs/opportunities_provider.dart';
+import 'providers/accounts/tabs/opportunity_provider.dart';
 import 'providers/accounts/tabs/quotes_provider.dart';
 
 void main() async {
@@ -61,7 +61,7 @@ void main() async {
           create: (_) => LeadsProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => OpportunitiesProvider(),
+          create: (_) => OpportunityProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => CampaignsProvider(),
