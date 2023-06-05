@@ -8,37 +8,25 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/accounts/tabs/table_top_text.dart';
-import 'package:rta_crm_cv/providers/accounts/create_quote_provider.dart';
+import 'package:rta_crm_cv/providers/accounts/detail_quote_provider.dart';
+import 'package:rta_crm_cv/providers/accounts/validate_quote_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_tab_button.dart';
+import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
-class CreateQuotePage extends StatefulWidget {
-  const CreateQuotePage({super.key});
+class ValidateQuotePage extends StatefulWidget {
+  const ValidateQuotePage({super.key});
 
   @override
-  State<CreateQuotePage> createState() => _CreateQuotePageState();
+  State<ValidateQuotePage> createState() => _ValidateQuotePageState();
 }
 
-class _CreateQuotePageState extends State<CreateQuotePage> {
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final CreateQuoteProvider provider = Provider.of<CreateQuoteProvider>(
-        context,
-        listen: false,
-      );
-      await provider.clearAll();
-    });
-  }
-
+class _ValidateQuotePageState extends State<ValidateQuotePage> {
   @override
   Widget build(BuildContext context) {
     double txfFieldWidth = (MediaQuery.of(context).size.width / 7);
@@ -46,7 +34,10 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
 
     double cardHeight = 2.5;
 
-    CreateQuoteProvider provider = Provider.of<CreateQuoteProvider>(context);
+    ValidateQuoteProvider provider = Provider.of<ValidateQuoteProvider>(context);
+    if (provider.globalRows.isEmpty || provider.id == null) {
+      context.pushReplacement(routeProspects);
+    }
 
     return Material(
       child: SizedBox(
@@ -62,7 +53,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: CustomCard(
-                    title: 'Quote Creation',
+                    title: 'Quote Edit',
                     height: MediaQuery.of(context).size.height - 20,
                     width: MediaQuery.of(context).size.width,
                     child: Column(
@@ -91,7 +82,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           list: provider.orderTypesList,
                                           label: 'Order Type',
                                           onChanged: (p0) {
-                                            if (p0 != null) provider.selectOT(p0);
+                                            // if (p0 != null) provider.selectOT(p0);
                                           },
                                           dropdownValue: provider.orderTypesSelectedValue,
                                           icon: Icons.file_copy_outlined,
@@ -104,7 +95,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           list: provider.typesList,
                                           dropdownValue: provider.typesSelectedValue,
                                           onChanged: (p0) {
-                                            if (p0 != null) provider.selectType(p0);
+                                            // if (p0 != null) provider.selectType(p0);
                                           },
                                           icon: Icons.file_copy_outlined,
                                           label: 'Type',
@@ -115,7 +106,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.existingCircuitIDController,
                                             label: 'Existing Circuit ID',
@@ -127,7 +118,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.newCircuitIDController,
                                             label: 'New Circuit ID',
@@ -141,7 +132,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           list: provider.dataCentersList,
                                           dropdownValue: provider.dataCenterSelectedValue,
                                           onChanged: (p0) {
-                                            if (p0 != null) provider.selectDataCenter(p0);
+                                            // if (p0 != null) provider.selectDataCenter(p0);
                                           },
                                           icon: Icons.location_on_outlined,
                                           label: 'Data Center Location',
@@ -152,7 +143,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.newDataCenterController,
                                             label: 'New Data Center',
@@ -179,7 +170,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                             list: provider.circuitInfosList,
                                             dropdownValue: provider.circuitTypeSelectedValue,
                                             onChanged: (p0) {
-                                              if (p0 != null) provider.selectCircuitInfo(p0);
+                                              // if (p0 != null) provider.selectCircuitInfo(p0);
                                             },
                                             icon: Icons.info_outline,
                                             label: 'Circuit Type',
@@ -193,7 +184,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                               list: provider.evcodList,
                                               dropdownValue: provider.evcodSelectedValue,
                                               onChanged: (p0) {
-                                                if (p0 != null) provider.selectEVCOD(p0);
+                                                // if (p0 != null) provider.selectEVCOD(p0);
                                               },
                                               icon: Icons.electrical_services,
                                               label: 'EVCoD',
@@ -204,7 +195,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
                                             child: CustomTextField(
-                                              enabled: true,
+                                              enabled: false,
                                               width: txfFieldWidth,
                                               controller: provider.existingEVCController,
                                               label: 'Circuit ID',
@@ -223,7 +214,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                 option1: 'Yes',
                                                 option2: 'No',
                                                 width: txfFieldWidth / 1.7,
-                                                onTap: () => provider.selectDDOS(),
+                                                // onTap: () => provider.selectDDOS(),
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.only(left: 10),
@@ -231,7 +222,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                   list: provider.bgpList,
                                                   dropdownValue: provider.bgpSelectedValue,
                                                   onChanged: (p0) {
-                                                    if (p0 != null) provider.selectBGP(p0);
+                                                    // if (p0 != null) provider.selectBGP(p0);
                                                   },
                                                   icon: Icons.bug_report_outlined,
                                                   label: 'BGP Peering',
@@ -251,7 +242,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                 option1: 'Interface',
                                                 option2: 'IP Subnet',
                                                 width: txfFieldWidth / 1.7,
-                                                onTap: () => provider.selectIPAdress(),
+                                                // onTap: () => provider.selectIPAdress(),
                                               ),
                                               if (provider.ipAdressSelectedValue == 'Interface')
                                                 Padding(
@@ -262,7 +253,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     option1: 'IPv4',
                                                     option2: 'IPv6',
                                                     width: txfFieldWidth / 2,
-                                                    onTap: () => provider.selectIPInterface(),
+                                                    // onTap: () => provider.selectIPInterface(),
                                                   ),
                                                 ),
                                               if (provider.ipAdressSelectedValue == 'IP Subnet')
@@ -272,7 +263,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     list: provider.subnetList,
                                                     dropdownValue: provider.subnetSelectedValue,
                                                     onChanged: (p0) {
-                                                      if (p0 != null) provider.selectSubnet(p0);
+                                                      // if (p0 != null) provider.selectSubnet(p0);
                                                     },
                                                     icon: Icons.signal_cellular_alt,
                                                     label: 'IP Subnet',
@@ -299,7 +290,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.companyController,
                                             label: 'Company',
@@ -310,7 +301,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.nameController,
                                             label: 'Name',
@@ -321,7 +312,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.lastNameController,
                                             label: 'Last Name',
@@ -332,7 +323,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.emailController,
                                             label: 'Email',
@@ -343,7 +334,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.phoneController,
                                             label: 'Mobile Phone Number',
@@ -589,20 +580,34 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         SizedBox(
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: CustomTextIconButton(
-                                              isLoading: provider.isLoading,
-                                              icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
-                                              text: 'Create',
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              onTap: () async {
-                                                if (provider.createValidation() && provider.globalRows.isNotEmpty) {
-                                                  await provider.createQuote();
-                                                  context.pushReplacement(routeProspects);
-                                                }
-                                              },
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                CustomTextIconButton(
+                                                  isLoading: provider.isLoading,
+                                                  width: (MediaQuery.of(context).size.width / 5) / 2 - 25,
+                                                  icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
+                                                  text: 'Accept',
+                                                  onTap: () async {
+                                                    await provider.validate(true);
+                                                    context.pushReplacement(routeProspects);
+                                                  },
+                                                ),
+                                                CustomTextIconButton(
+                                                  isLoading: provider.isLoading,
+                                                  width: (MediaQuery.of(context).size.width / 5) / 2 - 25,
+                                                  icon: Icon(Icons.close, color: AppTheme.of(context).primaryBackground),
+                                                  color: secondaryColor,
+                                                  text: 'Reject',
+                                                  onTap: () async {
+                                                    await provider.validate(false);
+                                                    context.pushReplacement(routeProspects);
+                                                  },
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ),
+                                        )
                                       ],
                                     ),
                                   ),
@@ -611,7 +616,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                             ),
                           ),
                         ),
-                        Padding(
+                        /*  Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: SizedBox(
                             height: 35,
@@ -622,7 +627,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 10),
                                   child: CustomTextField(
-                                    enabled: true,
+                                    enabled: false,
                                     width: txfFieldWidth,
                                     controller: provider.lineItemCenterController,
                                     label: 'Line Item',
@@ -633,7 +638,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 10),
                                   child: CustomTextField(
-                                    enabled: true,
+                                    enabled: false,
                                     width: txfFieldWidth,
                                     controller: provider.unitPriceController,
                                     label: 'Unit Price',
@@ -647,7 +652,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 10),
                                   child: CustomTextField(
-                                    enabled: true,
+                                    enabled: false,
                                     width: txfFieldWidth,
                                     controller: provider.unitCostController,
                                     label: 'Unit Cost',
@@ -661,7 +666,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 10),
                                   child: CustomTextField(
-                                    enabled: true,
+                                    enabled: false,
                                     width: txfFieldWidth,
                                     controller: provider.quantityController,
                                     label: 'Quantity',
@@ -674,8 +679,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 10),
-                                  child: CustomTextIconButton(
-                                      isLoading: false,
+                                  child: CustomTextIconButton(isLoading: false,
                                       icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                                       text: 'Add',
                                       onTap: () {
@@ -686,17 +690,28 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 10),
-                                  child: CustomTextIconButton(
-                                    isLoading: false,
+                                  child: CustomTextIconButton(isLoading: false,
                                     icon: Icon(Icons.refresh, color: AppTheme.of(context).primaryBackground),
                                     text: 'Reset',
                                     onTap: () async => provider.resetFormPlutoGrid(),
                                   ),
                                 ),
+                                CustomTextIconButton(isLoading: false,
+                                  icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
+                                  text: 'Create',
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  onTap: () async {
+                                    if (provider.createValidation() && provider.globalRows.isNotEmpty) {
+                                      await provider.createQuote();
+                                      context.pushReplacement(routeQuoteCreation);
+                                    }
+                                  },
+                                ),
                               ],
                             ),
                           ),
                         ),
+                        */
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
@@ -706,9 +721,9 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                 width: MediaQuery.of(context).size.width / 1.6 - 10,
                                 child: const PlutoGridCotizador(),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Comments(provider: provider),
+                              const Padding(
+                                padding: EdgeInsets.only(left: 20),
+                                child: DetailQuoteComments(),
                               )
                             ],
                           ),
@@ -726,16 +741,17 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
   }
 }
 
-class Comments extends StatelessWidget {
-  const Comments({
-    super.key,
-    required this.provider,
-  });
-
-  final CreateQuoteProvider provider;
+class DetailQuoteComments extends StatefulWidget {
+  const DetailQuoteComments({super.key});
 
   @override
+  State<DetailQuoteComments> createState() => _DetailQuoteCommentsState();
+}
+
+class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
+  @override
   Widget build(BuildContext context) {
+    DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
     return CustomCard(
       height: MediaQuery.of(context).size.height / 2.25,
       width: MediaQuery.of(context).size.width / 5,
@@ -863,7 +879,7 @@ class Comments extends StatelessWidget {
                         color: AppTheme.of(context).primaryBackground,
                       ),
                       text: 'Send',
-                      onTap: () => provider.addComment(),
+                      onTap: () async => await provider.addComment(),
                     ),
                   )
                 ],
@@ -888,7 +904,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
   Widget build(BuildContext context) {
     // double txfFieldPadding = 10;
 
-    CreateQuoteProvider provider = Provider.of<CreateQuoteProvider>(context);
+    DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
     return Column(
       children: [
         Row(
@@ -958,7 +974,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                         decoration: BoxDecoration(
                           color: provider.quotes[index].expanded == true
                               ? AppTheme.of(context).primaryColor
-                              : AppTheme.of(context).primaryBackground == AppTheme.of(context).primaryBackground
+                              : AppTheme.of(context).primaryBackground == Colors.white
                                   ? AppTheme.of(context).secondaryText
                                   : Colors.grey,
                         ),
@@ -1190,7 +1206,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                         );
                                       },
                                     ),
-                                    PlutoColumn(
+                                    /* PlutoColumn(
                                       titleSpan: TextSpan(children: [
                                         WidgetSpan(child: Icon(Icons.settings, color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
@@ -1213,8 +1229,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                             child: Padding(
                                               padding: const EdgeInsets.all(10.0),
-                                              child: CustomTextIconButton(
-                                                isLoading: false,
+                                              child: CustomTextIconButton(isLoading: false,
                                                 icon: Icon(Icons.shopping_basket_outlined, color: AppTheme.of(context).primaryBackground),
                                                 text: 'Delete',
                                                 color: secondaryColor,
@@ -1225,14 +1240,14 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                                       provider.quotes.removeAt(index);
                                                     }
                                                   });
-                                                  provider.countRowsExpansionPanel();
+                                                  provider.countRows();
                                                 },
                                               ),
                                             ),
                                           ),
                                         );
                                       },
-                                    ),
+                                    ), */
                                   ],
                                   rows: provider.quotes[index].items,
                                   onLoaded: (event) async {
@@ -1275,7 +1290,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
   Widget build(BuildContext context) {
     // double txfFieldPadding = 10;
 
-    CreateQuoteProvider provider = Provider.of<CreateQuoteProvider>(context);
+    DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
     return PlutoGrid(
       key: UniqueKey(),
       configuration: PlutoGridConfiguration(
@@ -1396,7 +1411,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
             );
           },
         ),
-        PlutoColumn(
+        /*  PlutoColumn(
           titleSpan: TextSpan(children: [
             WidgetSpan(child: Icon(Icons.settings, color: AppTheme.of(context).primaryBackground)),
             const WidgetSpan(child: SizedBox(width: 10)),
@@ -1419,8 +1434,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: CustomTextIconButton(
-                    isLoading: false,
+                  child: CustomTextIconButton(isLoading: false,
                     icon: Icon(Icons.shopping_basket_outlined, color: AppTheme.of(context).primaryBackground),
                     text: 'Delete',
                     color: secondaryColor,
@@ -1435,7 +1449,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               ),
             );
           },
-        ),
+        ), */
       ],
       rows: provider.globalRows,
       onLoaded: (event) async {

@@ -21,6 +21,7 @@ import 'providers/accounts/tabs/campaigns_provider.dart';
 import 'providers/accounts/tabs/leads_provider.dart';
 import 'providers/accounts/tabs/opportunity_provider.dart';
 import 'providers/accounts/tabs/quotes_provider.dart';
+import 'providers/accounts/validate_quote_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,6 +78,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => DetailQuoteProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ValidateQuoteProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => MonitoryProvider(),

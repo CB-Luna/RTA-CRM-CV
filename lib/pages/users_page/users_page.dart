@@ -65,6 +65,7 @@ class _UsersPageState extends State<UsersPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomTextIconButton(
+                              isLoading: false,
                               icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
                               text: 'Filter',
                               onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
@@ -77,6 +78,7 @@ class _UsersPageState extends State<UsersPage> {
                               keyboardType: TextInputType.text,
                             ),
                             CustomTextIconButton(
+                              isLoading: false,
                               icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                               text: 'Add User',
                               onTap: () async {
@@ -384,6 +386,7 @@ class _UsersPageState extends State<UsersPage> {
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
                                         CustomTextIconButton(
+                                          isLoading: false,
                                           icon: Icon(
                                             Icons.fact_check_outlined,
                                             color: AppTheme.of(context).primaryBackground,
@@ -392,6 +395,7 @@ class _UsersPageState extends State<UsersPage> {
                                           onTap: () {},
                                         ),
                                         CustomTextIconButton(
+                                          isLoading: false,
                                           icon: Icon(
                                             Icons.shopping_basket_outlined,
                                             color: AppTheme.of(context).primaryBackground,

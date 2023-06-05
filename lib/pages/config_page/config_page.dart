@@ -55,8 +55,8 @@ class _ConfigPageState extends State<ConfigPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        if (currentStep != 0) CustomTextIconButton(onTap: details.onStepCancel, icon: Icon(Icons.chevron_left, color: AppTheme.of(context).primaryBackground), text: 'Previous'),
-        CustomTextIconButton(onTap: details.onStepContinue, icon: Icon(Icons.chevron_right, color: AppTheme.of(context).primaryBackground), text: 'Next'),
+        if (currentStep != 0) CustomTextIconButton(isLoading: false, onTap: details.onStepCancel, icon: Icon(Icons.chevron_left, color: AppTheme.of(context).primaryBackground), text: 'Previous'),
+        CustomTextIconButton(isLoading: false, onTap: details.onStepContinue, icon: Icon(Icons.chevron_right, color: AppTheme.of(context).primaryBackground), text: 'Next'),
       ],
     );
   }

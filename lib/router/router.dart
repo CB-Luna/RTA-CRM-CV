@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:rta_crm_cv/pages/accounts/create_quote.dart';
 import 'package:rta_crm_cv/pages/accounts/detail_quote.dart';
+import 'package:rta_crm_cv/pages/accounts/validate_quote.dart';
 import 'package:rta_crm_cv/pages/monitory_page/monitory_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
@@ -79,7 +80,7 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) => pageTransition(context, state, const DashboardsPage()),
     ),
     GoRoute(
-      path: '/prospects',
+      path: routeProspects,
       name: 'Prospects',
       builder: (BuildContext context, GoRouterState state) {
         return const AccountsPage();
@@ -87,7 +88,7 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) => pageTransition(context, state, const AccountsPage()),
     ),
     GoRoute(
-      path: '/quote_creation',
+      path: routeQuoteCreation,
       name: 'Quote Creation',
       builder: (BuildContext context, GoRouterState state) {
         return const CreateQuotePage();
@@ -95,12 +96,20 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) => pageTransition(context, state, const CreateQuotePage()),
     ),
     GoRoute(
-      path: '/quote_detail',
+      path: routeQuoteDetail,
       name: 'Quote Detail',
       builder: (BuildContext context, GoRouterState state) {
         return const DetailQuotePage();
       },
       pageBuilder: (context, state) => pageTransition(context, state, const DetailQuotePage()),
+    ),
+    GoRoute(
+      path: routeQuoteValidation,
+      name: 'Quote Validation',
+      builder: (BuildContext context, GoRouterState state) {
+        return const ValidateQuotePage();
+      },
+      pageBuilder: (context, state) => pageTransition(context, state, const ValidateQuotePage()),
     ),
     GoRoute(
       path: '/schedulings',

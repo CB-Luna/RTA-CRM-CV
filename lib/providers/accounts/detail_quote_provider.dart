@@ -19,6 +19,7 @@ class DetailQuoteProvider extends ChangeNotifier {
 
   DetailQuoteProvider() {
     realTimeSuscription();
+    clearAll();
   }
 
   late int? id;
@@ -151,6 +152,8 @@ class DetailQuoteProvider extends ChangeNotifier {
   final phoneController = TextEditingController();
 
   Future<void> getData() async {
+    clearAll();
+
     if (id != null) {
       var response = await supabaseCRM.from('quotes').select().eq('id', id);
 

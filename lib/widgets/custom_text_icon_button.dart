@@ -6,11 +6,13 @@ class CustomTextIconButton extends StatefulWidget {
     super.key,
     this.width,
     this.height = 35,
+    required this.isLoading,
     required this.icon,
     required this.text,
     this.onTap,
     this.color,
     this.mainAxisAlignment = MainAxisAlignment.start,
+    this.enabled,
   });
 
   final double? width;
@@ -18,6 +20,8 @@ class CustomTextIconButton extends StatefulWidget {
   final Widget icon;
   final Color? color;
   final String text;
+  final bool? enabled;
+  final bool isLoading;
   final Function()? onTap;
   final MainAxisAlignment mainAxisAlignment;
 
@@ -32,7 +36,7 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: widget.isLoading ? null : widget.onTap,
       onTapDown: (details) {
         setState(() {
           pressing = true;
@@ -71,19 +75,23 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
             child: Center(
-              child: Row(
-                mainAxisAlignment: widget.mainAxisAlignment,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  widget.icon,
-                  const SizedBox(width: 5),
-                  Text(
-                    widget.text,
-                    // style: TextStyle(color: AppTheme.of(context).primaryBackground),
-                    style: TextStyle(color: AppTheme.of(context).primaryBackground),
-                  ),
-                ],
-              ),
+              child: widget.isLoading
+                  ? CircularProgressIndicator(
+                      color: AppTheme.of(context).primaryBackground,
+                    )
+                  : Row(
+                      mainAxisAlignment: widget.mainAxisAlignment,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        widget.icon,
+                        const SizedBox(width: 5),
+                        Text(
+                          widget.text,
+                          // style: TextStyle(color: AppTheme.of(context).primaryBackground),
+                          style: TextStyle(color: AppTheme.of(context).primaryBackground),
+                        ),
+                      ],
+                    ),
             ),
           ),
         ),

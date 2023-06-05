@@ -17,6 +17,7 @@ class Quotes {
   OrderInfo orderInfo;
   List<Item> items;
   List<Comment> comments;
+  String idQuoteOrigin;
 
   Quotes({
     required this.id,
@@ -35,6 +36,7 @@ class Quotes {
     required this.orderInfo,
     required this.items,
     required this.comments,
+    required this.idQuoteOrigin,
   });
 
   factory Quotes.fromJson(String str) => Quotes.fromMap(json.decode(str));
@@ -51,13 +53,14 @@ class Quotes {
         idCustomer: json["id_customer"],
         expCloseDate: DateTime.parse(json["exp_close_date"]),
         subtotal: json["subtotal"],
-        cost: json["cost"],
-        total: json["total"],
+        cost: json["cost"]?.toDouble(),
+        total: json["total"]?.toDouble(),
         margin: json["margin"]?.toDouble(),
         probability: json["probability"],
         orderInfo: OrderInfo.fromMap(json["order_info"]),
         items: List<Item>.from(json["items"].map((x) => Item.fromMap(x))),
         comments: List<Comment>.from(json["comments"].map((x) => Comment.fromMap(x))),
+        idQuoteOrigin: json["id_quote_origin"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -77,6 +80,7 @@ class Quotes {
         "order_info": orderInfo.toMap(),
         "items": List<dynamic>.from(items.map((x) => x.toMap())),
         "comments": List<dynamic>.from(comments.map((x) => x.toMap())),
+        "id_quote_origin": idQuoteOrigin,
       };
 }
 

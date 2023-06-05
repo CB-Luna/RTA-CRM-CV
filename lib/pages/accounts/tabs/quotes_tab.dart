@@ -6,8 +6,11 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/providers/accounts/create_quote_provider.dart';
 import 'package:rta_crm_cv/providers/accounts/detail_quote_provider.dart';
 import 'package:rta_crm_cv/providers/accounts/tabs/quotes_provider.dart';
+import 'package:rta_crm_cv/providers/accounts/validate_quote_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -40,6 +43,9 @@ class _QuotesTabState extends State<QuotesTab> {
   Widget build(BuildContext context) {
     QuotesProvider provider = Provider.of<QuotesProvider>(context);
     DetailQuoteProvider detailProvider = Provider.of<DetailQuoteProvider>(context);
+    CreateQuoteProvider providerCreate = Provider.of<CreateQuoteProvider>(context);
+    ValidateQuoteProvider providerValidate = Provider.of<ValidateQuoteProvider>(context);
+
     return CustomCard(
       title: 'Quotes',
       child: Column(
@@ -51,6 +57,7 @@ class _QuotesTabState extends State<QuotesTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Filter',
                   onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
@@ -63,10 +70,11 @@ class _QuotesTabState extends State<QuotesTab> {
                   keyboardType: TextInputType.text,
                 ),
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                   text: 'Create Quote',
                   onTap: () async {
-                    context.pushReplacement('/quote_creation');
+                    context.pushReplacement(routeQuoteCreation);
                   },
                 )
               ],
@@ -338,19 +346,77 @@ class _QuotesTabState extends State<QuotesTab> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          CustomTextIconButton(
-                            icon: Icon(
-                              Icons.fact_check_outlined,
-                              color: AppTheme.of(context).primaryBackground,
+                          if (rendererContext.row.cells["STATUS_Column"]!.value != 'Rejected')
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.fact_check_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Detail',
+                              onTap: () async {
+                                detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
+                                await detailProvider.getData();
+                                context.pushReplacement(routeQuoteDetail);
+                              },
                             ),
-                            text: 'Edit',
-                            onTap: () async {
-                              detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
-                              await detailProvider.getData();
-                              context.pushReplacement('/quote_detail');
-                            },
-                          ),
-                          CustomTextIconButton(
+                          if (currentUser!.isSales && rendererContext.row.cells["STATUS_Column"]!.value == 'Rejected')
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.fact_check_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Create New',
+                              onTap: () async {
+                                providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
+                                context.pushReplacement(routeQuoteCreation);
+                              },
+                            ),
+                          if (currentUser!.isSenExec && rendererContext.row.cells["STATUS_Column"]!.value == 'Opened')
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.fact_check_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Validate',
+                              onTap: () async {
+                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
+                                providerValidate.getData();
+                                context.pushReplacement(routeQuoteValidation);
+                              },
+                            ),
+                          if (currentUser!.isFinance &&
+                              (rendererContext.row.cells["STATUS_Column"]!.value == 'Finance Validate' || rendererContext.row.cells["STATUS_Column"]!.value == 'Margin Positive'))
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.fact_check_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Validate',
+                              onTap: () async {
+                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
+                                providerValidate.getData();
+                                context.pushReplacement(routeQuoteValidation);
+                              },
+                            ),
+                          if (currentUser!.isOpperations && rendererContext.row.cells["STATUS_Column"]!.value == 'SenExec Validate')
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.fact_check_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Validate',
+                              onTap: () async {
+                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
+                                providerValidate.getData();
+                                context.pushReplacement(routeQuoteValidation);
+                              },
+                            ),
+                          /* CustomTextIconButton(isLoading: false,
                             icon: Icon(
                               Icons.shopping_basket_outlined,
                               color: AppTheme.of(context).primaryBackground,
@@ -358,7 +424,7 @@ class _QuotesTabState extends State<QuotesTab> {
                             color: secondaryColor,
                             text: 'Delete',
                             onTap: () {},
-                          ),
+                          ), */
                           /* InkWell(
                                               hoverColor: Colors.transparent,
                                               child: Icon(

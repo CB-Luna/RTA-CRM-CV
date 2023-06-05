@@ -37,6 +37,16 @@ class User {
 
   String get fullName => '$name $lastName';
 
+  bool get isAdmin => role.roleName == 'Admin';
+
+  bool get isSales => role.roleName == 'Admin';
+
+  bool get isSenExec => role.roleName == 'Admin';
+
+  bool get isFinance => role.roleName == 'Admin';
+
+  bool get isOpperations => role.roleName == 'Admin';
+
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
   factory User.fromMap(Map<String, dynamic> json) {

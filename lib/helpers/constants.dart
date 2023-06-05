@@ -73,3 +73,8 @@ CustomTransitionPage<void> pageTransition(BuildContext context, GoRouterState st
     transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
   );
 }
+
+const String routeProspects = '/prospects';
+const String routeQuoteCreation = '/quote_creation';
+const String routeQuoteDetail = '/quote_detail';
+const String routeQuoteValidation = '/quote_validation';

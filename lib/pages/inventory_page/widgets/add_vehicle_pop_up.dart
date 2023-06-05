@@ -303,6 +303,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextIconButton(
+                    isLoading: false,
                     icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
                     text: 'Save Vehicle',
                     onTap: () async {
@@ -329,6 +330,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                       if (context.canPop()) context.pop();
                     }),
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Refresh',
                 ),

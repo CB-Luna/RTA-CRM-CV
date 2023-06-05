@@ -35,7 +35,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
 
     DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
     if (provider.globalRows.isEmpty || provider.id == null) {
-      context.pushReplacement('/prospects');
+      context.pushReplacement(routeProspects);
     }
 
     return Material(
@@ -647,7 +647,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 10),
-                                  child: CustomTextIconButton(
+                                  child: CustomTextIconButton(isLoading: false,
                                       icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                                       text: 'Add',
                                       onTap: () {
@@ -658,20 +658,20 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 10),
-                                  child: CustomTextIconButton(
+                                  child: CustomTextIconButton(isLoading: false,
                                     icon: Icon(Icons.refresh, color: AppTheme.of(context).primaryBackground),
                                     text: 'Reset',
                                     onTap: () async => provider.resetFormPlutoGrid(),
                                   ),
                                 ),
-                                CustomTextIconButton(
+                                CustomTextIconButton(isLoading: false,
                                   icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
                                   text: 'Create',
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   onTap: () async {
                                     if (provider.createValidation() && provider.globalRows.isNotEmpty) {
                                       await provider.createQuote();
-                                      context.pushReplacement('/quote_creation');
+                                      context.pushReplacement(routeQuoteCreation);
                                     }
                                   },
                                 ),
@@ -840,6 +840,7 @@ class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: CustomTextIconButton(
+                      isLoading: false,
                       height: 48,
                       icon: Icon(
                         Icons.send,
@@ -1196,7 +1197,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                             child: Padding(
                                               padding: const EdgeInsets.all(10.0),
-                                              child: CustomTextIconButton(
+                                              child: CustomTextIconButton(isLoading: false,
                                                 icon: Icon(Icons.shopping_basket_outlined, color: AppTheme.of(context).primaryBackground),
                                                 text: 'Delete',
                                                 color: secondaryColor,
@@ -1401,7 +1402,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: CustomTextIconButton(
+                  child: CustomTextIconButton(isLoading: false,
                     icon: Icon(Icons.shopping_basket_outlined, color: AppTheme.of(context).primaryBackground),
                     text: 'Delete',
                     color: secondaryColor,

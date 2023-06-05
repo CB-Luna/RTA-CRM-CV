@@ -1,5 +1,8 @@
 // import 'dart:developer';
 
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
@@ -43,6 +46,9 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     comments.clear();
     commentController.clear();
+
+    isLoading = false;
+    prevId = null;
   }
 
   final commentController = TextEditingController();
@@ -213,13 +219,13 @@ class CreateQuoteProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> createQuote() async {
-    // var x = (await supabaseCRM.from('quotes').select()).toString();
-    // var z = await supabase.from('temas').select();
-    // await supabasePublic.from('quotes').insert({'number': 11});
-    // await supabasePublic.from('quotes').select();
+  bool isLoading = false;
 
+  Future<void> createQuote() async {
     try {
+      isLoading = true;
+      notifyListeners();
+
       Map<String, dynamic> quoteInfo = {};
 
       Map<String, dynamic> orderType = {};
@@ -318,25 +324,48 @@ class CreateQuoteProvider extends ChangeNotifier {
         commentsList.add(item);
       }
 
-      await supabaseCRM.from('quotes').insert({
-        "created_by": currentUser!.id,
-        "updated_by": currentUser!.id,
-        "status": "Opened",
-        "id_customer": 1,
-        "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
-        "subtotal": subtotal,
-        "cost": cost,
-        "total": total,
-        "margin": margin,
-        "probability": 100,
-        "order_info": quoteInfo,
-        "items": items,
-        "comments": commentsList
-      });
+      if (prevId != null) {
+        await supabaseCRM.from('quotes').insert({
+          "created_by": currentUser!.id,
+          "updated_by": currentUser!.id,
+          "status": margin > 20 ? "Margin Positive" : "Opened",
+          "id_customer": 1,
+          "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
+          "subtotal": subtotal,
+          "cost": cost,
+          "total": total,
+          "margin": margin,
+          "probability": 100,
+          "order_info": quoteInfo,
+          "items": items,
+          "comments": commentsList,
+          "id_quote_origin": prevId
+        });
+        await supabaseCRM.from('quotes').update({"status": "Closed"}).eq("id", prevId);
+        prevId = null;
+      } else {
+        var resp = (await supabaseCRM.from('quotes').insert({
+          "created_by": currentUser!.id,
+          "updated_by": currentUser!.id,
+          "status": margin > 20 ? "Margin Positive" : "Opened",
+          "id_customer": 1,
+          "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
+          "subtotal": subtotal,
+          "cost": cost,
+          "total": total,
+          "margin": margin,
+          "probability": 100,
+          "order_info": quoteInfo,
+          "items": items,
+          "comments": commentsList
+        }).select())[0];
+        await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);
+      }
     } catch (e) {
+      isLoading = false;
+      notifyListeners();
       print(e.toString());
     }
-
     clearAll();
     notifyListeners();
   }
@@ -633,6 +662,79 @@ class CreateQuoteProvider extends ChangeNotifier {
     unitPriceController.clear();
     unitCostController.clear();
     quantityController.clear();
+
+    notifyListeners();
+  }
+
+  int? prevId;
+
+  Future<void> getData(String id) async {
+    clearAll();
+
+    var response = await supabaseCRM.from('quotes').select().eq('id', int.parse(id));
+
+    prevId = int.parse(id);
+
+    if (response == null) {
+      log('Error en getData()-DetailQuoteProvider');
+      return;
+    }
+
+    Quotes quote = Quotes.fromJson(jsonEncode(response[0]));
+
+    orderTypesSelectedValue = quote.orderInfo.orderType;
+    typesSelectedValue = quote.orderInfo.type;
+    if (quote.orderInfo.type == 'Disconnect') {
+      existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
+    } else if (quote.orderInfo.type == 'Upgrade') {
+      existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
+      newCircuitIDController.text = quote.orderInfo.newCircuitId!;
+    }
+
+    if (quote.orderInfo.dataCenterType == 'New') {
+      dataCenterSelectedValue = 'New';
+      newDataCenterController.text = quote.orderInfo.dataCenterLocation;
+    } else {
+      dataCenterSelectedValue = quote.orderInfo.dataCenterLocation;
+    }
+
+    circuitTypeSelectedValue = quote.orderInfo.circuitType;
+    if (quote.orderInfo.circuitType == 'EVCoD') {
+      evcodSelectedValue = quote.orderInfo.evcodType!;
+      if (quote.orderInfo.evcodType == 'Existing EVC') {
+        existingEVCController.text = quote.orderInfo.evcCircuitId!;
+      }
+    }
+
+    ddosSelectedValue = quote.orderInfo.ddosType;
+    bgpSelectedValue = quote.orderInfo.bgpType;
+
+    ipAdressSelectedValue = quote.orderInfo.ipType;
+    if (quote.orderInfo.ipType == 'Interface') {
+      ipInterfaceSelectedValue = quote.orderInfo.interfaceType!;
+    } else {
+      subnetSelectedValue = quote.orderInfo.subnetType!;
+    }
+
+    subtotal = quote.subtotal;
+    cost = quote.cost;
+    total = quote.total;
+    margin = quote.margin;
+
+    globalRows.clear();
+    for (var item in quote.items) {
+      globalRows.add(PlutoRow(
+        cells: {
+          'LINE_ITEM_Column': PlutoCell(value: item.lineItem),
+          'UNIT_PRICE_Column': PlutoCell(value: item.unitPrice),
+          'UNIT_COST_Column': PlutoCell(value: item.unitCost),
+          'QUANTITY_Column': PlutoCell(value: item.quantity),
+          'ACTIONS_Column': PlutoCell(value: ''),
+        },
+      ));
+    }
+
+    comments.clear();
 
     notifyListeners();
   }

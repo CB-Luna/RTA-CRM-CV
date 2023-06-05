@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/money_format.dart';
@@ -6,6 +7,7 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/pages/accounts/popups%20tabs/create_opportunity.dart';
+import 'package:rta_crm_cv/providers/accounts/create_quote_provider.dart';
 import 'package:rta_crm_cv/providers/accounts/tabs/opportunity_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -49,6 +51,7 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Filter',
                   onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
@@ -61,6 +64,7 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                   keyboardType: TextInputType.text,
                 ),
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                   text: 'Create Opportunity',
                   onTap: () async {
@@ -395,6 +399,7 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           CustomTextIconButton(
+                            isLoading: false,
                             icon: Icon(
                               Icons.fact_check_outlined,
                               color: AppTheme.of(context).primaryBackground,
@@ -402,7 +407,8 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                             text: 'Edit',
                             onTap: () {},
                           ),
-                          CustomTextIconButton(
+
+                          /* CustomTextIconButton(isLoading: false,
                             icon: Icon(
                               Icons.shopping_basket_outlined,
                               color: AppTheme.of(context).primaryBackground,
@@ -410,7 +416,7 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                             color: secondaryColor,
                             text: 'Delete',
                             onTap: () {},
-                          ),
+                          ), */
                         ],
                       ),
                     );

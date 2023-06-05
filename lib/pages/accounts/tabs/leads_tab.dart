@@ -49,6 +49,7 @@ class _LeadsTabState extends State<LeadsTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Filter',
                   onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
@@ -61,6 +62,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   keyboardType: TextInputType.text,
                 ),
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                   text: 'Create Lead',
                   onTap: () async {
@@ -395,6 +397,7 @@ class _LeadsTabState extends State<LeadsTab> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           CustomTextIconButton(
+                            isLoading: false,
                             icon: Icon(
                               Icons.fact_check_outlined,
                               color: AppTheme.of(context).primaryBackground,
@@ -403,6 +406,7 @@ class _LeadsTabState extends State<LeadsTab> {
                             onTap: () {},
                           ),
                           CustomTextIconButton(
+                            isLoading: false,
                             icon: Icon(
                               Icons.shopping_basket_outlined,
                               color: AppTheme.of(context).primaryBackground,

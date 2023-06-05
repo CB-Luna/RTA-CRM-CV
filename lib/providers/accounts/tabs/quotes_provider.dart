@@ -6,6 +6,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class QuotesProvider extends ChangeNotifier {
   final searchController = TextEditingController();
@@ -16,10 +17,10 @@ class QuotesProvider extends ChangeNotifier {
 
   QuotesProvider() {
     updateState();
+    realTimeSuscription();
   }
 
   Future<void> updateState() async {
-    rows.clear();
     await getQuotes();
   }
 
@@ -95,7 +96,7 @@ class QuotesProvider extends ChangeNotifier {
               'ASSIGNED_Column': PlutoCell(value: 'Frank Befera'),
               'LAST_Column': PlutoCell(value: quote.updatedAt),
               'STATUS_Column': PlutoCell(value: quote.status),
-              'ACTIONS_Column': PlutoCell(value: ''),
+              'ACTIONS_Column': PlutoCell(value: quote.idQuoteOrigin),
             },
           ),
         );
@@ -107,6 +108,24 @@ class QuotesProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  ////////////////////////////////////////////////////////
+  ////////////////////////RealTime////////////////////////
+  ////////////////////////////////////////////////////////
+
+  final myChannel = supabaseCRM.channel('quotes');
+
+  Future<void> realTimeSuscription() async {
+    myChannel.on(
+        RealtimeListenTypes.postgresChanges,
+        ChannelFilter(
+          event: 'UPDATE',
+          schema: 'crm',
+          table: 'quotes',
+        ), (payload, [ref]) async {
+      await updateState();
+    }).subscribe();
   }
 
   ////////////////////////////////////////////////////////

@@ -50,6 +50,7 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
           SizedBox(
             width: 200,
             child: CustomTextIconButton(
+              isLoading: false,
               color: const Color(0xffE0EAFF),
               icon: const Icon(Icons.calendar_month_outlined, color: Color(0xffE0EAFF)),
               text: 'May 25 - 30 2023',
@@ -70,6 +71,7 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
           SizedBox(
             width: 200,
             child: CustomTextIconButton(
+              isLoading: false,
               icon: Icon(Icons.download_outlined, color: AppTheme.of(context).primaryBackground),
               text: 'Export Data',
               onTap: () {

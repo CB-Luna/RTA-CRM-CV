@@ -144,6 +144,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Save User',
                   onTap: () async {
@@ -199,6 +200,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                   },
                 ),
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Refresh',
                 ),

@@ -27,11 +27,9 @@ class _CreateLeadState extends State<CreateLead> {
     final formKey = GlobalKey<FormState>();
     final formKey2 = GlobalKey<FormState>();
 
-    final List<String> statesNames =
-        provider.states.map((state) => state.name).toList();
+    final List<String> statesNames = provider.states.map((state) => state.name).toList();
 
-    final List<String> rolesNames =
-        provider.roles.map((role) => role.roleName).toList();
+    final List<String> rolesNames = provider.roles.map((role) => role.roleName).toList();
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
@@ -61,8 +59,7 @@ class _CreateLeadState extends State<CreateLead> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'First Name',
                                     icon: Icons.person_outline,
@@ -73,8 +70,7 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Last Name',
                                     icon: Icons.person_outline,
@@ -85,8 +81,7 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomDDownMenu(
                                     hint: 'None',
                                     label: 'Sales Stage',
@@ -101,8 +96,7 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Account',
                                     icon: Icons.business_outlined,
@@ -113,8 +107,7 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Email',
                                     icon: Icons.email,
@@ -125,16 +118,14 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomDDownMenu(
                                     hint: 'None',
                                     label: 'Lead Source',
                                     icon: Icons.menu,
                                     width: 350,
                                     list: rolesNames,
-                                    dropdownValue:
-                                        provider.selectedRole?.roleName,
+                                    dropdownValue: provider.selectedRole?.roleName,
                                     onChanged: (val) {
                                       if (val == null) return;
                                       provider.selectLead(val);
@@ -142,8 +133,7 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Phone',
                                     icon: Icons.phone,
@@ -178,8 +168,7 @@ class _CreateLeadState extends State<CreateLead> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Expected Close Date',
                                     icon: Icons.calendar_month,
@@ -190,8 +179,7 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Quote Amount',
                                     icon: Icons.attach_money,
@@ -202,8 +190,7 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Probability',
                                     icon: Icons.percent,
@@ -214,16 +201,14 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomDDownMenu(
                                     hint: 'None',
                                     label: 'Assigned To',
                                     icon: Icons.assignment_ind,
                                     width: 350,
                                     list: rolesNames,
-                                    dropdownValue:
-                                        provider.selectedRole?.roleName,
+                                    dropdownValue: provider.selectedRole?.roleName,
                                     onChanged: (val) {
                                       if (val == null) return;
                                       provider.selectAssigned(val);
@@ -268,8 +253,8 @@ class _CreateLeadState extends State<CreateLead> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomTextIconButton(
-                    icon: Icon(Icons.add,
-                        color: AppTheme.of(context).primaryBackground),
+                    isLoading: false,
+                    icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                     text: 'Create',
                     onTap: () async {
                       if (!formKey.currentState!.validate()) {
@@ -284,12 +269,10 @@ class _CreateLeadState extends State<CreateLead> {
                       // }
 
                       //Registrar usuario
-                      final Map<String, String>? result =
-                          await provider.registerUser();
+                      final Map<String, String>? result = await provider.registerUser();
 
                       if (result == null) {
-                        await ApiErrorHandler.callToast(
-                            'Error al registrar usuario');
+                        await ApiErrorHandler.callToast('Error al registrar usuario');
                         return;
                       } else {
                         if (result['Error'] != null) {
@@ -301,8 +284,7 @@ class _CreateLeadState extends State<CreateLead> {
                       final String? userId = result['userId'];
 
                       if (userId == null) {
-                        await ApiErrorHandler.callToast(
-                            'Error al registrar usuario');
+                        await ApiErrorHandler.callToast('Error al registrar usuario');
                         return;
                       }
 
@@ -310,8 +292,7 @@ class _CreateLeadState extends State<CreateLead> {
                       bool res = await provider.createUserProfile(userId);
 
                       if (!res) {
-                        await ApiErrorHandler.callToast(
-                            'Error al crear perfil de usuario');
+                        await ApiErrorHandler.callToast('Error al crear perfil de usuario');
                         return;
                       }
 
@@ -328,8 +309,8 @@ class _CreateLeadState extends State<CreateLead> {
                     },
                   ),
                   CustomTextIconButton(
-                    icon: Icon(Icons.refresh_outlined,
-                        color: AppTheme.of(context).primaryBackground),
+                    isLoading: false,
+                    icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
                     text: 'Refresh',
                   ),
                 ],
