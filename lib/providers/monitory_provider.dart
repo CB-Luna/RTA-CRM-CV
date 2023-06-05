@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:excel/excel.dart';
 
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
+import '../functions/date_format.dart';
 import '../helpers/globals.dart';
 import '../models/monitory.dart';
 
@@ -207,5 +209,76 @@ class MonitoryProvider extends ChangeNotifier {
     nombreProveedorController.dispose();
     cuentaProveedorController.dispose();
     super.dispose();
+  }
+
+  Future<bool> excelActivityReports() async {
+    //Crear excel
+    var excel = Excel.createExcel();
+    Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
+
+    if (sheet == null) return false;
+
+    //Agregar primera linea
+    //mas grande y en bold
+    sheet.appendRow([
+      'Títle',
+      'Monitory Reports',
+      '',
+      'Fecha',
+      dateFormat(DateTime.now()),
+    ]);
+
+    //Agregar linea vacia
+    sheet.appendRow(['']);
+
+
+    //blanco, bold y mas grande
+    CellStyle cellStyle = CellStyle(
+      backgroundColorHex: "#1E90FF",
+      fontFamily: getFontFamily(FontFamily.Calibri),
+      bold: true,
+      horizontalAlign: HorizontalAlign.Center,
+      verticalAlign: VerticalAlign.Center,
+    );
+    var cell = sheet.cell(CellIndex.indexByString("A3"));
+    cell.value = "Id Control Form";
+    cell.cellStyle = cellStyle;
+    //Agregar headers
+    // sheet.appendRow([
+    //   'Id Control Form',
+    //   'Id Vehicle',
+    //   'Employee',
+    //   'Type Form',
+    //   'VIN',
+    //   'License Plates',
+    //   'Company',
+    //   'Gas',
+    //   'Mileage',
+    //   'Date Added',
+    // ]);
+
+    //Agregar datos
+    for (var vehicle in monitory) {
+      final List<dynamic> row = [
+        vehicle.idControlForm,
+        vehicle.idVehicle,
+        vehicle.employee.name,
+        vehicle.typeForm,
+        vehicle.vin,
+        vehicle.licesensePlates,
+        vehicle.company.company,
+        vehicle.gas,
+        vehicle.mileage,
+        vehicle.dateAdded,
+      ];
+      sheet.appendRow(row);
+    }
+
+    //Descargar
+    final List<int>? fileBytes =
+        excel.save(fileName: "Monitory_Followup.xlsx");
+    if (fileBytes == null) return false;
+
+    return true;
   }
 }

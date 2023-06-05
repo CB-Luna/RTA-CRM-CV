@@ -1,8 +1,12 @@
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 
+import '../../../functions/date_format.dart';
+import '../../../providers/monitory_provider.dart';
 import '../../../theme/theme.dart';
 import '../../../widgets/custom_text_icon_button.dart';
 
@@ -18,16 +22,10 @@ class MonitoryPageHeader extends StatefulWidget {
 }
 
 class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
-  // Future<void> _exportExcel(){
-  //   final excel  = Excel.createExcel();
-  //   final sheet = excel.sheets[excel.getDefaultSheet() as String];
-  //   sheet?.setColWidth(2, 50);
-  //   sheet?.setColAutoFit(3);
-  // }
+  
   @override
   Widget build(BuildContext context) {
-    // final EmpleadosProvider empleadoProvider =
-    //     Provider.of<EmpleadosProvider>(context);
+    final MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
 
     return Container(
       padding: const EdgeInsets.only(left: 10, right: 10),
@@ -73,13 +71,7 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
               icon: Icon(Icons.download_outlined, color: AppTheme.of(context).primaryBackground),
               text: 'Export Data',
               onTap: () {
-                // showDialog(
-                //     context: context,
-                //     builder: (BuildContext context) {
-                //       return StatefulBuilder(builder: (context, setState) {
-                //         return const AddUserPopUp();
-                //       });
-                //     });
+                provider.excelActivityReports();
               },
             ),
           )
