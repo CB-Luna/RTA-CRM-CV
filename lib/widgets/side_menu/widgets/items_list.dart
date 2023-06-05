@@ -149,6 +149,21 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             ),
             SideMenuItem(
               selected: provider.indexSelected[8],
+              leading: provider.aRMonitory != null ? Rive(artboard: provider.aRMonitory!) : const CircularProgressIndicator(),
+              isOpen: widget.isOpen,
+              title: 'Monitory',
+              onTap: () async {
+                context.pushReplacement('/monitory');
+              },
+              onEnter: (event) {
+                provider.iHoverMonitory?.change(true);
+              },
+              onExit: (event) {
+                provider.iHoverMonitory?.change(false);
+              },
+            ),
+            SideMenuItem(
+              selected: provider.indexSelected[9],
               leading: Icon(Icons.color_lens_outlined, color: Color(Colors.grey[300]!.value)),
               isOpen: widget.isOpen,
               title: 'Configurator',
@@ -163,7 +178,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               },
             ),
             SideMenuItem(
-              selected: provider.indexSelected[8],
+              selected: provider.indexSelected[10],
               leading: const Icon(Icons.power_settings_new_outlined, color: Colors.red),
               isOpen: widget.isOpen,
               title: 'Logout',

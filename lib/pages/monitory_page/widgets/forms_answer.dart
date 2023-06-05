@@ -10,7 +10,7 @@ class AnswerForm extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(20),
       width: 800,
-      height: 100,
+      height: 90,
       decoration: BoxDecoration(
           gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
           
