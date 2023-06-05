@@ -12,41 +12,39 @@ import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
-import '../../../models/vehicle.dart';
 import '../../../services/api_error_handler.dart';
 import '../../../widgets/get_image_widget.dart';
 import '../../../widgets/success_toast.dart';
 
-class UpdateVehiclePopUp extends StatefulWidget {
-  final Vehicle vehicle;
-
-  const UpdateVehiclePopUp({super.key, required this.vehicle});
+class AddVehiclePopUp extends StatefulWidget {
+  const AddVehiclePopUp({super.key});
 
   @override
-  State<UpdateVehiclePopUp> createState() => _UpdateVehiclePopUpState();
+  State<AddVehiclePopUp> createState() => _AddVehiclePopUpState();
 }
 
-class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
+class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
   FToast fToast = FToast();
 
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-
     final formKey = GlobalKey<FormState>();
     DateTime date = DateTime.now();
     DateTime selectedDate = DateTime.now();
+
     Color pickerColor = const Color(0xff2196f3);
     Color colors = Colors.white;
     final List<String> companyName =
         provider.company.map((companies) => companies.company).toList();
     final List<String> statusName =
         provider.status.map((statu) => statu.status).toList();
+
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
-        title: 'Update Vehicle',
+        title: 'Add Vehicle',
         height: 634,
         width: 380,
         child: Column(
@@ -61,14 +59,14 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDropDownInventory(
-                        hint: widget.vehicle.company.company,
+                        hint: 'Choose a Company',
                         label: '1. Company',
                         width: 350,
                         list: companyName,
-                        dropdownValue: provider.companySelectedUpdate?.company,
-                        onChanged: (vasl) {
-                          if (vasl == null) return;
-                          provider.selectCompanyUpdate(vasl);
+                        dropdownValue: provider.companySelected?.company,
+                        onChanged: (val) {
+                          if (val == null) return;
+                          provider.selectCompany(val);
                         },
                       ),
                     ),
@@ -76,7 +74,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
                         label: '2. Brand',
-                        controller: provider.makeControllerUpdate,
+                        controller: provider.brandController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
@@ -86,7 +84,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
                         label: '3. Model',
-                        controller: provider.modelControllerUpdate,
+                        controller: provider.modelController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
@@ -96,7 +94,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: CustomTextFieldForm(
                             label: '4. year',
-                            controller: provider.yearControllerUpdate,
+                            controller: provider.yearController,
                             enabled: true,
                             onTapCheck: true,
                             width: 350,
@@ -118,7 +116,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                                         initialDate: DateTime.now(),
                                         onChanged: (DateTime dateTime) {
                                           selectedDate = dateTime;
-                                          provider.yearControllerUpdate.text =
+                                          provider.yearController.text =
                                               DateFormat("yyyy")
                                                   .format(selectedDate);
 
@@ -135,7 +133,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
                         label: '5. VIN',
-                        controller: provider.vinControllerUpdate,
+                        controller: provider.vinController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
@@ -145,7 +143,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
                         label: '6. Plate Number',
-                        controller: provider.plateNumberControllerUpdate,
+                        controller: provider.plateNumberController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
@@ -154,22 +152,22 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDropDownInventory(
-                        hint: widget.vehicle.status.status,
+                        hint: 'Choose the status',
                         label: '7. status',
                         width: 350,
                         list: statusName,
-                        dropdownValue: provider.statusSelectedUpdate?.status,
+                        dropdownValue: provider.statusSelected?.status,
                         onChanged: (val) {
                           if (val == null) return;
-                          provider.selectStatUpdate(val);
+                          provider.selectStatu(val);
                         },
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
-                        label: '7. Motor',
-                        controller: provider.motorControllerUpadte,
+                        label: '8. Motor',
+                        controller: provider.motorController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
@@ -178,7 +176,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
-                        label: '8. Color',
+                        label: '9. Color',
                         enabled: true,
                         controller: TextEditingController(),
                         onTapCheck: true,
@@ -198,8 +196,8 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
-                          label: '9. oil change due',
-                          controller: provider.dateTimeControllerOilUpdate,
+                          label: '10. oil change due',
+                          controller: provider.dateTimeControllerOil,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
@@ -220,8 +218,8 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
-                          label: '10. Registration Due',
-                          controller: provider.dateTimeControllerRegUpadte,
+                          label: '11. Registration Due',
+                          controller: provider.dateTimeControllerReg,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
@@ -234,7 +232,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                                 lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerRegUpadte.text =
+                              provider.dateTimeControllerReg.text =
                                   DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
@@ -242,8 +240,8 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
-                          label: '11. Insurance Renewal Due',
-                          controller: provider.dateTimeControllerIRDUpadte,
+                          label: '12. Insurance Renewal Due',
+                          controller: provider.dateTimeControllerIRD,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
@@ -256,7 +254,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                                 lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerIRDUpadte.text =
+                              provider.dateTimeControllerIRD.text =
                                   DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
@@ -264,7 +262,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Column(
                       children: [
                         Text(
-                          "12. Add Vehicle Image",
+                          "13. Add Vehicle Image",
                           style: TextStyle(
                             color: AppTheme.of(context).primaryColor,
                           ),
@@ -295,24 +293,24 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                 CustomTextIconButton(
                     icon: Icon(Icons.save_outlined,
                         color: AppTheme.of(context).primaryBackground),
-                    text: 'Update Vehicle',
+                    text: 'Save Vehicle',
                     onTap: () async {
                       if (!formKey.currentState!.validate()) {
                         return;
                       }
                       //Crear perfil de usuario
-                      bool res = await provider.updateVehicle(widget.vehicle);
+                      bool res = await provider.createVehicleInventory();
 
                       if (!res) {
                         await ApiErrorHandler.callToast(
-                            'Error al actualizar el vehiculo');
+                            'Error al agregar el vehiculo');
                         return;
                       }
 
                       if (!mounted) return;
                       fToast.showToast(
                         child: const SuccessToast(
-                          message: 'updated vehicle',
+                          message: 'Usuario creado',
                         ),
                         gravity: ToastGravity.BOTTOM,
                         toastDuration: const Duration(seconds: 2),

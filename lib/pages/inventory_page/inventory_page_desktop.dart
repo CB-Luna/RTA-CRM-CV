@@ -2,10 +2,10 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:rta_crm_cv/pages/inventory_page/widgets/cry_card.dart';
-import 'package:rta_crm_cv/pages/inventory_page/widgets/details_pop_up.dart';
-import 'package:rta_crm_cv/pages/inventory_page/widgets/odi_card.dart';
-import 'package:rta_crm_cv/pages/inventory_page/widgets/smi_card.dart';
+import 'package:rta_crm_cv/pages/inventory_page/vehicle_cards/cry_card.dart';
+import 'package:rta_crm_cv/pages/inventory_page/pop_up/details_pop_up.dart';
+import 'package:rta_crm_cv/pages/inventory_page/vehicle_cards/odi_card.dart';
+import 'package:rta_crm_cv/pages/inventory_page/vehicle_cards/smi_card.dart';
 import 'package:rta_crm_cv/widgets/card_header.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
@@ -18,7 +18,7 @@ import '../../public/colors.dart';
 import '../../theme/theme.dart';
 import '../../widgets/custom_text_icon_button.dart';
 import 'widgets/header_inventory.dart';
-import 'widgets/update_vehicle_pop_up.dart';
+import 'actions/update_vehicle_pop_up.dart';
 
 class inventoryPageDesktop extends StatefulWidget {
   inventoryPageDesktop(
@@ -995,6 +995,7 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                               .getStatus(
                                                                   notify:
                                                                       false);
+
                                                           provider
                                                               .updateInventoryControllers(
                                                                   rendererContext
