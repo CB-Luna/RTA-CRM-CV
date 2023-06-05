@@ -187,6 +187,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                         onTapCheck: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        //designColor: int.parse(widget.vehicle.color!),
                         onTap: () async {
                           colors =
                               await showColorPickerDialog(context, pickerColor);
@@ -216,7 +217,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
 
                             if (newDate != null) {
                               provider.dateTimeControllerOil.text =
-                                  DateFormat("MMM - dd - yyyy").format(newDate);
+                                  DateFormat("MMM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
@@ -238,7 +239,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
 
                             if (newDate != null) {
                               provider.dateTimeControllerRegUpadte.text =
-                                  DateFormat("MMM - dd - yyyy").format(newDate);
+                                  DateFormat("MMM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
@@ -260,7 +261,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
 
                             if (newDate != null) {
                               provider.dateTimeControllerIRDUpadte.text =
-                                  DateFormat("MMM - dd - yyyy").format(newDate);
+                                  DateFormat("MMM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),

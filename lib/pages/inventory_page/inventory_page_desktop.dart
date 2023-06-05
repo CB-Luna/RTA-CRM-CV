@@ -828,7 +828,7 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                   PlutoColumnTextAlign.center,
                                               textAlign:
                                                   PlutoColumnTextAlign.center,
-                                              type: PlutoColumnType.date(),
+                                              type: PlutoColumnType.text(),
                                               enableEditingMode: false,
                                               renderer: (rendererContext) {
                                                 return Container(
@@ -995,7 +995,11 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                               .getStatus(
                                                                   notify:
                                                                       false);
-
+                                                          provider
+                                                              .inicializeColor(
+                                                                  rendererContext
+                                                                      .cell
+                                                                      .value);
                                                           provider
                                                               .updateInventoryControllers(
                                                                   rendererContext

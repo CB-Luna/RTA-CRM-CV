@@ -180,7 +180,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 10),
                               child: Text(
-                                " ${DateFormat("yyyy - MM - dd").format(widget.vehicle.oilChangeDue)}",
+                                " ${DateFormat("MMM/dd/yyyy").format(widget.vehicle.oilChangeDue)}",
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),
@@ -189,7 +189,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 10),
                               child: Text(
-                                " ${DateFormat("yyyy - MMM - dd").format(widget.vehicle.registrationDue)}",
+                                " ${DateFormat("MMM/dd/yyyy").format(widget.vehicle.registrationDue)}",
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),
@@ -198,7 +198,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 10),
                               child: Text(
-                                " ${DateFormat("yyyy - MMM - dd").format(widget.vehicle.renewalInsDue)}",
+                                " ${DateFormat("MMM/dd/yyyy").format(widget.vehicle.renewalInsDue)}",
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),

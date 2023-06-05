@@ -44,6 +44,7 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController dateTimeControllerIRDUpadte = TextEditingController();
   TextEditingController searchControllerUpadte = TextEditingController();
   TextEditingController yearControllerUpdate = TextEditingController();
+  TextEditingController colorControllers = TextEditingController();
   //TextEditingController statusControllerUpadte = TextEditingController();
   Future<void> updateState() async {
     rows.clear();
@@ -55,7 +56,7 @@ class InventoryProvider extends ChangeNotifier {
   String? imageBase64Update;
   Uint8List? webImage;
   int idvehicle = 13;
-  String colorString = "0xffffffff";
+  String? colorString = "0xffffffff";
 
   //List<RolApi> roles = [];
   List<String> dropdownMenuItems = [];
@@ -72,14 +73,16 @@ class InventoryProvider extends ChangeNotifier {
     motorControllerUpadte.text = vehicle.motor;
     yearControllerUpdate.text = vehicle.year.toString();
     statusSelectedUpdate = statusSelected;
+    colorControllerUpdate = colorController;
+    colorControllers.text = colorController.toString();
     imageBase64Update = vehicle.image;
     companySelectedUpdate = companySelected;
     dateTimeControllerOilUpdate.text =
-        DateFormat("MMM - dd - yyyy").format(vehicle.oilChangeDue);
+        DateFormat("MMM/dd/yyyy").format(vehicle.oilChangeDue);
     dateTimeControllerRegUpadte.text =
-        DateFormat("MMM - dd - yyyy").format(vehicle.registrationDue);
+        DateFormat("MMM/dd/yyyy").format(vehicle.registrationDue);
     dateTimeControllerIRDUpadte.text =
-        DateFormat("MMM - dd - yyyy").format(vehicle.renewalInsDue);
+        DateFormat("MMM/dd/yyyy").format(vehicle.renewalInsDue);
   }
 
   List<CompanyApi> company = [];
@@ -201,7 +204,16 @@ class InventoryProvider extends ChangeNotifier {
     colorController = colors;
     colorControllerUpdate = colors;
 
+    //colorString = "0xffffffff";
     colorString = colorStrings;
+    notifyListeners();
+  }
+
+  //---------------------------------------------
+  void inicializeColor(Vehicle vehicle) {
+    colorController = int.parse(vehicle.color!);
+    //colorString = "0xffffffff";
+    colorString = colorController.toString();
     notifyListeners();
   }
 
@@ -217,7 +229,7 @@ class InventoryProvider extends ChangeNotifier {
         'vin': vinControllerUpdate.text,
         'license_plates': plateNumberControllerUpdate.text,
         'motor': motorControllerUpadte.text,
-        'color': colorString,
+        'color': colorString ?? vehicle.color,
         'image': imageBase64Update,
         'id_status_fk':
             statusSelectedUpdate?.statusId ?? vehicle.status.statusId,
@@ -230,12 +242,6 @@ class InventoryProvider extends ChangeNotifier {
       }).eq("id_vehicle", vehicle.idVehicle);
       return true;
     } catch (e) {
-      print(statusSelectedUpdate?.status);
-      print("---------------------------------");
-
-      print(statusSelectedUpdate?.statusId);
-      print("---------------------------------");
-
       print('Error in updatevehicle() - $e');
       return false;
     }
@@ -367,7 +373,10 @@ class InventoryProvider extends ChangeNotifier {
               "color": PlutoCell(value: vehicle.color),
               "status": PlutoCell(value: vehicle.status.status),
               "company": PlutoCell(value: vehicle.company.company),
-              "date_added": PlutoCell(value: vehicle.dateAdded),
+              "date_added": PlutoCell(
+                  value: DateFormat("MMM/dd/yyyy")
+                      .format(vehicle.dateAdded)
+                      .toString()),
               "details": PlutoCell(value: vehicle),
               "actions": PlutoCell(value: vehicle),
             },
@@ -381,8 +390,9 @@ class InventoryProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-//----------------------------------------------
 
+//----------------------------------------------
+  // EXCEL
   Future<bool> excelActivityReports() async {
     //Crear excel
     Excel excel = Excel.createExcel();
