@@ -180,7 +180,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 10),
                               child: Text(
-                                " ${DateFormat("dd - MMM - yyyy").format(widget.vehicle.oilChangeDue)}",
+                                " ${DateFormat("yyyy - MM - dd").format(widget.vehicle.oilChangeDue)}",
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),
@@ -189,7 +189,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 10),
                               child: Text(
-                                " ${DateFormat("dd - MMM - yyyy").format(widget.vehicle.registrationDue)}",
+                                " ${DateFormat("yyyy - MMM - dd").format(widget.vehicle.registrationDue)}",
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),
@@ -198,7 +198,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 10),
                               child: Text(
-                                " ${DateFormat("dd - MMM - yyyy").format(widget.vehicle.renewalInsDue)}",
+                                " ${DateFormat("yyyy - MMM - dd").format(widget.vehicle.renewalInsDue)}",
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),
@@ -211,15 +211,16 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                 ),
                 Column(
                   children: [
-                    Container(
-                      width: 550,
-                      height: 250,
+                    Padding(
+                      //width: 550,
+                      //height: 250,
                       padding: const EdgeInsets.only(bottom: 10),
-                      //color: Colors.white,
+                      //color: Colors.green,
                       child: Image.network(
                         widget.vehicle.image,
-                        height: 600,
-                        fit: BoxFit.contain,
+                        height: 250,
+                        width: 540,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     Container(
