@@ -4,11 +4,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/models/company_api.dart';
 import 'package:rta_crm_cv/models/status_api.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as p;
+import 'package:excel/excel.dart';
 
 import '../helpers/globals.dart';
 import '../models/vehicle.dart';
@@ -72,9 +74,12 @@ class InventoryProvider extends ChangeNotifier {
     statusSelectedUpdate = statusSelected;
     imageBase64Update = vehicle.image;
     companySelectedUpdate = companySelected;
-    dateTimeControllerOilUpdate.text = vehicle.oilChangeDue.toString();
-    dateTimeControllerRegUpadte.text = vehicle.registrationDue.toString();
-    dateTimeControllerIRDUpadte.text = vehicle.renewalInsDue.toString();
+    dateTimeControllerOilUpdate.text =
+        DateFormat("MMM - dd - yyyy").format(vehicle.oilChangeDue);
+    dateTimeControllerRegUpadte.text =
+        DateFormat("MMM - dd - yyyy").format(vehicle.registrationDue);
+    dateTimeControllerIRDUpadte.text =
+        DateFormat("MMM - dd - yyyy").format(vehicle.renewalInsDue);
   }
 
   List<CompanyApi> company = [];
@@ -195,12 +200,15 @@ class InventoryProvider extends ChangeNotifier {
   void updateColor(int colors, String colorStrings) {
     colorController = colors;
     colorControllerUpdate = colors;
+
     colorString = colorStrings;
     notifyListeners();
   }
 
 //---------------------------------------------
   Future<bool> updateVehicle(Vehicle vehicle) async {
+    print("status: ${vehicle.status.status}");
+    print("company: ${vehicle.company.company}");
     try {
       await supabase.from('vehicle').update({
         'make': makeControllerUpdate.text,
@@ -211,8 +219,10 @@ class InventoryProvider extends ChangeNotifier {
         'motor': motorControllerUpadte.text,
         'color': colorString,
         'image': imageBase64Update,
-        'id_status_fk': statusSelectedUpdate?.statusId,
-        'id_company_fk': companySelectedUpdate?.companyId,
+        'id_status_fk':
+            statusSelectedUpdate?.statusId ?? vehicle.status.statusId,
+        'id_company_fk':
+            companySelectedUpdate?.companyId ?? vehicle.company.companyId,
         'date_added': DateTime.now().toIso8601String(),
         'oil_change_due': dateTimeControllerOilUpdate.text,
         'registration_due': dateTimeControllerRegUpadte.text,
@@ -220,6 +230,12 @@ class InventoryProvider extends ChangeNotifier {
       }).eq("id_vehicle", vehicle.idVehicle);
       return true;
     } catch (e) {
+      print(statusSelectedUpdate?.status);
+      print("---------------------------------");
+
+      print(statusSelectedUpdate?.statusId);
+      print("---------------------------------");
+
       print('Error in updatevehicle() - $e');
       return false;
     }
@@ -365,7 +381,71 @@ class InventoryProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+//----------------------------------------------
 
+  Future<bool> excelActivityReports() async {
+    //Crear excel
+    Excel excel = Excel.createExcel();
+    Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
+
+    if (sheet == null) return false;
+    //Agregar primera linea
+    sheet.appendRow([
+      'Título',
+      'Vehicle Inventory',
+      '',
+      '',
+      'Fecha',
+      DateFormat("yyy - MMM - dd ").format(DateTime.now()),
+    ]);
+    //Agregar linea vacia
+    sheet.appendRow(['']);
+
+    //Agregar headers
+    sheet.appendRow([
+      'id_vehicle',
+      'make',
+      'model',
+      'year',
+      'vin',
+      'license_plates',
+      'motor',
+      'color',
+      'status',
+      'company',
+      'date_Added',
+      'oil_change_due',
+      'registration_due',
+      'insurance_renewal_due'
+    ]);
+
+    //Agregar datos
+    for (Vehicle report in vehicles) {
+      final List<dynamic> row = [
+        report.idVehicle,
+        report.make,
+        report.model,
+        report.year,
+        report.vin,
+        report.licesensePlates,
+        report.motor,
+        report.color,
+        report.status.status,
+        report.company.company,
+        DateFormat("yyyy - MMM - dd").format(report.dateAdded),
+        DateFormat("yyyy - MMM - dd").format(report.oilChangeDue),
+        DateFormat("yyyy - MMM - dd").format(report.registrationDue),
+        DateFormat("yyyy - MMM - dd").format(report.renewalInsDue),
+      ];
+      sheet.appendRow(row);
+    }
+
+    //Descargar
+    final List<int>? fileBytes = excel.save(fileName: "Vehicle_Inventory.xlsx");
+    if (fileBytes == null) return false;
+
+    return true;
+  }
 //----------------------------------------------
 
   void clearControllers() {

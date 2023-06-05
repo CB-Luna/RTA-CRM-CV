@@ -224,17 +224,11 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                       ),
                     ),
                     Container(
-                      width: 400,
-                      height: 50,
-                      margin: const EdgeInsets.all(20.0),
                       decoration: BoxDecoration(
-                          color: Color(int.parse(widget.vehicle.color!)),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: Colors.black, width: 2.0)),
-                    ),
-                    SizedBox(
                       width: 400,
-                      height: 50,
+                      height: 80,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -249,6 +243,16 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                           Text(
                             widget.vehicle.year,
                             style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Container(
+                            width: 50,
+                            height: 100,
+                            margin: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                                color: Color(int.parse(widget.vehicle.color!)),
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                    color: Colors.black, width: 2.0)),
                           ),
                         ],
                       ),
