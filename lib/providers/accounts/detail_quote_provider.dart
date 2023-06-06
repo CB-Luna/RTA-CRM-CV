@@ -7,6 +7,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/models/accounts/leads_model.dart';
 import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/pages/accounts/models/orders.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -50,6 +51,12 @@ class DetailQuoteProvider extends ChangeNotifier {
     unitPriceController.clear();
     unitCostController.clear();
     quantityController.clear();
+
+    companyController.clear();
+    nameController.clear();
+    lastNameController.clear();
+    emailController.clear();
+    phoneController.clear();
 
     globalRows.clear();
     comments.clear();
@@ -155,14 +162,14 @@ class DetailQuoteProvider extends ChangeNotifier {
     clearAll();
 
     if (id != null) {
-      var response = await supabaseCRM.from('quotes').select().eq('id', id);
+      var responseQuote = await supabaseCRM.from('quotes').select().eq('id', id);
 
-      if (response == null) {
+      if (responseQuote == null) {
         log('Error en getData()-DetailQuoteProvider');
         return;
       }
 
-      Quotes quote = Quotes.fromJson(jsonEncode(response[0]));
+      Quotes quote = Quotes.fromJson(jsonEncode(responseQuote[0]));
 
       orderTypesSelectedValue = quote.orderInfo.orderType;
       typesSelectedValue = quote.orderInfo.type;
@@ -227,6 +234,16 @@ class DetailQuoteProvider extends ChangeNotifier {
           ),
         );
       }
+
+      var responseLead = await supabaseCRM.from('leads').select().eq('id', quote.idLead);
+
+      Leads lead = Leads.fromJson(jsonEncode(responseLead[0]));
+
+      companyController.text = lead.organitationName;
+      nameController.text = lead.firstName;
+      lastNameController.text = lead.lastName;
+      emailController.text = lead.email;
+      phoneController.text = lead.phoneNumber;
     }
 
     notifyListeners();

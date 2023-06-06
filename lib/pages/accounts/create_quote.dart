@@ -35,7 +35,13 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
         context,
         listen: false,
       );
+      var id = provider.idLead;
       await provider.clearAll();
+      if (id != null) {
+        await provider.getLead(id, null);
+      } else {
+        await provider.getLeads();
+      }
     });
   }
 
@@ -298,19 +304,34 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomDDownMenu(
+                                            list: provider.leadsList,
+                                            label: 'Company',
+                                            onChanged: (p0) async {
+                                              if (provider.idLead == null) {
+                                                if (p0 != null) await provider.selectLead(p0);
+                                              }
+                                            },
+                                            dropdownValue: provider.leadSelectedValue,
+                                            icon: Icons.location_city_outlined,
+                                            width: txfFieldWidth,
+                                          ),
+                                        ),
+                                        /* Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: provider.idLead == null,
                                             width: txfFieldWidth,
                                             controller: provider.companyController,
                                             label: 'Company',
                                             icon: Icons.location_city_outlined,
                                             keyboardType: TextInputType.text,
                                           ),
-                                        ),
+                                        ), */
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.nameController,
                                             label: 'Name',
@@ -321,7 +342,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.lastNameController,
                                             label: 'Last Name',
@@ -332,7 +353,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.emailController,
                                             label: 'Email',
@@ -343,7 +364,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
-                                            enabled: true,
+                                            enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.phoneController,
                                             label: 'Mobile Phone Number',
@@ -596,8 +617,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               onTap: () async {
                                                 if (provider.createValidation() && provider.globalRows.isNotEmpty) {
-                                                  await provider.createQuote();
                                                   context.pushReplacement(routeProspects);
+                                                  await provider.createQuote();
                                                 }
                                               },
                                             ),

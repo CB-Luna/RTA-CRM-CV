@@ -36,8 +36,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
-    final VisualStateProvider provider =
-        Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider provider = Provider.of<VisualStateProvider>(context);
     return Dialog(
       insetPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
@@ -68,6 +67,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                 width: MediaQuery.of(context).size.width * 0.175,
                 height: MediaQuery.of(context).size.height * 0.3,
                 child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -96,6 +96,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                                 vertical: 10,
                               ),
                               child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
                                 child: ListView.builder(
                                   padding: EdgeInsets.zero,
                                   primary: true,
@@ -103,10 +104,8 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                                   scrollDirection: Axis.vertical,
                                   itemCount: provider.temas.length,
                                   itemBuilder: (context, index) {
-                                    final TemaDescargado tema =
-                                        provider.temas[index];
-                                    final bool seleccionado = tema.id ==
-                                        provider.temaSeleccionado?.id;
+                                    final TemaDescargado tema = provider.temas[index];
+                                    final bool seleccionado = tema.id == provider.temaSeleccionado?.id;
                                     return ThemeCardWidget(
                                       tema: tema,
                                       seleccionado: seleccionado,
@@ -189,8 +188,7 @@ class _ThemeCardWidgetState extends State<ThemeCardWidget> {
   final bool isLight = AppTheme.themeMode == ThemeMode.light;
   @override
   Widget build(BuildContext context) {
-    final VisualStateProvider provider =
-        Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider provider = Provider.of<VisualStateProvider>(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: MouseRegion(
@@ -219,13 +217,10 @@ class _ThemeCardWidgetState extends State<ThemeCardWidget> {
                 ),
                 const Spacer(),
                 ColorContainer(colorValue: widget.tema.tema.light.primaryColor),
-                ColorContainer(
-                    colorValue: widget.tema.tema.light.secondaryColor),
-                ColorContainer(
-                    colorValue: widget.tema.tema.light.tertiaryColor),
+                ColorContainer(colorValue: widget.tema.tema.light.secondaryColor),
+                ColorContainer(colorValue: widget.tema.tema.light.tertiaryColor),
                 ColorContainer(colorValue: widget.tema.tema.light.primaryText),
-                ColorContainer(
-                    colorValue: widget.tema.tema.light.primaryBackground),
+                ColorContainer(colorValue: widget.tema.tema.light.primaryBackground),
               ],
             ),
           ),

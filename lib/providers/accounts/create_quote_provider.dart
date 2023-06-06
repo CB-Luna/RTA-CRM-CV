@@ -7,6 +7,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/models/accounts/leads_model.dart';
 import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/pages/accounts/models/orders.dart';
 
@@ -15,7 +16,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     clearAll();
   }
 
-  clearAll() {
+  Future<void> clearAll() async {
     subtotal = 0;
     cost = 0;
     total = 0;
@@ -37,6 +38,8 @@ class CreateQuoteProvider extends ChangeNotifier {
     ipInterfaceSelectedValue = ipInterfaceList.first;
     subnetSelectedValue = subnetList.first;
 
+    await getLeads();
+
     lineItemCenterController.clear();
     unitPriceController.clear();
     unitCostController.clear();
@@ -49,6 +52,8 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     isLoading = false;
     prevId = null;
+    idLead = null;
+    notifyListeners();
   }
 
   final commentController = TextEditingController();
@@ -135,6 +140,9 @@ class CreateQuoteProvider extends ChangeNotifier {
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
+
+  List<String> leadsList = [];
+  String leadSelectedValue = '';
 
   void selectOT(String selected) {
     orderTypesSelectedValue = selected;
@@ -324,12 +332,11 @@ class CreateQuoteProvider extends ChangeNotifier {
         commentsList.add(item);
       }
 
-      if (prevId != null) {
-        await supabaseCRM.from('quotes').insert({
+      if (idLead != null) {
+        var resp = (await supabaseCRM.from('quotes').insert({
           "created_by": currentUser!.id,
           "updated_by": currentUser!.id,
           "status": margin > 20 ? "Margin Positive" : "Opened",
-          "id_customer": 1,
           "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
           "subtotal": subtotal,
           "cost": cost,
@@ -339,32 +346,59 @@ class CreateQuoteProvider extends ChangeNotifier {
           "order_info": quoteInfo,
           "items": items,
           "comments": commentsList,
-          "id_quote_origin": prevId
-        });
-        await supabaseCRM.from('quotes').update({"status": "Closed"}).eq("id", prevId);
-        prevId = null;
-      } else {
-        var resp = (await supabaseCRM.from('quotes').insert({
-          "created_by": currentUser!.id,
-          "updated_by": currentUser!.id,
-          "status": margin > 20 ? "Margin Positive" : "Opened",
-          "id_customer": 1,
-          "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
-          "subtotal": subtotal,
-          "cost": cost,
-          "total": total,
-          "margin": margin,
-          "probability": 100,
-          "order_info": quoteInfo,
-          "items": items,
-          "comments": commentsList
-        }).select())[0];
+          "id_quote_origin": prevId,
+          "id_lead": idLead,
+        }))[0];
         await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);
+      } else {
+        var response = await supabaseCRM.from('leads').select().eq('organitation_name', leadSelectedValue);
+        Leads lead = Leads.fromJson(jsonEncode(response[0]));
+
+        if (prevId != null) {
+          await supabaseCRM.from('quotes').insert({
+            "created_by": currentUser!.id,
+            "updated_by": currentUser!.id,
+            "status": margin > 20 ? "Margin Positive" : "Opened",
+            "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
+            "subtotal": subtotal,
+            "cost": cost,
+            "total": total,
+            "margin": margin,
+            "probability": 100,
+            "order_info": quoteInfo,
+            "items": items,
+            "comments": commentsList,
+            "id_quote_origin": prevId,
+            //TODO: Change to the Customer info Leads DropDown
+            "id_lead": lead.id,
+          });
+          await supabaseCRM.from('quotes').update({"status": "Closed"}).eq("id", prevId);
+          prevId = null;
+        } else {
+          var resp = (await supabaseCRM.from('quotes').insert({
+            "created_by": currentUser!.id,
+            "updated_by": currentUser!.id,
+            "status": margin > 20 ? "Margin Positive" : "Opened",
+            "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
+            "subtotal": subtotal,
+            "cost": cost,
+            "total": total,
+            "margin": margin,
+            "probability": 100,
+            "order_info": quoteInfo,
+            "items": items,
+            "comments": commentsList,
+            "id_quote_origin": null,
+            //TODO: Change to the Customer info Leads DropDown
+            "id_lead": lead.id,
+          }).select())[0];
+          await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);
+        }
       }
     } catch (e) {
       isLoading = false;
       notifyListeners();
-      print(e.toString());
+      log(e.toString());
     }
     clearAll();
     notifyListeners();
@@ -736,6 +770,69 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     comments.clear();
 
+    notifyListeners();
+  }
+
+  int? idLead;
+
+  Future<void> getLead(int? id, String? leadName) async {
+    if (id != null) {
+      var response = await supabaseCRM.from('leads').select().eq('id', id);
+
+      idLead = id;
+
+      Leads lead = Leads.fromJson(jsonEncode(response[0]));
+
+      leadSelectedValue = lead.organitationName;
+      companyController.text = lead.organitationName;
+      nameController.text = lead.firstName;
+      lastNameController.text = lead.lastName;
+      emailController.text = lead.email;
+      phoneController.text = lead.phoneNumber;
+    } else if (leadName != null) {
+      var response = await supabaseCRM.from('leads').select().eq('organitation_name', leadName);
+
+      Leads lead = Leads.fromJson(jsonEncode(response[0]));
+
+      companyController.text = lead.organitationName;
+      nameController.text = lead.firstName;
+      lastNameController.text = lead.lastName;
+      emailController.text = lead.email;
+      phoneController.text = lead.phoneNumber;
+    } else {
+      log('no id or leadName entered in getLead() - CreateQuoteProvider');
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> getLeads() async {
+    companyController.clear();
+    nameController.clear();
+    lastNameController.clear();
+    emailController.clear();
+    phoneController.clear();
+
+    leadsList = [];
+    final response = await supabaseCRM.from('leads').select();
+    if (response == null) {
+      log('Error en getLeads()');
+    }
+    List<Leads> leads = (response as List<dynamic>).map((lead) => Leads.fromJson(jsonEncode(lead))).toList();
+
+    for (var lead in leads) {
+      leadsList.add(lead.organitationName);
+    }
+    leadSelectedValue = leads.first.organitationName;
+
+    notifyListeners();
+
+    selectLead(leads.first.organitationName);
+  }
+
+  Future<void> selectLead(String selected) async {
+    leadSelectedValue = selected;
+    await getLead(null, leadSelectedValue);
     notifyListeners();
   }
 }

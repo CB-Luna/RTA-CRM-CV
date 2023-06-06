@@ -22,8 +22,7 @@ class _UploadThemePopupState extends State<UploadThemePopup> {
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
-    final VisualStateProvider provider =
-        Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider provider = Provider.of<VisualStateProvider>(context);
     return Dialog(
       insetPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
@@ -54,6 +53,7 @@ class _UploadThemePopupState extends State<UploadThemePopup> {
                 width: MediaQuery.of(context).size.width * 0.175,
                 height: MediaQuery.of(context).size.height * 0.20,
                 child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -93,8 +93,7 @@ class _UploadThemePopupState extends State<UploadThemePopup> {
                                 decoration: InputDecoration(
                                   filled: true,
                                   errorMaxLines: 2,
-                                  fillColor:
-                                      AppTheme.of(context).primaryBackground,
+                                  fillColor: AppTheme.of(context).primaryBackground,
                                   labelText: 'Nombre',
                                   labelStyle: const TextStyle(
                                     color: Color.fromARGB(255, 135, 132, 132),
@@ -129,8 +128,7 @@ class _UploadThemePopupState extends State<UploadThemePopup> {
                             icon: Icons.save,
                             tooltip: 'Guardar',
                             primaryColor: AppTheme.of(context).primaryColor,
-                            secondaryColor:
-                                AppTheme.of(context).primaryBackground,
+                            secondaryColor: AppTheme.of(context).primaryBackground,
                             onTap: () async {
                               if (!formKey.currentState!.validate()) {
                                 return;

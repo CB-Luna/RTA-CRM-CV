@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
@@ -589,8 +588,8 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
                                                   text: 'Accept',
                                                   onTap: () async {
-                                                    await provider.validate(true);
                                                     context.pushReplacement(routeProspects);
+                                                    await provider.validate(true);
                                                   },
                                                 ),
                                                 CustomTextIconButton(
@@ -600,8 +599,8 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   color: secondaryColor,
                                                   text: 'Reject',
                                                   onTap: () async {
-                                                    await provider.validate(false);
                                                     context.pushReplacement(routeProspects);
+                                                    await provider.validate(false);
                                                   },
                                                 ),
                                               ],

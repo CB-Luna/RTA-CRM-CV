@@ -52,6 +52,7 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                           Form(
                             key: formKey,
                             child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
@@ -85,8 +86,7 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                                       icon: Icons.attach_money,
                                       width: 350,
                                       list: provider.saleStoreList,
-                                      dropdownValue:
-                                          provider.selectSaleStoreValue,
+                                      dropdownValue: provider.selectSaleStoreValue,
                                       onChanged: (p0) {
                                         if (p0 != null) {
                                           provider.selectSaleStore(p0);
@@ -117,8 +117,7 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                                       icon: Icons.assignment_ind,
                                       width: 350,
                                       list: provider.assignedList,
-                                      dropdownValue:
-                                          provider.selectAssignedTValue,
+                                      dropdownValue: provider.selectAssignedTValue,
                                       onChanged: (p0) {
                                         if (p0 != null) {
                                           provider.selectAssigned(p0);
@@ -134,8 +133,7 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                                       icon: Icons.menu,
                                       width: 350,
                                       list: provider.leadSourceList,
-                                      dropdownValue:
-                                          provider.selectLeadSourceValue,
+                                      dropdownValue: provider.selectLeadSourceValue,
                                       onChanged: (p0) {
                                         if (p0 != null) {
                                           provider.selectLeadSource(p0);
@@ -164,6 +162,7 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                           Form(
                             key: formKey2,
                             child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,

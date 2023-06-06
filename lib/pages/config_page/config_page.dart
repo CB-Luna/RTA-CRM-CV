@@ -80,6 +80,7 @@ class _ConfigPageState extends State<ConfigPage> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,

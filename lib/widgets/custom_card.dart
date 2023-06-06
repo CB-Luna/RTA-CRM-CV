@@ -51,7 +51,7 @@ class _CustomCardState extends State<CustomCard> {
                 radius: const Radius.circular(15),
                 thickness: 7,
                 thumbVisibility: true,
-                child: SingleChildScrollView(child: widget.child),
+                child: SingleChildScrollView(scrollDirection: Axis.vertical, child: widget.child),
               ),
             ),
           ),

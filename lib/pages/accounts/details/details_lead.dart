@@ -26,8 +26,7 @@ class _DetailsLeadState extends State<DetailsLead> {
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
-        title:
-            'Details Lead: ${provider.firstNameController.text} ${provider.lastNameController.text}',
+        title: 'Details Lead: ${provider.firstNameController.text} ${provider.lastNameController.text}',
         height: 920,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,12 +47,12 @@ class _DetailsLeadState extends State<DetailsLead> {
                         Form(
                           key: formKey,
                           child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'First Name',
                                     icon: Icons.person_outline,
@@ -64,8 +63,7 @@ class _DetailsLeadState extends State<DetailsLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Last Name',
                                     icon: Icons.person_outline,
@@ -76,16 +74,14 @@ class _DetailsLeadState extends State<DetailsLead> {
                                   ),
                                 ),
                                 Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CustomDDownMenu(
                                       hint: 'None',
                                       label: 'Sales Stage',
                                       icon: Icons.attach_money,
                                       width: 350,
                                       list: provider.saleStoreList,
-                                      dropdownValue:
-                                          provider.selectSaleStoreValue,
+                                      dropdownValue: provider.selectSaleStoreValue,
                                       onChanged: (p0) {
                                         if (provider.editmode == false) {}
                                         if (p0 != null) {
@@ -94,8 +90,7 @@ class _DetailsLeadState extends State<DetailsLead> {
                                       },
                                     )),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Account',
                                     icon: Icons.business_outlined,
@@ -106,8 +101,7 @@ class _DetailsLeadState extends State<DetailsLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Email',
                                     icon: Icons.email,
@@ -118,16 +112,14 @@ class _DetailsLeadState extends State<DetailsLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomDDownMenu(
                                     hint: 'None',
                                     label: 'Lead Source',
                                     icon: Icons.menu,
                                     width: 350,
                                     list: provider.leadSourceList,
-                                    dropdownValue:
-                                        provider.selectLeadSourceValue,
+                                    dropdownValue: provider.selectLeadSourceValue,
                                     onChanged: (p0) {
                                       if (provider.editmode == false) {}
                                       if (p0 != null) {
@@ -137,8 +129,7 @@ class _DetailsLeadState extends State<DetailsLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Phone',
                                     icon: Icons.phone,
@@ -169,12 +160,12 @@ class _DetailsLeadState extends State<DetailsLead> {
                         Form(
                           key: formKey2,
                           child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Expected Close Date',
                                     icon: Icons.calendar_month,
@@ -185,8 +176,7 @@ class _DetailsLeadState extends State<DetailsLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Quote Amount',
                                     icon: Icons.attach_money,
@@ -197,8 +187,7 @@ class _DetailsLeadState extends State<DetailsLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Probability',
                                     icon: Icons.percent,
@@ -209,16 +198,14 @@ class _DetailsLeadState extends State<DetailsLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomDDownMenu(
                                     hint: 'None',
                                     label: 'Assigned To',
                                     icon: Icons.assignment_ind,
                                     width: 350,
                                     list: provider.assignedList,
-                                    dropdownValue:
-                                        provider.selectAssignedTValue,
+                                    dropdownValue: provider.selectAssignedTValue,
                                     onChanged: (p0) {
                                       if (provider.editmode == false) {}
                                       if (p0 != null) {
@@ -266,8 +253,7 @@ class _DetailsLeadState extends State<DetailsLead> {
                 children: [
                   provider.editmode == false
                       ? CustomTextIconButton(
-                          icon: Icon(Icons.add,
-                              color: AppTheme.of(context).primaryBackground),
+                          icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                           isLoading: false,
                           text: 'Edit',
                           onTap: () {
@@ -279,8 +265,7 @@ class _DetailsLeadState extends State<DetailsLead> {
                           },
                         )
                       : CustomTextIconButton(
-                          icon: Icon(Icons.save,
-                              color: AppTheme.of(context).primaryBackground),
+                          icon: Icon(Icons.save, color: AppTheme.of(context).primaryBackground),
                           isLoading: false,
                           text: 'Guardar',
                           onTap: () async {

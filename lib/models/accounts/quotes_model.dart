@@ -7,7 +7,6 @@ class Quotes {
   String createdBy;
   String updatedBy;
   String status;
-  int idCustomer;
   DateTime expCloseDate;
   double subtotal;
   double cost;
@@ -18,6 +17,7 @@ class Quotes {
   List<Item> items;
   List<Comment> comments;
   String idQuoteOrigin;
+  int idLead;
 
   Quotes({
     required this.id,
@@ -26,7 +26,6 @@ class Quotes {
     required this.createdBy,
     required this.updatedBy,
     required this.status,
-    required this.idCustomer,
     required this.expCloseDate,
     required this.subtotal,
     required this.cost,
@@ -37,6 +36,7 @@ class Quotes {
     required this.items,
     required this.comments,
     required this.idQuoteOrigin,
+    required this.idLead,
   });
 
   factory Quotes.fromJson(String str) => Quotes.fromMap(json.decode(str));
@@ -50,7 +50,6 @@ class Quotes {
         createdBy: json["created_by"],
         updatedBy: json["updated_by"],
         status: json["status"],
-        idCustomer: json["id_customer"],
         expCloseDate: DateTime.parse(json["exp_close_date"]),
         subtotal: json["subtotal"],
         cost: json["cost"]?.toDouble(),
@@ -61,6 +60,7 @@ class Quotes {
         items: List<Item>.from(json["items"].map((x) => Item.fromMap(x))),
         comments: List<Comment>.from(json["comments"].map((x) => Comment.fromMap(x))),
         idQuoteOrigin: json["id_quote_origin"],
+        idLead: json["id_lead"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -70,7 +70,6 @@ class Quotes {
         "created_by": createdBy,
         "updated_by": updatedBy,
         "status": status,
-        "id_customer": idCustomer,
         "exp_close_date": expCloseDate.toIso8601String(),
         "subtotal": subtotal,
         "cost": cost,
@@ -79,8 +78,9 @@ class Quotes {
         "probability": probability,
         "order_info": orderInfo.toMap(),
         "items": List<dynamic>.from(items.map((x) => x.toMap())),
-        "comments": List<dynamic>.from(comments.map((x) => x.toMap())),
+        "comments": comments.isEmpty ? [] : List<dynamic>.from(comments.map((x) => x.toMap())),
         "id_quote_origin": idQuoteOrigin,
+        "id_lead": idLead,
       };
 }
 

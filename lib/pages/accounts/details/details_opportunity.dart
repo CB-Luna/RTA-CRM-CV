@@ -50,13 +50,12 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                           Form(
                             key: formKey,
                             child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CustomTextField(
                                       label: 'Name',
                                       icon: Icons.person_outline,
@@ -67,8 +66,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CustomTextField(
                                       label: 'Account',
                                       icon: Icons.business_outlined,
@@ -79,16 +77,14 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CustomDDownMenu(
                                       hint: 'None',
                                       label: 'Sales Stage',
                                       icon: Icons.attach_money,
                                       width: 350,
                                       list: provider.saleStoreList,
-                                      dropdownValue:
-                                          provider.selectSaleStoreValue,
+                                      dropdownValue: provider.selectSaleStoreValue,
                                       onChanged: (p0) {
                                         if (provider.editmode == false) {}
                                         if (p0 != null) {
@@ -98,8 +94,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CustomTextField(
                                       label: 'Contact',
                                       icon: Icons.group,
@@ -110,16 +105,14 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CustomDDownMenu(
                                       hint: 'None',
                                       label: 'Assigned To',
                                       icon: Icons.assignment_ind,
                                       width: 350,
                                       list: provider.assignedList,
-                                      dropdownValue:
-                                          provider.selectAssignedTValue,
+                                      dropdownValue: provider.selectAssignedTValue,
                                       onChanged: (p0) {
                                         if (provider.editmode == false) {}
                                         if (p0 != null) {
@@ -129,16 +122,14 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CustomDDownMenu(
                                       hint: 'None',
                                       label: 'Lead Source',
                                       icon: Icons.menu,
                                       width: 350,
                                       list: provider.leadSourceList,
-                                      dropdownValue:
-                                          provider.selectLeadSourceValue,
+                                      dropdownValue: provider.selectLeadSourceValue,
                                       onChanged: (p0) {
                                         if (provider.editmode == false) {}
                                         if (p0 != null) {
@@ -168,14 +159,13 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                           Form(
                             key: formKey2,
                             child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CustomTextField(
                                       label: 'Expected Close Date',
                                       icon: Icons.calendar_month,
@@ -186,30 +176,24 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CustomTextField(
                                       label: 'Quote Amount',
                                       icon: Icons.attach_money,
-                                      controller:
-                                          provider.quoteamountController,
+                                      controller: provider.quoteamountController,
                                       enabled: provider.editmode,
                                       width: 350,
                                       keyboardType: TextInputType.name,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CheckboxListTile(
                                       title: Text(
                                         'Time Line',
-                                        style: TextStyle(
-                                            color: AppTheme.of(context)
-                                                .primaryColor),
+                                        style: TextStyle(color: AppTheme.of(context).primaryColor),
                                       ),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       value: provider.timeline,
                                       onChanged: (value) {
                                         if (provider.editmode == true) {
@@ -220,24 +204,18 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                           );
                                         }
                                       },
-                                      activeColor:
-                                          AppTheme.of(context).primaryColor,
-                                      checkColor: AppTheme.of(context)
-                                          .primaryBackground,
+                                      activeColor: AppTheme.of(context).primaryColor,
+                                      checkColor: AppTheme.of(context).primaryBackground,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CheckboxListTile(
                                       title: Text(
                                         'Decision Maker',
-                                        style: TextStyle(
-                                            color: AppTheme.of(context)
-                                                .primaryColor),
+                                        style: TextStyle(color: AppTheme.of(context).primaryColor),
                                       ),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       value: provider.decisionmaker,
                                       onChanged: (value) {
                                         if (provider.editmode == true) {
@@ -248,24 +226,18 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                           );
                                         }
                                       },
-                                      activeColor:
-                                          AppTheme.of(context).primaryColor,
-                                      checkColor: AppTheme.of(context)
-                                          .primaryBackground,
+                                      activeColor: AppTheme.of(context).primaryColor,
+                                      checkColor: AppTheme.of(context).primaryBackground,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CheckboxListTile(
                                       title: Text(
                                         'Tech Spec',
-                                        style: TextStyle(
-                                            color: AppTheme.of(context)
-                                                .primaryColor),
+                                        style: TextStyle(color: AppTheme.of(context).primaryColor),
                                       ),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       value: provider.techspec,
                                       onChanged: (value) {
                                         if (provider.editmode == true) {
@@ -276,24 +248,18 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                           );
                                         }
                                       },
-                                      activeColor:
-                                          AppTheme.of(context).primaryColor,
-                                      checkColor: AppTheme.of(context)
-                                          .primaryBackground,
+                                      activeColor: AppTheme.of(context).primaryColor,
+                                      checkColor: AppTheme.of(context).primaryBackground,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CheckboxListTile(
                                       title: Text(
                                         'Budget',
-                                        style: TextStyle(
-                                            color: AppTheme.of(context)
-                                                .primaryColor),
+                                        style: TextStyle(color: AppTheme.of(context).primaryColor),
                                       ),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       value: provider.budget,
                                       onChanged: (value) {
                                         if (provider.editmode == true) {
@@ -304,20 +270,16 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                           );
                                         }
                                       },
-                                      activeColor:
-                                          AppTheme.of(context).primaryColor,
-                                      checkColor: AppTheme.of(context)
-                                          .primaryBackground,
+                                      activeColor: AppTheme.of(context).primaryColor,
+                                      checkColor: AppTheme.of(context).primaryBackground,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CustomTextField(
                                       label: 'Probability',
                                       icon: Icons.percent,
-                                      controller:
-                                          provider.probabilityController,
+                                      controller: provider.probabilityController,
                                       enabled: provider.editmode,
                                       width: 350,
                                       keyboardType: TextInputType.name,
@@ -363,8 +325,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                 children: [
                   provider.editmode == false
                       ? CustomTextIconButton(
-                          icon: Icon(Icons.add,
-                              color: AppTheme.of(context).primaryBackground),
+                          icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                           isLoading: false,
                           text: 'Edit',
                           onTap: () {
@@ -376,13 +337,12 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                           },
                         )
                       : CustomTextIconButton(
-                          icon: Icon(Icons.save,
-                              color: AppTheme.of(context).primaryBackground),
+                          icon: Icon(Icons.save, color: AppTheme.of(context).primaryBackground),
                           isLoading: false,
                           text: 'Guardar',
                           onTap: () async {
                             await provider.updateOpportunity();
-                            provider.editmode=false;
+                            provider.editmode = false;
                           },
                         )
                 ],

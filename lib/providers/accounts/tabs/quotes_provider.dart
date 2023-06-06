@@ -76,7 +76,7 @@ class QuotesProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      final res = await supabaseCRM.from('quotes').select();
+      final res = await supabaseCRM.from('quotes').select().order('id', ascending: true);
 
       if (res == null) {
         log('Error en getUsuarios()');
@@ -97,6 +97,7 @@ class QuotesProvider extends ChangeNotifier {
               'LAST_Column': PlutoCell(value: quote.updatedAt),
               'STATUS_Column': PlutoCell(value: quote.status),
               'ACTIONS_Column': PlutoCell(value: quote.idQuoteOrigin),
+              'ID_LEAD_Column': PlutoCell(value: quote.idLead),
             },
           ),
         );
@@ -104,7 +105,7 @@ class QuotesProvider extends ChangeNotifier {
 
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
-      log('Error en getUsuarios() - $e');
+      log('Error en getQuotes() - $e');
     }
 
     notifyListeners();

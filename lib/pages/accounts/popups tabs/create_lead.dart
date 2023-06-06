@@ -49,6 +49,7 @@ class _CreateLeadState extends State<CreateLead> {
                         Form(
                           key: formKey,
                           child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -75,16 +76,14 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CustomDDownMenu(
                                       hint: 'None',
                                       label: 'Sales Stage',
                                       icon: Icons.attach_money,
                                       width: 350,
                                       list: provider.saleStoreList,
-                                      dropdownValue:
-                                          provider.selectSaleStoreValue,
+                                      dropdownValue: provider.selectSaleStoreValue,
                                       onChanged: (p0) {
                                         if (p0 != null) {
                                           provider.selectSaleStore(p0);
@@ -121,8 +120,7 @@ class _CreateLeadState extends State<CreateLead> {
                                     icon: Icons.menu,
                                     width: 350,
                                     list: provider.leadSourceList,
-                                    dropdownValue:
-                                        provider.selectLeadSourceValue,
+                                    dropdownValue: provider.selectLeadSourceValue,
                                     onChanged: (p0) {
                                       if (p0 != null) {
                                         provider.selectLeadSource(p0);
@@ -162,6 +160,7 @@ class _CreateLeadState extends State<CreateLead> {
                         Form(
                           key: formKey2,
                           child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -206,8 +205,7 @@ class _CreateLeadState extends State<CreateLead> {
                                     icon: Icons.assignment_ind,
                                     width: 350,
                                     list: provider.assignedList,
-                                    dropdownValue:
-                                        provider.selectAssignedTValue,
+                                    dropdownValue: provider.selectAssignedTValue,
                                     onChanged: (p0) {
                                       if (p0 != null) {
                                         provider.selectAssigned(p0);

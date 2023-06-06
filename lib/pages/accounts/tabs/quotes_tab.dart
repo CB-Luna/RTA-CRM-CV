@@ -356,8 +356,8 @@ class _QuotesTabState extends State<QuotesTab> {
                               text: 'Detail',
                               onTap: () async {
                                 detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
-                                await detailProvider.getData();
                                 context.pushReplacement(routeQuoteDetail);
+                                await detailProvider.getData();
                               },
                             ),
                           if (currentUser!.isSales && rendererContext.row.cells["STATUS_Column"]!.value == 'Rejected')
@@ -369,7 +369,8 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Create New',
                               onTap: () async {
-                                providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
+                                await providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
+                                await providerCreate.getLead(rendererContext.row.cells["ID_LEAD_Column"]!.value, null);
                                 context.pushReplacement(routeQuoteCreation);
                               },
                             ),
