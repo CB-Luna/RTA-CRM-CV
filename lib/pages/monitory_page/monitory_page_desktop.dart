@@ -13,6 +13,7 @@ import '../../providers/monitory_provider.dart';
 import '../../public/colors.dart';
 import '../../widgets/side_menu/sidemenu.dart';
 import 'Popup/details_pop_up.dart';
+import 'Popup/license_plates_pop_up.dart';
 
 final List<LinearGradient> gradients = [
   const LinearGradient(colors: [
@@ -321,7 +322,33 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 height: rowHeight,
                                                 // width: rendererContext.cell.column.width,
                                                 decoration: BoxDecoration(gradient: whiteGradient),
-                                                child: Center(child: Text(rendererContext.cell.value)),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(rendererContext.cell.value),
+                                                    ElevatedButton(
+                                                          onPressed: () {
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return StatefulBuilder(
+                                                                      builder:
+                                                                          (context,
+                                                                              setState) {
+                                                                    return LicenseHistory(
+                                                                    );
+                                                                  });
+                                                                });
+                                                          },
+                                                          child:
+                                                              Icon(Icons.remove_red_eye_outlined)
+                                                      ),
+                                                  ],
+                                                ),
                                               );
                                             },
                                           ),

@@ -8,11 +8,10 @@ class AnswerForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      width: 800,
+      //padding: EdgeInsets.all(20),
+      width: 750,
       height: 90,
-      decoration: BoxDecoration(
-          gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
+      color: Colors.yellow,
           
     );
   }

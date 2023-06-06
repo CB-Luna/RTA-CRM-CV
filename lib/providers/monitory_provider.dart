@@ -109,7 +109,7 @@ class MonitoryProvider extends ChangeNotifier {
             cells: {
               "id_control_form": PlutoCell(value: monitory.idControlForm),
               "id_vehicle": PlutoCell(value: monitory.idVehicle),
-              "date_added": PlutoCell(value: monitory.dateAdded),
+              "date_added": PlutoCell(value: DateFormat("MMM-dd-yyyy").format(monitory.dateAdded)),
               "employee": PlutoCell(value: monitory.employee.name),
               "typeForm": PlutoCell(value: monitory.typeForm),
               "vin": PlutoCell(value: monitory.vin),
