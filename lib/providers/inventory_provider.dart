@@ -55,7 +55,8 @@ class InventoryProvider extends ChangeNotifier {
   String? imageBase64;
   String? imageBase64Update;
   Uint8List? webImage;
-  int idvehicle = 13;
+  Uint8List? webImageClear;
+  int idvehicle = 15;
   String? colorString = "0xffffffff";
 
   //List<RolApi> roles = [];
@@ -64,26 +65,6 @@ class InventoryProvider extends ChangeNotifier {
   CompanyApi? companySelected;
   StatusApi? statusSelectedUpdate;
   CompanyApi? companySelectedUpdate;
-
-  void updateInventoryControllers(Vehicle vehicle) {
-    makeControllerUpdate.text = vehicle.make;
-    modelControllerUpdate.text = vehicle.model;
-    vinControllerUpdate.text = vehicle.vin;
-    plateNumberControllerUpdate.text = vehicle.licesensePlates;
-    motorControllerUpadte.text = vehicle.motor;
-    yearControllerUpdate.text = vehicle.year.toString();
-    statusSelectedUpdate = statusSelected;
-    colorControllerUpdate = colorController;
-    colorControllers.text = colorController.toString();
-    imageBase64Update = vehicle.image;
-    companySelectedUpdate = companySelected;
-    dateTimeControllerOilUpdate.text =
-        DateFormat("MMM/dd/yyyy").format(vehicle.oilChangeDue);
-    dateTimeControllerRegUpadte.text =
-        DateFormat("MMM/dd/yyyy").format(vehicle.registrationDue);
-    dateTimeControllerIRDUpadte.text =
-        DateFormat("MMM/dd/yyyy").format(vehicle.renewalInsDue);
-  }
 
   List<CompanyApi> company = [];
   List<StatusApi> status = [];
@@ -118,16 +99,29 @@ class InventoryProvider extends ChangeNotifier {
 
   //----------------------------------------------Paginador variables
 
-  //----------------------------------------------
-
   InventoryProvider() {
     getInventory();
   }
+  //----------------------------------------------
 
-//---------------------------------------------
-
-//---------------------------------------------
-
+  void updateInventoryControllers(Vehicle vehicle) {
+    makeControllerUpdate.text = vehicle.make;
+    modelControllerUpdate.text = vehicle.model;
+    vinControllerUpdate.text = vehicle.vin;
+    plateNumberControllerUpdate.text = vehicle.licesensePlates;
+    motorControllerUpadte.text = vehicle.motor;
+    yearControllerUpdate.text = vehicle.year.toString();
+    statusSelectedUpdate = statusSelected;
+    colorControllerUpdate = colorController;
+    colorControllers.text = colorController.toString();
+    companySelectedUpdate = companySelected;
+    dateTimeControllerOilUpdate.text =
+        DateFormat("MMM/dd/yyyy").format(vehicle.oilChangeDue);
+    dateTimeControllerRegUpadte.text =
+        DateFormat("MMM/dd/yyyy").format(vehicle.registrationDue);
+    dateTimeControllerIRDUpadte.text =
+        DateFormat("MMM/dd/yyyy").format(vehicle.renewalInsDue);
+  }
 //---------------------------------------------
 
   Future<void> selectImage() async {
@@ -139,16 +133,26 @@ class InventoryProvider extends ChangeNotifier {
 
     if (pickedImage == null) return;
 
-    final String fileExtension = p.extension(pickedImage.name);
-    const uuid = Uuid();
-    final String fileName = uuid.v1();
-    imageName = 'car-$fileName$fileExtension';
+    // final String fileExtension = p.extension(pickedImage.name);
+    // const uuid = Uuid();
+    // final String fileName = uuid.v1();
+    // imageName = 'car-$fileName$fileExtension';
 
     webImage = await pickedImage.readAsBytes();
     imageBase64 = base64Encode(webImage!);
+    imageBase64Update = imageBase64;
+    print("-------------------------");
 
+    print(imageBase64);
+    print("-------------------------");
+    print(imageBase64Update);
     notifyListeners();
   }
+
+//---------------------------------------------
+
+//---------------------------------------------
+
 //---------------------------------------------
 
   Future<void> getCompanies({bool notify = true}) async {
@@ -217,6 +221,14 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //---------------------------------------------
+  void inicializeImage(Vehicle vehicle) {
+    final List<int> codeUnits = vehicle.image.codeUnits;
+    webImage = Uint8List.fromList(codeUnits);
+
+    notifyListeners();
+  }
+
 //---------------------------------------------
   Future<bool> updateVehicle(Vehicle vehicle) async {
     print("status: ${vehicle.status.status}");
@@ -230,7 +242,7 @@ class InventoryProvider extends ChangeNotifier {
         'license_plates': plateNumberControllerUpdate.text,
         'motor': motorControllerUpadte.text,
         'color': colorString ?? vehicle.color,
-        'image': imageBase64Update,
+        'image': "data:image/png;base64,$imageBase64Update",
         'id_status_fk':
             statusSelectedUpdate?.statusId ?? vehicle.status.statusId,
         'id_company_fk':
@@ -278,7 +290,7 @@ class InventoryProvider extends ChangeNotifier {
           'license_plates': plateNumberController.text,
           'motor': motorController.text,
           'color': colorString,
-          'image': imageBase64,
+          'image': "data:image/png;base64,$imageBase64",
           'id_status_fk': statusSelected?.statusId,
           'id_company_fk': companySelected?.companyId,
           'date_added': DateTime.now().toIso8601String(),

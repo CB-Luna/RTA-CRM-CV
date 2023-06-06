@@ -284,7 +284,8 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                             ),
-                            child: getUserImage(provider.webImage),
+                            child: getImageUpdate(
+                                provider.webImage!, widget.vehicle),
                           ),
                         ),
                       ],

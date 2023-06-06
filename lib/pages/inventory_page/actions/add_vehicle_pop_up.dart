@@ -278,7 +278,9 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                             ),
-                            child: getUserImage(provider.webImage),
+                            child: getAddImageV(
+                              provider.webImage,
+                            ),
                           ),
                         ),
                       ],

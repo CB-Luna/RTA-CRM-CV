@@ -912,17 +912,10 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                                   });
                                                                 });
                                                           },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .white),
-                                                          //remove_red_eye_outlined
                                                           child: const Icon(
-                                                              Icons
-                                                                  .remove_red_eye_outlined,
-                                                              color:
-                                                                  Colors.black))
+                                                            Icons
+                                                                .remove_red_eye_outlined,
+                                                          ))
                                                     ],
                                                   )),
                                                 );
@@ -1000,6 +993,12 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                                   rendererContext
                                                                       .cell
                                                                       .value);
+
+                                                          provider
+                                                              .inicializeImage(
+                                                                  rendererContext
+                                                                      .cell
+                                                                      .value);
                                                           provider
                                                               .updateInventoryControllers(
                                                                   rendererContext
@@ -1036,33 +1035,31 @@ class _inventoryPageDesktopState extends State<inventoryPageDesktop> {
                                                         color: secondaryColor,
                                                         text: 'Delete',
                                                         onTap: () async {
-                                                          await provider
-                                                              .deleteVehicle(
-                                                            rendererContext
-                                                                .cell.value,
-                                                          );
-                                                          await provider
-                                                              .getInventory();
+                                                          await showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                                return StatefulBuilder(
+                                                                    builder:
+                                                                        (context,
+                                                                            setState) {
+                                                                  return UpdateVehiclePopUp(
+                                                                    vehicle:
+                                                                        rendererContext
+                                                                            .cell
+                                                                            .value,
+                                                                  );
+                                                                });
+                                                              }); //   await provider
+                                                          //       .deleteVehicle(
+                                                          //     rendererContext
+                                                          //         .cell.value,
+                                                          //   );
+                                                          //   await provider
+                                                          //       .getInventory();
                                                         },
                                                       ),
-                                                      /* InkWell(
-                                          hoverColor: Colors.transparent,
-                                          child: Icon(
-                                            Icons.fact_check_outlined,
-                                            size: 25,
-                                            color: textColor,
-                                          ),
-                                          onTap: () {},
-                                        ),
-                                        InkWell(
-                                          hoverColor: Colors.transparent,
-                                          child: Icon(
-                                            Icons.shopping_basket_outlined,
-                                            size: 25,
-                                            color: textColor,
-                                          ),
-                                          onTap: () {},
-                                        ) */
                                                     ],
                                                   ),
                                                 );
