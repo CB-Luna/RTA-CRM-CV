@@ -4,11 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:rta_crm_cv/pages/accounts/create_quote.dart';
 import 'package:rta_crm_cv/pages/accounts/detail_quote.dart';
 import 'package:rta_crm_cv/pages/accounts/validate_quote.dart';
+import 'package:rta_crm_cv/pages/campaigns/campaigns_page.dart';
 import 'package:rta_crm_cv/pages/monitory_page/monitory_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/pages/quotes/quotes_page.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 
 import '../pages/inventory_page/inventory_page.dart';
@@ -136,12 +138,28 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) => pageTransition(context, state, const TicketsPage()),
     ),
     GoRoute(
+      path: routeQuotes,
+      name: 'Quotes',
+      builder: (BuildContext context, GoRouterState state) {
+        return const QuotesPage();
+      },
+      pageBuilder: (context, state) => pageTransition(context, state, const QuotesPage()),
+    ),
+    GoRoute(
       path: '/inventory',
       name: 'Inventory',
       builder: (BuildContext context, GoRouterState state) {
         return InventoryPage();
       },
       pageBuilder: (context, state) => pageTransition(context, state, InventoryPage()),
+    ),
+    GoRoute(
+      path: routeCampaigns,
+      name: 'Campaigns',
+      builder: (BuildContext context, GoRouterState state) {
+        return const CampaignsPage();
+      },
+      pageBuilder: (context, state) => pageTransition(context, state, const CampaignsPage()),
     ),
     GoRoute(
       path: '/reports',

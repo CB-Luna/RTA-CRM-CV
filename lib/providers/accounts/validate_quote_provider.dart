@@ -7,6 +7,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/models/accounts/leads_model.dart';
 import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/pages/accounts/models/orders.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -223,6 +224,22 @@ class ValidateQuoteProvider extends ChangeNotifier {
       } else {
         subnetSelectedValue = quote.orderInfo.subnetType!;
       }
+
+      companyController.clear();
+      nameController.clear();
+      lastNameController.clear();
+      emailController.clear();
+      phoneController.clear();
+
+      var responseLead = await supabaseCRM.from('leads').select().eq('id', quote.idLead);
+
+      Leads lead = Leads.fromJson(jsonEncode(responseLead[0]));
+
+      companyController.text = lead.organitationName;
+      nameController.text = lead.firstName;
+      lastNameController.text = lead.lastName;
+      emailController.text = lead.email;
+      phoneController.text = lead.phoneNumber;
 
       subtotal = quote.subtotal;
       cost = quote.cost;

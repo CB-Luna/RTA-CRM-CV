@@ -30,6 +30,8 @@ class _AccountsPageState extends State<AccountsPage> {
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
     sideM.setIndex(1);
 
+    double tabWidth = MediaQuery.of(context).size.width / 3.5;
+
     return Material(
       child: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -73,33 +75,22 @@ class _AccountsPageState extends State<AccountsPage> {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              Padding(
+                              /* Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: CustomTabBarOption(
                                   isOn: provider.tabBar[0],
-                                  width: MediaQuery.of(context).size.width / 6,
+                                  width: tabWidth,
                                   text: 'Quotes',
                                   border: greenGradient,
                                   gradient: greenRadial,
                                   onTap: () => provider.setIndex(0),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: CustomTabBarOption(
-                                  isOn: provider.tabBar[1],
-                                  width: MediaQuery.of(context).size.width / 6,
-                                  text: 'Opportunities',
-                                  border: greenGradient,
-                                  gradient: greenRadial,
-                                  onTap: () => provider.setIndex(1),
-                                ),
-                              ),
+                              ), */
                               Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: CustomTabBarOption(
                                   isOn: provider.tabBar[2],
-                                  width: MediaQuery.of(context).size.width / 6,
+                                  width: tabWidth,
                                   text: 'Leads',
                                   border: greenGradient,
                                   gradient: greenRadial,
@@ -109,19 +100,30 @@ class _AccountsPageState extends State<AccountsPage> {
                               Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: CustomTabBarOption(
+                                  isOn: provider.tabBar[1],
+                                  width: tabWidth,
+                                  text: 'Opportunities',
+                                  border: greenGradient,
+                                  gradient: greenRadial,
+                                  onTap: () => provider.setIndex(1),
+                                ),
+                              ),
+                              /* Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: CustomTabBarOption(
                                   isOn: provider.tabBar[3],
-                                  width: MediaQuery.of(context).size.width / 6,
+                                  width: tabWidth,
                                   text: 'Campaigns',
                                   border: greenGradient,
                                   gradient: greenRadial,
                                   onTap: () => provider.setIndex(3),
                                 ),
-                              ),
+                              ), */
                               Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: CustomTabBarOption(
                                   isOn: provider.tabBar[4],
-                                  width: MediaQuery.of(context).size.width / 6,
+                                  width: tabWidth,
                                   text: 'Accounts',
                                   //text: 'Billing',
                                   border: greenGradient,

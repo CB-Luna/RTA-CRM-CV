@@ -74,6 +74,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                   text: 'Create Quote',
                   onTap: () async {
+                    providerCreate.idLead = null;
                     context.pushReplacement(routeQuoteCreation);
                   },
                 )
