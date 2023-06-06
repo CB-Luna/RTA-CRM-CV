@@ -3,7 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/accounts/tabs/opportunity_provider.dart';
-import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
@@ -27,11 +26,6 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
     OpportunityProvider provider = Provider.of<OpportunityProvider>(context);
     final formKey = GlobalKey<FormState>();
     final formKey2 = GlobalKey<FormState>();
-
-    final List<String> statesNames = provider.states.map((state) => state.name).toList();
-
-    final List<String> rolesNames = provider.roles.map((role) => role.roleName).toList();
-
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(

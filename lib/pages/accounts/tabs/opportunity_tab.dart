@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/money_format.dart';
@@ -8,7 +7,6 @@ import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/pages/accounts/details/details_opportunity.dart';
 import 'package:rta_crm_cv/pages/accounts/popups%20tabs/create_opportunity.dart';
-import 'package:rta_crm_cv/providers/accounts/create_quote_provider.dart';
 import 'package:rta_crm_cv/providers/accounts/tabs/opportunity_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -53,7 +51,8 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
               children: [
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.filter_alt_outlined,
+                      color: AppTheme.of(context).primaryBackground),
                   text: 'Filter',
                   onTap: () => provider.stateManager!.setShowColumnFilter(
                       !provider.stateManager!.showColumnFilter),
@@ -67,13 +66,13 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                 ),
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.add,
+                      color: AppTheme.of(context).primaryBackground),
                   text: 'Create Opportunity',
                   onTap: () async {
                     await showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        provider.clearAll();
                         return const CreateOpportunitysPage();
                       },
                     );
@@ -485,7 +484,6 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                               await showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  provider.clearAll();
                                   provider.id = rendererContext
                                       .row.cells['ID_Column']!.value;
                                   provider.getData();
@@ -495,16 +493,21 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                               await provider.updateState();
                             },
                           ),
-
-                          /* CustomTextIconButton(isLoading: false,
+                          CustomTextIconButton(
+                            isLoading: false,
                             icon: Icon(
                               Icons.shopping_basket_outlined,
                               color: AppTheme.of(context).primaryBackground,
                             ),
                             color: secondaryColor,
                             text: 'Delete',
-                            onTap: () {},
-                          ), */
+                            onTap: () async {
+                              provider.id =
+                                  rendererContext.row.cells['ID_Column']!.value;
+                              await provider.deleteOpportunity();
+                              await provider.updateState();
+                            },
+                          ),
                         ],
                       ),
                     );

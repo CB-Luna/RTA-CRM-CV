@@ -67,6 +67,7 @@ class OpportunityProvider extends ChangeNotifier {
 
   Future<void> updateState() async {
     rows.clear();
+    await clearAll();
     await getOpportunity();
   }
 
@@ -147,7 +148,7 @@ class OpportunityProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-//PopUp create Opportunity
+//CRUD Opportunity
   Future<void> createOpportunity() async {
     try {
       //Registrar al usuario con una contraseña temporal
@@ -175,58 +176,6 @@ class OpportunityProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteOpportunity() async {
-    try {
-      var resp= await supabaseCRM.from('opportunity').delete().eq('id', id);
-      if (resp) {
-        
-      }
-
-      if (stateManager != null) stateManager!.notifyListeners();
-
-      notifyListeners();
-    } catch (e) {
-      log('Error en deleteOpportunity() - $e');
-    }
-    await getOpportunity();
-    notifyListeners();
-  }
-
-  /* Future<void> updateOpportunity() async {
-    try {
-      for (var element in rows) {
-        if (element.checked == true) {
-          await supabaseCRM.from('opportunity').update({
-            "name": nameController.text,
-            "quote_amount": quoteamountController.text,
-            "probability": probabilityController.text,
-            "last_activity": DateTime.now().toString(),
-            "expected_close":
-                DateTime.now().add(const Duration(days: 30)).toString(),
-            "assigned_to": selectAssignedTValue,
-            "status": "Opened",
-            "account": accountController.text,
-            "sales_stage": selectSaleStoreValue,
-            "contact": contactController.text,
-            "lead_source": selectLeadSourceValue,
-            "time_line": timeline,
-            "decision_maker": decisionmaker,
-            "teach_spec": techspec,
-          }).eq('id', element.cells['ID_Column']!.value);
-        } else {}
-      }
-
-      if (stateManager != null) stateManager!.notifyListeners();
-
-      notifyListeners();
-    } catch (e) {
-      log('Error en UpdateOpportunity() - $e');
-    }
-    await getOpportunity();
-    notifyListeners();
-  }
- */
-  //opportunity details
   Future<void> getData() async {
     if (id != null) {
       var response =
@@ -254,6 +203,54 @@ class OpportunityProvider extends ChangeNotifier {
       descriptionController.text = opportunity.description;
     }
 
+    notifyListeners();
+  }
+
+  Future<void> updateOpportunity() async {
+    try {
+      {
+        await supabaseCRM.from('opportunity').update({
+          "name": nameController.text,
+          "quote_amount": quoteamountController.text,
+          "probability": probabilityController.text,
+          "last_activity": DateTime.now().toString(),
+          "expected_close":
+              DateTime.now().add(const Duration(days: 30)).toString(),
+          "assigned_to": selectAssignedTValue,
+          "status": "Opened",
+          "account": accountController.text,
+          "sales_stage": selectSaleStoreValue,
+          "contact": contactController.text,
+          "lead_source": selectLeadSourceValue,
+          "time_line": timeline,
+          "decision_maker": decisionmaker,
+          "teach_spec": techspec,
+          "budget": budget,
+          "description": descriptionController.text,
+        }).eq('id', id);
+      }
+
+      if (stateManager != null) stateManager!.notifyListeners();
+
+      notifyListeners();
+    } catch (e) {
+      log('Error en UpdateOpportunity() - $e');
+    }
+    await getOpportunity();
+    notifyListeners();
+  }
+
+  Future<void> deleteOpportunity() async {
+    try {
+      await supabaseCRM.from('opportunity').delete().eq('id', id);
+
+      if (stateManager != null) stateManager!.notifyListeners();
+
+      notifyListeners();
+    } catch (e) {
+      log('Error en deleteOpportunity() - $e');
+    }
+    await getOpportunity();
     notifyListeners();
   }
 

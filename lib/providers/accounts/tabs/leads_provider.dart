@@ -11,7 +11,7 @@ class LeadsProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
-  bool editmode=false;
+  bool editmode = false;
 
   State? selectedState;
   int pageRowCount = 10;
@@ -144,7 +144,7 @@ class LeadsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-//PopUp create Lead
+//PopUps Leads
   Future<void> createLead() async {
     try {
       //Registrar al usuario con una contraseña temporal
@@ -172,16 +172,6 @@ class LeadsProvider extends ChangeNotifier {
     }
   }
 
-  Future setIndex(int index) async {
-    for (var i = 0; i < tabBar.length; i++) {
-      tabBar[i] = false;
-    }
-    tabBar[index] = true;
-
-    notifyListeners();
-  }
-
-//Leads details
   Future<void> getData() async {
     if (id != null) {
       var response = await supabaseCRM.from('leads').select().eq('id', id);
@@ -207,6 +197,65 @@ class LeadsProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> updateLead() async {
+    try {
+      {
+        await supabaseCRM.from('leads').update({
+          "name_lead": "${firstNameController.text} ${lastNameController.text}",
+          "quote_amount": quoteamountController.text,
+          "probability": probabilityController.text,
+          "expected_close":
+              DateTime.now().add(const Duration(days: 30)).toString(),
+          "assigned_to": selectAssignedTValue,
+          "status": "In proccess",
+          "organitation_name":
+              "${firstNameController.text} ${lastNameController.text}",
+          "first_name": firstNameController.text,
+          "last_name": lastNameController.text,
+          "phone_number": phoneController.text,
+          "email": emailController.text,
+          "sales_stage": selectSaleStoreValue,
+          "account": accountController.text,
+          "lead_source": selectLeadSourceValue,
+          "description": descriptionController.text,
+        }).eq('id', id);
+      }
+
+      if (stateManager != null) stateManager!.notifyListeners();
+
+      notifyListeners();
+    } catch (e) {
+      log('Error en UpdateOpportunity() - $e');
+    }
+    await getLeads();
+    notifyListeners();
+  }
+
+  Future<void> deleteLead() async {
+    try {
+      await supabaseCRM.from('leads').delete().eq('id', id);
+
+      if (stateManager != null) stateManager!.notifyListeners();
+
+      notifyListeners();
+    } catch (e) {
+      log('Error en deleteOpportunity() - $e');
+    }
+    await getLeads();
+    notifyListeners();
+  }
+
+  Future setIndex(int index) async {
+    for (var i = 0; i < tabBar.length; i++) {
+      tabBar[i] = false;
+    }
+    tabBar[index] = true;
+
+    notifyListeners();
+  }
+
+//Leads details
 
 //Controladores Paginado Pluto?
   void clearControllers({bool notify = true}) {

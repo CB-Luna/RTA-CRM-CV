@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/accounts/tabs/opportunity_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -8,7 +7,6 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
-import 'package:rta_crm_cv/widgets/success_toast.dart';
 
 class DetailsOpportunity extends StatefulWidget {
   const DetailsOpportunity({super.key});
@@ -26,13 +24,6 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
     OpportunityProvider provider = Provider.of<OpportunityProvider>(context);
     final formKey = GlobalKey<FormState>();
     final formKey2 = GlobalKey<FormState>();
-
-    final List<String> statesNames =
-        provider.states.map((state) => state.name).toList();
-
-    final List<String> rolesNames =
-        provider.roles.map((role) => role.roleName).toList();
-
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
@@ -70,7 +61,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                       label: 'Name',
                                       icon: Icons.person_outline,
                                       controller: provider.nameController,
-                                      enabled: false,
+                                      enabled: provider.editmode,
                                       width: 350,
                                       keyboardType: TextInputType.name,
                                     ),
@@ -82,7 +73,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                       label: 'Account',
                                       icon: Icons.business_outlined,
                                       controller: provider.accountController,
-                                      enabled: false,
+                                      enabled: provider.editmode,
                                       width: 350,
                                       keyboardType: TextInputType.text,
                                     ),
@@ -98,9 +89,11 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                       list: provider.saleStoreList,
                                       dropdownValue:
                                           provider.selectSaleStoreValue,
-                                      onChanged: (val) {
-                                        /* if (val == null) return;
-                                       // provider.selectStage(val); */
+                                      onChanged: (p0) {
+                                        if (provider.editmode == false) {}
+                                        if (p0 != null) {
+                                          provider.selectSaleStore(p0);
+                                        }
                                       },
                                     ),
                                   ),
@@ -111,7 +104,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                       label: 'Contact',
                                       icon: Icons.group,
                                       controller: provider.contactController,
-                                      enabled: false,
+                                      enabled: provider.editmode,
                                       width: 350,
                                       keyboardType: TextInputType.emailAddress,
                                     ),
@@ -127,9 +120,11 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                       list: provider.assignedList,
                                       dropdownValue:
                                           provider.selectAssignedTValue,
-                                      onChanged: (val) {
-                                        /*  if (val == null) return;
-                                       // provider.selectAssigned(val); */
+                                      onChanged: (p0) {
+                                        if (provider.editmode == false) {}
+                                        if (p0 != null) {
+                                          provider.selectAssigned(p0);
+                                        }
                                       },
                                     ),
                                   ),
@@ -144,9 +139,11 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                       list: provider.leadSourceList,
                                       dropdownValue:
                                           provider.selectLeadSourceValue,
-                                      onChanged: (val) {
-                                        /* if (val == null) return;
-                                       // provider.selectLead(val); */
+                                      onChanged: (p0) {
+                                        if (provider.editmode == false) {}
+                                        if (p0 != null) {
+                                          provider.selectLeadSource(p0);
+                                        }
                                       },
                                     ),
                                   ),
@@ -183,7 +180,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                       label: 'Expected Close Date',
                                       icon: Icons.calendar_month,
                                       controller: provider.closedateController,
-                                      enabled: false,
+                                      enabled: provider.editmode,
                                       width: 350,
                                       keyboardType: TextInputType.name,
                                     ),
@@ -196,7 +193,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                       icon: Icons.attach_money,
                                       controller:
                                           provider.quoteamountController,
-                                      enabled: false,
+                                      enabled: provider.editmode,
                                       width: 350,
                                       keyboardType: TextInputType.name,
                                     ),
@@ -215,11 +212,13 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                           ListTileControlAffinity.leading,
                                       value: provider.timeline,
                                       onChanged: (value) {
-                                        /*  setState(
-                                          () {
-                                            provider.timeline = value!;
-                                          },
-                                        ); */
+                                        if (provider.editmode == true) {
+                                          setState(
+                                            () {
+                                              provider.timeline = value!;
+                                            },
+                                          );
+                                        }
                                       },
                                       activeColor:
                                           AppTheme.of(context).primaryColor,
@@ -241,9 +240,13 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                           ListTileControlAffinity.leading,
                                       value: provider.decisionmaker,
                                       onChanged: (value) {
-                                        /* setState(
-                                          () => provider.decisionmaker = value!,
-                                        ); */
+                                        if (provider.editmode == true) {
+                                          setState(
+                                            () {
+                                              provider.decisionmaker = value!;
+                                            },
+                                          );
+                                        }
                                       },
                                       activeColor:
                                           AppTheme.of(context).primaryColor,
@@ -265,9 +268,13 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                           ListTileControlAffinity.leading,
                                       value: provider.techspec,
                                       onChanged: (value) {
-                                        /*  setState(
-                                          () => provider.techspec = value!,
-                                        ); */
+                                        if (provider.editmode == true) {
+                                          setState(
+                                            () {
+                                              provider.techspec = value!;
+                                            },
+                                          );
+                                        }
                                       },
                                       activeColor:
                                           AppTheme.of(context).primaryColor,
@@ -289,9 +296,13 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                           ListTileControlAffinity.leading,
                                       value: provider.budget,
                                       onChanged: (value) {
-                                        /*  setState(
-                                          () => provider.budget = value!,
-                                        ); */
+                                        if (provider.editmode == true) {
+                                          setState(
+                                            () {
+                                              provider.budget = value!;
+                                            },
+                                          );
+                                        }
                                       },
                                       activeColor:
                                           AppTheme.of(context).primaryColor,
@@ -307,7 +318,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                       icon: Icons.percent,
                                       controller:
                                           provider.probabilityController,
-                                      enabled: false,
+                                      enabled: provider.editmode,
                                       width: 350,
                                       keyboardType: TextInputType.name,
                                     ),
@@ -336,7 +347,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                     label: 'Description',
                     icon: Icons.person_outline,
                     controller: provider.descriptionController,
-                    enabled: false,
+                    enabled: provider.editmode,
                     width: 740,
                     height: 51,
                     keyboardType: TextInputType.name,
@@ -348,31 +359,32 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomTextIconButton(
-                    icon: Icon(Icons.add,
-                        color: AppTheme.of(context).primaryBackground),
-                    isLoading: false,
-                    text: 'Create',
-                    onTap: () async {
-                      fToast.showToast(
-                        child: const SuccessToast(
-                          message: 'Usuario creado',
-                        ),
-                        gravity: ToastGravity.BOTTOM,
-                        toastDuration: const Duration(seconds: 2),
-                      );
-
-                      if (context.canPop()) context.pop();
-                    },
-                  ),
-                  CustomTextIconButton(
-                    icon: Icon(Icons.refresh_outlined,
-                        color: AppTheme.of(context).primaryBackground),
-                    isLoading: false,
-                    text: 'Refresh',
-                  ),
+                  provider.editmode == false
+                      ? CustomTextIconButton(
+                          icon: Icon(Icons.add,
+                              color: AppTheme.of(context).primaryBackground),
+                          isLoading: false,
+                          text: 'Edit',
+                          onTap: () {
+                            setState(
+                              () {
+                                provider.editmode = true;
+                              },
+                            );
+                          },
+                        )
+                      : CustomTextIconButton(
+                          icon: Icon(Icons.save,
+                              color: AppTheme.of(context).primaryBackground),
+                          isLoading: false,
+                          text: 'Guardar',
+                          onTap: () async {
+                            await provider.updateOpportunity();
+                            provider.editmode=false;
+                          },
+                        )
                 ],
               ),
             )

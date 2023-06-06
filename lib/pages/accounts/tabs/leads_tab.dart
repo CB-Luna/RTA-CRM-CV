@@ -51,7 +51,8 @@ class _LeadsTabState extends State<LeadsTab> {
               children: [
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.filter_alt_outlined,
+                      color: AppTheme.of(context).primaryBackground),
                   text: 'Filter',
                   onTap: () => provider.stateManager!.setShowColumnFilter(
                       !provider.stateManager!.showColumnFilter),
@@ -65,7 +66,8 @@ class _LeadsTabState extends State<LeadsTab> {
                 ),
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.add,
+                      color: AppTheme.of(context).primaryBackground),
                   text: 'Create Lead',
                   onTap: () async {
                     await showDialog(
@@ -499,7 +501,12 @@ class _LeadsTabState extends State<LeadsTab> {
                             ),
                             color: secondaryColor,
                             text: 'Delete',
-                            onTap: () {},
+                            onTap: () async {
+                              provider.id =
+                                  rendererContext.row.cells['ID_Column']!.value;
+                              await provider.deleteLead();
+                              await provider.updateState();
+                            },
                           ),
                         ],
                       ),

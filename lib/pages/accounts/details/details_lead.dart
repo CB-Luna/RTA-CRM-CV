@@ -87,9 +87,10 @@ class _DetailsLeadState extends State<DetailsLead> {
                                       dropdownValue:
                                           provider.selectSaleStoreValue,
                                       onChanged: (p0) {
-                                        /*  if (p0 != null) {
+                                        if (provider.editmode == false) {}
+                                        if (p0 != null) {
                                           provider.selectSaleStore(p0);
-                                        } */
+                                        }
                                       },
                                     )),
                                 Padding(
@@ -128,9 +129,10 @@ class _DetailsLeadState extends State<DetailsLead> {
                                     dropdownValue:
                                         provider.selectLeadSourceValue,
                                     onChanged: (p0) {
-                                      /* if (p0 != null) {
+                                      if (provider.editmode == false) {}
+                                      if (p0 != null) {
                                         provider.selectLeadSource(p0);
-                                      } */
+                                      }
                                     },
                                   ),
                                 ),
@@ -218,9 +220,10 @@ class _DetailsLeadState extends State<DetailsLead> {
                                     dropdownValue:
                                         provider.selectAssignedTValue,
                                     onChanged: (p0) {
-                                      /* if (p0 != null) {
+                                      if (provider.editmode == false) {}
+                                      if (p0 != null) {
                                         provider.selectAssigned(p0);
-                                      } */
+                                      }
                                     },
                                   ),
                                 ),
@@ -261,41 +264,30 @@ class _DetailsLeadState extends State<DetailsLead> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomTextIconButton(
-                    icon: Icon(Icons.add,
-                        color: AppTheme.of(context).primaryBackground),
-                    isLoading: false,
-                    text: 'Edit',
-                    onTap: () async {
-                      setState(() {
-                        provider.editmode = true;
-                      });
-
-                      /* provider.createLead();
-                      fToast.showToast(
-                        child: const SuccessToast(
-                          message: 'Usuario creado',
-                        ),
-                        gravity: ToastGravity.BOTTOM,
-                        toastDuration: const Duration(seconds: 2),
-                      );
-
-                      if (context.canPop()) context.pop(); */
-                    },
-                  ),
-                  provider.editmode == true
+                  provider.editmode == false
                       ? CustomTextIconButton(
+                          icon: Icon(Icons.add,
+                              color: AppTheme.of(context).primaryBackground),
+                          isLoading: false,
+                          text: 'Edit',
+                          onTap: () {
+                            setState(
+                              () {
+                                provider.editmode = true;
+                              },
+                            );
+                          },
+                        )
+                      : CustomTextIconButton(
                           icon: Icon(Icons.save,
                               color: AppTheme.of(context).primaryBackground),
                           isLoading: false,
                           text: 'Guardar',
-                          onTap: () {
-                            setState(() {
-                              provider.editmode = false;
-                            });
+                          onTap: () async {
+                            await provider.updateLead();
+                            provider.editmode = false;
                           },
                         )
-                      : Container(),
                 ],
               ),
             )
