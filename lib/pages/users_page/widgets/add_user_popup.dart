@@ -33,12 +33,22 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
 
     final List<String> rolesNames = provider.roles.map((role) => role.roleName).toList();
 
-    return AlertDialog(
-      backgroundColor: Colors.transparent,
-      content: CustomCard(
+    return Dialog(
+      shape: const RoundedRectangleBorder(
+        side: BorderSide.none,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(40),
+          topRight: Radius.circular(15),
+          bottomRight: Radius.circular(15),
+          bottomLeft: Radius.circular(15),
+        ),
+      ),
+      insetPadding: EdgeInsets.zero,
+      child: CustomCard(
         title: 'User Creation',
         height: 709,
         width: 380,
+        padding: EdgeInsets.zero,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
