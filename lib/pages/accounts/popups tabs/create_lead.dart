@@ -174,25 +174,27 @@ class _CreateLeadState extends State<CreateLead> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                               Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10),
-                                      child: CustomTextIconButton(
-                                        isLoading: false,
-                                        icon: Icon(
-                                          Icons.calendar_month,
-                                          color:AppTheme.of(context).hintText.color,
-                                        ),
-                                        text: 'Expected Close Date: ${DateFormat('MMMM, MM-dd-yyyy').format(provider.create) }',
-                                        style: TextStyle(
-                                            color: AppTheme.of(context)
-                                                .primaryColor),
-                                        onTap: () {
-                                          provider.selectdate(context);
-                                        },
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: CustomTextIconButton(
+                                      isLoading: false,
+                                      icon: Icon(
+                                        Icons.calendar_month,
                                         color:
-                                            AppTheme.of(context).primaryBackground,
-                                      )),
+                                            AppTheme.of(context).hintText.color,
+                                      ),
+                                      text:
+                                          'Expected Close Date: ${DateFormat('MMMM, MM-dd-yyyy').format(provider.create)}',
+                                      style: TextStyle(
+                                          color: AppTheme.of(context)
+                                              .primaryColor),
+                                      onTap: () {
+                                        provider.selectdate(context);
+                                      },
+                                      color: AppTheme.of(context)
+                                          .primaryBackground,
+                                    )),
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 10),
@@ -208,6 +210,40 @@ class _CreateLeadState extends State<CreateLead> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 10),
+                                  child: SliderTheme(
+                                    data: SliderThemeData(
+                                      inactiveTrackColor: AppTheme.of(context)
+                                          .primaryColor
+                                          .withOpacity(.5),
+                                      activeTrackColor:
+                                          AppTheme.of(context).primaryColor,
+                                      thumbColor:
+                                          AppTheme.of(context).primaryColor,
+                                      overlayColor: AppTheme.of(context)
+                                          .primaryColor
+                                          .withOpacity(.5),
+                                      valueIndicatorColor:
+                                          AppTheme.of(context).primaryColor,
+                                      activeTickMarkColor: Colors.transparent,
+                                      inactiveTickMarkColor: Colors.transparent,
+                                    ),
+                                    child: Slider(
+                                      value: provider.slydervalue,
+                                      min: 0,
+                                      max: 100,
+                                      divisions: 10,
+                                      label: provider.slydervalue
+                                          .round()
+                                          .toString(),
+                                      onChanged: (value) => setState(
+                                        () => provider.slydervalue = value,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                /* Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Probability',
                                     icon: Icons.percent,
@@ -216,7 +252,7 @@ class _CreateLeadState extends State<CreateLead> {
                                     width: 350,
                                     keyboardType: TextInputType.number,
                                   ),
-                                ),
+                                ), */
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 10),

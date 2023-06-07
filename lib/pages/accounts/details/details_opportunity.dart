@@ -25,6 +25,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
     OpportunityProvider provider = Provider.of<OpportunityProvider>(context);
     final formKey = GlobalKey<FormState>();
     final formKey2 = GlobalKey<FormState>();
+    DateTime closeDate=DateTime.parse(provider.closedateController.text);
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
@@ -186,7 +187,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                         color:
                                             AppTheme.of(context).hintText.color,
                                       ),
-                                     text: 'Expected Close Date: ${DateFormat('MMMM, MM-dd-yyyy').format(provider.create) }',
+                                     text: 'Expected Close Date: ${DateFormat('MMMM, MM-dd-yyyy').format(DateTime.parse(provider.closedateController.text)) }',
                                       style: TextStyle(
                                           color: AppTheme.of(context)
                                               .primaryColor),

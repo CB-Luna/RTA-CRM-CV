@@ -131,7 +131,6 @@ class OpportunityProvider extends ChangeNotifier {
     selectLeadSourceValue = selected;
     notifyListeners();
   }
-
 //Tabla Opportunities
   Future<void> getOpportunity() async {
     if (stateManager != null) {
@@ -155,11 +154,11 @@ class OpportunityProvider extends ChangeNotifier {
             cells: {
               'ID_Column': PlutoCell(value: user.id),
               'NAME_Column': PlutoCell(value: user.nameLead),
-              'AMOUNT_Column': PlutoCell(value: user.quoteAmount),
+              'AMOUNT_Column': PlutoCell(value: user.quotes.first.total),
               'PROBABILITY_Column': PlutoCell(value: user.probability),
               'CLOSED_Column': PlutoCell(value: user.expectedClose),
-              'CREATE_Column': PlutoCell(value: user.createdAt),
-              'LAST_Column': PlutoCell(value: user.lastActivity),
+              'CREATE_Column': PlutoCell(value: user.quotes.first.createdAt),
+              'LAST_Column': PlutoCell(value: user.quotes.first.updatedAt),
               'ASSIGNED_Column': PlutoCell(value: user.assignedTo),
               'STATUS_Column': PlutoCell(value: user.status),
               'ACTIONS_Column': PlutoCell(value: ''),
@@ -216,11 +215,12 @@ class OpportunityProvider extends ChangeNotifier {
       accountController.text = opportunity.account;
       selectSaleStoreValue = opportunity.salesStage;
       accountController.text = opportunity.account;
-      contactController.text = "${opportunity.firstName} ${opportunity.lastName}";
+      contactController.text =
+          "${opportunity.firstName} ${opportunity.lastName}";
       selectAssignedTValue = opportunity.assignedTo;
       selectLeadSourceValue = opportunity.leadSource;
       closedateController.text = opportunity.expectedClose.toString();
-      quoteamountController.text = opportunity.quoteAmount.toString();
+      quoteamountController.text = opportunity.quotes.first.total.toString();
       /* timeline = opportunity.timeLine;
       decisionmaker = opportunity.decisionMaker;
       techspec = opportunity.teachSpec;

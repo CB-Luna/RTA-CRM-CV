@@ -16,6 +16,7 @@ class LeadsProvider extends ChangeNotifier {
   int page = 1;
   late int? id;
   DateTime create = DateTime.now();
+  double slydervalue = 10;
   //Controladores Basic Information
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -126,7 +127,6 @@ class LeadsProvider extends ChangeNotifier {
     create = newDate;
     notifyListeners();
   }
-
 //Tabla Leads
   Future<void> getLeads() async {
     if (stateManager != null) {
