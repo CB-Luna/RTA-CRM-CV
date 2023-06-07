@@ -334,7 +334,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ACTIONS',
                   field: 'ACTIONS_Column',
-                  width: 190,
+                  width: 250,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
                   type: PlutoColumnType.text(),
@@ -360,9 +360,9 @@ class _QuotesTabState extends State<QuotesTab> {
                             ),
                             text: 'Detail',
                             onTap: () async {
-                              detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
                               context.pushReplacement(routeQuoteDetail);
                               await detailProvider.clearAll();
+                              detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
                               await detailProvider.getData();
                             },
                           ),
