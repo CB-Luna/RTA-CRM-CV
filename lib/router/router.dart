@@ -152,8 +152,8 @@ final GoRouter router = GoRouter(
     ),
 
     GoRoute(
-      path: '/monitory',
-      name: 'Monitory',
+      path: '/vehicle_status',
+      name: 'Vehicle_Status',
       builder: (BuildContext context, GoRouterState state) {
         return MonitoryPage();
       },

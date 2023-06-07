@@ -90,7 +90,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                               height: 20,
                             ),
                             // Titulo de la tabla
-                            const Padding(padding: EdgeInsets.only(bottom: 10), child: CardHeader(text: "Vehicle Monitory")),
+                            const Padding(padding: EdgeInsets.only(bottom: 10), child: CardHeader(text: "Vehicle Status")),
 
                             widget.provider.monitory.isEmpty
                                 ? const CircularProgressIndicator()
