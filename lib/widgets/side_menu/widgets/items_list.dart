@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
@@ -29,7 +30,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            if (!currentUser!.isCRM)
+            if (!currentUser!.isCRM || currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[0],
                 leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
@@ -45,7 +46,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverDashboards?.change(false);
                 },
               ),
-            if (currentUser!.isCRM)
+            if (currentUser!.isCRM || currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[1],
                 leading: provider.aRAccounts != null ? Rive(artboard: provider.aRAccounts!) : const CircularProgressIndicator(),
@@ -61,7 +62,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverAccounts?.change(false);
                 },
               ),
-            if (!currentUser!.isCRM)
+            if (!currentUser!.isCRM || currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[2],
                 leading: provider.aRSchedulings != null ? Rive(artboard: provider.aRSchedulings!) : const CircularProgressIndicator(),
@@ -77,7 +78,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverSchedulings?.change(false);
                 },
               ),
-            if (!currentUser!.isCRM)
+            if (!currentUser!.isCRM || currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[3],
                 leading: provider.aRNetworks != null ? Rive(artboard: provider.aRNetworks!) : const CircularProgressIndicator(),
@@ -109,7 +110,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverTickets?.change(false);
                 },
               ), */
-            if (currentUser!.isCRM)
+            if (currentUser!.isCRM || currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[4],
                 leading: provider.aRTickets != null ? Rive(artboard: provider.aRTickets!) : const CircularProgressIndicator(),
@@ -141,7 +142,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverInventories?.change(false);
                 },
               ), */
-            if (currentUser!.isCRM)
+            if (currentUser!.isCRM || currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[5],
                 leading: provider.aRInventories != null ? Rive(artboard: provider.aRInventories!) : const CircularProgressIndicator(),
@@ -157,7 +158,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverInventories?.change(false);
                 },
               ),
-            if (!currentUser!.isCRM)
+            if (!currentUser!.isCRM || currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[6],
                 leading: provider.aRReports != null ? Rive(artboard: provider.aRReports!) : const CircularProgressIndicator(),
@@ -189,7 +190,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 provider.iHoverUsers?.change(false);
               },
             ),
-            if (!currentUser!.isCRM)
+            if (currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[8],
                 leading: Icon(Icons.color_lens_outlined, color: Color(Colors.grey[300]!.value)),

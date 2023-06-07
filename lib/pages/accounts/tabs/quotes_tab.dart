@@ -361,11 +361,8 @@ class _QuotesTabState extends State<QuotesTab> {
                             text: 'Detail',
                             onTap: () async {
                               context.pushReplacement(routeQuoteDetail);
-                              print('navigated');
                               detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
-                              print('id = ${rendererContext.row.cells['ID_Column']!.value}');
                               await detailProvider.getData();
-                              print('Getting Data');
                             },
                           ),
                           if (currentUser!.isSales && rendererContext.row.cells["STATUS_Column"]!.value == 'Rejected')

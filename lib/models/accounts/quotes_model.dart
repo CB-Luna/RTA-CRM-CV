@@ -19,6 +19,10 @@ class Quotes {
   String idQuoteOrigin;
   int idLead;
   int idVendor;
+  String nameLead;
+  String assignedTo;
+  int leadProbability;
+  DateTime expectedClose;
 
   Quotes({
     required this.id,
@@ -39,6 +43,10 @@ class Quotes {
     required this.idQuoteOrigin,
     required this.idLead,
     required this.idVendor,
+    required this.nameLead,
+    required this.assignedTo,
+    required this.leadProbability,
+    required this.expectedClose,
   });
 
   factory Quotes.fromJson(String str) => Quotes.fromMap(json.decode(str));
@@ -64,6 +72,10 @@ class Quotes {
         idQuoteOrigin: json["id_quote_origin"],
         idLead: json["id_lead"],
         idVendor: json["id_vendor"],
+        nameLead: json["name_lead"],
+        assignedTo: json["assigned_to"],
+        leadProbability: json["lead_probability"],
+        expectedClose: DateTime.parse(json["expected_close"]),
       );
 
   Map<String, dynamic> toMap() => {
@@ -85,6 +97,10 @@ class Quotes {
         "id_quote_origin": idQuoteOrigin,
         "id_lead": idLead,
         "id_vendor": idVendor,
+        "name_lead": nameLead,
+        "assigned_to": assignedTo,
+        "lead_probability": leadProbability,
+        "expected_close": expectedClose.toIso8601String(),
       };
 }
 

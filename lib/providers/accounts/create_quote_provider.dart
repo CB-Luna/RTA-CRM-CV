@@ -353,7 +353,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "order_info": quoteInfo,
           "items": items,
           "comments": commentsList,
-          "id_quote_origin": prevId,
+          "id_quote_origin": null,
           "id_lead": idLead,
           "id_vendor": vendor.id,
         }))[0];
@@ -711,7 +711,7 @@ class CreateQuoteProvider extends ChangeNotifier {
   int? prevId;
 
   Future<void> getData(String id) async {
-    var response = await supabaseCRM.from('quotes').select().eq('id', int.parse(id));
+    var response = await supabaseCRM.from('quotes_view').select().eq('id', int.parse(id));
 
     prevId = int.parse(id);
 
@@ -825,7 +825,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     phoneController.clear();
 
     leadsList.clear();
-    final response = await supabaseCRM.from('leads').select();
+    final response = await supabaseCRM.from('leads_view').select();
     if (response == null) {
       log('Error en getLeads()');
     }

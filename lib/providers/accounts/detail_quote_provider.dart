@@ -159,7 +159,7 @@ class DetailQuoteProvider extends ChangeNotifier {
 
   Future<void> getData() async {
     if (id != 0) {
-      var responseQuote = await supabaseCRM.from('quotes').select().eq('id', id);
+      var responseQuote = await supabaseCRM.from('quotes_view').select().eq('id', id);
 
       if (responseQuote == null) {
         log('Error en getData()-DetailQuoteProvider');
