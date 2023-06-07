@@ -374,21 +374,21 @@ class InventoryProvider extends ChangeNotifier {
         rows.add(
           PlutoRow(
             cells: {
-              "id_vehicle": PlutoCell(value: vehicle.idVehicle),
-              "image": PlutoCell(value: vehicle.image),
+              // "id_vehicle": PlutoCell(value: vehicle.idVehicle),
+              // "image": PlutoCell(value: vehicle.image),
               "make": PlutoCell(value: vehicle.make),
               "model": PlutoCell(value: vehicle.model),
               "year": PlutoCell(value: vehicle.year),
               "vin": PlutoCell(value: vehicle.vin),
               "license_plates": PlutoCell(value: vehicle.licesensePlates),
               "motor": PlutoCell(value: vehicle.motor),
-              "color": PlutoCell(value: vehicle.color),
+              // "color": PlutoCell(value: vehicle.color),
               "status": PlutoCell(value: vehicle.status.status),
               "company": PlutoCell(value: vehicle.company.company),
-              "date_added": PlutoCell(
-                  value: DateFormat("MMM/dd/yyyy")
-                      .format(vehicle.dateAdded)
-                      .toString()),
+              // "date_added": PlutoCell(
+              //     value: DateFormat("MMM/dd/yyyy")
+              //         .format(vehicle.dateAdded)
+              //         .toString()),
               "details": PlutoCell(value: vehicle),
               "actions": PlutoCell(value: vehicle),
             },

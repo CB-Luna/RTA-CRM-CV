@@ -36,14 +36,14 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
             child: Row(
               children: [
                 Container(
-                  height: (450 * 0.7586633663366337).toDouble(),
-                  width: 650,
+                  height: (555 * 0.7586633663366337).toDouble(),
+                  width: 700,
                   alignment: AlignmentDirectional.centerStart,
                   padding: const EdgeInsets.all(20.0),
                   child: CustomPaint(
                     size: Size(
                         800,
-                        (400 * 0.7586633663366337)
+                        (405 * 0.7586633663366337)
                             .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
                     painter: RPSCustomPainter(),
                     child: Padding(
@@ -125,9 +125,36 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                     color: Colors.white, fontSize: 18),
                               ),
                             ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                              child: Text(
+                                "Last transmission fluid change: ",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                              child: Text(
+                                "Last radiator fluid change: ",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                              child: Text(
+                                "List of any issues reported from daily checks: ",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ),
                           ],
                         ),
-                        const SizedBox(width: 30),
+                        Container(color: Colors.red, width: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -219,7 +246,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                       child: Image.network(
                         widget.vehicle.image,
                         height: 250,
-                        width: 540,
+                        width: 500,
                         fit: BoxFit.cover,
                       ),
                     ),
