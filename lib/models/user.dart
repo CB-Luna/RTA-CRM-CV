@@ -38,8 +38,10 @@ class User {
 
   String get fullName => '$name $lastName';
 
-  bool get isAdmin => role.roleName == 'Admin';
+  // Both
+  bool get isAdmin => currentUser!.isAdminCrm || currentUser!.isAdminCv;
 
+  // CRM
   bool get isCRM => currentUser!.isAdminCrm || currentUser!.isSales || currentUser!.isSenExec || currentUser!.isFinance || currentUser!.isOpperations;
   bool get isAdminCrm => role.roleName == 'Admin CRM';
   bool get isSales => role.roleName == 'Sales';
@@ -47,7 +49,11 @@ class User {
   bool get isFinance => role.roleName == 'Finance';
   bool get isOpperations => role.roleName == 'Operations';
 
-  bool get isCV => role.roleName == 'Admin' || role.roleName == 'Admin';
+  // CV
+  bool get isCV => currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isEmployee;
+  bool get isAdminCv => role.roleName == 'Admin CV';
+  bool get isManager => role.roleName == 'Manager';
+  bool get isEmployee => role.roleName == 'Employee';
 
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
