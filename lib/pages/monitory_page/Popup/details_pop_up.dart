@@ -15,8 +15,8 @@ class DetailsPop extends StatelessWidget  {
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
-        width: 900,
-        height: 550,
+        width: 1000,
+        height: 650,
         decoration: BoxDecoration(
             gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
@@ -28,7 +28,7 @@ class DetailsPop extends StatelessWidget  {
             Row(
               children: [
                 Container(
-                  height: (450 * 0.7586633663366337).toDouble(),
+                  height: (460 * 0.7586633663366337).toDouble(),
                   width: 500,
                   padding: const EdgeInsets.all(8.0),
                   child: CustomPaint(
@@ -186,38 +186,40 @@ class DetailsPop extends StatelessWidget  {
                         width: 540,
                         )
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          //color: Colors.red,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Color(int.parse(vehicle.vehicle.color!)),
+                    Container(
+                      margin: const EdgeInsets.all(20.0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.black, width: 2.0)),
+                      width: 400,
+                      height: 80,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            vehicle.vehicle.make,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          width: 200,
-                          height: 70,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(vehicle.vehicle.make,
-                              style: TextStyle(color:Colors.black)),
-                               Text(vehicle.vehicle.model,
-                        style: TextStyle(color:Colors.black)),
-                        Text(vehicle.vehicle.year.toString(),
-                        style: TextStyle(color:Colors.black)),
-                            ],
+                          Text(
+                            vehicle.vehicle.model,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
-                        ),
-                       
-                      ],
+                          Text(
+                            vehicle.vehicle.year,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Container(
+                            width: 50,
+                            height: 100,
+                            margin: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                                color: Color(int.parse(vehicle.vehicle.color!)),
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                    color: Colors.black, width: 2.0)),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 )

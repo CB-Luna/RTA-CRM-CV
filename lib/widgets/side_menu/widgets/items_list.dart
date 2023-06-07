@@ -151,9 +151,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               selected: provider.indexSelected[8],
               leading: provider.aRMonitory != null ? Rive(artboard: provider.aRMonitory!) : const CircularProgressIndicator(),
               isOpen: widget.isOpen,
-              title: 'Monitory',
+              title: 'Vehicle Status',
               onTap: () async {
-                context.pushReplacement('/monitory');
+                context.pushReplacement('/vehicle_status');
               },
               onEnter: (event) {
                 provider.iHoverMonitory?.change(true);
