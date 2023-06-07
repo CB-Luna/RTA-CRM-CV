@@ -134,7 +134,7 @@ class LeadsProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      final res = await supabaseCRM.from('leads').select();
+      final res = await supabaseCRM.from('leads_view').select();
       if (res == null) {
         log('Error en getLeads()');
         return;
@@ -200,7 +200,7 @@ class LeadsProvider extends ChangeNotifier {
 
   Future<void> getData() async {
     if (id != null) {
-      var response = await supabaseCRM.from('leads').select().eq('id', id);
+      var response = await supabaseCRM.from('leads_view').select().eq('id', id);
 
       if (response == null) {
         log('Error en getData()');

@@ -139,7 +139,7 @@ class OpportunityProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      final res = await supabaseCRM.from('opportunity').select();
+      final res = await supabaseCRM.from('opportunities_view').select();
       if (res == null) {
         log('Error en getOpportunity()');
         return;
@@ -154,7 +154,7 @@ class OpportunityProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: user.id),
-              'NAME_Column': PlutoCell(value: user.name),
+              'NAME_Column': PlutoCell(value: user.nameLead),
               'AMOUNT_Column': PlutoCell(value: user.quoteAmount),
               'PROBABILITY_Column': PlutoCell(value: user.probability),
               'CLOSED_Column': PlutoCell(value: user.expectedClose),
@@ -205,26 +205,26 @@ class OpportunityProvider extends ChangeNotifier {
   Future<void> getData() async {
     if (id != null) {
       var response =
-          await supabaseCRM.from('opportunity').select().eq('id', id);
+          await supabaseCRM.from('opportunities_view').select().eq('id', id);
 
       if (response == null) {
         log('Error en getData()');
         return;
       }
       Opportunity opportunity = Opportunity.fromJson(jsonEncode(response[0]));
-      nameController.text = opportunity.name;
+      nameController.text = opportunity.nameLead;
       accountController.text = opportunity.account;
       selectSaleStoreValue = opportunity.salesStage;
       accountController.text = opportunity.account;
-      contactController.text = opportunity.contact;
+      contactController.text = "${opportunity.firstName} ${opportunity.lastName}";
       selectAssignedTValue = opportunity.assignedTo;
       selectLeadSourceValue = opportunity.leadSource;
       closedateController.text = opportunity.expectedClose.toString();
       quoteamountController.text = opportunity.quoteAmount.toString();
-      timeline = opportunity.timeLine;
+      /* timeline = opportunity.timeLine;
       decisionmaker = opportunity.decisionMaker;
       techspec = opportunity.teachSpec;
-      budget = opportunity.budget;
+      budget = opportunity.budget; */
       probabilityController.text = opportunity.probability.toString();
       descriptionController.text = opportunity.description;
     }
