@@ -11,12 +11,14 @@ class CustomCard extends StatefulWidget {
     this.height,
     this.width,
     required this.child,
+    this.padding = const EdgeInsets.all(10.0),
   });
 
   final String title;
   final double? height;
   final double? width;
   final Widget child;
+  final EdgeInsets padding;
 
   @override
   State<CustomCard> createState() => _CustomCardState();
@@ -25,16 +27,19 @@ class CustomCard extends StatefulWidget {
 class _CustomCardState extends State<CustomCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: widget.height,
-      width: widget.width,
-      decoration: BoxDecoration(
-        border: Border.all(color: AppTheme.of(context).primaryColor, width: 2),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(40),
-          topRight: Radius.circular(15),
-          bottomRight: Radius.circular(15),
-          bottomLeft: Radius.circular(15),
+    return Padding(
+      padding: widget.padding,
+      child: Container(
+        height: widget.height,
+        width: widget.width,
+        decoration: BoxDecoration(
+          border: Border.all(color: AppTheme.of(context).primaryColor, width: 2),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(40),
+            topRight: Radius.circular(15),
+            bottomRight: Radius.circular(15),
+            bottomLeft: Radius.circular(15),
+          ),
         ),
         gradient: whiteGradient,
       ),
