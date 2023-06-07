@@ -9,6 +9,7 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/accounts/tabs/table_top_text.dart';
 import 'package:rta_crm_cv/providers/accounts/create_quote_provider.dart';
+import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -36,11 +37,9 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
         listen: false,
       );
       var id = provider.idLead;
-      await provider.clearAll();
+      //await provider.clearAll();
       if (id != null) {
         await provider.getLead(id, null);
-      } else {
-        await provider.getLeads();
       }
     });
   }
@@ -53,6 +52,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
     double cardHeight = 2.5;
 
     CreateQuoteProvider provider = Provider.of<CreateQuoteProvider>(context);
+    SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
+    sideM.setIndex(4);
 
     return Material(
       child: SizedBox(
@@ -179,6 +180,21 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomDDownMenu(
+                                            list: provider.vendorsList,
+                                            dropdownValue: provider.vendorSelectedValue,
+                                            onChanged: (p0) {
+                                              if (provider.idVendor == null) {
+                                                if (p0 != null) provider.selectVendor(p0);
+                                              }
+                                            },
+                                            icon: Icons.location_city_outlined,
+                                            label: 'Vendor',
+                                            width: txfFieldWidth,
+                                          ),
+                                        ),
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomDDownMenu(
@@ -617,8 +633,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               onTap: () async {
                                                 if (provider.createValidation() && provider.globalRows.isNotEmpty) {
-                                                  context.pushReplacement(routeProspects);
                                                   await provider.createQuote();
+                                                  context.pushReplacement(routeQuotes);
                                                 }
                                               },
                                             ),

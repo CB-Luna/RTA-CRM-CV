@@ -74,8 +74,9 @@ class _QuotesTabState extends State<QuotesTab> {
                   icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                   text: 'Create Quote',
                   onTap: () async {
-                    providerCreate.idLead = null;
                     context.pushReplacement(routeQuoteCreation);
+                    await providerCreate.clearAll();
+                    providerCreate.idLead = null;
                   },
                 )
               ],
@@ -358,6 +359,7 @@ class _QuotesTabState extends State<QuotesTab> {
                               onTap: () async {
                                 detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
                                 context.pushReplacement(routeQuoteDetail);
+                                await detailProvider.clearAll();
                                 await detailProvider.getData();
                               },
                             ),
@@ -370,9 +372,10 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Create New',
                               onTap: () async {
+                                context.pushReplacement(routeQuoteCreation);
+                                await providerCreate.clearAll();
                                 await providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
                                 await providerCreate.getLead(rendererContext.row.cells["ID_LEAD_Column"]!.value, null);
-                                context.pushReplacement(routeQuoteCreation);
                               },
                             ),
                           if (currentUser!.isSenExec && rendererContext.row.cells["STATUS_Column"]!.value == 'Opened')
@@ -384,9 +387,10 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Validate',
                               onTap: () async {
-                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
-                                providerValidate.getData();
                                 context.pushReplacement(routeQuoteValidation);
+                                await providerValidate.clearAll();
+                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
+                                await providerValidate.getData();
                               },
                             ),
                           if (currentUser!.isFinance &&
@@ -399,9 +403,10 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Validate',
                               onTap: () async {
-                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
-                                providerValidate.getData();
                                 context.pushReplacement(routeQuoteValidation);
+                                await providerValidate.clearAll();
+                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
+                                await providerValidate.getData();
                               },
                             ),
                           if (currentUser!.isOpperations && rendererContext.row.cells["STATUS_Column"]!.value == 'SenExec Validate')
@@ -413,9 +418,10 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Validate',
                               onTap: () async {
-                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
-                                providerValidate.getData();
                                 context.pushReplacement(routeQuoteValidation);
+                                await providerValidate.clearAll();
+                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
+                                await providerValidate.getData();
                               },
                             ),
                           /* CustomTextIconButton(isLoading: false,

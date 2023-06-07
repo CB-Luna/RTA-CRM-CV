@@ -9,6 +9,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/leads_model.dart';
 import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
+import 'package:rta_crm_cv/models/quotes/vendor_model.dart';
 import 'package:rta_crm_cv/pages/accounts/models/orders.dart';
 
 class CreateQuoteProvider extends ChangeNotifier {
@@ -38,7 +39,11 @@ class CreateQuoteProvider extends ChangeNotifier {
     ipInterfaceSelectedValue = ipInterfaceList.first;
     subnetSelectedValue = subnetList.first;
 
+    await getVendors();
+    idVendor = null;
+
     await getLeads();
+    idLead = null;
 
     lineItemCenterController.clear();
     unitPriceController.clear();
@@ -52,7 +57,7 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     isLoading = false;
     prevId = null;
-    idLead = null;
+
     notifyListeners();
   }
 
@@ -77,6 +82,7 @@ class CreateQuoteProvider extends ChangeNotifier {
   List<PlutoGridStateManager> listStateManager = [];
   List<PlutoRow> globalRows = [];
   List<QuoteOrder> quotes = [];
+  bool isLoading = false;
 
   var tableTop1Group = AutoSizeGroup();
   var tableTopGroup = AutoSizeGroup();
@@ -92,20 +98,10 @@ class CreateQuoteProvider extends ChangeNotifier {
   final newCircuitIDController = TextEditingController();
   final newDataCenterController = TextEditingController();
   final existingEVCController = TextEditingController();
-
-  late String orderTypesSelectedValue;
-  late String typesSelectedValue;
-  late String dataCenterSelectedValue;
-  late String circuitTypeSelectedValue;
-  late String evcodSelectedValue;
-  late String ddosSelectedValue; //['Yes', 'No']
-  late String bgpSelectedValue;
-  late String ipAdressSelectedValue;
-  late String ipInterfaceSelectedValue;
-  late String subnetSelectedValue;
-
   List<String> orderTypesList = ['Internal Circuit', 'External Customer'];
+  late String orderTypesSelectedValue;
   List<String> typesList = ['New', 'Disconnect', 'Upgrade'];
+  late String typesSelectedValue;
   List<String> dataCentersList = [
     'Austin - Logix',
     'Austin – Data Foundry',
@@ -122,27 +118,37 @@ class CreateQuoteProvider extends ChangeNotifier {
     'St. Louis',
     'New'
   ];
-  List<String> circuitInfosList = ['Provider: ATT, Fiberlight, etc.', 'NNI', 'DIA', 'CIR', 'Port Size', 'Multicast Required', 'Cross-Connect', 'EVCoD'];
+  late String dataCenterSelectedValue;
+
+  List<String> vendorsList = [''];
+  String vendorSelectedValue = '';
+  List<String> circuitInfosList = ['NNI', 'DIA', 'CIR', 'Port Size', 'Multicast Required', 'Cross-Connect', 'EVCoD'];
+  late String circuitTypeSelectedValue;
   List<String> ddosList = ['Yes', 'No'];
+  late String ddosSelectedValue;
   List<String> evcodList = ['No', 'New', 'Existing EVC'];
+  late String evcodSelectedValue;
   List<String> bgpList = ['No', 'IPv4', 'IPv6', 'Current ASN(s)'];
+  late String bgpSelectedValue;
   List<String> ipAdressList = ['Interface', 'IP Subnet'];
+  late String ipAdressSelectedValue;
   List<String> ipInterfaceList = ['IPv4', 'IPv6'];
+  late String ipInterfaceSelectedValue;
   List<String> subnetList = ['No', 'IPv4', 'IPv6'];
+  late String subnetSelectedValue;
 
   final lineItemCenterController = TextEditingController();
   final unitPriceController = TextEditingController();
   final unitCostController = TextEditingController();
   final quantityController = TextEditingController();
 
+  List<String> leadsList = [''];
+  String leadSelectedValue = '';
   final companyController = TextEditingController();
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
-
-  List<String> leadsList = [];
-  String leadSelectedValue = '';
 
   void selectOT(String selected) {
     orderTypesSelectedValue = selected;
@@ -227,8 +233,6 @@ class CreateQuoteProvider extends ChangeNotifier {
     }
   }
 
-  bool isLoading = false;
-
   Future<void> createQuote() async {
     try {
       isLoading = true;
@@ -271,6 +275,9 @@ class CreateQuoteProvider extends ChangeNotifier {
         });
       }
       quoteInfo.addAll(dataCenter);
+
+      var responseVendor = await supabaseCRM.from('vendors').select().eq('vendor_name', vendorSelectedValue);
+      Vendor vendor = Vendor.fromJson(jsonEncode(responseVendor[0]));
 
       Map<String, dynamic> circuitType = {};
       if (circuitTypeSelectedValue != 'EVCoD') {
@@ -348,6 +355,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "comments": commentsList,
           "id_quote_origin": prevId,
           "id_lead": idLead,
+          "id_vendor": vendor.id,
         }))[0];
         await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);
       } else {
@@ -369,8 +377,8 @@ class CreateQuoteProvider extends ChangeNotifier {
             "items": items,
             "comments": commentsList,
             "id_quote_origin": prevId,
-            //TODO: Change to the Customer info Leads DropDown
             "id_lead": lead.id,
+            "id_vendor": vendor.id,
           });
           await supabaseCRM.from('quotes').update({"status": "Closed"}).eq("id", prevId);
           prevId = null;
@@ -389,8 +397,8 @@ class CreateQuoteProvider extends ChangeNotifier {
             "items": items,
             "comments": commentsList,
             "id_quote_origin": null,
-            //TODO: Change to the Customer info Leads DropDown
             "id_lead": lead.id,
+            "id_vendor": vendor.id,
           }).select())[0];
           await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);
         }
@@ -703,8 +711,6 @@ class CreateQuoteProvider extends ChangeNotifier {
   int? prevId;
 
   Future<void> getData(String id) async {
-    clearAll();
-
     var response = await supabaseCRM.from('quotes').select().eq('id', int.parse(id));
 
     prevId = int.parse(id);
@@ -731,6 +737,11 @@ class CreateQuoteProvider extends ChangeNotifier {
     } else {
       dataCenterSelectedValue = quote.orderInfo.dataCenterLocation;
     }
+
+    var responseVendor = await supabaseCRM.from('vendors').select().eq('id', quote.idVendor);
+    idVendor = quote.idVendor;
+    Vendor vendor = Vendor.fromJson(jsonEncode(responseVendor[0]));
+    vendorSelectedValue = vendor.vendorName;
 
     circuitTypeSelectedValue = quote.orderInfo.circuitType;
     if (quote.orderInfo.circuitType == 'EVCoD') {
@@ -813,7 +824,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     emailController.clear();
     phoneController.clear();
 
-    leadsList = [];
+    leadsList.clear();
     final response = await supabaseCRM.from('leads').select();
     if (response == null) {
       log('Error en getLeads()');
@@ -823,16 +834,35 @@ class CreateQuoteProvider extends ChangeNotifier {
     for (var lead in leads) {
       leadsList.add(lead.organitationName);
     }
-    leadSelectedValue = leads.first.organitationName;
+    selectLead(leads.first.organitationName);
 
     notifyListeners();
-
-    selectLead(leads.first.organitationName);
   }
 
   Future<void> selectLead(String selected) async {
     leadSelectedValue = selected;
     await getLead(null, leadSelectedValue);
+    notifyListeners();
+  }
+
+  int? idVendor;
+
+  Future<void> getVendors() async {
+    var response = await supabaseCRM.from('vendors').select();
+
+    List<Vendor> vendors = (response as List<dynamic>).map((vendor) => Vendor.fromJson(jsonEncode(vendor))).toList();
+
+    vendorsList.clear();
+    for (var vendor in vendors) {
+      vendorsList.add(vendor.vendorName);
+    }
+    notifyListeners();
+
+    selectVendor(vendors.first.vendorName);
+  }
+
+  void selectVendor(String vendorName) {
+    vendorSelectedValue = vendorName;
     notifyListeners();
   }
 }

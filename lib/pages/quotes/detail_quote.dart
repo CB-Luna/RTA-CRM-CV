@@ -8,7 +8,6 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/accounts/tabs/table_top_text.dart';
 import 'package:rta_crm_cv/providers/accounts/detail_quote_provider.dart';
-import 'package:rta_crm_cv/providers/accounts/validate_quote_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
@@ -18,14 +17,14 @@ import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
-class ValidateQuotePage extends StatefulWidget {
-  const ValidateQuotePage({super.key});
+class DetailQuotePage extends StatefulWidget {
+  const DetailQuotePage({super.key});
 
   @override
-  State<ValidateQuotePage> createState() => _ValidateQuotePageState();
+  State<DetailQuotePage> createState() => _DetailQuotePageState();
 }
 
-class _ValidateQuotePageState extends State<ValidateQuotePage> {
+class _DetailQuotePageState extends State<DetailQuotePage> {
   @override
   Widget build(BuildContext context) {
     double txfFieldWidth = (MediaQuery.of(context).size.width / 7);
@@ -33,9 +32,9 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
 
     double cardHeight = 2.5;
 
-    ValidateQuoteProvider provider = Provider.of<ValidateQuoteProvider>(context);
+    DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
     if (provider.globalRows.isEmpty || provider.id == null) {
-      context.pushReplacement(routeProspects);
+      context.pushReplacement(routeQuotes);
     }
 
     return Material(
@@ -163,6 +162,21 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomDDownMenu(
+                                            list: provider.vendorsList,
+                                            dropdownValue: provider.vendorSelectedValue,
+                                            onChanged: (p0) {
+                                              /* if (provider.idVendor == null) {
+                                                if (p0 != null) provider.selectVendor(p0);
+                                              } */
+                                            },
+                                            icon: Icons.location_city_outlined,
+                                            label: 'Vendor',
+                                            width: txfFieldWidth,
+                                          ),
+                                        ),
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomDDownMenu(
@@ -576,37 +590,6 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                CustomTextIconButton(
-                                                  isLoading: provider.isLoading,
-                                                  width: (MediaQuery.of(context).size.width / 5) / 2 - 25,
-                                                  icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
-                                                  text: 'Accept',
-                                                  onTap: () async {
-                                                    context.pushReplacement(routeProspects);
-                                                    await provider.validate(true);
-                                                  },
-                                                ),
-                                                CustomTextIconButton(
-                                                  isLoading: provider.isLoading,
-                                                  width: (MediaQuery.of(context).size.width / 5) / 2 - 25,
-                                                  icon: Icon(Icons.close, color: AppTheme.of(context).primaryBackground),
-                                                  color: secondaryColor,
-                                                  text: 'Reject',
-                                                  onTap: () async {
-                                                    context.pushReplacement(routeProspects);
-                                                    await provider.validate(false);
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
                                       ],
                                     ),
                                   ),

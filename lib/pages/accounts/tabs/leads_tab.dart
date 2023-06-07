@@ -425,6 +425,7 @@ class _LeadsTabState extends State<LeadsTab> {
                             text: 'Create Quote',
                             onTap: () async {
                               context.pushReplacement(routeQuoteCreation);
+                              await providerCreate.clearAll();
                               await providerCreate.getLead(rendererContext.row.cells["ID_Column"]!.value, null);
                             },
                           )

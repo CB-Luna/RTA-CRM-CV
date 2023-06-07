@@ -18,6 +18,7 @@ class Quotes {
   List<Comment> comments;
   String idQuoteOrigin;
   int idLead;
+  int idVendor;
 
   Quotes({
     required this.id,
@@ -37,6 +38,7 @@ class Quotes {
     required this.comments,
     required this.idQuoteOrigin,
     required this.idLead,
+    required this.idVendor,
   });
 
   factory Quotes.fromJson(String str) => Quotes.fromMap(json.decode(str));
@@ -61,6 +63,7 @@ class Quotes {
         comments: List<Comment>.from(json["comments"].map((x) => Comment.fromMap(x))),
         idQuoteOrigin: json["id_quote_origin"],
         idLead: json["id_lead"],
+        idVendor: json["id_vendor"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -81,6 +84,7 @@ class Quotes {
         "comments": comments.isEmpty ? [] : List<dynamic>.from(comments.map((x) => x.toMap())),
         "id_quote_origin": idQuoteOrigin,
         "id_lead": idLead,
+        "id_vendor": idVendor,
       };
 }
 

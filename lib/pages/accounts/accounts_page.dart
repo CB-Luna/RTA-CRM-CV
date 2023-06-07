@@ -136,15 +136,30 @@ class _AccountsPageState extends State<AccountsPage> {
                         ),
                       ),
                       if (provider.tabBar[0])
-                        const QuotesTab()
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: QuotesTab(),
+                        )
                       else if (provider.tabBar[1])
-                        const OpportunitysTab()
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: OpportunitysTab(),
+                        )
                       else if (provider.tabBar[2])
-                        const LeadsTab()
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: LeadsTab(),
+                        )
                       else if (provider.tabBar[3])
-                        const CampaignsTab()
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: CampaignsTab(),
+                        )
                       else
-                        const AccountsTab()
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: AccountsTab(),
+                        )
                       //const BillingTab()
                     ],
                   ),
