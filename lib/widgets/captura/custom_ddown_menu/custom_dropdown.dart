@@ -29,7 +29,7 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 51,
+      height: 55,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -49,7 +49,11 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
               borderRadius: BorderRadius.circular(5),
               color: AppTheme.of(context).primaryBackground,
               boxShadow: [
-                BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 0.1, blurRadius: 3, offset: const Offset(0, 0) // changes position of shadow
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.1,
+                    blurRadius: 3,
+                    offset: const Offset(0, 0) // changes position of shadow
                     )
               ],
             ),
@@ -63,7 +67,8 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
                   child: DropdownButton<String>(
                     hint: Text(
                       widget.hint ?? '',
-                      style: TextStyle(color: AppTheme.of(context).primaryColor),
+                      style:
+                          TextStyle(color: AppTheme.of(context).primaryColor),
                     ),
                     icon: Expanded(
                       child: Row(
@@ -86,12 +91,14 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
                     underline: const SizedBox.shrink(),
                     onChanged: widget.onChanged,
                     value: widget.dropdownValue,
-                    items: widget.list.map<DropdownMenuItem<String>>((String value) {
+                    items: widget.list
+                        .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(
                           value,
-                          style: TextStyle(color: AppTheme.of(context).primaryColor),
+                          style: TextStyle(
+                              color: AppTheme.of(context).primaryColor),
                         ),
                       );
                     }).toList(),

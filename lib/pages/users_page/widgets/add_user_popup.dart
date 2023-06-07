@@ -29,9 +29,11 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
     UsersProvider provider = Provider.of<UsersProvider>(context);
     final formKey = GlobalKey<FormState>();
 
-    final List<String> statesNames = provider.states.map((state) => state.name).toList();
+    final List<String> statesNames =
+        provider.states.map((state) => state.name).toList();
 
-    final List<String> rolesNames = provider.roles.map((role) => role.roleName).toList();
+    final List<String> rolesNames =
+        provider.roles.map((role) => role.roleName).toList();
 
     return Dialog(
       shape: const RoundedRectangleBorder(
@@ -154,7 +156,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextIconButton(
-                  icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.save_outlined,
+                      color: AppTheme.of(context).primaryBackground),
                   text: 'Save User',
                   onTap: () async {
                     if (!formKey.currentState!.validate()) {
@@ -169,10 +172,11 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     // }
 
                     //Registrar usuario
-                    final Map<String, String>? result = await provider.registerUser();
+                    final Map<String, String>? result =
+                        await provider.registerUser();
 
                     if (result == null) {
-                      await ApiErrorHandler.callToast('Error al registrar usuario');
+                      await ApiErrorHandler.callToast('Error registering user');
                       return;
                     } else {
                       if (result['Error'] != null) {
@@ -184,7 +188,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     final String? userId = result['userId'];
 
                     if (userId == null) {
-                      await ApiErrorHandler.callToast('Error al registrar usuario');
+                      await ApiErrorHandler.callToast('Error registering user');
                       return;
                     }
 
@@ -192,7 +196,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     bool res = await provider.createUserProfile(userId);
 
                     if (!res) {
-                      await ApiErrorHandler.callToast('Error al crear perfil de usuario');
+                      await ApiErrorHandler.callToast(
+                          'Error creating user profile');
                       return;
                     }
 
@@ -209,7 +214,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                   },
                 ),
                 CustomTextIconButton(
-                  icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.refresh_outlined,
+                      color: AppTheme.of(context).primaryBackground),
                   text: 'Refresh',
                 ),
               ],

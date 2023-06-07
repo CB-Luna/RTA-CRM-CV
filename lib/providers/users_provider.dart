@@ -111,14 +111,20 @@ class UsersProvider extends ChangeNotifier {
   }
 
   Future<void> getStates({bool notify = true}) async {
-    final res = await supabase.from('state').select().order(
-          'name',
-          ascending: true,
-        );
+    try {
+      final res = await supabase.from('state').select().order(
+            'name',
+            ascending: true,
+          );
 
-    states = (res as List<dynamic>).map((pais) => State.fromJson(jsonEncode(pais))).toList();
+      states = (res as List<dynamic>)
+          .map((pais) => State.fromJson(jsonEncode(pais)))
+          .toList();
 
-    if (notify) notifyListeners();
+      if (notify) notifyListeners();
+    } catch (e) {
+      log('Error en getStates() -$e');
+    }
   }
 
   Future<void> getRoles({bool notify = true}) async {
@@ -127,7 +133,9 @@ class UsersProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    roles = (res as List<dynamic>).map((rol) => Role.fromJson(jsonEncode(rol))).toList();
+    roles = (res as List<dynamic>)
+        .map((rol) => Role.fromJson(jsonEncode(rol)))
+        .toList();
 
     if (notify) notifyListeners();
   }
@@ -138,13 +146,18 @@ class UsersProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      final res = await supabase.from('users').select().like('name', '%${searchController.text}%');
+      final res = await supabase
+          .from('users')
+          .select()
+          .like('name', '%${searchController.text}%');
 
       if (res == null) {
         log('Error en getUsuarios()');
         return;
       }
-      users = (res as List<dynamic>).map((usuario) => User.fromJson(jsonEncode(usuario))).toList();
+      users = (res as List<dynamic>)
+          .map((usuario) => User.fromJson(jsonEncode(usuario)))
+          .toList();
 
       rows.clear();
       for (User user in users) {
@@ -309,13 +322,15 @@ class UsersProvider extends ChangeNotifier {
   SMIInput<bool>? iHoverDashboards;
   SMIInput<bool>? iSelectedDashboards;
   Future<void> dashboardsIconRive() async {
-    final ByteData data = await rootBundle.load('assets/rive/dashboards_icon.riv');
+    final ByteData data =
+        await rootBundle.load('assets/rive/dashboards_icon.riv');
 
     final file = RiveFile.import(data);
 
     final artboard = file.mainArtboard;
 
-    sMCDashboards = StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCDashboards =
+        StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCDashboards != null) {
       artboard.addController(sMCDashboards!);
