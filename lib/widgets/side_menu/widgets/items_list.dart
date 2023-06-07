@@ -29,7 +29,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            if (currentUser!.isCRM)
+            if (!currentUser!.isCRM)
               SideMenuItem(
                 selected: provider.indexSelected[0],
                 leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
@@ -61,7 +61,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverAccounts?.change(false);
                 },
               ),
-            if (currentUser!.isCRM)
+            if (!currentUser!.isCRM)
               SideMenuItem(
                 selected: provider.indexSelected[2],
                 leading: provider.aRSchedulings != null ? Rive(artboard: provider.aRSchedulings!) : const CircularProgressIndicator(),
@@ -77,7 +77,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverSchedulings?.change(false);
                 },
               ),
-            if (currentUser!.isCRM)
+            if (!currentUser!.isCRM)
               SideMenuItem(
                 selected: provider.indexSelected[3],
                 leading: provider.aRNetworks != null ? Rive(artboard: provider.aRNetworks!) : const CircularProgressIndicator(),
@@ -157,7 +157,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverInventories?.change(false);
                 },
               ),
-            if (currentUser!.isCRM)
+            if (!currentUser!.isCRM)
               SideMenuItem(
                 selected: provider.indexSelected[6],
                 leading: provider.aRReports != null ? Rive(artboard: provider.aRReports!) : const CircularProgressIndicator(),
@@ -173,23 +173,23 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverReports?.change(false);
                 },
               ),
-            if (currentUser!.isCRM)
-              SideMenuItem(
-                selected: provider.indexSelected[7],
-                leading: provider.aRUsers != null ? Rive(artboard: provider.aRUsers!) : const CircularProgressIndicator(),
-                isOpen: widget.isOpen,
-                title: 'Users',
-                onTap: () async {
-                  context.pushReplacement('/users');
-                },
-                onEnter: (event) {
-                  provider.iHoverUsers?.change(true);
-                },
-                onExit: (event) {
-                  provider.iHoverUsers?.change(false);
-                },
-              ),
-            if (currentUser!.isCRM)
+            // if (currentUser!.isAdminCrm)
+            SideMenuItem(
+              selected: provider.indexSelected[7],
+              leading: provider.aRUsers != null ? Rive(artboard: provider.aRUsers!) : const CircularProgressIndicator(),
+              isOpen: widget.isOpen,
+              title: 'Users',
+              onTap: () async {
+                context.pushReplacement('/users');
+              },
+              onEnter: (event) {
+                provider.iHoverUsers?.change(true);
+              },
+              onExit: (event) {
+                provider.iHoverUsers?.change(false);
+              },
+            ),
+            if (!currentUser!.isCRM)
               SideMenuItem(
                 selected: provider.indexSelected[8],
                 leading: Icon(Icons.color_lens_outlined, color: Color(Colors.grey[300]!.value)),
@@ -205,22 +205,21 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   //provider.iHoverUsers?.change(false);
                 },
               ),
-            if (currentUser!.isCRM)
-              SideMenuItem(
-                selected: provider.indexSelected[8],
-                leading: const Icon(Icons.power_settings_new_outlined, color: Colors.red),
-                isOpen: widget.isOpen,
-                title: 'Logout',
-                onTap: () async {
-                  userState.logout();
-                },
-                onEnter: (event) {
-                  //provider.iHoverUsers?.change(true);
-                },
-                onExit: (event) {
-                  //provider.iHoverUsers?.change(false);
-                },
-              ),
+            SideMenuItem(
+              selected: provider.indexSelected[8],
+              leading: const Icon(Icons.power_settings_new_outlined, color: Colors.red),
+              isOpen: widget.isOpen,
+              title: 'Logout',
+              onTap: () async {
+                userState.logout();
+              },
+              onEnter: (event) {
+                //provider.iHoverUsers?.change(true);
+              },
+              onExit: (event) {
+                //provider.iHoverUsers?.change(false);
+              },
+            ),
           ],
         ),
       ),

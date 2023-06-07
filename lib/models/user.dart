@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
 
 class User {
@@ -39,7 +40,8 @@ class User {
 
   bool get isAdmin => role.roleName == 'Admin';
 
-  bool get isCRM => role.roleName == 'Sales' || role.roleName == 'Finance' || role.roleName == 'Sen. Exec.' || role.roleName == 'Operations';
+  bool get isCRM => currentUser!.isAdminCrm || currentUser!.isSales || currentUser!.isSenExec || currentUser!.isFinance || currentUser!.isOpperations;
+  bool get isAdminCrm => role.roleName == 'Admin CRM';
   bool get isSales => role.roleName == 'Sales';
   bool get isSenExec => role.roleName == 'Sen. Exec.';
   bool get isFinance => role.roleName == 'Finance';

@@ -19,7 +19,7 @@ class DetailQuoteProvider extends ChangeNotifier {
     clearAll();
   }
 
-  late int? id;
+  int id = 0;
 
   clearAll() {
     subtotal = 0;
@@ -52,6 +52,8 @@ class DetailQuoteProvider extends ChangeNotifier {
 
     comments.clear();
     commentController.clear();
+
+    id = 0;
 
     notifyListeners();
   }
@@ -156,9 +158,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   final phoneController = TextEditingController();
 
   Future<void> getData() async {
-    clearAll();
-
-    if (id != null) {
+    if (id != 0) {
       var responseQuote = await supabaseCRM.from('quotes').select().eq('id', id);
 
       if (responseQuote == null) {
@@ -246,9 +246,9 @@ class DetailQuoteProvider extends ChangeNotifier {
       lastNameController.text = lead.lastName;
       emailController.text = lead.email;
       phoneController.text = lead.phoneNumber;
-    }
 
-    notifyListeners();
+      notifyListeners();
+    }
   }
 
   final myChannel = supabaseCRM.channel('quotes');
