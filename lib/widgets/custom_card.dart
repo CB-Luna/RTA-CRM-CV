@@ -11,7 +11,7 @@ class CustomCard extends StatefulWidget {
     this.height,
     this.width,
     required this.child,
-    this.padding = const EdgeInsets.all(10.0),
+    this.padding = const EdgeInsets.all(0),
   });
 
   final String title;

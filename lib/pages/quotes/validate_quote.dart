@@ -765,7 +765,7 @@ class DetailQuoteComments extends StatefulWidget {
 class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
   @override
   Widget build(BuildContext context) {
-    DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
+    ValidateQuoteProvider provider = Provider.of<ValidateQuoteProvider>(context);
     return CustomCard(
       height: MediaQuery.of(context).size.height / 2.25,
       width: MediaQuery.of(context).size.width / 5,

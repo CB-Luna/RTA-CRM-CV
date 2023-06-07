@@ -69,16 +69,19 @@ class _QuotesTabState extends State<QuotesTab> {
                   label: 'Search',
                   keyboardType: TextInputType.text,
                 ),
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                  text: 'Create Quote',
-                  onTap: () async {
-                    context.pushReplacement(routeQuoteCreation);
-                    await providerCreate.clearAll();
-                    providerCreate.idLead = null;
-                  },
-                )
+                if (!currentUser!.isSales) SizedBox(width: 131),
+                if (currentUser!.isSales)
+                  CustomTextIconButton(
+                    width: 131,
+                    isLoading: false,
+                    icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                    text: 'Create Quote',
+                    onTap: () async {
+                      context.pushReplacement(routeQuoteCreation);
+                      await providerCreate.clearAll();
+                      providerCreate.idLead = null;
+                    },
+                  )
               ],
             ),
           ),
@@ -348,21 +351,21 @@ class _QuotesTabState extends State<QuotesTab> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          if (rendererContext.row.cells["STATUS_Column"]!.value != 'Rejected')
-                            CustomTextIconButton(
-                              isLoading: false,
-                              icon: Icon(
-                                Icons.fact_check_outlined,
-                                color: AppTheme.of(context).primaryBackground,
-                              ),
-                              text: 'Detail',
-                              onTap: () async {
-                                detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
-                                context.pushReplacement(routeQuoteDetail);
-                                await detailProvider.clearAll();
-                                await detailProvider.getData();
-                              },
+                          //if (rendererContext.row.cells["STATUS_Column"]!.value != 'Rejected')
+                          CustomTextIconButton(
+                            isLoading: false,
+                            icon: Icon(
+                              Icons.fact_check_outlined,
+                              color: AppTheme.of(context).primaryBackground,
                             ),
+                            text: 'Detail',
+                            onTap: () async {
+                              detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
+                              context.pushReplacement(routeQuoteDetail);
+                              await detailProvider.clearAll();
+                              await detailProvider.getData();
+                            },
+                          ),
                           if (currentUser!.isSales && rendererContext.row.cells["STATUS_Column"]!.value == 'Rejected')
                             CustomTextIconButton(
                               isLoading: false,
@@ -394,7 +397,7 @@ class _QuotesTabState extends State<QuotesTab> {
                               },
                             ),
                           if (currentUser!.isFinance &&
-                              (rendererContext.row.cells["STATUS_Column"]!.value == 'Finance Validate' || rendererContext.row.cells["STATUS_Column"]!.value == 'Margin Positive'))
+                              (rendererContext.row.cells["STATUS_Column"]!.value == 'SenExec Validate' || rendererContext.row.cells["STATUS_Column"]!.value == 'Margin Positive'))
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -409,7 +412,7 @@ class _QuotesTabState extends State<QuotesTab> {
                                 await providerValidate.getData();
                               },
                             ),
-                          if (currentUser!.isOpperations && rendererContext.row.cells["STATUS_Column"]!.value == 'SenExec Validate')
+                          if (currentUser!.isOpperations && rendererContext.row.cells["STATUS_Column"]!.value == 'Finance Validate')
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
