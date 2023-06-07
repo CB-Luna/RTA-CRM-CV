@@ -37,6 +37,16 @@ class User {
 
   String get fullName => '$name $lastName';
 
+  bool get isAdmin => role.roleName == 'Admin';
+
+  bool get isCRM => role.roleName == 'Sales' || role.roleName == 'Finance' || role.roleName == 'Sen. Exec.' || role.roleName == 'Operations' || role.roleName == 'Admin';
+  bool get isSales => role.roleName == 'Sales';
+  bool get isFinance => role.roleName == 'Finance';
+  bool get isSenExec => role.roleName == 'Sen. Exec.';
+  bool get isOpperations => role.roleName == 'Operations';
+
+  bool get isCV => role.roleName == 'Admin' || role.roleName == 'Admin';
+
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
   factory User.fromMap(Map<String, dynamic> json) {

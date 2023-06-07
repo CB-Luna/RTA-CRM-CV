@@ -80,3 +80,14 @@ CustomTransitionPage<void> pageTransition(
         FadeTransition(opacity: animation, child: child),
   );
 }
+
+const String routeProspects = '/prospects';
+const String routeQuoteCreation = '/quote_creation';
+const String routeQuoteDetail = '/quote_detail';
+const String routeQuoteValidation = '/quote_validation';
+
+const String routeQuotes = '/quotes';
+const String routeCampaigns = '/campaigns';
+
+const String routeInventory = '/inventory';
+const String routeTickets = '/tickets';

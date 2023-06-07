@@ -43,6 +43,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.1,
             child: CustomTextIconButton(
+              isLoading: false,
               icon: Icon(Icons.add_box_outlined, color: AppTheme.of(context).primaryBackground),
               text: 'Add Vehicle',
               onTap: () async {
@@ -68,6 +69,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.1,
             child: CustomTextIconButton(
+              isLoading: false,
               icon: Icon(Icons.mode_edit_outlined, color: AppTheme.of(context).primaryBackground),
               text: 'Edit Vehicle',
               onTap: () {
@@ -87,6 +89,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.1,
             child: CustomTextIconButton(
+              isLoading: false,
               color: const Color(0xffBF2135),
               icon: Icon(Icons.delete_outline_outlined, color: AppTheme.of(context).primaryBackground),
               text: 'Delete Vehicle',
@@ -108,6 +111,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             width: MediaQuery.of(context).size.width * 0.1,
             padding: const EdgeInsets.all(10),
             child: CustomTextIconButton(
+              isLoading: false,
               icon: Icon(Icons.download_outlined, color: AppTheme.of(context).primaryBackground),
               text: 'Export Data',
               onTap: () {
@@ -122,6 +126,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             ),
           ),
           CustomTextIconButton(
+            isLoading: false,
             icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
             text: 'Filter',
             onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),

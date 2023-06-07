@@ -5,7 +5,7 @@ import 'package:rive/rive.dart';
 import 'package:rta_crm_cv/pages/accounts/tabs/accounts_tab.dart';
 import 'package:rta_crm_cv/pages/accounts/tabs/campaigns_tab.dart';
 import 'package:rta_crm_cv/pages/accounts/tabs/leads_tab.dart';
-import 'package:rta_crm_cv/pages/accounts/tabs/opportunities_tab.dart';
+import 'package:rta_crm_cv/pages/accounts/tabs/opportunity_tab.dart';
 import 'package:rta_crm_cv/pages/accounts/tabs/quotes_tab.dart';
 
 import 'package:rta_crm_cv/providers/accounts/account_page_provider.dart';
@@ -29,6 +29,8 @@ class _AccountsPageState extends State<AccountsPage> {
 
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
     sideM.setIndex(1);
+
+    double tabWidth = MediaQuery.of(context).size.width / 3.5;
 
     return Material(
       child: SizedBox(
@@ -73,33 +75,22 @@ class _AccountsPageState extends State<AccountsPage> {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              Padding(
+                              /* Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: CustomTabBarOption(
                                   isOn: provider.tabBar[0],
-                                  width: MediaQuery.of(context).size.width / 6,
+                                  width: tabWidth,
                                   text: 'Quotes',
                                   border: greenGradient,
                                   gradient: greenRadial,
                                   onTap: () => provider.setIndex(0),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: CustomTabBarOption(
-                                  isOn: provider.tabBar[1],
-                                  width: MediaQuery.of(context).size.width / 6,
-                                  text: 'Opportunities',
-                                  border: greenGradient,
-                                  gradient: greenRadial,
-                                  onTap: () => provider.setIndex(1),
-                                ),
-                              ),
+                              ), */
                               Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: CustomTabBarOption(
                                   isOn: provider.tabBar[2],
-                                  width: MediaQuery.of(context).size.width / 6,
+                                  width: tabWidth,
                                   text: 'Leads',
                                   border: greenGradient,
                                   gradient: greenRadial,
@@ -109,19 +100,30 @@ class _AccountsPageState extends State<AccountsPage> {
                               Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: CustomTabBarOption(
+                                  isOn: provider.tabBar[1],
+                                  width: tabWidth,
+                                  text: 'Opportunities',
+                                  border: greenGradient,
+                                  gradient: greenRadial,
+                                  onTap: () => provider.setIndex(1),
+                                ),
+                              ),
+                              /* Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: CustomTabBarOption(
                                   isOn: provider.tabBar[3],
-                                  width: MediaQuery.of(context).size.width / 6,
+                                  width: tabWidth,
                                   text: 'Campaigns',
                                   border: greenGradient,
                                   gradient: greenRadial,
                                   onTap: () => provider.setIndex(3),
                                 ),
-                              ),
+                              ), */
                               Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: CustomTabBarOption(
                                   isOn: provider.tabBar[4],
-                                  width: MediaQuery.of(context).size.width / 6,
+                                  width: tabWidth,
                                   text: 'Accounts',
                                   //text: 'Billing',
                                   border: greenGradient,
@@ -134,15 +136,30 @@ class _AccountsPageState extends State<AccountsPage> {
                         ),
                       ),
                       if (provider.tabBar[0])
-                        const QuotesTab()
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: QuotesTab(),
+                        )
                       else if (provider.tabBar[1])
-                        const OpportunitiesTab()
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: OpportunitysTab(),
+                        )
                       else if (provider.tabBar[2])
-                        const LeadsTab()
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: LeadsTab(),
+                        )
                       else if (provider.tabBar[3])
-                        const CampaignsTab()
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: CampaignsTab(),
+                        )
                       else
-                        const AccountsTab()
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: AccountsTab(),
+                        )
                       //const BillingTab()
                     ],
                   ),

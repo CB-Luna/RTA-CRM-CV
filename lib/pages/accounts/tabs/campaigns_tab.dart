@@ -35,6 +35,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Filter',
                   onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
@@ -47,10 +48,11 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   keyboardType: TextInputType.text,
                 ),
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                   text: 'Create Quote',
                   onTap: () async {
-                    context.pushReplacement('/quote_creation');
+                    context.pushReplacement(routeQuoteCreation);
                   },
                 )
               ],
@@ -183,7 +185,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -235,7 +237,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -327,6 +329,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           CustomTextIconButton(
+                            isLoading: false,
                             icon: Icon(
                               Icons.fact_check_outlined,
                               color: AppTheme.of(context).primaryBackground,
@@ -335,6 +338,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                             onTap: () {},
                           ),
                           CustomTextIconButton(
+                            isLoading: false,
                             icon: Icon(
                               Icons.shopping_basket_outlined,
                               color: AppTheme.of(context).primaryBackground,

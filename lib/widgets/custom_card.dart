@@ -40,27 +40,27 @@ class _CustomCardState extends State<CustomCard> {
             bottomRight: Radius.circular(15),
             bottomLeft: Radius.circular(15),
           ),
-          gradient: whiteGradient,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CardHeader(text: widget.title),
-            SizedBox(
-              height: widget.height != null ? widget.height! - 65 : null,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: RawScrollbar(
-                  thumbColor: AppTheme.of(context).primaryColor,
-                  radius: const Radius.circular(15),
-                  thickness: 7,
-                  thumbVisibility: true,
-                  child: SingleChildScrollView(child: widget.child),
-                ),
+        gradient: whiteGradient,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CardHeader(text: widget.title),
+          SizedBox(
+            height: widget.height != null ? widget.height! - 65 : null,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: RawScrollbar(
+                thumbColor: AppTheme.of(context).primaryColor,
+                radius: const Radius.circular(15),
+                thickness: 7,
+                thumbVisibility: true,
+                child: SingleChildScrollView(scrollDirection: Axis.vertical, child: widget.child),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

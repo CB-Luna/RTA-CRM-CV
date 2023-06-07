@@ -6,6 +6,9 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/pages/accounts/details/details_lead.dart';
+import 'package:rta_crm_cv/pages/accounts/popups%20tabs/create_lead.dart';
+import 'package:rta_crm_cv/providers/accounts/create_quote_provider.dart';
 import 'package:rta_crm_cv/providers/accounts/tabs/leads_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -23,8 +26,22 @@ class LeadsTab extends StatefulWidget {
 
 class _LeadsTabState extends State<LeadsTab> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final LeadsProvider provider = Provider.of<LeadsProvider>(
+        context,
+        listen: false,
+      );
+      await provider.updateState();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     LeadsProvider provider = Provider.of<LeadsProvider>(context);
+    CreateQuoteProvider providerCreate = Provider.of<CreateQuoteProvider>(context);
     return CustomCard(
       title: 'Leads',
       child: Column(
@@ -36,6 +53,7 @@ class _LeadsTabState extends State<LeadsTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Filter',
                   onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
@@ -48,10 +66,17 @@ class _LeadsTabState extends State<LeadsTab> {
                   keyboardType: TextInputType.text,
                 ),
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                  text: 'Create Quote',
+                  text: 'Create Lead',
                   onTap: () async {
-                    context.pushReplacement('/quote_creation');
+                    await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const CreateLead();
+                      },
+                    );
+                    await provider.updateState();
                   },
                 )
               ],
@@ -212,7 +237,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -236,7 +261,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -260,7 +285,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -358,7 +383,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ACTIONS',
                   field: 'ACTIONS_Column',
-                  width: 190,
+                  width: 250,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
                   type: PlutoColumnType.text(),
@@ -376,22 +401,49 @@ class _LeadsTabState extends State<LeadsTab> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           CustomTextIconButton(
+                            isLoading: false,
                             icon: Icon(
                               Icons.fact_check_outlined,
                               color: AppTheme.of(context).primaryBackground,
                             ),
-                            text: 'Edit',
-                            onTap: () {},
+                            text: 'Details',
+                            onTap: () async {
+                              await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  provider.id = rendererContext.row.cells['ID_Column']!.value;
+                                  provider.getData();
+                                  return const DetailsLead();
+                                },
+                              );
+                              await provider.updateState();
+                            },
                           ),
                           CustomTextIconButton(
+                            isLoading: false,
+                            icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                            text: 'Create Quote',
+                            onTap: () async {
+                              context.pushReplacement(routeQuoteCreation);
+                              await providerCreate.clearAll();
+                              await providerCreate.getLead(rendererContext.row.cells["ID_Column"]!.value, null);
+                            },
+                          )
+                          /* CustomTextIconButton(
+                            isLoading: false,
                             icon: Icon(
                               Icons.shopping_basket_outlined,
                               color: AppTheme.of(context).primaryBackground,
                             ),
                             color: secondaryColor,
                             text: 'Delete',
-                            onTap: () {},
-                          ),
+                            onTap: () async {
+                              provider.id =
+                                  rendererContext.row.cells['ID_Column']!.value;
+                              await provider.deleteLead();
+                              await provider.updateState();
+                            },
+                          ),*/
                         ],
                       ),
                     );
