@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/accounts/tabs/leads_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -54,7 +55,8 @@ class _CreateLeadState extends State<CreateLead> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'First Name',
                                     icon: Icons.person_outline,
@@ -65,7 +67,8 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Last Name',
                                     icon: Icons.person_outline,
@@ -76,14 +79,16 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: CustomDDownMenu(
                                       hint: 'None',
                                       label: 'Sales Stage',
                                       icon: Icons.attach_money,
                                       width: 350,
                                       list: provider.saleStoreList,
-                                      dropdownValue: provider.selectSaleStoreValue,
+                                      dropdownValue:
+                                          provider.selectSaleStoreValue,
                                       onChanged: (p0) {
                                         if (p0 != null) {
                                           provider.selectSaleStore(p0);
@@ -91,7 +96,8 @@ class _CreateLeadState extends State<CreateLead> {
                                       },
                                     )),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Account',
                                     icon: Icons.business_outlined,
@@ -102,7 +108,8 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Email',
                                     icon: Icons.email,
@@ -113,14 +120,16 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomDDownMenu(
                                     hint: 'None',
                                     label: 'Lead Source',
                                     icon: Icons.menu,
                                     width: 350,
                                     list: provider.leadSourceList,
-                                    dropdownValue: provider.selectLeadSourceValue,
+                                    dropdownValue:
+                                        provider.selectLeadSourceValue,
                                     onChanged: (p0) {
                                       if (p0 != null) {
                                         provider.selectLeadSource(p0);
@@ -129,7 +138,8 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Phone',
                                     icon: Icons.phone,
@@ -164,19 +174,28 @@ class _CreateLeadState extends State<CreateLead> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                               Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
+                                      child: CustomTextIconButton(
+                                        isLoading: false,
+                                        icon: Icon(
+                                          Icons.calendar_month,
+                                          color:AppTheme.of(context).hintText.color,
+                                        ),
+                                        text: 'Expected Close Date: ${DateFormat('MMMM, MM-dd-yyyy').format(provider.create) }',
+                                        style: TextStyle(
+                                            color: AppTheme.of(context)
+                                                .primaryColor),
+                                        onTap: () {
+                                          provider.selectdate(context);
+                                        },
+                                        color:
+                                            AppTheme.of(context).primaryBackground,
+                                      )),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: CustomTextField(
-                                    label: 'Expected Close Date',
-                                    icon: Icons.calendar_month,
-                                    controller: provider.closedateController,
-                                    enabled: true,
-                                    width: 350,
-                                    keyboardType: TextInputType.datetime,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Quote Amount',
                                     icon: Icons.attach_money,
@@ -187,7 +206,8 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Probability',
                                     icon: Icons.percent,
@@ -198,14 +218,16 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomDDownMenu(
                                     hint: 'None',
                                     label: 'Assigned To',
                                     icon: Icons.assignment_ind,
                                     width: 350,
                                     list: provider.assignedList,
-                                    dropdownValue: provider.selectAssignedTValue,
+                                    dropdownValue:
+                                        provider.selectAssignedTValue,
                                     onChanged: (p0) {
                                       if (p0 != null) {
                                         provider.selectAssigned(p0);
@@ -252,7 +274,8 @@ class _CreateLeadState extends State<CreateLead> {
                 children: [
                   CustomTextIconButton(
                     isLoading: false,
-                    icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                    icon: Icon(Icons.add,
+                        color: AppTheme.of(context).primaryBackground),
                     text: 'Create',
                     onTap: () async {
                       provider.createLead();
@@ -269,7 +292,8 @@ class _CreateLeadState extends State<CreateLead> {
                   ),
                   CustomTextIconButton(
                     isLoading: false,
-                    icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
+                    icon: Icon(Icons.refresh_outlined,
+                        color: AppTheme.of(context).primaryBackground),
                     text: 'Refresh',
                     onTap: () async {
                       provider.clearAll();

@@ -5,19 +5,17 @@ import 'package:flutter/material.dart' hide State;
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/leads_model.dart';
-import 'package:rta_crm_cv/models/models.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 
 class LeadsProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
   bool editmode = false;
-
-  State? selectedState;
   int pageRowCount = 10;
   int page = 1;
-  List<State> states = [];
-  List<Role> roles = [];
+  late int? id;
+  DateTime create = DateTime.now();
   //Controladores Basic Information
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -34,24 +32,39 @@ class LeadsProvider extends ChangeNotifier {
 //Listas DropdownMenu
   late String selectSaleStoreValue, selectAssignedTValue, selectLeadSourceValue;
   List<String> saleStoreList = [
-        'Mike Haddock',
-        'Rosalia Silvey',
-        'Tom Carrol',
-        'Vini Garcia',
-      ],
-      assignedList = [
-        'Frank Befera',
-        'Rosalia Silvey',
-        'Tom Carrol',
-        'Mike Haddock',
-      ],
-      leadSourceList = [
-        'lead1',
-        'lead2',
-        'lead3',
-      ];
-//
-  late int? id;
+    'Mike Haddock',
+    'Rosalia Silvey',
+    'Tom Carrol',
+    'Vini Garcia',
+  ];
+  List<String> assignedList = [
+    'Frank Befera',
+    'Rosalia Silvey',
+    'Tom Carrol',
+    'Mike Haddock',
+  ];
+  List<String> leadSourceList = [
+    'Social Media',
+    'Campain',
+    'TV',
+    'Email',
+    'Web',
+  ];
+  void selectSaleStore(String selected) {
+    selectSaleStoreValue = selected;
+    notifyListeners();
+  }
+
+  void selectAssigned(String selected) {
+    selectAssignedTValue = selected;
+    notifyListeners();
+  }
+
+  void selectLeadSource(String selected) {
+    selectLeadSourceValue = selected;
+    notifyListeners();
+  }
+
 ////////////////////////////////////////////////////////////////////////////
   LeadsProvider() {
     clearAll();
@@ -74,22 +87,8 @@ class LeadsProvider extends ChangeNotifier {
 
   Future<void> updateState() async {
     rows.clear();
+    await clearAll();
     await getLeads();
-  }
-
-  void selectSaleStore(String selected) {
-    selectSaleStoreValue = selected;
-    notifyListeners();
-  }
-
-  void selectAssigned(String selected) {
-    selectAssignedTValue = selected;
-    notifyListeners();
-  }
-
-  void selectLeadSource(String selected) {
-    selectLeadSourceValue = selected;
-    notifyListeners();
   }
 
   List<bool> tabBar = [
@@ -99,9 +98,36 @@ class LeadsProvider extends ChangeNotifier {
     false,
     false,
   ];
-  //listas Drop Menu
+////////////////////////////////////////////////////////////////////////////
+  Future<void> selectdate(
+    BuildContext context,
+  ) async {
+    DateTime? newDate = await showDatePicker(
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: ColorScheme.light(
+                primary: AppTheme.of(context).primaryColor, // color Appbar
+                onPrimary:
+                    AppTheme.of(context).primaryBackground, // Color letras
+                onSurface: AppTheme.of(context).primaryColor, // Color Meses
+              ),
+              dialogBackgroundColor: AppTheme.of(context).primaryBackground,
+            ),
+            child: child!,
+          );
+        },
+        context: context,
+        initialDate: create,
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
 
-//Tabla Opportunities
+    if (newDate == null) return;
+    create = newDate;
+    notifyListeners();
+  }
+
+//Tabla Leads
   Future<void> getLeads() async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
@@ -144,7 +170,7 @@ class LeadsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-//PopUps Leads
+//CRUD Leads
   Future<void> createLead() async {
     try {
       //Registrar al usuario con una contraseña temporal
@@ -254,8 +280,6 @@ class LeadsProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
-//Leads details
 
 //Controladores Paginado Pluto?
   void clearControllers({bool notify = true}) {

@@ -50,8 +50,12 @@ class VisualStateProvider extends ChangeNotifier {
   Uint8List? bg1;
   Uint8List? bgLogin;
 
+  late int idtema;
+
   Future<void> updateState() async {
     await descargarTemas();
+    getCurrentConfiguration();
+    
   }
 
   VisualStateProvider(BuildContext context) {
@@ -204,7 +208,7 @@ class VisualStateProvider extends ChangeNotifier {
     final res = await supabase
         .from('user_profile')
         .update({
-          'configuracion': conf.toMap(),
+          'id_tema_fk': idtema,
         })
         .eq('user_profile_id', currentUser!.id)
         .select();
@@ -215,9 +219,11 @@ class VisualStateProvider extends ChangeNotifier {
     }
 
     AppTheme.initConfiguration(conf);
+
     notifyListeners();
     return true;
   }
+
   //crear nuevo tema en la base de datos
   Future<bool> creatTema() async {
     try {
@@ -243,10 +249,7 @@ class VisualStateProvider extends ChangeNotifier {
 //seleccionar el tema de la base de datos
   Future<void> descargarTemas() async {
     try {
-      final res = await supabase
-          .from('temas')
-          .select('nombre_tema');
-          
+      final res = await supabase.from('temas').select();
 
       if (res == null) {
         log('Error en descargarTemas()');
@@ -256,7 +259,6 @@ class VisualStateProvider extends ChangeNotifier {
       temas = (res as List<dynamic>)
           .map((usuario) => TemaDescargado.fromJson(jsonEncode(usuario)))
           .toList();
-
       notifyListeners();
       return;
     } catch (e) {
