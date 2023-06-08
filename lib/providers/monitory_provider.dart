@@ -95,7 +95,7 @@ class MonitoryProvider extends ChangeNotifier {
 
   Future<void> getMonitory() async {
     try {
-      final res = await supabase.from('monitory_view').select();
+      final res = await supabaseCtrlV.from('monitory_view').select();
 
       monitory = (res as List<dynamic>)
           .map((monitory) => Monitory.fromJson(jsonEncode(monitory)))
