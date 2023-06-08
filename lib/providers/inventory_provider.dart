@@ -313,7 +313,8 @@ class InventoryProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      final res = await supabase.from('inventory_view').select();
+      // SUPBASECTRlV es el control vehicular
+      final res = await supabaseCtrlV.from('inventory_view').select();
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
           .toList();
