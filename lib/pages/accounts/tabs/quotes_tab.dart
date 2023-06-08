@@ -76,6 +76,7 @@ class _QuotesTabState extends State<QuotesTab> {
                     isLoading: false,
                     icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                     text: 'Create Quote',
+                    color: AppTheme.of(context).tertiaryColor,
                     onTap: () async {
                       context.pushReplacement(routeQuoteCreation);
                       await providerCreate.clearAll();
@@ -161,6 +162,150 @@ class _QuotesTabState extends State<QuotesTab> {
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'NAME',
                   field: 'NAME_Column',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(child: Icon(Icons.attach_money, color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(text: 'Total', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'TOTAL',
+                  field: 'TOTAL_Column',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.number(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(child: Text('\$ ${moneyFormat(rendererContext.cell.value)} USD')),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(child: Icon(Icons.percent_outlined, color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(text: 'Margin', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'MARGIN',
+                  field: 'MARGIN_Column',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(child: Text('${moneyFormat(rendererContext.cell.value)}%')),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(text: 'Vendor', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'VENDOR',
+                  field: 'VENDOR_Column',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(text: 'Datacenter', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'DATACENTER',
+                  field: 'DATACENTER_Column',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(text: 'Order', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'ORDER',
+                  field: 'ORDER_Column',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(text: 'Description', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'DESCRIPTION',
+                  field: 'DESCRIPTION_Column',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
@@ -384,7 +529,7 @@ class _QuotesTabState extends State<QuotesTab> {
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
-                                Icons.fact_check_outlined,
+                                Icons.search,
                                 color: AppTheme.of(context).primaryBackground,
                               ),
                               text: 'Validate',
@@ -400,7 +545,7 @@ class _QuotesTabState extends State<QuotesTab> {
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
-                                Icons.fact_check_outlined,
+                                Icons.search,
                                 color: AppTheme.of(context).primaryBackground,
                               ),
                               text: 'Validate',
@@ -415,7 +560,7 @@ class _QuotesTabState extends State<QuotesTab> {
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
-                                Icons.fact_check_outlined,
+                                Icons.search,
                                 color: AppTheme.of(context).primaryBackground,
                               ),
                               text: 'Validate',

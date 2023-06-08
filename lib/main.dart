@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
+import 'package:rta_crm_cv/providers/dashboard_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -69,6 +70,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => OpportunityProvider(),
+        ),
+         ChangeNotifierProvider(
+          create: (_) => DashboardProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => CampaignsProvider(),

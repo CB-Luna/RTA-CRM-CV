@@ -25,6 +25,8 @@ class DetailQuoteProvider extends ChangeNotifier {
     subtotal = 0;
     cost = 0;
     total = 0;
+    tax = 0;
+    totalPlusTax = 0;
     margin = 0;
 
     existingCircuitIDController.clear();
@@ -81,6 +83,7 @@ class DetailQuoteProvider extends ChangeNotifier {
         };
         commentsList.add(item);
       }
+
       await supabaseCRM.from('quotes').update({'comments': commentsList}).eq('id', id);
 
       notifyListeners();
@@ -99,6 +102,8 @@ class DetailQuoteProvider extends ChangeNotifier {
   double subtotal = 0;
   double cost = 0;
   double total = 0;
+  double tax = 0;
+  double totalPlusTax = 0;
   double margin = 0;
 
   final existingCircuitIDController = TextEditingController();
@@ -210,6 +215,8 @@ class DetailQuoteProvider extends ChangeNotifier {
       subtotal = quote.subtotal;
       cost = quote.cost;
       total = quote.total;
+      tax = quote.tax;
+      totalPlusTax = quote.totalPlusTax;
       margin = quote.margin;
 
       globalRows.clear();

@@ -91,6 +91,12 @@ class QuotesProvider extends ChangeNotifier {
             cells: {
               'ID_Column': PlutoCell(value: quote.id),
               'NAME_Column': PlutoCell(value: quote.nameLead),
+              'TOTAL_Column': PlutoCell(value: quote.total),
+              'MARGIN_Column': PlutoCell(value: quote.margin),
+              'VENDOR_Column': PlutoCell(value: quote.nameVendor),
+              'ORDER_Column': PlutoCell(value: ' ${quote.orderInfo.type} ${quote.orderInfo.orderType}'),
+              'DESCRIPTION_Column': PlutoCell(value: quote.items.first.lineItem),
+              'DATACENTER_Column': PlutoCell(value: quote.orderInfo.dataCenterLocation),
               'PROBABILITY_Column': PlutoCell(value: quote.leadProbability),
               'CLOSED_Column': PlutoCell(value: quote.expectedClose),
               'ASSIGNED_Column': PlutoCell(value: quote.assignedTo),

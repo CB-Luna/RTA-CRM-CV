@@ -49,11 +49,12 @@ class _AccountsTabState extends State<AccountsTab> {
                   keyboardType: TextInputType.text,
                 ),
                 CustomTextIconButton(
+                  //width: 131,
                   isLoading: false,
                   icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                  text: 'Create Quote',
+                  text: 'Create Account', color: AppTheme.of(context).tertiaryColor,
                   onTap: () async {
-                    context.pushReplacement(routeQuoteCreation);
+                    // context.pushReplacement(routeQuoteCreation);
                   },
                 )
               ],

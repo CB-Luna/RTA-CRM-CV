@@ -21,6 +21,8 @@ class CreateQuoteProvider extends ChangeNotifier {
     subtotal = 0;
     cost = 0;
     total = 0;
+    taxController.text = '0';
+    totalPlusTax = 0;
     margin = 0;
 
     existingCircuitIDController.clear();
@@ -92,6 +94,8 @@ class CreateQuoteProvider extends ChangeNotifier {
   double subtotal = 0;
   double cost = 0;
   double total = 0;
+  final taxController = TextEditingController();
+  double totalPlusTax = 0;
   double margin = 0;
 
   final existingCircuitIDController = TextEditingController();
@@ -348,6 +352,8 @@ class CreateQuoteProvider extends ChangeNotifier {
           "subtotal": subtotal,
           "cost": cost,
           "total": total,
+          "tax": taxController.text != '' ? double.parse(taxController.text) : '0',
+          "total_plus_tax": totalPlusTax,
           "margin": margin,
           "probability": 100,
           "order_info": quoteInfo,
@@ -356,14 +362,23 @@ class CreateQuoteProvider extends ChangeNotifier {
           "id_quote_origin": null,
           "id_lead": idLead,
           "id_vendor": vendor.id,
-        }))[0];
+        }).select())[0];
+
         await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);
+
+        await supabaseCRM.from('leads_history').insert({
+          "user": currentUser!.id,
+          "action": 'INSERT',
+          "description": 'New origin quote created',
+          "table": 'quotes',
+          "id_table": resp["id"].toString(),
+        });
       } else {
         var response = await supabaseCRM.from('leads').select().eq('organitation_name', leadSelectedValue);
         Leads lead = Leads.fromJson(jsonEncode(response[0]));
 
         if (prevId != null) {
-          await supabaseCRM.from('quotes').insert({
+          var resp = (await supabaseCRM.from('quotes').insert({
             "created_by": currentUser!.id,
             "updated_by": currentUser!.id,
             "status": margin > 20 ? "Margin Positive" : "Opened",
@@ -371,6 +386,8 @@ class CreateQuoteProvider extends ChangeNotifier {
             "subtotal": subtotal,
             "cost": cost,
             "total": total,
+            "tax": taxController.text != '' ? double.parse(taxController.text) : '0',
+            "total_plus_tax": totalPlusTax,
             "margin": margin,
             "probability": 100,
             "order_info": quoteInfo,
@@ -379,8 +396,26 @@ class CreateQuoteProvider extends ChangeNotifier {
             "id_quote_origin": prevId,
             "id_lead": lead.id,
             "id_vendor": vendor.id,
+          }).select())[0];
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'INSERT',
+            "description": 'New quote created replacing the previous quote',
+            "table": 'quotes',
+            "id_table": resp["id"].toString(),
           });
+
           await supabaseCRM.from('quotes').update({"status": "Closed"}).eq("id", prevId);
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'UPDATE',
+            "description": 'Previous quote turns to Closed',
+            "table": 'quotes',
+            "id_table": prevId.toString(),
+          });
+
           prevId = null;
         } else {
           var resp = (await supabaseCRM.from('quotes').insert({
@@ -391,6 +426,8 @@ class CreateQuoteProvider extends ChangeNotifier {
             "subtotal": subtotal,
             "cost": cost,
             "total": total,
+            "tax": taxController.text != '' ? double.parse(taxController.text) : '0',
+            "total_plus_tax": totalPlusTax,
             "margin": margin,
             "probability": 100,
             "order_info": quoteInfo,
@@ -400,7 +437,16 @@ class CreateQuoteProvider extends ChangeNotifier {
             "id_lead": lead.id,
             "id_vendor": vendor.id,
           }).select())[0];
+
           await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'INSERT',
+            "description": 'New origin quote created',
+            "table": 'quotes',
+            "id_table": resp["id"].toString(),
+          });
         }
       }
     } catch (e) {
@@ -650,7 +696,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void countRowsPlutoGrid() {
+  Function()? countRowsPlutoGrid() {
     totalItems = 0;
     subtotal = 0;
     cost = 0;
@@ -665,13 +711,20 @@ class CreateQuoteProvider extends ChangeNotifier {
     }
 
     total = subtotal - cost;
-    if (total == 0 && subtotal == 0) {
-      margin = 0;
+
+    if (taxController.text != '0' && double.parse(taxController.text) != 0 && taxController.text != '') {
+      totalPlusTax = (double.parse(taxController.text) * total / 100) + total;
     } else {
-      margin = total * 100 / subtotal;
+      totalPlusTax = total;
     }
 
+    if (totalPlusTax == 0 && subtotal == 0) {
+      margin = 0;
+    } else {
+      margin = totalPlusTax * 100 / subtotal;
+    }
     notifyListeners();
+    return null;
   }
 
   void resetFormExpansionPanel() {

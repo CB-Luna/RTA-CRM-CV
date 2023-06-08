@@ -28,7 +28,7 @@ class _CreateLeadState extends State<CreateLead> {
     final formKey2 = GlobalKey<FormState>();
     //int indexTop = 0;
 
-   /*  Widget buildSideLabelTopLabel() {
+    /*  Widget buildSideLabelTopLabel() {
       final labels = [
         '0',
         '10',
@@ -94,8 +94,7 @@ class _CreateLeadState extends State<CreateLead> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'First Name',
                                     icon: Icons.person_outline,
@@ -106,8 +105,7 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Last Name',
                                     icon: Icons.person_outline,
@@ -118,16 +116,14 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: CustomDDownMenu(
                                       hint: 'None',
                                       label: 'Sales Stage',
                                       icon: Icons.attach_money,
                                       width: 350,
                                       list: provider.saleStoreList,
-                                      dropdownValue:
-                                          provider.selectSaleStoreValue,
+                                      dropdownValue: provider.selectSaleStoreValue,
                                       onChanged: (p0) {
                                         if (p0 != null) {
                                           provider.selectSaleStore(p0);
@@ -135,8 +131,7 @@ class _CreateLeadState extends State<CreateLead> {
                                       },
                                     )),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Account',
                                     icon: Icons.business_outlined,
@@ -147,8 +142,7 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Email',
                                     icon: Icons.email,
@@ -159,16 +153,14 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomDDownMenu(
                                     hint: 'None',
                                     label: 'Lead Source',
                                     icon: Icons.menu,
                                     width: 350,
                                     list: provider.leadSourceList,
-                                    dropdownValue:
-                                        provider.selectLeadSourceValue,
+                                    dropdownValue: provider.selectLeadSourceValue,
                                     onChanged: (p0) {
                                       if (p0 != null) {
                                         provider.selectLeadSource(p0);
@@ -177,8 +169,7 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Phone',
                                     icon: Icons.phone,
@@ -217,23 +208,17 @@ class _CreateLeadState extends State<CreateLead> {
                                   isLoading: false,
                                   icon: Icon(
                                     Icons.calendar_month,
-                                    color:
-                                        AppTheme.of(context).hintText.color,
+                                    color: AppTheme.of(context).hintText.color,
                                   ),
-                                  text:
-                                      'Expected Close Date: ${DateFormat('MMMM, MM-dd-yyyy').format(provider.create)}',
-                                  style: TextStyle(
-                                      color: AppTheme.of(context)
-                                          .primaryColor),
+                                  text: 'Expected Close Date: ${DateFormat('MMMM, MM-dd-yyyy').format(provider.create)}',
+                                  style: TextStyle(color: AppTheme.of(context).primaryColor),
                                   onTap: () {
                                     provider.selectdate(context);
                                   },
-                                  color: AppTheme.of(context)
-                                      .primaryBackground,
+                                  color: AppTheme.of(context).primaryBackground,
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomTextField(
                                     label: 'Quote Amount',
                                     icon: Icons.attach_money,
@@ -244,58 +229,38 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: AnimatedContainer(
                                     duration: const Duration(milliseconds: 100),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: AppTheme.of(context)
-                                            .primaryBackground,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 0.1,
-                                            blurRadius: 3,
-                                            offset: const Offset(0,
-                                                0), // changes position of shadow
-                                          ),
-                                        ]),
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppTheme.of(context).primaryBackground, boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 0.1,
+                                        blurRadius: 3,
+                                        offset: const Offset(0, 0), // changes position of shadow
+                                      ),
+                                    ]),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: SliderTheme(
                                         data: SliderThemeData(
-                                          inactiveTrackColor:
-                                              AppTheme.of(context)
-                                                  .primaryColor
-                                                  .withOpacity(.5),
-                                          activeTrackColor:
-                                              AppTheme.of(context).primaryColor,
-                                          thumbColor:
-                                              AppTheme.of(context).primaryColor,
-                                          overlayColor: AppTheme.of(context)
-                                              .primaryColor
-                                              .withOpacity(.5),
-                                          valueIndicatorColor:
-                                              AppTheme.of(context).primaryColor,
-                                          activeTickMarkColor:
-                                              Colors.transparent,
-                                          inactiveTickMarkColor:
-                                              Colors.transparent,
+                                          inactiveTrackColor: AppTheme.of(context).primaryColor.withOpacity(.5),
+                                          activeTrackColor: AppTheme.of(context).primaryColor,
+                                          thumbColor: AppTheme.of(context).primaryColor,
+                                          overlayColor: AppTheme.of(context).primaryColor.withOpacity(.5),
+                                          valueIndicatorColor: AppTheme.of(context).primaryColor,
+                                          activeTickMarkColor: Colors.transparent,
+                                          inactiveTickMarkColor: Colors.transparent,
                                         ),
                                         child: Column(
                                           children: [
                                             Row(
                                               children: [
-                                                Icon(Icons.percent,
-                                                    color: AppTheme.of(context)
-                                                        .hintText
-                                                        .color),
+                                                Icon(Icons.percent, color: AppTheme.of(context).hintText.color),
                                                 Text(
                                                   'Probability: ${provider.slydervalue}%',
                                                   style: TextStyle(
-                                                    color: AppTheme.of(context)
-                                                        .primaryColor,
+                                                    color: AppTheme.of(context).primaryColor,
                                                   ),
                                                 ),
                                               ],
@@ -309,13 +274,9 @@ class _CreateLeadState extends State<CreateLead> {
                                                     min: provider.min,
                                                     max: provider.max,
                                                     divisions: 10,
-                                                    label: provider.slydervalue
-                                                        .round()
-                                                        .toString(),
-                                                    onChanged: (value) =>
-                                                        setState(
-                                                      () => provider
-                                                          .slydervalue = value,
+                                                    label: provider.slydervalue.round().toString(),
+                                                    onChanged: (value) => setState(
+                                                      () => provider.slydervalue = value,
                                                     ),
                                                   ),
                                                 ),
@@ -341,16 +302,14 @@ class _CreateLeadState extends State<CreateLead> {
                                   ),
                                 ), */
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: CustomDDownMenu(
                                     hint: 'None',
                                     label: 'Assigned To',
                                     icon: Icons.assignment_ind,
                                     width: 350,
                                     list: provider.assignedList,
-                                    dropdownValue:
-                                        provider.selectAssignedTValue,
+                                    dropdownValue: provider.selectAssignedTValue,
                                     onChanged: (p0) {
                                       if (p0 != null) {
                                         provider.selectAssigned(p0);
@@ -397,9 +356,9 @@ class _CreateLeadState extends State<CreateLead> {
                 children: [
                   CustomTextIconButton(
                     isLoading: false,
-                    icon: Icon(Icons.add,
-                        color: AppTheme.of(context).primaryBackground),
+                    icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                     text: 'Create',
+                    color: AppTheme.of(context).tertiaryColor,
                     onTap: () async {
                       provider.createLead();
                       fToast.showToast(
@@ -415,8 +374,7 @@ class _CreateLeadState extends State<CreateLead> {
                   ),
                   CustomTextIconButton(
                     isLoading: false,
-                    icon: Icon(Icons.refresh_outlined,
-                        color: AppTheme.of(context).primaryBackground),
+                    icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
                     text: 'Refresh',
                     onTap: () async {
                       provider.clearAll();
@@ -433,10 +391,7 @@ class _CreateLeadState extends State<CreateLead> {
 
   Widget buildSideLabel(double value) => SizedBox(
         width: 40,
-        child: Text('${value.round().toString()}%',
-            style: TextStyle(
-                color: AppTheme.of(context)
-                    .primaryColor) /* const TextStyle(
+        child: Text('${value.round().toString()}%', style: TextStyle(color: AppTheme.of(context).primaryColor) /* const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold, */
             ),

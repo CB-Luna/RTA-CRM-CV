@@ -50,9 +50,10 @@ class _BillingTabState extends State<BillingTab> {
                 CustomTextIconButton(
                   isLoading: false,
                   icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                  text: 'Create Quote',
+                  text: 'Create Billing',
+                  color: AppTheme.of(context).tertiaryColor,
                   onTap: () async {
-                    context.pushReplacement(routeQuoteCreation);
+                    //context.pushReplacement(routeQuoteCreation);
                   },
                 )
               ],

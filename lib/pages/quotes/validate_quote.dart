@@ -37,6 +37,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
     if (provider.globalRows.isEmpty || provider.id == null) {
       context.pushReplacement(routeQuotes);
     }
+    double totalTitleWidth = 135;
 
     return Material(
       child: SizedBox(
@@ -379,7 +380,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 SizedBox(
-                                                  width: 130,
+                                                  width: totalTitleWidth,
                                                   child: Row(
                                                     children: [
                                                       Padding(
@@ -419,7 +420,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 SizedBox(
-                                                  width: 130,
+                                                  width: totalTitleWidth,
                                                   child: Row(
                                                     children: [
                                                       Padding(
@@ -443,7 +444,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 SizedBox(
                                                   child: Text(
                                                     '\$ ${moneyFormat(provider.subtotal)} USD',
-                                                    style: AppTheme.of(context).encabezadoTablas,
+                                                    style: TextStyle(
+                                                      color: AppTheme.of(context).encabezadoTablas.color,
+                                                      fontFamily: 'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -459,7 +464,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 SizedBox(
-                                                  width: 130,
+                                                  width: totalTitleWidth,
                                                   child: Row(
                                                     children: [
                                                       Padding(
@@ -483,7 +488,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 SizedBox(
                                                   child: Text(
                                                     '\$ ${moneyFormat(provider.cost)} USD',
-                                                    style: AppTheme.of(context).encabezadoTablas,
+                                                    style: TextStyle(
+                                                      color: AppTheme.of(context).encabezadoTablas.color,
+                                                      fontFamily: 'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -499,7 +508,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 SizedBox(
-                                                  width: 130,
+                                                  width: totalTitleWidth,
                                                   child: Row(
                                                     children: [
                                                       Padding(
@@ -523,7 +532,99 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 SizedBox(
                                                   child: Text(
                                                     '\$ ${moneyFormat(provider.total)} USD',
+                                                    style: TextStyle(
+                                                      color: AppTheme.of(context).encabezadoTablas.color,
+                                                      fontFamily: 'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          //width: MediaQuery.of(context).size.width / 5 - 150,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                              children: [
+                                                SizedBox(
+                                                  width: totalTitleWidth,
+                                                  child: Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(right: 10),
+                                                        child: Icon(Icons.confirmation_num_outlined, color: AppTheme.of(context).encabezadoTablas.color, size: 25),
+                                                      ),
+                                                      Text(
+                                                        'Tax',
+                                                        style: AppTheme.of(context).encabezadoTablas,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 20,
+                                                  child: Text(
+                                                    ':',
                                                     style: AppTheme.of(context).encabezadoTablas,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  child: Text(
+                                                    '${moneyFormat(provider.tax)}%',
+                                                    style: TextStyle(
+                                                      color: AppTheme.of(context).encabezadoTablas.color,
+                                                      fontFamily: 'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          //width: MediaQuery.of(context).size.width / 5 - 150,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                              children: [
+                                                SizedBox(
+                                                  width: totalTitleWidth,
+                                                  child: Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(right: 10),
+                                                        child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).encabezadoTablas.color, size: 25),
+                                                      ),
+                                                      Text(
+                                                        'Total+Tax',
+                                                        style: AppTheme.of(context).encabezadoTablas,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 20,
+                                                  child: Text(
+                                                    ':',
+                                                    style: AppTheme.of(context).encabezadoTablas,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  child: Text(
+                                                    '\$ ${moneyFormat(provider.totalPlusTax)} USD',
+                                                    style: TextStyle(
+                                                      color: AppTheme.of(context).encabezadoTablas.color,
+                                                      fontFamily: 'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -545,7 +646,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 SizedBox(
-                                                  width: 130,
+                                                  width: totalTitleWidth,
                                                   child: Row(
                                                     children: [
                                                       Padding(
@@ -580,11 +681,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   child: Text(
                                                     '${moneyFormat(provider.margin)}%',
                                                     style: TextStyle(
-                                                        fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                        fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                        fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                        color: AppTheme.of(context).primaryBackground),
+                                                        fontFamily: 'Bicyclette-Thin', fontSize: AppTheme.of(context).encabezadoTablas.fontSize, color: AppTheme.of(context).primaryBackground),
                                                   ),
                                                 ),
                                               ],
@@ -602,6 +699,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   width: (MediaQuery.of(context).size.width / 5) / 2 - 25,
                                                   icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
                                                   text: 'Accept',
+                                                  color: AppTheme.of(context).tertiaryColor,
                                                   onTap: () async {
                                                     context.pushReplacement(routeQuotes);
                                                     await provider.validate(true);

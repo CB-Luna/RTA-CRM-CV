@@ -44,6 +44,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
     // double txfFieldPadding = 10;
 
     double cardHeight = 2.5;
+    double totalTitleWidth = 135;
 
     DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
     print('id = ${provider.id} / rows = ${provider.globalRows.length}');
@@ -393,7 +394,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 SizedBox(
-                                                  width: 130,
+                                                  width: totalTitleWidth,
                                                   child: Row(
                                                     children: [
                                                       Padding(
@@ -417,7 +418,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 SizedBox(
                                                   child: Text(
                                                     moneyFormat(provider.globalRows.length.toDouble()).substring(0, moneyFormat(provider.globalRows.length.toDouble()).length - 3),
-                                                    style: AppTheme.of(context).encabezadoTablas,
+                                                    style: TextStyle(
+                                                      color: AppTheme.of(context).encabezadoTablas.color,
+                                                      fontFamily: 'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -433,7 +438,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 SizedBox(
-                                                  width: 130,
+                                                  width: totalTitleWidth,
                                                   child: Row(
                                                     children: [
                                                       Padding(
@@ -457,7 +462,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 SizedBox(
                                                   child: Text(
                                                     '\$ ${moneyFormat(provider.subtotal)} USD',
-                                                    style: AppTheme.of(context).encabezadoTablas,
+                                                    style: TextStyle(
+                                                      color: AppTheme.of(context).encabezadoTablas.color,
+                                                      fontFamily: 'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -473,7 +482,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 SizedBox(
-                                                  width: 130,
+                                                  width: totalTitleWidth,
                                                   child: Row(
                                                     children: [
                                                       Padding(
@@ -497,7 +506,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 SizedBox(
                                                   child: Text(
                                                     '\$ ${moneyFormat(provider.cost)} USD',
-                                                    style: AppTheme.of(context).encabezadoTablas,
+                                                    style: TextStyle(
+                                                      color: AppTheme.of(context).encabezadoTablas.color,
+                                                      fontFamily: 'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -513,7 +526,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 SizedBox(
-                                                  width: 130,
+                                                  width: totalTitleWidth,
                                                   child: Row(
                                                     children: [
                                                       Padding(
@@ -537,7 +550,99 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 SizedBox(
                                                   child: Text(
                                                     '\$ ${moneyFormat(provider.total)} USD',
+                                                    style: TextStyle(
+                                                      color: AppTheme.of(context).encabezadoTablas.color,
+                                                      fontFamily: 'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          //width: MediaQuery.of(context).size.width / 5 - 150,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                              children: [
+                                                SizedBox(
+                                                  width: totalTitleWidth,
+                                                  child: Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(right: 10),
+                                                        child: Icon(Icons.confirmation_num_outlined, color: AppTheme.of(context).encabezadoTablas.color, size: 25),
+                                                      ),
+                                                      Text(
+                                                        'Tax',
+                                                        style: AppTheme.of(context).encabezadoTablas,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 20,
+                                                  child: Text(
+                                                    ':',
                                                     style: AppTheme.of(context).encabezadoTablas,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  child: Text(
+                                                    '${moneyFormat(provider.tax)}%',
+                                                    style: TextStyle(
+                                                      color: AppTheme.of(context).encabezadoTablas.color,
+                                                      fontFamily: 'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          //width: MediaQuery.of(context).size.width / 5 - 150,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                              children: [
+                                                SizedBox(
+                                                  width: totalTitleWidth,
+                                                  child: Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(right: 10),
+                                                        child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).encabezadoTablas.color, size: 25),
+                                                      ),
+                                                      Text(
+                                                        'Total+Tax',
+                                                        style: AppTheme.of(context).encabezadoTablas,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 20,
+                                                  child: Text(
+                                                    ':',
+                                                    style: AppTheme.of(context).encabezadoTablas,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  child: Text(
+                                                    '\$ ${moneyFormat(provider.totalPlusTax)} USD',
+                                                    style: TextStyle(
+                                                      color: AppTheme.of(context).encabezadoTablas.color,
+                                                      fontFamily: 'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -559,7 +664,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 SizedBox(
-                                                  width: 130,
+                                                  width: totalTitleWidth,
                                                   child: Row(
                                                     children: [
                                                       Padding(
@@ -594,11 +699,10 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                   child: Text(
                                                     '${moneyFormat(provider.margin)}%',
                                                     style: TextStyle(
-                                                        fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                        fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                        fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                        color: AppTheme.of(context).primaryBackground),
+                                                      fontFamily: 'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                      color: AppTheme.of(context).primaryBackground,
+                                                    ),
                                                   ),
                                                 ),
                                               ],

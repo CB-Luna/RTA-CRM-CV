@@ -116,8 +116,7 @@ class LeadsProvider extends ChangeNotifier {
             data: Theme.of(context).copyWith(
               colorScheme: ColorScheme.light(
                 primary: AppTheme.of(context).primaryColor, // color Appbar
-                onPrimary:
-                    AppTheme.of(context).primaryBackground, // Color letras
+                onPrimary: AppTheme.of(context).primaryBackground, // Color letras
                 onSurface: AppTheme.of(context).primaryColor, // Color Meses
               ),
               dialogBackgroundColor: AppTheme.of(context).primaryBackground,
@@ -147,9 +146,7 @@ class LeadsProvider extends ChangeNotifier {
         log('Error en getLeads()');
         return;
       }
-      List<Leads> leads = (res as List<dynamic>)
-          .map((lead) => Leads.fromJson(jsonEncode(lead)))
-          .toList();
+      List<Leads> leads = (res as List<dynamic>).map((lead) => Leads.fromJson(jsonEncode(lead))).toList();
 
       rows.clear();
       for (Leads lead in leads) {
@@ -182,15 +179,14 @@ class LeadsProvider extends ChangeNotifier {
   Future<void> createLead() async {
     try {
       //Registrar al usuario con una contraseña temporal
-      await supabaseCRM.from('leads').insert({
+      var resp = (await supabaseCRM.from('leads').insert({
         "name_lead": "${firstNameController.text} ${lastNameController.text}",
         "quote_amount": quoteamountController.text,
         "probability": slydervalue.toString(),
         "expected_close": create.toString(),
         "assigned_to": selectAssignedTValue,
         "status": "In proccess",
-        "organitation_name":
-            "${firstNameController.text} ${lastNameController.text}",
+        "organitation_name": "${firstNameController.text} ${lastNameController.text}",
         "first_name": firstNameController.text,
         "last_name": lastNameController.text,
         "phone_number": phoneController.text,
@@ -199,6 +195,14 @@ class LeadsProvider extends ChangeNotifier {
         "account": accountController.text,
         "lead_source": selectLeadSourceValue,
         "description": descriptionController.text,
+      }).select())[0];
+
+      await supabaseCRM.from('leads_history').insert({
+        "user": currentUser!.id,
+        "action": 'INSERT',
+        "description": 'New Lead created',
+        "table": 'leads',
+        "id_table": resp["id"].toString(),
       });
     } catch (e) {
       log('Error en registrarOpportunity() - $e');
@@ -234,24 +238,35 @@ class LeadsProvider extends ChangeNotifier {
   Future<void> updateLead() async {
     try {
       {
-        await supabaseCRM.from('leads').update({
-          "name_lead": "${firstNameController.text} ${lastNameController.text}",
-          "quote_amount": quoteamountController.text,
-          "probability": slydervalue.toString(),
-          "expected_close": create.toString(),
-          "assigned_to": selectAssignedTValue,
-          "status": "In proccess",
-          "organitation_name":
-              "${firstNameController.text} ${lastNameController.text}",
-          "first_name": firstNameController.text,
-          "last_name": lastNameController.text,
-          "phone_number": phoneController.text,
-          "email": emailController.text,
-          "sales_stage": selectSaleStoreValue,
-          "account": accountController.text,
-          "lead_source": selectLeadSourceValue,
-          "description": descriptionController.text,
-        }).eq('id', id);
+        var resp = (await supabaseCRM
+            .from('leads')
+            .update({
+              "name_lead": "${firstNameController.text} ${lastNameController.text}",
+              "quote_amount": quoteamountController.text,
+              "probability": slydervalue.toString(),
+              "expected_close": create.toString(),
+              "assigned_to": selectAssignedTValue,
+              "status": "In proccess",
+              "organitation_name": "${firstNameController.text} ${lastNameController.text}",
+              "first_name": firstNameController.text,
+              "last_name": lastNameController.text,
+              "phone_number": phoneController.text,
+              "email": emailController.text,
+              "sales_stage": selectSaleStoreValue,
+              "account": accountController.text,
+              "lead_source": selectLeadSourceValue,
+              "description": descriptionController.text,
+            })
+            .eq('id', id)
+            .select())[0];
+
+        await supabaseCRM.from('leads_history').insert({
+          "user": currentUser!.id,
+          "action": 'UPDATE',
+          "description": 'Lead updated',
+          "table": 'leads',
+          "id_table": resp["id"].toString(),
+        });
       }
 
       if (stateManager != null) stateManager!.notifyListeners();

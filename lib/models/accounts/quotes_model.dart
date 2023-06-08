@@ -11,6 +11,8 @@ class Quotes {
   double subtotal;
   double cost;
   double total;
+  double tax;
+  double totalPlusTax;
   double margin;
   double probability;
   OrderInfo orderInfo;
@@ -19,6 +21,7 @@ class Quotes {
   String idQuoteOrigin;
   int idLead;
   int idVendor;
+  String nameVendor;
   String nameLead;
   String assignedTo;
   int leadProbability;
@@ -35,6 +38,8 @@ class Quotes {
     required this.subtotal,
     required this.cost,
     required this.total,
+    required this.tax,
+    required this.totalPlusTax,
     required this.margin,
     required this.probability,
     required this.orderInfo,
@@ -43,6 +48,7 @@ class Quotes {
     required this.idQuoteOrigin,
     required this.idLead,
     required this.idVendor,
+    required this.nameVendor,
     required this.nameLead,
     required this.assignedTo,
     required this.leadProbability,
@@ -64,6 +70,8 @@ class Quotes {
         subtotal: json["subtotal"],
         cost: json["cost"]?.toDouble(),
         total: json["total"]?.toDouble(),
+        tax: json["tax"]?.toDouble(),
+        totalPlusTax: json["total_plus_tax"]?.toDouble(),
         margin: json["margin"]?.toDouble(),
         probability: json["probability"],
         orderInfo: OrderInfo.fromMap(json["order_info"]),
@@ -72,6 +80,7 @@ class Quotes {
         idQuoteOrigin: json["id_quote_origin"],
         idLead: json["id_lead"],
         idVendor: json["id_vendor"],
+        nameVendor: json["vendor_name"],
         nameLead: json["name_lead"],
         assignedTo: json["assigned_to"],
         leadProbability: json["lead_probability"],
@@ -89,6 +98,8 @@ class Quotes {
         "subtotal": subtotal,
         "cost": cost,
         "total": total,
+        "tax": tax,
+        "total_plus_tax": totalPlusTax,
         "margin": margin,
         "probability": probability,
         "order_info": orderInfo.toMap(),
@@ -97,6 +108,7 @@ class Quotes {
         "id_quote_origin": idQuoteOrigin,
         "id_lead": idLead,
         "id_vendor": idVendor,
+        "vendor_name": nameVendor,
         "name_lead": nameLead,
         "assigned_to": assignedTo,
         "lead_probability": leadProbability,
