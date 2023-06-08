@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/providers/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/widgets/card_header.dart';
@@ -15,6 +16,18 @@ class DashboardsPage extends StatefulWidget {
 class _DashboardsPageState extends State<DashboardsPage> {
   @override
   Widget build(BuildContext context) {
+    void initState() {
+      super.initState();
+
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        final DashboardProvider provider = Provider.of<DashboardProvider>(
+          context,
+          listen: false,
+        );
+        await provider.updateState();
+      });
+    }
+
     SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
     provider.setIndex(0);
 
