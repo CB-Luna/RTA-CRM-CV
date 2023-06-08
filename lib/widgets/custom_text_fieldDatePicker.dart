@@ -50,7 +50,7 @@ class _CustomTextFieldDatePickerState extends State<CustomTextFieldDatePicker> {
           decoration: InputDecoration(
             fillColor: Colors.transparent,
             filled: true,
-            border: OutlineInputBorder(borderSide: BorderSide.none),
+            border: const OutlineInputBorder(borderSide: BorderSide.none),
             disabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
               borderRadius: BorderRadius.circular(5),

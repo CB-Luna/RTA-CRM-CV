@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
-import 'package:rta_crm_cv/providers/dashboard_provider.dart';
+import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -13,30 +13,26 @@ import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 import 'models/configuration.dart';
-import 'providers/accounts/account_page_provider.dart';
-import 'providers/accounts/create_quote_provider.dart';
-import 'providers/accounts/detail_quote_provider.dart';
-import 'providers/accounts/tabs/accounts_provider.dart';
-import 'providers/accounts/tabs/billing_provider.dart';
-import 'providers/accounts/tabs/campaigns_provider.dart';
-import 'providers/accounts/tabs/leads_provider.dart';
-import 'providers/accounts/tabs/opportunity_provider.dart';
-import 'providers/accounts/tabs/quotes_provider.dart';
-import 'providers/accounts/validate_quote_provider.dart';
+import 'providers/crm/accounts/account_page_provider.dart';
+import 'providers/crm/accounts/tabs/accounts_provider.dart';
+import 'providers/crm/accounts/tabs/billing_provider.dart';
+import 'providers/crm/accounts/tabs/campaigns_provider.dart';
+import 'providers/crm/accounts/tabs/leads_provider.dart';
+import 'providers/crm/accounts/tabs/opportunity_provider.dart';
+import 'providers/crm/accounts/tabs/quotes_provider.dart';
+import 'providers/crm/quote/create_quote_provider.dart';
+import 'providers/crm/quote/detail_quote_provider.dart';
+import 'providers/crm/quote/validate_quote_provider.dart';
+import 'providers/ctrlv/inventory_provider.dart';
+import 'providers/ctrlv/monitory_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   setPathUrlStrategy();
 
-<<<<<<< HEAD
-  //supabaseCRM = SupabaseClient(supabaseUrl, anonKey, schema: 'crm');
-  supabaseCtrlV =
-      SupabaseClient('https://supa43.rtatel.com', key, schema: 'ctrl_v');
-=======
-  // supabaseCRM = SupabaseClient(supabaseUrl, anonKey, schema: 'crm');
-  supabaseCtrlV = SupabaseClient('https://supa43.rtatel.com', key, schema: 'ctrl_v');
->>>>>>> 2063911412aab69ade26c3b44672ec894bb44570
+  supabaseCRM = SupabaseClient(supabaseUrl, anonKey, schema: 'crm');
+  supabaseCtrlV = SupabaseClient(supabaseUrl, anonKey, schema: 'ctrl_v');
 
   await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);
 
@@ -71,8 +67,8 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => OpportunityProvider(),
         ),
-         ChangeNotifierProvider(
-          create: (_) => DashboardProvider(),
+        ChangeNotifierProvider(
+          create: (_) => DashboardCRMProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => CampaignsProvider(),
@@ -114,8 +110,7 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 
-  static _MyAppState of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>()!;
+  static _MyAppState of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>()!;
 }
 
 class _MyAppState extends State<MyApp> {
