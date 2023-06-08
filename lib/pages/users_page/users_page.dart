@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/users_page/widgets/add_user_popup.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/providers/users_provider.dart';
@@ -77,24 +78,26 @@ class _UsersPageState extends State<UsersPage> {
                               label: 'Search',
                               keyboardType: TextInputType.text,
                             ),
-                            CustomTextIconButton(
-                              isLoading: false,
-                              icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                              text: 'Add User',
-                              onTap: () async {
-                                provider.clearControllers(notify: false);
-                                await provider.getRoles(notify: false);
-                                await provider.getStates(notify: false);
-                                if (!mounted) return;
-                                await showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return const AddUserPopUp();
-                                  },
-                                );
-                                await provider.updateState();
-                              },
-                            )
+                            if (!currentUser!.isAdmin) const SizedBox(width: 106),
+                            if (currentUser!.isAdmin)
+                              CustomTextIconButton(
+                                isLoading: false,
+                                icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                                text: 'Add User',
+                                onTap: () async {
+                                  provider.clearControllers(notify: false);
+                                  await provider.getRoles(notify: false);
+                                  await provider.getStates(notify: false);
+                                  if (!mounted) return;
+                                  await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return const AddUserPopUp();
+                                    },
+                                  );
+                                  await provider.updateState();
+                                },
+                              )
                           ],
                         ),
                       ),

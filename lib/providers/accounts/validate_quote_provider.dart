@@ -185,7 +185,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
     clearAll();
 
     if (id != null) {
-      var response = await supabaseCRM.from('quotes').select().eq('id', id);
+      var response = await supabaseCRM.from('quotes_view').select().eq('id', id);
 
       if (response == null) {
         log('Error en getData()-DetailQuoteProvider');

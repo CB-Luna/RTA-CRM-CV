@@ -60,7 +60,7 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
             child: Row(
               children: [
                 const SizedBox(width: 10),
-                Icon(widget.icon, color: AppTheme.of(context).primaryColor),
+                Icon(widget.icon, color: AppTheme.of(context).hintText.color),
                 const SizedBox(width: 10),
                 SizedBox(
                   width: widget.width - 50,

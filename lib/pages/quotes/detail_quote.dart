@@ -26,6 +26,19 @@ class DetailQuotePage extends StatefulWidget {
 
 class _DetailQuotePageState extends State<DetailQuotePage> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(
+        context,
+        listen: false,
+      );
+      await provider.getData();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     double txfFieldWidth = (MediaQuery.of(context).size.width / 7);
     // double txfFieldPadding = 10;
@@ -33,7 +46,9 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
     double cardHeight = 2.5;
 
     DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
-    if (provider.globalRows.isEmpty || provider.id == null) {
+    print('id = ${provider.id} / rows = ${provider.globalRows.length}');
+    if (provider.id == 0) {
+      print('returning');
       context.pushReplacement(routeQuotes);
     }
 

@@ -36,7 +36,8 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
-    final VisualStateProvider provider = Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider provider =
+        Provider.of<VisualStateProvider>(context);
     return Dialog(
       insetPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
@@ -104,8 +105,10 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                                   scrollDirection: Axis.vertical,
                                   itemCount: provider.temas.length,
                                   itemBuilder: (context, index) {
-                                    final TemaDescargado tema = provider.temas[index];
-                                    final bool seleccionado = tema.id == provider.temaSeleccionado?.id;
+                                    final TemaDescargado tema =
+                                        provider.temas[index];
+                                    final bool seleccionado = tema.idTema ==
+                                        provider.temaSeleccionado?.idTema;
                                     return ThemeCardWidget(
                                       tema: tema,
                                       seleccionado: seleccionado,
@@ -126,9 +129,11 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                             );
                             return;
                           }
+                          provider.idtema = provider.temaSeleccionado!.idTema;
                           final res = await provider.actualizarTema(
-                            tema: provider.temaSeleccionado!.tema,
+                            tema: provider.temaSeleccionado!.configuracion,
                           );
+
                           if (!res) {
                             await ApiErrorHandler.callToast(
                               'Error al actualizar los temas',
@@ -188,7 +193,8 @@ class _ThemeCardWidgetState extends State<ThemeCardWidget> {
   final bool isLight = AppTheme.themeMode == ThemeMode.light;
   @override
   Widget build(BuildContext context) {
-    final VisualStateProvider provider = Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider provider =
+        Provider.of<VisualStateProvider>(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: MouseRegion(
@@ -212,15 +218,21 @@ class _ThemeCardWidgetState extends State<ThemeCardWidget> {
             child: Row(
               children: [
                 Text(
-                  widget.tema.nombre,
+                  widget.tema.nombreTema,
                   style: AppTheme.of(context).bodyText1,
                 ),
                 const Spacer(),
-                ColorContainer(colorValue: widget.tema.tema.light.primaryColor),
-                ColorContainer(colorValue: widget.tema.tema.light.secondaryColor),
-                ColorContainer(colorValue: widget.tema.tema.light.tertiaryColor),
-                ColorContainer(colorValue: widget.tema.tema.light.primaryText),
-                ColorContainer(colorValue: widget.tema.tema.light.primaryBackground),
+                ColorContainer(
+                    colorValue: widget.tema.configuracion.light.primaryColor),
+                ColorContainer(
+                    colorValue: widget.tema.configuracion.light.secondaryColor),
+                ColorContainer(
+                    colorValue: widget.tema.configuracion.light.tertiaryColor),
+                ColorContainer(
+                    colorValue: widget.tema.configuracion.light.primaryText),
+                ColorContainer(
+                    colorValue:
+                        widget.tema.configuracion.light.primaryBackground),
               ],
             ),
           ),

@@ -7,6 +7,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/opportunity_model.dart';
 import 'package:rta_crm_cv/models/models.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 
 class OpportunityProvider extends ChangeNotifier {
   final searchController = TextEditingController();
@@ -17,16 +18,16 @@ class OpportunityProvider extends ChangeNotifier {
       decisionmaker = false,
       techspec = false,
       budget = false;
+
+  bool editmode = false;
+  late int? id;
   //
   State? selectedState;
   int pageRowCount = 10;
   int page = 1;
-  List<State> states = [];
-  List<Role> roles = [];
-
-  bool editmode = false;
-
   DateTime create = DateTime.now();
+  late DateTime close = DateTime.parse(closedateController.text);
+  double slydervalue = 10, min = 0, max = 100;
   //Controladores Basic Information
   final nameController = TextEditingController();
   final accountController = TextEditingController();
@@ -37,16 +38,13 @@ class OpportunityProvider extends ChangeNotifier {
   final probabilityController = TextEditingController();
   //Controlador Description
   final descriptionController = TextEditingController();
-
-  Role? selectedRole;
-  String? imageName;
-  late int? id;
 ////////////////////////////////////////////////////////////////////////////
   OpportunityProvider() {
     clearAll();
     updateState();
   }
   clearAll() {
+    slydervalue = 0;
     timeline = false;
     decisionmaker = false;
     techspec = false;
@@ -66,30 +64,62 @@ class OpportunityProvider extends ChangeNotifier {
   }
 
   Future<void> updateState() async {
+    create;
     rows.clear();
     await clearAll();
     await getOpportunity();
   }
 
+  Future<void> selectdate(
+    BuildContext context,
+  ) async {
+    DateTime? newDate = await showDatePicker(
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: ColorScheme.light(
+                primary: AppTheme.of(context).primaryColor, // color Appbar
+                onPrimary:
+                    AppTheme.of(context).primaryBackground, // Color letras
+                onSurface: AppTheme.of(context).primaryColor, // Color Meses
+              ),
+              dialogBackgroundColor: AppTheme.of(context).primaryBackground,
+            ),
+            child: child!,
+          );
+        },
+        context: context,
+        initialDate: create,
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+
+    if (newDate == null) return;
+    create = newDate;
+    notifyListeners();
+  }
+
+  //listas Drop Menu
   late String selectSaleStoreValue, selectAssignedTValue, selectLeadSourceValue;
   List<String> saleStoreList = [
-        'Mike Haddock',
-        'Rosalia Silvey',
-        'Tom Carrol',
-        'Vini Garcia',
-      ],
-      assignedList = [
-        'Frank Befera',
-        'Rosalia Silvey',
-        'Tom Carrol',
-        'Mike Haddock',
-      ],
-      leadSourceList = [
-        'lead1',
-        'lead2',
-        'lead3',
-      ];
-//listas Drop Menu
+    'Mike Haddock',
+    'Rosalia Silvey',
+    'Tom Carrol',
+    'Vini Garcia',
+  ];
+  List<String> assignedList = [
+    'Frank Befera',
+    'Rosalia Silvey',
+    'Tom Carrol',
+    'Mike Haddock',
+  ];
+  List<String> leadSourceList = [
+    'Social Media',
+    'Campain',
+    'TV',
+    'Email',
+    'Web',
+  ];
+
   void selectSaleStore(String selected) {
     selectSaleStoreValue = selected;
     notifyListeners();
@@ -112,7 +142,7 @@ class OpportunityProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      final res = await supabaseCRM.from('opportunity').select();
+      final res = await supabaseCRM.from('opportunities_view').select();
       if (res == null) {
         log('Error en getOpportunity()');
         return;
@@ -127,12 +157,12 @@ class OpportunityProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: user.id),
-              'NAME_Column': PlutoCell(value: user.name),
-              'AMOUNT_Column': PlutoCell(value: user.quoteAmount),
+              'NAME_Column': PlutoCell(value: user.nameLead),
+              'AMOUNT_Column': PlutoCell(value: user.quotes.first.total),
               'PROBABILITY_Column': PlutoCell(value: user.probability),
               'CLOSED_Column': PlutoCell(value: user.expectedClose),
-              'CREATE_Column': PlutoCell(value: user.createdAt),
-              'LAST_Column': PlutoCell(value: user.lastActivity),
+              'CREATE_Column': PlutoCell(value: user.quotes.last.createdAt),
+              'LAST_Column': PlutoCell(value: user.quotes.first.updatedAt),
               'ASSIGNED_Column': PlutoCell(value: user.assignedTo),
               'STATUS_Column': PlutoCell(value: user.status),
               'ACTIONS_Column': PlutoCell(value: ''),
@@ -155,10 +185,9 @@ class OpportunityProvider extends ChangeNotifier {
       await supabaseCRM.from('opportunity').insert({
         "name": nameController.text,
         "quote_amount": quoteamountController.text,
-        "probability": probabilityController.text,
+        "probability": slydervalue.toString(),
         "last_activity": DateTime.now().toString(),
-        "expected_close":
-            DateTime.now().add(const Duration(days: 30)).toString(),
+        "expected_close": create.toString(),
         "assigned_to": selectAssignedTValue,
         "status": "Opened",
         "account": accountController.text,
@@ -179,27 +208,28 @@ class OpportunityProvider extends ChangeNotifier {
   Future<void> getData() async {
     if (id != null) {
       var response =
-          await supabaseCRM.from('opportunity').select().eq('id', id);
+          await supabaseCRM.from('opportunities_view').select().eq('id', id);
 
       if (response == null) {
         log('Error en getData()');
         return;
       }
       Opportunity opportunity = Opportunity.fromJson(jsonEncode(response[0]));
-      nameController.text = opportunity.name;
+      nameController.text = opportunity.nameLead;
       accountController.text = opportunity.account;
       selectSaleStoreValue = opportunity.salesStage;
       accountController.text = opportunity.account;
-      contactController.text = opportunity.contact;
+      contactController.text =
+          "${opportunity.firstName} ${opportunity.lastName}";
       selectAssignedTValue = opportunity.assignedTo;
       selectLeadSourceValue = opportunity.leadSource;
       closedateController.text = opportunity.expectedClose.toString();
-      quoteamountController.text = opportunity.quoteAmount.toString();
-      timeline = opportunity.timeLine;
+      quoteamountController.text = opportunity.quotes.first.total.toString();
+      /* timeline = opportunity.timeLine;
       decisionmaker = opportunity.decisionMaker;
       techspec = opportunity.teachSpec;
-      budget = opportunity.budget;
-      probabilityController.text = opportunity.probability.toString();
+      budget = opportunity.budget; */
+      slydervalue = opportunity.probability.toDouble();
       descriptionController.text = opportunity.description;
     }
 
@@ -212,10 +242,9 @@ class OpportunityProvider extends ChangeNotifier {
         await supabaseCRM.from('opportunity').update({
           "name": nameController.text,
           "quote_amount": quoteamountController.text,
-          "probability": probabilityController.text,
+          "probability": slydervalue.toString(),
           "last_activity": DateTime.now().toString(),
-          "expected_close":
-              DateTime.now().add(const Duration(days: 30)).toString(),
+          "expected_close": create.toString(),
           "assigned_to": selectAssignedTValue,
           "status": "Opened",
           "account": accountController.text,

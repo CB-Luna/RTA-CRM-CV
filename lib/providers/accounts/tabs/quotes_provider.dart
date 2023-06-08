@@ -76,7 +76,7 @@ class QuotesProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      final res = await supabaseCRM.from('quotes').select().order('id', ascending: true);
+      final res = await supabaseCRM.from('quotes_view').select();
 
       if (res == null) {
         log('Error en getUsuarios()');
@@ -90,10 +90,10 @@ class QuotesProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: quote.id),
-              'NAME_Column': PlutoCell(value: quote.orderInfo.dataCenterLocation),
-              'PROBABILITY_Column': PlutoCell(value: quote.probability),
-              'CLOSED_Column': PlutoCell(value: quote.expCloseDate),
-              'ASSIGNED_Column': PlutoCell(value: 'Frank Befera'),
+              'NAME_Column': PlutoCell(value: quote.nameLead),
+              'PROBABILITY_Column': PlutoCell(value: quote.leadProbability),
+              'CLOSED_Column': PlutoCell(value: quote.expectedClose),
+              'ASSIGNED_Column': PlutoCell(value: quote.assignedTo),
               'LAST_Column': PlutoCell(value: quote.updatedAt),
               'STATUS_Column': PlutoCell(value: quote.status),
               'ACTIONS_Column': PlutoCell(value: quote.idQuoteOrigin),

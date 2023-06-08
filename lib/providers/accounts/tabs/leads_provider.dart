@@ -5,19 +5,19 @@ import 'package:flutter/material.dart' hide State;
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/leads_model.dart';
-import 'package:rta_crm_cv/models/models.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 
 class LeadsProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
   bool editmode = false;
-
-  State? selectedState;
   int pageRowCount = 10;
   int page = 1;
-  List<State> states = [];
-  List<Role> roles = [];
+  late int? id;
+  DateTime create = DateTime.now();
+  double slydervalue = 0, min = 0, max = 100;
+  late DateTime close = DateTime.parse(closedateController.text);
   //Controladores Basic Information
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -34,49 +34,24 @@ class LeadsProvider extends ChangeNotifier {
 //Listas DropdownMenu
   late String selectSaleStoreValue, selectAssignedTValue, selectLeadSourceValue;
   List<String> saleStoreList = [
-        'Mike Haddock',
-        'Rosalia Silvey',
-        'Tom Carrol',
-        'Vini Garcia',
-      ],
-      assignedList = [
-        'Frank Befera',
-        'Rosalia Silvey',
-        'Tom Carrol',
-        'Mike Haddock',
-      ],
-      leadSourceList = [
-        'lead1',
-        'lead2',
-        'lead3',
-      ];
-//
-  late int? id;
-////////////////////////////////////////////////////////////////////////////
-  LeadsProvider() {
-    clearAll();
-    updateState();
-  }
-
-  clearAll() {
-    firstNameController.clear();
-    lastNameController.clear();
-    accountController.clear();
-    closedateController.clear();
-    quoteamountController.clear();
-    probabilityController.clear();
-    descriptionController.clear();
-
-    selectSaleStoreValue = saleStoreList.first;
-    selectAssignedTValue = assignedList.first;
-    selectLeadSourceValue = leadSourceList.first;
-  }
-
-  Future<void> updateState() async {
-    rows.clear();
-    await getLeads();
-  }
-
+    'Mike Haddock',
+    'Rosalia Silvey',
+    'Tom Carrol',
+    'Vini Garcia',
+  ];
+  List<String> assignedList = [
+    'Frank Befera',
+    'Rosalia Silvey',
+    'Tom Carrol',
+    'Mike Haddock',
+  ];
+  List<String> leadSourceList = [
+    'Social Media',
+    'Campain',
+    'TV',
+    'Email',
+    'Web',
+  ];
   void selectSaleStore(String selected) {
     selectSaleStoreValue = selected;
     notifyListeners();
@@ -92,6 +67,37 @@ class LeadsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+////////////////////////////////////////////////////////////////////////////
+  LeadsProvider() {
+    clearAll();
+    updateState();
+  }
+
+  clearAll() {
+    editmode = false;
+    create = DateTime.now();
+    slydervalue = 0;
+    firstNameController.clear();
+    lastNameController.clear();
+    accountController.clear();
+    closedateController.clear();
+    quoteamountController.clear();
+    probabilityController.clear();
+    descriptionController.clear();
+    emailController.clear();
+    phoneController.clear();
+
+    selectSaleStoreValue = saleStoreList.first;
+    selectAssignedTValue = assignedList.first;
+    selectLeadSourceValue = leadSourceList.first;
+  }
+
+  Future<void> updateState() async {
+    rows.clear();
+    await clearAll();
+    await getLeads();
+  }
+
   List<bool> tabBar = [
     false,
     false,
@@ -99,16 +105,44 @@ class LeadsProvider extends ChangeNotifier {
     false,
     false,
   ];
-  //listas Drop Menu
+////////////////////////////////////////////////////////////////////////////
 
-//Tabla Opportunities
+  Future<void> selectdate(
+    BuildContext context,
+  ) async {
+    DateTime? newDate = await showDatePicker(
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: ColorScheme.light(
+                primary: AppTheme.of(context).primaryColor, // color Appbar
+                onPrimary:
+                    AppTheme.of(context).primaryBackground, // Color letras
+                onSurface: AppTheme.of(context).primaryColor, // Color Meses
+              ),
+              dialogBackgroundColor: AppTheme.of(context).primaryBackground,
+            ),
+            child: child!,
+          );
+        },
+        context: context,
+        initialDate: create,
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+
+    if (newDate == null) return;
+    create = newDate;
+    notifyListeners();
+  }
+
+//Tabla Leads
   Future<void> getLeads() async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
     }
     try {
-      final res = await supabaseCRM.from('leads').select();
+      final res = await supabaseCRM.from('leads_view').select();
       if (res == null) {
         log('Error en getLeads()');
         return;
@@ -144,16 +178,15 @@ class LeadsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-//PopUps Leads
+//CRUD Leads
   Future<void> createLead() async {
     try {
       //Registrar al usuario con una contraseña temporal
       await supabaseCRM.from('leads').insert({
         "name_lead": "${firstNameController.text} ${lastNameController.text}",
         "quote_amount": quoteamountController.text,
-        "probability": probabilityController.text,
-        "expected_close":
-            DateTime.now().add(const Duration(days: 30)).toString(),
+        "probability": slydervalue.toString(),
+        "expected_close": create.toString(),
         "assigned_to": selectAssignedTValue,
         "status": "In proccess",
         "organitation_name":
@@ -174,7 +207,7 @@ class LeadsProvider extends ChangeNotifier {
 
   Future<void> getData() async {
     if (id != null) {
-      var response = await supabaseCRM.from('leads').select().eq('id', id);
+      var response = await supabaseCRM.from('leads_view').select().eq('id', id);
 
       if (response == null) {
         log('Error en getData()');
@@ -190,7 +223,7 @@ class LeadsProvider extends ChangeNotifier {
       phoneController.text = leads.phoneNumber;
       closedateController.text = leads.expectedClose.toString();
       quoteamountController.text = leads.quoteAmount.toString();
-      probabilityController.text = leads.probability.toString();
+      slydervalue = leads.probability.toDouble();
       selectAssignedTValue = leads.assignedTo;
       descriptionController.text = leads.description;
     }
@@ -204,9 +237,8 @@ class LeadsProvider extends ChangeNotifier {
         await supabaseCRM.from('leads').update({
           "name_lead": "${firstNameController.text} ${lastNameController.text}",
           "quote_amount": quoteamountController.text,
-          "probability": probabilityController.text,
-          "expected_close":
-              DateTime.now().add(const Duration(days: 30)).toString(),
+          "probability": slydervalue.toString(),
+          "expected_close": create.toString(),
           "assigned_to": selectAssignedTValue,
           "status": "In proccess",
           "organitation_name":
@@ -254,8 +286,6 @@ class LeadsProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
-//Leads details
 
 //Controladores Paginado Pluto?
   void clearControllers({bool notify = true}) {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
 
 class User {
@@ -37,15 +38,22 @@ class User {
 
   String get fullName => '$name $lastName';
 
-  bool get isAdmin => role.roleName == 'Admin';
+  // Both
+  bool get isAdmin => currentUser!.isAdminCrm || currentUser!.isAdminCv;
 
-  bool get isCRM => role.roleName == 'Sales' || role.roleName == 'Finance' || role.roleName == 'Sen. Exec.' || role.roleName == 'Operations' || role.roleName == 'Admin';
+  // CRM
+  bool get isCRM => currentUser!.isAdminCrm || currentUser!.isSales || currentUser!.isSenExec || currentUser!.isFinance || currentUser!.isOpperations;
+  bool get isAdminCrm => role.roleName == 'Admin CRM';
   bool get isSales => role.roleName == 'Sales';
-  bool get isFinance => role.roleName == 'Finance';
   bool get isSenExec => role.roleName == 'Sen. Exec.';
+  bool get isFinance => role.roleName == 'Finance';
   bool get isOpperations => role.roleName == 'Operations';
 
-  bool get isCV => role.roleName == 'Admin' || role.roleName == 'Admin';
+  // CV
+  bool get isCV => currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isEmployee;
+  bool get isAdminCv => role.roleName == 'Admin CV';
+  bool get isManager => role.roleName == 'Manager';
+  bool get isEmployee => role.roleName == 'Employee';
 
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 

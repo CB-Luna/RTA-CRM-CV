@@ -117,9 +117,7 @@ class UsersProvider extends ChangeNotifier {
             ascending: true,
           );
 
-      states = (res as List<dynamic>)
-          .map((pais) => State.fromJson(jsonEncode(pais)))
-          .toList();
+      states = (res as List<dynamic>).map((pais) => State.fromJson(jsonEncode(pais))).toList();
 
       if (notify) notifyListeners();
     } catch (e) {
@@ -133,9 +131,7 @@ class UsersProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    roles = (res as List<dynamic>)
-        .map((rol) => Role.fromJson(jsonEncode(rol)))
-        .toList();
+    roles = (res as List<dynamic>).map((rol) => Role.fromJson(jsonEncode(rol))).toList();
 
     if (notify) notifyListeners();
   }
@@ -146,18 +142,13 @@ class UsersProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      final res = await supabase
-          .from('users')
-          .select()
-          .like('name', '%${searchController.text}%');
+      final res = await supabase.from('users').select().like('name', '%${searchController.text}%');
 
       if (res == null) {
         log('Error en getUsuarios()');
         return;
       }
-      users = (res as List<dynamic>)
-          .map((usuario) => User.fromJson(jsonEncode(usuario)))
-          .toList();
+      users = (res as List<dynamic>).map((usuario) => User.fromJson(jsonEncode(usuario))).toList();
 
       rows.clear();
       for (User user in users) {
@@ -216,20 +207,39 @@ class UsersProvider extends ChangeNotifier {
   Future<bool> createUserProfile(String userId) async {
     if (selectedState == null || selectedRole == null) return false;
     try {
-      await supabase.from('user_profile').insert(
-        {
-          'user_profile_id': userId,
-          'name': nameController.text,
-          'last_name': lastNameController.text,
-          'home_phone': phoneController.text,
-          'mobile_phone': phoneController.text,
-          'address': '123 Main St.',
-          'image': imageName,
-          'birthdate': DateTime.now().toIso8601String(),
-          'id_role_fk': selectedRole!.id,
-          'state_fk': selectedState!.id,
-        },
-      );
+      if (currentUser!.isCRM) {
+        await supabase.from('user_profile').insert(
+          {
+            'user_profile_id': userId,
+            'name': nameController.text,
+            'last_name': lastNameController.text,
+            'home_phone': phoneController.text,
+            'mobile_phone': phoneController.text,
+            'address': '123 Main St.',
+            'image': imageName,
+            'birthdate': DateTime.now().toIso8601String(),
+            'id_role_fk': selectedRole!.id,
+            'state_fk': selectedState!.id,
+          },
+        );
+      } else if (currentUser!.isCV) {
+        await supabase.from('user_profile').insert(
+          {
+            'user_profile_id': userId,
+            'name': nameController.text,
+            'last_name': lastNameController.text,
+            'home_phone': phoneController.text,
+            'mobile_phone': phoneController.text,
+            'address': '123 Main St.',
+            'image': imageName,
+            'birthdate': DateTime.now().toIso8601String(),
+            'id_role_fk': selectedRole!.id,
+            'state_fk': selectedState!.id,
+            // TODO: implementar campo de Company
+            'id_company_fk': 1,
+          },
+        );
+      }
       return true;
     } catch (e) {
       log('Error in createUserProfile() - $e');
@@ -322,15 +332,13 @@ class UsersProvider extends ChangeNotifier {
   SMIInput<bool>? iHoverDashboards;
   SMIInput<bool>? iSelectedDashboards;
   Future<void> dashboardsIconRive() async {
-    final ByteData data =
-        await rootBundle.load('assets/rive/dashboards_icon.riv');
+    final ByteData data = await rootBundle.load('assets/rive/dashboards_icon.riv');
 
     final file = RiveFile.import(data);
 
     final artboard = file.mainArtboard;
 
-    sMCDashboards =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCDashboards = StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCDashboards != null) {
       artboard.addController(sMCDashboards!);
