@@ -68,6 +68,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                 width: MediaQuery.of(context).size.width * 0.175,
                 height: MediaQuery.of(context).size.height * 0.3,
                 child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -96,6 +97,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                                 vertical: 10,
                               ),
                               child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
                                 child: ListView.builder(
                                   padding: EdgeInsets.zero,
                                   primary: true,
@@ -105,8 +107,8 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                                   itemBuilder: (context, index) {
                                     final TemaDescargado tema =
                                         provider.temas[index];
-                                    final bool seleccionado = tema.id ==
-                                        provider.temaSeleccionado?.id;
+                                    final bool seleccionado = tema.idTema ==
+                                        provider.temaSeleccionado?.idTema;
                                     return ThemeCardWidget(
                                       tema: tema,
                                       seleccionado: seleccionado,
@@ -127,9 +129,11 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                             );
                             return;
                           }
+                          provider.idtema = provider.temaSeleccionado!.idTema;
                           final res = await provider.actualizarTema(
-                            tema: provider.temaSeleccionado!.tema,
+                            tema: provider.temaSeleccionado!.configuracion,
                           );
+
                           if (!res) {
                             await ApiErrorHandler.callToast(
                               'Error al actualizar los temas',
@@ -214,18 +218,21 @@ class _ThemeCardWidgetState extends State<ThemeCardWidget> {
             child: Row(
               children: [
                 Text(
-                  widget.tema.nombre,
+                  widget.tema.nombreTema,
                   style: AppTheme.of(context).bodyText1,
                 ),
                 const Spacer(),
-                ColorContainer(colorValue: widget.tema.tema.light.primaryColor),
                 ColorContainer(
-                    colorValue: widget.tema.tema.light.secondaryColor),
+                    colorValue: widget.tema.configuracion.light.primaryColor),
                 ColorContainer(
-                    colorValue: widget.tema.tema.light.tertiaryColor),
-                ColorContainer(colorValue: widget.tema.tema.light.primaryText),
+                    colorValue: widget.tema.configuracion.light.secondaryColor),
                 ColorContainer(
-                    colorValue: widget.tema.tema.light.primaryBackground),
+                    colorValue: widget.tema.configuracion.light.tertiaryColor),
+                ColorContainer(
+                    colorValue: widget.tema.configuracion.light.primaryText),
+                ColorContainer(
+                    colorValue:
+                        widget.tema.configuracion.light.primaryBackground),
               ],
             ),
           ),

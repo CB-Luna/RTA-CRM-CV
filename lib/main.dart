@@ -19,15 +19,16 @@ import 'providers/accounts/tabs/accounts_provider.dart';
 import 'providers/accounts/tabs/billing_provider.dart';
 import 'providers/accounts/tabs/campaigns_provider.dart';
 import 'providers/accounts/tabs/leads_provider.dart';
-import 'providers/accounts/tabs/opportunities_provider.dart';
+import 'providers/accounts/tabs/opportunity_provider.dart';
 import 'providers/accounts/tabs/quotes_provider.dart';
+import 'providers/accounts/validate_quote_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   setPathUrlStrategy();
 
-  // supabaseCRM = SupabaseClient('https://supa43.rtatel.com', key, schema: 'crm');
+  supabaseCRM = SupabaseClient(supabaseUrl, anonKey, schema: 'crm');
   // supabaseCtrlV = SupabaseClient('https://supa43.rtatel.com', key, schema: 'ctrl_v');
 
   await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);
@@ -61,7 +62,7 @@ void main() async {
           create: (_) => LeadsProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => OpportunitiesProvider(),
+          create: (_) => OpportunityProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => CampaignsProvider(),
@@ -77,6 +78,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => DetailQuoteProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ValidateQuoteProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => MonitoryProvider(),

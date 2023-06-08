@@ -3,89 +3,60 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart' hide State;
 import 'package:pluto_grid/pluto_grid.dart';
+
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/accounts/leads_model.dart';
+import 'package:rta_crm_cv/models/accounts/opportunity_model.dart';
+import 'package:rta_crm_cv/models/models.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
-class LeadsProvider extends ChangeNotifier {
+class OpportunityProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
+  //checks box pop up
+  bool timeline = false,
+      decisionmaker = false,
+      techspec = false,
+      budget = false;
+
   bool editmode = false;
+  late int? id;
+  //
+  State? selectedState;
   int pageRowCount = 10;
   int page = 1;
-  late int? id;
   DateTime create = DateTime.now();
-  double slydervalue = 0, min = 0, max = 100;
   late DateTime close = DateTime.parse(closedateController.text);
+  double slydervalue = 10, min = 0, max = 100;
   //Controladores Basic Information
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
+  final nameController = TextEditingController();
   final accountController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneController = TextEditingController();
+  final contactController = TextEditingController();
   //Controladores Other Information
   final closedateController = TextEditingController();
   final quoteamountController = TextEditingController();
   final probabilityController = TextEditingController();
   //Controlador Description
   final descriptionController = TextEditingController();
-
-//Listas DropdownMenu
-  late String selectSaleStoreValue, selectAssignedTValue, selectLeadSourceValue;
-  List<String> saleStoreList = [
-    'Mike Haddock',
-    'Rosalia Silvey',
-    'Tom Carrol',
-    'Vini Garcia',
-  ];
-  List<String> assignedList = [
-    'Frank Befera',
-    'Rosalia Silvey',
-    'Tom Carrol',
-    'Mike Haddock',
-  ];
-  List<String> leadSourceList = [
-    'Social Media',
-    'Campain',
-    'TV',
-    'Email',
-    'Web',
-  ];
-  void selectSaleStore(String selected) {
-    selectSaleStoreValue = selected;
-    notifyListeners();
-  }
-
-  void selectAssigned(String selected) {
-    selectAssignedTValue = selected;
-    notifyListeners();
-  }
-
-  void selectLeadSource(String selected) {
-    selectLeadSourceValue = selected;
-    notifyListeners();
-  }
-
 ////////////////////////////////////////////////////////////////////////////
-  LeadsProvider() {
+  OpportunityProvider() {
     clearAll();
     updateState();
   }
-
   clearAll() {
-    editmode = false;
-    create = DateTime.now();
     slydervalue = 0;
-    firstNameController.clear();
-    lastNameController.clear();
+    timeline = false;
+    decisionmaker = false;
+    techspec = false;
+    budget = false;
+
+    nameController.clear();
     accountController.clear();
+    contactController.clear();
     closedateController.clear();
     quoteamountController.clear();
     probabilityController.clear();
     descriptionController.clear();
-    emailController.clear();
-    phoneController.clear();
 
     selectSaleStoreValue = saleStoreList.first;
     selectAssignedTValue = assignedList.first;
@@ -93,19 +64,11 @@ class LeadsProvider extends ChangeNotifier {
   }
 
   Future<void> updateState() async {
+    create;
     rows.clear();
     await clearAll();
-    await getLeads();
+    await getOpportunity();
   }
-
-  List<bool> tabBar = [
-    false,
-    false,
-    true,
-    false,
-    false,
-  ];
-////////////////////////////////////////////////////////////////////////////
 
   Future<void> selectdate(
     BuildContext context,
@@ -135,36 +98,73 @@ class LeadsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-//Tabla Leads
-  Future<void> getLeads() async {
+  //listas Drop Menu
+  late String selectSaleStoreValue, selectAssignedTValue, selectLeadSourceValue;
+  List<String> saleStoreList = [
+    'Mike Haddock',
+    'Rosalia Silvey',
+    'Tom Carrol',
+    'Vini Garcia',
+  ];
+  List<String> assignedList = [
+    'Frank Befera',
+    'Rosalia Silvey',
+    'Tom Carrol',
+    'Mike Haddock',
+  ];
+  List<String> leadSourceList = [
+    'Social Media',
+    'Campain',
+    'TV',
+    'Email',
+    'Web',
+  ];
+
+  void selectSaleStore(String selected) {
+    selectSaleStoreValue = selected;
+    notifyListeners();
+  }
+
+  void selectAssigned(String selected) {
+    selectAssignedTValue = selected;
+    notifyListeners();
+  }
+
+  void selectLeadSource(String selected) {
+    selectLeadSourceValue = selected;
+    notifyListeners();
+  }
+
+//Tabla Opportunities
+  Future<void> getOpportunity() async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
     }
     try {
-      final res = await supabaseCRM.from('leads_view').select();
+      final res = await supabaseCRM.from('opportunities_view').select();
       if (res == null) {
-        log('Error en getLeads()');
+        log('Error en getOpportunity()');
         return;
       }
-      List<Leads> leads = (res as List<dynamic>)
-          .map((lead) => Leads.fromJson(jsonEncode(lead)))
+      List<Opportunity> opportunity = (res as List<dynamic>)
+          .map((usuario) => Opportunity.fromJson(jsonEncode(usuario)))
           .toList();
 
       rows.clear();
-      for (Leads lead in leads) {
+      for (Opportunity user in opportunity) {
         rows.add(
           PlutoRow(
             cells: {
-              'ID_Column': PlutoCell(value: lead.id),
-              'NAME_Column': PlutoCell(value: lead.nameLead),
-              'AMOUNT_Column': PlutoCell(value: lead.quoteAmount),
-              'PROBABILITY_Column': PlutoCell(value: lead.probability),
-              'CLOSED_Column': PlutoCell(value: lead.expectedClose),
-              'CREATE_Column': PlutoCell(value: lead.createdAt),
-              'LAST_Column': PlutoCell(value: lead.lastActivity),
-              'ASSIGNED_Column': PlutoCell(value: lead.assignedTo),
-              'STATUS_Column': PlutoCell(value: lead.status),
+              'ID_Column': PlutoCell(value: user.id),
+              'NAME_Column': PlutoCell(value: user.nameLead),
+              'AMOUNT_Column': PlutoCell(value: user.quotes.first.total),
+              'PROBABILITY_Column': PlutoCell(value: user.probability),
+              'CLOSED_Column': PlutoCell(value: user.expectedClose),
+              'CREATE_Column': PlutoCell(value: user.quotes.last.createdAt),
+              'LAST_Column': PlutoCell(value: user.quotes.first.updatedAt),
+              'ASSIGNED_Column': PlutoCell(value: user.assignedTo),
+              'STATUS_Column': PlutoCell(value: user.status),
               'ACTIONS_Column': PlutoCell(value: ''),
             },
           ),
@@ -172,32 +172,32 @@ class LeadsProvider extends ChangeNotifier {
       }
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
-      log('Error en getLeads() - $e');
+      log('Error en getOpportunity() - $e');
     }
 
     notifyListeners();
   }
 
-//CRUD Leads
-  Future<void> createLead() async {
+//CRUD Opportunity
+  Future<void> createOpportunity() async {
     try {
       //Registrar al usuario con una contraseña temporal
-      await supabaseCRM.from('leads').insert({
-        "name_lead": "${firstNameController.text} ${lastNameController.text}",
+      await supabaseCRM.from('opportunity').insert({
+        "name": nameController.text,
         "quote_amount": quoteamountController.text,
         "probability": slydervalue.toString(),
+        "last_activity": DateTime.now().toString(),
         "expected_close": create.toString(),
         "assigned_to": selectAssignedTValue,
-        "status": "In proccess",
-        "organitation_name":
-            "${firstNameController.text} ${lastNameController.text}",
-        "first_name": firstNameController.text,
-        "last_name": lastNameController.text,
-        "phone_number": phoneController.text,
-        "email": emailController.text,
-        "sales_stage": selectSaleStoreValue,
+        "status": "Opened",
         "account": accountController.text,
+        "sales_stage": selectSaleStoreValue,
+        "contact": contactController.text,
         "lead_source": selectLeadSourceValue,
+        "time_line": timeline,
+        "decision_maker": decisionmaker,
+        "teach_spec": techspec,
+        "budget": budget,
         "description": descriptionController.text,
       });
     } catch (e) {
@@ -207,49 +207,54 @@ class LeadsProvider extends ChangeNotifier {
 
   Future<void> getData() async {
     if (id != null) {
-      var response = await supabaseCRM.from('leads_view').select().eq('id', id);
+      var response =
+          await supabaseCRM.from('opportunities_view').select().eq('id', id);
 
       if (response == null) {
         log('Error en getData()');
         return;
       }
-      Leads leads = Leads.fromJson(jsonEncode(response[0]));
-      firstNameController.text = leads.firstName;
-      lastNameController.text = leads.lastName;
-      selectSaleStoreValue = leads.salesStage;
-      accountController.text = leads.account;
-      emailController.text = leads.email;
-      selectLeadSourceValue = leads.leadSource;
-      phoneController.text = leads.phoneNumber;
-      closedateController.text = leads.expectedClose.toString();
-      quoteamountController.text = leads.quoteAmount.toString();
-      slydervalue = leads.probability.toDouble();
-      selectAssignedTValue = leads.assignedTo;
-      descriptionController.text = leads.description;
+      Opportunity opportunity = Opportunity.fromJson(jsonEncode(response[0]));
+      nameController.text = opportunity.nameLead;
+      accountController.text = opportunity.account;
+      selectSaleStoreValue = opportunity.salesStage;
+      accountController.text = opportunity.account;
+      contactController.text =
+          "${opportunity.firstName} ${opportunity.lastName}";
+      selectAssignedTValue = opportunity.assignedTo;
+      selectLeadSourceValue = opportunity.leadSource;
+      closedateController.text = opportunity.expectedClose.toString();
+      quoteamountController.text = opportunity.quotes.first.total.toString();
+      /* timeline = opportunity.timeLine;
+      decisionmaker = opportunity.decisionMaker;
+      techspec = opportunity.teachSpec;
+      budget = opportunity.budget; */
+      slydervalue = opportunity.probability.toDouble();
+      descriptionController.text = opportunity.description;
     }
 
     notifyListeners();
   }
 
-  Future<void> updateLead() async {
+  Future<void> updateOpportunity() async {
     try {
       {
-        await supabaseCRM.from('leads').update({
-          "name_lead": "${firstNameController.text} ${lastNameController.text}",
+        await supabaseCRM.from('opportunity').update({
+          "name": nameController.text,
           "quote_amount": quoteamountController.text,
           "probability": slydervalue.toString(),
+          "last_activity": DateTime.now().toString(),
           "expected_close": create.toString(),
           "assigned_to": selectAssignedTValue,
-          "status": "In proccess",
-          "organitation_name":
-              "${firstNameController.text} ${lastNameController.text}",
-          "first_name": firstNameController.text,
-          "last_name": lastNameController.text,
-          "phone_number": phoneController.text,
-          "email": emailController.text,
-          "sales_stage": selectSaleStoreValue,
+          "status": "Opened",
           "account": accountController.text,
+          "sales_stage": selectSaleStoreValue,
+          "contact": contactController.text,
           "lead_source": selectLeadSourceValue,
+          "time_line": timeline,
+          "decision_maker": decisionmaker,
+          "teach_spec": techspec,
+          "budget": budget,
           "description": descriptionController.text,
         }).eq('id', id);
       }
@@ -260,13 +265,13 @@ class LeadsProvider extends ChangeNotifier {
     } catch (e) {
       log('Error en UpdateOpportunity() - $e');
     }
-    await getLeads();
+    await getOpportunity();
     notifyListeners();
   }
 
-  Future<void> deleteLead() async {
+  Future<void> deleteOpportunity() async {
     try {
-      await supabaseCRM.from('leads').delete().eq('id', id);
+      await supabaseCRM.from('opportunity').delete().eq('id', id);
 
       if (stateManager != null) stateManager!.notifyListeners();
 
@@ -274,16 +279,7 @@ class LeadsProvider extends ChangeNotifier {
     } catch (e) {
       log('Error en deleteOpportunity() - $e');
     }
-    await getLeads();
-    notifyListeners();
-  }
-
-  Future setIndex(int index) async {
-    for (var i = 0; i < tabBar.length; i++) {
-      tabBar[i] = false;
-    }
-    tabBar[index] = true;
-
+    await getOpportunity();
     notifyListeners();
   }
 

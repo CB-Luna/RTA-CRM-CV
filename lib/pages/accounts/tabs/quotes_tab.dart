@@ -6,7 +6,11 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/providers/accounts/create_quote_provider.dart';
+import 'package:rta_crm_cv/providers/accounts/detail_quote_provider.dart';
 import 'package:rta_crm_cv/providers/accounts/tabs/quotes_provider.dart';
+import 'package:rta_crm_cv/providers/accounts/validate_quote_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -23,8 +27,25 @@ class QuotesTab extends StatefulWidget {
 
 class _QuotesTabState extends State<QuotesTab> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final QuotesProvider provider = Provider.of<QuotesProvider>(
+        context,
+        listen: false,
+      );
+      await provider.updateState();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     QuotesProvider provider = Provider.of<QuotesProvider>(context);
+    DetailQuoteProvider detailProvider = Provider.of<DetailQuoteProvider>(context);
+    CreateQuoteProvider providerCreate = Provider.of<CreateQuoteProvider>(context);
+    ValidateQuoteProvider providerValidate = Provider.of<ValidateQuoteProvider>(context);
+
     return CustomCard(
       title: 'Quotes',
       child: Column(
@@ -36,6 +57,7 @@ class _QuotesTabState extends State<QuotesTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextIconButton(
+                  isLoading: false,
                   icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Filter',
                   onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
@@ -47,13 +69,19 @@ class _QuotesTabState extends State<QuotesTab> {
                   label: 'Search',
                   keyboardType: TextInputType.text,
                 ),
-                CustomTextIconButton(
-                  icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                  text: 'Create Quote',
-                  onTap: () async {
-                    context.pushReplacement('/quote_creation');
-                  },
-                )
+                if (!currentUser!.isSales) SizedBox(width: 131),
+                if (currentUser!.isSales)
+                  CustomTextIconButton(
+                    width: 131,
+                    isLoading: false,
+                    icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                    text: 'Create Quote',
+                    onTap: () async {
+                      context.pushReplacement(routeQuoteCreation);
+                      await providerCreate.clearAll();
+                      providerCreate.idLead = null;
+                    },
+                  )
               ],
             ),
           ),
@@ -184,7 +212,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -222,7 +250,7 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.watch_later_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Last Activity', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                   ]),
@@ -232,7 +260,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(),
+                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -306,7 +334,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ACTIONS',
                   field: 'ACTIONS_Column',
-                  width: 190,
+                  width: 250,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
                   type: PlutoColumnType.text(),
@@ -323,15 +351,82 @@ class _QuotesTabState extends State<QuotesTab> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          //if (rendererContext.row.cells["STATUS_Column"]!.value != 'Rejected')
                           CustomTextIconButton(
+                            isLoading: false,
                             icon: Icon(
                               Icons.fact_check_outlined,
                               color: AppTheme.of(context).primaryBackground,
                             ),
-                            text: 'Edit',
-                            onTap: () {},
+                            text: 'Detail',
+                            onTap: () async {
+                              context.pushReplacement(routeQuoteDetail);
+                              detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
+                              await detailProvider.getData();
+                            },
                           ),
-                          CustomTextIconButton(
+                          if (currentUser!.isSales && rendererContext.row.cells["STATUS_Column"]!.value == 'Rejected')
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.fact_check_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Create New',
+                              onTap: () async {
+                                context.pushReplacement(routeQuoteCreation);
+                                await providerCreate.clearAll();
+                                await providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
+                                await providerCreate.getLead(rendererContext.row.cells["ID_LEAD_Column"]!.value, null);
+                              },
+                            ),
+                          if (currentUser!.isSenExec && rendererContext.row.cells["STATUS_Column"]!.value == 'Opened')
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.fact_check_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Validate',
+                              onTap: () async {
+                                context.pushReplacement(routeQuoteValidation);
+                                await providerValidate.clearAll();
+                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
+                                await providerValidate.getData();
+                              },
+                            ),
+                          if (currentUser!.isFinance &&
+                              (rendererContext.row.cells["STATUS_Column"]!.value == 'SenExec Validate' || rendererContext.row.cells["STATUS_Column"]!.value == 'Margin Positive'))
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.fact_check_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Validate',
+                              onTap: () async {
+                                context.pushReplacement(routeQuoteValidation);
+                                await providerValidate.clearAll();
+                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
+                                await providerValidate.getData();
+                              },
+                            ),
+                          if (currentUser!.isOpperations && rendererContext.row.cells["STATUS_Column"]!.value == 'Finance Validate')
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.fact_check_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Validate',
+                              onTap: () async {
+                                context.pushReplacement(routeQuoteValidation);
+                                await providerValidate.clearAll();
+                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
+                                await providerValidate.getData();
+                              },
+                            ),
+                          /* CustomTextIconButton(isLoading: false,
                             icon: Icon(
                               Icons.shopping_basket_outlined,
                               color: AppTheme.of(context).primaryBackground,
@@ -339,7 +434,7 @@ class _QuotesTabState extends State<QuotesTab> {
                             color: secondaryColor,
                             text: 'Delete',
                             onTap: () {},
-                          ),
+                          ), */
                           /* InkWell(
                                               hoverColor: Colors.transparent,
                                               child: Icon(

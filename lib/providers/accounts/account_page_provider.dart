@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class AccountsPageProvider extends ChangeNotifier {
   List<bool> tabBar = [
-    true,
-    false,
-    false,
-    false,
-    false,
+    false, //Quotes
+    false, //Oportunities
+    true, //Leads
+    false, //Campagins
+    false, //Billing
   ];
 
   Future setIndex(int index) async {
