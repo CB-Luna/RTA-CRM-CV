@@ -42,7 +42,12 @@ class User {
   bool get isAdmin => currentUser!.isAdminCrm || currentUser!.isAdminCv;
 
   // CRM
-  bool get isCRM => currentUser!.isAdminCrm || currentUser!.isSales || currentUser!.isSenExec || currentUser!.isFinance || currentUser!.isOpperations;
+  bool get isCRM =>
+      currentUser!.isAdminCrm ||
+      currentUser!.isSales ||
+      currentUser!.isSenExec ||
+      currentUser!.isFinance ||
+      currentUser!.isOpperations;
   bool get isAdminCrm => role.roleName == 'Admin CRM';
   bool get isSales => role.roleName == 'Sales';
   bool get isSenExec => role.roleName == 'Sen. Exec.';
@@ -50,7 +55,10 @@ class User {
   bool get isOpperations => role.roleName == 'Operations';
 
   // CV
-  bool get isCV => currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isEmployee;
+  bool get isCV =>
+      currentUser!.isAdminCv ||
+      currentUser!.isManager ||
+      currentUser!.isEmployee;
   bool get isAdminCv => role.roleName == 'Admin CV';
   bool get isManager => role.roleName == 'Manager';
   bool get isEmployee => role.roleName == 'Employee';
