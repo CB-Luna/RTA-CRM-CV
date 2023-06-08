@@ -50,9 +50,10 @@ class _CampaignsTabState extends State<CampaignsTab> {
                 CustomTextIconButton(
                   isLoading: false,
                   icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                  text: 'Create Quote',
+                  text: 'Create Campaign',
+                  color: AppTheme.of(context).tertiaryColor,
                   onTap: () async {
-                    context.pushReplacement(routeQuoteCreation);
+                    // context.pushReplacement(routeQuoteCreation);
                   },
                 )
               ],

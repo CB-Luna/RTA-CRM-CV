@@ -21,6 +21,8 @@ class CreateQuoteProvider extends ChangeNotifier {
     subtotal = 0;
     cost = 0;
     total = 0;
+    taxController.text = '0';
+    totalPlusTax = 0;
     margin = 0;
 
     existingCircuitIDController.clear();
@@ -92,6 +94,8 @@ class CreateQuoteProvider extends ChangeNotifier {
   double subtotal = 0;
   double cost = 0;
   double total = 0;
+  final taxController = TextEditingController();
+  double totalPlusTax = 0;
   double margin = 0;
 
   final existingCircuitIDController = TextEditingController();
@@ -348,6 +352,8 @@ class CreateQuoteProvider extends ChangeNotifier {
           "subtotal": subtotal,
           "cost": cost,
           "total": total,
+          "tax": taxController.text != '' ? double.parse(taxController.text) : '0',
+          "total_plus_tax": totalPlusTax,
           "margin": margin,
           "probability": 100,
           "order_info": quoteInfo,
@@ -371,6 +377,8 @@ class CreateQuoteProvider extends ChangeNotifier {
             "subtotal": subtotal,
             "cost": cost,
             "total": total,
+            "tax": taxController.text != '' ? double.parse(taxController.text) : '0',
+            "total_plus_tax": totalPlusTax,
             "margin": margin,
             "probability": 100,
             "order_info": quoteInfo,
@@ -391,6 +399,8 @@ class CreateQuoteProvider extends ChangeNotifier {
             "subtotal": subtotal,
             "cost": cost,
             "total": total,
+            "tax": taxController.text != '' ? double.parse(taxController.text) : '0',
+            "total_plus_tax": totalPlusTax,
             "margin": margin,
             "probability": 100,
             "order_info": quoteInfo,
@@ -650,7 +660,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void countRowsPlutoGrid() {
+  Function()? countRowsPlutoGrid() {
     totalItems = 0;
     subtotal = 0;
     cost = 0;
@@ -665,13 +675,20 @@ class CreateQuoteProvider extends ChangeNotifier {
     }
 
     total = subtotal - cost;
-    if (total == 0 && subtotal == 0) {
-      margin = 0;
+
+    if (taxController.text != '0' && double.parse(taxController.text) != 0 && taxController.text != '') {
+      totalPlusTax = (double.parse(taxController.text) * total / 100) + total;
     } else {
-      margin = total * 100 / subtotal;
+      totalPlusTax = total;
     }
 
+    if (totalPlusTax == 0 && subtotal == 0) {
+      margin = 0;
+    } else {
+      margin = totalPlusTax * 100 / subtotal;
+    }
     notifyListeners();
+    return null;
   }
 
   void resetFormExpansionPanel() {

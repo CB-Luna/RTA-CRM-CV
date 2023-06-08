@@ -6,7 +6,7 @@ import 'package:rta_crm_cv/theme/theme.dart';
 class CustomTextField extends StatefulWidget {
   const CustomTextField({
     super.key,
-    this.width = 500,
+    this.width = 150,
     this.height = 35,
     required this.enabled,
     required this.controller,
@@ -15,6 +15,7 @@ class CustomTextField extends StatefulWidget {
     required this.keyboardType,
     this.inputFormatters,
     this.onDone,
+    this.onChanged,
   });
 
   final String label;
@@ -26,6 +27,7 @@ class CustomTextField extends StatefulWidget {
   final double width;
   final double height;
   final Function(String)? onDone;
+  final Function(String)? onChanged;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -53,7 +55,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ),
             ]),
             child: Form(
-              child: TextField(
+              child: TextFormField(
                 controller: widget.controller,
                 enabled: widget.enabled,
                 keyboardType: widget.keyboardType,
@@ -85,7 +87,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   ),
                 ),
                 cursorColor: AppTheme.of(context).primaryColor,
-                onSubmitted: widget.onDone,
+                onChanged: widget.onChanged,
               ),
             ),
           ),
