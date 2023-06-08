@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-const List<String> mes = ['May', 'June', 'July', 'August'];
-const List<String> semana = ['1 - 7', '8 - 14', '15 - 21', '22 - 28'];
+const List<String> company = ['COMPANY', 'CRY', 'ODE', 'SMI'];
+const List<String> employee = ['EMPLOYEE', 'Gian', 'Jane', 'Michael'];
 
 class Calendario extends StatelessWidget {
   const Calendario({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String inicio = mes.first;
-    String fin = semana[3];
+    String comp = company.first;
+    String emp = employee.first;
 
     return Column(
       children: [
@@ -96,6 +96,8 @@ class Calendario extends StatelessWidget {
                 ),
               ),
               //BUSCADOR DE MES
+              
+              //COMPANY
               Container(
                 alignment: Alignment.center,
                 height: MediaQuery.of(context).size.height * .06,
@@ -105,11 +107,11 @@ class Calendario extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: DropdownButton<String>(
-                  value: inicio,
+                  value: comp,
                   icon: const Icon(Icons.arrow_downward),
                   elevation: 16,
                   onChanged: (String? value) {},
-                  items: mes.map<DropdownMenuItem<String>>((String value) {
+                  items: company.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(
@@ -120,7 +122,7 @@ class Calendario extends StatelessWidget {
                   }).toList(),
                 ),
               ),
-              //BUSCADOR DE SEMANA
+              //Employee
               Container(
                 alignment: Alignment.center,
                 height: MediaQuery.of(context).size.height * .06,
@@ -130,11 +132,11 @@ class Calendario extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: DropdownButton<String>(
-                  value: fin,
+                  value: emp,
                   icon: const Icon(Icons.arrow_downward),
                   elevation: 16,
                   onChanged: (String? value) {},
-                  items: semana.map<DropdownMenuItem<String>>((String value) {
+                  items: employee.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(
@@ -149,10 +151,15 @@ class Calendario extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: SfCalendar(
-            view: CalendarView.week,
-            firstDayOfWeek: 1,
-            dataSource: MeetingDataSource(getAppointments()),
+          child: Tooltip(
+            message: 'Jane Cooper',
+            child: SfCalendar(
+              showWeekNumber: true,
+              showDatePickerButton: true,
+              view: CalendarView.week,
+              firstDayOfWeek: 1,
+              dataSource: MeetingDataSource(getAppointments()),
+            ),
           ),
         ),
       ],
@@ -168,24 +175,84 @@ List<Appointment> getAppointments() {
 
   meet.add(Appointment(
     startTime: start,
-    endTime: end,
-    subject: 'Jane Cooper\nMKS-1839',
+    endTime: start.add(const Duration(hours: 1)),
+    subject: 'JC',
     color: const Color.fromRGBO(191, 33, 53, 10),
     // recurrenceRule: 'FREQ=DAILY;COUNT=10',
     // isAllDay: true,
   ));
+
   meet.add(Appointment(
     startTime: start,
     endTime: end,
-    subject: 'Michael\nACT-7083',
+    subject: 'M',
     color: const Color.fromRGBO(52, 86, 148, 10),
     // recurrenceRule: 'FREQ=DAILY;COUNT=10',
     // isAllDay: true,
   ));
   meet.add(Appointment(
-    startTime: DateTime(hoy.year, hoy.month, hoy.day, 13, 0, 0),
+    startTime: DateTime(hoy.year, hoy.month, hoy.day, 12, 0, 0),
     endTime: end,
-    subject: 'Gian\nOVX-6680',
+    subject: 'GH',
+    color: const Color.fromRGBO(217, 217, 217, 10),
+    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+    // isAllDay: true,
+  ));
+
+  meet.add(Appointment(
+    startTime: start,
+    endTime: start.add(const Duration(hours: 1)),
+    subject: 'GJ',
+    color: const Color.fromRGBO(191, 33, 53, 10),
+    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+    // isAllDay: true,
+  ));
+
+  meet.add(Appointment(
+    startTime: start,
+    endTime: end,
+    subject: 'GJ',
+    color: const Color.fromRGBO(52, 86, 148, 10),
+    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+    // isAllDay: true,
+  ));
+  meet.add(Appointment(
+    startTime: DateTime(hoy.year, hoy.month, hoy.day, 12, 0, 0),
+    endTime: end,
+    subject: 'EM',
+    color: const Color.fromRGBO(217, 217, 217, 10),
+    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+    // isAllDay: true,
+  ));
+  meet.add(Appointment(
+    startTime: start,
+    endTime: start.add(const Duration(hours: 1)),
+    subject: 'UP',
+    color: const Color.fromRGBO(191, 33, 53, 10),
+    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+    // isAllDay: true,
+  ));
+
+  meet.add(Appointment(
+    startTime: start,
+    endTime: end,
+    subject: 'CR',
+    color: const Color.fromRGBO(52, 86, 148, 10),
+    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+    // isAllDay: true,
+  ));
+  meet.add(Appointment(
+    startTime: DateTime(hoy.year, hoy.month, hoy.day, 12, 0, 0),
+    endTime: end,
+    subject: 'JA',
+    color: const Color.fromRGBO(217, 217, 217, 10),
+    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+    // isAllDay: true,
+  ));
+  meet.add(Appointment(
+    startTime: DateTime(hoy.year, hoy.month, hoy.day, 12, 0, 0),
+    endTime: end,
+    subject: 'JM',
     color: const Color.fromRGBO(217, 217, 217, 10),
     // recurrenceRule: 'FREQ=DAILY;COUNT=10',
     // isAllDay: true,

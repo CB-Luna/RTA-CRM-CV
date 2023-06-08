@@ -12,6 +12,8 @@ import '../../helpers/constants.dart';
 import '../../providers/monitory_provider.dart';
 import '../../public/colors.dart';
 import '../../widgets/side_menu/sidemenu.dart';
+import 'Popup/details_pop_up.dart';
+import 'Popup/license_plates_pop_up.dart';
 
 final List<LinearGradient> gradients = [
   const LinearGradient(colors: [
@@ -88,7 +90,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                               height: 20,
                             ),
                             // Titulo de la tabla
-                            const Padding(padding: EdgeInsets.only(bottom: 10), child: CardHeader(text: "Vehicle Monitory")),
+                            const Padding(padding: EdgeInsets.only(bottom: 10), child: CardHeader(text: "Vehicle Status")),
 
                             widget.provider.monitory.isEmpty
                                 ? const CircularProgressIndicator()
@@ -320,7 +322,33 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 height: rowHeight,
                                                 // width: rendererContext.cell.column.width,
                                                 decoration: BoxDecoration(gradient: whiteGradient),
-                                                child: Center(child: Text(rendererContext.cell.value)),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(rendererContext.cell.value),
+                                                    ElevatedButton(
+                                                          onPressed: () {
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return StatefulBuilder(
+                                                                      builder:
+                                                                          (context,
+                                                                              setState) {
+                                                                    return LicenseHistory(
+                                                                    );
+                                                                  });
+                                                                });
+                                                          },
+                                                          child:
+                                                              Icon(Icons.remove_red_eye_outlined)
+                                                      ),
+                                                  ],
+                                                ),
                                               );
                                             },
                                           ),
@@ -431,7 +459,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             },
                                           ),
                                           PlutoColumn(
-                                            title: 'Date Added',
+                                            title: 'date_added',
                                             field: 'date_added',
                                             titleSpan: const TextSpan(
                                               children: [
@@ -465,131 +493,77 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                               );
                                             },
                                           ),
-                                          // PlutoColumn(
-                                          //     title: 'Acciones',
-                                          //     field: 'acciones',
-                                          //     width: 300,
-                                          //     titleTextAlign:
-                                          //         PlutoColumnTextAlign.center,
-                                          //     textAlign:
-                                          //         PlutoColumnTextAlign.center,
-                                          //     type: PlutoColumnType.number(),
-                                          //     enableEditingMode: false,
-                                          //     renderer: (rendererContext) {
-                                          //       final int id =
-                                          //           rendererContext.cell.value;
-                                          //       Empleados? usuario;
-                                          //       try {
-                                          //         usuario = widget
-                                          //             .provider.usuarios
-                                          //             .firstWhere((element) =>
-                                          //                 element.idSecuencial ==
-                                          //                 id);
-                                          //       } catch (e) {
-                                          //         usuario = null;
-                                          //       }
-
-                                          //       return Row(
-                                          //         mainAxisAlignment:
-                                          //             MainAxisAlignment
-                                          //                 .spaceBetween,
-                                          //         children: [
-                                          //           Container(
-                                          //             alignment: Alignment.center,
-                                          //             child: Visibility(
-                                          //               visible: currentUser!
-                                          //                           .rol.rolId ==
-                                          //                       3
-                                          //                   ? true
-                                          //                   : false,
-                                          //               child:
-                                          //                   AnimatedHoverButton(
-                                          //                 icon: Icons.money,
-                                          //                 tooltip:
-                                          //                     'Cargar ticket de puntos',
-                                          //                 primaryColor:
-                                          //                     AppTheme.of(context)
-                                          //                         .primaryColor,
-                                          //                 secondaryColor: AppTheme
-                                          //                         .of(context)
-                                          //                     .primaryBackground,
-                                          //                 onTap: () async {
-                                          //                   showDialog(
-                                          //                     context: context,
-                                          //                     builder:
-                                          //                         (BuildContext
-                                          //                             context) {
-                                          //                       return AlertDialog(
-                                          //                         backgroundColor:
-                                          //                             const Color(
-                                          //                                 0xffd1d0d0),
-                                          //                         shape:
-                                          //                             RoundedRectangleBorder(
-                                          //                           borderRadius:
-                                          //                               BorderRadius
-                                          //                                   .circular(
-                                          //                                       20),
-                                          //                         ),
-                                          //                         // content:
-                                          //                         //     CargarTicketPopup(
-                                          //                         //   key:
-                                          //                         //       UniqueKey(),
-                                          //                         //   drawerController:
-                                          //                         //       widget
-                                          //                         //           .drawerController,
-                                          //                         //   scaffoldKey:
-                                          //                         //       widget
-                                          //                         //           .scaffoldKey,
-                                          //                         //   idRegistro: 5,
-                                          //                         //   topMenuTittle:
-                                          //                         //       "Editar encargado de Área",
-                                          //                         //   usuarioId:
-                                          //                         //       rendererContext
-                                          //                         //           .row
-                                          //                         //           .cells[
-                                          //                         //               'perfil_usuario_id']!
-                                          //                         //           .value,
-                                          //                         //   usuarioNombre:
-                                          //                         //       rendererContext
-                                          //                         //           .row
-                                          //                         //           .cells[
-                                          //                         //               'nombre']!
-                                          //                         //           .value,
-                                          //                         // ), // Widget personalizado
-                                          //                       );
-                                          //                     },
-                                          //                   );
-                                          //                 },
-                                          //               ),
-                                          //             ),
-                                          //           ),
-                                          //           Container(
-                                          //             alignment: Alignment.center,
-                                          //             child: AnimatedHoverButton(
-                                          //               icon: Icons.edit,
-                                          //               tooltip:
-                                          //                   'Editar perfil empleado',
-                                          //               primaryColor:
-                                          //                   AppTheme.of(context)
-                                          //                       .primaryColor,
-                                          //               secondaryColor: AppTheme
-                                          //                       .of(context)
-                                          //                   .primaryBackground,
-                                          //               onTap: () async {},
-                                          //             ),
-                                          //           ),
-                                          //           AnimatedHoverButton(
-                                          //             icon: Icons.person_remove,
-                                          //             tooltip: 'Eliminar',
-                                          //             primaryColor: Colors.red,
-                                          //             secondaryColor:
-                                          //                 AppTheme.of(context)
-                                          //                     .primaryBackground,
-                                          //             onTap: () async {},
-                                          //           ),
-                                          //         ],
-                                          //       );
-                                          //     }),
+                                          PlutoColumn(
+                                              title: 'Details',
+                                              field: 'details',
+                                              backgroundColor:
+                                                  const Color(0XFF6491F7),
+                                              titleSpan: const TextSpan(
+                                                children: [
+                                                  WidgetSpan(
+                                                    child: Icon(
+                                                      Icons
+                                                          .remove_red_eye_outlined,
+                                                      color: Color(0xffF3F7F9),
+                                                      size: 30,
+                                                    ),
+                                                  ),
+                                                  WidgetSpan(
+                                                      child: SizedBox(
+                                                    width: 10,
+                                                  )),
+                                                  TextSpan(
+                                                      text: 'details',
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                ],
+                                              ),
+                                              width: 300,
+                                              cellPadding: EdgeInsets.zero,
+                                              titleTextAlign:
+                                                  PlutoColumnTextAlign.center,
+                                              textAlign:
+                                                  PlutoColumnTextAlign.center,
+                                              type: PlutoColumnType.text(),
+                                              enableEditingMode: false,
+                                              renderer: (rendererContext) {
+                                                return Container(
+                                                  height: rowHeight,
+                                                  decoration: BoxDecoration(
+                                                      gradient: whiteGradient),
+                                                  child: Center(
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      ElevatedButton(
+                                                          onPressed: () {
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return StatefulBuilder(
+                                                                      builder:
+                                                                          (context,
+                                                                              setState) {
+                                                                    return DetailsPop(
+                                                                      vehicle: rendererContext
+                                                                          .cell
+                                                                          .value,
+                                                                    );
+                                                                  });
+                                                                });
+                                                          },
+                                                          child:
+                                                              Icon(Icons.remove_red_eye_outlined)
+                                                      ),
+                                                    ],
+                                                  )
+                                                  ),
+                                                );
+                                              },
+                                            ),
                                         ],
                                         rows: widget.provider.rows,
                                         createFooter: (stateManager) {
