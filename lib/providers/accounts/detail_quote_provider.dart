@@ -83,6 +83,7 @@ class DetailQuoteProvider extends ChangeNotifier {
         };
         commentsList.add(item);
       }
+
       await supabaseCRM.from('quotes').update({'comments': commentsList}).eq('id', id);
 
       notifyListeners();

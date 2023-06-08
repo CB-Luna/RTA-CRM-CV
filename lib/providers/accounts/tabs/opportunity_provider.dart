@@ -14,10 +14,7 @@ class OpportunityProvider extends ChangeNotifier {
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
   //checks box pop up
-  bool timeline = false,
-      decisionmaker = false,
-      techspec = false,
-      budget = false;
+  bool timeline = false, decisionmaker = false, techspec = false, budget = false;
 
   bool editmode = false;
   late int? id;
@@ -79,8 +76,7 @@ class OpportunityProvider extends ChangeNotifier {
             data: Theme.of(context).copyWith(
               colorScheme: ColorScheme.light(
                 primary: AppTheme.of(context).primaryColor, // color Appbar
-                onPrimary:
-                    AppTheme.of(context).primaryBackground, // Color letras
+                onPrimary: AppTheme.of(context).primaryBackground, // Color letras
                 onSurface: AppTheme.of(context).primaryColor, // Color Meses
               ),
               dialogBackgroundColor: AppTheme.of(context).primaryBackground,
@@ -147,9 +143,7 @@ class OpportunityProvider extends ChangeNotifier {
         log('Error en getOpportunity()');
         return;
       }
-      List<Opportunity> opportunity = (res as List<dynamic>)
-          .map((usuario) => Opportunity.fromJson(jsonEncode(usuario)))
-          .toList();
+      List<Opportunity> opportunity = (res as List<dynamic>).map((usuario) => Opportunity.fromJson(jsonEncode(usuario))).toList();
 
       rows.clear();
       for (Opportunity user in opportunity) {
@@ -182,7 +176,7 @@ class OpportunityProvider extends ChangeNotifier {
   Future<void> createOpportunity() async {
     try {
       //Registrar al usuario con una contraseña temporal
-      await supabaseCRM.from('opportunity').insert({
+      var resp = (await supabaseCRM.from('opportunity').insert({
         "name": nameController.text,
         "quote_amount": quoteamountController.text,
         "probability": slydervalue.toString(),
@@ -199,6 +193,14 @@ class OpportunityProvider extends ChangeNotifier {
         "teach_spec": techspec,
         "budget": budget,
         "description": descriptionController.text,
+      }).select())[0];
+
+      await supabaseCRM.from('leads_history').insert({
+        "user": currentUser!.id,
+        "action": 'INSERT',
+        "description": 'New opportunity created',
+        "table": 'opportunity',
+        "id_table": resp["id"].toString(),
       });
     } catch (e) {
       log('Error en registrarOpportunity() - $e');
@@ -207,8 +209,7 @@ class OpportunityProvider extends ChangeNotifier {
 
   Future<void> getData() async {
     if (id != null) {
-      var response =
-          await supabaseCRM.from('opportunities_view').select().eq('id', id);
+      var response = await supabaseCRM.from('opportunities_view').select().eq('id', id);
 
       if (response == null) {
         log('Error en getData()');
@@ -219,8 +220,7 @@ class OpportunityProvider extends ChangeNotifier {
       accountController.text = opportunity.account;
       selectSaleStoreValue = opportunity.salesStage;
       accountController.text = opportunity.account;
-      contactController.text =
-          "${opportunity.firstName} ${opportunity.lastName}";
+      contactController.text = "${opportunity.firstName} ${opportunity.lastName}";
       selectAssignedTValue = opportunity.assignedTo;
       selectLeadSourceValue = opportunity.leadSource;
       closedateController.text = opportunity.expectedClose.toString();
@@ -239,24 +239,36 @@ class OpportunityProvider extends ChangeNotifier {
   Future<void> updateOpportunity() async {
     try {
       {
-        await supabaseCRM.from('opportunity').update({
-          "name": nameController.text,
-          "quote_amount": quoteamountController.text,
-          "probability": slydervalue.toString(),
-          "last_activity": DateTime.now().toString(),
-          "expected_close": create.toString(),
-          "assigned_to": selectAssignedTValue,
-          "status": "Opened",
-          "account": accountController.text,
-          "sales_stage": selectSaleStoreValue,
-          "contact": contactController.text,
-          "lead_source": selectLeadSourceValue,
-          "time_line": timeline,
-          "decision_maker": decisionmaker,
-          "teach_spec": techspec,
-          "budget": budget,
-          "description": descriptionController.text,
-        }).eq('id', id);
+        var resp = (await supabaseCRM
+            .from('opportunity')
+            .update({
+              "name": nameController.text,
+              "quote_amount": quoteamountController.text,
+              "probability": slydervalue.toString(),
+              "last_activity": DateTime.now().toString(),
+              "expected_close": create.toString(),
+              "assigned_to": selectAssignedTValue,
+              "status": "Opened",
+              "account": accountController.text,
+              "sales_stage": selectSaleStoreValue,
+              "contact": contactController.text,
+              "lead_source": selectLeadSourceValue,
+              "time_line": timeline,
+              "decision_maker": decisionmaker,
+              "teach_spec": techspec,
+              "budget": budget,
+              "description": descriptionController.text,
+            })
+            .eq('id', id)
+            .select())[0];
+
+        await supabaseCRM.from('leads_history').insert({
+          "user": currentUser!.id,
+          "action": 'UPDATE',
+          "description": 'Opportunity updated',
+          "table": 'opportunity',
+          "id_table": resp["id"].toString(),
+        });
       }
 
       if (stateManager != null) stateManager!.notifyListeners();

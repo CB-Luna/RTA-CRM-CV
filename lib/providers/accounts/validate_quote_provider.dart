@@ -83,6 +83,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
         };
         commentsList.add(item);
       }
+
       await supabaseCRM.from('quotes').update({'comments': commentsList}).eq('id', id);
 
       notifyListeners();
@@ -170,13 +171,45 @@ class ValidateQuoteProvider extends ChangeNotifier {
       if (validate) {
         if (currentUser!.isFinance) {
           await supabaseCRM.rpc('update_quote_status', params: {"estatus": "Finance Validate", "id": id, "user_uuid": currentUser!.id});
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'UPDATE',
+            "description": 'Quote validated by Finance',
+            "table": 'quotes',
+            "id_table": id,
+          });
         } else if (currentUser!.isSenExec) {
           await supabaseCRM.rpc('update_quote_status', params: {"estatus": "SenExec Validate", "id": id, "user_uuid": currentUser!.id});
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'UPDATE',
+            "description": 'Quote validated by Sen. Exec.',
+            "table": 'quotes',
+            "id_table": id,
+          });
         } else if (currentUser!.isOpperations) {
           await supabaseCRM.rpc('update_quote_status', params: {"estatus": "Accepted", "id": id, "user_uuid": currentUser!.id});
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'UPDATE',
+            "description": 'Quote validated by Opperations',
+            "table": 'quotes',
+            "id_table": id,
+          });
         }
       } else {
         await supabaseCRM.rpc('update_quote_status', params: {"estatus": "Rejected", "id": id, "user_uuid": currentUser!.id});
+
+        await supabaseCRM.from('leads_history').insert({
+          "user": currentUser!.id,
+          "action": 'UPDATE',
+          "description": 'Quote rejected',
+          "table": 'quotes',
+          "id_table": id,
+        });
       }
     } catch (e) {
       log('Error en validate() - $e');

@@ -362,14 +362,23 @@ class CreateQuoteProvider extends ChangeNotifier {
           "id_quote_origin": null,
           "id_lead": idLead,
           "id_vendor": vendor.id,
-        }))[0];
+        }).select())[0];
+
         await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);
+
+        await supabaseCRM.from('leads_history').insert({
+          "user": currentUser!.id,
+          "action": 'INSERT',
+          "description": 'New origin quote created',
+          "table": 'quotes',
+          "id_table": resp["id"].toString(),
+        });
       } else {
         var response = await supabaseCRM.from('leads').select().eq('organitation_name', leadSelectedValue);
         Leads lead = Leads.fromJson(jsonEncode(response[0]));
 
         if (prevId != null) {
-          await supabaseCRM.from('quotes').insert({
+          var resp = (await supabaseCRM.from('quotes').insert({
             "created_by": currentUser!.id,
             "updated_by": currentUser!.id,
             "status": margin > 20 ? "Margin Positive" : "Opened",
@@ -387,8 +396,26 @@ class CreateQuoteProvider extends ChangeNotifier {
             "id_quote_origin": prevId,
             "id_lead": lead.id,
             "id_vendor": vendor.id,
+          }).select())[0];
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'INSERT',
+            "description": 'New quote created replacing the previous quote',
+            "table": 'quotes',
+            "id_table": resp["id"].toString(),
           });
+
           await supabaseCRM.from('quotes').update({"status": "Closed"}).eq("id", prevId);
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'UPDATE',
+            "description": 'Previous quote turns to Closed',
+            "table": 'quotes',
+            "id_table": prevId.toString(),
+          });
+
           prevId = null;
         } else {
           var resp = (await supabaseCRM.from('quotes').insert({
@@ -410,7 +437,16 @@ class CreateQuoteProvider extends ChangeNotifier {
             "id_lead": lead.id,
             "id_vendor": vendor.id,
           }).select())[0];
+
           await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'INSERT',
+            "description": 'New origin quote created',
+            "table": 'quotes',
+            "id_table": resp["id"].toString(),
+          });
         }
       }
     } catch (e) {
