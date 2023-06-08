@@ -278,7 +278,7 @@ class SideMenuProvider extends ChangeNotifier {
   SMIInput<bool>? iSelectedMonitory;
   Future<void> monitoryIconRive() async {
     final ByteData data =
-        await rootBundle.load('assets/rive/inventories_icon.riv');
+        await rootBundle.load('assets/rive/networks_icon.riv');
 
     final file = RiveFile.import(data);
 
