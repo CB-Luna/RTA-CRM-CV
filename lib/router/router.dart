@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:rta_crm_cv/pages/campaigns/campaigns_page.dart';
-import 'package:rta_crm_cv/pages/monitory_page/monitory_page.dart';
+import 'package:rta_crm_cv/pages/crm/campaigns/campaigns_page.dart';
+import 'package:rta_crm_cv/pages/crm/reports_page.dart';
+import 'package:rta_crm_cv/pages/crm/schedulings_page.dart';
+import 'package:rta_crm_cv/pages/crm/tickets_page.dart';
+import 'package:rta_crm_cv/pages/ctrlv/dashboards_page.dart';
+import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/pages/quotes/create_quote.dart';
-import 'package:rta_crm_cv/pages/quotes/detail_quote.dart';
-import 'package:rta_crm_cv/pages/quotes/quotes_page.dart';
-import 'package:rta_crm_cv/pages/quotes/validate_quote.dart';
+import 'package:rta_crm_cv/pages/crm/quotes/create_quote.dart';
+import 'package:rta_crm_cv/pages/crm/quotes/detail_quote.dart';
+import 'package:rta_crm_cv/pages/crm/quotes/quotes_page.dart';
+import 'package:rta_crm_cv/pages/crm/quotes/validate_quote.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 
-import '../pages/inventory_page/inventory_page.dart';
+import '../pages/ctrlv/inventory_page/inventory_page.dart';
 
 /// The route configuration.
 final GoRouter router = GoRouter(
@@ -30,7 +34,14 @@ final GoRouter router = GoRouter(
     if (!loggedIn && !isLoggingIn) return '/login';
 
     //if user is logged in and in the login page
-    if (loggedIn && isLoggingIn) return '/';
+
+    if (loggedIn && isLoggingIn) {
+      if (currentUser!.isCRM) {
+        return '/prospects';
+      } else if (currentUser!.isCV) {
+        return '/';
+      }
+    }
 
     return null;
   },
@@ -40,13 +51,25 @@ final GoRouter router = GoRouter(
       path: '/',
       name: 'root',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsPage();
+        if (currentUser!.isCRM) {
+          return const AccountsPage();
+        } else if (currentUser!.isCV) {
+          return const DashboardsCTRLVPage();
+        } else {
+          return const PageNotFoundPage();
+        }
       },
       pageBuilder: (context, state) => CustomTransitionPage<void>(
         key: state.pageKey,
-        child: const DashboardsPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            FadeTransition(opacity: animation, child: child),
+        child: currentUser!.isCRM
+            ? const AccountsPage()
+            : currentUser!.isCRM
+                ? const DashboardsCTRLVPage()
+                : const PageNotFoundPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
       ),
     ),
     GoRoute(
@@ -78,10 +101,23 @@ final GoRouter router = GoRouter(
       path: '/dashboards',
       name: 'Dashboards',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsPage();
+        if (currentUser!.isCRM) {
+          return const DashboardsCRMPage();
+        } else if (currentUser!.isCV) {
+          return const DashboardsCTRLVPage();
+        } else {
+          return const PageNotFoundPage();
+        }
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const DashboardsPage()),
+      pageBuilder: (context, state) {
+        if (currentUser!.isCRM) {
+          return pageTransition(context, state, const DashboardsCRMPage());
+        } else if (currentUser!.isCV) {
+          return pageTransition(context, state, const DashboardsCTRLVPage());
+        } else {
+          return pageTransition(context, state, const PageNotFoundPage());
+        }
+      },
     ),
     GoRoute(
       path: routeProspects,
@@ -89,8 +125,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const AccountsPage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const AccountsPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const AccountsPage()),
     ),
     GoRoute(
       path: routeQuoteCreation,
@@ -98,8 +133,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const CreateQuotePage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const CreateQuotePage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const CreateQuotePage()),
     ),
     GoRoute(
       path: routeQuoteDetail,
@@ -107,8 +141,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const DetailQuotePage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const DetailQuotePage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const DetailQuotePage()),
     ),
     GoRoute(
       path: routeQuoteValidation,
@@ -116,8 +149,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const ValidateQuotePage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const ValidateQuotePage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const ValidateQuotePage()),
     ),
     GoRoute(
       path: '/schedulings',
@@ -125,8 +157,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const SchedulingsPage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const SchedulingsPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const SchedulingsPage()),
     ),
     GoRoute(
       path: '/network',
@@ -134,8 +165,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const NetworkPage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const NetworkPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const NetworkPage()),
     ),
     GoRoute(
       path: '/tickets',
@@ -143,8 +173,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const TicketsPage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const TicketsPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const TicketsPage()),
     ),
     GoRoute(
       path: routeQuotes,
@@ -152,8 +181,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const QuotesPage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const QuotesPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const QuotesPage()),
     ),
 
     GoRoute(
@@ -162,8 +190,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const CampaignsPage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const CampaignsPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const CampaignsPage()),
     ),
     GoRoute(
       path: '/reports',
@@ -171,8 +198,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const ReportsPage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const ReportsPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const ReportsPage()),
     ),
     GoRoute(
       path: '/users',
@@ -180,36 +206,23 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const UsersPage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const UsersPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const UsersPage()),
     ),
     GoRoute(
       path: '/vehicle_status',
       name: 'Vehicle_Status',
       builder: (BuildContext context, GoRouterState state) {
-        return MonitoryPage();
+        return const MonitoryPage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, MonitoryPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const MonitoryPage()),
     ),
     GoRoute(
       path: '/inventory',
       name: 'Inventory',
       builder: (BuildContext context, GoRouterState state) {
-        return InventoryPage();
+        return const InventoryPage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, InventoryPage()),
-    ),
-
-    GoRoute(
-      path: '/dashboardsCV',
-      name: 'DashboardsCV',
-      builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsPage();
-      },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const DashboardsPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const InventoryPage()),
     ),
     /////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
@@ -220,8 +233,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const ConfigPage();
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const ConfigPage()),
+      pageBuilder: (context, state) => pageTransition(context, state, const ConfigPage()),
     ),
   ],
 );
