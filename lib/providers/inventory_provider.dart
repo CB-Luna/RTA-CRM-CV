@@ -169,7 +169,7 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   Future<void> getStatus({bool notify = true}) async {
-    final res = await supabase.from('status').select().order(
+    final res = await supabaseCtrlV.from('status').select().order(
           'status',
           ascending: true,
         );
@@ -234,7 +234,7 @@ class InventoryProvider extends ChangeNotifier {
     print("status: ${vehicle.status.status}");
     print("company: ${vehicle.company.company}");
     try {
-      await supabase.from('vehicle').update({
+      await supabaseCtrlV.from('vehicle').update({
         'make': makeControllerUpdate.text,
         'model': modelControllerUpdate.text,
         'year': yearControllerUpdate.text,
@@ -266,7 +266,7 @@ class InventoryProvider extends ChangeNotifier {
       //   'delete_vehicle',
       //   params: {'id_vehicle': id_vehicle},
       // );
-      await supabase
+      await supabaseCtrlV
           .from('vehicle')
           .delete()
           .match({'id_vehicle': vehicle.idVehicle});
@@ -280,7 +280,7 @@ class InventoryProvider extends ChangeNotifier {
 
   Future<bool> createVehicleInventory() async {
     try {
-      await supabase.from('vehicle').insert(
+      await supabaseCtrlV.from('vehicle').insert(
         {
           'id_vehicle': idvehicle,
           'make': brandController.text,
