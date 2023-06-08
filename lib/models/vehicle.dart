@@ -4,19 +4,23 @@ import 'package:rta_crm_cv/models/company_api.dart';
 import 'package:rta_crm_cv/models/status_api.dart';
 
 class Vehicle {
-  Vehicle(
-      {required this.idVehicle,
-      required this.make,
-      required this.model,
-      required this.year,
-      required this.vin,
-      required this.licesensePlates,
-      required this.motor,
-      this.color,
-      required this.image,
-      required this.status,
-      required this.company,
-      required this.dateAdded});
+  Vehicle({
+    required this.idVehicle,
+    required this.make,
+    required this.model,
+    required this.year,
+    required this.vin,
+    required this.licesensePlates,
+    required this.motor,
+    this.color,
+    required this.image,
+    required this.status,
+    required this.company,
+    required this.dateAdded,
+    required this.oilChangeDue,
+    required this.registrationDue,
+    required this.renewalInsDue,
+  });
 
   int idVehicle;
   String make;
@@ -28,6 +32,9 @@ class Vehicle {
   String? color;
   String image;
   DateTime dateAdded;
+  DateTime oilChangeDue;
+  DateTime registrationDue;
+  DateTime renewalInsDue;
   StatusApi status;
   CompanyApi company;
 
@@ -45,7 +52,10 @@ class Vehicle {
       image: json["image"],
       status: StatusApi.fromJson(jsonEncode(json['status'])),
       company: CompanyApi.fromJson(jsonEncode(json['company'])),
-      dateAdded: DateTime.parse(json["date_added"]));
+      dateAdded: DateTime.parse(json["date_added"]),
+      oilChangeDue: DateTime.parse(json["oil_change_due"]),
+      registrationDue: DateTime.parse(json["registration_due"]),
+      renewalInsDue: DateTime.parse(json["insurance_renewal_due"]));
 
   Map<String, dynamic> toMap() => {
         "id_vehicle": idVehicle,
@@ -59,6 +69,9 @@ class Vehicle {
         "image": image,
         "status": status.toMap(),
         "company": company.toMap(),
-        "date_added": dateAdded.toIso8601String()
+        "date_added": dateAdded.toIso8601String(),
+        "oil_change_due": oilChangeDue.toIso8601String(),
+        "registration_due": registrationDue.toIso8601String(),
+        "insurance_renewal_due": renewalInsDue.toIso8601String()
       };
 }

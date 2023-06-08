@@ -189,6 +189,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 provider.iHoverUsers?.change(false);
               },
             ),
+
             if (currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[8],
@@ -205,8 +206,25 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   //provider.iHoverUsers?.change(false);
                 },
               ),
+
             SideMenuItem(
               selected: provider.indexSelected[8],
+              leading: provider.aRMonitory != null ? Rive(artboard: provider.aRMonitory!) : const CircularProgressIndicator(),
+              isOpen: widget.isOpen,
+              title: 'Vehicle Status',
+              onTap: () async {
+                context.pushReplacement('/vehicle_status');
+              },
+              onEnter: (event) {
+                provider.iHoverMonitory?.change(true);
+              },
+              onExit: (event) {
+                provider.iHoverMonitory?.change(false);
+              },
+            ),
+
+            SideMenuItem(
+              selected: provider.indexSelected[10],
               leading: const Icon(Icons.power_settings_new_outlined, color: Colors.red),
               isOpen: widget.isOpen,
               title: 'Logout',

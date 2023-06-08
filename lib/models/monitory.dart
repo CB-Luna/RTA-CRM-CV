@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:rta_crm_cv/models/vehicle.dart';
+
 import 'company_api.dart';
 import 'user_profile_api.dart';
 
@@ -14,7 +16,9 @@ class Monitory {
       required this.licesensePlates,
       required this.company,
       required this.gas,
-      required this.mileage});
+      required this.mileage,
+      required this.vehicle
+      });
 
   int idControlForm;
   int idVehicle;
@@ -26,6 +30,7 @@ class Monitory {
   CompanyApi company;
   String gas;
   int mileage;
+  Vehicle vehicle;
 
   factory Monitory.fromJson(String str) => Monitory.fromMap(json.decode(str));
 
@@ -39,7 +44,9 @@ class Monitory {
       licesensePlates: json["license_plates"],
       company: CompanyApi.fromJson(jsonEncode(json['company'])),
       gas: json['gas'],
-      mileage: json['mileage']);
+      mileage: json['mileage'],
+      vehicle: Vehicle.fromJson(jsonEncode(json['vehicle'])),
+      );
 
   Map<String, dynamic> toMap() => {
         "id_control_form": idControlForm,
@@ -52,5 +59,6 @@ class Monitory {
         "company": company.toMap(),
         "gas": gas,
         "mileage": mileage,
+        "vehicle": vehicle.toMap(),
       };
 }
