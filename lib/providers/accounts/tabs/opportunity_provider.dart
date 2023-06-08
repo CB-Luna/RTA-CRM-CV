@@ -26,6 +26,8 @@ class OpportunityProvider extends ChangeNotifier {
   int pageRowCount = 10;
   int page = 1;
   DateTime create = DateTime.now();
+  late DateTime close = DateTime.parse(closedateController.text);
+  double slydervalue = 10, min = 0, max = 100;
   //Controladores Basic Information
   final nameController = TextEditingController();
   final accountController = TextEditingController();
@@ -42,6 +44,7 @@ class OpportunityProvider extends ChangeNotifier {
     updateState();
   }
   clearAll() {
+    slydervalue = 0;
     timeline = false;
     decisionmaker = false;
     techspec = false;
@@ -131,6 +134,7 @@ class OpportunityProvider extends ChangeNotifier {
     selectLeadSourceValue = selected;
     notifyListeners();
   }
+
 //Tabla Opportunities
   Future<void> getOpportunity() async {
     if (stateManager != null) {
@@ -157,7 +161,7 @@ class OpportunityProvider extends ChangeNotifier {
               'AMOUNT_Column': PlutoCell(value: user.quotes.first.total),
               'PROBABILITY_Column': PlutoCell(value: user.probability),
               'CLOSED_Column': PlutoCell(value: user.expectedClose),
-              'CREATE_Column': PlutoCell(value: user.quotes.first.createdAt),
+              'CREATE_Column': PlutoCell(value: user.quotes.last.createdAt),
               'LAST_Column': PlutoCell(value: user.quotes.first.updatedAt),
               'ASSIGNED_Column': PlutoCell(value: user.assignedTo),
               'STATUS_Column': PlutoCell(value: user.status),
@@ -181,7 +185,7 @@ class OpportunityProvider extends ChangeNotifier {
       await supabaseCRM.from('opportunity').insert({
         "name": nameController.text,
         "quote_amount": quoteamountController.text,
-        "probability": probabilityController.text,
+        "probability": slydervalue.toString(),
         "last_activity": DateTime.now().toString(),
         "expected_close": create.toString(),
         "assigned_to": selectAssignedTValue,
@@ -225,7 +229,7 @@ class OpportunityProvider extends ChangeNotifier {
       decisionmaker = opportunity.decisionMaker;
       techspec = opportunity.teachSpec;
       budget = opportunity.budget; */
-      probabilityController.text = opportunity.probability.toString();
+      slydervalue = opportunity.probability.toDouble();
       descriptionController.text = opportunity.description;
     }
 
@@ -238,10 +242,9 @@ class OpportunityProvider extends ChangeNotifier {
         await supabaseCRM.from('opportunity').update({
           "name": nameController.text,
           "quote_amount": quoteamountController.text,
-          "probability": probabilityController.text,
+          "probability": slydervalue.toString(),
           "last_activity": DateTime.now().toString(),
-          "expected_close":
-              DateTime.now().add(const Duration(days: 30)).toString(),
+          "expected_close": create.toString(),
           "assigned_to": selectAssignedTValue,
           "status": "Opened",
           "account": accountController.text,

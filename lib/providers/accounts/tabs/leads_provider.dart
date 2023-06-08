@@ -16,7 +16,8 @@ class LeadsProvider extends ChangeNotifier {
   int page = 1;
   late int? id;
   DateTime create = DateTime.now();
-  double slydervalue = 10;
+  double slydervalue = 0, min = 0, max = 100;
+  late DateTime close = DateTime.parse(closedateController.text);
   //Controladores Basic Information
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -73,6 +74,9 @@ class LeadsProvider extends ChangeNotifier {
   }
 
   clearAll() {
+    editmode = false;
+    create = DateTime.now();
+    slydervalue = 0;
     firstNameController.clear();
     lastNameController.clear();
     accountController.clear();
@@ -80,6 +84,8 @@ class LeadsProvider extends ChangeNotifier {
     quoteamountController.clear();
     probabilityController.clear();
     descriptionController.clear();
+    emailController.clear();
+    phoneController.clear();
 
     selectSaleStoreValue = saleStoreList.first;
     selectAssignedTValue = assignedList.first;
@@ -100,6 +106,7 @@ class LeadsProvider extends ChangeNotifier {
     false,
   ];
 ////////////////////////////////////////////////////////////////////////////
+
   Future<void> selectdate(
     BuildContext context,
   ) async {
@@ -127,6 +134,7 @@ class LeadsProvider extends ChangeNotifier {
     create = newDate;
     notifyListeners();
   }
+
 //Tabla Leads
   Future<void> getLeads() async {
     if (stateManager != null) {
@@ -177,9 +185,8 @@ class LeadsProvider extends ChangeNotifier {
       await supabaseCRM.from('leads').insert({
         "name_lead": "${firstNameController.text} ${lastNameController.text}",
         "quote_amount": quoteamountController.text,
-        "probability": probabilityController.text,
-        "expected_close":
-            DateTime.now().add(const Duration(days: 30)).toString(),
+        "probability": slydervalue.toString(),
+        "expected_close": create.toString(),
         "assigned_to": selectAssignedTValue,
         "status": "In proccess",
         "organitation_name":
@@ -216,7 +223,7 @@ class LeadsProvider extends ChangeNotifier {
       phoneController.text = leads.phoneNumber;
       closedateController.text = leads.expectedClose.toString();
       quoteamountController.text = leads.quoteAmount.toString();
-      probabilityController.text = leads.probability.toString();
+      slydervalue = leads.probability.toDouble();
       selectAssignedTValue = leads.assignedTo;
       descriptionController.text = leads.description;
     }
@@ -230,9 +237,8 @@ class LeadsProvider extends ChangeNotifier {
         await supabaseCRM.from('leads').update({
           "name_lead": "${firstNameController.text} ${lastNameController.text}",
           "quote_amount": quoteamountController.text,
-          "probability": probabilityController.text,
-          "expected_close":
-              DateTime.now().add(const Duration(days: 30)).toString(),
+          "probability": slydervalue.toString(),
+          "expected_close": create.toString(),
           "assigned_to": selectAssignedTValue,
           "status": "In proccess",
           "organitation_name":

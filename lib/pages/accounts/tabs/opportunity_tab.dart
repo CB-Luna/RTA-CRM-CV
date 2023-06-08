@@ -70,6 +70,7 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                       color: AppTheme.of(context).primaryBackground),
                   text: 'Create Opportunity',
                   onTap: () async {
+                     provider.clearAll();
                     await showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -481,16 +482,18 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                             ),
                             text: 'Details',
                             onTap: () async {
+                              provider.id =
+                                  rendererContext.row.cells['ID_Column']!.value;
+                                  provider.slydervalue=rendererContext.row.cells['PROBABILITY_Column']!.value;
+                             await provider.getData();
                               await showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  provider.id = rendererContext
-                                      .row.cells['ID_Column']!.value;
-                                  provider.getData();
                                   return const DetailsOpportunity();
                                 },
                               );
-                              await provider.updateState();
+                              //await provider.updateState();
+                              provider.editmode=false;
                             },
                           ),
                           CustomTextIconButton(

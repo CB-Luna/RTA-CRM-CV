@@ -323,18 +323,90 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: CustomTextField(
-                                      label: 'Probability',
-                                      icon: Icons.percent,
-                                      controller:
-                                          provider.probabilityController,
-                                      enabled: true,
-                                      width: 350,
-                                      keyboardType: TextInputType.name,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 100),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: AppTheme.of(context)
+                                            .primaryBackground,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 0.1,
+                                            blurRadius: 3,
+                                            offset: const Offset(0,
+                                                0), // changes position of shadow
+                                          ),
+                                        ]),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SliderTheme(
+                                        data: SliderThemeData(
+                                          inactiveTrackColor:
+                                              AppTheme.of(context)
+                                                  .primaryColor
+                                                  .withOpacity(.5),
+                                          activeTrackColor:
+                                              AppTheme.of(context).primaryColor,
+                                          thumbColor:
+                                              AppTheme.of(context).primaryColor,
+                                          overlayColor: AppTheme.of(context)
+                                              .primaryColor
+                                              .withOpacity(.5),
+                                          valueIndicatorColor:
+                                              AppTheme.of(context).primaryColor,
+                                          activeTickMarkColor:
+                                              Colors.transparent,
+                                          inactiveTickMarkColor:
+                                              Colors.transparent,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Icon(Icons.percent,
+                                                    color: AppTheme.of(context)
+                                                        .hintText
+                                                        .color),
+                                                Text(
+                                                  'Probability: ${provider.slydervalue}%',
+                                                  style: TextStyle(
+                                                    color: AppTheme.of(context)
+                                                        .primaryColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                buildSideLabel(provider.min),
+                                                Expanded(
+                                                  child: Slider(
+                                                    value: provider.slydervalue,
+                                                    min: provider.min,
+                                                    max: provider.max,
+                                                    divisions: 10,
+                                                    label: provider.slydervalue
+                                                        .round()
+                                                        .toString(),
+                                                    onChanged: (value) =>
+                                                        setState(
+                                                      () => provider
+                                                          .slydervalue = value,
+                                                    ),
+                                                  ),
+                                                ),
+                                                buildSideLabel(provider.max)
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
+                                ),
                                 ],
                               ),
                             ),
@@ -408,4 +480,14 @@ class _CreateOpportunitysPageState extends State<CreateOpportunitysPage> {
       ),
     );
   }
+   Widget buildSideLabel(double value) => SizedBox(
+        width: 40,
+        child: Text('${value.round().toString()}%',
+            style: TextStyle(
+                color: AppTheme.of(context)
+                    .primaryColor) /* const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold, */
+            ),
+      );
 }
