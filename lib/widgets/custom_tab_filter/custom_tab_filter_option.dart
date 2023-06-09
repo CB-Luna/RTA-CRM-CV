@@ -3,15 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
-class CustomTabBarOption extends StatefulWidget {
-  const CustomTabBarOption({
+class CustomTabFilterOption extends StatefulWidget {
+  const CustomTabFilterOption({
     super.key,
     required this.isOn,
     this.width,
     required this.text,
     required this.border,
     required this.gradient,
-    this.onTap,
+    required this.onTap,
   });
 
   final bool isOn;
@@ -19,13 +19,13 @@ class CustomTabBarOption extends StatefulWidget {
   final double? width;
   final Gradient border;
   final Gradient gradient;
-  final Function()? onTap;
+  final Function() onTap;
 
   @override
-  State<CustomTabBarOption> createState() => _CustomTabBarOptionState();
+  State<CustomTabFilterOption> createState() => _CustomTabFilterOptionState();
 }
 
-class _CustomTabBarOptionState extends State<CustomTabBarOption> {
+class _CustomTabFilterOptionState extends State<CustomTabFilterOption> {
   @override
   Widget build(BuildContext context) {
     return InkWell(

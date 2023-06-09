@@ -24,7 +24,7 @@ class CustomTextField extends StatefulWidget {
   final bool enabled;
   final TextInputType keyboardType;
   final List<TextInputFormatter>? inputFormatters;
-  final double width;
+  final double? width;
   final double height;
   final Function(String)? onDone;
   final Function(String)? onChanged;

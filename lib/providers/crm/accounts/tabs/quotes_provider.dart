@@ -21,7 +21,7 @@ class QuotesProvider extends ChangeNotifier {
   }
 
   Future<void> updateState() async {
-    await getQuotes();
+    await getQuotes(null);
   }
 
   void clearControllers({bool notify = true}) {
@@ -66,17 +66,89 @@ class QuotesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void load() {
-    stateManager!.setShowLoading(true);
+  List<bool> indexSelected = [
+    false, //Opened 0
+    false, //Sen. Exec. Validate 1
+    false, //Margin Positive 2
+    false, //Finance Validate 3
+    false, //Accepted 4
+    false, //Canceled 5
+    false, //Closed 6
+    true, //All 7
+  ];
+
+  Future setIndex(int index) async {
+    for (var i = 0; i < indexSelected.length; i++) {
+      indexSelected[i] = false;
+    }
+    indexSelected[index] = true;
+
+    switch (index) {
+      case 0:
+        await getQuotes('Opened');
+        /*  stateManager!.setFilter(
+          (element) => element.cells['STATUS_Column']!.value.toString() == 'Margin Positive',
+        ); */
+        break;
+      case 1:
+        await getQuotes('Margin Positive');
+        /*  stateManager!.setFilter((element) {
+          return element.cells.entries.elementAt(12).value.value.contains('Margin Positive');
+        }); */
+        break;
+      case 2:
+        await getQuotes('Sen. Exec. Validate');
+        /*  stateManager!.setFilter((element) {
+          return element.cells.entries.elementAt(12).value.value.contains('Margin Positive');
+        }); */
+        break;
+      case 3:
+        await getQuotes('Finance Validate');
+        /* stateManager!.setFilter((element) {
+          return element.cells.entries.elementAt(12).value.value.contains('Finance Validate');
+        }); */
+        break;
+      case 4:
+        await getQuotes('Accepted');
+        /* stateManager!.setFilter((element) {
+          return element.cells.entries.elementAt(12).value.value.contains('Finance Validate');
+        }); */
+        break;
+      case 5:
+        await getQuotes('Canceled');
+        /* stateManager!.setFilter((element) {
+          return element.cells.entries.elementAt(12).value.value.contains('Finance Validate');
+        }); */
+        break;
+      case 6:
+        await getQuotes('Closed');
+        /* stateManager!.setFilter((element) {
+          return element.cells.entries.elementAt(12).value.value.contains('Finance Validate');
+        }); */
+        break;
+      case 7:
+        await getQuotes(null);
+        /* stateManager!.setFilter((element) {
+          return element.cells.entries.elementAt(12).value.value.contains('Finance Validate');
+        }); */
+        break;
+    }
+
+    notifyListeners();
   }
 
-  Future<void> getQuotes() async {
+  Future<void> getQuotes(String? status) async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
     }
     try {
-      final res = await supabaseCRM.from('quotes_view').select();
+      late var res;
+      if (status != null) {
+        res = await supabaseCRM.from('quotes_view').select().eq('status', status);
+      } else {
+        res = await supabaseCRM.from('quotes_view').select();
+      }
 
       if (res == null) {
         log('Error en getUsuarios()');

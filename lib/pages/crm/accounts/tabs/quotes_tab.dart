@@ -52,9 +52,10 @@ class _QuotesTabState extends State<QuotesTab> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            padding: const EdgeInsets.only(bottom: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 CustomTextIconButton(
                   isLoading: false,
@@ -63,6 +64,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
                 ),
                 CustomTextField(
+                  width: 500,
                   enabled: true,
                   controller: provider.searchController,
                   icon: Icons.search,
@@ -87,7 +89,7 @@ class _QuotesTabState extends State<QuotesTab> {
             ),
           ),
           SizedBox(
-            height: getHeight(750, context),
+            height: getHeight(700, context),
             //width: getWidth(2450, context),
             child: PlutoGrid(
               key: UniqueKey(),
