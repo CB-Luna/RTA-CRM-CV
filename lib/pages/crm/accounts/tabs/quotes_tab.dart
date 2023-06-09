@@ -71,20 +71,37 @@ class _QuotesTabState extends State<QuotesTab> {
                   label: 'Search',
                   keyboardType: TextInputType.text,
                 ),
-                if (!currentUser!.isSales) const SizedBox(width: 131),
-                if (currentUser!.isSales)
-                  CustomTextIconButton(
-                    width: 131,
-                    isLoading: false,
-                    icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                    text: 'Create Quote',
-                    color: AppTheme.of(context).tertiaryColor,
-                    onTap: () async {
-                      context.pushReplacement(routeQuoteCreation);
-                      await providerCreate.clearAll();
-                      providerCreate.idLead = null;
-                    },
-                  )
+                Row(
+                  children: [
+                    if (!currentUser!.isSales) const SizedBox(width: 131),
+                    if (currentUser!.isSales)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: CustomTextIconButton(
+                          width: 131,
+                          isLoading: false,
+                          icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                          text: 'Create Quote',
+                          color: AppTheme.of(context).tertiaryColor,
+                          onTap: () async {
+                            context.pushReplacement(routeQuoteCreation);
+                            await providerCreate.clearAll();
+                            providerCreate.idLead = null;
+                          },
+                        ),
+                      ),
+                    CustomTextIconButton(
+                      width: 90,
+                      isLoading: false,
+                      icon: Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryBackground),
+                      text: 'Export',
+                      color: AppTheme.of(context).primaryColor,
+                      onTap: () async {
+                        await provider.exportData();
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -135,7 +152,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   type: PlutoColumnType.text(),
                   enableRowDrag: false,
                   enableEditingMode: false,
-                  width: 100,
+                  width: 120,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
                     return Container(
@@ -151,6 +168,35 @@ class _QuotesTabState extends State<QuotesTab> {
                                 color: AppTheme.of(context).primaryColor,
                               ),
                         ),
+                      ),
+                    );
+                  },
+                  footerRenderer: (context) {
+                    return SizedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomIconButton(
+                            icon: Icons.keyboard_arrow_down_outlined,
+                            toolTip: 'less',
+                            onTap: () {
+                              provider.setPageSize('less');
+                            },
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            provider.pageRowCount.toString(),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          const SizedBox(width: 10),
+                          CustomIconButton(
+                            icon: Icons.keyboard_arrow_up_outlined,
+                            toolTip: 'more',
+                            onTap: () {
+                              provider.setPageSize('more');
+                            },
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -176,6 +222,49 @@ class _QuotesTabState extends State<QuotesTab> {
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                    );
+                  },
+                  footerRenderer: (context) {
+                    return SizedBox(
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomIconButton(
+                            icon: Icons.keyboard_double_arrow_left,
+                            toolTip: 'start',
+                            onTap: () {
+                              provider.setPage('start');
+                            },
+                          ),
+                          const SizedBox(width: 2),
+                          CustomIconButton(
+                            icon: Icons.keyboard_arrow_left_outlined,
+                            toolTip: 'previous',
+                            onTap: () {
+                              provider.setPage('previous');
+                            },
+                          ),
+                          const SizedBox(width: 5),
+                          SizedBox(width: 30, child: Center(child: Text(provider.page.toString(), style: const TextStyle(color: Colors.white)))),
+                          const SizedBox(width: 5),
+                          CustomIconButton(
+                            icon: Icons.keyboard_arrow_right_outlined,
+                            toolTip: 'next',
+                            onTap: () {
+                              provider.setPage('next');
+                            },
+                          ),
+                          const SizedBox(width: 2),
+                          CustomIconButton(
+                            icon: Icons.keyboard_double_arrow_right,
+                            toolTip: 'end',
+                            onTap: () {
+                              provider.setPage('end');
+                            },
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),
@@ -442,35 +531,6 @@ class _QuotesTabState extends State<QuotesTab> {
                       child: Center(child: Text(rendererContext.cell.value ?? '-')),
                     );
                   },
-                  footerRenderer: (context) {
-                    return SizedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomIconButton(
-                            icon: Icons.keyboard_arrow_down_outlined,
-                            toolTip: 'less',
-                            onTap: () {
-                              provider.setPageSize('less');
-                            },
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            provider.pageRowCount.toString(),
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          const SizedBox(width: 10),
-                          CustomIconButton(
-                            icon: Icons.keyboard_arrow_up_outlined,
-                            toolTip: 'more',
-                            onTap: () {
-                              provider.setPageSize('more');
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
@@ -600,49 +660,6 @@ class _QuotesTabState extends State<QuotesTab> {
                                               ),
                                               onTap: () {},
                                             ) */
-                        ],
-                      ),
-                    );
-                  },
-                  footerRenderer: (context) {
-                    return SizedBox(
-                      height: 50,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomIconButton(
-                            icon: Icons.keyboard_double_arrow_left,
-                            toolTip: 'start',
-                            onTap: () {
-                              provider.setPage('start');
-                            },
-                          ),
-                          const SizedBox(width: 2),
-                          CustomIconButton(
-                            icon: Icons.keyboard_arrow_left_outlined,
-                            toolTip: 'previous',
-                            onTap: () {
-                              provider.setPage('previous');
-                            },
-                          ),
-                          const SizedBox(width: 5),
-                          SizedBox(width: 30, child: Center(child: Text(provider.page.toString(), style: const TextStyle(color: Colors.white)))),
-                          const SizedBox(width: 5),
-                          CustomIconButton(
-                            icon: Icons.keyboard_arrow_right_outlined,
-                            toolTip: 'next',
-                            onTap: () {
-                              provider.setPage('next');
-                            },
-                          ),
-                          const SizedBox(width: 2),
-                          CustomIconButton(
-                            icon: Icons.keyboard_double_arrow_right,
-                            toolTip: 'end',
-                            onTap: () {
-                              provider.setPage('end');
-                            },
-                          ),
                         ],
                       ),
                     );

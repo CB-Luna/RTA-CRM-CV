@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart' hide State;
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/functions/date_format.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
@@ -10,6 +12,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class QuotesProvider extends ChangeNotifier {
   final searchController = TextEditingController();
+  List<Quotes> quotes = [];
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
   int pageRowCount = 10;
@@ -143,7 +146,7 @@ class QuotesProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      late var res;
+      dynamic res;
       if (status != null) {
         res = await supabaseCRM.from('quotes_view').select().eq('status', status);
       } else {
@@ -154,7 +157,7 @@ class QuotesProvider extends ChangeNotifier {
         log('Error en getUsuarios()');
         return;
       }
-      List<Quotes> quotes = (res as List<dynamic>).map((quote) => Quotes.fromJson(jsonEncode(quote))).toList();
+      quotes = (res as List<dynamic>).map((quote) => Quotes.fromJson(jsonEncode(quote))).toList();
 
       rows.clear();
       for (Quotes quote in quotes) {
@@ -162,10 +165,10 @@ class QuotesProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: quote.id),
-              'NAME_Column': PlutoCell(value: quote.nameLead),
+              'NAME_Column': PlutoCell(value: quote.organitationName),
               'TOTAL_Column': PlutoCell(value: quote.total),
               'MARGIN_Column': PlutoCell(value: quote.margin),
-              'VENDOR_Column': PlutoCell(value: quote.nameVendor),
+              'VENDOR_Column': PlutoCell(value: quote.vendorName),
               'ORDER_Column': PlutoCell(value: ' ${quote.orderInfo.type} ${quote.orderInfo.orderType}'),
               'DESCRIPTION_Column': PlutoCell(value: quote.items.first.lineItem),
               'DATACENTER_Column': PlutoCell(value: quote.orderInfo.dataCenterLocation),
@@ -187,6 +190,113 @@ class QuotesProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  ////////////////////////////////////////////////////////
+  /////////////////////////Export/////////////////////////
+  ////////////////////////////////////////////////////////
+
+  Future<void> exportData() async {
+    Excel excel = Excel.createExcel();
+    Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
+
+    if (sheet == null) return;
+
+    sheet.removeRow(0);
+
+    CellStyle cellStyle = CellStyle(bold: true);
+
+    //Agregar primera linea
+    sheet.appendRow([
+      'Title',
+      'Quotes Report',
+      '',
+      'User',
+      '${currentUser?.name} ${currentUser?.lastName}',
+      '',
+      'Date',
+      dateFormat(DateTime.now(), true),
+    ]);
+
+    for (var i = 0; i < 8; i++) {
+      sheet.row(0)[i]!.cellStyle = cellStyle;
+    }
+
+    //Agregar linea vacia
+    sheet.appendRow(['']);
+
+    //Agregar headers
+    sheet.appendRow([
+      'DataCenter',
+      'Vendor',
+      'Type',
+      'Description',
+      'Cost',
+      'Taxes',
+      'Account Number',
+      'Contract Number',
+      'Contract Signed',
+      'Term',
+      'Out of Term',
+      'Contact',
+      'Phone',
+      'Email',
+      //'Notes',
+    ]);
+
+    for (var i = 0; i < 14; i++) {
+      sheet.row(2)[i]!.cellStyle = cellStyle;
+    }
+
+    sheet.selectRange(
+      CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0),
+      end: CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: 0),
+    );
+
+    double cost = 0;
+    double tax = 0;
+
+    for (var quote in quotes) {
+      cost = cost + quote.cost;
+      tax = tax + quote.taxMoney;
+      final List<dynamic> excelRow = [
+        quote.orderInfo.dataCenterLocation,
+        quote.vendorName,
+        quote.orderInfo.circuitType,
+        quote.items.first.lineItem,
+        quote.cost,
+        quote.totalPlusTax - quote.total,
+        quote.account,
+        'Contract',
+        'Signed',
+        'Term',
+        'Out',
+        quote.contact,
+        quote.phoneNumber,
+        quote.email,
+      ];
+      sheet.appendRow(excelRow);
+    }
+
+    //Agregar linea vacia
+    sheet.appendRow(['']);
+
+    sheet.appendRow([
+      'Total gigFAST Network',
+      '',
+      '',
+      '',
+      cost,
+      tax,
+      '???',
+    ]);
+
+    for (var i = 0; i < 7; i++) {
+      sheet.row(sheet.rows.length - 1)[i]!.cellStyle = cellStyle;
+    }
+
+    //Descargar
+    excel.save(fileName: "Quotes_Report_${DateTime.now().month}_${DateTime.now().day}_${DateTime.now().year}.xlsx");
   }
 
   ////////////////////////////////////////////////////////
