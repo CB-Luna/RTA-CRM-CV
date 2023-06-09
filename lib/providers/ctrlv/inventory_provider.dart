@@ -23,8 +23,8 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController motorController = TextEditingController();
   int colorController = 0xffffffff;
   TextEditingController dateTimeControllerOil = TextEditingController();
-  TextEditingController dateTimeControllerReg = TextEditingController();
-  TextEditingController dateTimeControllerIRD = TextEditingController();
+  TextEditingController dateTimeControllerRFC = TextEditingController();
+  TextEditingController dateTimeControllerLTFC = TextEditingController();
   TextEditingController searchController = TextEditingController();
   TextEditingController yearController = TextEditingController();
   //TextEditingController statusController = TextEditingController();
@@ -37,8 +37,8 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController motorControllerUpadte = TextEditingController();
   int colorControllerUpdate = 0xffffffff;
   TextEditingController dateTimeControllerOilUpdate = TextEditingController();
-  TextEditingController dateTimeControllerRegUpadte = TextEditingController();
-  TextEditingController dateTimeControllerIRDUpadte = TextEditingController();
+  TextEditingController dateTimeControllerRFCUpadte = TextEditingController();
+  TextEditingController dateTimeControllerLTFCUpadte = TextEditingController();
   TextEditingController searchControllerUpadte = TextEditingController();
   TextEditingController yearControllerUpdate = TextEditingController();
   TextEditingController colorControllers = TextEditingController();
@@ -88,6 +88,13 @@ class InventoryProvider extends ChangeNotifier {
   int totalAvailableSMI = 0;
 
 //------------------------------------------
+  // Variables para el Control de Issues
+  bool vistaIssues = true;
+  void cambioVistaIssues() {
+    vistaIssues = !vistaIssues;
+    notifyListeners();
+  }
+//------------------------------------------
 
   // void selectCompany(String state) {
   //   companySelected = companyApi.firstWhere((elem) => elem.company == company);
@@ -112,9 +119,12 @@ class InventoryProvider extends ChangeNotifier {
     colorControllerUpdate = colorController;
     colorControllers.text = colorController.toString();
     companySelectedUpdate = companySelected;
-    dateTimeControllerOilUpdate.text = DateFormat("MMM/dd/yyyy").format(vehicle.oilChangeDue);
-    dateTimeControllerRegUpadte.text = DateFormat("MMM/dd/yyyy").format(vehicle.registrationDue);
-    dateTimeControllerIRDUpadte.text = DateFormat("MMM/dd/yyyy").format(vehicle.renewalInsDue);
+    dateTimeControllerOilUpdate.text =
+        DateFormat("MMM/dd/yyyy").format(vehicle.oilChangeDue);
+    dateTimeControllerRFCUpadte.text =
+        DateFormat("MMM/dd/yyyy").format(vehicle.lastRadiatorFluidChange);
+    dateTimeControllerLTFCUpadte.text =
+        DateFormat("MMM/dd/yyyy").format(vehicle.lastTransmissionFluidChange);
   }
 //---------------------------------------------
 
@@ -155,7 +165,9 @@ class InventoryProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    company = (res as List<dynamic>).map((companys) => CompanyApi.fromJson(jsonEncode(companys))).toList();
+    company = (res as List<dynamic>)
+        .map((companys) => CompanyApi.fromJson(jsonEncode(companys)))
+        .toList();
 
     if (notify) notifyListeners();
   }
@@ -166,7 +178,9 @@ class InventoryProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    status = (res as List<dynamic>).map((statu) => StatusApi.fromJson(jsonEncode(statu))).toList();
+    status = (res as List<dynamic>)
+        .map((statu) => StatusApi.fromJson(jsonEncode(statu)))
+        .toList();
 
     if (notify) notifyListeners();
   }
@@ -183,7 +197,8 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   void selectCompanyUpdate(String companys) {
-    companySelectedUpdate = company.firstWhere((elem) => elem.company == companys);
+    companySelectedUpdate =
+        company.firstWhere((elem) => elem.company == companys);
     notifyListeners();
   }
 
@@ -232,12 +247,14 @@ class InventoryProvider extends ChangeNotifier {
         'motor': motorControllerUpadte.text,
         'color': colorString ?? vehicle.color,
         'image': "data:image/png;base64,$imageBase64Update",
-        'id_status_fk': statusSelectedUpdate?.statusId ?? vehicle.status.statusId,
-        'id_company_fk': companySelectedUpdate?.companyId ?? vehicle.company.companyId,
+        'id_status_fk':
+            statusSelectedUpdate?.statusId ?? vehicle.status.statusId,
+        'id_company_fk':
+            companySelectedUpdate?.companyId ?? vehicle.company.companyId,
         'date_added': DateTime.now().toIso8601String(),
         'oil_change_due': dateTimeControllerOilUpdate.text,
-        'registration_due': dateTimeControllerRegUpadte.text,
-        'insurance_renewal_due': dateTimeControllerIRDUpadte.text
+        'last_radiator_fluid_change': dateTimeControllerRFCUpadte.text,
+        'last_transmission_fluid_change': dateTimeControllerLTFCUpadte.text
       }).eq("id_vehicle", vehicle.idVehicle);
       return true;
     } catch (e) {
@@ -253,7 +270,10 @@ class InventoryProvider extends ChangeNotifier {
       //   'delete_vehicle',
       //   params: {'id_vehicle': id_vehicle},
       // );
-      await supabaseCtrlV.from('vehicle').delete().match({'id_vehicle': vehicle.idVehicle});
+      await supabaseCtrlV
+          .from('vehicle')
+          .delete()
+          .match({'id_vehicle': vehicle.idVehicle});
       return true;
     } catch (e) {
       log('Error in deleteVehicle() - $e');
@@ -279,8 +299,8 @@ class InventoryProvider extends ChangeNotifier {
           'id_company_fk': companySelected?.companyId,
           'date_added': DateTime.now().toIso8601String(),
           'oil_change_due': dateTimeControllerOil.text,
-          'registration_due': dateTimeControllerReg.text,
-          'insurance_renewal_due': dateTimeControllerIRD.text
+          'last_radiator_fluid_change': dateTimeControllerRFC.text,
+          'last_transmission_fluid_change': dateTimeControllerLTFC.text
         },
       );
       return true;
@@ -299,7 +319,9 @@ class InventoryProvider extends ChangeNotifier {
     try {
       // SUPBASECTRlV es el control vehicular
       final res = await supabaseCtrlV.from('inventory_view').select();
-      vehicles = (res as List<dynamic>).map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles))).toList();
+      vehicles = (res as List<dynamic>)
+          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
+          .toList();
 
       rows.clear();
       totalVehicleODE = 0;
@@ -374,6 +396,7 @@ class InventoryProvider extends ChangeNotifier {
               //         .toString()),
               "details": PlutoCell(value: vehicle),
               "actions": PlutoCell(value: vehicle),
+              "issues": PlutoCell(value: vehicle)
             },
           ),
         );
@@ -407,8 +430,22 @@ class InventoryProvider extends ChangeNotifier {
     sheet.appendRow(['']);
 
     //Agregar headers
-    sheet.appendRow(
-        ['id_vehicle', 'make', 'model', 'year', 'vin', 'license_plates', 'motor', 'color', 'status', 'company', 'date_Added', 'oil_change_due', 'registration_due', 'insurance_renewal_due']);
+    sheet.appendRow([
+      'id_vehicle',
+      'make',
+      'model',
+      'year',
+      'vin',
+      'license_plates',
+      'motor',
+      'color',
+      'status',
+      'company',
+      'date_Added',
+      'oil_change_due',
+      'registration_due',
+      'insurance_renewal_due'
+    ]);
 
     //Agregar datos
     for (Vehicle report in vehicles) {
@@ -425,8 +462,9 @@ class InventoryProvider extends ChangeNotifier {
         report.company.company,
         DateFormat("yyyy - MMM - dd").format(report.dateAdded),
         DateFormat("yyyy - MMM - dd").format(report.oilChangeDue),
-        DateFormat("yyyy - MMM - dd").format(report.registrationDue),
-        DateFormat("yyyy - MMM - dd").format(report.renewalInsDue),
+        DateFormat("yyyy - MMM - dd").format(report.lastRadiatorFluidChange),
+        DateFormat("yyyy - MMM - dd")
+            .format(report.lastTransmissionFluidChange),
       ];
       sheet.appendRow(row);
     }

@@ -111,24 +111,6 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
                               child: Text(
-                                "Registration Due: ",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                "Insurance Renewal Due: ",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
                                 "Last transmission fluid change: ",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 18),
@@ -147,14 +129,14 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
                               child: Text(
-                                "List of any issues reported from daily checks: ",
+                                "List of any issues \nreported from daily checks: ",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),
                             ),
                           ],
                         ),
-                        Container(color: Colors.red, width: 10),
+                        //Container(color: Colors.red, width: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -216,7 +198,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 10),
                               child: Text(
-                                " ${DateFormat("MMM/dd/yyyy").format(widget.vehicle.registrationDue)}",
+                                " ${DateFormat("MMM/dd/yyyy").format(widget.vehicle.lastRadiatorFluidChange)}",
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),
@@ -225,7 +207,16 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 10),
                               child: Text(
-                                " ${DateFormat("MMM/dd/yyyy").format(widget.vehicle.renewalInsDue)}",
+                                " ${DateFormat("MMM/dd/yyyy").format(widget.vehicle.lastTransmissionFluidChange)}",
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 0, 10),
+                              child: Text(
+                                " \n ${widget.vehicle.issues.toString()}",
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),

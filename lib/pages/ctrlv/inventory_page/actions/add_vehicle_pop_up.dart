@@ -36,8 +36,10 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
 
     Color pickerColor = const Color(0xff2196f3);
     Color colors = Colors.white;
-    final List<String> companyName = provider.company.map((companies) => companies.company).toList();
-    final List<String> statusName = provider.status.map((statu) => statu.status).toList();
+    final List<String> companyName =
+        provider.company.map((companies) => companies.company).toList();
+    final List<String> statusName =
+        provider.status.map((statu) => statu.status).toList();
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
@@ -107,12 +109,16 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                                       width: 300,
                                       height: 300,
                                       child: YearPicker(
-                                        firstDate: DateTime(DateTime.now().year - 100, 1),
-                                        lastDate: DateTime(DateTime.now().year + 100, 1),
+                                        firstDate: DateTime(
+                                            DateTime.now().year - 100, 1),
+                                        lastDate: DateTime(
+                                            DateTime.now().year + 100, 1),
                                         initialDate: DateTime.now(),
                                         onChanged: (DateTime dateTime) {
                                           selectedDate = dateTime;
-                                          provider.yearController.text = DateFormat("yyyy").format(selectedDate);
+                                          provider.yearController.text =
+                                              DateFormat("yyyy")
+                                                  .format(selectedDate);
 
                                           Navigator.pop(context);
                                         },
@@ -177,9 +183,12 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                         width: 350,
                         keyboardType: TextInputType.name,
                         onTap: () async {
-                          colors = await showColorPickerDialog(context, pickerColor);
-                          String colorString = "0x${colors.hexAlpha.toLowerCase()}";
-                          provider.updateColor(int.parse(colorString), colorString);
+                          colors =
+                              await showColorPickerDialog(context, pickerColor);
+                          String colorString =
+                              "0x${colors.hexAlpha.toLowerCase()}";
+                          provider.updateColor(
+                              int.parse(colorString), colorString);
                         },
                         designColor: provider.colorController,
                       ),
@@ -194,44 +203,59 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                           width: 350,
                           keyboardType: TextInputType.name,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(
+                                context: context,
+                                initialDate: date,
+                                firstDate: DateTime(1980),
+                                lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerOil.text = DateFormat("MM/dd/yyyy").format(newDate);
+                              provider.dateTimeControllerOil.text =
+                                  DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
-                          label: '11. Registration Due',
-                          controller: provider.dateTimeControllerReg,
+                          label: '11. Last Radiator Fluid Change',
+                          controller: provider.dateTimeControllerRFC,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
                           keyboardType: TextInputType.name,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(
+                                context: context,
+                                initialDate: date,
+                                firstDate: DateTime(1980),
+                                lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerReg.text = DateFormat("MM/dd/yyyy").format(newDate);
+                              provider.dateTimeControllerRFC.text =
+                                  DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
-                          label: '12. Insurance Renewal Due',
-                          controller: provider.dateTimeControllerIRD,
+                          label: '12. Last Transmission Fluid Change',
+                          controller: provider.dateTimeControllerLTFC,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
                           keyboardType: TextInputType.name,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(
+                                context: context,
+                                initialDate: date,
+                                firstDate: DateTime(1980),
+                                lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerIRD.text = DateFormat("MM/dd/yyyy").format(newDate);
+                              provider.dateTimeControllerLTFC.text =
+                                  DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
@@ -270,7 +294,8 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
               children: [
                 CustomTextIconButton(
                     isLoading: false,
-                    icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
+                    icon: Icon(Icons.save_outlined,
+                        color: AppTheme.of(context).primaryBackground),
                     text: 'Save Vehicle',
                     onTap: () async {
                       if (!formKey.currentState!.validate()) {
@@ -280,7 +305,8 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                       bool res = await provider.createVehicleInventory();
 
                       if (!res) {
-                        await ApiErrorHandler.callToast('Error al agregar el vehiculo');
+                        await ApiErrorHandler.callToast(
+                            'Error al agregar el vehiculo');
                         return;
                       }
 
@@ -297,7 +323,8 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     }),
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.refresh_outlined,
+                      color: AppTheme.of(context).primaryBackground),
                   text: 'Refresh',
                 ),
               ],
