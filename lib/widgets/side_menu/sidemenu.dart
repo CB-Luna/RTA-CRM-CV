@@ -113,9 +113,9 @@ class _SideMenuState extends State<SideMenu> {
                   const Spacer(),
                   SideMenuFooter(
                     isOpen: provider.isOpen,
-                    image: 'https://www.sadm.gob.mx/AyD_Aclaraciones/Content/user.png',
-                    text1: 'Loremipsum 1',
-                    text2: 'Loermipsum 2',
+                    image: currentUser!.image ?? 'https://www.sadm.gob.mx/AyD_Aclaraciones/Content/user.png',
+                    text1: currentUser!.fullName,
+                    text2: currentUser!.role.roleName,
                   )
                 ],
               ),
