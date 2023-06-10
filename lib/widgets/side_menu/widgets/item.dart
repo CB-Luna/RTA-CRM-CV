@@ -72,6 +72,7 @@ class _SideMenuItemState extends State<SideMenuItem> {
                       style: TextStyle(
                         color: widget.selected ? selected : unSelected,
                         fontSize: 20,
+                        fontFamily: 'UniNeue',
                         shadows: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),

@@ -95,6 +95,7 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
                           // style: TextStyle(color: AppTheme.of(context).primaryBackground),
                           style: widget.style ??
                               TextStyle(
+                                  fontFamily: 'UniNeue',
                                   color:
                                       AppTheme.of(context).primaryBackground),
                         ),
