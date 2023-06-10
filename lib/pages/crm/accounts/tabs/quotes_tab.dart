@@ -142,7 +142,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.vpn_key_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'ID', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'ID', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ID',
@@ -151,6 +151,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   textAlign: PlutoColumnTextAlign.center,
                   type: PlutoColumnType.text(),
                   enableRowDrag: false,
+                  enableDropToResize: false,
                   enableEditingMode: false,
                   width: 120,
                   cellPadding: EdgeInsets.zero,
@@ -162,11 +163,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       child: Center(
                         child: Text(
                           rendererContext.cell.value.toString(),
-                          style: AppTheme.of(context).contenidoTablas.override(
-                                fontFamily: 'Gotham-Regular',
-                                useGoogleFonts: false,
-                                color: AppTheme.of(context).primaryColor,
-                              ),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
                         ),
                       ),
                     );
@@ -205,7 +202,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Name', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Name', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'NAME',
@@ -221,7 +218,12 @@ class _QuotesTabState extends State<QuotesTab> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                   footerRenderer: (context) {
@@ -272,7 +274,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.attach_money, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Total', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Total', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'TOTAL',
@@ -288,7 +290,11 @@ class _QuotesTabState extends State<QuotesTab> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text('\$ ${moneyFormat(rendererContext.cell.value)} USD')),
+                      child: Center(
+                          child: Text(
+                        '\$ ${moneyFormat(rendererContext.cell.value)} USD',
+                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                      )),
                     );
                   },
                 ),
@@ -296,7 +302,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.percent_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Margin', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Margin', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'MARGIN',
@@ -312,7 +318,12 @@ class _QuotesTabState extends State<QuotesTab> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text('${moneyFormat(rendererContext.cell.value)}%')),
+                      child: Center(
+                        child: Text(
+                          '${moneyFormat(rendererContext.cell.value)}%',
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -320,7 +331,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Vendor', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Vendor', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'VENDOR',
@@ -336,7 +347,12 @@ class _QuotesTabState extends State<QuotesTab> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -344,7 +360,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Datacenter', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Datacenter', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'DATACENTER',
@@ -360,7 +376,12 @@ class _QuotesTabState extends State<QuotesTab> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -368,7 +389,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Order', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Order', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ORDER',
@@ -384,7 +405,12 @@ class _QuotesTabState extends State<QuotesTab> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -392,7 +418,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Description', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Description', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'DESCRIPTION',
@@ -408,7 +434,12 @@ class _QuotesTabState extends State<QuotesTab> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -416,7 +447,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.percent_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Probability', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Probability', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'PROBABILITY',
@@ -432,7 +463,12 @@ class _QuotesTabState extends State<QuotesTab> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text('${moneyFormat(rendererContext.cell.value)}%')),
+                      child: Center(
+                        child: Text(
+                          '${moneyFormat(rendererContext.cell.value)}%',
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -440,7 +476,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Expected Close', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Expected Close', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'CLOSED',
@@ -456,7 +492,12 @@ class _QuotesTabState extends State<QuotesTab> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -464,7 +505,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Assigned To', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Assigned To', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ASSIGNED',
@@ -480,7 +521,12 @@ class _QuotesTabState extends State<QuotesTab> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -488,7 +534,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.watch_later_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Last Activity', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Last Activity', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'LAST',
@@ -504,7 +550,12 @@ class _QuotesTabState extends State<QuotesTab> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -512,7 +563,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.traffic_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Status', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Status', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'STATUS',
@@ -528,7 +579,12 @@ class _QuotesTabState extends State<QuotesTab> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -536,7 +592,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.list, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Actions', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Actions', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ACTIONS',

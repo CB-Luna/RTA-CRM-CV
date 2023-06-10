@@ -288,7 +288,7 @@ class QuotesProvider extends ChangeNotifier {
       '',
       cost,
       tax,
-      '???',
+      cost + tax,
     ]);
 
     for (var i = 0; i < 7; i++) {
