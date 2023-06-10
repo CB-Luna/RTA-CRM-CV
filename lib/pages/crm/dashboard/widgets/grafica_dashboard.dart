@@ -27,7 +27,7 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
         child: Text('\$${moneyFormat(value)}',
             style: TextStyle(
               fontSize: 15,
-              fontFamily: 'Gotham-Regular',
+              fontFamily: 'UniNeue',
               fontWeight: FontWeight.normal,
               color: AppTheme.of(context).primaryText,
             )),
@@ -38,11 +38,46 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
       String text;
       switch (value.toInt()) {
         case 0:
-          text = 'Por Cobrar';
+          text = 'Jan';
 
           break;
         case 1:
-          text = 'Vencidos';
+          text = 'Feb';
+          break;
+        case 2:
+          text = 'Mar';
+
+          break;
+        case 3:
+          text = 'Apr';
+          break;
+        case 4:
+          text = 'may';
+
+          break;
+        case 5:
+          text = 'Jun';
+          break;
+        case 6:
+          text = 'Jul';
+
+          break;
+        case 7:
+          text = 'Ago';
+          break;
+        case 8:
+          text = 'Sep';
+
+          break;
+        case 9:
+          text = 'Oct';
+          break;
+        case 10:
+          text = 'Nov';
+
+          break;
+        case 11:
+          text = 'Dic';
           break;
         default:
           text = '';
@@ -70,7 +105,7 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 15,
-              fontFamily: 'Gotham-Regular',
+              fontFamily: 'UniNeue',
               fontWeight: FontWeight.normal,
               color: AppTheme.of(context).primaryText,
             ),
@@ -101,6 +136,36 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                         break;
                       case 1:
                         ace = '215';
+                        break;
+                      case 2:
+                        ace = '764';
+                        break;
+                      case 3:
+                        ace = '500';
+                        break;
+                      case 4:
+                        ace = '1700';
+                        break;
+                      case 5:
+                        ace = '940';
+                        break;
+                      case 6:
+                        ace = '1900';
+                        break;
+                      case 7:
+                        ace = '450';
+                        break;
+                      case 8:
+                        ace = '2000';
+                        break;
+                      case 9:
+                        ace = '753';
+                        break;
+                      case 10:
+                        ace = '687';
+                        break;
+                      case 11:
+                        ace = '1974';
                         break;
                       default:
                         throw Error();
@@ -164,8 +229,30 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
             ),
             groupsSpace: 50,
             barGroups: [
-              provider.puntos(0, 2434, provider.gradientVer),
+              /*  provider.puntos(0, 2434, provider.gradientVer),
               provider.puntos(1, 215, provider.gradientRoja),
+              provider.puntos(2, 764, provider.gradientAma),
+              provider.puntos(3, 500, provider.gradientRoja),
+              provider.puntos(4, 1700, provider.gradientVer),
+              provider.puntos(5, 940, provider.gradientAma),
+              provider.puntos(6, 1900, provider.gradientVer),
+              provider.puntos(7, 450, provider.gradientRoja),
+              provider.puntos(8, 2000, provider.gradientVer),
+              provider.puntos(9, 753, provider.gradientAma),
+              provider.puntos(10, 687, provider.gradientAma),
+              provider.puntos(11, 1974, provider.gradientVer), */
+              provider.puntos(0, 2434, const Color(0xFF2FDC40)),
+              provider.puntos(1, 215, const Color(0xFFB2333A)),
+              provider.puntos(2, 764, const Color(0xFFE7C037)),
+              provider.puntos(3, 500, const Color(0xFFE7C037)),
+              provider.puntos(4, 1700, const Color(0xFF2FDC40)),
+              provider.puntos(5, 940, const Color(0xFFE7C037)),
+              provider.puntos(6, 1900, const Color(0xFF2FDC40)),
+              provider.puntos(7, 450, const Color(0xFFB2333A)),
+              provider.puntos(8, 2000, const Color(0xFF2FDC40)),
+              provider.puntos(9, 753, const Color(0xFFE7C037)),
+              provider.puntos(10, 687, const Color(0xFFE7C037)),
+              provider.puntos(11, 1974, const Color(0xFF2FDC40)),
             ],
           ),
         ),

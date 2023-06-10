@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
@@ -170,7 +169,7 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.watch_later_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.history_edu, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Action', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                   ]),
@@ -194,7 +193,7 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.description, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Description', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                   ]),
@@ -218,7 +217,7 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.table_chart, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Table', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                   ]),
@@ -242,7 +241,7 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.traffic_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.vpn_key_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Id Table', style: TextStyle(color: AppTheme.of(context).primaryBackground))
                   ]),
@@ -293,101 +292,7 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                     );
                   },
                 ),
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.list, color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Actions', style: TextStyle(color: AppTheme.of(context).primaryBackground))
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'ACTIONS',
-                  field: 'ACTIONS_Column',
-                  width: 250,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.text(),
-                  enableEditingMode: false,
-                  enableSorting: false,
-                  enableContextMenu: false,
-                  enableDropToResize: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          CustomTextIconButton(
-                            isLoading: false,
-                            icon: Icon(
-                              Icons.fact_check_outlined,
-                              color: AppTheme.of(context).primaryBackground,
-                            ),
-                            text: 'Details',
-                            onTap: () async {
-                             
-                            },
-                          ),
-                          CustomTextIconButton(
-                            isLoading: false,
-                            icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                            text: 'Create Quote',
-                            color: AppTheme.of(context).tertiaryColor,
-                            onTap: () async {
-                            }
-                          )
-                         
-                        ],
-                      ),
-                    );
-                  },
-                  footerRenderer: (context) {
-                    return SizedBox(
-                      height: 50,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomIconButton(
-                            icon: Icons.keyboard_double_arrow_left,
-                            toolTip: 'start',
-                            onTap: () {
-                              provider.setPage('start');
-                            },
-                          ),
-                          const SizedBox(width: 2),
-                          CustomIconButton(
-                            icon: Icons.keyboard_arrow_left_outlined,
-                            toolTip: 'previous',
-                            onTap: () {
-                              provider.setPage('previous');
-                            },
-                          ),
-                          const SizedBox(width: 5),
-                          SizedBox(width: 30, child: Center(child: Text(provider.page.toString(), style: const TextStyle(color: Colors.white)))),
-                          const SizedBox(width: 5),
-                          CustomIconButton(
-                            icon: Icons.keyboard_arrow_right_outlined,
-                            toolTip: 'next',
-                            onTap: () {
-                              provider.setPage('next');
-                            },
-                          ),
-                          const SizedBox(width: 2),
-                          CustomIconButton(
-                            icon: Icons.keyboard_double_arrow_right,
-                            toolTip: 'end',
-                            onTap: () {
-                              provider.setPage('end');
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ],
+                ],
               rows: provider.rows,
               onLoaded: (event) async {
                 provider.stateManager = event.stateManager;

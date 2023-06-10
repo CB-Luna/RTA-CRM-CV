@@ -48,7 +48,7 @@ class DashboardCRMProvider extends ChangeNotifier {
 
   }
   //Graficas
-   BarChartGroupData puntos(int x, double y, Gradient gradient) {
+   BarChartGroupData puntos(int x, double y,Color color /* Gradient gradient */) {
     return BarChartGroupData(
       x: x,
       groupVertically: true,
@@ -58,29 +58,13 @@ class DashboardCRMProvider extends ChangeNotifier {
           fromY: 0,
           toY: y,
           width: 40,
-          borderRadius: BorderRadius.zero,
-          gradient: gradient,
+          borderRadius: BorderRadius.circular(15),
+          color: color
+          //gradient: gradient,
         ),
       ],
     );
   }
-
-  /*BarChartGroupData puntosCirculo(int x, double y, Gradient gradient) {
-    return BarChartGroupData(
-      x: x,
-      groupVertically: true,
-      barsSpace: 20,
-      barRods: [
-        BarChartRodData(
-          fromY: 0,
-          toY: y,
-          width: 40,
-          borderRadius: BorderRadius.circular(25),
-          gradient: gradient,
-        ),
-      ],
-    );
-  }*/
 //Controladores Paginado Pluto?
   void clearControllers({bool notify = true}) {
     searchController.clear();
