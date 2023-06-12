@@ -321,32 +321,34 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: 10),
-                                          child: CustomDDownMenu(
-                                            list: provider.leadsList,
-                                            label: 'Account',
-                                            onChanged: (p0) async {
-                                              if (provider.idLead == null) {
-                                                if (p0 != null) await provider.selectLead(p0);
-                                              }
-                                            },
-                                            dropdownValue: provider.leadSelectedValue,
-                                            icon: Icons.location_city_outlined,
-                                            width: txfFieldWidth,
+                                        if (provider.idLead == null)
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
+                                            child: CustomDDownMenu(
+                                              list: provider.leadsList,
+                                              label: 'Account',
+                                              onChanged: (p0) async {
+                                                if (provider.idLead == null) {
+                                                  if (p0 != null) await provider.selectLead(p0);
+                                                }
+                                              },
+                                              dropdownValue: provider.leadSelectedValue,
+                                              icon: Icons.location_city_outlined,
+                                              width: txfFieldWidth,
+                                            ),
                                           ),
-                                        ),
-                                        /* Padding(
-                                          padding: const EdgeInsets.only(bottom: 10),
-                                          child: CustomTextField(
-                                            enabled: provider.idLead == null,
-                                            width: txfFieldWidth,
-                                            controller: provider.companyController,
-                                            label: 'Company',
-                                            icon: Icons.location_city_outlined,
-                                            keyboardType: TextInputType.text,
+                                        if (provider.idLead != null)
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
+                                            child: CustomTextField(
+                                              enabled: provider.idLead == null,
+                                              width: txfFieldWidth,
+                                              controller: provider.companyController,
+                                              label: 'Account',
+                                              icon: Icons.location_city_outlined,
+                                              keyboardType: TextInputType.text,
+                                            ),
                                           ),
-                                        ), */
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(

@@ -322,7 +322,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.companyController,
-                                            label: 'Company',
+                                            label: 'Account',
                                             icon: Icons.location_city_outlined,
                                             keyboardType: TextInputType.text,
                                           ),

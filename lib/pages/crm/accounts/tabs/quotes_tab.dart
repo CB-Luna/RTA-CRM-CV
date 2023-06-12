@@ -115,6 +115,7 @@ class _QuotesTabState extends State<QuotesTab> {
                             onTap: () async {
                               await providerCreate.clearAll();
                               providerCreate.idLead = null;
+                              // ignore: use_build_context_synchronously
                               context.pushReplacement(routeQuoteCreation);
                             },
                           ),
@@ -675,9 +676,10 @@ class _QuotesTabState extends State<QuotesTab> {
                             ),
                             text: 'Detail',
                             onTap: () async {
-                              context.pushReplacement(routeQuoteDetail);
                               detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
                               await detailProvider.getData();
+                              // ignore: use_build_context_synchronously
+                              context.pushReplacement(routeQuoteDetail);
                             },
                           ),
                           if (currentUser!.isSales && rendererContext.row.cells["STATUS_Column"]!.value == 'Rejected')
@@ -689,10 +691,11 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Create New',
                               onTap: () async {
-                                context.pushReplacement(routeQuoteCreation);
                                 await providerCreate.clearAll();
                                 await providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
                                 await providerCreate.getLead(rendererContext.row.cells["ID_LEAD_Column"]!.value, null);
+                                // ignore: use_build_context_synchronously
+                                context.pushReplacement(routeQuoteCreation);
                               },
                             ),
                           if (currentUser!.isSenExec && rendererContext.row.cells["STATUS_Column"]!.value == 'Opened')
@@ -704,10 +707,11 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Validate',
                               onTap: () async {
-                                context.pushReplacement(routeQuoteValidation);
                                 await providerValidate.clearAll();
                                 providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
                                 await providerValidate.getData();
+                                // ignore: use_build_context_synchronously
+                                context.pushReplacement(routeQuoteValidation);
                               },
                             ),
                           if (currentUser!.isFinance &&
@@ -720,10 +724,11 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Validate',
                               onTap: () async {
-                                context.pushReplacement(routeQuoteValidation);
                                 await providerValidate.clearAll();
                                 providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
                                 await providerValidate.getData();
+                                // ignore: use_build_context_synchronously
+                                context.pushReplacement(routeQuoteValidation);
                               },
                             ),
                           if (currentUser!.isOpperations && rendererContext.row.cells["STATUS_Column"]!.value == 'Finance Validate')
@@ -735,10 +740,11 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Validate',
                               onTap: () async {
-                                context.pushReplacement(routeQuoteValidation);
                                 await providerValidate.clearAll();
                                 providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
                                 await providerValidate.getData();
+                                // ignore: use_build_context_synchronously
+                                context.pushReplacement(routeQuoteValidation);
                               },
                             ),
                           /* CustomTextIconButton(isLoading: false,
