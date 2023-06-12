@@ -4,6 +4,7 @@ import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/cuadro.dart';
 
 import '../../../../models/monitory.dart';
 import '../../../../public/colors.dart';
+import '../widgets/forms_answer.dart';
 
 class DetailsPop extends StatelessWidget {
   final Monitory vehicle;
@@ -15,7 +16,7 @@ class DetailsPop extends StatelessWidget {
       backgroundColor: Colors.transparent,
       content: Container(
         width: 1000,
-        height: 650,
+        height: 600,
         decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
@@ -209,32 +210,45 @@ class DetailsPop extends StatelessWidget {
             ),
             const Spacer(),
             Container(
-              width: 800,
-              height: 130,
-              color: Colors.green,
-              child: const Column(
-                children: [
-                  SizedBox(
-                    height: 30,
-                    child: DefaultTabController(
-                      length: 2,
+              padding: EdgeInsets.all(10),
+              height: 150,
+              child:  const DefaultTabController(
+                length: 2,
+                initialIndex:0,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 30,
                       child: TabBar(
                         tabs: [
                           Tab(
-                            text: "Delivered",
                             height: 30,
+                            child: Text("Delivered",
+                            style: TextStyle(
+                              color: Colors.black,
+                            )),
                           ),
                           Tab(
-                            text: "Received",
                             height: 30,
+                            child: Text("Received",
+                            style: TextStyle(
+                              color: Colors.black,
+                            )),
                           ),
+                          
                         ],
                       ),
                     ),
-                  ),
-                  //  TabBarView(
-                  // ),
-                ],
+                    Expanded(
+                            child: TabBarView(
+                              children: [
+                                AnswerForm(),
+                                AnswerForm(),
+                              ],
+                            ),
+                          ),
+                  ],
+                ),
               ),
             )
           ],

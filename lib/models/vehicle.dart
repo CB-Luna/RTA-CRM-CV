@@ -54,8 +54,8 @@ class Vehicle {
       company: CompanyApi.fromJson(jsonEncode(json['company'])),
       dateAdded: DateTime.parse(json["date_added"]),
       oilChangeDue: DateTime.parse(json["oil_change_due"]),
-      registrationDue: DateTime.parse(json["last_radiator_fluid_change"]),
-      renewalInsDue: DateTime.parse(json["last_transmission_fluid_change"]));
+      registrationDue: DateTime.parse(json["radiator_fluid_change"]),
+      renewalInsDue: DateTime.parse(json["transmission_fluid_change"]));
 
   Map<String, dynamic> toMap() => {
         "id_vehicle": idVehicle,
@@ -71,7 +71,7 @@ class Vehicle {
         "company": company.toMap(),
         "date_added": dateAdded.toIso8601String(),
         "oil_change_due": oilChangeDue.toIso8601String(),
-        "last_radiator_fluid_change": registrationDue.toIso8601String(),
-        "last_transmission_fluid_change": renewalInsDue.toIso8601String()
+        "radiator_fluid_change": registrationDue.toIso8601String(),
+        "transmission_fluid_change": renewalInsDue.toIso8601String()
       };
 }

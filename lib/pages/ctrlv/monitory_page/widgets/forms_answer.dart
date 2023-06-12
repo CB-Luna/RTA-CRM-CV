@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/detail_form.dart';
+
+import '../../../../public/colors.dart';
 
 class AnswerForm extends StatelessWidget {
   const AnswerForm({super.key});
@@ -6,10 +9,23 @@ class AnswerForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //padding: EdgeInsets.all(20),
-      width: 750,
-      height: 90,
-      color: Colors.yellow,
+      height: 100,
+      child:
+       Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+         children: [
+           DetailControlForm(),
+           DetailControlForm(),
+           DetailControlForm(),
+           DetailControlForm(),
+           DetailControlForm(),
+           DetailControlForm(),
+           DetailControlForm(),
+           DetailControlForm(),
+           DetailControlForm(),
+         ],
+       ),
     );
   }
 }
