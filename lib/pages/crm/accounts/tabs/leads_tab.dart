@@ -51,38 +51,63 @@ class _LeadsTabState extends State<LeadsTab> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            padding: const EdgeInsets.only(bottom: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                  text: 'Filter',
-                  onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+                SizedBox(
+                  width: 250,
+                  child: Row(
+                    children: [
+                      CustomTextIconButton(
+                        isLoading: false,
+                        icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                        text: 'Filter',
+                        onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: CustomTextIconButton(
+                          isLoading: false,
+                          icon: Icon(Icons.view_column_outlined, color: AppTheme.of(context).primaryBackground),
+                          text: 'Set Columns',
+                          onTap: () => provider.stateManager!.showSetColumnsPopup(context),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 CustomTextField(
+                  width: 500,
                   enabled: true,
                   controller: provider.searchController,
                   icon: Icons.search,
                   label: 'Search',
                   keyboardType: TextInputType.text,
                 ),
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                  text: 'Create Lead',
-                  color: AppTheme.of(context).tertiaryColor,
-                  onTap: () async {
-                    provider.clearAll();
-                    await showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const CreateLead();
-                      },
-                    );
-                    await provider.updateState();
-                  },
+                SizedBox(
+                  width: 250,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomTextIconButton(
+                        isLoading: false,
+                        icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                        text: 'Create Lead',
+                        color: AppTheme.of(context).tertiaryColor,
+                        onTap: () async {
+                          provider.clearAll();
+                          await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const CreateLead();
+                            },
+                          );
+                          await provider.updateState();
+                        },
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),

@@ -7,8 +7,7 @@ import 'package:rta_crm_cv/theme/theme.dart';
 const String supabaseUrl = 'https://supa43.rtatel.com';
 const String anonKey =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';
-const redirectUrl =
-    'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
+const redirectUrl = 'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 
 PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
@@ -28,9 +27,7 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           //columnContextIcon: Icons.more_horiz,
           rowHeight: rowHeight,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light
-              ? const Color(0XFFC7EDDD)
-              : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
@@ -50,9 +47,7 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
       : PlutoGridStyleConfig.dark(
           rowHeight: rowHeight,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light
-              ? const Color(0XFFC7EDDD)
-              : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
@@ -71,13 +66,11 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
         );
 }
 
-CustomTransitionPage<void> pageTransition(
-    BuildContext context, GoRouterState state, Widget page) {
+CustomTransitionPage<void> pageTransition(BuildContext context, GoRouterState state, Widget page) {
   return CustomTransitionPage<void>(
     key: state.pageKey,
     child: page,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-        FadeTransition(opacity: animation, child: child),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
   );
 }
 

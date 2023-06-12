@@ -58,11 +58,27 @@ class _QuotesTabState extends State<QuotesTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                  text: 'Filter',
-                  onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+                SizedBox(
+                  width: 250,
+                  child: Row(
+                    children: [
+                      CustomTextIconButton(
+                        isLoading: false,
+                        icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                        text: 'Filter',
+                        onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: CustomTextIconButton(
+                          isLoading: false,
+                          icon: Icon(Icons.view_column_outlined, color: AppTheme.of(context).primaryBackground),
+                          text: 'Set Columns',
+                          onTap: () => provider.stateManager!.showSetColumnsPopup(context),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 CustomTextField(
                   width: 500,
@@ -72,36 +88,39 @@ class _QuotesTabState extends State<QuotesTab> {
                   label: 'Search',
                   keyboardType: TextInputType.text,
                 ),
-                Row(
-                  children: [
-                    if (!currentUser!.isSales) const SizedBox(width: 131),
-                    if (currentUser!.isSales)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: CustomTextIconButton(
-                          width: 131,
-                          isLoading: false,
-                          icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                          text: 'Create Quote',
-                          color: AppTheme.of(context).tertiaryColor,
-                          onTap: () async {
-                            context.pushReplacement(routeQuoteCreation);
-                            await providerCreate.clearAll();
-                            providerCreate.idLead = null;
-                          },
-                        ),
+                SizedBox(
+                  width: 250,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomTextIconButton(
+                        width: 90,
+                        isLoading: false,
+                        icon: Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryBackground),
+                        text: 'Export',
+                        color: AppTheme.of(context).primaryColor,
+                        onTap: () async {
+                          await provider.exportData();
+                        },
                       ),
-                    CustomTextIconButton(
-                      width: 90,
-                      isLoading: false,
-                      icon: Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryBackground),
-                      text: 'Export',
-                      color: AppTheme.of(context).primaryColor,
-                      onTap: () async {
-                        await provider.exportData();
-                      },
-                    ),
-                  ],
+                      if (currentUser!.isSales)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: CustomTextIconButton(
+                            width: 131,
+                            isLoading: false,
+                            icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                            text: 'Create Quote',
+                            color: AppTheme.of(context).tertiaryColor,
+                            onTap: () async {
+                              context.pushReplacement(routeQuoteCreation);
+                              await providerCreate.clearAll();
+                              providerCreate.idLead = null;
+                            },
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ],
             ),
