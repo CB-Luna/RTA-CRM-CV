@@ -139,6 +139,8 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                   resolveDefaultColumnFilter: (column, resolver) {
                     if (column.field == 'ID_Column') {
                       return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                    } else if (column.field == 'ACCOUNT_Column') {
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'NAME_Column') {
                       return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'AMOUNT_Column') {
@@ -227,13 +229,13 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.location_city_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Name', style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Account', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'NAME',
-                  field: 'NAME_Column',
+                  title: 'ACCOUNT',
+                  field: 'ACCOUNT_Column',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
@@ -293,6 +295,34 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                           ),
                         ],
                       ),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(text: 'Name', style: AppTheme.of(context).encabezadoTablas)
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'NAME',
+                  field: 'NAME_Column',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(
+                          child: Text(
+                        rendererContext.cell.value ?? '-',
+                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                      )),
                     );
                   },
                 ),

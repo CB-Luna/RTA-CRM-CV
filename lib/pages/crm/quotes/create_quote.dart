@@ -325,7 +325,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomDDownMenu(
                                             list: provider.leadsList,
-                                            label: 'Company',
+                                            label: 'Account',
                                             onChanged: (p0) async {
                                               if (provider.idLead == null) {
                                                 if (p0 != null) await provider.selectLead(p0);

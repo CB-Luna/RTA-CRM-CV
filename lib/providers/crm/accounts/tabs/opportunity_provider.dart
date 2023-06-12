@@ -155,7 +155,8 @@ class OpportunityProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: user.id),
-              'NAME_Column': PlutoCell(value: user.account),
+              'ACCOUNT_Column': PlutoCell(value: user.account),
+              'NAME_Column': PlutoCell(value: user.organitationName),
               'AMOUNT_Column': PlutoCell(value: user.quotes.first.total),
               'PROBABILITY_Column': PlutoCell(value: user.probability),
               'CLOSED_Column': PlutoCell(value: user.expectedClose),

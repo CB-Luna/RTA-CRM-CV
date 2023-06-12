@@ -154,7 +154,8 @@ class LeadsProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: lead.id),
-              'NAME_Column': PlutoCell(value: lead.account),
+              'ACCOUNT_Column': PlutoCell(value: lead.account),
+              'NAME_Column': PlutoCell(value: lead.organitationName),
               'AMOUNT_Column': PlutoCell(value: lead.quoteAmount),
               'PROBABILITY_Column': PlutoCell(value: lead.probability),
               'CLOSED_Column': PlutoCell(value: lead.expectedClose),

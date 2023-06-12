@@ -166,7 +166,8 @@ class QuotesProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: quote.id),
-              'NAME_Column': PlutoCell(value: quote.account),
+              'ACCOUNT_Column': PlutoCell(value: quote.account),
+              'NAME_Column': PlutoCell(value: quote.organitationName),
               'TOTAL_Column': PlutoCell(value: quote.total),
               'MARGIN_Column': PlutoCell(value: quote.margin),
               'VENDOR_Column': PlutoCell(value: quote.vendorName),
