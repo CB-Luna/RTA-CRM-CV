@@ -33,6 +33,9 @@ class MonitoryProvider extends ChangeNotifier {
   String? imageName;
   Uint8List? webImage;
 
+  //int para popUp
+  int viewPopup = 0;
+
   //List<RolApi> roles = [];
   List<String> dropdownMenuItems = [];
 
@@ -334,5 +337,21 @@ class MonitoryProvider extends ChangeNotifier {
     if (fileBytes == null) return false;
 
     return true;
+  }
+
+  void updateViewPopup(int value) {
+    viewPopup = value;
+    notifyListeners();
+  }
+
+  void initializeViewPopup(){
+    viewPopup = 0;
+    notifyListeners();
+  }
+
+  bool cambiodeVista=true;
+  void cambioVista(){
+    cambiodeVista = !cambiodeVista;
+    notifyListeners();
   }
 }

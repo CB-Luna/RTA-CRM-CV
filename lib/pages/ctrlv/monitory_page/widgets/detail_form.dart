@@ -1,57 +1,107 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/Popup/measures.dart';
+import 'package:rta_crm_cv/providers/ctrlv/monitory_provider.dart';
 
 import '../../../../public/colors.dart';
 
 class DetailControlForm extends StatelessWidget {
-  const DetailControlForm({super.key});
+  final String title;
+  final IconData icon;
+  final bool state;
+  final int index;
+
+  const DetailControlForm(
+      {super.key,
+      required this.title,
+      required this.icon,
+      required this.state, 
+      required this.index});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 80,
-      decoration: BoxDecoration(
-          color: Colors.grey, borderRadius: BorderRadius.circular(10)),
-      child:  Column(
-        children: [
-          Row(
+    MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
+    
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Container(
+          height: 60,
+          decoration: BoxDecoration(
+              gradient: whiteGradient,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 0.1,
+                  blurRadius: 3,
+                  offset: const Offset(3, 3), // changes position of shadow
+                ),
+              ]),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(Icons.access_alarm, color: Colors.black),
-              Column(
-                children: [
-                  Text(
-                    "Good",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(200, 65, 155, 23)),
-                  ),
-                  Icon(Icons.check_circle_outline_outlined,
-                      color: Color.fromARGB(200, 65, 155, 23)),
-                ],
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
+                child: Icon(icon, color: Colors.black),
               ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    state
+                        ? Text(
+                            "Good",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(200, 65, 155, 23)),
+                          )
+                        : Text(
+                            "Bad",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(200, 210, 0, 48)),
+                          ),
+                    state
+                        ? Icon(Icons.check_circle_outline_outlined,
+                            color: Color.fromARGB(200, 65, 155, 23))
+                        : Icon(Icons.cancel_outlined,
+                            color: Color.fromARGB(200, 210, 0, 48))
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      child: Icon(Icons.remove_red_eye_outlined,
+                          color: Colors.black),
+                      onTap: () {
+                        provider.updateViewPopup(index);
+                        
+                      },
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                child: Icon(Icons.remove_red_eye_outlined, color: Colors.black),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return StatefulBuilder(builder: (context, setState) {
-                          return const MeasuresPopUp();
-                        });
-                      });
-                },
-              ),
-            ],
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
