@@ -12,6 +12,7 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
+import 'package:rta_crm_cv/widgets/pluto_grid_cells/pluto_grid_status_cell.dart';
 
 class AccountsTab extends StatefulWidget {
   const AccountsTab({super.key});
@@ -381,17 +382,7 @@ class _AccountsTabState extends State<AccountsTab> {
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(
-                        child: Text(
-                          rendererContext.cell.value ?? '-',
-                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
-                        ),
-                      ),
-                    );
+                    return PlutoGridStatusCell(text: rendererContext.cell.value);
                   },
                 ),
                 PlutoColumn(
