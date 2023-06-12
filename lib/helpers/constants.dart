@@ -43,6 +43,7 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           borderColor: AppTheme.of(context).primaryBackground,
           gridBorderColor: AppTheme.of(context).primaryColor,
           gridBorderRadius: BorderRadius.circular(15),
+          gridPopupBorderRadius: BorderRadius.circular(15),
         )
       : PlutoGridStyleConfig.dark(
           rowHeight: rowHeight,
@@ -63,6 +64,7 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           gridBorderColor: Colors.transparent,
           gridBackgroundColor: AppTheme.of(context).primaryBackground,
           gridBorderRadius: BorderRadius.circular(15),
+          gridPopupBorderRadius: BorderRadius.circular(15),
         );
 }
 
