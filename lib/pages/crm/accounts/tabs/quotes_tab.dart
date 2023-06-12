@@ -113,9 +113,9 @@ class _QuotesTabState extends State<QuotesTab> {
                             text: 'Create Quote',
                             color: AppTheme.of(context).tertiaryColor,
                             onTap: () async {
-                              context.pushReplacement(routeQuoteCreation);
                               await providerCreate.clearAll();
                               providerCreate.idLead = null;
+                              context.pushReplacement(routeQuoteCreation);
                             },
                           ),
                         ),

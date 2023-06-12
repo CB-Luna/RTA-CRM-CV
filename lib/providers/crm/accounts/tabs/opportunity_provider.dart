@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart' hide State;
+import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/functions/date_format.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/opportunity_model.dart';
+import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/models/models.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
@@ -151,7 +155,7 @@ class OpportunityProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: user.id),
-              'NAME_Column': PlutoCell(value: user.nameLead),
+              'NAME_Column': PlutoCell(value: user.account),
               'AMOUNT_Column': PlutoCell(value: user.quotes.first.total),
               'PROBABILITY_Column': PlutoCell(value: user.probability),
               'CLOSED_Column': PlutoCell(value: user.expectedClose),
@@ -338,7 +342,114 @@ class OpportunityProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void load() {
-    stateManager!.setShowLoading(true);
+  ////////////////////////////////////////////////////////
+  /////////////////////////Export/////////////////////////
+  ////////////////////////////////////////////////////////
+
+  Future<void> exportData() async {
+    var res = await supabaseCRM.from('quotes_view').select().neq('status', 'Closed');
+
+    List<Quotes> quotes = (res as List<dynamic>).map((quote) => Quotes.fromJson(jsonEncode(quote))).toList();
+
+    Excel excel = Excel.createExcel();
+    Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
+
+    if (sheet == null) return;
+
+    sheet.removeRow(0);
+
+    CellStyle cellStyle = CellStyle(bold: true);
+
+    //Agregar primera linea
+    sheet.appendRow([
+      'Title',
+      'Opportunities Report',
+      '',
+      'User',
+      '${currentUser?.name} ${currentUser?.lastName}',
+      '',
+      'Date',
+      dateFormat(DateTime.now(), true),
+    ]);
+
+    for (var i = 0; i < 8; i++) {
+      sheet.row(0)[i]!.cellStyle = cellStyle;
+    }
+
+    //Agregar linea vacia
+    sheet.appendRow(['']);
+
+    //Agregar headers
+    sheet.appendRow([
+      'DataCenter',
+      'Vendor',
+      'Type',
+      'Description',
+      'Cost',
+      'Taxes',
+      'Account Number',
+      'Contract Number',
+      'Contract Signed',
+      'Term',
+      'Out of Term',
+      'Contact',
+      'Phone',
+      'Email',
+      //'Notes',
+    ]);
+
+    for (var i = 0; i < 14; i++) {
+      sheet.row(2)[i]!.cellStyle = cellStyle;
+    }
+
+    sheet.selectRange(
+      CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0),
+      end: CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: 0),
+    );
+
+    double cost = 0;
+    double tax = 0;
+
+    for (var quote in quotes) {
+      cost = cost + quote.cost;
+      tax = tax + quote.taxMoney;
+      final List<dynamic> excelRow = [
+        quote.orderInfo.dataCenterLocation,
+        quote.vendorName,
+        quote.orderInfo.circuitType,
+        quote.items.first.lineItem,
+        quote.cost,
+        quote.totalPlusTax - quote.total,
+        quote.account,
+        'Contract',
+        'Signed',
+        'Term',
+        'Out',
+        quote.contact,
+        quote.phoneNumber,
+        quote.email,
+      ];
+      sheet.appendRow(excelRow);
+    }
+
+    //Agregar linea vacia
+    sheet.appendRow(['']);
+
+    sheet.appendRow([
+      'Total gigFAST Network',
+      '',
+      '',
+      '',
+      cost,
+      tax,
+      cost + tax,
+    ]);
+
+    for (var i = 0; i < 7; i++) {
+      sheet.row(sheet.rows.length - 1)[i]!.cellStyle = cellStyle;
+    }
+
+    //Descargar
+    excel.save(fileName: "Opportunities_Report_${DateFormat('MMMM_dd_yyyy').format(DateTime.now())}.xlsx");
   }
 }

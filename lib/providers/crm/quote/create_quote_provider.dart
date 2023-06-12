@@ -374,7 +374,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "id_table": resp["id"].toString(),
         });
       } else {
-        var response = await supabaseCRM.from('leads').select().eq('organitation_name', leadSelectedValue);
+        var response = await supabaseCRM.from('leads').select().eq('account', leadSelectedValue);
         Leads lead = Leads.fromJson(jsonEncode(response[0]));
 
         if (prevId != null) {
@@ -847,18 +847,18 @@ class CreateQuoteProvider extends ChangeNotifier {
 
       Leads lead = Leads.fromJson(jsonEncode(response[0]));
 
-      leadSelectedValue = lead.organitationName;
-      companyController.text = lead.organitationName;
+      leadSelectedValue = lead.account;
+      companyController.text = lead.account;
       nameController.text = lead.firstName;
       lastNameController.text = lead.lastName;
       emailController.text = lead.email;
       phoneController.text = lead.phoneNumber;
     } else if (leadName != null) {
-      var response = await supabaseCRM.from('leads').select().eq('organitation_name', leadName);
+      var response = await supabaseCRM.from('leads').select().eq('account', leadName);
 
       Leads lead = Leads.fromJson(jsonEncode(response[0]));
 
-      companyController.text = lead.organitationName;
+      companyController.text = lead.account;
       nameController.text = lead.firstName;
       lastNameController.text = lead.lastName;
       emailController.text = lead.email;
@@ -885,9 +885,9 @@ class CreateQuoteProvider extends ChangeNotifier {
     List<Leads> leads = (response as List<dynamic>).map((lead) => Leads.fromJson(jsonEncode(lead))).toList();
 
     for (var lead in leads) {
-      leadsList.add(lead.organitationName);
+      leadsList.add(lead.account);
     }
-    selectLead(leads.first.organitationName);
+    selectLead(leads.first.account);
 
     notifyListeners();
   }

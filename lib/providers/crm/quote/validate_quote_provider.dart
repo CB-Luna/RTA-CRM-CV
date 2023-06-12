@@ -280,7 +280,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       Leads lead = Leads.fromJson(jsonEncode(responseLead[0]));
 
-      companyController.text = lead.organitationName;
+      companyController.text = lead.account;
       nameController.text = lead.firstName;
       lastNameController.text = lead.lastName;
       emailController.text = lead.email;

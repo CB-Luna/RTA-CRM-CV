@@ -48,6 +48,9 @@ Color statusColor(String? status) {
       case 'In process':
         color = Colors.greenAccent;
         break;
+      case 'In proccess':
+        color = Colors.greenAccent;
+        break;
       case 'Opened':
         color = Colors.greenAccent;
         break;

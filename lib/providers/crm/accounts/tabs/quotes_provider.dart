@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart' hide State;
+import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
 
@@ -165,7 +166,7 @@ class QuotesProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: quote.id),
-              'NAME_Column': PlutoCell(value: quote.organitationName),
+              'NAME_Column': PlutoCell(value: quote.account),
               'TOTAL_Column': PlutoCell(value: quote.total),
               'MARGIN_Column': PlutoCell(value: quote.margin),
               'VENDOR_Column': PlutoCell(value: quote.vendorName),
@@ -296,7 +297,7 @@ class QuotesProvider extends ChangeNotifier {
     }
 
     //Descargar
-    excel.save(fileName: "Quotes_Report_${DateTime.now().month}_${DateTime.now().day}_${DateTime.now().year}.xlsx");
+    excel.save(fileName: "Quotes_Report_${DateFormat('MMMM_dd_yyyy').format(DateTime.now())}.xlsx");
   }
 
   ////////////////////////////////////////////////////////

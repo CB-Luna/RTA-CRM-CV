@@ -54,7 +54,7 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SizedBox(
-                  width: 250,
+                  width: 265,
                   child: Row(
                     children: [
                       CustomTextIconButton(
@@ -84,11 +84,12 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                   keyboardType: TextInputType.text,
                 ),
                 SizedBox(
-                  width: 250,
+                  //width: 265,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       CustomTextIconButton(
+                        // width: 165,
                         isLoading: false,
                         icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                         text: 'Create Opportunity',
@@ -103,6 +104,19 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                           );
                           await provider.updateState();
                         },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: CustomTextIconButton(
+                          // width: 90,
+                          isLoading: false,
+                          icon: Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryBackground),
+                          text: 'Export',
+                          color: AppTheme.of(context).primaryColor,
+                          onTap: () async {
+                            await provider.exportData();
+                          },
+                        ),
                       ),
                     ],
                   ),
