@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../models/vehicle.dart';
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../widgets/custom_card.dart';
 import '../widgets/listIssuesCard.dart';
 
 class ReportedIssues extends StatefulWidget {
-  const ReportedIssues({super.key});
+  final Vehicle vehicle;
+  const ReportedIssues({super.key, required this.vehicle});
 
   @override
   State<ReportedIssues> createState() => _ReportedIssuesState();
@@ -27,13 +29,35 @@ class _ReportedIssuesState extends State<ReportedIssues> {
           Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-                onPressed: () {
-                  provider.cambioVistaIssues();
-                },
-                child: Text("BACK")),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      provider.cambioVistaIssues();
+                    },
+                    child: Text("BACK")),
+                Container(
+                    width: 100,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.1,
+                            blurRadius: 3,
+                            offset: const Offset(
+                                0, 0), // changes position of shadow
+                          ),
+                        ]),
+                    child: Text(widget.vehicle.licesensePlates)),
+              ],
+            ),
           ),
-          Container(
+          SizedBox(
             height: 500,
             width: 450,
             child: ListView.builder(

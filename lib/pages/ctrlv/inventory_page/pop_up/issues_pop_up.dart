@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
+import '../../../../models/issues.dart';
 import '../../../../models/vehicle.dart';
 import '../../../../widgets/captura/custom_text_field.dart';
 import '../widgets/employeeIssuesCard.dart';
@@ -24,8 +25,8 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-
     final List<String> entries = <String>['A', 'B', 'C'];
+
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: provider.vistaIssues
@@ -83,7 +84,7 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
               //   },
               // ),
             )
-          : ReportedIssues(),
+          : ReportedIssues(vehicle: widget.vehicle),
     );
   }
 }

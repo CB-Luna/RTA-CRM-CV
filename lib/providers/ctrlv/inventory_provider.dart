@@ -12,6 +12,8 @@ import 'package:rta_crm_cv/models/status_api.dart';
 import 'package:rta_crm_cv/models/vehicle.dart';
 import 'package:excel/excel.dart';
 
+import '../../models/issues.dart';
+
 class InventoryProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
   List<PlutoRow> rows = [];
@@ -63,11 +65,11 @@ class InventoryProvider extends ChangeNotifier {
   StatusApi? statusSelectedUpdate;
   CompanyApi? companySelectedUpdate;
 
+  // Lista de Modelos
   List<CompanyApi> company = [];
   List<StatusApi> status = [];
   List<Vehicle> vehicles = [];
-  //List<Empleados> usuarios = [];
-  //List<Empleados> usuariosTesoreros = [];
+  List<Issues> issues = [];
 
   // Variables para las tarjetas de los vehiculos
   // Total
@@ -280,8 +282,8 @@ class InventoryProvider extends ChangeNotifier {
       return false;
     }
   }
-//---------------------------------------------
 
+//---------------------------------------------
   Future<bool> createVehicleInventory() async {
     try {
       await supabaseCtrlV.from('vehicle').insert(
@@ -407,6 +409,21 @@ class InventoryProvider extends ChangeNotifier {
       log('Error en getInventory() - $e');
     }
     notifyListeners();
+  }
+
+  //---------------------------------------------
+  Future<void> getIssues(Vehicle vehicle) async {
+    try {
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select()
+          .match({'id_vehicle': vehicle.idVehicle}).not('issues', "eq", "0");
+      issues = (res as List<dynamic>)
+          .map((issues) => Issues.fromJson(jsonEncode(issues)))
+          .toList();
+    } catch (e) {
+      print("Error en getIssues - $e");
+    }
   }
 
 //----------------------------------------------
