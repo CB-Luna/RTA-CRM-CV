@@ -30,12 +30,16 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          CustomTextField(
-            enabled: true,
-            controller: provider.searchController,
-            icon: Icons.search,
-            label: 'Search',
-            keyboardType: TextInputType.text,
+          Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: CustomTextField(
+              width: 200,
+              enabled: true,
+              controller: provider.searchController,
+              icon: Icons.search,
+              label: 'Search',
+              keyboardType: TextInputType.text,
+            ),
           ),
           const SizedBox(
             width: 20,
@@ -45,7 +49,8 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             padding: const EdgeInsets.only(left: 10, right: 10, top: 13),
             child: CustomTextIconButton(
               isLoading: false,
-              icon: Icon(Icons.add_box_outlined, color: AppTheme.of(context).primaryBackground),
+              icon: Icon(Icons.add_box_outlined,
+                  color: AppTheme.of(context).primaryBackground),
               text: 'Add Vehicle',
               onTap: () async {
                 provider.clearControllers();
@@ -71,45 +76,11 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             padding: const EdgeInsets.only(left: 10, right: 10, top: 13),
             child: CustomTextIconButton(
               isLoading: false,
-              icon: Icon(Icons.mode_edit_outlined, color: AppTheme.of(context).primaryBackground),
-              text: 'Edit Vehicle',
-              onTap: () {
-                provider.excelActivityReports();
-              },
-            ),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.1,
-            child: CustomTextIconButton(
-              isLoading: false,
-              color: const Color(0xffBF2135),
-              icon: Icon(Icons.delete_outline_outlined, color: AppTheme.of(context).primaryBackground),
-              text: 'Delete Vehicle',
-              onTap: () {
-                // showDialog(
-                //     context: context,
-                //     builder: (BuildContext context) {
-                //       return StatefulBuilder(builder: (context, setState) {
-                //         return const AddUserPopUp();
-                //       });
-                //     });
-              },
-            ),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.1,
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 13),
-            child: CustomTextIconButton(
-              isLoading: false,
-              icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+              icon: Icon(Icons.filter_alt_outlined,
+                  color: AppTheme.of(context).primaryBackground),
               text: 'Filter',
-              onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+              onTap: () => provider.stateManager!.setShowColumnFilter(
+                  !provider.stateManager!.showColumnFilter),
             ),
           ),
           Container(
@@ -117,9 +88,11 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             padding: const EdgeInsets.only(left: 10, right: 10, top: 14),
             child: CustomTextIconButton(
               isLoading: false,
-              icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+              icon: Icon(Icons.filter_alt_outlined,
+                  color: AppTheme.of(context).primaryBackground),
               text: 'Filter per month',
-              onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+              onTap: () => provider.stateManager!.setShowColumnFilter(
+                  !provider.stateManager!.showColumnFilter),
             ),
           ),
         ],

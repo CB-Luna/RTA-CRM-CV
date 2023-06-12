@@ -17,7 +17,8 @@ class DetailsPop extends StatelessWidget {
       content: Container(
         width: 1000,
         height: 600,
-        decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
+        decoration: BoxDecoration(
+            gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
             const Padding(
@@ -31,133 +32,181 @@ class DetailsPop extends StatelessWidget {
                   width: 500,
                   padding: const EdgeInsets.all(8.0),
                   child: CustomPaint(
-                    size: Size(400, (450 * 0.7586633663366337).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                    size: Size(
+                        400,
+                        (450 * 0.7586633663366337)
+                            .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
                     painter: RPSCustomPainterMon(),
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20, top: 20, left: 20, right: 20),
+                      padding: const EdgeInsets.only(
+                          bottom: 20, top: 20, left: 20, right: 20),
                       child: Row(
                         children: [
-                          const Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                " Employee: ",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(" Vehicle Id: ", style: TextStyle(color: Colors.white)),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(" Gas: ", style: TextStyle(color: Colors.white)),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(" Mileage: ", style: TextStyle(color: Colors.white)),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(" Plate Number: ", style: TextStyle(color: Colors.white)),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(" VIN: ", style: TextStyle(color: Colors.white)),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                " Insurance Renewal Due: ",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(" Registration Due: ", style: TextStyle(color: Colors.white)),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(" Oil Change Due: ", style: TextStyle(color: Colors.white)),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(" Date Added: ", style: TextStyle(color: Colors.white)),
-                            )
-                          ]),
-                          Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                "${vehicle.employee.name} ${vehicle.employee.lastName}",
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                "${vehicle.idVehicle}",
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                vehicle.gas,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                "${vehicle.mileage}",
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                vehicle.licesensePlates,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                vehicle.vin,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                DateFormat("MMM-dd-yyyy").format(vehicle.vehicle.renewalInsDue).toString(),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                DateFormat("MMM-dd-yyyy").format(vehicle.vehicle.registrationDue).toString(),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                DateFormat("MMM-dd-yyyy").format(vehicle.vehicle.oilChangeDue).toString(),
-                                //"${vehicle.vehicle.oilChangeDue.month}-${vehicle.vehicle.oilChangeDue.day}-${vehicle.vehicle.oilChangeDue.year}",
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                              child: Text(
-                                DateFormat("MMM-dd-yyyy").format(vehicle.dateAdded).toString(),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ]),
+                          const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(
+                                    " Employee: ",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(" Vehicle Id: ",
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(" Gas: ",
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(" Mileage: ",
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(" Plate Number: ",
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(" VIN: ",
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(
+                                    " Insurance Renewal Due: ",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(" Registration Due: ",
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(" Oil Change Due: ",
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(" Date Added: ",
+                                      style: TextStyle(color: Colors.white)),
+                                )
+                              ]),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(
+                                    "${vehicle.employee.name} ${vehicle.employee.lastName}",
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(
+                                    "${vehicle.idVehicle}",
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(
+                                    vehicle.gas,
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(
+                                    "${vehicle.mileage}",
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(
+                                    vehicle.licesensePlates,
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(
+                                    vehicle.vin,
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(
+                                    DateFormat("MMM-dd-yyyy")
+                                        .format(vehicle.vehicle
+                                            .lastTransmissionFluidChange)
+                                        .toString(),
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(
+                                    DateFormat("MMM-dd-yyyy")
+                                        .format(vehicle
+                                            .vehicle.lastRadiatorFluidChange)
+                                        .toString(),
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(
+                                    DateFormat("MMM-dd-yyyy")
+                                        .format(vehicle.vehicle.oilChangeDue)
+                                        .toString(),
+                                    //"${vehicle.vehicle.oilChangeDue.month}-${vehicle.vehicle.oilChangeDue.day}-${vehicle.vehicle.oilChangeDue.year}",
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 10),
+                                  child: Text(
+                                    DateFormat("MMM-dd-yyyy")
+                                        .format(vehicle.dateAdded)
+                                        .toString(),
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ]),
                         ],
                       ),
                     ),
@@ -177,7 +226,9 @@ class DetailsPop extends StatelessWidget {
                         )),
                     Container(
                       margin: const EdgeInsets.all(20.0),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.black, width: 2.0)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.black, width: 2.0)),
                       width: 400,
                       height: 80,
                       child: Row(
@@ -199,7 +250,11 @@ class DetailsPop extends StatelessWidget {
                             width: 50,
                             height: 100,
                             margin: const EdgeInsets.all(20.0),
-                            decoration: BoxDecoration(color: Color(int.parse(vehicle.vehicle.color!)), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.black, width: 2.0)),
+                            decoration: BoxDecoration(
+                                color: Color(int.parse(vehicle.vehicle.color!)),
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                    color: Colors.black, width: 2.0)),
                           ),
                         ],
                       ),

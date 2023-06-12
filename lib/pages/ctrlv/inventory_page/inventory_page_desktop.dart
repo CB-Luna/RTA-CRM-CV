@@ -2,6 +2,7 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/issues_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/cry_card.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/details_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/odi_card.dart';
@@ -22,7 +23,12 @@ import 'widgets/header_inventory.dart';
 import 'actions/update_vehicle_pop_up.dart';
 
 class InventoryPageDesktop extends StatefulWidget {
-  const InventoryPageDesktop({Key? key, required this.drawerController, required this.scaffoldKey, required this.provider}) : super(key: key);
+  const InventoryPageDesktop(
+      {Key? key,
+      required this.drawerController,
+      required this.scaffoldKey,
+      required this.provider})
+      : super(key: key);
   final AdvancedDrawerController drawerController;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
@@ -75,80 +81,113 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                             Container(
                               margin: const EdgeInsets.only(bottom: 10),
                               height: 500,
-                              child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                                // Carta de CRY
-                                Container(
-                                  margin: const EdgeInsets.all(20),
-                                  height: 425,
-                                  width: 339,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      //gradient: gradients[0],
-                                      boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))],
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 25,
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    // Carta de CRY
+                                    Container(
+                                      margin: const EdgeInsets.all(20),
+                                      height: 425,
+                                      width: 339,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          //gradient: gradients[0],
+                                          boxShadow: const [
+                                            BoxShadow(
+                                                blurRadius: 4,
+                                                color: Colors.grey,
+                                                offset: Offset(10, 10))
+                                          ],
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 25,
+                                          ),
+                                          CryCard(
+                                            totalVehicleCRY:
+                                                widget.provider.totalVehicleCRY,
+                                            totalAssignedCRY: widget
+                                                .provider.totalAssignedCRY,
+                                            totalRepairCRY:
+                                                widget.provider.totalRepairCRY,
+                                            totalAvailableCRY: widget
+                                                .provider.totalAvailableCRY,
+                                          ),
+                                        ],
                                       ),
-                                      CryCard(
-                                        totalVehicleCRY: widget.provider.totalVehicleCRY,
-                                        totalAssignedCRY: widget.provider.totalAssignedCRY,
-                                        totalRepairCRY: widget.provider.totalRepairCRY,
-                                        totalAvailableCRY: widget.provider.totalAvailableCRY,
+                                    ),
+                                    // Carta de ODE
+                                    Container(
+                                      margin: const EdgeInsets.all(20),
+                                      height: 425,
+                                      width: 339,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          //gradient: gradients[0],
+                                          boxShadow: const [
+                                            BoxShadow(
+                                                blurRadius: 4,
+                                                color: Colors.grey,
+                                                offset: Offset(10, 10))
+                                          ],
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: 25,
+                                          ),
+                                          OdiCard(
+                                            totalVehicleODE:
+                                                widget.provider.totalVehicleODE,
+                                            totalRepairODE:
+                                                widget.provider.totalRepairODE,
+                                            totalAssignedODE: widget
+                                                .provider.totalAssignedODE,
+                                            totalAvailableODE: widget
+                                                .provider.totalAvailableODE,
+                                          )
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                // Carta de ODE
-                                Container(
-                                  margin: const EdgeInsets.all(20),
-                                  height: 425,
-                                  width: 339,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      //gradient: gradients[0],
-                                      boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))],
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 25,
+                                    ),
+                                    // Carta de SMI
+                                    Container(
+                                      margin: const EdgeInsets.all(20),
+                                      height: 425,
+                                      width: 339,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          //gradient: gradients[0],
+                                          boxShadow: const [
+                                            BoxShadow(
+                                                blurRadius: 4,
+                                                color: Colors.grey,
+                                                offset: Offset(10, 10))
+                                          ],
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 25,
+                                          ),
+                                          SmiCard(
+                                            totalVehicleSMI:
+                                                widget.provider.totalVehicleSMI,
+                                            totalAssignedSMI: widget
+                                                .provider.totalAssignedSMI,
+                                            totalRepairSMI:
+                                                widget.provider.totalRepairSMI,
+                                            totalAvailableSMI: widget
+                                                .provider.totalAvailableSMI,
+                                          ),
+                                        ],
                                       ),
-                                      OdiCard(
-                                        totalVehicleODE: widget.provider.totalVehicleODE,
-                                        totalRepairODE: widget.provider.totalRepairODE,
-                                        totalAssignedODE: widget.provider.totalAssignedODE,
-                                        totalAvailableODE: widget.provider.totalAvailableODE,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // Carta de SMI
-                                Container(
-                                  margin: const EdgeInsets.all(20),
-                                  height: 425,
-                                  width: 339,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      //gradient: gradients[0],
-                                      boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))],
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 25,
-                                      ),
-                                      SmiCard(
-                                        totalVehicleSMI: widget.provider.totalVehicleSMI,
-                                        totalAssignedSMI: widget.provider.totalAssignedSMI,
-                                        totalRepairSMI: widget.provider.totalRepairSMI,
-                                        totalAvailableSMI: widget.provider.totalAvailableSMI,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ]),
+                                    ),
+                                  ]),
                             ),
                             InventoryPageHeader(),
                             //ESTATUS STEPPER
@@ -156,7 +195,9 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                               height: 20,
                             ),
                             // Titulo de la tabla
-                            const Padding(padding: EdgeInsets.only(bottom: 10), child: CardHeader(text: "Vehicle Inventory")),
+                            const Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: CardHeader(text: "Vehicle Inventory")),
 
                             // PLUTO GRID
                             // widget.provider.vehicles.isEmpty
@@ -171,14 +212,18 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                     key: UniqueKey(),
                                     configuration: PlutoGridConfiguration(
                                       localeText: const PlutoGridLocaleText(),
-                                      scrollbar: plutoGridScrollbarConfig(context),
+                                      scrollbar:
+                                          plutoGridScrollbarConfig(context),
                                       style: plutoGridStyleConfig(context),
                                       columnFilter: PlutoGridColumnFilterConfig(
                                         filters: const [
                                           ...FilterHelper.defaultFilters,
                                         ],
-                                        resolveDefaultColumnFilter: (column, resolver) {
-                                          return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                        resolveDefaultColumnFilter:
+                                            (column, resolver) {
+                                          return resolver<
+                                                  PlutoFilterTypeContains>()
+                                              as PlutoFilterType;
                                         },
                                       ),
                                     ),
@@ -307,7 +352,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       PlutoColumn(
                                         title: 'Year',
                                         field: 'year',
-                                        backgroundColor: const Color(0XFF6491F7),
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
                                         titleSpan: const TextSpan(
                                           children: [
                                             WidgetSpan(
@@ -321,12 +367,18 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 child: SizedBox(
                                               width: 10,
                                             )),
-                                            TextSpan(text: 'Year', style: TextStyle(color: Colors.white)),
+                                            TextSpan(
+                                                text: 'Year',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                           ],
                                         ),
-                                        width: MediaQuery.of(context).size.width * 0.09,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.09,
                                         cellPadding: EdgeInsets.zero,
-                                        titleTextAlign: PlutoColumnTextAlign.center,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
                                         textAlign: PlutoColumnTextAlign.center,
                                         type: PlutoColumnType.text(),
                                         enableEditingMode: false,
@@ -335,8 +387,11 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             height: rowHeight,
                                             // width: rendererContext
                                             //.cell.column.width,                                                    .cell.column.width,
-                                            decoration: BoxDecoration(gradient: whiteGradient),
-                                            child: Center(child: Text(rendererContext.cell.value)),
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
+                                            child: Center(
+                                                child: Text(rendererContext
+                                                    .cell.value)),
                                           );
                                         },
                                       ),
@@ -356,13 +411,20 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 child: SizedBox(
                                               width: 10,
                                             )),
-                                            TextSpan(text: 'Make', style: TextStyle(color: Colors.white)),
+                                            TextSpan(
+                                                text: 'Make',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                           ],
                                         ),
-                                        width: MediaQuery.of(context).size.width * 0.09,
-                                        backgroundColor: const Color(0XFF6491F7),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.09,
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
                                         cellPadding: EdgeInsets.zero,
-                                        titleTextAlign: PlutoColumnTextAlign.center,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
                                         textAlign: PlutoColumnTextAlign.center,
                                         type: PlutoColumnType.text(),
                                         enableEditingMode: false,
@@ -371,15 +433,19 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             height: rowHeight,
                                             // width: rendererContext
                                             //.cell.column.width,                                                    .cell.column.width,
-                                            decoration: BoxDecoration(gradient: whiteGradient),
-                                            child: Center(child: Text(rendererContext.cell.value)),
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
+                                            child: Center(
+                                                child: Text(rendererContext
+                                                    .cell.value)),
                                           );
                                         },
                                       ),
                                       PlutoColumn(
                                         title: 'Model',
                                         field: 'model',
-                                        backgroundColor: const Color(0XFF6491F7),
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
                                         titleSpan: const TextSpan(
                                           children: [
                                             WidgetSpan(
@@ -393,12 +459,18 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 child: SizedBox(
                                               width: 10,
                                             )),
-                                            TextSpan(text: 'Model', style: TextStyle(color: Colors.white)),
+                                            TextSpan(
+                                                text: 'Model',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                           ],
                                         ),
-                                        width: MediaQuery.of(context).size.width * 0.10,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.10,
                                         cellPadding: EdgeInsets.zero,
-                                        titleTextAlign: PlutoColumnTextAlign.center,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
                                         textAlign: PlutoColumnTextAlign.center,
                                         type: PlutoColumnType.text(),
                                         enableEditingMode: false,
@@ -407,8 +479,11 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             height: rowHeight,
                                             // width: rendererContext
                                             //.cell.column.width,                                                    .cell.column.width,
-                                            decoration: BoxDecoration(gradient: whiteGradient),
-                                            child: Center(child: Text(rendererContext.cell.value)),
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
+                                            child: Center(
+                                                child: Text(rendererContext
+                                                    .cell.value)),
                                           );
                                         },
                                       ),
@@ -416,7 +491,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       PlutoColumn(
                                         title: 'Vin',
                                         field: 'vin',
-                                        backgroundColor: const Color(0XFF6491F7),
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
                                         titleSpan: const TextSpan(
                                           children: [
                                             WidgetSpan(
@@ -430,12 +506,18 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 child: SizedBox(
                                               width: 10,
                                             )),
-                                            TextSpan(text: 'VIN', style: TextStyle(color: Colors.white)),
+                                            TextSpan(
+                                                text: 'VIN',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                           ],
                                         ),
-                                        width: MediaQuery.of(context).size.width * 0.14,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.14,
                                         cellPadding: EdgeInsets.zero,
-                                        titleTextAlign: PlutoColumnTextAlign.center,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
                                         textAlign: PlutoColumnTextAlign.center,
                                         type: PlutoColumnType.text(),
                                         enableEditingMode: false,
@@ -444,15 +526,19 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             height: rowHeight,
                                             // width: rendererContext
                                             //.cell.column.width,                                                    .cell.column.width,
-                                            decoration: BoxDecoration(gradient: whiteGradient),
-                                            child: Center(child: Text(rendererContext.cell.value)),
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
+                                            child: Center(
+                                                child: Text(rendererContext
+                                                    .cell.value)),
                                           );
                                         },
                                       ),
                                       PlutoColumn(
                                         title: 'License Plates',
                                         field: 'license_plates',
-                                        backgroundColor: const Color(0XFF6491F7),
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
                                         titleSpan: const TextSpan(
                                           children: [
                                             WidgetSpan(
@@ -466,12 +552,16 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 child: SizedBox(
                                               width: 10,
                                             )),
-                                            TextSpan(text: 'License Plates', style: TextStyle(color: Colors.white)),
+                                            TextSpan(
+                                                text: 'License Plates',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                           ],
                                         ),
                                         width: 225,
                                         cellPadding: EdgeInsets.zero,
-                                        titleTextAlign: PlutoColumnTextAlign.center,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
                                         textAlign: PlutoColumnTextAlign.center,
                                         type: PlutoColumnType.text(),
                                         enableEditingMode: false,
@@ -480,8 +570,11 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             height: rowHeight,
                                             // width: rendererContext
                                             //.cell.column.width,                                                    .cell.column.width,
-                                            decoration: BoxDecoration(gradient: whiteGradient),
-                                            child: Center(child: Text(rendererContext.cell.value)),
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
+                                            child: Center(
+                                                child: Text(rendererContext
+                                                    .cell.value)),
                                           );
                                         },
                                       ),
@@ -588,7 +681,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       PlutoColumn(
                                         title: 'Status',
                                         field: 'status',
-                                        backgroundColor: const Color(0XFF6491F7),
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
                                         titleSpan: const TextSpan(
                                           children: [
                                             WidgetSpan(
@@ -602,12 +696,18 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 child: SizedBox(
                                               width: 10,
                                             )),
-                                            TextSpan(text: 'Status', style: TextStyle(color: Colors.white)),
+                                            TextSpan(
+                                                text: 'Status',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                           ],
                                         ),
-                                        width: MediaQuery.of(context).size.width * 0.11,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.11,
                                         cellPadding: EdgeInsets.zero,
-                                        titleTextAlign: PlutoColumnTextAlign.center,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
                                         textAlign: PlutoColumnTextAlign.center,
                                         type: PlutoColumnType.text(),
                                         enableEditingMode: false,
@@ -616,15 +716,19 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             height: rowHeight,
                                             // width: rendererContext
                                             //.cell.column.width,.cell.column.width,
-                                            decoration: BoxDecoration(gradient: whiteGradient),
-                                            child: Center(child: Text(rendererContext.cell.value)),
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
+                                            child: Center(
+                                                child: Text(rendererContext
+                                                    .cell.value)),
                                           );
                                         },
                                       ),
                                       PlutoColumn(
                                         title: 'Company',
                                         field: 'company',
-                                        backgroundColor: const Color(0XFF6491F7),
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
                                         titleSpan: const TextSpan(
                                           children: [
                                             WidgetSpan(
@@ -638,12 +742,18 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 child: SizedBox(
                                               width: 10,
                                             )),
-                                            TextSpan(text: 'Company', style: TextStyle(color: Colors.white)),
+                                            TextSpan(
+                                                text: 'Company',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                           ],
                                         ),
-                                        width: MediaQuery.of(context).size.width * 0.13,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.13,
                                         cellPadding: EdgeInsets.zero,
-                                        titleTextAlign: PlutoColumnTextAlign.center,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
                                         textAlign: PlutoColumnTextAlign.center,
                                         type: PlutoColumnType.text(),
                                         enableEditingMode: false,
@@ -652,8 +762,11 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             height: rowHeight,
                                             // width: rendererContext
                                             //.cell.column.width,                                                    .cell.column.width,
-                                            decoration: BoxDecoration(gradient: whiteGradient),
-                                            child: Center(child: Text(rendererContext.cell.value)),
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
+                                            child: Center(
+                                                child: Text(rendererContext
+                                                    .cell.value)),
                                           );
                                         },
                                       ),
@@ -711,12 +824,14 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       PlutoColumn(
                                         title: 'details',
                                         field: 'details',
-                                        backgroundColor: const Color(0XFF6491F7),
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
                                         titleSpan: const TextSpan(
                                           children: [
                                             WidgetSpan(
                                               child: Icon(
-                                                Icons.calendar_view_week_outlined,
+                                                Icons
+                                                    .calendar_view_week_outlined,
                                                 color: Color(0xffF3F7F9),
                                                 size: 30,
                                               ),
@@ -725,37 +840,52 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 child: SizedBox(
                                               width: 10,
                                             )),
-                                            TextSpan(text: 'details', style: TextStyle(color: Colors.white)),
+                                            TextSpan(
+                                                text: 'details',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                           ],
                                         ),
-                                        width: MediaQuery.of(context).size.width * 0.10,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.10,
                                         cellPadding: EdgeInsets.zero,
-                                        titleTextAlign: PlutoColumnTextAlign.center,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
                                         textAlign: PlutoColumnTextAlign.center,
                                         type: PlutoColumnType.text(),
                                         enableEditingMode: false,
                                         renderer: (rendererContext) {
                                           return Container(
                                             height: rowHeight,
-                                            decoration: BoxDecoration(gradient: whiteGradient),
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
                                             child: Center(
                                                 child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 ElevatedButton(
                                                     onPressed: () {
                                                       showDialog(
                                                           context: context,
-                                                          builder: (BuildContext context) {
-                                                            return StatefulBuilder(builder: (context, setState) {
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return StatefulBuilder(
+                                                                builder: (context,
+                                                                    setState) {
                                                               return DetailsPopUp(
-                                                                vehicle: rendererContext.cell.value,
+                                                                vehicle:
+                                                                    rendererContext
+                                                                        .cell
+                                                                        .value,
                                                               );
                                                             });
                                                           });
                                                     },
                                                     child: const Icon(
-                                                      Icons.remove_red_eye_outlined,
+                                                      Icons
+                                                          .remove_red_eye_outlined,
                                                     ))
                                               ],
                                             )),
@@ -765,7 +895,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       PlutoColumn(
                                         title: 'actions',
                                         field: 'actions',
-                                        backgroundColor: const Color(0XFF6491F7),
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
                                         titleSpan: const TextSpan(
                                           children: [
                                             WidgetSpan(
@@ -779,45 +910,70 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 child: SizedBox(
                                               width: 10,
                                             )),
-                                            TextSpan(text: 'actions', style: TextStyle(color: Colors.white)),
+                                            TextSpan(
+                                                text: 'actions',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                           ],
                                         ),
-                                        width: MediaQuery.of(context).size.width * 0.14,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.14,
                                         cellPadding: EdgeInsets.zero,
-                                        titleTextAlign: PlutoColumnTextAlign.center,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
                                         textAlign: PlutoColumnTextAlign.center,
                                         type: PlutoColumnType.text(),
                                         enableEditingMode: false,
                                         renderer: (rendererContext) {
                                           return Container(
                                             height: rowHeight,
-                                            width: rendererContext.cell.column.width,
-                                            decoration: BoxDecoration(gradient: whiteGradient),
+                                            width: rendererContext
+                                                .cell.column.width,
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
                                               children: [
                                                 CustomTextIconButton(
                                                   isLoading: false,
                                                   icon: Icon(
                                                     Icons.fact_check_outlined,
-                                                    color: AppTheme.of(context).primaryBackground,
+                                                    color: AppTheme.of(context)
+                                                        .primaryBackground,
                                                   ),
                                                   text: 'Edit',
                                                   onTap: () async {
                                                     //provider.clearControllers();
-                                                    await provider.getCompanies(notify: false);
-                                                    await provider.getStatus(notify: false);
-                                                    provider.inicializeColor(rendererContext.cell.value);
+                                                    await provider.getCompanies(
+                                                        notify: false);
+                                                    await provider.getStatus(
+                                                        notify: false);
+                                                    provider.inicializeColor(
+                                                        rendererContext
+                                                            .cell.value);
 
-                                                    provider.inicializeImage(rendererContext.cell.value);
-                                                    provider.updateInventoryControllers(rendererContext.cell.value);
+                                                    provider.inicializeImage(
+                                                        rendererContext
+                                                            .cell.value);
+                                                    provider
+                                                        .updateInventoryControllers(
+                                                            rendererContext
+                                                                .cell.value);
                                                     // ignore: use_build_context_synchronously
                                                     await showDialog(
                                                         context: context,
-                                                        builder: (BuildContext context) {
-                                                          return StatefulBuilder(builder: (context, setState) {
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return StatefulBuilder(
+                                                              builder: (context,
+                                                                  setState) {
                                                             return UpdateVehiclePopUp(
-                                                              vehicle: rendererContext.cell.value,
+                                                              vehicle:
+                                                                  rendererContext
+                                                                      .cell
+                                                                      .value,
                                                             );
                                                           });
                                                         });
@@ -826,22 +982,31 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 CustomTextIconButton(
                                                   isLoading: false,
                                                   icon: Icon(
-                                                    Icons.shopping_basket_outlined,
-                                                    color: AppTheme.of(context).primaryBackground,
+                                                    Icons
+                                                        .shopping_basket_outlined,
+                                                    color: AppTheme.of(context)
+                                                        .primaryBackground,
                                                   ),
                                                   color: secondaryColor,
                                                   text: 'Delete',
                                                   onTap: () async {
                                                     await showDialog(
                                                         context: context,
-                                                        builder: (BuildContext context) {
-                                                          return StatefulBuilder(builder: (context, setState) {
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return StatefulBuilder(
+                                                              builder: (context,
+                                                                  setState) {
                                                             return DeletePopUp(
-                                                              vehicle: rendererContext.cell.value,
+                                                              vehicle:
+                                                                  rendererContext
+                                                                      .cell
+                                                                      .value,
                                                             );
                                                           });
                                                         });
-                                                    await provider.getInventory();
+                                                    await provider
+                                                        .getInventory();
                                                     //   await provider
                                                     //       .deleteVehicle(
                                                     //     rendererContext
@@ -856,6 +1021,78 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                           );
                                         },
                                       ),
+                                      PlutoColumn(
+                                        title: 'issues',
+                                        field: 'issues',
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
+                                        titleSpan: const TextSpan(
+                                          children: [
+                                            WidgetSpan(
+                                              child: Icon(
+                                                Icons.warning_outlined,
+                                                color: Color(0xffF3F7F9),
+                                                size: 30,
+                                              ),
+                                            ),
+                                            WidgetSpan(
+                                                child: SizedBox(
+                                              width: 10,
+                                            )),
+                                            TextSpan(
+                                                text: 'issues',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          ],
+                                        ),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.10,
+                                        cellPadding: EdgeInsets.zero,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
+                                        textAlign: PlutoColumnTextAlign.center,
+                                        type: PlutoColumnType.text(),
+                                        enableEditingMode: false,
+                                        renderer: (rendererContext) {
+                                          return Container(
+                                            height: rowHeight,
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
+                                            child: Center(
+                                                child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                ElevatedButton(
+                                                    onPressed: () {
+                                                      provider.vistaIssues =
+                                                          true;
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return StatefulBuilder(
+                                                                builder: (context,
+                                                                    setState) {
+                                                              return IssuesPopUp(
+                                                                vehicle:
+                                                                    rendererContext
+                                                                        .cell
+                                                                        .value,
+                                                              );
+                                                            });
+                                                          });
+                                                    },
+                                                    child: const Icon(
+                                                      Icons
+                                                          .remove_red_eye_outlined,
+                                                    ))
+                                              ],
+                                            )),
+                                          );
+                                        },
+                                      ),
                                     ],
                                     rows: widget.provider.rows,
                                     createFooter: (stateManager) {
@@ -867,7 +1104,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       return PlutoPagination(stateManager);
                                     },
                                     onLoaded: (event) {
-                                      widget.provider.stateManager = event.stateManager;
+                                      widget.provider.stateManager =
+                                          event.stateManager;
 
                                       stateManager = event.stateManager;
 
@@ -875,7 +1113,10 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       stateManager.setSelectingMode(
                                         PlutoGridSelectingMode.row,
                                       );
-                                      stateManager.sortAscending(PlutoColumn(title: '#', field: 'id_vehicle', type: PlutoColumnType.number()));
+                                      stateManager.sortAscending(PlutoColumn(
+                                          title: '#',
+                                          field: 'id_vehicle',
+                                          type: PlutoColumnType.number()));
                                     },
                                     onRowChecked: (event) {},
                                   ),
