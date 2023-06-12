@@ -14,6 +14,9 @@ import 'package:rta_crm_cv/providers/crm/quote/create_quote_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/captura/currency_input_formatter.dart';
+import 'package:rta_crm_cv/widgets/captura/quantity_input_formatter.dart';
+import 'package:rta_crm_cv/widgets/captura/thousands_separator_input_formatter.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_tab_button.dart';
@@ -635,6 +638,10 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                   icon: Icons.percent_outlined,
                                                   label: 'Tax Percent',
                                                   keyboardType: TextInputType.number,
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter.digitsOnly,
+                                                    CurrencyInputFormatter(),
+                                                  ],
                                                   onChanged: (p0) => provider.countRowsPlutoGrid(),
                                                 ),
                                                 /* SizedBox(
@@ -813,6 +820,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                     keyboardType: TextInputType.text,
                                     inputFormatters: <TextInputFormatter>[
                                       FilteringTextInputFormatter.digitsOnly,
+                                      CurrencyInputFormatter(),
                                     ],
                                   ),
                                 ),
@@ -827,6 +835,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                     keyboardType: TextInputType.text,
                                     inputFormatters: <TextInputFormatter>[
                                       FilteringTextInputFormatter.digitsOnly,
+                                      CurrencyInputFormatter(),
                                     ],
                                   ),
                                 ),
@@ -841,6 +850,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                     keyboardType: TextInputType.number,
                                     inputFormatters: <TextInputFormatter>[
                                       FilteringTextInputFormatter.digitsOnly,
+                                      ThousandsSeparatorInputFormatter(),
                                     ],
                                   ),
                                 ),

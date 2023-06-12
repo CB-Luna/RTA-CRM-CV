@@ -469,11 +469,11 @@ class CreateQuoteProvider extends ChangeNotifier {
       return false;
     } else if (lineItemCenterController.text.isEmpty ||
         unitPriceController.text.isEmpty ||
-        double.parse(unitPriceController.text) < 0 ||
+        double.parse(unitPriceController.text.replaceAll(RegExp(r','), '')) < 0 ||
         unitCostController.text.isEmpty ||
-        double.parse(unitCostController.text) < 0 ||
+        double.parse(unitCostController.text.replaceAll(RegExp(r','), '')) < 0 ||
         quantityController.text.isEmpty ||
-        double.parse(quantityController.text) < 0) {
+        double.parse(quantityController.text.replaceAll(RegExp(r','), '')) < 0) {
       return false;
     } else {
       return true;
@@ -529,9 +529,9 @@ class CreateQuoteProvider extends ChangeNotifier {
         'IP_SUBNET_Column': PlutoCell(value: ipSubnet),
         ////////////////////////////////////////////////////////////////////
         'LINE_ITEM_Column': PlutoCell(value: lineItemCenterController.text),
-        'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text)),
-        'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text) * -1),
-        'QUANTITY_Column': PlutoCell(value: int.parse(quantityController.text)),
+        'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text.replaceAll(RegExp(r','), ''))),
+        'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text.replaceAll(RegExp(r','), '')) * -1),
+        'QUANTITY_Column': PlutoCell(value: int.parse(quantityController.text.replaceAll(RegExp(r','), ''))),
         'ACTIONS_Column': PlutoCell(value: 'Actions'),
       },
     );
@@ -655,9 +655,9 @@ class CreateQuoteProvider extends ChangeNotifier {
         'IP_SUBNET_Column': PlutoCell(value: ipSubnet), */
         ////////////////////////////////////////////////////////////////////
         'LINE_ITEM_Column': PlutoCell(value: lineItemCenterController.text),
-        'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text)),
-        'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text) * -1),
-        'QUANTITY_Column': PlutoCell(value: int.parse(quantityController.text)),
+        'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text.replaceAll(RegExp(r','), ''))),
+        'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text.replaceAll(RegExp(r','), '')) * -1),
+        'QUANTITY_Column': PlutoCell(value: int.parse(quantityController.text.replaceAll(RegExp(r','), ''))),
         'ACTIONS_Column': PlutoCell(value: 'Actions'),
       },
     );
@@ -703,6 +703,10 @@ class CreateQuoteProvider extends ChangeNotifier {
     total = 0;
     margin = 0;
 
+    if (taxController.text.isEmpty) {
+      taxController.text = '0';
+    }
+
     // PlutoGrid
     for (var row in globalRows) {
       totalItems++;
@@ -712,8 +716,8 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     total = subtotal - cost;
 
-    if (taxController.text != '0' && double.parse(taxController.text) != 0 && taxController.text != '') {
-      totalPlusTax = (double.parse(taxController.text) * total / 100) + total;
+    if (taxController.text != '0' && double.parse(taxController.text.replaceAll(RegExp(r','), '')) != 0 && taxController.text.isNotEmpty) {
+      totalPlusTax = (double.parse(taxController.text.replaceAll(RegExp(r','), '')) * total / 100) + total;
     } else {
       totalPlusTax = total;
     }
