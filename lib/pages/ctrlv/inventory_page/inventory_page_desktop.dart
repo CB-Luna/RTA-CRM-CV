@@ -1068,6 +1068,9 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                     onPressed: () {
                                                       provider.vistaIssues =
                                                           true;
+                                                      provider.getIssues(
+                                                          rendererContext
+                                                              .cell.value);
                                                       showDialog(
                                                           context: context,
                                                           builder: (BuildContext

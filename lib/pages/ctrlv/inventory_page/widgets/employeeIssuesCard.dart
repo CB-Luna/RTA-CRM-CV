@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 
+import '../../../../models/issues.dart';
 import '../../../../models/vehicle.dart';
 import '../../../../providers/users_provider.dart';
 import '../../../../widgets/get_image_widget.dart';
@@ -20,6 +21,7 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
+    //Issues issues;
 
     return Container(
       decoration: const BoxDecoration(
@@ -39,11 +41,11 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
             ),
             child: getUserImage(provider.webImage),
           ),
-          const Column(
+          Column(
             children: [
               Padding(
                 padding: EdgeInsets.only(bottom: 10.0, top: 5.0),
-                child: Text("Nombre: Michael Scott "),
+                child: Text("Nombre: "),
               ),
               Text("Empresa: ODE "),
             ],
@@ -55,7 +57,7 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
               ),
-              child: Text(widget.vehicle.issues.toString()))
+              child: Text(widget.vehicle.issues.toString())),
         ],
       ),
     );

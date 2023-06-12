@@ -14,7 +14,7 @@ class ListIssuesCard extends StatefulWidget {
 class _ListIssuesCardState extends State<ListIssuesCard> {
   @override
   Widget build(BuildContext context) {
-    InventoryProvider provider = Provider.of<InventoryProvider>(context);
+    //InventoryProvider provider = Provider.of<InventoryProvider>(context);
 
     return SizedBox(
         child: Column(
