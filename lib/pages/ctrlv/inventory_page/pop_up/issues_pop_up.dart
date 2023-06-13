@@ -26,7 +26,7 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
     final List<String> entries = <String>['A', 'B', 'C'];
-
+    final Issues issue;
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: provider.vistaIssues
@@ -60,7 +60,9 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: EdgeInsets.only(bottom: 5.0),
-                            child: EmployeeIssuesCard(vehicle: widget.vehicle),
+                            child: EmployeeIssuesCard(
+                              vehicle: widget.vehicle,
+                            ),
                           );
                         }),
                   ),

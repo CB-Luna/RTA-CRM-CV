@@ -412,6 +412,7 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   //---------------------------------------------
+  /*
   Future<void> getIssues(Vehicle vehicle) async {
     try {
       final res = await supabaseCtrlV
@@ -425,7 +426,7 @@ class InventoryProvider extends ChangeNotifier {
       print("Error en getIssues - $e");
     }
   }
-
+*/
 //----------------------------------------------
   // EXCEL
   Future<bool> excelActivityReports() async {
@@ -460,8 +461,8 @@ class InventoryProvider extends ChangeNotifier {
       'company',
       'date_Added',
       'oil_change_due',
-      'registration_due',
-      'insurance_renewal_due'
+      'Last transmission fluid change:',
+      'Last radiator fluid change:'
     ]);
 
     //Agregar datos

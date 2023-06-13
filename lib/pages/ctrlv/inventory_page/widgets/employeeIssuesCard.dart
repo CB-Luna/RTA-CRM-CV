@@ -11,7 +11,10 @@ import '../pop_up/reported_issues_pop_up.dart';
 class EmployeeIssuesCard extends StatefulWidget {
   final Vehicle vehicle;
 
-  const EmployeeIssuesCard({super.key, required this.vehicle});
+  const EmployeeIssuesCard({
+    super.key,
+    required this.vehicle,
+  });
 
   @override
   State<EmployeeIssuesCard> createState() => _EmployeeIssuesCardState();
@@ -21,8 +24,7 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-    //Issues issues;
-
+    List<String> nombres = ["jim halpert", "Michael Scott", "Dwight Shcrute "];
     return Container(
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -41,11 +43,11 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
             ),
             child: getUserImage(provider.webImage),
           ),
-          Column(
+          const Column(
             children: [
               Padding(
                 padding: EdgeInsets.only(bottom: 10.0, top: 5.0),
-                child: Text("Nombre: "),
+                child: Text("Nombre:"),
               ),
               Text("Empresa: ODE "),
             ],

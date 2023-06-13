@@ -95,6 +95,24 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   !provider.stateManager!.showColumnFilter),
             ),
           ),
+          const SizedBox(
+            width: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 11.0),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.1,
+              child: CustomTextIconButton(
+                isLoading: false,
+                icon: Icon(Icons.download_outlined,
+                    color: AppTheme.of(context).primaryBackground),
+                text: 'Export Data',
+                onTap: () {
+                  provider.excelActivityReports();
+                },
+              ),
+            ),
+          )
         ],
       ),
     );
