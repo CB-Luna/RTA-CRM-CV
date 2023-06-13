@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/crm/accounts/tabs/campaigns_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -70,15 +71,16 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      CustomTextIconButton(
-                        isLoading: false,
-                        icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                        text: 'Create Campaign',
-                        color: AppTheme.of(context).tertiaryColor,
-                        onTap: () async {
-                          // context.pushReplacement(routeQuoteCreation);
-                        },
-                      ),
+                      if (currentUser!.isSales)
+                        CustomTextIconButton(
+                          isLoading: false,
+                          icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                          text: 'Create Campaign',
+                          color: AppTheme.of(context).tertiaryColor,
+                          onTap: () async {
+                            // context.pushReplacement(routeQuoteCreation);
+                          },
+                        ),
                     ],
                   ),
                 )
@@ -366,22 +368,33 @@ class _CampaignsTabState extends State<CampaignsTab> {
                           CustomTextIconButton(
                             isLoading: false,
                             icon: Icon(
-                              Icons.fact_check_outlined,
+                              Icons.remove_red_eye_outlined,
                               color: AppTheme.of(context).primaryBackground,
                             ),
-                            text: 'Edit',
+                            text: 'Details',
                             onTap: () {},
                           ),
-                          CustomTextIconButton(
-                            isLoading: false,
-                            icon: Icon(
-                              Icons.shopping_basket_outlined,
-                              color: AppTheme.of(context).primaryBackground,
+                          if (currentUser!.isSales)
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.fact_check_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Edit',
+                              onTap: () {},
                             ),
-                            color: secondaryColor,
-                            text: 'Delete',
-                            onTap: () {},
-                          ),
+                          if (currentUser!.isSales)
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.shopping_basket_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              color: secondaryColor,
+                              text: 'Delete',
+                              onTap: () {},
+                            ),
                         ],
                       ),
                     );

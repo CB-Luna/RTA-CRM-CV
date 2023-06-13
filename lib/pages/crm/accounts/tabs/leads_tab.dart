@@ -8,6 +8,7 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/details/details_lead.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/popups%20tabs/create_lead.dart';
 import 'package:rta_crm_cv/providers/crm/accounts/tabs/leads_provider.dart';
@@ -91,22 +92,23 @@ class _LeadsTabState extends State<LeadsTab> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      CustomTextIconButton(
-                        isLoading: false,
-                        icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                        text: 'Create Lead',
-                        color: AppTheme.of(context).tertiaryColor,
-                        onTap: () async {
-                          provider.clearAll();
-                          await showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const CreateLead();
-                            },
-                          );
-                          await provider.updateState();
-                        },
-                      ),
+                      if (currentUser!.isSales)
+                        CustomTextIconButton(
+                          isLoading: false,
+                          icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                          text: 'Create Lead',
+                          color: AppTheme.of(context).tertiaryColor,
+                          onTap: () async {
+                            provider.clearAll();
+                            await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const CreateLead();
+                              },
+                            );
+                            await provider.updateState();
+                          },
+                        ),
                     ],
                   ),
                 )
@@ -527,7 +529,7 @@ class _LeadsTabState extends State<LeadsTab> {
                           CustomTextIconButton(
                             isLoading: false,
                             icon: Icon(
-                              Icons.fact_check_outlined,
+                              Icons.remove_red_eye_outlined,
                               color: AppTheme.of(context).primaryBackground,
                             ),
                             text: 'Details',
@@ -544,18 +546,19 @@ class _LeadsTabState extends State<LeadsTab> {
                               );
                             },
                           ),
-                          CustomTextIconButton(
-                            isLoading: false,
-                            icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                            text: 'Create Quote',
-                            color: AppTheme.of(context).tertiaryColor,
-                            onTap: () async {
-                              // await provider.clearAll();
-                              await providerCreate.clearAll();
-                              await providerCreate.getLead(rendererContext.row.cells["ID_Column"]!.value, null);
-                              context.pushReplacement(routeQuoteCreation);
-                            },
-                          )
+                          if (currentUser!.isSales)
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                              text: 'Create Quote',
+                              color: AppTheme.of(context).tertiaryColor,
+                              onTap: () async {
+                                // await provider.clearAll();
+                                await providerCreate.clearAll();
+                                await providerCreate.getLead(rendererContext.row.cells["ID_Column"]!.value, null);
+                                context.pushReplacement(routeQuoteCreation);
+                              },
+                            )
                           /* CustomTextIconButton(
                             isLoading: false,
                             icon: Icon(

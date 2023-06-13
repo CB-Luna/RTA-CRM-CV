@@ -671,10 +671,10 @@ class _QuotesTabState extends State<QuotesTab> {
                           CustomTextIconButton(
                             isLoading: false,
                             icon: Icon(
-                              Icons.fact_check_outlined,
+                              Icons.remove_red_eye_outlined,
                               color: AppTheme.of(context).primaryBackground,
                             ),
-                            text: 'Detail',
+                            text: 'Details',
                             onTap: () async {
                               detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
                               await detailProvider.getData();
@@ -702,7 +702,7 @@ class _QuotesTabState extends State<QuotesTab> {
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
-                                Icons.search,
+                                Icons.fact_check_outlined,
                                 color: AppTheme.of(context).primaryBackground,
                               ),
                               text: 'Validate',

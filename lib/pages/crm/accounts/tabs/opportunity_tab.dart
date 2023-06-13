@@ -7,6 +7,7 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/details/details_opportunity.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/popups%20tabs/create_opportunity.dart';
 import 'package:rta_crm_cv/providers/crm/accounts/tabs/opportunity_provider.dart';
@@ -88,23 +89,24 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      CustomTextIconButton(
-                        // width: 165,
-                        isLoading: false,
-                        icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                        text: 'Create Opportunity',
-                        color: AppTheme.of(context).tertiaryColor,
-                        onTap: () async {
-                          provider.clearAll();
-                          await showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const CreateOpportunitysPage();
-                            },
-                          );
-                          await provider.updateState();
-                        },
-                      ),
+                      if (currentUser!.isSales)
+                        CustomTextIconButton(
+                          // width: 165,
+                          isLoading: false,
+                          icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                          text: 'Create Opportunity',
+                          color: AppTheme.of(context).tertiaryColor,
+                          onTap: () async {
+                            provider.clearAll();
+                            await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const CreateOpportunitysPage();
+                              },
+                            );
+                            await provider.updateState();
+                          },
+                        ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: CustomTextIconButton(
@@ -542,7 +544,7 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                           CustomTextIconButton(
                             isLoading: false,
                             icon: Icon(
-                              Icons.fact_check_outlined,
+                              Icons.remove_red_eye_outlined,
                               color: AppTheme.of(context).primaryBackground,
                             ),
                             text: 'Details',
@@ -560,20 +562,21 @@ class _OpportunitysTabState extends State<OpportunitysTab> {
                               provider.editmode = false;
                             },
                           ),
-                          CustomTextIconButton(
-                            isLoading: false,
-                            icon: Icon(
-                              Icons.shopping_basket_outlined,
-                              color: AppTheme.of(context).primaryBackground,
+                          if (currentUser!.isSales)
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.shopping_basket_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              color: secondaryColor,
+                              text: 'Delete',
+                              onTap: () async {
+                                provider.id = rendererContext.row.cells['ID_Column']!.value;
+                                await provider.deleteOpportunity();
+                                await provider.updateState();
+                              },
                             ),
-                            color: secondaryColor,
-                            text: 'Delete',
-                            onTap: () async {
-                              provider.id = rendererContext.row.cells['ID_Column']!.value;
-                              await provider.deleteOpportunity();
-                              await provider.updateState();
-                            },
-                          ),
                         ],
                       ),
                     );
