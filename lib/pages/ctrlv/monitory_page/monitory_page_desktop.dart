@@ -138,13 +138,13 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                         ),
                                         columns: [
                                           PlutoColumn(
-                                            title: 'id_Control_Form',
-                                            field: 'id_control_form',
+                                            title: 'License Plates',
+                                            field: 'license_plates',
                                             titleSpan: const TextSpan(
                                               children: [
                                                 WidgetSpan(
                                                   child: Icon(
-                                                    Icons.view_agenda_outlined,
+                                                    Icons.credit_card_outlined,
                                                     color: Color(0xffF3F7F9),
                                                     size: 30,
                                                   ),
@@ -154,7 +154,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                   width: 10,
                                                 )),
                                                 TextSpan(
-                                                    text: 'idControlForm',
+                                                    text: 'License Plates',
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 22)),
@@ -169,7 +169,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
                                                 PlutoColumnTextAlign.center,
-                                            type: PlutoColumnType.number(),
+                                            type: PlutoColumnType.text(),
                                             enableEditingMode: false,
                                             backgroundColor:
                                                 const Color(0XFF6491F7),
@@ -179,62 +179,135 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 // width: rendererContext.cell.column.width,
                                                 decoration: BoxDecoration(
                                                     gradient: whiteGradient),
-                                                child: Center(
-                                                    child: Text(rendererContext
-                                                        .cell.value
-                                                        .toString())),
-                                              );
-                                            },
-                                          ),
-                                          PlutoColumn(
-                                            title: 'id_Vehicle',
-                                            field: 'id_vehicle',
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.14,
-                                            titleSpan: const TextSpan(
-                                              children: [
-                                                WidgetSpan(
-                                                  child: Icon(
-                                                    Icons.view_agenda_outlined,
-                                                    color: Color(0xffF3F7F9),
-                                                    size: 30,
-                                                  ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(rendererContext
+                                                        .cell.value),
+                                                    ElevatedButton(
+                                                        onPressed: () {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                                return StatefulBuilder(
+                                                                    builder:
+                                                                        (context,
+                                                                            setState) {
+                                                                  return const LicenseHistory();
+                                                                });
+                                                              });
+                                                        },
+                                                        child: const Icon(Icons
+                                                            .remove_red_eye_outlined)),
+                                                  ],
                                                 ),
-                                                WidgetSpan(
-                                                    child: SizedBox(
-                                                  width: 10,
-                                                )),
-                                                TextSpan(
-                                                    text: 'id_Vehicle',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 22)),
-                                              ],
-                                            ),
-                                            backgroundColor:
-                                                const Color(0XFF6491F7),
-                                            cellPadding: EdgeInsets.zero,
-                                            titleTextAlign:
-                                                PlutoColumnTextAlign.center,
-                                            textAlign:
-                                                PlutoColumnTextAlign.center,
-                                            type: PlutoColumnType.number(),
-                                            enableEditingMode: false,
-                                            renderer: (rendererContext) {
-                                              return Container(
-                                                height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
-                                                decoration: BoxDecoration(
-                                                    gradient: whiteGradient),
-                                                child: Center(
-                                                    child: Text(rendererContext
-                                                        .cell.value
-                                                        .toString())),
                                               );
                                             },
                                           ),
+                                          // PlutoColumn(
+                                          //   title: 'id_Control_Form',
+                                          //   field: 'id_control_form',
+                                          //   titleSpan: const TextSpan(
+                                          //     children: [
+                                          //       WidgetSpan(
+                                          //         child: Icon(
+                                          //           Icons.view_agenda_outlined,
+                                          //           color: Color(0xffF3F7F9),
+                                          //           size: 30,
+                                          //         ),
+                                          //       ),
+                                          //       WidgetSpan(
+                                          //           child: SizedBox(
+                                          //         width: 10,
+                                          //       )),
+                                          //       TextSpan(
+                                          //           text: 'idControlForm',
+                                          //           style: TextStyle(
+                                          //               color: Colors.white,
+                                          //               fontSize: 22)),
+                                          //     ],
+                                          //   ),
+                                          //   width: MediaQuery.of(context)
+                                          //           .size
+                                          //           .width *
+                                          //       0.16,
+                                          //   cellPadding: EdgeInsets.zero,
+                                          //   titleTextAlign:
+                                          //       PlutoColumnTextAlign.center,
+                                          //   textAlign:
+                                          //       PlutoColumnTextAlign.center,
+                                          //   type: PlutoColumnType.number(),
+                                          //   enableEditingMode: false,
+                                          //   backgroundColor:
+                                          //       const Color(0XFF6491F7),
+                                          //   renderer: (rendererContext) {
+                                          //     return Container(
+                                          //       height: rowHeight,
+                                          //       // width: rendererContext.cell.column.width,
+                                          //       decoration: BoxDecoration(
+                                          //           gradient: whiteGradient),
+                                          //       child: Center(
+                                          //           child: Text(rendererContext
+                                          //               .cell.value
+                                          //               .toString())),
+                                          //     );
+                                          //   },
+                                          // ),
+                                          // PlutoColumn(
+                                          //   title: 'id_Vehicle',
+                                          //   field: 'id_vehicle',
+                                          //   width: MediaQuery.of(context)
+                                          //           .size
+                                          //           .width *
+                                          //       0.14,
+                                          //   titleSpan: const TextSpan(
+                                          //     children: [
+                                          //       WidgetSpan(
+                                          //         child: Icon(
+                                          //           Icons.view_agenda_outlined,
+                                          //           color: Color(0xffF3F7F9),
+                                          //           size: 30,
+                                          //         ),
+                                          //       ),
+                                          //       WidgetSpan(
+                                          //           child: SizedBox(
+                                          //         width: 10,
+                                          //       )),
+                                          //       TextSpan(
+                                          //           text: 'id_Vehicle',
+                                          //           style: TextStyle(
+                                          //               color: Colors.white,
+                                          //               fontSize: 22)),
+                                          //     ],
+                                          //   ),
+                                          //   backgroundColor:
+                                          //       const Color(0XFF6491F7),
+                                          //   cellPadding: EdgeInsets.zero,
+                                          //   titleTextAlign:
+                                          //       PlutoColumnTextAlign.center,
+                                          //   textAlign:
+                                          //       PlutoColumnTextAlign.center,
+                                          //   type: PlutoColumnType.number(),
+                                          //   enableEditingMode: false,
+                                          //   renderer: (rendererContext) {
+                                          //     return Container(
+                                          //       height: rowHeight,
+                                          //       // width: rendererContext.cell.column.width,
+                                          //       decoration: BoxDecoration(
+                                          //           gradient: whiteGradient),
+                                          //       child: Center(
+                                          //           child: Text(rendererContext
+                                          //               .cell.value
+                                          //               .toString())),
+                                          //     );
+                                          //   },
+                                          // ),
                                           PlutoColumn(
                                             title: 'employee',
                                             field: 'employee',
@@ -301,7 +374,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                   width: 10,
                                                 )),
                                                 TextSpan(
-                                                    text: 'TypeForm',
+                                                    text: 'Status',
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 22)),
@@ -384,79 +457,6 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             },
                                           ),
                                           PlutoColumn(
-                                            title: 'License Plates',
-                                            field: 'license_plates',
-                                            titleSpan: const TextSpan(
-                                              children: [
-                                                WidgetSpan(
-                                                  child: Icon(
-                                                    Icons.credit_card_outlined,
-                                                    color: Color(0xffF3F7F9),
-                                                    size: 30,
-                                                  ),
-                                                ),
-                                                WidgetSpan(
-                                                    child: SizedBox(
-                                                  width: 10,
-                                                )),
-                                                TextSpan(
-                                                    text: 'License Plates',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 22)),
-                                              ],
-                                            ),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.16,
-                                            cellPadding: EdgeInsets.zero,
-                                            titleTextAlign:
-                                                PlutoColumnTextAlign.center,
-                                            textAlign:
-                                                PlutoColumnTextAlign.center,
-                                            type: PlutoColumnType.text(),
-                                            enableEditingMode: false,
-                                            backgroundColor:
-                                                const Color(0XFF6491F7),
-                                            renderer: (rendererContext) {
-                                              return Container(
-                                                height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
-                                                decoration: BoxDecoration(
-                                                    gradient: whiteGradient),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Text(rendererContext
-                                                        .cell.value),
-                                                    ElevatedButton(
-                                                        onPressed: () {
-                                                          showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                                return StatefulBuilder(
-                                                                    builder:
-                                                                        (context,
-                                                                            setState) {
-                                                                  return const LicenseHistory();
-                                                                });
-                                                              });
-                                                        },
-                                                        child: const Icon(Icons
-                                                            .remove_red_eye_outlined)),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                          PlutoColumn(
                                             title: 'Company',
                                             field: 'company',
                                             titleSpan: const TextSpan(
@@ -504,153 +504,153 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                               );
                                             },
                                           ),
-                                          PlutoColumn(
-                                            title: 'gas',
-                                            field: 'gas',
-                                            titleSpan: const TextSpan(
-                                              children: [
-                                                WidgetSpan(
-                                                  child: Icon(
-                                                    Icons.gas_meter_outlined,
-                                                    color: Color(0xffF3F7F9),
-                                                    size: 30,
-                                                  ),
-                                                ),
-                                                WidgetSpan(
-                                                    child: SizedBox(
-                                                  width: 10,
-                                                )),
-                                                TextSpan(
-                                                    text: 'gas',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 22)),
-                                              ],
-                                            ),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.10,
-                                            cellPadding: EdgeInsets.zero,
-                                            titleTextAlign:
-                                                PlutoColumnTextAlign.center,
-                                            textAlign:
-                                                PlutoColumnTextAlign.center,
-                                            type: PlutoColumnType.text(),
-                                            enableEditingMode: false,
-                                            backgroundColor:
-                                                const Color(0XFF6491F7),
-                                            renderer: (rendererContext) {
-                                              return Container(
-                                                height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
-                                                decoration: BoxDecoration(
-                                                    gradient: whiteGradient),
-                                                child: Center(
-                                                    child: Text(rendererContext
-                                                        .cell.value)),
-                                              );
-                                            },
-                                          ),
-                                          PlutoColumn(
-                                            title: 'mileage',
-                                            field: 'mileage',
-                                            titleSpan: const TextSpan(
-                                              children: [
-                                                WidgetSpan(
-                                                  child: Icon(
-                                                    Icons
-                                                        .directions_car_outlined,
-                                                    color: Color(0xffF3F7F9),
-                                                    size: 30,
-                                                  ),
-                                                ),
-                                                WidgetSpan(
-                                                    child: SizedBox(
-                                                  width: 10,
-                                                )),
-                                                TextSpan(
-                                                    text: 'mileage',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 22)),
-                                              ],
-                                            ),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.12,
-                                            cellPadding: EdgeInsets.zero,
-                                            titleTextAlign:
-                                                PlutoColumnTextAlign.center,
-                                            textAlign:
-                                                PlutoColumnTextAlign.center,
-                                            type: PlutoColumnType.number(),
-                                            enableEditingMode: false,
-                                            backgroundColor:
-                                                const Color(0XFF6491F7),
-                                            renderer: (rendererContext) {
-                                              return Container(
-                                                height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
-                                                decoration: BoxDecoration(
-                                                    gradient: whiteGradient),
-                                                child: Center(
-                                                    child: Text(rendererContext
-                                                        .cell.value
-                                                        .toString())),
-                                              );
-                                            },
-                                          ),
-                                          PlutoColumn(
-                                            title: 'date_added',
-                                            field: 'date_added',
-                                            titleSpan: const TextSpan(
-                                              children: [
-                                                WidgetSpan(
-                                                  child: Icon(
-                                                    Icons
-                                                        .calendar_view_week_outlined,
-                                                    color: Color(0xffF3F7F9),
-                                                    size: 30,
-                                                  ),
-                                                ),
-                                                WidgetSpan(
-                                                    child: SizedBox(
-                                                  width: 10,
-                                                )),
-                                                TextSpan(
-                                                    text: 'Date Added',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 22)),
-                                              ],
-                                            ),
-                                            width: 300,
-                                            cellPadding: EdgeInsets.zero,
-                                            titleTextAlign:
-                                                PlutoColumnTextAlign.center,
-                                            textAlign:
-                                                PlutoColumnTextAlign.center,
-                                            type: PlutoColumnType.date(
-                                                format: 'MMMM, MM-dd-yyyy',
-                                                headerFormat: 'MM-dd-yyyy'),
-                                            enableEditingMode: false,
-                                            backgroundColor:
-                                                const Color(0XFF6491F7),
-                                            renderer: (rendererContext) {
-                                              return Container(
-                                                height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
-                                                decoration: BoxDecoration(
-                                                    gradient: whiteGradient),
-                                                child: Center(
-                                                    child: Text(rendererContext
-                                                        .cell.value
-                                                        .toString())),
-                                              );
-                                            },
-                                          ),
+                                          // PlutoColumn(
+                                          //   title: 'gas',
+                                          //   field: 'gas',
+                                          //   titleSpan: const TextSpan(
+                                          //     children: [
+                                          //       WidgetSpan(
+                                          //         child: Icon(
+                                          //           Icons.gas_meter_outlined,
+                                          //           color: Color(0xffF3F7F9),
+                                          //           size: 30,
+                                          //         ),
+                                          //       ),
+                                          //       WidgetSpan(
+                                          //           child: SizedBox(
+                                          //         width: 10,
+                                          //       )),
+                                          //       TextSpan(
+                                          //           text: 'gas',
+                                          //           style: TextStyle(
+                                          //               color: Colors.white,
+                                          //               fontSize: 22)),
+                                          //     ],
+                                          //   ),
+                                          //   width: MediaQuery.of(context)
+                                          //           .size
+                                          //           .width *
+                                          //       0.10,
+                                          //   cellPadding: EdgeInsets.zero,
+                                          //   titleTextAlign:
+                                          //       PlutoColumnTextAlign.center,
+                                          //   textAlign:
+                                          //       PlutoColumnTextAlign.center,
+                                          //   type: PlutoColumnType.text(),
+                                          //   enableEditingMode: false,
+                                          //   backgroundColor:
+                                          //       const Color(0XFF6491F7),
+                                          //   renderer: (rendererContext) {
+                                          //     return Container(
+                                          //       height: rowHeight,
+                                          //       // width: rendererContext.cell.column.width,
+                                          //       decoration: BoxDecoration(
+                                          //           gradient: whiteGradient),
+                                          //       child: Center(
+                                          //           child: Text(rendererContext
+                                          //               .cell.value)),
+                                          //     );
+                                          //   },
+                                          // ),
+                                          // PlutoColumn(
+                                          //   title: 'mileage',
+                                          //   field: 'mileage',
+                                          //   titleSpan: const TextSpan(
+                                          //     children: [
+                                          //       WidgetSpan(
+                                          //         child: Icon(
+                                          //           Icons
+                                          //               .directions_car_outlined,
+                                          //           color: Color(0xffF3F7F9),
+                                          //           size: 30,
+                                          //         ),
+                                          //       ),
+                                          //       WidgetSpan(
+                                          //           child: SizedBox(
+                                          //         width: 10,
+                                          //       )),
+                                          //       TextSpan(
+                                          //           text: 'mileage',
+                                          //           style: TextStyle(
+                                          //               color: Colors.white,
+                                          //               fontSize: 22)),
+                                          //     ],
+                                          //   ),
+                                          //   width: MediaQuery.of(context)
+                                          //           .size
+                                          //           .width *
+                                          //       0.12,
+                                          //   cellPadding: EdgeInsets.zero,
+                                          //   titleTextAlign:
+                                          //       PlutoColumnTextAlign.center,
+                                          //   textAlign:
+                                          //       PlutoColumnTextAlign.center,
+                                          //   type: PlutoColumnType.number(),
+                                          //   enableEditingMode: false,
+                                          //   backgroundColor:
+                                          //       const Color(0XFF6491F7),
+                                          //   renderer: (rendererContext) {
+                                          //     return Container(
+                                          //       height: rowHeight,
+                                          //       // width: rendererContext.cell.column.width,
+                                          //       decoration: BoxDecoration(
+                                          //           gradient: whiteGradient),
+                                          //       child: Center(
+                                          //           child: Text(rendererContext
+                                          //               .cell.value
+                                          //               .toString())),
+                                          //     );
+                                          //   },
+                                          // ),
+                                          // PlutoColumn(
+                                          //   title: 'date_added',
+                                          //   field: 'date_added',
+                                          //   titleSpan: const TextSpan(
+                                          //     children: [
+                                          //       WidgetSpan(
+                                          //         child: Icon(
+                                          //           Icons
+                                          //               .calendar_view_week_outlined,
+                                          //           color: Color(0xffF3F7F9),
+                                          //           size: 30,
+                                          //         ),
+                                          //       ),
+                                          //       WidgetSpan(
+                                          //           child: SizedBox(
+                                          //         width: 10,
+                                          //       )),
+                                          //       TextSpan(
+                                          //           text: 'Date Added',
+                                          //           style: TextStyle(
+                                          //               color: Colors.white,
+                                          //               fontSize: 22)),
+                                          //     ],
+                                          //   ),
+                                          //   width: 300,
+                                          //   cellPadding: EdgeInsets.zero,
+                                          //   titleTextAlign:
+                                          //       PlutoColumnTextAlign.center,
+                                          //   textAlign:
+                                          //       PlutoColumnTextAlign.center,
+                                          //   type: PlutoColumnType.date(
+                                          //       format: 'MMMM, MM-dd-yyyy',
+                                          //       headerFormat: 'MM-dd-yyyy'),
+                                          //   enableEditingMode: false,
+                                          //   backgroundColor:
+                                          //       const Color(0XFF6491F7),
+                                          //   renderer: (rendererContext) {
+                                          //     return Container(
+                                          //       height: rowHeight,
+                                          //       // width: rendererContext.cell.column.width,
+                                          //       decoration: BoxDecoration(
+                                          //           gradient: whiteGradient),
+                                          //       child: Center(
+                                          //           child: Text(rendererContext
+                                          //               .cell.value
+                                          //               .toString())),
+                                          //     );
+                                          //   },
+                                          // ),
                                           PlutoColumn(
                                             title: 'Details',
                                             field: 'details',
@@ -671,7 +671,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                   width: 10,
                                                 )),
                                                 TextSpan(
-                                                    text: 'details',
+                                                    text: 'Details',
                                                     style: TextStyle(
                                                         color: Colors.white)),
                                               ],

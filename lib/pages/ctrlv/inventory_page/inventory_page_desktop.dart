@@ -350,6 +350,98 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       //   },
                                       // ),
                                       PlutoColumn(
+                                        title: 'License Plates',
+                                        field: 'license_plates',
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
+                                        titleSpan: const TextSpan(
+                                          children: [
+                                            WidgetSpan(
+                                              child: Icon(
+                                                Icons.credit_card_outlined,
+                                                color: Color(0xffF3F7F9),
+                                                size: 30,
+                                              ),
+                                            ),
+                                            WidgetSpan(
+                                                child: SizedBox(
+                                              width: 10,
+                                            )),
+                                            TextSpan(
+                                                text: 'License Plates',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          ],
+                                        ),
+                                        width: 225,
+                                        cellPadding: EdgeInsets.zero,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
+                                        textAlign: PlutoColumnTextAlign.center,
+                                        type: PlutoColumnType.text(),
+                                        enableEditingMode: false,
+                                        renderer: (rendererContext) {
+                                          return Container(
+                                            height: rowHeight,
+                                            // width: rendererContext
+                                            //.cell.column.width,                                                    .cell.column.width,
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
+                                            child: Center(
+                                                child: Text(rendererContext
+                                                    .cell.value)),
+                                          );
+                                        },
+                                      ),
+
+                                      PlutoColumn(
+                                        title: 'Vin',
+                                        field: 'vin',
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
+                                        titleSpan: const TextSpan(
+                                          children: [
+                                            WidgetSpan(
+                                              child: Icon(
+                                                Icons.dialpad_outlined,
+                                                color: Color(0xffF3F7F9),
+                                                size: 30,
+                                              ),
+                                            ),
+                                            WidgetSpan(
+                                                child: SizedBox(
+                                              width: 10,
+                                            )),
+                                            TextSpan(
+                                                text: 'VIN',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          ],
+                                        ),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.14,
+                                        cellPadding: EdgeInsets.zero,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
+                                        textAlign: PlutoColumnTextAlign.center,
+                                        type: PlutoColumnType.text(),
+                                        enableEditingMode: false,
+                                        renderer: (rendererContext) {
+                                          return Container(
+                                            height: rowHeight,
+                                            // width: rendererContext
+                                            //.cell.column.width,                                                    .cell.column.width,
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
+                                            child: Center(
+                                                child: Text(rendererContext
+                                                    .cell.value)),
+                                          );
+                                        },
+                                      ),
+                                      
+                                      PlutoColumn(
                                         title: 'Year',
                                         field: 'year',
                                         backgroundColor:
@@ -468,97 +560,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.10,
-                                        cellPadding: EdgeInsets.zero,
-                                        titleTextAlign:
-                                            PlutoColumnTextAlign.center,
-                                        textAlign: PlutoColumnTextAlign.center,
-                                        type: PlutoColumnType.text(),
-                                        enableEditingMode: false,
-                                        renderer: (rendererContext) {
-                                          return Container(
-                                            height: rowHeight,
-                                            // width: rendererContext
-                                            //.cell.column.width,                                                    .cell.column.width,
-                                            decoration: BoxDecoration(
-                                                gradient: whiteGradient),
-                                            child: Center(
-                                                child: Text(rendererContext
-                                                    .cell.value)),
-                                          );
-                                        },
-                                      ),
-
-                                      PlutoColumn(
-                                        title: 'Vin',
-                                        field: 'vin',
-                                        backgroundColor:
-                                            const Color(0XFF6491F7),
-                                        titleSpan: const TextSpan(
-                                          children: [
-                                            WidgetSpan(
-                                              child: Icon(
-                                                Icons.dialpad_outlined,
-                                                color: Color(0xffF3F7F9),
-                                                size: 30,
-                                              ),
-                                            ),
-                                            WidgetSpan(
-                                                child: SizedBox(
-                                              width: 10,
-                                            )),
-                                            TextSpan(
-                                                text: 'VIN',
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          ],
-                                        ),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.14,
-                                        cellPadding: EdgeInsets.zero,
-                                        titleTextAlign:
-                                            PlutoColumnTextAlign.center,
-                                        textAlign: PlutoColumnTextAlign.center,
-                                        type: PlutoColumnType.text(),
-                                        enableEditingMode: false,
-                                        renderer: (rendererContext) {
-                                          return Container(
-                                            height: rowHeight,
-                                            // width: rendererContext
-                                            //.cell.column.width,                                                    .cell.column.width,
-                                            decoration: BoxDecoration(
-                                                gradient: whiteGradient),
-                                            child: Center(
-                                                child: Text(rendererContext
-                                                    .cell.value)),
-                                          );
-                                        },
-                                      ),
-                                      PlutoColumn(
-                                        title: 'License Plates',
-                                        field: 'license_plates',
-                                        backgroundColor:
-                                            const Color(0XFF6491F7),
-                                        titleSpan: const TextSpan(
-                                          children: [
-                                            WidgetSpan(
-                                              child: Icon(
-                                                Icons.credit_card_outlined,
-                                                color: Color(0xffF3F7F9),
-                                                size: 30,
-                                              ),
-                                            ),
-                                            WidgetSpan(
-                                                child: SizedBox(
-                                              width: 10,
-                                            )),
-                                            TextSpan(
-                                                text: 'License Plates',
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          ],
-                                        ),
-                                        width: 225,
                                         cellPadding: EdgeInsets.zero,
                                         titleTextAlign:
                                             PlutoColumnTextAlign.center,
@@ -841,7 +842,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               width: 10,
                                             )),
                                             TextSpan(
-                                                text: 'details',
+                                                text: 'Details',
                                                 style: TextStyle(
                                                     color: Colors.white)),
                                           ],
@@ -911,7 +912,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               width: 10,
                                             )),
                                             TextSpan(
-                                                text: 'actions',
+                                                text: 'Actions',
                                                 style: TextStyle(
                                                     color: Colors.white)),
                                           ],
@@ -1040,7 +1041,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               width: 10,
                                             )),
                                             TextSpan(
-                                                text: 'issues',
+                                                text: 'Issues',
                                                 style: TextStyle(
                                                     color: Colors.white)),
                                           ],

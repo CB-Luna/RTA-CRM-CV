@@ -107,16 +107,16 @@ class MonitoryProvider extends ChangeNotifier {
         rows.add(
           PlutoRow(
             cells: {
-              "id_control_form": PlutoCell(value: monitory.idControlForm),
-              "id_vehicle": PlutoCell(value: monitory.idVehicle),
-              "date_added": PlutoCell(value: DateFormat("MMM-dd-yyyy").format(monitory.dateAdded)),
+              // "id_control_form": PlutoCell(value: monitory.idControlForm),
+              // "id_vehicle": PlutoCell(value: monitory.idVehicle),
+              // "date_added": PlutoCell(value: DateFormat("MMM-dd-yyyy").format(monitory.dateAdded)),
               "employee": PlutoCell(value: monitory.employee.name),
               "typeForm": PlutoCell(value: monitory.typeForm),
               "vin": PlutoCell(value: monitory.vin),
               "license_plates": PlutoCell(value: monitory.licesensePlates),
               "company": PlutoCell(value: monitory.company.company),
-              "gas": PlutoCell(value: monitory.gas),
-              "mileage": PlutoCell(value: monitory.mileage),
+              // "gas": PlutoCell(value: monitory.gas),
+              // "mileage": PlutoCell(value: monitory.mileage),
               "details": PlutoCell(value: monitory),
               //"vehicle": PlutoCell(value: monitory.vehicle),
             },
