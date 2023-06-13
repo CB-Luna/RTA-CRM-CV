@@ -57,7 +57,7 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
               ),
-              child: Text(widget.vehicle.issues.toString())),
+              child: Text(widget.vehicle.issuesR.toString())),
         ],
       ),
     );

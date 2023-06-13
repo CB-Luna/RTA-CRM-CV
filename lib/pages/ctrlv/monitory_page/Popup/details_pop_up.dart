@@ -145,7 +145,7 @@ class DetailsPop extends StatelessWidget {
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 0, 0, 10),
                                     child: Text(
-                                      vehicle.gas,
+                                      vehicle.gasR,
                                       style: const TextStyle(color: Colors.white),
                                     ),
                                   ),
@@ -153,7 +153,7 @@ class DetailsPop extends StatelessWidget {
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 0, 0, 10),
                                     child: Text(
-                                      "${vehicle.mileage}",
+                                      "${vehicle.mileageR}",
                                       style: const TextStyle(color: Colors.white),
                                     ),
                                   ),
@@ -211,7 +211,7 @@ class DetailsPop extends StatelessWidget {
                                         0, 0, 0, 10),
                                     child: Text(
                                       DateFormat("MMM-dd-yyyy")
-                                          .format(vehicle.dateAdded)
+                                          .format(vehicle.dateAddedR)
                                           .toString(),
                                       style: const TextStyle(color: Colors.white),
                                     ),

@@ -111,7 +111,6 @@ class MonitoryProvider extends ChangeNotifier {
               // "id_vehicle": PlutoCell(value: monitory.idVehicle),
               // "date_added": PlutoCell(value: DateFormat("MMM-dd-yyyy").format(monitory.dateAdded)),
               "employee": PlutoCell(value: monitory.employee.name),
-              "typeForm": PlutoCell(value: monitory.typeForm),
               "vin": PlutoCell(value: monitory.vin),
               "license_plates": PlutoCell(value: monitory.licesensePlates),
               "company": PlutoCell(value: monitory.company.company),
@@ -321,13 +320,12 @@ class MonitoryProvider extends ChangeNotifier {
         vehicle.idControlForm,
         vehicle.idVehicle,
         vehicle.employee.name,
-        vehicle.typeForm.toString(),
         vehicle.vin,
         vehicle.licesensePlates,
         vehicle.company.company,
-        vehicle.gas,
-        vehicle.mileage,
-        DateFormat("MMM-dd-yyyy").format(vehicle.dateAdded),
+        vehicle.gasR,
+        vehicle.mileageR,
+        DateFormat("MMM-dd-yyyy").format(vehicle.dateAddedR),
       ];
       sheet.appendRow(row);
     }

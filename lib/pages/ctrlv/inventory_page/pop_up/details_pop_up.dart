@@ -216,7 +216,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 10),
                               child: Text(
-                                " \n ${widget.vehicle.issues.toString()}",
+                                " \n ${widget.vehicle.issuesR.toString()}",
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),
