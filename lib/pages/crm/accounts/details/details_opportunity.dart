@@ -97,13 +97,20 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 10),
-                                    child: CustomTextField(
+                                    child: CustomDDownMenu(
+                                      hint: 'None',
                                       label: 'Contact',
                                       icon: Icons.group,
-                                      controller: provider.contactController,
-                                      enabled: provider.editmode,
                                       width: 350,
-                                      keyboardType: TextInputType.emailAddress,
+                                      list: provider.contactList,
+                                      dropdownValue: provider.selectContactValue,
+                                      onChanged: provider.editmode == false
+                                          ? (p0) {}
+                                          : (p0) {
+                                              if (p0 != null) {
+                                                provider.selectContact(p0);
+                                              }
+                                            },
                                     ),
                                   ),
                                   Padding(

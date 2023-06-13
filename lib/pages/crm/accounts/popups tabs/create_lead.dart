@@ -363,7 +363,7 @@ class _CreateLeadState extends State<CreateLead> {
                       provider.createLead();
                       fToast.showToast(
                         child: const SuccessToast(
-                          message: 'Usuario creado',
+                          message: 'Succes Lead Creat',
                         ),
                         gravity: ToastGravity.BOTTOM,
                         toastDuration: const Duration(seconds: 2),

@@ -6,6 +6,7 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
@@ -26,27 +27,49 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-         /*  Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                  text: 'Filter',
-                  onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+                SizedBox(
+                  width: 250,
+                  child: Row(
+                    children: [
+                      CustomTextIconButton(
+                        isLoading: false,
+                        icon: Icon(Icons.filter_alt_outlined,
+                            color: AppTheme.of(context).primaryBackground),
+                        text: 'Filter',
+                        onTap: () => provider.stateManager!.setShowColumnFilter(
+                            !provider.stateManager!.showColumnFilter),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: CustomTextIconButton(
+                          isLoading: false,
+                          icon: Icon(Icons.view_column_outlined,
+                              color: AppTheme.of(context).primaryBackground),
+                          text: 'Set Columns',
+                          onTap: () => provider.stateManager!
+                              .showSetColumnsPopup(context),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 CustomTextField(
+                  width: 500,
                   enabled: true,
                   controller: provider.searchController,
                   icon: Icons.search,
                   label: 'Search',
                   keyboardType: TextInputType.text,
                 ),
-               ],
+              ],
             ),
-          ), */
+          ),
           SizedBox(
             height: getHeight(250, context),
             //width: getWidth(2450, context),
@@ -60,39 +83,48 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                     ...FilterHelper.defaultFilters,
                   ],
                   resolveDefaultColumnFilter: (column, resolver) {
-                    if (column.field == 'ID_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'NAME_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'AMOUNT_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'PROBABILITY_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'CLOSED_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'CREATE_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'LAST_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'ASSIGNED_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'STATUS_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                    if (column.field == 'ID') {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
+                    } else if (column.field == 'CREATE_AT') {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
+                    } else if (column.field == 'USER') {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
+                    } else if (column.field == 'ACTION') {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
+                    } else if (column.field == 'DESCRIPTION') {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
+                    } else if (column.field == 'TABLE') {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
+                    } else if (column.field == 'ID_TABLE') {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
                     }
-                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                    return resolver<PlutoFilterTypeContains>()
+                        as PlutoFilterType;
                   },
                 ),
               ),
               columns: [
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.vpn_key_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.vpn_key_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'ID', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(
+                        text: 'ID',
+                        style: TextStyle(
+                            color: AppTheme.of(context).primaryBackground))
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ID',
-                  field: 'ID_Column',
+                  field: 'ID',
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
                   type: PlutoColumnType.text(),
@@ -120,17 +152,23 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.calendar_month_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Create Date', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(
+                        text: 'Create Date',
+                        style: TextStyle(
+                            color: AppTheme.of(context).primaryBackground))
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'CREATE',
-                  field: 'CREATE_Column',
+                  field: 'CREATE_AT',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
+                  type: PlutoColumnType.date(
+                      format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -138,92 +176,25 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                          child: Text(rendererContext.cell.value ?? '-')),
                     );
                   },
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'User', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(
+                        text: 'User',
+                        style: TextStyle(
+                            color: AppTheme.of(context).primaryBackground))
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'NAME',
-                  field: 'NAME_Column',
-                  width: 225,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.text(),
-                  enableEditingMode: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
-                    );
-                  },
-                ),
-               
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.history_edu, color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Action', style: TextStyle(color: AppTheme.of(context).primaryBackground))
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'LAST',
-                  field: 'LAST_Column',
-                  width: 225,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
-                  enableEditingMode: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
-                    );
-                  },
-                ),
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.description, color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Description', style: TextStyle(color: AppTheme.of(context).primaryBackground))
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'CLOSED',
-                  field: 'CLOSED_Column',
-                  width: 225,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
-                  enableEditingMode: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
-                    );
-                  },
-                ),
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.table_chart, color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Table', style: TextStyle(color: AppTheme.of(context).primaryBackground))
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'ASSIGNED',
-                  field: 'ASSIGNED_Column',
+                  title: 'User',
+                  field: 'USER',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
@@ -235,19 +206,115 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                          child: Text(rendererContext.cell.value ?? '-')),
                     );
                   },
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.vpn_key_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.history_edu,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Id Table', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(
+                        text: 'Action',
+                        style: TextStyle(
+                            color: AppTheme.of(context).primaryBackground))
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'STATUS',
-                  field: 'STATUS_Column',
+                  title: 'Action',
+                  field: 'ACTION',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(
+                          child: Text(rendererContext.cell.value ?? '-')),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(
+                        child: Icon(Icons.description,
+                            color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(
+                        text: 'Description',
+                        style: TextStyle(
+                            color: AppTheme.of(context).primaryBackground))
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'Description',
+                  field: 'DESCRIPTION',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(
+                          child: Text(rendererContext.cell.value ?? '-')),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(
+                        child: Icon(Icons.table_chart,
+                            color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(
+                        text: 'Table',
+                        style: TextStyle(
+                            color: AppTheme.of(context).primaryBackground))
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'Table',
+                  field: 'TABLE',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(
+                          child: Text(rendererContext.cell.value ?? '-')),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(
+                        child: Icon(Icons.vpn_key_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(
+                        text: 'Id Table',
+                        style: TextStyle(
+                            color: AppTheme.of(context).primaryBackground))
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'Id Table',
+                  field: 'ID_TABLE',
                   width: 175,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
@@ -259,7 +326,8 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                       height: rowHeight,
                       width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                          child: Text(rendererContext.cell.value ?? '-')),
                     );
                   },
                   footerRenderer: (context) {
@@ -292,7 +360,7 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                     );
                   },
                 ),
-                ],
+              ],
               rows: provider.rows,
               onLoaded: (event) async {
                 provider.stateManager = event.stateManager;

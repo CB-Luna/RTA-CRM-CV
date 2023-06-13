@@ -34,18 +34,22 @@ class LeadsProvider extends ChangeNotifier {
 //Listas DropdownMenu
   late String selectSaleStoreValue, selectAssignedTValue, selectLeadSourceValue;
   List<String> saleStoreList = [
+    '',
+    'None',
     'Mike Haddock',
     'Rosalia Silvey',
     'Tom Carrol',
     'Vini Garcia',
   ];
   List<String> assignedList = [
+    '',
     'Frank Befera',
     'Rosalia Silvey',
     'Tom Carrol',
     'Mike Haddock',
   ];
   List<String> leadSourceList = [
+    '',
     'Social Media',
     'Campain',
     'TV',
@@ -116,7 +120,8 @@ class LeadsProvider extends ChangeNotifier {
             data: Theme.of(context).copyWith(
               colorScheme: ColorScheme.light(
                 primary: AppTheme.of(context).primaryColor, // color Appbar
-                onPrimary: AppTheme.of(context).primaryBackground, // Color letras
+                onPrimary:
+                    AppTheme.of(context).primaryBackground, // Color letras
                 onSurface: AppTheme.of(context).primaryColor, // Color Meses
               ),
               dialogBackgroundColor: AppTheme.of(context).primaryBackground,
@@ -146,7 +151,9 @@ class LeadsProvider extends ChangeNotifier {
         log('Error en getLeads()');
         return;
       }
-      List<Leads> leads = (res as List<dynamic>).map((lead) => Leads.fromJson(jsonEncode(lead))).toList();
+      List<Leads> leads = (res as List<dynamic>)
+          .map((lead) => Leads.fromJson(jsonEncode(lead)))
+          .toList();
 
       rows.clear();
       for (Leads lead in leads) {
@@ -182,12 +189,15 @@ class LeadsProvider extends ChangeNotifier {
       //Registrar al usuario con una contraseña temporal
       var resp = (await supabaseCRM.from('leads').insert({
         "name_lead": "${firstNameController.text} ${lastNameController.text}",
-        "quote_amount": quoteamountController.text,
+        "quote_amount": quoteamountController.text.isEmpty
+            ? '0'
+            : quoteamountController.text,
         "probability": slydervalue.toString(),
         "expected_close": create.toString(),
         "assigned_to": selectAssignedTValue,
         "status": "In process",
-        "organitation_name": "${firstNameController.text} ${lastNameController.text}",
+        "organitation_name":
+            "${firstNameController.text} ${lastNameController.text}", //lista compañia
         "first_name": firstNameController.text,
         "last_name": lastNameController.text,
         "phone_number": phoneController.text,
@@ -242,13 +252,15 @@ class LeadsProvider extends ChangeNotifier {
         var resp = (await supabaseCRM
             .from('leads')
             .update({
-              "name_lead": "${firstNameController.text} ${lastNameController.text}",
+              "name_lead":
+                  "${firstNameController.text} ${lastNameController.text}",
               "quote_amount": quoteamountController.text,
               "probability": slydervalue.toString(),
               "expected_close": create.toString(),
               "assigned_to": selectAssignedTValue,
               "status": "In process",
-              "organitation_name": "${firstNameController.text} ${lastNameController.text}",
+              "organitation_name":
+                  "${firstNameController.text} ${lastNameController.text}",
               "first_name": firstNameController.text,
               "last_name": lastNameController.text,
               "phone_number": phoneController.text,
