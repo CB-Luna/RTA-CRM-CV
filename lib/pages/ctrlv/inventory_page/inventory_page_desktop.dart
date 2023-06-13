@@ -360,7 +360,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               child: Icon(
                                                 Icons.credit_card_outlined,
                                                 color: Color(0xffF3F7F9),
-                                                size: 30,
+                                                size: 20,
                                               ),
                                             ),
                                             WidgetSpan(
@@ -373,7 +373,9 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                     color: Colors.white)),
                                           ],
                                         ),
-                                        width: 225,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.13,
                                         cellPadding: EdgeInsets.zero,
                                         titleTextAlign:
                                             PlutoColumnTextAlign.center,
@@ -405,7 +407,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               child: Icon(
                                                 Icons.dialpad_outlined,
                                                 color: Color(0xffF3F7F9),
-                                                size: 30,
+                                                size: 20,
                                               ),
                                             ),
                                             WidgetSpan(
@@ -420,7 +422,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                         ),
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.14,
+                                                0.10,
                                         cellPadding: EdgeInsets.zero,
                                         titleTextAlign:
                                             PlutoColumnTextAlign.center,
@@ -440,7 +442,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                           );
                                         },
                                       ),
-                                      
+
                                       PlutoColumn(
                                         title: 'Year',
                                         field: 'year',
@@ -452,7 +454,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               child: Icon(
                                                 Icons.calendar_today_outlined,
                                                 color: Color(0xffF3F7F9),
-                                                size: 30,
+                                                size: 20,
                                               ),
                                             ),
                                             WidgetSpan(
@@ -496,7 +498,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               child: Icon(
                                                 Icons.label_important_outline,
                                                 color: Color(0xffF3F7F9),
-                                                size: 30,
+                                                size: 20,
                                               ),
                                             ),
                                             WidgetSpan(
@@ -544,7 +546,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               child: Icon(
                                                 Icons.local_shipping_outlined,
                                                 color: Color(0xffF3F7F9),
-                                                size: 30,
+                                                size: 20,
                                               ),
                                             ),
                                             WidgetSpan(
@@ -690,12 +692,12 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               child: Icon(
                                                 Icons.car_repair_outlined,
                                                 color: Color(0xffF3F7F9),
-                                                size: 30,
+                                                size: 20,
                                               ),
                                             ),
                                             WidgetSpan(
                                                 child: SizedBox(
-                                              width: 10,
+                                              width: 5,
                                             )),
                                             TextSpan(
                                                 text: 'Status',
@@ -705,7 +707,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                         ),
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.11,
+                                                0.09,
                                         cellPadding: EdgeInsets.zero,
                                         titleTextAlign:
                                             PlutoColumnTextAlign.center,
@@ -736,7 +738,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               child: Icon(
                                                 Icons.warehouse_outlined,
                                                 color: Color(0xffF3F7F9),
-                                                size: 30,
+                                                size: 20,
                                               ),
                                             ),
                                             WidgetSpan(
@@ -751,7 +753,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                         ),
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.13,
+                                                0.11,
                                         cellPadding: EdgeInsets.zero,
                                         titleTextAlign:
                                             PlutoColumnTextAlign.center,
@@ -834,7 +836,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 Icons
                                                     .calendar_view_week_outlined,
                                                 color: Color(0xffF3F7F9),
-                                                size: 30,
+                                                size: 20,
                                               ),
                                             ),
                                             WidgetSpan(
@@ -904,7 +906,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               child: Icon(
                                                 Icons.call_to_action_outlined,
                                                 color: Color(0xffF3F7F9),
-                                                size: 30,
+                                                size: 20,
                                               ),
                                             ),
                                             WidgetSpan(
@@ -1033,7 +1035,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               child: Icon(
                                                 Icons.warning_outlined,
                                                 color: Color(0xffF3F7F9),
-                                                size: 30,
+                                                size: 20,
                                               ),
                                             ),
                                             WidgetSpan(
@@ -1069,9 +1071,9 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                     onPressed: () {
                                                       provider.vistaIssues =
                                                           true;
-                                                      provider.getIssues(
-                                                          rendererContext
-                                                              .cell.value);
+                                                      // provider.getIssues(
+                                                      //     rendererContext
+                                                      //         .cell.value);
                                                       showDialog(
                                                           context: context,
                                                           builder: (BuildContext
