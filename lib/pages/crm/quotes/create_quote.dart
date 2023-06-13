@@ -22,6 +22,7 @@ import 'package:rta_crm_cv/widgets/captura/custom_tab_button.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
+import 'package:rta_crm_cv/widgets/stt_button.dart';
 
 class CreateQuotePage extends StatefulWidget {
   const CreateQuotePage({super.key});
@@ -1031,9 +1032,20 @@ class Comments extends StatelessWidget {
                     icon: Icons.comment_outlined,
                     label: 'Comment',
                     keyboardType: TextInputType.text,
-                    width: (MediaQuery.of(context).size.width / 5 - 20) - 100,
+                    width: (MediaQuery.of(context).size.width / 5 - 20) - 140,
                     // onDone: provider.addComment(),
                   ),
+                  /* SttButton(
+                    localeId: 'en_US',
+                    size: 60,
+                    listeningTime: 10,
+                    onVoiceInput: (text) {
+                      provider.commentController.text = text;
+                    },
+                    onStateChange: (isListening) {
+                      provider.addComment();
+                    },
+                  ), */
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: CustomTextIconButton(
@@ -1046,7 +1058,7 @@ class Comments extends StatelessWidget {
                       text: 'Send',
                       onTap: () => provider.addComment(),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

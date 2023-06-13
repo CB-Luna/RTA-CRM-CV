@@ -686,9 +686,10 @@ class _QuotesTabState extends State<QuotesTab> {
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
-                                Icons.fact_check_outlined,
+                                Icons.add,
                                 color: AppTheme.of(context).primaryBackground,
                               ),
+                              color: AppTheme.of(context).tertiaryColor,
                               text: 'Create New',
                               onTap: () async {
                                 await providerCreate.clearAll();
@@ -715,7 +716,7 @@ class _QuotesTabState extends State<QuotesTab> {
                               },
                             ),
                           if (currentUser!.isFinance &&
-                              (rendererContext.row.cells["STATUS_Column"]!.value == 'SenExec Validate' || rendererContext.row.cells["STATUS_Column"]!.value == 'Margin Positive'))
+                              (rendererContext.row.cells["STATUS_Column"]!.value == 'Sen. Exec. Validate' || rendererContext.row.cells["STATUS_Column"]!.value == 'Margin Positive'))
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(

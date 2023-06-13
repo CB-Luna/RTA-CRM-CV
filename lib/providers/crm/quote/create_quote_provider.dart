@@ -343,7 +343,7 @@ class CreateQuoteProvider extends ChangeNotifier {
         commentsList.add(item);
       }
 
-      if (idLead != null) {
+      if (idLead != null && prevId == null) {
         var resp = (await supabaseCRM.from('quotes').insert({
           "created_by": currentUser!.id,
           "updated_by": currentUser!.id,
@@ -720,7 +720,7 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     total = subtotal - cost;
 
-    if (taxController.text != '0' && double.parse(taxController.text.replaceAll(RegExp(r','), '')) != 0 && taxController.text.isNotEmpty) {
+    if (taxController.text != '0' || taxController.text != '0.00' && double.parse(taxController.text.replaceAll(RegExp(r','), '')) != 0 && taxController.text.isNotEmpty) {
       totalPlusTax = (double.parse(taxController.text.replaceAll(RegExp(r','), '')) * total / 100) + total;
     } else {
       totalPlusTax = total;

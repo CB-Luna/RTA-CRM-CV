@@ -66,6 +66,12 @@ Color statusColor(String? status) {
       case 'Validated':
         color = Colors.purpleAccent;
         break;
+      case 'Accepted':
+        color = Colors.green;
+        break;
+      case 'Rejected':
+        color = Colors.red;
+        break;
       case 'Closed':
         color = Colors.redAccent;
         break;

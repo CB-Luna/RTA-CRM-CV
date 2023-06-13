@@ -181,7 +181,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
         } else if (currentUser!.isSenExec) {
-          await supabaseCRM.rpc('update_quote_status', params: {"estatus": "SenExec Validate", "id": id, "user_uuid": currentUser!.id});
+          await supabaseCRM.rpc('update_quote_status', params: {"estatus": "Sen. Exec. Validate", "id": id, "user_uuid": currentUser!.id});
 
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,

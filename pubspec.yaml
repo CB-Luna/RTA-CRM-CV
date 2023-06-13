@@ -64,6 +64,8 @@ dependencies:
   syncfusion_flutter_calendar: ^21.2.6
   csv: ^5.0.2
   fl_chart: ^0.62.0
+  speech_to_text: ^6.1.1
+  avatar_glow: ^2.0.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0

@@ -59,24 +59,21 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
           height: widget.height,
           width: widget.width,
           duration: const Duration(milliseconds: 100),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: widget.color ?? AppTheme.of(context).primaryColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 0.1,
-                  blurRadius: 3,
-                  offset: Offset(
-                    0,
-                    pressing
-                        ? -2
-                        : hover
-                            ? 5
-                            : 0,
-                  ), // changes position of shadow
-                ),
-              ]),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: widget.color ?? AppTheme.of(context).primaryColor, boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 0.1,
+              blurRadius: 3,
+              offset: Offset(
+                0,
+                pressing
+                    ? -2
+                    : hover
+                        ? 5
+                        : 0,
+              ), // changes position of shadow
+            ),
+          ]),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
             child: Center(
@@ -93,11 +90,7 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
                         Text(
                           widget.text,
                           // style: TextStyle(color: AppTheme.of(context).primaryBackground),
-                          style: widget.style ??
-                              TextStyle(
-                                  fontFamily: 'UniNeue',
-                                  color:
-                                      AppTheme.of(context).primaryBackground),
+                          style: widget.style ?? TextStyle(fontFamily: 'UniNeue', color: AppTheme.of(context).primaryBackground),
                         ),
                       ],
                     ),

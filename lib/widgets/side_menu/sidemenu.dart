@@ -7,6 +7,7 @@ import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/items_list.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/side_menu_footer.dart';
+import 'package:rta_crm_cv/widgets/stt_button.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({super.key});
