@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,147 +14,11 @@ class GraficaEsferaDashboard extends StatefulWidget {
 }
 
 class _GraficaDashboardState extends State<GraficaEsferaDashboard> {
-  List<ScatterSpot> flutterLogoData() {
-    DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(context);
-    return [
-      /// section 1
-      ScatterSpot(20, 14.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(22, 16.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(24, 18.5, color: Colors.blue, radius: provider.radius),
-
-      ScatterSpot(22, 12.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(24, 14.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(26, 16.5, color: Colors.blue, radius: provider.radius),
-
-      ScatterSpot(24, 10.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(26, 12.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(28, 14.5, color: Colors.blue, radius: provider.radius),
-
-      ScatterSpot(26, 8.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(28, 10.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(30, 12.5, color: Colors.blue, radius: provider.radius),
-
-      ScatterSpot(28, 6.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(30, 8.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(32, 10.5, color: Colors.blue, radius: provider.radius),
-
-      ScatterSpot(30, 4.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(32, 6.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(34, 8.5, color: Colors.blue, radius: provider.radius),
-
-      ScatterSpot(34, 4.5, color: Colors.blue, radius: provider.radius),
-      ScatterSpot(36, 6.5, color: Colors.blue, radius: provider.radius),
-
-      ScatterSpot(38, 4.5, color: Colors.blue, radius: provider.radius),
-
-      /// section 2
-      ScatterSpot(20, 14.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(22, 12.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(24, 10.5, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(22, 16.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(24, 14.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(26, 12.5, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(24, 18.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(26, 16.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(28, 14.5, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(26, 20.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(28, 18.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(30, 16.5, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(28, 22.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(30, 20.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(32, 18.5, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(30, 24.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(32, 22.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(34, 20.5, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(34, 24.5, color: Colors.green, radius: provider.radius),
-      ScatterSpot(36, 22.5, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(38, 24.5, color: Colors.green, radius: provider.radius),
-
-      /// section 3
-      ScatterSpot(10, 25, color: Colors.green, radius: provider.radius),
-      ScatterSpot(12, 23, color: Colors.green, radius: provider.radius),
-      ScatterSpot(14, 21, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(12, 27, color: Colors.green, radius: provider.radius),
-      ScatterSpot(14, 25, color: Colors.green, radius: provider.radius),
-      ScatterSpot(16, 23, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(14, 29, color: Colors.green, radius: provider.radius),
-      ScatterSpot(16, 27, color: Colors.green, radius: provider.radius),
-      ScatterSpot(18, 25, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(16, 31, color: Colors.green, radius: provider.radius),
-      ScatterSpot(18, 29, color: Colors.green, radius: provider.radius),
-      ScatterSpot(20, 27, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(18, 33, color: Colors.green, radius: provider.radius),
-      ScatterSpot(20, 31, color: Colors.green, radius: provider.radius),
-      ScatterSpot(22, 29, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(20, 35, color: Colors.green, radius: provider.radius),
-      ScatterSpot(22, 33, color: Colors.green, radius: provider.radius),
-      ScatterSpot(24, 31, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(22, 37, color: Colors.green, radius: provider.radius),
-      ScatterSpot(24, 35, color: Colors.green, radius: provider.radius),
-      ScatterSpot(26, 33, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(24, 39, color: Colors.green, radius: provider.radius),
-      ScatterSpot(26, 37, color: Colors.green, radius: provider.radius),
-      ScatterSpot(28, 35, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(26, 41, color: Colors.green, radius: provider.radius),
-      ScatterSpot(28, 39, color: Colors.green, radius: provider.radius),
-      ScatterSpot(30, 37, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(28, 43, color: Colors.green, radius: provider.radius),
-      ScatterSpot(30, 41, color: Colors.green, radius: provider.radius),
-      ScatterSpot(32, 39, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(30, 45, color: Colors.green, radius: provider.radius),
-      ScatterSpot(32, 43, color: Colors.green, radius: provider.radius),
-      ScatterSpot(34, 41, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(34, 45, color: Colors.green, radius: provider.radius),
-      ScatterSpot(36, 43, color: Colors.green, radius: provider.radius),
-
-      ScatterSpot(38, 45, color: Colors.green, radius: provider.radius),
-    ];
-  }
-
-  List<ScatterSpot> randomData() {
-    DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(context);
-    const blue1Count = 21;
-    const blue2Count = 57;
-    return List.generate(blue1Count + blue2Count, (i) {
-      Color color;
-      if (i < blue1Count) {
-        color = Colors.blue;
-      } else {
-        color = Colors.green;
-      }
-
-      return ScatterSpot(
-        (Random().nextDouble() * (provider.maxX - 8)) + 4,
-        (Random().nextDouble() * (provider.maxY - 8)) + 4,
-        color: color,
-        radius: (Random().nextDouble() * 16) + 4,
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(context);
     List<int> selectedSpots = [];
-    int touchedIndex = -1;
+    //int touchedIndex = -1;
     return Container(
       width: getWidth(280, context),
       height: getHeight(640, context),
@@ -178,73 +40,41 @@ class _GraficaDashboardState extends State<GraficaEsferaDashboard> {
                     fontWeight: FontWeight.bold,
                     color: AppTheme.of(context).primaryText),
               ),
-              Container(
-                width: 230,
-                height: 300,
-                decoration: BoxDecoration(
+              SizedBox(
+                width: getWidth(220, context),
+                height: getHeight(280, context),
+                /* decoration: BoxDecoration(
                   border: Border.all(
                       color: AppTheme.of(context).primaryColor, width: 2),
                   borderRadius: BorderRadius.circular(10),
                   gradient: whiteGradient,
-                ),
-                child: /* GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      provider.showFlutter = !provider.showFlutter;
-                    });
-                  },
-                  child: ScatterChart(
-                    ScatterChartData(
-                      scatterSpots: provider.showFlutter
-                          ? flutterLogoData()
-                          : randomData(),
-                      minX: 0,
-                      maxX: provider.maxX,
-                      minY: 0,
-                      maxY: provider.maxY,
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      gridData: FlGridData(
-                        show: false,
-                      ),
-                      titlesData: FlTitlesData(
-                        show: false,
-                      ),
-                      scatterTouchData: ScatterTouchData(
-                        enabled: false,
-                      ),
-                    ),
-                    swapAnimationDuration: const Duration(milliseconds: 600),
-                    swapAnimationCurve: Curves.fastOutSlowIn,
-                  ),
                 ), */
-              ScatterChart(
+                child: ScatterChart(
                   ScatterChartData(
-                    clipData: FlClipData.all(),
                     scatterSpots: [
                       ScatterSpot(
                         4,
                         5,
                         color: selectedSpots.contains(0)
-                            ? Colors.green
+                            ? Colors.grey
                             : Colors.green,
-                        radius: 100,
+                        radius: 80,
                       ),
                       ScatterSpot(
                         3,
                         3,
                         color: selectedSpots.contains(1)
-                            ? Colors.yellow
+                            ? Colors.grey
                             : Colors.yellow,
-                        radius: 80,
+                        radius: 60,
                       ),
                       ScatterSpot(
                         5,
                         2,
-                        color:
-                            selectedSpots.contains(2) ? Colors.red : Colors.red,
-                        radius: 60,
+                        color: selectedSpots.contains(2)
+                            ? Colors.grey
+                            : Colors.red,
+                        radius: 40,
                       ),
                     ],
                     minX: 0,
@@ -281,40 +111,45 @@ class _GraficaDashboardState extends State<GraficaEsferaDashboard> {
                             : SystemMouseCursors.click;
                       },
                       touchTooltipData: ScatterTouchTooltipData(
-                        tooltipBgColor: Colors.black,
+                        fitInsideHorizontally: true,
+                        fitInsideVertically: true,
+                        tooltipBorder: BorderSide(
+                            strokeAlign: BorderSide.strokeAlignCenter,
+                            color: AppTheme.of(context).primaryColor),
+                        tooltipBgColor: AppTheme.of(context).primaryBackground,
                         getTooltipItems: (ScatterSpot touchedBarSpot) {
+                          String x, y;
+                          switch (touchedBarSpot.x.toInt()) {
+                            case 4:
+                              x = '3.20';
+                              y = 'Leads';
+                              break;
+                            case 3:
+                              x = '1.20';
+                              y = 'Opportunity';
+                              break;
+                            case 5:
+                              x = '0.80';
+                              y = 'Quotes';
+                              break;
+                            default:
+                              throw Error();
+                          }
                           return ScatterTooltipItem(
-                            'X: ',
+                            '\$$x\n',
                             textStyle: TextStyle(
-                              height: 1.2,
-                              color: Colors.grey[100],
-                              fontStyle: FontStyle.italic,
-                            ),
-                            bottomMargin: 10,
+                                fontFamily: 'UniNeue',
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.of(context).primaryText),
                             children: [
                               TextSpan(
-                                text: '${touchedBarSpot.x.toInt()} \n',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'Y: ',
+                                text: y,
                                 style: TextStyle(
-                                  height: 1.2,
-                                  color: Colors.grey[100],
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              ),
-                              TextSpan(
-                                text: touchedBarSpot.y.toInt().toString(),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                    fontFamily: 'UniNeue',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppTheme.of(context).primaryText),
                               ),
                             ],
                           );
@@ -324,17 +159,19 @@ class _GraficaDashboardState extends State<GraficaEsferaDashboard> {
                           ScatterTouchResponse? touchResponse) {
                         if (touchResponse == null ||
                             touchResponse.touchedSpot == null) {
+                          provider.touchedIndex = -1;
                           return;
                         }
                         if (event is FlTapUpEvent) {
-                          final sectionIndex =
+                          provider.touchedIndex =
                               touchResponse.touchedSpot!.spotIndex;
                           setState(
                             () {
-                              if (selectedSpots.contains(sectionIndex)) {
-                                selectedSpots.remove(sectionIndex);
+                              if (selectedSpots
+                                  .contains(provider.touchedIndex)) {
+                                selectedSpots.remove(provider.touchedIndex);
                               } else {
-                                selectedSpots.add(sectionIndex);
+                                selectedSpots.add(provider.touchedIndex);
                               }
                             },
                           );
@@ -348,6 +185,9 @@ class _GraficaDashboardState extends State<GraficaEsferaDashboard> {
           ),
           //Comparation Month
           Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 'Comparation Month',
@@ -357,16 +197,112 @@ class _GraficaDashboardState extends State<GraficaEsferaDashboard> {
                     fontWeight: FontWeight.bold,
                     color: AppTheme.of(context).primaryText),
               ),
-              Container(
-                width: 230,
-                height: 300,
-                decoration: BoxDecoration(
+              SizedBox(
+                width: getWidth(220, context),
+                height: getHeight(280, context),
+                /* decoration: BoxDecoration(
                   border: Border.all(
                       color: AppTheme.of(context).primaryColor, width: 2),
                   borderRadius: BorderRadius.circular(10),
                   gradient: whiteGradient,
+                ), */
+                child: Column(
+                  children: [
+                    Container(
+                      width: getWidth(150, context),
+                      height: getHeight(150, context),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color: const Color(0xFF2FDC40), width: 2),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('\$3.50',
+                              style: TextStyle(
+                                  fontFamily: 'UniNeue',
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.of(context).primaryText),
+                              textAlign: TextAlign.center),
+                          Text('Leads',
+                              style: TextStyle(
+                                  fontFamily: 'UniNeue',
+                                  fontSize: 16,
+                                  color: AppTheme.of(context).primaryText),
+                              textAlign: TextAlign.center)
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                          width: getWidth(120, context),
+                          height: getHeight(120, context),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                color: const Color(0xFFE7C037), width: 2),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('\$1.50',
+                                  style: TextStyle(
+                                      fontFamily: 'UniNeue',
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppTheme.of(context).primaryText),
+                                  textAlign: TextAlign.center),
+                              Text('Opportunity',
+                                  style: TextStyle(
+                                      fontFamily: 'UniNeue',
+                                      fontSize: 16,
+                                      color: AppTheme.of(context).primaryText),
+                                  textAlign: TextAlign.center)
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: getWidth(95, context),
+                          height: getHeight(95, context),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                color: const Color(0xFFB2333A), width: 2),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('\$3.50',
+                                  style: TextStyle(
+                                      fontFamily: 'UniNeue',
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppTheme.of(context).primaryText),
+                                  textAlign: TextAlign.center),
+                              Text('Quotes',
+                                  style: TextStyle(
+                                      fontFamily: 'UniNeue',
+                                      fontSize: 16,
+                                      color: AppTheme.of(context).primaryText),
+                                  textAlign: TextAlign.center)
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                 ),
+              ),
             ],
           ),
         ],

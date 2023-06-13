@@ -238,6 +238,7 @@ class OpportunityProvider extends ChangeNotifier {
         "description": 'New opportunity created',
         "table": 'opportunity',
         "id_table": resp["id"].toString(),
+        "name": "${currentUser!.name} ${currentUser!.lastName}"
       });
     } catch (e) {
       log('Error en registrarOpportunity() - $e');
@@ -305,6 +306,7 @@ class OpportunityProvider extends ChangeNotifier {
           "description": 'Opportunity updated',
           "table": 'opportunity',
           "id_table": resp["id"].toString(),
+          "name": "${currentUser!.name} ${currentUser!.lastName}"
         });
       }
 

@@ -34,7 +34,7 @@ class _MarcadoresDashboardState extends State<MarcadoresDashboard> {
         CustomeMarcador(
           width: getWidth(216, context),
           height: getHeight(189.33, context),
-          titulo: 'Total Lead',
+          titulo: 'Lead',
           text: '\$500',
           icon: Icons.attach_money,
         ),
@@ -42,7 +42,7 @@ class _MarcadoresDashboardState extends State<MarcadoresDashboard> {
         CustomeMarcador(
           width: getWidth(216, context),
           height: getHeight(189.33, context),
-          titulo: 'Total Opportunities',
+          titulo: 'Opportunities',
           text: '\$500',
           icon: Icons.attach_money,
         ),
@@ -50,7 +50,7 @@ class _MarcadoresDashboardState extends State<MarcadoresDashboard> {
         CustomeMarcador(
           width: getWidth(216, context),
           height: getHeight(189.33, context),
-          titulo: 'Total Quotes',
+          titulo: 'Quotes',
           text: '\$500',
           icon: Icons.attach_money,
         ),

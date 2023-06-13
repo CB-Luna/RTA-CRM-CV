@@ -372,6 +372,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "description": 'New origin quote created',
           "table": 'quotes',
           "id_table": resp["id"].toString(),
+          "name": "${currentUser!.name} ${currentUser!.lastName}"
         });
       } else {
         var response = await supabaseCRM.from('leads').select().eq('account', leadSelectedValue);
@@ -404,6 +405,7 @@ class CreateQuoteProvider extends ChangeNotifier {
             "description": 'New quote created replacing the previous quote',
             "table": 'quotes',
             "id_table": resp["id"].toString(),
+            "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
 
           await supabaseCRM.from('quotes').update({"status": "Closed"}).eq("id", prevId);
@@ -414,6 +416,7 @@ class CreateQuoteProvider extends ChangeNotifier {
             "description": 'Previous quote turns to Closed',
             "table": 'quotes',
             "id_table": prevId.toString(),
+            "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
 
           prevId = null;
@@ -446,6 +449,7 @@ class CreateQuoteProvider extends ChangeNotifier {
             "description": 'New origin quote created',
             "table": 'quotes',
             "id_table": resp["id"].toString(),
+            "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
         }
       }

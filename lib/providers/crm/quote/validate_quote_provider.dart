@@ -178,6 +178,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "description": 'Quote validated by Finance',
             "table": 'quotes',
             "id_table": id,
+            "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
         } else if (currentUser!.isSenExec) {
           await supabaseCRM.rpc('update_quote_status', params: {"estatus": "SenExec Validate", "id": id, "user_uuid": currentUser!.id});
@@ -188,6 +189,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "description": 'Quote validated by Sen. Exec.',
             "table": 'quotes',
             "id_table": id,
+            "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
         } else if (currentUser!.isOpperations) {
           await supabaseCRM.rpc('update_quote_status', params: {"estatus": "Accepted", "id": id, "user_uuid": currentUser!.id});
@@ -198,6 +200,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "description": 'Quote validated by Opperations',
             "table": 'quotes',
             "id_table": id,
+            "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
         }
       } else {
@@ -209,6 +212,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
           "description": 'Quote rejected',
           "table": 'quotes',
           "id_table": id,
+          "name": "${currentUser!.name} ${currentUser!.lastName}"
         });
       }
     } catch (e) {

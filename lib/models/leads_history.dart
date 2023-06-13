@@ -8,6 +8,7 @@ class LeadsHistory {
     final String description;
     final String table;
     final String idTable;
+    final String name;
 
     LeadsHistory({
         required this.id,
@@ -17,6 +18,7 @@ class LeadsHistory {
         required this.description,
         required this.table,
         required this.idTable,
+        required this.name,
     });
 
     factory LeadsHistory.fromJson(String str) => LeadsHistory.fromMap(json.decode(str));
@@ -31,6 +33,7 @@ class LeadsHistory {
         description: json["description"],
         table: json["table"],
         idTable: json["id_table"],
+        name: json["name"],
     );
 
     Map<String, dynamic> toMap() => {
@@ -41,5 +44,6 @@ class LeadsHistory {
         "description": description,
         "table": table,
         "id_table": idTable,
+        "name": name,
     };
 }

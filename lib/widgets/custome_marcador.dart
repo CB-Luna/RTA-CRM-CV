@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rta_crm_cv/functions/sizes.dart';
 
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -48,8 +49,8 @@ class _CustomeMarcadorState extends State<CustomeMarcador> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                    width: 60,
-                    height: 60,
+                    width: getWidth(60, context),
+                    height: getHeight(60, context),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppTheme.of(context).primaryColor.withOpacity(.2),
@@ -63,40 +64,22 @@ class _CustomeMarcadorState extends State<CustomeMarcador> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.titulo,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: 'UniNeue',
-                        fontSize: 20,
-                        color: AppTheme.of(context).primaryText),
-                  ),
-                ],
-              ),
+            Text(
+              widget.titulo,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontFamily: 'UniNeue',
+                  fontSize: 20,
+                  color: AppTheme.of(context).primaryText),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.text,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: 'UniNeue',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        color: AppTheme.of(context).primaryColor),
-                  )
-                ],
-              ),
+            Text(
+              widget.text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontFamily: 'UniNeue',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  color: AppTheme.of(context).primaryColor),
             ),
           ],
         ),

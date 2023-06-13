@@ -49,7 +49,7 @@ class DashboardCRMProvider extends ChangeNotifier {
         begin: Alignment.bottomCenter,
         end: Alignment.topCenter,
       );
- */////////////////////////////////////////////////////////////////////////////
+ */ ////////////////////////////////////////////////////////////////////////////
   DashboardCRMProvider() {
     updateState();
   }
@@ -88,6 +88,7 @@ class DashboardCRMProvider extends ChangeNotifier {
               'DESCRIPTION': PlutoCell(value: lead.description),
               'TABLE': PlutoCell(value: lead.table),
               'ID_TABLE': PlutoCell(value: lead.idTable),
+              'NAME': PlutoCell(value: lead.name),
               'ACTIONS_Column': PlutoCell(value: ''),
             },
           ),

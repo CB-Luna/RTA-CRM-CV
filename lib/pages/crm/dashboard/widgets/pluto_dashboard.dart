@@ -71,7 +71,7 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
             ),
           ),
           SizedBox(
-            height: getHeight(250, context),
+            height: getHeight(700, context),
             //width: getWidth(2450, context),
             child: PlutoGrid(
               key: UniqueKey(),
@@ -129,8 +129,9 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                   textAlign: PlutoColumnTextAlign.center,
                   type: PlutoColumnType.text(),
                   enableRowDrag: false,
+                  enableDropToResize: false,
                   enableEditingMode: false,
-                  width: 100,
+                  width: 120,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
                     return Container(
@@ -146,6 +147,35 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                                 color: AppTheme.of(context).primaryColor,
                               ),
                         ),
+                      ),
+                    );
+                  },
+                  footerRenderer: (context) {
+                    return SizedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomIconButton(
+                            icon: Icons.keyboard_arrow_down_outlined,
+                            toolTip: 'less',
+                            onTap: () {
+                              provider.setPageSize('less');
+                            },
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            provider.pageRowCount.toString(),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          const SizedBox(width: 10),
+                          CustomIconButton(
+                            icon: Icons.keyboard_arrow_up_outlined,
+                            toolTip: 'more',
+                            onTap: () {
+                              provider.setPageSize('more');
+                            },
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -180,8 +210,86 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                           child: Text(rendererContext.cell.value ?? '-')),
                     );
                   },
+                  footerRenderer: (context) {
+                    return SizedBox(
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomIconButton(
+                            icon: Icons.keyboard_double_arrow_left,
+                            toolTip: 'start',
+                            onTap: () {
+                              provider.setPage('start');
+                            },
+                          ),
+                          const SizedBox(width: 2),
+                          CustomIconButton(
+                            icon: Icons.keyboard_arrow_left_outlined,
+                            toolTip: 'previous',
+                            onTap: () {
+                              provider.setPage('previous');
+                            },
+                          ),
+                          const SizedBox(width: 5),
+                          SizedBox(
+                              width: 30,
+                              child: Center(
+                                  child: Text(provider.page.toString(),
+                                      style: const TextStyle(
+                                          color: Colors.white)))),
+                          const SizedBox(width: 5),
+                          CustomIconButton(
+                            icon: Icons.keyboard_arrow_right_outlined,
+                            toolTip: 'next',
+                            onTap: () {
+                              provider.setPage('next');
+                            },
+                          ),
+                          const SizedBox(width: 2),
+                          CustomIconButton(
+                            icon: Icons.keyboard_double_arrow_right,
+                            toolTip: 'end',
+                            onTap: () {
+                              provider.setPage('end');
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
                 PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
+                            color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(
+                        text: 'Name',
+                        style: TextStyle(
+                            color: AppTheme.of(context).primaryBackground))
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'Name',
+                  field: 'NAME',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(
+                          child: Text(rendererContext.cell.value ?? '-')),
+                    );
+                  },
+                ),
+                /* PlutoColumn(
                   titleSpan: TextSpan(children: [
                     WidgetSpan(
                         child: Icon(Icons.person_outline,
@@ -210,7 +318,7 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                           child: Text(rendererContext.cell.value ?? '-')),
                     );
                   },
-                ),
+                ), */
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
                     WidgetSpan(
@@ -255,7 +363,7 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'Description',
                   field: 'DESCRIPTION',
-                  width: 225,
+                  width: 300,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
                   type: PlutoColumnType.text(),
@@ -328,35 +436,6 @@ class _PlutoDashboardState extends State<PlutoDashboard> {
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(rendererContext.cell.value ?? '-')),
-                    );
-                  },
-                  footerRenderer: (context) {
-                    return SizedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomIconButton(
-                            icon: Icons.keyboard_arrow_down_outlined,
-                            toolTip: 'less',
-                            onTap: () {
-                              provider.setPageSize('less');
-                            },
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            provider.pageRowCount.toString(),
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          const SizedBox(width: 10),
-                          CustomIconButton(
-                            icon: Icons.keyboard_arrow_up_outlined,
-                            toolTip: 'more',
-                            onTap: () {
-                              provider.setPageSize('more');
-                            },
-                          ),
-                        ],
-                      ),
                     );
                   },
                 ),

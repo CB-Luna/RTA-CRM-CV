@@ -120,7 +120,7 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
       title: 'Overwiew',
       child: SizedBox(
         width: getWidth(756, context),
-        height: getHeight(350, context),
+        height: getHeight(320, context),
         child: BarChart(
           BarChartData(
             alignment: BarChartAlignment.spaceAround,

@@ -214,6 +214,7 @@ class LeadsProvider extends ChangeNotifier {
         "description": 'New Lead created',
         "table": 'leads',
         "id_table": resp["id"].toString(),
+        "name": "${currentUser!.name} ${currentUser!.lastName}"
       });
     } catch (e) {
       log('Error en registrarOpportunity() - $e');
@@ -279,6 +280,7 @@ class LeadsProvider extends ChangeNotifier {
           "description": 'Lead updated',
           "table": 'leads',
           "id_table": resp["id"].toString(),
+          "name": "${currentUser!.name} ${currentUser!.lastName}"
         });
       }
 

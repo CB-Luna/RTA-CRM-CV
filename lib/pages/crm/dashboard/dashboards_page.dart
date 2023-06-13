@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
-import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/pages/crm/dashboard/widgets/grafica_esfera_dashboard.dart';
 import 'package:rta_crm_cv/pages/crm/dashboard/widgets/marcadores_dashboard.dart';
 import 'package:rta_crm_cv/pages/crm/dashboard/widgets/pluto_dashboard.dart';
 import 'package:rta_crm_cv/pages/crm/dashboard/widgets/grafica_dashboard.dart';
-import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
+//import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -22,18 +21,6 @@ class DashboardsCRMPage extends StatefulWidget {
 class _DashboardsCRMPageState extends State<DashboardsCRMPage> {
   @override
   Widget build(BuildContext context) {
-    void initState() {
-      super.initState();
-
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-        final DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(
-          context,
-          listen: false,
-        );
-        await provider.updateState();
-      });
-    }
-
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
     //DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(context);
     sideM.setIndex(0);
