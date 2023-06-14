@@ -21,6 +21,19 @@ class QuotesPage extends StatefulWidget {
 }
 
 class _QuotesPageState extends State<QuotesPage> {
+/*   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final QuotesProvider provider = Provider.of<QuotesProvider>(
+        context,
+        listen: false,
+      );
+      await provider.updateState();
+    });
+  } */
+
   @override
   Widget build(BuildContext context) {
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
@@ -68,116 +81,116 @@ class _QuotesPageState extends State<QuotesPage> {
                           ],
                         ),
                       ),
-                      if(currentUser!.isSales)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: CustomScrollBar(
-                          scrollDirection: Axis.horizontal,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 15),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: CustomTabFilterOption(
-                                        width: filterWidth,
-                                        isOn: provider.indexSelected[7],
-                                        text: 'All',
-                                        border: greenGradient,
-                                        gradient: greenRadial,
-                                        onTap: () => provider.setIndex(7),
+                      if (currentUser!.isSales)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: CustomScrollBar(
+                            scrollDirection: Axis.horizontal,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 15),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[7],
+                                          text: 'All',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(7),
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: CustomTabFilterOption(
-                                        width: filterWidth,
-                                        isOn: provider.indexSelected[0],
-                                        text: 'Opened',
-                                        border: greenGradient,
-                                        gradient: greenRadial,
-                                        onTap: () => provider.setIndex(0),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[0],
+                                          text: 'Opened',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(0),
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: CustomTabFilterOption(
-                                        width: filterWidth,
-                                        isOn: provider.indexSelected[1],
-                                        text: 'Margin Positive',
-                                        border: greenGradient,
-                                        gradient: greenRadial,
-                                        onTap: () => provider.setIndex(1),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[1],
+                                          text: 'Margin Positive',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(1),
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: CustomTabFilterOption(
-                                        width: filterWidth,
-                                        isOn: provider.indexSelected[2],
-                                        text: 'Sen. Exec. Validate',
-                                        border: greenGradient,
-                                        gradient: greenRadial,
-                                        onTap: () => provider.setIndex(2),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[2],
+                                          text: 'Sen. Exec. Validate',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(2),
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: CustomTabFilterOption(
-                                        width: filterWidth,
-                                        isOn: provider.indexSelected[3],
-                                        text: 'Finance Validate',
-                                        border: greenGradient,
-                                        gradient: greenRadial,
-                                        onTap: () => provider.setIndex(3),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[3],
+                                          text: 'Finance Validate',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(3),
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: CustomTabFilterOption(
-                                        width: filterWidth,
-                                        isOn: provider.indexSelected[4],
-                                        text: 'Accepted',
-                                        border: greenGradient,
-                                        gradient: greenRadial,
-                                        onTap: () => provider.setIndex(4),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[4],
+                                          text: 'Accepted',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(4),
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: CustomTabFilterOption(
-                                        width: filterWidth,
-                                        isOn: provider.indexSelected[5],
-                                        text: 'Canceled',
-                                        border: greenGradient,
-                                        gradient: greenRadial,
-                                        onTap: () => provider.setIndex(5),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[5],
+                                          text: 'Canceled',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(5),
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: CustomTabFilterOption(
-                                        width: filterWidth,
-                                        isOn: provider.indexSelected[6],
-                                        text: 'Closed',
-                                        border: greenGradient,
-                                        gradient: greenRadial,
-                                        onTap: () => provider.setIndex(6),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[6],
+                                          text: 'Closed',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(6),
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
                       const Padding(
                         padding: EdgeInsets.all(10),
                         child: QuotesTab(),
