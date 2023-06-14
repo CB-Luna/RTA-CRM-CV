@@ -13,6 +13,7 @@ import 'package:rta_crm_cv/models/vehicle.dart';
 import 'package:excel/excel.dart';
 
 import '../../models/issues.dart';
+import '../../models/issues_x_user.dart';
 
 class InventoryProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
@@ -70,6 +71,7 @@ class InventoryProvider extends ChangeNotifier {
   List<StatusApi> status = [];
   List<Vehicle> vehicles = [];
   List<Issues> issues = [];
+  List<IssuesXUser> issuesxUser = [];
 
   // Variables para las tarjetas de los vehiculos
   // Total
@@ -412,7 +414,7 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   //---------------------------------------------
-  /*
+
   Future<void> getIssues(Vehicle vehicle) async {
     try {
       final res = await supabaseCtrlV
@@ -426,7 +428,23 @@ class InventoryProvider extends ChangeNotifier {
       print("Error en getIssues - $e");
     }
   }
-*/
+  //---------------------------------------------
+
+  void getIssuesxUsers(Vehicle vehicle) async {
+    try {
+      final res = await supabaseCtrlV
+          .from('issues_x_users')
+          .select()
+          .match({'id_vehicle_fk': vehicle.idVehicle});
+      issuesxUser = (res as List<dynamic>)
+          .map((issuesxUser) => IssuesXUser.fromJson(jsonEncode(issuesxUser)))
+          .toList();
+    } catch (e) {
+      print("Error en getIssuesxUsers - $e");
+    }
+    notifyListeners();
+  }
+
 //----------------------------------------------
   // EXCEL
   Future<bool> excelActivityReports() async {

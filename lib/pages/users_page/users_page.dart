@@ -6,6 +6,8 @@ import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/users_page/widgets/add_user_popup.dart';
+import 'package:rta_crm_cv/pages/users_page/widgets/update_user_popup.dart';
+import 'package:rta_crm_cv/pages/users_page/widgets/verify_to_eliminate_pop_up.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/providers/users_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
@@ -95,7 +97,9 @@ class _UsersPageState extends State<UsersPage> {
                                 onTap: () async {
                                   provider.clearControllers(notify: false);
                                   await provider.getRoles(notify: false);
+                                  await provider.getCompany(notify: false);
                                   await provider.getStates(notify: false);
+
                                   if (!mounted) return;
                                   await showDialog(
                                     context: context,
@@ -143,6 +147,9 @@ class _UsersPageState extends State<UsersPage> {
                                     return resolver<PlutoFilterTypeContains>()
                                         as PlutoFilterType;
                                   } else if (column.field == 'STATE_Column') {
+                                    return resolver<PlutoFilterTypeContains>()
+                                        as PlutoFilterType;
+                                  } else if (column.field == 'COMPANY_Column') {
                                     return resolver<PlutoFilterTypeContains>()
                                         as PlutoFilterType;
                                   }
@@ -439,6 +446,40 @@ class _UsersPageState extends State<UsersPage> {
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
                                   WidgetSpan(
+                                      child: Icon(Icons.warehouse_outlined,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(
+                                      text: 'COMPANY',
+                                      style: TextStyle(
+                                          color: AppTheme.of(context)
+                                              .primaryBackground))
+                                ]),
+                                backgroundColor: const Color(0XFF6491F7),
+                                title: 'COMPANY',
+                                field: 'COMPANY_Column',
+                                width: 200,
+                                titleTextAlign: PlutoColumnTextAlign.start,
+                                textAlign: PlutoColumnTextAlign.center,
+                                type: PlutoColumnType.text(),
+                                enableEditingMode: false,
+                                cellPadding: EdgeInsets.zero,
+                                renderer: (rendererContext) {
+                                  return Container(
+                                    height: rowHeight,
+                                    width: rendererContext.cell.column.width,
+                                    decoration:
+                                        BoxDecoration(gradient: whiteGradient),
+                                    child: Center(
+                                        child: Text(
+                                            rendererContext.cell.value ?? '-')),
+                                  );
+                                },
+                              ),
+                              PlutoColumn(
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(
                                     child: Icon(Icons.list,
                                         color: AppTheme.of(context)
                                             .primaryBackground),
@@ -483,7 +524,30 @@ class _UsersPageState extends State<UsersPage> {
                                                 .primaryBackground,
                                           ),
                                           text: 'Edit',
-                                          onTap: () {},
+                                          onTap: () async {
+                                            await provider.getCompany(
+                                                notify: false);
+                                            await provider.getStates(
+                                                notify: false);
+                                            await provider.getRoles(
+                                                notify: false);
+                                            provider.updateControllers(
+                                                rendererContext.cell.value);
+                                            // ignore: use_build_context_synchronously
+                                            await showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return StatefulBuilder(
+                                                      builder:
+                                                          (context, setState) {
+                                                    return UpdateUserPopUp(
+                                                        users: rendererContext
+                                                            .cell.value);
+                                                  });
+                                                });
+                                            await provider.updateState();
+                                          },
                                         ),
                                         CustomTextIconButton(
                                           isLoading: false,
@@ -495,10 +559,27 @@ class _UsersPageState extends State<UsersPage> {
                                           color: secondaryColor,
                                           text: 'Delete',
                                           onTap: () async {
-                                            await provider.deleteUser(
-                                              rendererContext.cell.value,
-                                            );
+                                            await showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return StatefulBuilder(
+                                                      builder:
+                                                          (context, setState) {
+                                                    return DeletePopUp(
+                                                      users: rendererContext
+                                                          .cell.value,
+                                                    );
+                                                  });
+                                                });
                                             await provider.getUsers();
+                                            //   await provider
+                                            //       .deleteVehicle(
+                                            //     rendererContext
+                                            //         .cell.value,
+                                            //   );
+                                            //   await provider
+                                            //       .getInventory();
                                           },
                                         ),
                                         /* InkWell(
