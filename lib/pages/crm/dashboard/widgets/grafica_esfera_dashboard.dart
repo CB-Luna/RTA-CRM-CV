@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
-import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
+//import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
@@ -16,9 +16,8 @@ class GraficaEsferaDashboard extends StatefulWidget {
 class _GraficaDashboardState extends State<GraficaEsferaDashboard> {
   @override
   Widget build(BuildContext context) {
-    DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(context);
-    List<int> selectedSpots = [];
-    //int touchedIndex = -1;
+    //DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(context);
+    List<int> selectedSpots = [0, 1, 2];
     return Container(
       width: getWidth(280, context),
       height: getHeight(640, context),
@@ -43,12 +42,6 @@ class _GraficaDashboardState extends State<GraficaEsferaDashboard> {
               SizedBox(
                 width: getWidth(220, context),
                 height: getHeight(280, context),
-                /* decoration: BoxDecoration(
-                  border: Border.all(
-                      color: AppTheme.of(context).primaryColor, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                  gradient: whiteGradient,
-                ), */
                 child: ScatterChart(
                   ScatterChartData(
                     scatterSpots: [
@@ -56,24 +49,24 @@ class _GraficaDashboardState extends State<GraficaEsferaDashboard> {
                         4,
                         5,
                         color: selectedSpots.contains(0)
-                            ? Colors.grey
-                            : Colors.green,
+                            ? Colors.green
+                            : Colors.grey,
                         radius: 80,
                       ),
                       ScatterSpot(
                         3,
                         3,
                         color: selectedSpots.contains(1)
-                            ? Colors.grey
-                            : Colors.yellow,
+                            ? Colors.yellow
+                            : Colors.grey,
                         radius: 60,
                       ),
                       ScatterSpot(
                         5,
                         2,
                         color: selectedSpots.contains(2)
-                            ? Colors.grey
-                            : Colors.red,
+                            ? Colors.red
+                            : Colors.grey,
                         radius: 40,
                       ),
                     ],
@@ -103,20 +96,26 @@ class _GraficaDashboardState extends State<GraficaEsferaDashboard> {
                     showingTooltipIndicators: selectedSpots,
                     scatterTouchData: ScatterTouchData(
                       enabled: true,
-                      handleBuiltInTouches: true,
-                      mouseCursorResolver: (FlTouchEvent touchEvent,
-                          ScatterTouchResponse? response) {
-                        return response == null || response.touchedSpot == null
-                            ? MouseCursor.defer
-                            : SystemMouseCursors.click;
-                      },
+                      handleBuiltInTouches: false,
+                      /* mouseCursorResolver: (FlTouchEvent touchEvent,
+                            ScatterTouchResponse? response) {
+                          return response == null ||
+                                  response.touchedSpot == null
+                              ? MouseCursor.defer
+                              : SystemMouseCursors.click;
+                        }, */
                       touchTooltipData: ScatterTouchTooltipData(
+                        //tooltipPadding: EdgeInsets.fromLTRB(0, 2, 0, 2),
                         fitInsideHorizontally: true,
                         fitInsideVertically: true,
-                        tooltipBorder: BorderSide(
-                            strokeAlign: BorderSide.strokeAlignCenter,
-                            color: AppTheme.of(context).primaryColor),
-                        tooltipBgColor: AppTheme.of(context).primaryBackground,
+                        maxContentWidth: 200,
+                        tooltipBorder: const BorderSide(
+                          // strokeAlign: BorderSide.strokeAlignInside,
+                          color: Colors.transparent,
+                        ), //AppTheme.of(context).primaryColor),
+                        tooltipBgColor: /* AppTheme.of(context)
+                            .primaryBackground, */
+                            Colors.transparent,
                         getTooltipItems: (ScatterSpot touchedBarSpot) {
                           String x, y;
                           switch (touchedBarSpot.x.toInt()) {
@@ -136,47 +135,43 @@ class _GraficaDashboardState extends State<GraficaEsferaDashboard> {
                               throw Error();
                           }
                           return ScatterTooltipItem(
-                            '\$$x\n',
+                            '$y: \$$x',
                             textStyle: TextStyle(
                                 fontFamily: 'UniNeue',
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 color: AppTheme.of(context).primaryText),
-                            children: [
+                            /* children: [
                               TextSpan(
                                 text: y,
                                 style: TextStyle(
                                     fontFamily: 'UniNeue',
-                                    fontSize: 16,
+                                    fontSize: 22,
                                     fontWeight: FontWeight.bold,
                                     color: AppTheme.of(context).primaryText),
                               ),
-                            ],
+                            ], */
                           );
                         },
                       ),
-                      touchCallback: (FlTouchEvent event,
-                          ScatterTouchResponse? touchResponse) {
-                        if (touchResponse == null ||
-                            touchResponse.touchedSpot == null) {
-                          provider.touchedIndex = -1;
-                          return;
-                        }
-                        if (event is FlTapUpEvent) {
-                          provider.touchedIndex =
-                              touchResponse.touchedSpot!.spotIndex;
-                          setState(
-                            () {
-                              if (selectedSpots
-                                  .contains(provider.touchedIndex)) {
-                                selectedSpots.remove(provider.touchedIndex);
+                      /* touchCallback: (FlTouchEvent event,
+                            ScatterTouchResponse? touchResponse) {
+                          if (touchResponse == null ||
+                              touchResponse.touchedSpot == null) {
+                            return;
+                          }
+                          if (event is FlTapUpEvent) {
+                            final sectionIndex =
+                                touchResponse.touchedSpot!.spotIndex;
+                            setState(() {
+                              if (selectedSpots.contains(sectionIndex)) {
+                                selectedSpots.remove(sectionIndex);
                               } else {
-                                selectedSpots.add(provider.touchedIndex);
+                                selectedSpots.add(sectionIndex);
                               }
-                            },
-                          );
-                        }
-                      },
+                            });
+                          }
+                        }, */
                     ),
                   ),
                 ),
