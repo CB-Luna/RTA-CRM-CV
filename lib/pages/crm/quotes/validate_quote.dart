@@ -53,7 +53,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: CustomCard(
-                    title: 'Quote Edit',
+                    title: 'Order Edit',
                     height: MediaQuery.of(context).size.height - 20,
                     width: MediaQuery.of(context).size.width,
                     child: Column(

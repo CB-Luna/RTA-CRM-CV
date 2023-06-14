@@ -75,7 +75,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: CustomCard(
-                    title: 'Quote Creation',
+                    title: 'Order Creation',
                     height: MediaQuery.of(context).size.height - 20,
                     width: MediaQuery.of(context).size.width,
                     child: Column(

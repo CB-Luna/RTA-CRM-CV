@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/tabs/quotes_tab.dart';
 import 'package:rta_crm_cv/providers/crm/accounts/tabs/quotes_provider.dart';
 
@@ -61,12 +62,13 @@ class _QuotesPageState extends State<QuotesPage> {
                               padding: const EdgeInsets.only(right: 10),
                               child: SizedBox(
                                 height: 40,
-                                child: Text('Quotes', style: AppTheme.of(context).title1),
+                                child: Text('Orders', style: AppTheme.of(context).title1),
                               ),
                             ),
                           ],
                         ),
                       ),
+                      if(currentUser!.isSales)
                       Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: CustomScrollBar(

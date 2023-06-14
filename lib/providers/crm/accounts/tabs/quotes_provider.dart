@@ -149,7 +149,25 @@ class QuotesProvider extends ChangeNotifier {
     try {
       dynamic res;
       if (status != null) {
-        res = await supabaseCRM.from('quotes_view').select().eq('status', status);
+        if (currentUser!.isSales) {
+          res = await supabaseCRM.from('quotes_view').select();
+        } else if (currentUser!.isSenExec) {
+          res = await supabaseCRM
+              .from('quotes_view')
+              .select()
+              .eq('status', 'Opened');
+        } else if (currentUser!.isFinance) {
+          res = await supabaseCRM
+              .from('quotes_view')
+              .select()
+              .eq('status', 'Sen. Exec. Validate')
+              .or('status.eq.Margin Positive');
+        } else if (currentUser!.isOpperations) {
+          res = await supabaseCRM
+              .from('quotes_view')
+              .select()
+              .eq('status', 'Finance Validate');
+        }
       } else {
         res = await supabaseCRM.from('quotes_view').select();
       }
@@ -158,7 +176,9 @@ class QuotesProvider extends ChangeNotifier {
         log('Error en getUsuarios()');
         return;
       }
-      quotes = (res as List<dynamic>).map((quote) => Quotes.fromJson(jsonEncode(quote))).toList();
+      quotes = (res as List<dynamic>)
+          .map((quote) => Quotes.fromJson(jsonEncode(quote)))
+          .toList();
 
       rows.clear();
       for (Quotes quote in quotes) {
@@ -171,9 +191,13 @@ class QuotesProvider extends ChangeNotifier {
               'TOTAL_Column': PlutoCell(value: quote.total),
               'MARGIN_Column': PlutoCell(value: quote.margin),
               'VENDOR_Column': PlutoCell(value: quote.vendorName),
-              'ORDER_Column': PlutoCell(value: ' ${quote.orderInfo.type} ${quote.orderInfo.orderType}'),
-              'DESCRIPTION_Column': PlutoCell(value: quote.items.first.lineItem),
-              'DATACENTER_Column': PlutoCell(value: quote.orderInfo.dataCenterLocation),
+              'ORDER_Column': PlutoCell(
+                  value:
+                      ' ${quote.orderInfo.type} ${quote.orderInfo.orderType}'),
+              'DESCRIPTION_Column':
+                  PlutoCell(value: quote.items.first.lineItem),
+              'DATACENTER_Column':
+                  PlutoCell(value: quote.orderInfo.dataCenterLocation),
               'PROBABILITY_Column': PlutoCell(value: quote.leadProbability),
               'CLOSED_Column': PlutoCell(value: quote.expectedClose),
               'ASSIGNED_Column': PlutoCell(value: quote.assignedTo),
@@ -298,7 +322,9 @@ class QuotesProvider extends ChangeNotifier {
     }
 
     //Descargar
-    excel.save(fileName: "Quotes_Report_${DateFormat('MMMM_dd_yyyy').format(DateTime.now())}.xlsx");
+    excel.save(
+        fileName:
+            "Quotes_Report_${DateFormat('MMMM_dd_yyyy').format(DateTime.now())}.xlsx");
   }
 
   ////////////////////////////////////////////////////////

@@ -77,11 +77,11 @@ CustomTransitionPage<void> pageTransition(BuildContext context, GoRouterState st
 }
 
 const String routeProspects = '/prospects';
-const String routeQuoteCreation = '/quote_creation';
-const String routeQuoteDetail = '/quote_detail';
-const String routeQuoteValidation = '/quote_validation';
+const String routeQuoteCreation = '/order_creation';
+const String routeQuoteDetail = '/order_detail';
+const String routeQuoteValidation = '/order_validation';
 
-const String routeQuotes = '/quotes';
+const String routeQuotes = '/order';
 const String routeCampaigns = '/campaigns';
 
 const String routeInventory = '/inventory';
