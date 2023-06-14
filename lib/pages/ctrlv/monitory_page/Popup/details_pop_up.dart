@@ -161,7 +161,7 @@ class DetailsPop extends StatelessWidget {
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         0, 0, 0, 10),
                                     child: Text(
-                                      vehicle.licesensePlates,
+                                      vehicle.licensePlates,
                                       style: const TextStyle(color: Colors.white),
                                     ),
                                   ),

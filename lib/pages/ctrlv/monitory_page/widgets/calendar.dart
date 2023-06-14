@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+
+import '../../../../models/monitory.dart';
+import '../../../../providers/ctrlv/monitory_provider.dart';
 
 const List<String> company = ['COMPANY', 'CRY', 'ODE', 'SMI'];
 const List<String> employee = ['EMPLOYEE', 'Gian', 'Jane', 'Michael'];
@@ -11,6 +15,7 @@ class Calendario extends StatelessWidget {
   Widget build(BuildContext context) {
     String comp = company.first;
     String emp = employee.first;
+    MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
 
     return Column(
       children: [
@@ -96,7 +101,7 @@ class Calendario extends StatelessWidget {
                 ),
               ),
               //BUSCADOR DE MES
-              
+
               //COMPANY
               Container(
                 alignment: Alignment.center,
@@ -110,7 +115,9 @@ class Calendario extends StatelessWidget {
                   value: comp,
                   icon: const Icon(Icons.arrow_downward),
                   elevation: 16,
-                  onChanged: (String? value) {},
+                  onChanged: (String? value) {
+                    provider.getAppointmentsbyCompany(provider.monitory, value!);
+                  },
                   items: company.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -151,15 +158,16 @@ class Calendario extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Tooltip(
-            message: 'Jane Cooper',
-            child: SfCalendar(
-              showWeekNumber: true,
-              showDatePickerButton: true,
-              view: CalendarView.week,
-              firstDayOfWeek: 1,
-              dataSource: MeetingDataSource(getAppointments()),
-            ),
+          child: SfCalendar(
+            showWeekNumber: true,
+            showDatePickerButton: true,
+            view: CalendarView.week,
+            firstDayOfWeek: 1,
+            dataSource: MeetingDataSource(provider.meet),
+            appointmentBuilder: (BuildContext context, CalendarAppointmentDetails details) {
+              final index = details.appointments.toList().indexOf(details.appointments.first);
+          return CustomAppointmentView(details.appointments.first,provider.monitory[index]);
+          },
           ),
         ),
       ],
@@ -167,102 +175,36 @@ class Calendario extends StatelessWidget {
   }
 }
 
-List<Appointment> getAppointments() {
-  List<Appointment> meet = <Appointment>[];
-  final DateTime hoy = DateTime.now();
-  final DateTime start = DateTime(hoy.year, hoy.month, hoy.day, 12, 0, 0);
-  final DateTime end = start.add(const Duration(hours: 2));
 
-  meet.add(Appointment(
-    startTime: start,
-    endTime: start.add(const Duration(hours: 1)),
-    subject: 'JC',
-    color: const Color.fromRGBO(191, 33, 53, 10),
-    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-    // isAllDay: true,
-  ));
 
-  meet.add(Appointment(
-    startTime: start,
-    endTime: end,
-    subject: 'M',
-    color: const Color.fromRGBO(52, 86, 148, 10),
-    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-    // isAllDay: true,
-  ));
-  meet.add(Appointment(
-    startTime: DateTime(hoy.year, hoy.month, hoy.day, 12, 0, 0),
-    endTime: end,
-    subject: 'GH',
-    color: const Color.fromRGBO(217, 217, 217, 10),
-    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-    // isAllDay: true,
-  ));
 
-  meet.add(Appointment(
-    startTime: start,
-    endTime: start.add(const Duration(hours: 1)),
-    subject: 'GJ',
-    color: const Color.fromRGBO(191, 33, 53, 10),
-    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-    // isAllDay: true,
-  ));
 
-  meet.add(Appointment(
-    startTime: start,
-    endTime: end,
-    subject: 'GJ',
-    color: const Color.fromRGBO(52, 86, 148, 10),
-    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-    // isAllDay: true,
-  ));
-  meet.add(Appointment(
-    startTime: DateTime(hoy.year, hoy.month, hoy.day, 12, 0, 0),
-    endTime: end,
-    subject: 'EM',
-    color: const Color.fromRGBO(217, 217, 217, 10),
-    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-    // isAllDay: true,
-  ));
-  meet.add(Appointment(
-    startTime: start,
-    endTime: start.add(const Duration(hours: 1)),
-    subject: 'UP',
-    color: const Color.fromRGBO(191, 33, 53, 10),
-    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-    // isAllDay: true,
-  ));
-
-  meet.add(Appointment(
-    startTime: start,
-    endTime: end,
-    subject: 'CR',
-    color: const Color.fromRGBO(52, 86, 148, 10),
-    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-    // isAllDay: true,
-  ));
-  meet.add(Appointment(
-    startTime: DateTime(hoy.year, hoy.month, hoy.day, 12, 0, 0),
-    endTime: end,
-    subject: 'JA',
-    color: const Color.fromRGBO(217, 217, 217, 10),
-    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-    // isAllDay: true,
-  ));
-  meet.add(Appointment(
-    startTime: DateTime(hoy.year, hoy.month, hoy.day, 12, 0, 0),
-    endTime: end,
-    subject: 'JM',
-    color: const Color.fromRGBO(217, 217, 217, 10),
-    // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-    // isAllDay: true,
-  ));
-
-  return meet;
-}
 
 class MeetingDataSource extends CalendarDataSource {
   MeetingDataSource(List<Appointment> source) {
     appointments = source;
+  }
+}
+
+class CustomAppointmentView extends StatelessWidget {
+  final Appointment appointment;
+  final Monitory monitory;
+
+  const CustomAppointmentView(this.appointment, this.monitory);
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message:"${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${appointment.startTime.hour}:${appointment.startTime.minute} - ${appointment.endTime.hour}:${appointment.endTime.minute}",
+        
+      child: Container(
+        color: appointment.color,
+        child: Center(
+          child: Text(appointment.subject,
+          style:TextStyle(color: Colors.white,
+                  fontWeight: FontWeight.bold,)),
+        ),
+      ),
+    );
   }
 }
