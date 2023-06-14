@@ -13,7 +13,7 @@ class Monitory {
        this.dateAddedD,
       required this.employee,
       required this.vin,
-      required this.licesensePlates,
+      required this.licensePlates,
       required this.company,
       required this.gasR,
        this.gasD,
@@ -28,7 +28,7 @@ class Monitory {
   DateTime? dateAddedD;
   Employee employee;
   String vin;
-  String licesensePlates;
+  String licensePlates;
   CompanyApi company;
   String gasR;
   String? gasD;
@@ -45,7 +45,7 @@ class Monitory {
       dateAddedD: json["date_added_d"] == null ? null: DateTime.parse(json["date_added_d"]),
       employee: Employee.fromJson(jsonEncode(json['employee'])),
       vin: json["vin"],
-      licesensePlates: json["license_plates"],
+      licensePlates: json["license_plates"],
       company: CompanyApi.fromJson(jsonEncode(json['company'])),
       gasR: json['gas_r'],
       gasD: json['gas_d'],
@@ -57,11 +57,11 @@ class Monitory {
   Map<String, dynamic> toMap() => {
         "id_control_form": idControlForm,
         "id_vehicle": idVehicle,
-        "date_added_r": dateAddedR.toIso8601String(),
-        "date_added_d": dateAddedD?.toIso8601String(),
+        "date_added_r": dateAddedR.toIso8601String(), //check in
+        "date_added_d": dateAddedD?.toIso8601String(), //check out
         "employee": employee.toMap(),
         "vin": vin,
-        "license_plates": licesensePlates,
+        "license_plates": licensePlates,
         "company": company.toMap(),
         "gas_r": gasR,
         "gas_d": gasD,

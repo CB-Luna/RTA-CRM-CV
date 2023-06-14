@@ -9,6 +9,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/monitory.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class MonitoryProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
@@ -40,6 +41,7 @@ class MonitoryProvider extends ChangeNotifier {
   List<String> dropdownMenuItems = [];
 
   List<Monitory> monitory = [];
+  List<Appointment> meet = <Appointment>[];
   //List<Empleados> usuarios = [];
   //List<Empleados> usuariosTesoreros = [];
 
@@ -112,8 +114,10 @@ class MonitoryProvider extends ChangeNotifier {
               // "date_added": PlutoCell(value: DateFormat("MMM-dd-yyyy").format(monitory.dateAdded)),
               "employee": PlutoCell(value: monitory.employee.name),
               "vin": PlutoCell(value: monitory.vin),
-              "license_plates": PlutoCell(value: monitory.licesensePlates),
+              "license_plates": PlutoCell(value: monitory.licensePlates),
               "company": PlutoCell(value: monitory.company.company),
+              "check_in": PlutoCell(value: DateFormat("MMM-dd-yyyy hh:mm:ss").format(monitory.dateAddedR)),
+              "check_out": PlutoCell(value: monitory.dateAddedD == null ? 'N/A' : DateFormat("MMM-dd-yyyy hh:mm:ss").format(monitory.dateAddedD!)),
               // "gas": PlutoCell(value: monitory.gas),
               // "mileage": PlutoCell(value: monitory.mileage),
               "details": PlutoCell(value: monitory),
@@ -122,6 +126,8 @@ class MonitoryProvider extends ChangeNotifier {
           ),
         );
       }
+
+      getAppointments(monitory);
 
       if (stateManager != null) {
         stateManager!.notifyListeners();
@@ -321,7 +327,7 @@ class MonitoryProvider extends ChangeNotifier {
         vehicle.idVehicle,
         vehicle.employee.name,
         vehicle.vin,
-        vehicle.licesensePlates,
+        vehicle.licensePlates,
         vehicle.company.company,
         vehicle.gasR,
         vehicle.mileageR,
@@ -331,7 +337,7 @@ class MonitoryProvider extends ChangeNotifier {
     }
 
     //Descargar
-    final List<int>? fileBytes = excel.save(fileName: "Monitory_Followup.xlsx");
+    final List<int>? fileBytes = excel.save(fileName: "Vehicle_Status.xlsx");
     if (fileBytes == null) return false;
 
     return true;
@@ -352,4 +358,203 @@ class MonitoryProvider extends ChangeNotifier {
     cambiodeVista = !cambiodeVista;
     notifyListeners();
   }
+
+  List<Appointment> getAppointments(List<Monitory> events) {
+
+  for (Monitory event in events) {
+    //si hay final
+    if (event.dateAddedD != null) {
+      switch (event.company.company) {
+        case "CRY":
+          meet.add(Appointment(
+            startTime: event.dateAddedR,
+            endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            color: const Color.fromRGBO(52, 86, 148, 10),
+            // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+            // isAllDay: true,
+          ));
+
+          meet.add(Appointment(
+            startTime: event.dateAddedD!.add(const Duration(hours: -1)),
+            endTime: event.dateAddedD!,
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            color: const Color.fromRGBO(52, 86, 148, 10),
+            // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+            // isAllDay: true,
+          ));
+          break;
+        case "ODE":
+        meet.add(Appointment(
+            startTime: event.dateAddedR,
+            endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} R",
+            color: const Color.fromRGBO(191, 33, 53, 10),
+          ));
+
+          meet.add(Appointment(
+            startTime: event.dateAddedD!.add(const Duration(hours: -1)),
+            endTime: event.dateAddedD!,
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} D",
+            color: const Color.fromRGBO(191, 33, 53, 10),
+          ));
+          break;
+        case "SMI":
+        meet.add(Appointment(
+            startTime: event.dateAddedR,
+            endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            color: const Color.fromRGBO(217, 217, 217, 10),
+          ));
+
+          meet.add(Appointment(
+            startTime: event.dateAddedD!.add(const Duration(hours: -1)),
+            endTime: event.dateAddedD!,
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            color: const Color.fromRGBO(217, 217, 217, 10),
+          ));
+          break;
+        default:
+      }
+    }
+    //no hay final
+    else {
+      switch (event.company.company) {
+        case "CRY":
+          meet.add(Appointment(
+            startTime: event.dateAddedR,
+            endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            color: const Color.fromRGBO(52, 86, 148, 10),
+            // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+            // isAllDay: true,
+          ));
+          break;
+        case "ODE":
+        meet.add(Appointment(
+            startTime: event.dateAddedR,
+            endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} R",
+            color: const Color.fromRGBO(191, 33, 53, 10),
+          ));
+
+          break;
+        case "SMI":
+        meet.add(Appointment(
+            startTime: event.dateAddedR,
+            endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            color: const Color.fromRGBO(217, 217, 217, 10),
+          ));
+
+          break;
+        default:
+      }
+    }
+  }
+  notifyListeners();
+  return meet;
+}
+
+List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company) {
+  
+
+  for (Monitory event in events) {
+    if(event.company.company == company){
+    //si hay final
+    if (event.dateAddedD != null) {
+      switch (company) {
+        case "CRY":
+          meet.add(Appointment(
+            startTime: event.dateAddedR,
+            endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            color: const Color.fromRGBO(52, 86, 148, 10),
+            // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+            // isAllDay: true,
+          ));
+
+          meet.add(Appointment(
+            startTime: event.dateAddedD!.add(const Duration(hours: -1)),
+            endTime: event.dateAddedD!,
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            color: const Color.fromRGBO(52, 86, 148, 10),
+            // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+            // isAllDay: true,
+          ));
+          break;
+        case "ODE":
+        meet.add(Appointment(
+            startTime: event.dateAddedR,
+            endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} R",
+            color: const Color.fromRGBO(191, 33, 53, 10),
+          ));
+
+          meet.add(Appointment(
+            startTime: event.dateAddedD!.add(const Duration(hours: -1)),
+            endTime: event.dateAddedD!,
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} D",
+            color: const Color.fromRGBO(191, 33, 53, 10),
+          ));
+          break;
+        case "SMI":
+        meet.add(Appointment(
+            startTime: event.dateAddedR,
+            endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            color: const Color.fromRGBO(217, 217, 217, 10),
+          ));
+
+          meet.add(Appointment(
+            startTime: event.dateAddedD!.add(const Duration(hours: -1)),
+            endTime: event.dateAddedD!,
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            color: const Color.fromRGBO(217, 217, 217, 10),
+          ));
+          break;
+        default:
+      }
+    }
+    //no hay final
+    else {
+      switch (company) {
+        case "CRY":
+          meet.add(Appointment(
+            startTime: event.dateAddedR,
+            endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            color: const Color.fromRGBO(52, 86, 148, 10),
+            // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+            // isAllDay: true,
+          ));
+          break;
+        case "ODE":
+        meet.add(Appointment(
+            startTime: event.dateAddedR,
+            endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} R",
+            color: const Color.fromRGBO(191, 33, 53, 10),
+          ));
+
+          break;
+        case "SMI":
+        meet.add(Appointment(
+            startTime: event.dateAddedR,
+            endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            color: const Color.fromRGBO(217, 217, 217, 10),
+          ));
+
+          break;
+        default:
+      }
+    }
+    }
+  }
+  notifyListeners();
+  return meet;
+}
+
+
 }

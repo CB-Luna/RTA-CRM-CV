@@ -453,6 +453,102 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                               );
                                             },
                                           ),
+                                          PlutoColumn(
+                                            title: 'Check_In',
+                                            field: 'check_in',
+                                            titleSpan: const TextSpan(
+                                              children: [
+                                                WidgetSpan(
+                                                  child: Icon(
+                                                    Icons.hourglass_bottom_outlined,
+                                                    color: Color(0xffF3F7F9),
+                                                    size: 30,
+                                                  ),
+                                                ),
+                                                WidgetSpan(
+                                                    child: SizedBox(
+                                                  width: 10,
+                                                )),
+                                                TextSpan(
+                                                    text: 'Check In',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
+                                              ],
+                                            ),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.13,
+                                            cellPadding: EdgeInsets.zero,
+                                            titleTextAlign:
+                                                PlutoColumnTextAlign.center,
+                                            textAlign:
+                                                PlutoColumnTextAlign.center,
+                                            type: PlutoColumnType.text(),
+                                            enableEditingMode: false,
+                                            backgroundColor:
+                                                const Color(0XFF6491F7),
+                                            renderer: (rendererContext) {
+                                              return Container(
+                                                height: rowHeight,
+                                                // width: rendererContext.cell.column.width,
+                                                decoration: BoxDecoration(
+                                                    gradient: whiteGradient),
+                                                child: Center(
+                                                    child: Text(rendererContext
+                                                        .cell.value)),
+                                              );
+                                            },
+                                          ),
+                                          PlutoColumn(
+                                            title: 'Check_Out',
+                                            field: 'check_out',
+                                            titleSpan: const TextSpan(
+                                              children: [
+                                                WidgetSpan(
+                                                  child: Icon(
+                                                    Icons.hourglass_empty_outlined,
+                                                    color: Color(0xffF3F7F9),
+                                                    size: 30,
+                                                  ),
+                                                ),
+                                                WidgetSpan(
+                                                    child: SizedBox(
+                                                  width: 10,
+                                                )),
+                                                TextSpan(
+                                                    text: 'Check Out',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
+                                              ],
+                                            ),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.13,
+                                            cellPadding: EdgeInsets.zero,
+                                            titleTextAlign:
+                                                PlutoColumnTextAlign.center,
+                                            textAlign:
+                                                PlutoColumnTextAlign.center,
+                                            type: PlutoColumnType.text(),
+                                            enableEditingMode: false,
+                                            backgroundColor:
+                                                const Color(0XFF6491F7),
+                                            renderer: (rendererContext) {
+                                              return Container(
+                                                height: rowHeight,
+                                                // width: rendererContext.cell.column.width,
+                                                decoration: BoxDecoration(
+                                                    gradient: whiteGradient),
+                                                child: Center(
+                                                    child: Text(rendererContext
+                                                        .cell.value)),
+                                              );
+                                            },
+                                          ),
                                           // PlutoColumn(
                                           //   title: 'gas',
                                           //   field: 'gas',
@@ -622,7 +718,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 TextSpan(
                                                     text: 'Details',
                                                     style: TextStyle(
-                                                        color: Colors.white)),
+                                                        color: Colors.white,
+                                                        fontSize: 22)),
                                               ],
                                             ),
                                             width: 300,
