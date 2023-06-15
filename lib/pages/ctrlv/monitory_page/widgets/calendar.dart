@@ -165,8 +165,11 @@ class Calendario extends StatelessWidget {
             firstDayOfWeek: 1,
             dataSource: MeetingDataSource(provider.meet),
             appointmentBuilder: (BuildContext context, CalendarAppointmentDetails details) {
-              final index = details.appointments.toList().indexOf(details.appointments.first);
-          return CustomAppointmentView(details.appointments.first,provider.monitory[index]);
+              final idAppointment = details.appointments.first.id;
+              //busqueda en los objetos de monitory, donde el primeroque encuentre con la busqueda
+              final monitory = provider.monitory.firstWhere((element) => element.idControlForm == idAppointment);
+          return CustomAppointmentView(details.appointments.first,monitory);
+
           },
           ),
         ),
@@ -199,11 +202,9 @@ class CustomAppointmentView extends StatelessWidget {
         
       child: Container(
         color: appointment.color,
-        child: Center(
-          child: Text(appointment.subject,
-          style:TextStyle(color: Colors.white,
-                  fontWeight: FontWeight.bold,)),
-        ),
+        child: Text(appointment.subject,
+        style:TextStyle(color: Colors.white,
+                fontWeight: FontWeight.bold,)),
       ),
     );
   }

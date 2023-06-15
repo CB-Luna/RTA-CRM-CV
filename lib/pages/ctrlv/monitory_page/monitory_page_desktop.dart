@@ -4,6 +4,7 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/ctrlv/monitory_page/Popup/extra_parts.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/Search_bar_monitory.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/calendar.dart';
 import 'package:rta_crm_cv/providers/ctrlv/monitory_provider.dart';
@@ -752,20 +753,11 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                                     builder:
                                                                         (context,
                                                                             setState) {
-                                                                  switch (monitoryProvider.viewPopup) {
-                                                                    case 0:
-                                                                      return DetailsPop(
-                                                                        vehicle: rendererContext
-                                                                            .cell
-                                                                            .value,
-                                                                      );
-                                                                    case 1:
-                                                                      return MeasuresPopUp();
-                                                                    default:
+                                                                  
                                                                     return DetailsPop(vehicle: rendererContext
                                                                             .cell
                                                                             .value,);
-                                                                  }
+                                                                  
                                                                 });
                                                               });
                                                         },

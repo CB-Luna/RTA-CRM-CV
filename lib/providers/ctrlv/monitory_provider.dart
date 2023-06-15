@@ -369,8 +369,9 @@ class MonitoryProvider extends ChangeNotifier {
           meet.add(Appointment(
             startTime: event.dateAddedR,
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} R",
             color: const Color.fromRGBO(52, 86, 148, 10),
+            id: event.idControlForm,
             // recurrenceRule: 'FREQ=DAILY;COUNT=10',
             // isAllDay: true,
           ));
@@ -378,8 +379,9 @@ class MonitoryProvider extends ChangeNotifier {
           meet.add(Appointment(
             startTime: event.dateAddedD!.add(const Duration(hours: -1)),
             endTime: event.dateAddedD!,
-            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} D",
             color: const Color.fromRGBO(52, 86, 148, 10),
+            id: event.idControlForm,
             // recurrenceRule: 'FREQ=DAILY;COUNT=10',
             // isAllDay: true,
           ));
@@ -390,6 +392,7 @@ class MonitoryProvider extends ChangeNotifier {
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
             subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} R",
             color: const Color.fromRGBO(191, 33, 53, 10),
+            id: event.idControlForm,
           ));
 
           meet.add(Appointment(
@@ -397,21 +400,24 @@ class MonitoryProvider extends ChangeNotifier {
             endTime: event.dateAddedD!,
             subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} D",
             color: const Color.fromRGBO(191, 33, 53, 10),
+            id: event.idControlForm,
           ));
           break;
         case "SMI":
         meet.add(Appointment(
             startTime: event.dateAddedR,
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} R",
             color: const Color.fromRGBO(217, 217, 217, 10),
+            id: event.idControlForm,
           ));
 
           meet.add(Appointment(
             startTime: event.dateAddedD!.add(const Duration(hours: -1)),
             endTime: event.dateAddedD!,
-            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} D",
             color: const Color.fromRGBO(217, 217, 217, 10),
+            id: event.idControlForm,
           ));
           break;
         default:
@@ -424,8 +430,9 @@ class MonitoryProvider extends ChangeNotifier {
           meet.add(Appointment(
             startTime: event.dateAddedR,
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} R",
             color: const Color.fromRGBO(52, 86, 148, 10),
+            id: event.idControlForm,
             // recurrenceRule: 'FREQ=DAILY;COUNT=10',
             // isAllDay: true,
           ));
@@ -436,6 +443,7 @@ class MonitoryProvider extends ChangeNotifier {
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
             subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} R",
             color: const Color.fromRGBO(191, 33, 53, 10),
+            id: event.idControlForm,
           ));
 
           break;
@@ -443,8 +451,9 @@ class MonitoryProvider extends ChangeNotifier {
         meet.add(Appointment(
             startTime: event.dateAddedR,
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
+            subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} R",
             color: const Color.fromRGBO(217, 217, 217, 10),
+            id: event.idControlForm,
           ));
 
           break;
@@ -470,6 +479,7 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
             subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
             color: const Color.fromRGBO(52, 86, 148, 10),
+            id: event.idControlForm,
             // recurrenceRule: 'FREQ=DAILY;COUNT=10',
             // isAllDay: true,
           ));
@@ -479,6 +489,7 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             endTime: event.dateAddedD!,
             subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
             color: const Color.fromRGBO(52, 86, 148, 10),
+            id: event.idControlForm,
             // recurrenceRule: 'FREQ=DAILY;COUNT=10',
             // isAllDay: true,
           ));
@@ -489,6 +500,7 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
             subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} R",
             color: const Color.fromRGBO(191, 33, 53, 10),
+            id: event.idControlForm,
           ));
 
           meet.add(Appointment(
@@ -496,6 +508,7 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             endTime: event.dateAddedD!,
             subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} D",
             color: const Color.fromRGBO(191, 33, 53, 10),
+            id: event.idControlForm,
           ));
           break;
         case "SMI":
@@ -504,6 +517,7 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
             subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
             color: const Color.fromRGBO(217, 217, 217, 10),
+            id: event.idControlForm,
           ));
 
           meet.add(Appointment(
@@ -511,6 +525,7 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             endTime: event.dateAddedD!,
             subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
             color: const Color.fromRGBO(217, 217, 217, 10),
+            id: event.idControlForm,
           ));
           break;
         default:
@@ -525,6 +540,7 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
             subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
             color: const Color.fromRGBO(52, 86, 148, 10),
+            id: event.idControlForm,
             // recurrenceRule: 'FREQ=DAILY;COUNT=10',
             // isAllDay: true,
           ));
@@ -535,6 +551,7 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
             subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)} R",
             color: const Color.fromRGBO(191, 33, 53, 10),
+            id: event.idControlForm,
           ));
 
           break;
@@ -544,6 +561,7 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
             subject: "${event.employee.name.substring(0,1)}${event.employee.lastName.substring(0,1)}",
             color: const Color.fromRGBO(217, 217, 217, 10),
+            id: event.idControlForm,
           ));
 
           break;

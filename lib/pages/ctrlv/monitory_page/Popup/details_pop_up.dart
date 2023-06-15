@@ -7,7 +7,9 @@ import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../widgets/forms_answer.dart';
+import 'extra_parts.dart';
 import 'measures.dart';
+import 'package:rta_crm_cv/widgets/card_header.dart';
 
 class DetailsPop extends StatelessWidget {
   final Monitory vehicle;
@@ -29,8 +31,7 @@ class DetailsPop extends StatelessWidget {
           children: [
             const Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text("DETAILS",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 48),),
+              child: CardHeader(text: 'DETAILS',),
             ),
             Row(
               children: [
@@ -326,7 +327,17 @@ class DetailsPop extends StatelessWidget {
           ],
         ),
       ):
-      provider.viewPopup == 1 ? MeasuresPopUp(): Container(),
+      //cambio de PopUp
+      //Id enviarle el de control form para tomar todos los datos de las diferntes tablas.
+      provider.viewPopup == 1 ? MeasuresPopUp(): 
+      provider.viewPopup == 2 ? ExtraPopUp(catalog: "Lights"): 
+      provider.viewPopup == 3 ? ExtraPopUp(catalog: "Car Bodywork"):
+      provider.viewPopup == 4 ? ExtraPopUp(catalog: "Fluid Check"):
+      provider.viewPopup == 5 ? ExtraPopUp(catalog: "Bucket Inspection"):
+      provider.viewPopup == 6 ? ExtraPopUp(catalog: "Security"):
+      provider.viewPopup == 7 ? ExtraPopUp(catalog: "Extra"):
+      provider.viewPopup == 8 ? ExtraPopUp(catalog: "Equipment"): Container(),
+      
     );
   }
 }
