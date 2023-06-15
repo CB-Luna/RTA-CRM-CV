@@ -3,17 +3,18 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 
 import '../../../../models/issues.dart';
+import '../../../../models/issues_x_user.dart';
 import '../../../../models/vehicle.dart';
 import '../../../../providers/users_provider.dart';
 import '../../../../widgets/get_image_widget.dart';
 import '../pop_up/reported_issues_pop_up.dart';
 
 class EmployeeIssuesCard extends StatefulWidget {
-  final Vehicle vehicle;
+  final IssuesXUser issueXUser;
 
   const EmployeeIssuesCard({
     super.key,
-    required this.vehicle,
+    required this.issueXUser,
   });
 
   @override
@@ -24,7 +25,8 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-    List<String> nombres = ["jim halpert", "Michael Scott", "Dwight Shcrute "];
+    //provider.issuesxUser.clear();
+
     return Container(
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -43,13 +45,14 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
             ),
             child: getUserImage(provider.webImage),
           ),
-          const Column(
+          Column(
             children: [
               Padding(
                 padding: EdgeInsets.only(bottom: 10.0, top: 5.0),
-                child: Text("Nombre:"),
+                child: Text(
+                    "Nombre: ${widget.issueXUser.name} ${widget.issueXUser.lastName}"),
               ),
-              Text("Empresa: ODE "),
+              Text("Empresa: ${widget.issueXUser.company} "),
             ],
           ),
           ElevatedButton(
@@ -59,7 +62,8 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
               ),
-              child: Text(widget.vehicle.issuesR.toString())),
+              child: Text(
+                  "${widget.issueXUser.issuesR + widget.issueXUser.issuesD}")),
         ],
       ),
     );
