@@ -906,8 +906,25 @@ class InventoryProvider extends ChangeNotifier {
           }
         }
       }
-
+      // PRINT DE LA INFORMACIÓN
+      print("-----------------------------------");
+      print("BucketInspectionR: ${bucketInspectionR.length}");
+      print("BucketInspectionD: ${bucketInspectionD.length}");
+      print("CarBodyWorkR: ${carBodyWorkR.length}");
+      print("carBodyWorkD: ${carBodyWorkD.length}");
+      print("equipmentR: ${equipmentR.length}");
+      print("equipmentD: ${equipmentD.length}");
+      print("extraR: ${extraR.length}");
+      print("extraD: ${extraD.length}");
+      print("fluidCheckR: ${fluidCheckR.length}");
+      print("fluidCheckD: ${fluidCheckD.length}");
+      print("lightsR: ${lightsR.length}");
+      print("lightsD: ${lightsD.length}");
+      print("measureR: ${measureR.length}");
+      print("measureD: ${measureD.length}");
       print("SecurityD: ${securityD.length}");
+      print("SecurityR: ${securityR.length}");
+      print("-----------------------------------");
     } catch (e) {
       print("Error en getIssues - $e");
     }
