@@ -456,55 +456,458 @@ class InventoryProvider extends ChangeNotifier {
   Future<void> getIssues(IssuesXUser issuesXUser) async {
     // Limpiar listas
     bucketInspectionR.clear();
+    bucketInspectionD.clear();
+    carBodyWorkR.clear();
+    carBodyWorkD.clear();
+    equipmentR.clear();
+    equipmentD.clear();
+    extraR.clear();
+    extraD.clear();
+    fluidCheckR.clear();
+    fluidCheckD.clear();
+    lightsR.clear();
+    lightsD.clear();
+    measureR.clear();
+    measureD.clear();
+    securityR.clear();
+    securityD.clear();
 
     //
     try {
       final res = await supabaseCtrlV
           .from('issues_view')
           .select()
-          .match({
-            'id_vehicle': issuesXUser.idVehicleFk,
-            'id_user_fk': issuesXUser.userProfileId,
-          })
-          .neq('issues_r', '0')
-          .neq('issues_d', '0');
-      // AQUI LA RES SOLO DA LOS 2 VALORES BIEN
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // .match({
+      //   'id_vehicle': issuesXUser.idVehicleFk,
+      //   'id_user_fk': issuesXUser.userProfileId,
+      // })
+      // .neq('issues_r', '0')
+      // .neq('issues_d', '0');
+
+      // AQUI está el fallo
+      print("Antes del map");
       issues = (res as List<dynamic>)
           .map((issues) => Issues.fromJson(jsonEncode(issues)))
           .toList();
-      for (Issues issue in issues) {
-        // Se verifica que bucketInspection Contentenga un valor en estado BAD
-        if (issue.bucketInspectionR.toMap().containsValue("Bad")) {
-          // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
-          //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
-          issue.bucketInspectionR.toMap().forEach((key, value) {
-            if (value == 'Bad') {
-              String nameIssue = key;
-              String? comments =
-                  issue.bucketInspectionR.toMap()["${nameIssue}_comments"];
-              List<String> listImage = issue.bucketInspectionR
-                  .toMap()["${nameIssue}_image"]
-                  .toString()
-                  .split('|');
+      print("Despues del map");
 
-              DateTime dateAdded =
-                  DateTime.parse(issue.bucketInspectionR.toMap()["date_added"]);
-              IssuesComments newIssuesComments = IssuesComments(
-                  nameIssue: nameIssue,
-                  comments: comments,
-                  listImages: listImage,
-                  dateAdded: dateAdded);
-              bucketInspectionR.add(newIssuesComments);
-            }
-          });
+      for (Issues issue in issues) {
+        if (issue.issuesR != 0) {
+          // Se verifica que bucketInspection Contentenga un valor en estado BAD
+          if (issue.bucketInspectionR.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.bucketInspectionR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.bucketInspectionR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.bucketInspectionR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue.bucketInspectionR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                bucketInspectionR.add(newIssuesComments);
+              }
+            });
+          }
+          // ---------------------- CarBodyWork_r ----------------------------//
+          if (issue.carBodyworkR.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.carBodyworkR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.carBodyworkR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.carBodyworkR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.carBodyworkR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                carBodyWorkR.add(newIssuesComments);
+              }
+            });
+          }
+          // ---------------------- equipmentR ----------------------------//
+          if (issue.equimentR.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.equimentR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.equimentR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.equimentR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.equimentR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                equipmentR.add(newIssuesComments);
+              }
+            });
+          }
+
+          // ---------------------- extraR ----------------------------//
+          if (issue.extraR.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.extraR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.extraR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.extraR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.extraR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                extraR.add(newIssuesComments);
+              }
+            });
+          }
+          // ---------------------- fluidCheckR ----------------------------//
+          if (issue.fluidCheckR.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.fluidCheckR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.fluidCheckR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.fluidCheckR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.fluidCheckR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                fluidCheckR.add(newIssuesComments);
+              }
+            });
+          }
+          // ---------------------- lightsR ----------------------------//
+          if (issue.lightsR.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.lightsR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.lightsR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.lightsR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.lightsR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                lightsR.add(newIssuesComments);
+              }
+            });
+          }
+          // ---------------------- MeasureR ----------------------------//
+          if (issue.measureR.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.measureR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.measureR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.measureR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.measureR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                measureR.add(newIssuesComments);
+              }
+            });
+          }
+          // ---------------------- SecurityR ----------------------------//
+          if (issue.securityR.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.securityR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.securityR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.securityR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.securityR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                securityR.add(newIssuesComments);
+              }
+            });
+          }
+        }
+        //------------------------- APARTADO DE LOS DELIVERED --------------------//
+        if (issue.issuesD != 0) {
+          // ---------------------- BucketInspectionD ----------------------------//
+          if (issue.bucketInspectionD.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.bucketInspectionD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.bucketInspectionD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.bucketInspectionD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue.bucketInspectionD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                bucketInspectionD.add(newIssuesComments);
+              }
+            });
+          }
+          // ---------------------- CarBodyWork_d ----------------------------//
+          if (issue.carBodyworkD.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.carBodyworkD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.carBodyworkD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.carBodyworkD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.carBodyworkD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                carBodyWorkD.add(newIssuesComments);
+              }
+            });
+          }
+          // ---------------------- equipmentD ----------------------------//
+          if (issue.equimentD.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.equimentD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.equimentD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.equimentD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.equimentD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                equipmentD.add(newIssuesComments);
+              }
+            });
+          }
+          // ---------------------- extraD ----------------------------//
+          if (issue.extraD.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.extraD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.extraD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.extraD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.extraD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                extraD.add(newIssuesComments);
+              }
+            });
+          }
+          // ---------------------- MeasureD ----------------------------//
+          if (issue.measureD.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.measureD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.measureD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.measureD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.measureD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                measureD.add(newIssuesComments);
+              }
+            });
+          }
+
+          /////
+          /// // ---------------------- fluidCheckD ----------------------------//
+          if (issue.fluidCheckD.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.fluidCheckD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.fluidCheckD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.fluidCheckD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.fluidCheckD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                fluidCheckD.add(newIssuesComments);
+              }
+            });
+          }
+
+          // ---------------------- lightsD ----------------------------//
+          if (issue.lightsD.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.lightsD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.lightsD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.lightsD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.lightsD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                lightsD.add(newIssuesComments);
+              }
+            });
+          }
+          // ---------------------- SecurityD ----------------------------//
+          if (issue.securityD.toMap().containsValue("Bad")) {
+            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            issue.securityD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue.securityD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue.securityD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded =
+                    DateTime.parse(issue.securityD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                securityD.add(newIssuesComments);
+              }
+            });
+          }
         }
       }
-      for (var bir in bucketInspectionR) {
-        print(bir.nameIssue);
-        print(bir.comments);
-        print(bir.listImages);
-        print(bir.dateAdded);
-      }
+
+      print("SecurityD: ${securityD.length}");
     } catch (e) {
       print("Error en getIssues - $e");
     }

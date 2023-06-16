@@ -7,6 +7,7 @@ import 'dart:convert';
 class Issues {
   final int idVehicle;
   final int issuesR;
+  final int idControlForm;
   final int? issuesD;
   final int idBucketInspectionRFk;
   final int? idBucketInspectionDFk;
@@ -47,6 +48,7 @@ class Issues {
     required this.idVehicle,
     required this.issuesR,
     this.issuesD,
+    required this.idControlForm,
     required this.idBucketInspectionRFk,
     this.idBucketInspectionDFk,
     required this.bucketInspectionR,
@@ -90,6 +92,7 @@ class Issues {
   factory Issues.fromMap(Map<String, dynamic> json) => Issues(
         idVehicle: json["id_vehicle"],
         issuesR: json["issues_r"],
+        idControlForm: json["id_control_form"],
         issuesD: json["issues_d"],
         idBucketInspectionRFk: json["id_bucket_inspection_r_fk"],
         idBucketInspectionDFk: json["id_bucket_inspection_d_fk"],
@@ -133,6 +136,7 @@ class Issues {
         "id_vehicle": idVehicle,
         "issues_r": issuesR,
         "issues_d": issuesD,
+        "id_control_form": idControlForm,
         "id_bucket_inspection_r_fk": idBucketInspectionRFk,
         "id_bucket_inspection_d_fk": idBucketInspectionDFk,
         "bucket_inspection_r": bucketInspectionR.toMap(),
@@ -172,14 +176,14 @@ class Issues {
 
 class BucketInspection {
   final int? idBucketInspection;
-  final BucketLiner? insulated;
+  final String? insulated;
   final String? insulatedComments;
   final String? insulatedImage;
-  final BucketLiner? holesDrilled;
-  final Comments? holesDrilledComments;
+  final String? holesDrilled;
+  final String? holesDrilledComments;
   final String? holesDrilledImage;
-  final BucketLiner? bucketLiner;
-  final Comments? bucketLinerComments;
+  final String? bucketLiner;
+  final String? bucketLinerComments;
   final String? bucketLinerImage;
   final DateTime? dateAdded;
 
@@ -205,15 +209,14 @@ class BucketInspection {
   factory BucketInspection.fromMap(Map<String, dynamic> json) =>
       BucketInspection(
         idBucketInspection: json["id_bucket_inspection"],
-        insulated: bucketLinerValues.map[json["insulated"]]!,
+        insulated: json["insulated"],
         insulatedComments: json["insulated_comments"],
         insulatedImage: json["insulated_image"],
-        holesDrilled: bucketLinerValues.map[json["holes_drilled"]]!,
-        holesDrilledComments:
-            commentsValues.map[json["holes_drilled_comments"]]!,
+        holesDrilled: json["holes_drilled"],
+        holesDrilledComments: json["holes_drilled_comments"],
         holesDrilledImage: json["holes_drilled_image"],
-        bucketLiner: bucketLinerValues.map[json["bucket_liner"]]!,
-        bucketLinerComments: commentsValues.map[json["bucket_liner_comments"]]!,
+        bucketLiner: json["bucket_liner"],
+        bucketLinerComments: json["bucket_liner_comments"],
         bucketLinerImage: json["bucket_liner_image"],
         dateAdded: json["date_added"] == null
             ? null
@@ -222,70 +225,55 @@ class BucketInspection {
 
   Map<String, dynamic> toMap() => {
         "id_bucket_inspection": idBucketInspection,
-        "insulated": bucketLinerValues.reverse[insulated],
+        "insulated": insulated,
         "insulated_comments": insulatedComments,
         "insulated_image": insulatedImage,
-        "holes_drilled": bucketLinerValues.reverse[holesDrilled],
-        "holes_drilled_comments": commentsValues.reverse[holesDrilledComments],
+        "holes_drilled": holesDrilled,
+        "holes_drilled_comments": holesDrilledComments,
         "holes_drilled_image": holesDrilledImage,
-        "bucket_liner": bucketLinerValues.reverse[bucketLiner],
-        "bucket_liner_comments": commentsValues.reverse[bucketLinerComments],
+        "bucket_liner": bucketLiner,
+        "bucket_liner_comments": bucketLinerComments,
         "bucket_liner_image": bucketLinerImage,
         "date_added": dateAdded?.toIso8601String(),
       };
 }
 
-enum BucketLiner { GOOD, BAD }
-
-final bucketLinerValues =
-    EnumValues({"Bad": BucketLiner.BAD, "Good": BucketLiner.GOOD});
-
-enum Comments { EMPTY, BAD, NO, NONE, NORMA }
-
-final commentsValues = EnumValues({
-  "Bad": Comments.BAD,
-  "": Comments.EMPTY,
-  "No": Comments.NO,
-  "None": Comments.NONE,
-  "Norma": Comments.NORMA
-});
-
 class CarBodywork {
   final int? idCarBodyworkD;
-  final BucketLiner? wiperBladesFront;
-  final Comments? wiperBladesFrontComments;
+  final String? wiperBladesFront;
+  final String? wiperBladesFrontComments;
   final String? wiperBladesFrontImage;
-  final BucketLiner? wiperBladesBack;
-  final Comments? wiperBladesBackComments;
+  final String? wiperBladesBack;
+  final String? wiperBladesBackComments;
   final String? wiperBladesBackImage;
-  final BucketLiner? windshieldWiperFront;
-  final BucketLiner? windshieldWiperBack;
-  final BucketLiner? generalBody;
-  final Comments? generalBodyComments;
+  final String? windshieldWiperFront;
+  final String? windshieldWiperBack;
+  final String? generalBody;
+  final String? generalBodyComments;
   final String? generalBodyImage;
-  final BucketLiner? decaling;
+  final String? decaling;
   final String? decalingComments;
-  final dynamic decalingImage;
-  final BucketLiner? tires;
+  final String? decalingImage;
+  final String? tires;
   final String? tiresComments;
-  final dynamic tiresImage;
-  final BucketLiner? glass;
-  final Comments? glassComments;
+  final String? tiresImage;
+  final String? glass;
+  final String? glassComments;
   final String? glassImage;
-  final BucketLiner? mirrors;
-  final MirrorsComments? mirrorsComments;
+  final String? mirrors;
+  final String? mirrorsComments;
   final String? mirrorsImage;
-  final BucketLiner? parking;
-  final ParkingComments? parkingComments;
+  final String? parking;
+  final String? parkingComments;
   final String? parkingImage;
-  final BucketLiner? brakes;
+  final String? brakes;
   final String? brakesComments;
-  final dynamic brakesImage;
-  final BucketLiner? emgBrakes;
+  final String? brakesImage;
+  final String? emgBrakes;
   final String? emgBrakesComments;
-  final dynamic emgBrakesImage;
-  final BucketLiner? horn;
-  final Comments? hornComments;
+  final String? emgBrakesImage;
+  final String? horn;
+  final String? hornComments;
   final String? hornImage;
   final DateTime? dateAdded;
   final int? idCarBodywork;
@@ -338,44 +326,40 @@ class CarBodywork {
 
   factory CarBodywork.fromMap(Map<String, dynamic> json) => CarBodywork(
         idCarBodyworkD: json["id_car_bodywork_d"],
-        wiperBladesFront: bucketLinerValues.map[json["wiper_blades_front"]]!,
-        wiperBladesFrontComments:
-            commentsValues.map[json["wiper_blades_front_comments"]]!,
+        wiperBladesFront: json["wiper_blades_front"],
+        wiperBladesFrontComments: json["wiper_blades_front_comments"],
         wiperBladesFrontImage: json["wiper_blades_front_image"],
-        wiperBladesBack: bucketLinerValues.map[json["wiper_blades_back"]]!,
-        wiperBladesBackComments:
-            commentsValues.map[json["wiper_blades_back_comments"]]!,
+        wiperBladesBack: json["wiper_blades_back"],
+        wiperBladesBackComments: json["wiper_blades_back_comments"],
         wiperBladesBackImage: json["wiper_blades_back_image"],
-        windshieldWiperFront:
-            bucketLinerValues.map[json["windshield_wiper_front"]]!,
-        windshieldWiperBack:
-            bucketLinerValues.map[json["windshield_wiper_back"]]!,
-        generalBody: bucketLinerValues.map[json["general_body"]]!,
-        generalBodyComments: commentsValues.map[json["general_body_comments"]]!,
+        windshieldWiperFront: json["windshield_wiper_front"],
+        windshieldWiperBack: json["windshield_wiper_back"],
+        generalBody: json["general_body"],
+        generalBodyComments: json["general_body_comments"],
         generalBodyImage: json["general_body_image"],
-        decaling: bucketLinerValues.map[json["decaling"]]!,
+        decaling: json["decaling"],
         decalingComments: json["decaling_comments"],
         decalingImage: json["decaling_image"],
-        tires: bucketLinerValues.map[json["tires"]]!,
+        tires: json["tires"],
         tiresComments: json["tires_comments"],
         tiresImage: json["tires_image"],
-        glass: bucketLinerValues.map[json["glass"]]!,
-        glassComments: commentsValues.map[json["glass_comments"]]!,
+        glass: json["glass"],
+        glassComments: json["glass_comments"],
         glassImage: json["glass_image"],
-        mirrors: bucketLinerValues.map[json["mirrors"]]!,
-        mirrorsComments: mirrorsCommentsValues.map[json["mirrors_comments"]]!,
+        mirrors: json["mirrors"],
+        mirrorsComments: json["mirrors_comments"],
         mirrorsImage: json["mirrors_image"],
-        parking: bucketLinerValues.map[json["parking"]]!,
-        parkingComments: parkingCommentsValues.map[json["parking_comments"]]!,
+        parking: json["parking"],
+        parkingComments: json["parking_comments"],
         parkingImage: json["parking_image"],
-        brakes: bucketLinerValues.map[json["brakes"]]!,
+        brakes: json["brakes"],
         brakesComments: json["brakes_comments"],
         brakesImage: json["brakes_image"],
-        emgBrakes: bucketLinerValues.map[json["emg_brakes"]]!,
+        emgBrakes: json["emg_brakes"],
         emgBrakesComments: json["emg_brakes_comments"],
         emgBrakesImage: json["emg_brakes_image"],
-        horn: bucketLinerValues.map[json["horn"]]!,
-        hornComments: commentsValues.map[json["horn_comments"]]!,
+        horn: json["horn"],
+        hornComments: json["horn_comments"],
         hornImage: json["horn_image"],
         dateAdded: json["date_added"] == null
             ? null
@@ -385,77 +369,62 @@ class CarBodywork {
 
   Map<String, dynamic> toMap() => {
         "id_car_bodywork_d": idCarBodyworkD,
-        "wiper_blades_front": bucketLinerValues.reverse[wiperBladesFront],
-        "wiper_blades_front_comments":
-            commentsValues.reverse[wiperBladesFrontComments],
+        "wiper_blades_front": wiperBladesFront,
+        "wiper_blades_front_comments": wiperBladesFrontComments,
         "wiper_blades_front_image": wiperBladesFrontImage,
-        "wiper_blades_back": bucketLinerValues.reverse[wiperBladesBack],
-        "wiper_blades_back_comments":
-            commentsValues.reverse[wiperBladesBackComments],
+        "wiper_blades_back": wiperBladesBack,
+        "wiper_blades_back_comments": wiperBladesBackComments,
         "wiper_blades_back_image": wiperBladesBackImage,
-        "windshield_wiper_front":
-            bucketLinerValues.reverse[windshieldWiperFront],
-        "windshield_wiper_back": bucketLinerValues.reverse[windshieldWiperBack],
-        "general_body": bucketLinerValues.reverse[generalBody],
-        "general_body_comments": commentsValues.reverse[generalBodyComments],
+        "windshield_wiper_front": windshieldWiperFront,
+        "windshield_wiper_back": windshieldWiperBack,
+        "general_body": generalBody,
+        "general_body_comments": generalBodyComments,
         "general_body_image": generalBodyImage,
-        "decaling": bucketLinerValues.reverse[decaling],
+        "decaling": decaling,
         "decaling_comments": decalingComments,
         "decaling_image": decalingImage,
-        "tires": bucketLinerValues.reverse[tires],
+        "tires": tires,
         "tires_comments": tiresComments,
         "tires_image": tiresImage,
-        "glass": bucketLinerValues.reverse[glass],
-        "glass_comments": commentsValues.reverse[glassComments],
+        "glass": glass,
+        "glass_comments": glassComments,
         "glass_image": glassImage,
-        "mirrors": bucketLinerValues.reverse[mirrors],
-        "mirrors_comments": mirrorsCommentsValues.reverse[mirrorsComments],
+        "mirrors": mirrors,
+        "mirrors_comments": mirrorsComments,
         "mirrors_image": mirrorsImage,
-        "parking": bucketLinerValues.reverse[parking],
-        "parking_comments": parkingCommentsValues.reverse[parkingComments],
+        "parking": parking,
+        "parking_comments": parkingComments,
         "parking_image": parkingImage,
-        "brakes": bucketLinerValues.reverse[brakes],
+        "brakes": brakes,
         "brakes_comments": brakesComments,
         "brakes_image": brakesImage,
-        "emg_brakes": bucketLinerValues.reverse[emgBrakes],
+        "emg_brakes": emgBrakes,
         "emg_brakes_comments": emgBrakesComments,
         "emg_brakes_image": emgBrakesImage,
-        "horn": bucketLinerValues.reverse[horn],
-        "horn_comments": commentsValues.reverse[hornComments],
+        "horn": horn,
+        "horn_comments": hornComments,
         "horn_image": hornImage,
         "date_added": dateAdded?.toIso8601String(),
         "id_car_bodywork": idCarBodywork,
       };
 }
 
-enum MirrorsComments { EMPTY, MORROS_UN_BAD_STATE }
-
-final mirrorsCommentsValues = EnumValues({
-  "": MirrorsComments.EMPTY,
-  "Morros un Bad state": MirrorsComments.MORROS_UN_BAD_STATE
-});
-
-enum ParkingComments { EMPTY, BAD }
-
-final parkingCommentsValues =
-    EnumValues({"Bad ": ParkingComments.BAD, "": ParkingComments.EMPTY});
-
 class Equiment {
   final int? idEquipment;
-  final BinsBoxKey? ignitionKey;
-  final IgnitionKeyComments? ignitionKeyComments;
+  final String? ignitionKey;
+  final String? ignitionKeyComments;
   final String? ignitionKeyImage;
-  final BinsBoxKey? binsBoxKey;
-  final Comments? binsBoxKeyComments;
+  final String? binsBoxKey;
+  final String? binsBoxKeyComments;
   final String? binsBoxKeyImage;
-  final BinsBoxKey? vehicleRegistrationCopy;
-  final VehicleCopyComments? vehicleRegistrationCopyComments;
+  final String? vehicleRegistrationCopy;
+  final String? vehicleRegistrationCopyComments;
   final String? vehicleRegistrationCopyImage;
-  final BinsBoxKey? vehicleInsuranceCopy;
-  final VehicleCopyComments? vehicleInsuranceCopyComments;
+  final String? vehicleInsuranceCopy;
+  final String? vehicleInsuranceCopyComments;
   final String? vehicleInsuranceCopyImage;
-  final BinsBoxKey? bucketLiftOperatorManual;
-  final Comments? bucketLiftOperatorManualComments;
+  final String? bucketLiftOperatorManual;
+  final String? bucketLiftOperatorManualComments;
   final String? bucketLiftOperatorManualImage;
   final DateTime? dateAdded;
 
@@ -485,27 +454,22 @@ class Equiment {
 
   factory Equiment.fromMap(Map<String, dynamic> json) => Equiment(
         idEquipment: json["id_equipment"],
-        ignitionKey: binsBoxKeyValues.map[json["ignition_key"]]!,
-        ignitionKeyComments:
-            ignitionKeyCommentsValues.map[json["ignition_key_comments"]]!,
+        ignitionKey: json["ignition_key"],
+        ignitionKeyComments: json["ignition_key_comments"],
         ignitionKeyImage: json["ignition_key_image"],
-        binsBoxKey: binsBoxKeyValues.map[json["bins_box_key"]]!,
-        binsBoxKeyComments: commentsValues.map[json["bins_box_key_comments"]]!,
+        binsBoxKey: json["bins_box_key"],
+        binsBoxKeyComments: json["bins_box_key_comments"],
         binsBoxKeyImage: json["bins_box_key_image"],
-        vehicleRegistrationCopy:
-            binsBoxKeyValues.map[json["vehicle_registration_copy"]]!,
-        vehicleRegistrationCopyComments: vehicleCopyCommentsValues
-            .map[json["vehicle_registration_copy_comments"]]!,
+        vehicleRegistrationCopy: json["vehicle_registration_copy"],
+        vehicleRegistrationCopyComments:
+            json["vehicle_registration_copy_comments"],
         vehicleRegistrationCopyImage: json["vehicle_registration_copy_image"],
-        vehicleInsuranceCopy:
-            binsBoxKeyValues.map[json["vehicle_insurance_copy"]]!,
-        vehicleInsuranceCopyComments: vehicleCopyCommentsValues
-            .map[json["vehicle_insurance_copy_comments"]]!,
+        vehicleInsuranceCopy: json["vehicle_insurance_copy"],
+        vehicleInsuranceCopyComments: json["vehicle_insurance_copy_comments"],
         vehicleInsuranceCopyImage: json["vehicle_insurance_copy_image"],
-        bucketLiftOperatorManual:
-            binsBoxKeyValues.map[json["bucket_lift_operator_manual"]]!,
+        bucketLiftOperatorManual: json["bucket_lift_operator_manual"],
         bucketLiftOperatorManualComments:
-            commentsValues.map[json["bucket_lift_operator_manual_comments"]]!,
+            json["bucket_lift_operator_manual_comments"],
         bucketLiftOperatorManualImage:
             json["bucket_lift_operator_manual_image"],
         dateAdded: json["date_added"] == null
@@ -515,87 +479,51 @@ class Equiment {
 
   Map<String, dynamic> toMap() => {
         "id_equipment": idEquipment,
-        "ignition_key": binsBoxKeyValues.reverse[ignitionKey],
-        "ignition_key_comments":
-            ignitionKeyCommentsValues.reverse[ignitionKeyComments],
+        "ignition_key": ignitionKey,
+        "ignition_key_comments": ignitionKeyComments,
         "ignition_key_image": ignitionKeyImage,
-        "bins_box_key": binsBoxKeyValues.reverse[binsBoxKey],
-        "bins_box_key_comments": commentsValues.reverse[binsBoxKeyComments],
+        "bins_box_key": binsBoxKey,
+        "bins_box_key_comments": binsBoxKeyComments,
         "bins_box_key_image": binsBoxKeyImage,
-        "vehicle_registration_copy":
-            binsBoxKeyValues.reverse[vehicleRegistrationCopy],
-        "vehicle_registration_copy_comments":
-            vehicleCopyCommentsValues.reverse[vehicleRegistrationCopyComments],
+        "vehicle_registration_copy": vehicleRegistrationCopy,
+        "vehicle_registration_copy_comments": vehicleRegistrationCopyComments,
         "vehicle_registration_copy_image": vehicleRegistrationCopyImage,
-        "vehicle_insurance_copy":
-            binsBoxKeyValues.reverse[vehicleInsuranceCopy],
-        "vehicle_insurance_copy_comments":
-            vehicleCopyCommentsValues.reverse[vehicleInsuranceCopyComments],
+        "vehicle_insurance_copy": vehicleInsuranceCopy,
+        "vehicle_insurance_copy_comments": vehicleInsuranceCopyComments,
         "vehicle_insurance_copy_image": vehicleInsuranceCopyImage,
-        "bucket_lift_operator_manual":
-            binsBoxKeyValues.reverse[bucketLiftOperatorManual],
+        "bucket_lift_operator_manual": bucketLiftOperatorManual,
         "bucket_lift_operator_manual_comments":
-            commentsValues.reverse[bucketLiftOperatorManualComments],
+            bucketLiftOperatorManualComments,
         "bucket_lift_operator_manual_image": bucketLiftOperatorManualImage,
         "date_added": dateAdded?.toIso8601String(),
       };
 }
 
-enum BinsBoxKey { YES, NO }
-
-final binsBoxKeyValues =
-    EnumValues({"No": BinsBoxKey.NO, "Yes": BinsBoxKey.YES});
-
-enum IgnitionKeyComments {
-  EMPTY,
-  NONE,
-  I_DID_NOT_HAVE_THE_IGNITION_KEY,
-  BAD,
-  NONE_ELEMENT
-}
-
-final ignitionKeyCommentsValues = EnumValues({
-  "Bad": IgnitionKeyComments.BAD,
-  "": IgnitionKeyComments.EMPTY,
-  "I did not have the ignition key":
-      IgnitionKeyComments.I_DID_NOT_HAVE_THE_IGNITION_KEY,
-  "None": IgnitionKeyComments.NONE,
-  "None element": IgnitionKeyComments.NONE_ELEMENT
-});
-
-enum VehicleCopyComments { EMPTY, NOEM, NONE }
-
-final vehicleCopyCommentsValues = EnumValues({
-  "": VehicleCopyComments.EMPTY,
-  "Noem": VehicleCopyComments.NOEM,
-  "None": VehicleCopyComments.NONE
-});
-
 class Extra {
   final int? idExtra;
-  final BucketLiner? ladder;
-  final Comments? ladderComments;
+  final String? ladder;
+  final String? ladderComments;
   final String? ladderImage;
-  final BucketLiner? stepLadder;
-  final Comments? stepLadderComments;
+  final String? stepLadder;
+  final String? stepLadderComments;
   final String? stepLadderImage;
-  final BucketLiner? ladderStraps;
-  final LadderStrapsComments? ladderStrapsComments;
+  final String? ladderStraps;
+  final String? ladderStrapsComments;
   final String? ladderStrapsImage;
-  final BucketLiner? hydraulicFluidForBucket;
+  final String? hydraulicFluidForBucket;
   final String? hydraulicFluidForBucketComments;
-  final dynamic hydraulicFluidForBucketImage;
-  final BucketLiner? fiberReelRack;
-  final Comments? fiberReelRackComments;
+  final String? hydraulicFluidForBucketImage;
+  final String? fiberReelRack;
+  final String? fiberReelRackComments;
   final String? fiberReelRackImage;
-  final BucketLiner? binsLockedAndSecure;
+  final String? binsLockedAndSecure;
   final String? binsLockedAndSecureComments;
-  final dynamic binsLockedAndSecureImage;
-  final BucketLiner? safetyHarness;
+  final String? binsLockedAndSecureImage;
+  final String? safetyHarness;
   final String? safetyHarnessComments;
-  final dynamic safetyHarnessImage;
-  final BucketLiner? lanyardSafetyHarness;
-  final Comments? lanyardSafetyHarnessComments;
+  final String? safetyHarnessImage;
+  final String? lanyardSafetyHarness;
+  final String? lanyardSafetyHarnessComments;
   final String? lanyardSafetyHarnessImage;
   final DateTime? dateAdded;
 
@@ -634,36 +562,30 @@ class Extra {
 
   factory Extra.fromMap(Map<String, dynamic> json) => Extra(
         idExtra: json["id_extra"],
-        ladder: bucketLinerValues.map[json["ladder"]]!,
-        ladderComments: commentsValues.map[json["ladder_comments"]]!,
+        ladder: json["ladder"],
+        ladderComments: json["ladder_comments"],
         ladderImage: json["ladder_image"],
-        stepLadder: bucketLinerValues.map[json["step_ladder"]]!,
-        stepLadderComments: commentsValues.map[json["step_ladder_comments"]]!,
+        stepLadder: json["step_ladder"],
+        stepLadderComments: json["step_ladder_comments"],
         stepLadderImage: json["step_ladder_image"],
-        ladderStraps: bucketLinerValues.map[json["ladder_straps"]]!,
-        ladderStrapsComments:
-            ladderStrapsCommentsValues.map[json["ladder_straps_comments"]]!,
+        ladderStraps: json["ladder_straps"],
+        ladderStrapsComments: json["ladder_straps_comments"],
         ladderStrapsImage: json["ladder_straps_image"],
-        hydraulicFluidForBucket:
-            bucketLinerValues.map[json["hydraulic_fluid_for_bucket"]]!,
+        hydraulicFluidForBucket: json["hydraulic_fluid_for_bucket"],
         hydraulicFluidForBucketComments:
             json["hydraulic_fluid_for_bucket_comments"],
         hydraulicFluidForBucketImage: json["hydraulic_fluid_for_bucket_image"],
-        fiberReelRack: bucketLinerValues.map[json["fiber_reel_rack"]]!,
-        fiberReelRackComments:
-            commentsValues.map[json["fiber_reel_rack_comments"]]!,
+        fiberReelRack: json["fiber_reel_rack"],
+        fiberReelRackComments: json["fiber_reel_rack_comments"],
         fiberReelRackImage: json["fiber_reel_rack_image"],
-        binsLockedAndSecure:
-            bucketLinerValues.map[json["bins_locked_and_secure"]]!,
+        binsLockedAndSecure: json["bins_locked_and_secure"],
         binsLockedAndSecureComments: json["bins_locked_and_secure_comments"],
         binsLockedAndSecureImage: json["bins_locked_and_secure_image"],
-        safetyHarness: bucketLinerValues.map[json["safety_harness"]]!,
+        safetyHarness: json["safety_harness"],
         safetyHarnessComments: json["safety_harness_comments"],
         safetyHarnessImage: json["safety_harness_image"],
-        lanyardSafetyHarness:
-            bucketLinerValues.map[json["lanyard_safety_harness"]]!,
-        lanyardSafetyHarnessComments:
-            commentsValues.map[json["lanyard_safety_harness_comments"]]!,
+        lanyardSafetyHarness: json["lanyard_safety_harness"],
+        lanyardSafetyHarnessComments: json["lanyard_safety_harness_comments"],
         lanyardSafetyHarnessImage: json["lanyard_safety_harness_image"],
         dateAdded: json["date_added"] == null
             ? null
@@ -672,69 +594,53 @@ class Extra {
 
   Map<String, dynamic> toMap() => {
         "id_extra": idExtra,
-        "ladder": bucketLinerValues.reverse[ladder],
-        "ladder_comments": commentsValues.reverse[ladderComments],
+        "ladder": ladder,
+        "ladder_comments": ladderComments,
         "ladder_image": ladderImage,
-        "step_ladder": bucketLinerValues.reverse[stepLadder],
-        "step_ladder_comments": commentsValues.reverse[stepLadderComments],
+        "step_ladder": stepLadder,
+        "step_ladder_comments": stepLadderComments,
         "step_ladder_image": stepLadderImage,
-        "ladder_straps": bucketLinerValues.reverse[ladderStraps],
-        "ladder_straps_comments":
-            ladderStrapsCommentsValues.reverse[ladderStrapsComments],
+        "ladder_straps": ladderStraps,
+        "ladder_straps_comments": ladderStrapsComments,
         "ladder_straps_image": ladderStrapsImage,
-        "hydraulic_fluid_for_bucket":
-            bucketLinerValues.reverse[hydraulicFluidForBucket],
+        "hydraulic_fluid_for_bucket": hydraulicFluidForBucket,
         "hydraulic_fluid_for_bucket_comments": hydraulicFluidForBucketComments,
         "hydraulic_fluid_for_bucket_image": hydraulicFluidForBucketImage,
-        "fiber_reel_rack": bucketLinerValues.reverse[fiberReelRack],
-        "fiber_reel_rack_comments":
-            commentsValues.reverse[fiberReelRackComments],
+        "fiber_reel_rack": fiberReelRack,
+        "fiber_reel_rack_comments": fiberReelRackComments,
         "fiber_reel_rack_image": fiberReelRackImage,
-        "bins_locked_and_secure":
-            bucketLinerValues.reverse[binsLockedAndSecure],
+        "bins_locked_and_secure": binsLockedAndSecure,
         "bins_locked_and_secure_comments": binsLockedAndSecureComments,
         "bins_locked_and_secure_image": binsLockedAndSecureImage,
-        "safety_harness": bucketLinerValues.reverse[safetyHarness],
+        "safety_harness": safetyHarness,
         "safety_harness_comments": safetyHarnessComments,
         "safety_harness_image": safetyHarnessImage,
-        "lanyard_safety_harness":
-            bucketLinerValues.reverse[lanyardSafetyHarness],
-        "lanyard_safety_harness_comments":
-            commentsValues.reverse[lanyardSafetyHarnessComments],
+        "lanyard_safety_harness": lanyardSafetyHarness,
+        "lanyard_safety_harness_comments": lanyardSafetyHarnessComments,
         "lanyard_safety_harness_image": lanyardSafetyHarnessImage,
         "date_added": dateAdded?.toIso8601String(),
       };
 }
 
-enum LadderStrapsComments { EMPTY, BAD_STATE, BAD, NAD, BAS }
-
-final ladderStrapsCommentsValues = EnumValues({
-  "Bad": LadderStrapsComments.BAD,
-  "Bad state": LadderStrapsComments.BAD_STATE,
-  "Bas": LadderStrapsComments.BAS,
-  "": LadderStrapsComments.EMPTY,
-  "Nad": LadderStrapsComments.NAD
-});
-
 class FluidCheck {
   final int? idFluidsCheck;
-  final BucketLiner? engineOil;
-  final LadderStrapsComments? engineOilComments;
+  final String? engineOil;
+  final String? engineOilComments;
   final String? engineOilImage;
-  final BucketLiner? transmission;
-  final LadderStrapsComments? transmissionComments;
+  final String? transmission;
+  final String? transmissionComments;
   final String? transmissionImage;
-  final BucketLiner? coolant;
-  final Comments? coolantComments;
+  final String? coolant;
+  final String? coolantComments;
   final String? coolantImage;
-  final BucketLiner? powerSteering;
+  final String? powerSteering;
   final String? powerSteeringComments;
-  final dynamic powerSteeringImage;
-  final BucketLiner? dieselExhaustFluid;
+  final String? powerSteeringImage;
+  final String? dieselExhaustFluid;
   final String? dieselExhaustFluidComments;
-  final dynamic dieselExhaustFluidImage;
-  final BucketLiner? windshieldWasherFluid;
-  final WindshieldWasherFluidComments? windshieldWasherFluidComments;
+  final String? dieselExhaustFluidImage;
+  final String? windshieldWasherFluid;
+  final String? windshieldWasherFluidComments;
   final String? windshieldWasherFluidImage;
   final DateTime? dateAdded;
 
@@ -768,28 +674,23 @@ class FluidCheck {
 
   factory FluidCheck.fromMap(Map<String, dynamic> json) => FluidCheck(
         idFluidsCheck: json["id_fluids_check"],
-        engineOil: bucketLinerValues.map[json["engine_oil"]]!,
-        engineOilComments:
-            ladderStrapsCommentsValues.map[json["engine_oil_comments"]]!,
+        engineOil: json["engine_oil"],
+        engineOilComments: json["engine_oil_comments"],
         engineOilImage: json["engine_oil_image"],
-        transmission: bucketLinerValues.map[json["transmission"]]!,
-        transmissionComments:
-            ladderStrapsCommentsValues.map[json["transmission_comments"]]!,
+        transmission: json["transmission"],
+        transmissionComments: json["transmission_comments"],
         transmissionImage: json["transmission_image"],
-        coolant: bucketLinerValues.map[json["coolant"]]!,
-        coolantComments: commentsValues.map[json["coolant_comments"]]!,
+        coolant: json["coolant"],
+        coolantComments: json["coolant_comments"],
         coolantImage: json["coolant_image"],
-        powerSteering: bucketLinerValues.map[json["power_steering"]]!,
+        powerSteering: json["power_steering"],
         powerSteeringComments: json["power_steering_comments"],
         powerSteeringImage: json["power_steering_image"],
-        dieselExhaustFluid:
-            bucketLinerValues.map[json["diesel_exhaust_fluid"]]!,
+        dieselExhaustFluid: json["diesel_exhaust_fluid"],
         dieselExhaustFluidComments: json["diesel_exhaust_fluid_comments"],
         dieselExhaustFluidImage: json["diesel_exhaust_fluid_image"],
-        windshieldWasherFluid:
-            bucketLinerValues.map[json["windshield_washer_fluid"]]!,
-        windshieldWasherFluidComments: windshieldWasherFluidCommentsValues
-            .map[json["windshield_washer_fluid_comments"]]!,
+        windshieldWasherFluid: json["windshield_washer_fluid"],
+        windshieldWasherFluidComments: json["windshield_washer_fluid_comments"],
         windshieldWasherFluidImage: json["windshield_washer_fluid_image"],
         dateAdded: json["date_added"] == null
             ? null
@@ -798,71 +699,59 @@ class FluidCheck {
 
   Map<String, dynamic> toMap() => {
         "id_fluids_check": idFluidsCheck,
-        "engine_oil": bucketLinerValues.reverse[engineOil],
-        "engine_oil_comments":
-            ladderStrapsCommentsValues.reverse[engineOilComments],
+        "engine_oil": engineOil,
+        "engine_oil_comments": engineOilComments,
         "engine_oil_image": engineOilImage,
-        "transmission": bucketLinerValues.reverse[transmission],
-        "transmission_comments":
-            ladderStrapsCommentsValues.reverse[transmissionComments],
+        "transmission": transmission,
+        "transmission_comments": transmissionComments,
         "transmission_image": transmissionImage,
-        "coolant": bucketLinerValues.reverse[coolant],
-        "coolant_comments": commentsValues.reverse[coolantComments],
+        "coolant": coolant,
+        "coolant_comments": coolantComments,
         "coolant_image": coolantImage,
-        "power_steering": bucketLinerValues.reverse[powerSteering],
+        "power_steering": powerSteering,
         "power_steering_comments": powerSteeringComments,
         "power_steering_image": powerSteeringImage,
-        "diesel_exhaust_fluid": bucketLinerValues.reverse[dieselExhaustFluid],
+        "diesel_exhaust_fluid": dieselExhaustFluid,
         "diesel_exhaust_fluid_comments": dieselExhaustFluidComments,
         "diesel_exhaust_fluid_image": dieselExhaustFluidImage,
-        "windshield_washer_fluid":
-            bucketLinerValues.reverse[windshieldWasherFluid],
-        "windshield_washer_fluid_comments": windshieldWasherFluidCommentsValues
-            .reverse[windshieldWasherFluidComments],
+        "windshield_washer_fluid": windshieldWasherFluid,
+        "windshield_washer_fluid_comments": windshieldWasherFluidComments,
         "windshield_washer_fluid_image": windshieldWasherFluidImage,
         "date_added": dateAdded?.toIso8601String(),
       };
 }
 
-enum WindshieldWasherFluidComments { EMPTY, FLUID_IN_BAD_STATE, BAD }
-
-final windshieldWasherFluidCommentsValues = EnumValues({
-  "Bad": WindshieldWasherFluidComments.BAD,
-  "": WindshieldWasherFluidComments.EMPTY,
-  "Fluid in Bad state": WindshieldWasherFluidComments.FLUID_IN_BAD_STATE
-});
-
 class Lights {
   final int? idLights;
-  final BucketLiner? headlights;
-  final LadderStrapsComments? headlightsComments;
+  final String? headlights;
+  final String? headlightsComments;
   final String? headlightsImage;
-  final BucketLiner? brakeLights;
-  final Comments? brakeLightsComments;
+  final String? brakeLights;
+  final String? brakeLightsComments;
   final String? brakeLightsImage;
-  final BucketLiner? reverseLights;
+  final String? reverseLights;
   final String? reverseLightsComments;
-  final dynamic reverseLightsImage;
-  final BucketLiner? warningLights;
-  final LadderStrapsComments? warningLightsComments;
+  final String? reverseLightsImage;
+  final String? warningLights;
+  final String? warningLightsComments;
   final String? warningLightsImage;
-  final BucketLiner? turnSignals;
-  final LadderStrapsComments? turnSignalsComments;
+  final String? turnSignals;
+  final String? turnSignalsComments;
   final String? turnSignalsImage;
-  final BucketLiner? the4WayFlashers;
-  final Comments? the4WayFlashersComments;
+  final String? the4WayFlashers;
+  final String? the4WayFlashersComments;
   final String? the4WayFlashersImage;
-  final BucketLiner? dashLights;
+  final String? dashLights;
   final String? dashLightsComments;
-  final dynamic dashLightsImage;
-  final BucketLiner? strobeLights;
+  final String? dashLightsImage;
+  final String? strobeLights;
   final String? strobeLightsComments;
-  final dynamic strobeLightsImages;
-  final BucketLiner? cabRoofLights;
+  final String? strobeLightsImages;
+  final String? cabRoofLights;
   final String? cabRoofLightsComments;
-  final dynamic cabRoofLightsImage;
-  final BucketLiner? clearanceLights;
-  final Comments? clearanceLightsComments;
+  final String? cabRoofLightsImage;
+  final String? clearanceLights;
+  final String? clearanceLightsComments;
   final String? clearanceLightsImage;
   final DateTime? dateAdded;
 
@@ -907,40 +796,35 @@ class Lights {
 
   factory Lights.fromMap(Map<String, dynamic> json) => Lights(
         idLights: json["id_lights"],
-        headlights: bucketLinerValues.map[json["headlights"]]!,
-        headlightsComments:
-            ladderStrapsCommentsValues.map[json["headlights_comments"]]!,
+        headlights: json["headlights"],
+        headlightsComments: json["headlights_comments"],
         headlightsImage: json["headlights_image"],
-        brakeLights: bucketLinerValues.map[json["brake_lights"]]!,
-        brakeLightsComments: commentsValues.map[json["brake_lights_comments"]]!,
+        brakeLights: json["brake_lights"],
+        brakeLightsComments: json["brake_lights_comments"],
         brakeLightsImage: json["brake_lights_image"],
-        reverseLights: bucketLinerValues.map[json["reverse_lights"]]!,
+        reverseLights: json["reverse_lights"],
         reverseLightsComments: json["reverse_lights_comments"],
         reverseLightsImage: json["reverse_lights_image"],
-        warningLights: bucketLinerValues.map[json["warning_lights"]]!,
-        warningLightsComments:
-            ladderStrapsCommentsValues.map[json["warning_lights_comments"]]!,
+        warningLights: json["warning_lights"],
+        warningLightsComments: json["warning_lights_comments"],
         warningLightsImage: json["warning_lights_image"],
-        turnSignals: bucketLinerValues.map[json["turn_signals"]]!,
-        turnSignalsComments:
-            ladderStrapsCommentsValues.map[json["turn_signals_comments"]]!,
+        turnSignals: json["turn_signals"],
+        turnSignalsComments: json["turn_signals_comments"],
         turnSignalsImage: json["turn_signals_image"],
-        the4WayFlashers: bucketLinerValues.map[json["4_way_flashers"]]!,
-        the4WayFlashersComments:
-            commentsValues.map[json["4_way_flashers_comments"]]!,
+        the4WayFlashers: json["4_way_flashers"],
+        the4WayFlashersComments: json["4_way_flashers_comments"],
         the4WayFlashersImage: json["4_way_flashers_image"],
-        dashLights: bucketLinerValues.map[json["dash_lights"]]!,
+        dashLights: json["dash_lights"],
         dashLightsComments: json["dash_lights_comments"],
         dashLightsImage: json["dash_lights_image"],
-        strobeLights: bucketLinerValues.map[json["strobe_lights"]]!,
+        strobeLights: json["strobe_lights"],
         strobeLightsComments: json["strobe_lights_comments"],
         strobeLightsImages: json["strobe_lights_images"],
-        cabRoofLights: bucketLinerValues.map[json["cab_roof_lights"]]!,
+        cabRoofLights: json["cab_roof_lights"],
         cabRoofLightsComments: json["cab_roof_lights_comments"],
         cabRoofLightsImage: json["cab_roof_lights_image"],
-        clearanceLights: bucketLinerValues.map[json["clearance_lights"]]!,
-        clearanceLightsComments:
-            commentsValues.map[json["clearance_lights_comments"]]!,
+        clearanceLights: json["clearance_lights"],
+        clearanceLightsComments: json["clearance_lights_comments"],
         clearanceLightsImage: json["clearance_lights_image"],
         dateAdded: json["date_added"] == null
             ? null
@@ -949,40 +833,35 @@ class Lights {
 
   Map<String, dynamic> toMap() => {
         "id_lights": idLights,
-        "headlights": bucketLinerValues.reverse[headlights],
-        "headlights_comments":
-            ladderStrapsCommentsValues.reverse[headlightsComments],
+        "headlights": headlights,
+        "headlights_comments": headlightsComments,
         "headlights_image": headlightsImage,
-        "brake_lights": bucketLinerValues.reverse[brakeLights],
-        "brake_lights_comments": commentsValues.reverse[brakeLightsComments],
+        "brake_lights": brakeLights,
+        "brake_lights_comments": brakeLightsComments,
         "brake_lights_image": brakeLightsImage,
-        "reverse_lights": bucketLinerValues.reverse[reverseLights],
+        "reverse_lights": reverseLights,
         "reverse_lights_comments": reverseLightsComments,
         "reverse_lights_image": reverseLightsImage,
-        "warning_lights": bucketLinerValues.reverse[warningLights],
-        "warning_lights_comments":
-            ladderStrapsCommentsValues.reverse[warningLightsComments],
+        "warning_lights": warningLights,
+        "warning_lights_comments": warningLightsComments,
         "warning_lights_image": warningLightsImage,
-        "turn_signals": bucketLinerValues.reverse[turnSignals],
-        "turn_signals_comments":
-            ladderStrapsCommentsValues.reverse[turnSignalsComments],
+        "turn_signals": turnSignals,
+        "turn_signals_comments": turnSignalsComments,
         "turn_signals_image": turnSignalsImage,
-        "4_way_flashers": bucketLinerValues.reverse[the4WayFlashers],
-        "4_way_flashers_comments":
-            commentsValues.reverse[the4WayFlashersComments],
+        "4_way_flashers": the4WayFlashers,
+        "4_way_flashers_comments": the4WayFlashersComments,
         "4_way_flashers_image": the4WayFlashersImage,
-        "dash_lights": bucketLinerValues.reverse[dashLights],
+        "dash_lights": dashLights,
         "dash_lights_comments": dashLightsComments,
         "dash_lights_image": dashLightsImage,
-        "strobe_lights": bucketLinerValues.reverse[strobeLights],
+        "strobe_lights": strobeLights,
         "strobe_lights_comments": strobeLightsComments,
         "strobe_lights_images": strobeLightsImages,
-        "cab_roof_lights": bucketLinerValues.reverse[cabRoofLights],
+        "cab_roof_lights": cabRoofLights,
         "cab_roof_lights_comments": cabRoofLightsComments,
         "cab_roof_lights_image": cabRoofLightsImage,
-        "clearance_lights": bucketLinerValues.reverse[clearanceLights],
-        "clearance_lights_comments":
-            commentsValues.reverse[clearanceLightsComments],
+        "clearance_lights": clearanceLights,
+        "clearance_lights_comments": clearanceLightsComments,
         "clearance_lights_image": clearanceLightsImage,
         "date_added": dateAdded?.toIso8601String(),
       };
@@ -991,10 +870,10 @@ class Lights {
 class Measure {
   final int? idMeasure;
   final String? gas;
-  final GasComments? gasComments;
+  final String? gasComments;
   final String? gasImage;
   final int? mileage;
-  final MileageComments? mileageComments;
+  final String? mileageComments;
   final String? mileageImage;
   final DateTime? dateAdded;
 
@@ -1016,10 +895,10 @@ class Measure {
   factory Measure.fromMap(Map<String, dynamic> json) => Measure(
         idMeasure: json["id_measure"],
         gas: json["gas"],
-        gasComments: gasCommentsValues.map[json["gas_comments"]]!,
+        gasComments: json["gas_comments"],
         gasImage: json["gas_image"],
         mileage: json["mileage"],
-        mileageComments: mileageCommentsValues.map[json["mileage_comments"]]!,
+        mileageComments: json["mileage_comments"],
         mileageImage: json["mileage_image"],
         dateAdded: json["date_added"] == null
             ? null
@@ -1029,50 +908,34 @@ class Measure {
   Map<String, dynamic> toMap() => {
         "id_measure": idMeasure,
         "gas": gas,
-        "gas_comments": gasCommentsValues.reverse[gasComments],
+        "gas_comments": gasComments,
         "gas_image": gasImage,
         "mileage": mileage,
-        "mileage_comments": mileageCommentsValues.reverse[mileageComments],
+        "mileage_comments": mileageComments,
         "mileage_image": mileageImage,
         "date_added": dateAdded?.toIso8601String(),
       };
 }
 
-enum GasComments { EMPTY, FULL, THE_34 }
-
-final gasCommentsValues = EnumValues({
-  "": GasComments.EMPTY,
-  "Full": GasComments.FULL,
-  "3/4": GasComments.THE_34
-});
-
-enum MileageComments { EMPTY, GOOD, MILEAGE_COMMENTS_GOOD }
-
-final mileageCommentsValues = EnumValues({
-  "": MileageComments.EMPTY,
-  "Good": MileageComments.GOOD,
-  "Good ": MileageComments.MILEAGE_COMMENTS_GOOD
-});
-
 class Security {
   final int? idSecurity;
-  final BucketLiner? rtaMagnet;
-  final LadderStrapsComments? rtaMagnetCommnets;
+  final String? rtaMagnet;
+  final String? rtaMagnetCommnets;
   final String? rtaMagnetImage;
-  final BucketLiner? triangleReflectors;
-  final Comments? triangleReflectorsComments;
+  final String? triangleReflectors;
+  final String? triangleReflectorsComments;
   final String? triangleReflectorsImage;
-  final BucketLiner? wheelChocks;
-  final LadderStrapsComments? wheelChocksComments;
+  final String? wheelChocks;
+  final String? wheelChocksComments;
   final String? wheelChocksImage;
-  final BucketLiner? fireExtinguisher;
-  final Comments? fireExtinguisherComments;
+  final String? fireExtinguisher;
+  final String? fireExtinguisherComments;
   final String? fireExtinguisherImage;
-  final BucketLiner? firstAidKitSafetyVest;
+  final String? firstAidKitSafetyVest;
   final String? firstAidKitSafetyVestComments;
-  final dynamic firstAidKitSafetyVestImage;
-  final BucketLiner? backUpAlarm;
-  final Comments? backUpAlarmComments;
+  final String? firstAidKitSafetyVestImage;
+  final String? backUpAlarm;
+  final String? backUpAlarmComments;
   final String? backUpAlarmImage;
   final DateTime? dateAdded;
 
@@ -1105,30 +968,24 @@ class Security {
 
   factory Security.fromMap(Map<String, dynamic> json) => Security(
         idSecurity: json["id_security"],
-        rtaMagnet: bucketLinerValues.map[json["rta_magnet"]]!,
-        rtaMagnetCommnets:
-            ladderStrapsCommentsValues.map[json["rta_magnet_commnets"]]!,
+        rtaMagnet: json["rta_magnet"],
+        rtaMagnetCommnets: json["rta_magnet_commnets"],
         rtaMagnetImage: json["rta_magnet_image"],
-        triangleReflectors: bucketLinerValues.map[json["triangle_reflectors"]]!,
-        triangleReflectorsComments:
-            commentsValues.map[json["triangle_reflectors_comments"]]!,
+        triangleReflectors: json["triangle_reflectors"],
+        triangleReflectorsComments: json["triangle_reflectors_comments"],
         triangleReflectorsImage: json["triangle_reflectors_image"],
-        wheelChocks: bucketLinerValues.map[json["wheel_chocks"]]!,
-        wheelChocksComments:
-            ladderStrapsCommentsValues.map[json["wheel_chocks_comments"]]!,
+        wheelChocks: json["wheel_chocks"],
+        wheelChocksComments: json["wheel_chocks_comments"],
         wheelChocksImage: json["wheel_chocks_image"],
-        fireExtinguisher: bucketLinerValues.map[json["fire_extinguisher"]]!,
-        fireExtinguisherComments:
-            commentsValues.map[json["fire_extinguisher_comments"]]!,
+        fireExtinguisher: json["fire_extinguisher"],
+        fireExtinguisherComments: json["fire_extinguisher_comments"],
         fireExtinguisherImage: json["fire_extinguisher_image"],
-        firstAidKitSafetyVest:
-            bucketLinerValues.map[json["first_aid_kit_safety_vest"]]!,
+        firstAidKitSafetyVest: json["first_aid_kit_safety_vest"],
         firstAidKitSafetyVestComments:
             json["first_aid_kit_safety_vest_comments"],
         firstAidKitSafetyVestImage: json["first_aid_kit_safety_vest_image"],
-        backUpAlarm: bucketLinerValues.map[json["back_up_alarm"]]!,
-        backUpAlarmComments:
-            commentsValues.map[json["back_up_alarm_comments"]]!,
+        backUpAlarm: json["back_up_alarm"],
+        backUpAlarmComments: json["back_up_alarm_comments"],
         backUpAlarmImage: json["back_up_alarm_image"],
         dateAdded: json["date_added"] == null
             ? null
@@ -1137,28 +994,23 @@ class Security {
 
   Map<String, dynamic> toMap() => {
         "id_security": idSecurity,
-        "rta_magnet": bucketLinerValues.reverse[rtaMagnet],
-        "rta_magnet_commnets":
-            ladderStrapsCommentsValues.reverse[rtaMagnetCommnets],
+        "rta_magnet": rtaMagnet,
+        "rta_magnet_commnets": rtaMagnetCommnets,
         "rta_magnet_image": rtaMagnetImage,
-        "triangle_reflectors": bucketLinerValues.reverse[triangleReflectors],
-        "triangle_reflectors_comments":
-            commentsValues.reverse[triangleReflectorsComments],
+        "triangle_reflectors": triangleReflectors,
+        "triangle_reflectors_comments": triangleReflectorsComments,
         "triangle_reflectors_image": triangleReflectorsImage,
-        "wheel_chocks": bucketLinerValues.reverse[wheelChocks],
-        "wheel_chocks_comments":
-            ladderStrapsCommentsValues.reverse[wheelChocksComments],
+        "wheel_chocks": wheelChocks,
+        "wheel_chocks_comments": wheelChocksComments,
         "wheel_chocks_image": wheelChocksImage,
-        "fire_extinguisher": bucketLinerValues.reverse[fireExtinguisher],
-        "fire_extinguisher_comments":
-            commentsValues.reverse[fireExtinguisherComments],
+        "fire_extinguisher": fireExtinguisher,
+        "fire_extinguisher_comments": fireExtinguisherComments,
         "fire_extinguisher_image": fireExtinguisherImage,
-        "first_aid_kit_safety_vest":
-            bucketLinerValues.reverse[firstAidKitSafetyVest],
+        "first_aid_kit_safety_vest": firstAidKitSafetyVest,
         "first_aid_kit_safety_vest_comments": firstAidKitSafetyVestComments,
         "first_aid_kit_safety_vest_image": firstAidKitSafetyVestImage,
-        "back_up_alarm": bucketLinerValues.reverse[backUpAlarm],
-        "back_up_alarm_comments": commentsValues.reverse[backUpAlarmComments],
+        "back_up_alarm": backUpAlarm,
+        "back_up_alarm_comments": backUpAlarmComments,
         "back_up_alarm_image": backUpAlarmImage,
         "date_added": dateAdded?.toIso8601String(),
       };
@@ -1166,14 +1018,14 @@ class Security {
 
 class UserProfile {
   final String idUserFk;
-  final Name name;
-  final LastName lastName;
+  final String name;
+  final String lastName;
   final String homePhone;
   final String mobilePhone;
-  final Address address;
+  final String address;
   final DateTime birthdate;
-  final dynamic middleName;
-  final dynamic image;
+  final String? middleName;
+  final String? image;
   final int sequentialId;
 
   UserProfile({
@@ -1196,11 +1048,11 @@ class UserProfile {
 
   factory UserProfile.fromMap(Map<String, dynamic> json) => UserProfile(
         idUserFk: json["id_user_fk"],
-        name: nameValues.map[json["name"]]!,
-        lastName: lastNameValues.map[json["last_name"]]!,
+        name: json["name"],
+        lastName: json["last_name"],
         homePhone: json["home_phone"],
         mobilePhone: json["mobile_phone"],
-        address: addressValues.map[json["address"]]!,
+        address: json["address"],
         birthdate: DateTime.parse(json["birthdate"]),
         middleName: json["middle_name"],
         image: json["image"],
@@ -1209,44 +1061,15 @@ class UserProfile {
 
   Map<String, dynamic> toMap() => {
         "id_user_fk": idUserFk,
-        "name": nameValues.reverse[name],
-        "last_name": lastNameValues.reverse[lastName],
+        "name": name,
+        "last_name": lastName,
         "home_phone": homePhone,
         "mobile_phone": mobilePhone,
-        "address": addressValues.reverse[address],
+        "address": address,
         "birthdate":
             "${birthdate.year.toString().padLeft(4, '0')}-${birthdate.month.toString().padLeft(2, '0')}-${birthdate.day.toString().padLeft(2, '0')}",
         "middle_name": middleName,
         "image": image,
         "sequential_id": sequentialId,
       };
-}
-
-enum Address { THE_124_MAIN_ST, HOUSTON_TEXAS }
-
-final addressValues = EnumValues({
-  "Houston, Texas": Address.HOUSTON_TEXAS,
-  "124 Main St.": Address.THE_124_MAIN_ST
-});
-
-enum LastName { CV, SMI_CV }
-
-final lastNameValues =
-    EnumValues({"CV": LastName.CV, "SMI CV": LastName.SMI_CV});
-
-enum Name { EMPLOYEE, NAME_EMPLOYEE }
-
-final nameValues =
-    EnumValues({"Employee": Name.EMPLOYEE, "employee": Name.NAME_EMPLOYEE});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }
