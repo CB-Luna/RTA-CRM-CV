@@ -8,16 +8,20 @@ import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/company_api.dart';
+import 'package:rta_crm_cv/models/issues_comments.dart';
 import 'package:rta_crm_cv/models/status_api.dart';
 import 'package:rta_crm_cv/models/vehicle.dart';
 import 'package:excel/excel.dart';
 
 import '../../models/issues.dart';
 import '../../models/issues_x_user.dart';
+import '../../models/user.dart';
 
 class InventoryProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
   List<PlutoRow> rows = [];
+
+  //------------------------------------------
   //Alta Inventario
   TextEditingController brandController = TextEditingController();
   TextEditingController modelController = TextEditingController();
@@ -31,7 +35,7 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController searchController = TextEditingController();
   TextEditingController yearController = TextEditingController();
   //TextEditingController statusController = TextEditingController();
-
+//------------------------------------------
   //Update Inventario
   TextEditingController makeControllerUpdate = TextEditingController();
   TextEditingController modelControllerUpdate = TextEditingController();
@@ -45,11 +49,14 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController searchControllerUpadte = TextEditingController();
   TextEditingController yearControllerUpdate = TextEditingController();
   TextEditingController colorControllers = TextEditingController();
+  //------------------------------------------
+
   //TextEditingController statusControllerUpadte = TextEditingController();
   Future<void> updateState() async {
     rows.clear();
     await getInventory();
   }
+//------------------------------------------
 
   String? imageName;
   String? imageBase64;
@@ -58,6 +65,7 @@ class InventoryProvider extends ChangeNotifier {
   Uint8List? webImageClear;
   int idvehicle = 15;
   String? colorString = "0xffffffff";
+//------------------------------------------
 
   //List<RolApi> roles = [];
   List<String> dropdownMenuItems = [];
@@ -65,6 +73,7 @@ class InventoryProvider extends ChangeNotifier {
   CompanyApi? companySelected;
   StatusApi? statusSelectedUpdate;
   CompanyApi? companySelectedUpdate;
+//------------------------------------------
 
   // Lista de Modelos
   List<CompanyApi> company = [];
@@ -72,6 +81,28 @@ class InventoryProvider extends ChangeNotifier {
   List<Vehicle> vehicles = [];
   List<Issues> issues = [];
   List<IssuesXUser> issuesxUser = [];
+//------------------------------------------
+
+  // Listas R
+  List<IssuesComments> bucketInspectionR = [];
+  List<IssuesComments> carBodyWorkR = [];
+  List<IssuesComments> equipmentR = [];
+  List<IssuesComments> extraR = [];
+  List<IssuesComments> fluidCheckR = [];
+  List<IssuesComments> lightsR = [];
+  List<IssuesComments> measureR = [];
+  List<IssuesComments> securityR = [];
+
+  // Listas D
+  List<IssuesComments> bucketInspectionD = [];
+  List<IssuesComments> carBodyWorkD = [];
+  List<IssuesComments> equipmentD = [];
+  List<IssuesComments> extraD = [];
+  List<IssuesComments> fluidCheckD = [];
+  List<IssuesComments> lightsD = [];
+  List<IssuesComments> measureD = [];
+  List<IssuesComments> securityD = [];
+//------------------------------------------
 
   // Variables para las tarjetas de los vehiculos
   // Total
@@ -96,6 +127,14 @@ class InventoryProvider extends ChangeNotifier {
   bool vistaIssues = true;
   void cambioVistaIssues() {
     vistaIssues = !vistaIssues;
+    notifyListeners();
+  }
+
+//------------------------------------------
+  // Variables para el Control de photos and comments
+  bool vistaPhotosComments = true;
+  void cambiosVistaPhotosComments() {
+    vistaPhotosComments = !vistaPhotosComments;
     notifyListeners();
   }
 //------------------------------------------
@@ -326,7 +365,6 @@ class InventoryProvider extends ChangeNotifier {
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
           .toList();
-
       rows.clear();
       totalVehicleODE = 0;
       totalVehicleCRY = 0;
@@ -415,15 +453,58 @@ class InventoryProvider extends ChangeNotifier {
 
   //---------------------------------------------
 
-  Future<void> getIssues(Vehicle vehicle) async {
+  Future<void> getIssues(IssuesXUser issuesXUser) async {
+    // Limpiar listas
+    bucketInspectionR.clear();
+
+    //
     try {
       final res = await supabaseCtrlV
           .from('issues_view')
           .select()
-          .match({'id_vehicle': vehicle.idVehicle}).not('issues', "eq", "0");
+          .match({
+            'id_vehicle': issuesXUser.idVehicleFk,
+            'id_user_fk': issuesXUser.userProfileId,
+          })
+          .neq('issues_r', '0')
+          .neq('issues_d', '0');
+      // AQUI LA RES SOLO DA LOS 2 VALORES BIEN
       issues = (res as List<dynamic>)
           .map((issues) => Issues.fromJson(jsonEncode(issues)))
           .toList();
+      for (Issues issue in issues) {
+        // Se verifica que bucketInspection Contentenga un valor en estado BAD
+        if (issue.bucketInspectionR.toMap().containsValue("Bad")) {
+          // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
+          //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+          issue.bucketInspectionR.toMap().forEach((key, value) {
+            if (value == 'Bad') {
+              String nameIssue = key;
+              String? comments =
+                  issue.bucketInspectionR.toMap()["${nameIssue}_comments"];
+              List<String> listImage = issue.bucketInspectionR
+                  .toMap()["${nameIssue}_image"]
+                  .toString()
+                  .split('|');
+
+              DateTime dateAdded =
+                  DateTime.parse(issue.bucketInspectionR.toMap()["date_added"]);
+              IssuesComments newIssuesComments = IssuesComments(
+                  nameIssue: nameIssue,
+                  comments: comments,
+                  listImages: listImage,
+                  dateAdded: dateAdded);
+              bucketInspectionR.add(newIssuesComments);
+            }
+          });
+        }
+      }
+      for (var bir in bucketInspectionR) {
+        print(bir.nameIssue);
+        print(bir.comments);
+        print(bir.listImages);
+        print(bir.dateAdded);
+      }
     } catch (e) {
       print("Error en getIssues - $e");
     }

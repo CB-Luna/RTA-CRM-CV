@@ -1,10 +1,11 @@
 // To parse this JSON data, do
 //
-//     final issuesXUser = issuesXUserFromMap(jsonString);
+//     final IssuesXUser = IssuesXUserFromMap(jsonString);
 
 import 'dart:convert';
 
 class IssuesXUser {
+  final String userProfileId;
   final int sequentialId;
   final dynamic image;
   final String name;
@@ -15,6 +16,7 @@ class IssuesXUser {
   final int issuesD;
 
   IssuesXUser({
+    required this.userProfileId,
     required this.sequentialId,
     this.image,
     required this.name,
@@ -31,6 +33,7 @@ class IssuesXUser {
   String toJson() => json.encode(toMap());
 
   factory IssuesXUser.fromMap(Map<String, dynamic> json) => IssuesXUser(
+        userProfileId: json["user_profile_id"],
         sequentialId: json["sequential_id"],
         image: json["image"],
         name: json["name"],
@@ -42,6 +45,7 @@ class IssuesXUser {
       );
 
   Map<String, dynamic> toMap() => {
+        "user_profile_id": userProfileId,
         "sequential_id": sequentialId,
         "image": image,
         "name": name,

@@ -57,6 +57,7 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
           ),
           ElevatedButton(
               onPressed: () {
+                provider.getIssues(widget.issueXUser);
                 provider.cambioVistaIssues();
               },
               style: ElevatedButton.styleFrom(

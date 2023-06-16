@@ -5,6 +5,7 @@ import 'package:rta_crm_cv/models/issues_x_user.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
+import '../../../../models/user.dart';
 import '../../../../models/vehicle.dart';
 import '../../../../widgets/captura/custom_text_field.dart';
 import '../widgets/employeeIssuesCard.dart';
@@ -12,10 +13,7 @@ import 'reported_issues_pop_up.dart';
 
 class IssuesPopUp extends StatefulWidget {
   final Vehicle vehicle;
-  const IssuesPopUp({
-    super.key,
-    required this.vehicle,
-  });
+  const IssuesPopUp({super.key, required this.vehicle});
 
   @override
   State<IssuesPopUp> createState() => _IssuesPopUpState();
@@ -50,10 +48,6 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                       keyboardType: TextInputType.text,
                     ),
                   ),
-                  // EmployeeIssuesCard(
-                  //     vehicle: widget
-                  //         .vehicle), /*
-
                   Container(
                     height: 450,
                     width: 450,
@@ -90,7 +84,9 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
               //   },
               // ),
             )
-          : ReportedIssues(vehicle: widget.vehicle),
+          : ReportedIssues(
+              vehicle: widget.vehicle,
+            ),
     );
   }
 }

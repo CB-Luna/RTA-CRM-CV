@@ -1082,11 +1082,10 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                                 builder: (context,
                                                                     setState) {
                                                               return IssuesPopUp(
-                                                                vehicle:
-                                                                    rendererContext
-                                                                        .cell
-                                                                        .value,
-                                                              );
+                                                                  vehicle:
+                                                                      rendererContext
+                                                                          .cell
+                                                                          .value);
                                                             });
                                                           });
                                                     },
