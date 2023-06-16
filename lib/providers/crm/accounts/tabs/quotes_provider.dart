@@ -147,12 +147,17 @@ class QuotesProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
+      var list = await supabase.storage.listBuckets();
+
+      var o = await supabase.storage.from('assets').getPublicUrl('RTA_tema/background.png');
+
       dynamic res;
       if (status != null) {
         res = await supabaseCRM.from('quotes_view').select().eq('status', status);
       } else {
         if (currentUser!.isSales) {
           res = await supabaseCRM.from('quotes_view').select();
+          //res = await supabaseCRM.from('quotes_view').select().eq('status', 'Margin Positive').or('margin.lt.22,margin.gt.45');
         } else if (currentUser!.isSenExec) {
           res = await supabaseCRM.from('quotes_view').select().eq('status', 'Opened');
         } else if (currentUser!.isFinance) {
