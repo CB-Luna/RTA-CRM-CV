@@ -127,7 +127,6 @@ class QuotesProvider extends ChangeNotifier {
   Future<void> getX2CRMQuotes() async {
     var headers = {
       'Authorization': 'Basic YWxleGM6NW1saDM5UjhQUVc4WnI3TzhDcGlPSDJvZE1xaGtFOE8=',
-      'Access-Control-Allow-Origin': '*',
       //'Cookie': 'PHPSESSID=u3lgismtbbamh7g3k6b8dqteuk; YII_CSRF_TOKEN=Z2VybTVsZERNcV9faDVSUlE1VFRZeHk3WmNUWmRiSEMSMv7x7artFlmFwAp6GLyf7Qsi4oYOGXtsrcYz02xGJg%3D%3D'
     };
     var request = http.Request('GET', Uri.parse('http://34.130.182.108/X2CRM-master/x2engine/index.php/api2/Quotes'));
@@ -139,7 +138,7 @@ class QuotesProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       x2crmQuotes.clear();
 
-      var res = await response.stream.bytesToString();
+      var res = jsonDecode(await response.stream.bytesToString());
 
       x2crmQuotes = (res as List<dynamic>).map((quote) => X2CrmQuote.fromJson(jsonEncode(quote))).toList();
     } else {
