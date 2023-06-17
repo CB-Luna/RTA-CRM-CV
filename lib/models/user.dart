@@ -19,6 +19,7 @@ class User {
     required this.role,
     required this.company,
     required this.state,
+    required this.idtema,
   });
 
   String id;
@@ -35,6 +36,7 @@ class User {
   Role role;
   Company company;
   State state;
+  int idtema;
 
   String get fullName => '$name $lastName';
 
@@ -73,6 +75,7 @@ class User {
       role: Role.fromJson(jsonEncode(json['role'])),
       company: Company.fromJson(jsonEncode(json['company'])),
       state: State.fromJson(jsonEncode(json['state'])),
+      idtema: json["id_tema_fk"],
     );
     return usuario;
   }

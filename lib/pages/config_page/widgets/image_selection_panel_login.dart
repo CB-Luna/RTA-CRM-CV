@@ -8,14 +8,15 @@ import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_buttom.dart';
 import 'package:rta_crm_cv/widgets/success_toast.dart';
 
-class ImageSelectionPanel extends StatefulWidget {
-  const ImageSelectionPanel({Key? key}) : super(key: key);
+class ImageSelectionPanelLogIn extends StatefulWidget {
+  const ImageSelectionPanelLogIn({Key? key}) : super(key: key);
 
   @override
-  State<ImageSelectionPanel> createState() => _ImageSelectionPanelState();
+  State<ImageSelectionPanelLogIn> createState() =>
+      _ImageSelectionPanelLogInState();
 }
 
-class _ImageSelectionPanelState extends State<ImageSelectionPanel> {
+class _ImageSelectionPanelLogInState extends State<ImageSelectionPanelLogIn> {
   FToast fToast = FToast();
 
   @override
@@ -37,21 +38,25 @@ class _ImageSelectionPanelState extends State<ImageSelectionPanel> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SelectImageWidget(
-                      title: 'Logo',
-                      assetName: 'logoColor',
-                      imageUrl: assets.logoColor,
+                      title: 'Background',
+                      assetName: 'background',
+                      imageUrl: assets.background,
                     ),
                     SelectImageWidget(
-                      title: 'Logo Blanco',
-                      assetName: 'logoBlanco',
-                      imageUrl: assets.logoBlanco,
-                      bgColor: Colors.black,
+                      title: 'Background 2',
+                      assetName: 'background2',
+                      imageUrl: assets.background2,
                     ),
-                    /* SelectImageWidget(
-                      title: 'Fondo',
-                      assetName: 'bg1',
-                      imageUrl: assets.bg1,
-                    ), */
+                    SelectImageWidget(
+                      title: 'Background 3',
+                      assetName: 'background3',
+                      imageUrl: assets.background3,
+                    ),
+                    SelectImageWidget(
+                      title: 'Background 4',
+                      assetName: 'background4',
+                      imageUrl: assets.background4,
+                    ),
                   ],
                 ),
               )
@@ -62,8 +67,8 @@ class _ImageSelectionPanelState extends State<ImageSelectionPanel> {
             alignment: Alignment.center,
             child: CustomButton(
               onPressed: () async {
-                final res =
-                    await visualState.actualizarImagenes(currentUser!.idtema);
+                final res = await visualState
+                    .actualizarImagenesLogIn(currentUser!.idtema);
                 if (!res) {
                   Fluttertoast.showToast(
                     msg: 'Error al actualizar las imágenes',
