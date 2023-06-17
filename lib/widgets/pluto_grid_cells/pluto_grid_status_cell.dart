@@ -15,7 +15,7 @@ class PlutoGridStatusCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: rowHeight,
-      // width: rendererContext.cell.column.width,
+      // // width: rendererContext.cell.column.width,
       decoration: BoxDecoration(gradient: whiteGradient),
       child: Center(
         child: Container(

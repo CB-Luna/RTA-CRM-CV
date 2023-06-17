@@ -138,7 +138,7 @@ class _BillingTabState extends State<BillingTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
@@ -196,7 +196,7 @@ class _BillingTabState extends State<BillingTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -267,7 +267,7 @@ class _BillingTabState extends State<BillingTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -295,7 +295,7 @@ class _BillingTabState extends State<BillingTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -323,7 +323,7 @@ class _BillingTabState extends State<BillingTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -351,7 +351,7 @@ class _BillingTabState extends State<BillingTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -401,7 +401,7 @@ class _BillingTabState extends State<BillingTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,

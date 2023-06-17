@@ -156,7 +156,7 @@ class _UsersPageState extends State<UsersPage> {
                                 renderer: (rendererContext) {
                                   return Container(
                                     height: rowHeight,
-                                    width: rendererContext.cell.column.width,
+                                    // width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                       child: Text(
@@ -217,7 +217,7 @@ class _UsersPageState extends State<UsersPage> {
                                 renderer: (rendererContext) {
                                   return Container(
                                     height: rowHeight,
-                                    width: rendererContext.cell.column.width,
+                                    // width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
                                     child: Padding(
                                       padding: const EdgeInsets.all(2),
@@ -250,7 +250,7 @@ class _UsersPageState extends State<UsersPage> {
                                 renderer: (rendererContext) {
                                   return Container(
                                     height: rowHeight,
-                                    width: rendererContext.cell.column.width,
+                                    // width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                         child: Text(
@@ -332,7 +332,7 @@ class _UsersPageState extends State<UsersPage> {
                                 renderer: (rendererContext) {
                                   return Container(
                                     height: rowHeight,
-                                    width: rendererContext.cell.column.width,
+                                    // width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                         child: Text(
@@ -360,7 +360,7 @@ class _UsersPageState extends State<UsersPage> {
                                 renderer: (rendererContext) {
                                   return Container(
                                     height: rowHeight,
-                                    width: rendererContext.cell.column.width,
+                                    // width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                         child: Text(
@@ -388,7 +388,7 @@ class _UsersPageState extends State<UsersPage> {
                                 renderer: (rendererContext) {
                                   return Container(
                                     height: rowHeight,
-                                    width: rendererContext.cell.column.width,
+                                    // width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                         child: Text(
@@ -416,7 +416,7 @@ class _UsersPageState extends State<UsersPage> {
                                 renderer: (rendererContext) {
                                   return Container(
                                     height: rowHeight,
-                                    width: rendererContext.cell.column.width,
+                                    // width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                         child: Text(
@@ -454,7 +454,7 @@ class _UsersPageState extends State<UsersPage> {
                                 renderer: (rendererContext) {
                                   return Container(
                                     height: rowHeight,
-                                    width: rendererContext.cell.column.width,
+                                    // width: rendererContext.cell.column.width,
                                     decoration: BoxDecoration(gradient: whiteGradient),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,

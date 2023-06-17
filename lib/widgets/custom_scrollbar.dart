@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class CustomScrollBar extends StatefulWidget {
@@ -6,10 +7,12 @@ class CustomScrollBar extends StatefulWidget {
     super.key,
     required this.child,
     required this.scrollDirection,
+    this.clipBehavior = Clip.hardEdge,
   });
 
   final Widget child;
   final Axis scrollDirection;
+  final Clip clipBehavior;
 
   @override
   State<CustomScrollBar> createState() => _CustomScrollBarState();
@@ -17,6 +20,20 @@ class CustomScrollBar extends StatefulWidget {
 
 class _CustomScrollBarState extends State<CustomScrollBar> {
   final yourScrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      if (yourScrollController.hasClients) {
+        yourScrollController.animateTo(
+          yourScrollController.position.minScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +46,7 @@ class _CustomScrollBarState extends State<CustomScrollBar> {
       child: SingleChildScrollView(
         scrollDirection: widget.scrollDirection,
         controller: yourScrollController,
+        clipBehavior: widget.clipBehavior,
         child: widget.child,
       ),
     );

@@ -9,6 +9,7 @@ import 'package:rta_crm_cv/pages/crm/dashboard/widgets/grafica_dashboard.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 class DashboardsCRMPage extends StatefulWidget {
@@ -37,14 +38,13 @@ class _DashboardsCRMPageState extends State<DashboardsCRMPage> {
               child: Container(
                 height: MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(gradient: whiteGradient),
-                child: SingleChildScrollView(
+                child: CustomScrollBar(
                   scrollDirection: Axis.vertical,
                   child: Column(
                     children: [
                       //Titulo
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, top: 10, right: 10, bottom: 10),
+                        padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -53,16 +53,13 @@ class _DashboardsCRMPageState extends State<DashboardsCRMPage> {
                                 child: SizedBox(
                                   height: 40,
                                   width: 40,
-                                  child: sideM.aRAccounts != null
-                                      ? Rive(artboard: sideM.aRDashboards!)
-                                      : const CircularProgressIndicator(),
+                                  child: sideM.aRAccounts != null ? Rive(artboard: sideM.aRDashboards!) : const CircularProgressIndicator(),
                                 )),
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: SizedBox(
                                 height: 40,
-                                child: Text('Dashboards',
-                                    style: AppTheme.of(context).title1),
+                                child: Text('Dashboards', style: AppTheme.of(context).title1),
                               ),
                             ),
                           ],

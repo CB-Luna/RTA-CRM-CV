@@ -4,6 +4,7 @@ import 'package:rta_crm_cv/pages/config_page/widgets/image_selection_panel.dart'
 import 'package:rta_crm_cv/pages/config_page/widgets/theme_selection_panel.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
@@ -79,7 +80,7 @@ class _ConfigPageState extends State<ConfigPage> {
       color: Colors.transparent,
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: SingleChildScrollView(
+        child: CustomScrollBar(
           scrollDirection: Axis.vertical,
           child: SizedBox(
             height: MediaQuery.of(context).size.height,

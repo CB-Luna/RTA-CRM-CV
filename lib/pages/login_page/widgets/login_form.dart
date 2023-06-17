@@ -7,6 +7,7 @@ import 'package:rta_crm_cv/pages/login_page/widgets/login_button.dart';
 import 'package:rta_crm_cv/pages/login_page/widgets/login_input_field.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -35,7 +36,8 @@ class _LoginFormState extends State<LoginForm> {
       padding: const EdgeInsets.all(20),
       child: Form(
         key: formKey,
-        child: SingleChildScrollView(
+        child: CustomScrollBar(
+          scrollDirection: Axis.vertical,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

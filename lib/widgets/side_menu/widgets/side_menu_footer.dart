@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 
 class SideMenuFooter extends StatefulWidget {
   const SideMenuFooter({
@@ -33,11 +34,9 @@ class _SideMenuFooterState extends State<SideMenuFooter> {
         borderRadius: BorderRadius.circular(50),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: widget.isOpen ? 20 : 10,
-            vertical: widget.isOpen ? 20 : 0),
+        padding: EdgeInsets.symmetric(horizontal: widget.isOpen ? 20 : 10, vertical: widget.isOpen ? 20 : 0),
         child: widget.isOpen
-            ? SingleChildScrollView(
+            ? CustomScrollBar(
                 scrollDirection: Axis.horizontal,
                 child: SizedBox(
                   child: Row(
@@ -57,25 +56,14 @@ class _SideMenuFooterState extends State<SideMenuFooter> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(widget.text1,
-                                      style: TextStyle(
-                                          fontFamily: 'UniNeue',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppTheme.of(context)
-                                              .primaryText)),
+                                  Text(widget.text1, style: TextStyle(fontFamily: 'UniNeue', fontSize: 20, fontWeight: FontWeight.bold, color: AppTheme.of(context).primaryText)),
                                   Divider(
                                     thickness: 0.67,
                                     color: textColor,
                                   ),
                                   Text(
                                     widget.text2,
-                                    style: TextStyle(
-                                        fontFamily: 'UniNeue',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color:
-                                            AppTheme.of(context).primaryText),
+                                    style: TextStyle(fontFamily: 'UniNeue', fontWeight: FontWeight.bold, fontSize: 15, color: AppTheme.of(context).primaryText),
                                   ),
                                 ],
                               ),

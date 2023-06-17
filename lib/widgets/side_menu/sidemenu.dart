@@ -5,6 +5,7 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/items_list.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/side_menu_footer.dart';
 import 'package:rta_crm_cv/widgets/stt_button.dart';
@@ -38,7 +39,7 @@ class _SideMenuState extends State<SideMenu> {
             ),
             border: Border.all(width: 1.5, color: AppTheme.of(context).primaryBackground),
           ),
-          child: SingleChildScrollView(
+          child: CustomScrollBar(
             scrollDirection: Axis.horizontal,
             child: Padding(
               padding: const EdgeInsets.all(10),

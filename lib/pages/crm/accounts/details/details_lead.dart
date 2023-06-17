@@ -7,6 +7,7 @@ import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
 class DetailsLead extends StatefulWidget {
@@ -47,7 +48,7 @@ class _DetailsLeadState extends State<DetailsLead> {
                       children: [
                         Form(
                           key: formKey,
-                          child: SingleChildScrollView(
+                          child: CustomScrollBar(
                             scrollDirection: Axis.vertical,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -164,7 +165,7 @@ class _DetailsLeadState extends State<DetailsLead> {
                       children: [
                         Form(
                           key: formKey2,
-                          child: SingleChildScrollView(
+                          child: CustomScrollBar(
                             scrollDirection: Axis.vertical,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -14,6 +14,7 @@ import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dar
 import 'package:rta_crm_cv/widgets/captura/custom_tab_button.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
@@ -77,7 +78,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height / cardHeight + 20,
                           width: MediaQuery.of(context).size.width - 30,
-                          child: SingleChildScrollView(
+                          child: CustomScrollBar(
                             clipBehavior: Clip.antiAlias,
                             scrollDirection: Axis.horizontal,
                             child: Row(
@@ -857,7 +858,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                           ),
                         ),
                         */
-                        SingleChildScrollView(
+                        CustomScrollBar(
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
@@ -974,7 +975,7 @@ class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
                                   height: 50,
                                   child: Padding(
                                     padding: const EdgeInsets.all(5),
-                                    child: SingleChildScrollView(
+                                    child: CustomScrollBar(
                                       scrollDirection: Axis.vertical,
                                       child: Text(provider.comments[index].comment),
                                     ),
@@ -1273,7 +1274,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                       renderer: (rendererContext) {
                                         return Container(
                                           height: rowHeight,
-                                          width: rendererContext.cell.column.width,
+                                          // width: rendererContext.cell.column.width,
                                           decoration: BoxDecoration(gradient: whiteGradient),
                                           child: Center(
                                               child: Text(
@@ -1301,7 +1302,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                       renderer: (rendererContext) {
                                         return Container(
                                           height: rowHeight,
-                                          width: rendererContext.cell.column.width,
+                                          // width: rendererContext.cell.column.width,
                                           decoration: BoxDecoration(gradient: whiteGradient),
                                           child: Center(
                                               child: Text(
@@ -1329,7 +1330,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                       renderer: (rendererContext) {
                                         return Container(
                                           height: rowHeight,
-                                          width: rendererContext.cell.column.width,
+                                          // width: rendererContext.cell.column.width,
                                           decoration: BoxDecoration(gradient: whiteGradient),
                                           child: Center(
                                               child: Text(
@@ -1357,7 +1358,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                       renderer: (rendererContext) {
                                         return Container(
                                           height: rowHeight,
-                                          width: rendererContext.cell.column.width,
+                                          // width: rendererContext.cell.column.width,
                                           decoration: BoxDecoration(gradient: whiteGradient),
                                           child: Center(
                                               child: Text(
@@ -1385,7 +1386,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                       renderer: (rendererContext) {
                                         return Container(
                                           height: rowHeight,
-                                          width: rendererContext.cell.column.width,
+                                          // width: rendererContext.cell.column.width,
                                           decoration: BoxDecoration(gradient: whiteGradient),
                                           child: Center(
                                             child: Padding(
@@ -1494,7 +1495,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
           renderer: (rendererContext) {
             return Container(
               height: rowHeight,
-              width: rendererContext.cell.column.width,
+              // width: rendererContext.cell.column.width,
               decoration: BoxDecoration(gradient: whiteGradient),
               child: Center(
                   child: Text(
@@ -1522,7 +1523,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
           renderer: (rendererContext) {
             return Container(
               height: rowHeight,
-              width: rendererContext.cell.column.width,
+              // width: rendererContext.cell.column.width,
               decoration: BoxDecoration(gradient: whiteGradient),
               child: Center(
                   child: Text(
@@ -1550,7 +1551,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
           renderer: (rendererContext) {
             return Container(
               height: rowHeight,
-              width: rendererContext.cell.column.width,
+              // width: rendererContext.cell.column.width,
               decoration: BoxDecoration(gradient: whiteGradient),
               child: Center(
                   child: Text(
@@ -1578,7 +1579,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
           renderer: (rendererContext) {
             return Container(
               height: rowHeight,
-              width: rendererContext.cell.column.width,
+              // width: rendererContext.cell.column.width,
               decoration: BoxDecoration(gradient: whiteGradient),
               child: Center(
                   child: Text(
@@ -1606,7 +1607,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
           renderer: (rendererContext) {
             return Container(
               height: rowHeight,
-              width: rendererContext.cell.column.width,
+              // width: rendererContext.cell.column.width,
               decoration: BoxDecoration(gradient: whiteGradient),
               child: Center(
                 child: Padding(

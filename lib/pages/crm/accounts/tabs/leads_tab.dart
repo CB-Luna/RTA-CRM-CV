@@ -174,7 +174,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
@@ -232,7 +232,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -303,7 +303,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -331,7 +331,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -359,7 +359,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -387,7 +387,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -415,7 +415,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -443,7 +443,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -471,7 +471,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
@@ -521,7 +521,7 @@ class _LeadsTabState extends State<LeadsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,

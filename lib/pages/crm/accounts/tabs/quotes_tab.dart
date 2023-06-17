@@ -43,12 +43,9 @@ class _QuotesTabState extends State<QuotesTab> {
   @override
   Widget build(BuildContext context) {
     QuotesProvider provider = Provider.of<QuotesProvider>(context);
-    DetailQuoteProvider detailProvider =
-        Provider.of<DetailQuoteProvider>(context);
-    CreateQuoteProvider providerCreate =
-        Provider.of<CreateQuoteProvider>(context);
-    ValidateQuoteProvider providerValidate =
-        Provider.of<ValidateQuoteProvider>(context);
+    DetailQuoteProvider detailProvider = Provider.of<DetailQuoteProvider>(context);
+    CreateQuoteProvider providerCreate = Provider.of<CreateQuoteProvider>(context);
+    ValidateQuoteProvider providerValidate = Provider.of<ValidateQuoteProvider>(context);
 
     return CustomCard(
       title: 'Order List',
@@ -67,21 +64,17 @@ class _QuotesTabState extends State<QuotesTab> {
                     children: [
                       CustomTextIconButton(
                         isLoading: false,
-                        icon: Icon(Icons.filter_alt_outlined,
-                            color: AppTheme.of(context).primaryBackground),
+                        icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
                         text: 'Filter',
-                        onTap: () => provider.stateManager!.setShowColumnFilter(
-                            !provider.stateManager!.showColumnFilter),
+                        onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: CustomTextIconButton(
                           isLoading: false,
-                          icon: Icon(Icons.view_column_outlined,
-                              color: AppTheme.of(context).primaryBackground),
+                          icon: Icon(Icons.view_column_outlined, color: AppTheme.of(context).primaryBackground),
                           text: 'Set Columns',
-                          onTap: () => provider.stateManager!
-                              .showSetColumnsPopup(context),
+                          onTap: () => provider.stateManager!.showSetColumnsPopup(context),
                         ),
                       ),
                     ],
@@ -103,8 +96,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       CustomTextIconButton(
                         width: 90,
                         isLoading: false,
-                        icon: Icon(Icons.file_download_outlined,
-                            color: AppTheme.of(context).primaryBackground),
+                        icon: Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryBackground),
                         text: 'Export',
                         color: AppTheme.of(context).primaryColor,
                         onTap: () async {
@@ -117,8 +109,7 @@ class _QuotesTabState extends State<QuotesTab> {
                           child: CustomTextIconButton(
                             width: 131,
                             isLoading: false,
-                            icon: Icon(Icons.add,
-                                color: AppTheme.of(context).primaryBackground),
+                            icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
                             text: 'Create Order',
                             color: AppTheme.of(context).tertiaryColor,
                             onTap: () async {
@@ -149,63 +140,44 @@ class _QuotesTabState extends State<QuotesTab> {
                   ],
                   resolveDefaultColumnFilter: (column, resolver) {
                     if (column.field == 'ID_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'ACCOUNT_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'NAME_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'TOTAL_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'MARGIN_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'VENDOR_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'DATACENTER_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'ORDER_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'DESCRIPTION_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'PROBABILITY_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'CLOSED_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'ASSIGNED_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'LAST_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     } else if (column.field == 'STATUS_Column') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                     }
-                    return resolver<PlutoFilterTypeContains>()
-                        as PlutoFilterType;
+                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                   },
                 ),
               ),
               columns: [
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.vpn_key_outlined,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.vpn_key_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'ID',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'ID', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ID',
@@ -221,15 +193,12 @@ class _QuotesTabState extends State<QuotesTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
                           rendererContext.cell.value.toString(),
-                          style: AppTheme.of(context).contenidoTablas.override(
-                              fontFamily: 'Gotham-Regular',
-                              useGoogleFonts: false,
-                              color: AppTheme.of(context).primaryColor),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
                         ),
                       ),
                     );
@@ -267,13 +236,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 if (currentUser!.isSales)
                   PlutoColumn(
                     titleSpan: TextSpan(children: [
-                      WidgetSpan(
-                          child: Icon(Icons.traffic_outlined,
-                              color: AppTheme.of(context).primaryBackground)),
+                      WidgetSpan(child: Icon(Icons.traffic_outlined, color: AppTheme.of(context).primaryBackground)),
                       const WidgetSpan(child: SizedBox(width: 10)),
-                      TextSpan(
-                          text: 'Status',
-                          style: AppTheme.of(context).encabezadoTablas)
+                      TextSpan(text: 'Status', style: AppTheme.of(context).encabezadoTablas)
                     ]),
                     backgroundColor: const Color(0XFF6491F7),
                     title: 'STATUS',
@@ -285,19 +250,14 @@ class _QuotesTabState extends State<QuotesTab> {
                     enableEditingMode: false,
                     cellPadding: EdgeInsets.zero,
                     renderer: (rendererContext) {
-                      return PlutoGridStatusCell(
-                          text: rendererContext.cell.value);
+                      return PlutoGridStatusCell(text: rendererContext.cell.value);
                     },
                   ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.list,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.list, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Actions',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Actions', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ACTIONS',
@@ -314,7 +274,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -328,17 +288,13 @@ class _QuotesTabState extends State<QuotesTab> {
                             ),
                             text: 'Details',
                             onTap: () async {
-                              detailProvider.id =
-                                  rendererContext.row.cells['ID_Column']!.value;
+                              detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
                               await detailProvider.getData();
                               // ignore: use_build_context_synchronously
                               context.pushReplacement(routeQuoteDetail);
                             },
                           ),
-                          if (currentUser!.isSales &&
-                              rendererContext
-                                      .row.cells["STATUS_Column"]!.value ==
-                                  'Rejected')
+                          if (currentUser!.isSales && rendererContext.row.cells["STATUS_Column"]!.value == 'Rejected')
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -349,20 +305,13 @@ class _QuotesTabState extends State<QuotesTab> {
                               text: 'Create New',
                               onTap: () async {
                                 await providerCreate.clearAll();
-                                await providerCreate.getData(rendererContext
-                                    .row.cells["ACTIONS_Column"]!.value);
-                                await providerCreate.getLead(
-                                    rendererContext
-                                        .row.cells["ID_LEAD_Column"]!.value,
-                                    null);
+                                await providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
+                                await providerCreate.getLead(rendererContext.row.cells["ID_LEAD_Column"]!.value, null);
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteCreation);
                               },
                             ),
-                          if (currentUser!.isSenExec &&
-                              rendererContext
-                                      .row.cells["STATUS_Column"]!.value ==
-                                  'Opened')
+                          if (currentUser!.isSenExec && rendererContext.row.cells["STATUS_Column"]!.value == 'Opened')
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -372,20 +321,14 @@ class _QuotesTabState extends State<QuotesTab> {
                               text: 'Validate',
                               onTap: () async {
                                 await providerValidate.clearAll();
-                                providerValidate.id = rendererContext
-                                    .row.cells['ID_Column']!.value;
+                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
                                 await providerValidate.getData();
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteValidation);
                               },
                             ),
                           if (currentUser!.isFinance &&
-                              (rendererContext
-                                          .row.cells["STATUS_Column"]!.value ==
-                                      'Sen. Exec. Validate' ||
-                                  rendererContext
-                                          .row.cells["STATUS_Column"]!.value ==
-                                      'Margin Positive'))
+                              (rendererContext.row.cells["STATUS_Column"]!.value == 'Sen. Exec. Validate' || rendererContext.row.cells["STATUS_Column"]!.value == 'Margin Positive'))
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -395,17 +338,13 @@ class _QuotesTabState extends State<QuotesTab> {
                               text: 'Validate',
                               onTap: () async {
                                 await providerValidate.clearAll();
-                                providerValidate.id = rendererContext
-                                    .row.cells['ID_Column']!.value;
+                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
                                 await providerValidate.getData();
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteValidation);
                               },
                             ),
-                          if (currentUser!.isOpperations &&
-                              rendererContext
-                                      .row.cells["STATUS_Column"]!.value ==
-                                  'Finance Validate')
+                          if (currentUser!.isOpperations && rendererContext.row.cells["STATUS_Column"]!.value == 'Finance Validate')
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -415,8 +354,7 @@ class _QuotesTabState extends State<QuotesTab> {
                               text: 'Validate',
                               onTap: () async {
                                 await providerValidate.clearAll();
-                                providerValidate.id = rendererContext
-                                    .row.cells['ID_Column']!.value;
+                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
                                 await providerValidate.getData();
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteValidation);
@@ -456,13 +394,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.location_city_outlined,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.location_city_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Account',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Account', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ACCOUNT',
@@ -476,14 +410,12 @@ class _QuotesTabState extends State<QuotesTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
                         rendererContext.cell.value ?? '-',
-                        style: AppTheme.of(context).contenidoTablas.override(
-                            fontFamily: 'Gotham-Regular',
-                            useGoogleFonts: false),
+                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                       )),
                     );
                   },
@@ -509,12 +441,7 @@ class _QuotesTabState extends State<QuotesTab> {
                             },
                           ),
                           const SizedBox(width: 5),
-                          SizedBox(
-                              width: 30,
-                              child: Center(
-                                  child: Text(provider.page.toString(),
-                                      style: const TextStyle(
-                                          color: Colors.white)))),
+                          SizedBox(width: 30, child: Center(child: Text(provider.page.toString(), style: const TextStyle(color: Colors.white)))),
                           const SizedBox(width: 5),
                           CustomIconButton(
                             icon: Icons.keyboard_arrow_right_outlined,
@@ -538,13 +465,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.person_outline,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Name',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Name', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'NAME',
@@ -558,14 +481,12 @@ class _QuotesTabState extends State<QuotesTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
                           rendererContext.cell.value ?? '-',
-                          style: AppTheme.of(context).contenidoTablas.override(
-                              fontFamily: 'Gotham-Regular',
-                              useGoogleFonts: false),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                         ),
                       ),
                     );
@@ -573,13 +494,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.attach_money,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.attach_money, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Total',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Total', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'TOTAL',
@@ -593,27 +510,21 @@ class _QuotesTabState extends State<QuotesTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
                         '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                        style: AppTheme.of(context).contenidoTablas.override(
-                            fontFamily: 'Gotham-Regular',
-                            useGoogleFonts: false),
+                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                       )),
                     );
                   },
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.percent_outlined,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.percent_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Margin',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Margin', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'MARGIN',
@@ -627,14 +538,12 @@ class _QuotesTabState extends State<QuotesTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
                           '${moneyFormat(rendererContext.cell.value)}%',
-                          style: AppTheme.of(context).contenidoTablas.override(
-                              fontFamily: 'Gotham-Regular',
-                              useGoogleFonts: false),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                         ),
                       ),
                     );
@@ -642,13 +551,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.person_outline,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Vendor',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Vendor', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'VENDOR',
@@ -662,14 +567,12 @@ class _QuotesTabState extends State<QuotesTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
                           rendererContext.cell.value ?? '-',
-                          style: AppTheme.of(context).contenidoTablas.override(
-                              fontFamily: 'Gotham-Regular',
-                              useGoogleFonts: false),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                         ),
                       ),
                     );
@@ -677,13 +580,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.person_outline,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Datacenter',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Datacenter', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'DATACENTER',
@@ -697,14 +596,12 @@ class _QuotesTabState extends State<QuotesTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
                           rendererContext.cell.value ?? '-',
-                          style: AppTheme.of(context).contenidoTablas.override(
-                              fontFamily: 'Gotham-Regular',
-                              useGoogleFonts: false),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                         ),
                       ),
                     );
@@ -712,13 +609,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.person_outline,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Order',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Order', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ORDER',
@@ -732,14 +625,12 @@ class _QuotesTabState extends State<QuotesTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
                           rendererContext.cell.value ?? '-',
-                          style: AppTheme.of(context).contenidoTablas.override(
-                              fontFamily: 'Gotham-Regular',
-                              useGoogleFonts: false),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                         ),
                       ),
                     );
@@ -747,13 +638,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.person_outline,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Description',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Description', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'DESCRIPTION',
@@ -767,14 +654,12 @@ class _QuotesTabState extends State<QuotesTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
                           rendererContext.cell.value ?? '-',
-                          style: AppTheme.of(context).contenidoTablas.override(
-                              fontFamily: 'Gotham-Regular',
-                              useGoogleFonts: false),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                         ),
                       ),
                     );
@@ -782,13 +667,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.percent_outlined,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.percent_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Probability',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Probability', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'PROBABILITY',
@@ -802,14 +683,12 @@ class _QuotesTabState extends State<QuotesTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
                           '${moneyFormat(rendererContext.cell.value)}%',
-                          style: AppTheme.of(context).contenidoTablas.override(
-                              fontFamily: 'Gotham-Regular',
-                              useGoogleFonts: false),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                         ),
                       ),
                     );
@@ -817,13 +696,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.calendar_month_outlined,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Expected Close',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Expected Close', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'CLOSED',
@@ -831,21 +706,18 @@ class _QuotesTabState extends State<QuotesTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(
-                      format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
+                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
                           rendererContext.cell.value ?? '-',
-                          style: AppTheme.of(context).contenidoTablas.override(
-                              fontFamily: 'Gotham-Regular',
-                              useGoogleFonts: false),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                         ),
                       ),
                     );
@@ -853,13 +725,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.local_offer_outlined,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Assigned To',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Assigned To', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ASSIGNED',
@@ -873,14 +741,12 @@ class _QuotesTabState extends State<QuotesTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
                           rendererContext.cell.value ?? '-',
-                          style: AppTheme.of(context).contenidoTablas.override(
-                              fontFamily: 'Gotham-Regular',
-                              useGoogleFonts: false),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                         ),
                       ),
                     );
@@ -888,13 +754,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.watch_later_outlined,
-                            color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(child: Icon(Icons.watch_later_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Last Activity',
-                        style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(text: 'Last Activity', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'LAST',
@@ -902,21 +764,18 @@ class _QuotesTabState extends State<QuotesTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(
-                      format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
+                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
                           rendererContext.cell.value ?? '-',
-                          style: AppTheme.of(context).contenidoTablas.override(
-                              fontFamily: 'Gotham-Regular',
-                              useGoogleFonts: false),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                         ),
                       ),
                     );

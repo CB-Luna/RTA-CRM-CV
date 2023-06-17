@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/get_image_widget.dart';
 
 import 'package:rta_crm_cv/providers/providers.dart';
@@ -29,11 +30,9 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
     UsersProvider provider = Provider.of<UsersProvider>(context);
     final formKey = GlobalKey<FormState>();
 
-    final List<String> statesNames =
-        provider.states.map((state) => state.name).toList();
+    final List<String> statesNames = provider.states.map((state) => state.name).toList();
 
-    final List<String> rolesNames =
-        provider.roles.map((role) => role.roleName).toList();
+    final List<String> rolesNames = provider.roles.map((role) => role.roleName).toList();
 
     return Dialog(
       shape: const RoundedRectangleBorder(
@@ -56,7 +55,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
           children: [
             Form(
               key: formKey,
-              child: SingleChildScrollView(
+              child: CustomScrollBar(
+                scrollDirection: Axis.vertical,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -172,8 +172,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     // }
 
                     //Registrar usuario
-                    final Map<String, String>? result =
-                        await provider.registerUser();
+                    final Map<String, String>? result = await provider.registerUser();
 
                     if (result == null) {
                       await ApiErrorHandler.callToast('Error registering user');
@@ -196,8 +195,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     bool res = await provider.createUserProfile(userId);
 
                     if (!res) {
-                      await ApiErrorHandler.callToast(
-                          'Error creating user profile');
+                      await ApiErrorHandler.callToast('Error creating user profile');
                       return;
                     }
 

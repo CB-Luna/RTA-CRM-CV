@@ -150,7 +150,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
+                                                // // width: rendererContext.cell.column.width,
                                                 decoration: BoxDecoration(gradient: whiteGradient),
                                                 child: Center(child: Text(rendererContext.cell.value.toString())),
                                               );
@@ -185,7 +185,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
+                                                // // width: rendererContext.cell.column.width,
                                                 decoration: BoxDecoration(gradient: whiteGradient),
                                                 child: Center(child: Text(rendererContext.cell.value.toString())),
                                               );
@@ -220,7 +220,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                //// width: rendererContext.cell.column.width,Context.cell.column.width,
+                                                //// // width: rendererContext.cell.column.width,Context.cell.column.width,
                                                 decoration: BoxDecoration(gradient: whiteGradient),
                                                 child: Center(child: Text(rendererContext.cell.value)),
                                               );
@@ -255,7 +255,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                // // width: rendererContext.cell.column.width,Context.cell.column.width,
+                                                // // // width: rendererContext.cell.column.width,Context.cell.column.width,
                                                 decoration: BoxDecoration(gradient: whiteGradient),
                                                 child: Center(child: Text(rendererContext.cell.value == true ? "Received" : "Delivered")),
                                               );
@@ -290,7 +290,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
+                                                // // width: rendererContext.cell.column.width,
                                                 decoration: BoxDecoration(gradient: whiteGradient),
                                                 child: Center(child: Text(rendererContext.cell.value)),
                                               );
@@ -325,7 +325,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
+                                                // // width: rendererContext.cell.column.width,
                                                 decoration: BoxDecoration(gradient: whiteGradient),
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -377,7 +377,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
+                                                // // width: rendererContext.cell.column.width,
                                                 decoration: BoxDecoration(gradient: whiteGradient),
                                                 child: Center(child: Text(rendererContext.cell.value)),
                                               );
@@ -412,7 +412,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
+                                                // // width: rendererContext.cell.column.width,
                                                 decoration: BoxDecoration(gradient: whiteGradient),
                                                 child: Center(child: Text(rendererContext.cell.value)),
                                               );
@@ -447,7 +447,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
+                                                // // width: rendererContext.cell.column.width,
                                                 decoration: BoxDecoration(gradient: whiteGradient),
                                                 child: Center(child: Text(rendererContext.cell.value.toString())),
                                               );
@@ -482,7 +482,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             renderer: (rendererContext) {
                                               return Container(
                                                 height: rowHeight,
-                                                // width: rendererContext.cell.column.width,
+                                                // // width: rendererContext.cell.column.width,
                                                 decoration: BoxDecoration(gradient: whiteGradient),
                                                 child: Center(child: Text(rendererContext.cell.value.toString())),
                                               );

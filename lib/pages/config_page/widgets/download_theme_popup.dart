@@ -7,6 +7,7 @@ import 'package:rta_crm_cv/providers/visual_state_provider.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/success_toast.dart';
 
 class DownloadThemePopup extends StatefulWidget {
@@ -36,8 +37,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
-    final VisualStateProvider provider =
-        Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider provider = Provider.of<VisualStateProvider>(context);
     return Dialog(
       insetPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
@@ -67,7 +67,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.175,
                 height: MediaQuery.of(context).size.height * 0.3,
-                child: SingleChildScrollView(
+                child: CustomScrollBar(
                   scrollDirection: Axis.vertical,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -96,7 +96,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                                 horizontal: 30,
                                 vertical: 10,
                               ),
-                              child: SingleChildScrollView(
+                              child: CustomScrollBar(
                                 scrollDirection: Axis.vertical,
                                 child: ListView.builder(
                                   padding: EdgeInsets.zero,
@@ -105,10 +105,8 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                                   scrollDirection: Axis.vertical,
                                   itemCount: provider.temas.length,
                                   itemBuilder: (context, index) {
-                                    final TemaDescargado tema =
-                                        provider.temas[index];
-                                    final bool seleccionado = tema.idTema ==
-                                        provider.temaSeleccionado?.idTema;
+                                    final TemaDescargado tema = provider.temas[index];
+                                    final bool seleccionado = tema.idTema == provider.temaSeleccionado?.idTema;
                                     return ThemeCardWidget(
                                       tema: tema,
                                       seleccionado: seleccionado,
@@ -193,8 +191,7 @@ class _ThemeCardWidgetState extends State<ThemeCardWidget> {
   final bool isLight = AppTheme.themeMode == ThemeMode.light;
   @override
   Widget build(BuildContext context) {
-    final VisualStateProvider provider =
-        Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider provider = Provider.of<VisualStateProvider>(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: MouseRegion(
@@ -222,17 +219,11 @@ class _ThemeCardWidgetState extends State<ThemeCardWidget> {
                   style: AppTheme.of(context).bodyText1,
                 ),
                 const Spacer(),
-                ColorContainer(
-                    colorValue: widget.tema.configuracion.light.primaryColor),
-                ColorContainer(
-                    colorValue: widget.tema.configuracion.light.secondaryColor),
-                ColorContainer(
-                    colorValue: widget.tema.configuracion.light.tertiaryColor),
-                ColorContainer(
-                    colorValue: widget.tema.configuracion.light.primaryText),
-                ColorContainer(
-                    colorValue:
-                        widget.tema.configuracion.light.primaryBackground),
+                ColorContainer(colorValue: widget.tema.configuracion.light.primaryColor),
+                ColorContainer(colorValue: widget.tema.configuracion.light.secondaryColor),
+                ColorContainer(colorValue: widget.tema.configuracion.light.tertiaryColor),
+                ColorContainer(colorValue: widget.tema.configuracion.light.primaryText),
+                ColorContainer(colorValue: widget.tema.configuracion.light.primaryBackground),
               ],
             ),
           ),
