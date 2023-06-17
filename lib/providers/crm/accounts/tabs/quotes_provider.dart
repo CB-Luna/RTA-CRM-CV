@@ -6,9 +6,11 @@ import 'package:flutter/material.dart' hide State;
 import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
+import 'package:rta_crm_cv/models/x2crm/x2crm_quote_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class QuotesProvider extends ChangeNotifier {
@@ -18,6 +20,8 @@ class QuotesProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
   int pageRowCount = 10;
   int page = 1;
+
+  List<X2CrmQuote> x2crmQuotes = [];
 
   QuotesProvider() {
     updateState();
@@ -96,49 +100,51 @@ class QuotesProvider extends ChangeNotifier {
         break;
       case 1:
         await getQuotes('Margin Positive');
-        /*  stateManager!.setFilter((element) {
-          return element.cells.entries.elementAt(12).value.value.contains('Margin Positive');
-        }); */
         break;
       case 2:
         await getQuotes('Sen. Exec. Validate');
-        /*  stateManager!.setFilter((element) {
-          return element.cells.entries.elementAt(12).value.value.contains('Margin Positive');
-        }); */
         break;
       case 3:
         await getQuotes('Finance Validate');
-        /* stateManager!.setFilter((element) {
-          return element.cells.entries.elementAt(12).value.value.contains('Finance Validate');
-        }); */
         break;
       case 4:
         await getQuotes('Accepted');
-        /* stateManager!.setFilter((element) {
-          return element.cells.entries.elementAt(12).value.value.contains('Finance Validate');
-        }); */
         break;
       case 5:
         await getQuotes('Canceled');
-        /* stateManager!.setFilter((element) {
-          return element.cells.entries.elementAt(12).value.value.contains('Finance Validate');
-        }); */
         break;
       case 6:
         await getQuotes('Closed');
-        /* stateManager!.setFilter((element) {
-          return element.cells.entries.elementAt(12).value.value.contains('Finance Validate');
-        }); */
         break;
       case 7:
         await getQuotes(null);
-        /* stateManager!.setFilter((element) {
-          return element.cells.entries.elementAt(12).value.value.contains('Finance Validate');
-        }); */
         break;
     }
 
     notifyListeners();
+  }
+
+  Future<void> getX2CRMQuotes() async {
+    var headers = {
+      'Authorization': 'Basic YWxleGM6NW1saDM5UjhQUVc4WnI3TzhDcGlPSDJvZE1xaGtFOE8=',
+      'Access-Control-Allow-Origin': '*',
+      //'Cookie': 'PHPSESSID=u3lgismtbbamh7g3k6b8dqteuk; YII_CSRF_TOKEN=Z2VybTVsZERNcV9faDVSUlE1VFRZeHk3WmNUWmRiSEMSMv7x7artFlmFwAp6GLyf7Qsi4oYOGXtsrcYz02xGJg%3D%3D'
+    };
+    var request = http.Request('GET', Uri.parse('http://34.130.182.108/X2CRM-master/x2engine/index.php/api2/Quotes'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      x2crmQuotes.clear();
+
+      var res = await response.stream.bytesToString();
+
+      x2crmQuotes = (res as List<dynamic>).map((quote) => X2CrmQuote.fromJson(jsonEncode(quote))).toList();
+    } else {
+      log(response.reasonPhrase.toString());
+    }
   }
 
   Future<void> getQuotes(String? status) async {
@@ -147,10 +153,6 @@ class QuotesProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      var list = await supabase.storage.listBuckets();
-
-      var o = await supabase.storage.from('assets').getPublicUrl('RTA_tema/background.png');
-
       dynamic res;
       if (status != null) {
         res = await supabaseCRM.from('quotes_view').select().eq('status', status);
@@ -200,6 +202,8 @@ class QuotesProvider extends ChangeNotifier {
       }
 
       if (stateManager != null) stateManager!.notifyListeners();
+
+      await getX2CRMQuotes();
     } catch (e) {
       log('Error en getQuotes() - $e');
     }
