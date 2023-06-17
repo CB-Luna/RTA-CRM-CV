@@ -16,15 +16,19 @@ class CustomScrollBar extends StatefulWidget {
 }
 
 class _CustomScrollBarState extends State<CustomScrollBar> {
+  final yourScrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return RawScrollbar(
+      controller: yourScrollController,
       thumbColor: AppTheme.of(context).primaryColor,
       radius: const Radius.circular(15),
       thickness: 5,
       thumbVisibility: false,
       child: SingleChildScrollView(
         scrollDirection: widget.scrollDirection,
+        controller: yourScrollController,
         child: widget.child,
       ),
     );
