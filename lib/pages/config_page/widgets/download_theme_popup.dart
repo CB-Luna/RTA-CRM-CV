@@ -7,8 +7,8 @@ import 'package:rta_crm_cv/providers/visual_state_provider.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
-import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/success_toast.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 
 class DownloadThemePopup extends StatefulWidget {
   const DownloadThemePopup({Key? key}) : super(key: key);
@@ -30,14 +30,15 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
         context,
         listen: false,
       );
-      await provider.descargarTemas();
+      await provider.updateState();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
-    final VisualStateProvider provider = Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider provider =
+        Provider.of<VisualStateProvider>(context);
     return Dialog(
       insetPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
@@ -105,8 +106,10 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                                   scrollDirection: Axis.vertical,
                                   itemCount: provider.temas.length,
                                   itemBuilder: (context, index) {
-                                    final TemaDescargado tema = provider.temas[index];
-                                    final bool seleccionado = tema.idTema == provider.temaSeleccionado?.idTema;
+                                    final TemaDescargado tema =
+                                        provider.temas[index];
+                                    final bool seleccionado = tema.idTema ==
+                                        provider.temaSeleccionado?.idTema;
                                     return ThemeCardWidget(
                                       tema: tema,
                                       seleccionado: seleccionado,
@@ -144,6 +147,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                               gravity: ToastGravity.BOTTOM,
                               toastDuration: const Duration(seconds: 2),
                             );
+                            //context.pushReplacement('/config');
                           }
                         },
                       ),
@@ -191,7 +195,8 @@ class _ThemeCardWidgetState extends State<ThemeCardWidget> {
   final bool isLight = AppTheme.themeMode == ThemeMode.light;
   @override
   Widget build(BuildContext context) {
-    final VisualStateProvider provider = Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider provider =
+        Provider.of<VisualStateProvider>(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: MouseRegion(
@@ -219,11 +224,17 @@ class _ThemeCardWidgetState extends State<ThemeCardWidget> {
                   style: AppTheme.of(context).bodyText1,
                 ),
                 const Spacer(),
-                ColorContainer(colorValue: widget.tema.configuracion.light.primaryColor),
-                ColorContainer(colorValue: widget.tema.configuracion.light.secondaryColor),
-                ColorContainer(colorValue: widget.tema.configuracion.light.tertiaryColor),
-                ColorContainer(colorValue: widget.tema.configuracion.light.primaryText),
-                ColorContainer(colorValue: widget.tema.configuracion.light.primaryBackground),
+                ColorContainer(
+                    colorValue: widget.tema.configuracion.light.primaryColor),
+                ColorContainer(
+                    colorValue: widget.tema.configuracion.light.secondaryColor),
+                ColorContainer(
+                    colorValue: widget.tema.configuracion.light.tertiaryColor),
+                ColorContainer(
+                    colorValue: widget.tema.configuracion.light.primaryText),
+                ColorContainer(
+                    colorValue:
+                        widget.tema.configuracion.light.primaryBackground),
               ],
             ),
           ),

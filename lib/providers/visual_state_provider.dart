@@ -49,13 +49,17 @@ class VisualStateProvider extends ChangeNotifier {
   Uint8List? logoBlanco;
   Uint8List? bg1;
   Uint8List? bgLogin;
+  Uint8List? background;
+  Uint8List? background2;
+  Uint8List? background3;
+  Uint8List? background4;
 
   late int idtema;
+  late String assetsname;
 
   Future<void> updateState() async {
     await descargarTemas();
     getCurrentConfiguration();
-    
   }
 
   VisualStateProvider(BuildContext context) {
@@ -187,12 +191,18 @@ class VisualStateProvider extends ChangeNotifier {
           int.parse(primaryBackgroundDarkController.text, radix: 16),
     );
     final Logos logo = Logos(
-        logoColor: 'logoColor',
-        logoBlanco: 'logoBlanco',
-        backgroundImage: 'backgroundImage',
-        animationBackground: 'animationBackground');
+        logoColor: logoColor.toString(),
+        logoBlanco: logoBlanco.toString(),
+        backgroundImage: bg1.toString(),
+        animationBackground: bgLogin.toString());
+    final Carrusel carrusel = Carrusel(
+        background: background.toString(),
+        background2: background2.toString(),
+        background3: background3.toString(),
+        background4: background4.toString());
 
-    return Configuration(light: light, dark: dark, logos: logo);
+    return Configuration(
+        light: light, dark: dark, logos: logo, carrusel: carrusel);
   }
 
 //Actualizar tema por usuario
@@ -219,6 +229,7 @@ class VisualStateProvider extends ChangeNotifier {
     }
 
     AppTheme.initConfiguration(conf);
+    updateState();
 
     notifyListeners();
     return true;
@@ -300,6 +311,18 @@ class VisualStateProvider extends ChangeNotifier {
       case 'bgLogin':
         bgLogin = await pickedImage.readAsBytes();
         break;
+      case 'background':
+        background = await pickedImage.readAsBytes();
+        break;
+      case 'background2':
+        background2 = await pickedImage.readAsBytes();
+        break;
+      case 'background3':
+        background3 = await pickedImage.readAsBytes();
+        break;
+      case 'background4':
+        background4 = await pickedImage.readAsBytes();
+        break;
       default:
         return;
     }
@@ -317,36 +340,76 @@ class VisualStateProvider extends ChangeNotifier {
         return bg1;
       case 'bgLogin':
         return bgLogin;
+      case 'background':
+        return background;
+      case 'background2':
+        return background2;
+      case 'background3':
+        return background3;
+      case 'background4':
+        return background4;
       default:
         return null;
     }
   }
 
-  Future<bool> actualizarImagenes() async {
+  Future<bool> actualizarImagenes(int tema) async {
+    switch (tema) {
+      case 1:
+        assetsname = 'RTA_tema/';
+        break;
+      case 2:
+        assetsname = 'cbluna_tema/';
+    }
     if (logoColor != null) {
-      final res = await supabase.storage.from('assets').updateBinary(
-            'LogoColor.png',
+      await supabase.storage.from('assets').updateBinary(
+            '${assetsname}LogoColor.png',
             logoColor!,
           );
     }
     if (logoBlanco != null) {
-      final res = await supabase.storage.from('assets').updateBinary(
-            'LogoBlanco.png',
-            logoBlanco!,
+      await supabase.storage.from('assets').updateBinary(
+            '${assetsname}LogoBlanco.png',
+            logoColor!,
           );
     }
-    if (bg1 != null) {
-      final res = await supabase.storage.from('assets').updateBinary(
-            'bg1.png',
-            bg1!,
+    notifyListeners();
+    return true;
+  }
+
+  Future<bool> actualizarImagenesLogIn(int tema) async {
+    switch (tema) {
+      case 1:
+        assetsname = 'RTA_tema/';
+        break;
+      case 2:
+        assetsname = 'cbluna_tema/';
+    }
+    if (background != null) {
+      await supabase.storage.from('assets').updateBinary(
+            '${assetsname}background.png',
+            background!,
           );
     }
-    if (bgLogin != null) {
-      final res = await supabase.storage.from('assets').updateBinary(
-            'bgLogin.png',
-            bgLogin!,
+    if (background2 != null) {
+      await supabase.storage.from('assets').updateBinary(
+            '${assetsname}background2.png',
+            background2!,
           );
     }
+    if (background3 != null) {
+      await supabase.storage.from('assets').updateBinary(
+            '${assetsname}background3.png',
+            background3!,
+          );
+    }
+    if (background4 != null) {
+      await supabase.storage.from('assets').updateBinary(
+            '${assetsname}background4.png',
+            background4!,
+          );
+    }
+    notifyListeners();
     return true;
   }
 
