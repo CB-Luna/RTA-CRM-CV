@@ -87,6 +87,9 @@ class MonitoryProvider extends ChangeNotifier {
   late bool measureInspectD;
   late bool securityInspectR;
   late bool securityInspectD;
+
+  //IssuesCommentsActual
+  List<IssuesComments> actualIssuesComments = [];
   
 
   //List<RolApi> rolesSeleccionados = [];
@@ -618,6 +621,12 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
   return meet;
 }
 
+void getActualIssuesComments(List<IssuesComments> issuesComments){
+
+  actualIssuesComments = issuesComments;
+  notifyListeners();
+}
+
  Future<bool> getIssues(Monitory monitory) async {
     // Limpiar listas
     issue = null;
@@ -702,7 +711,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 bucketInspectionR.add(newIssuesComments);
                 }
                 else{
@@ -712,7 +722,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 bucketInspectionR.add(newIssuesComments);
                 }
               }
@@ -754,7 +765,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status:true);
                 bucketInspectionD.add(newIssuesComments);
                 }
                 else{
@@ -764,7 +776,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status:true);
                 bucketInspectionD.add(newIssuesComments);
                 }
               }
@@ -807,7 +820,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status:true);
                 carBodyWorkR.add(newIssuesComments);
                 }
                 else{
@@ -817,7 +831,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status:true);
                 carBodyWorkR.add(newIssuesComments);
                 }
               }
@@ -860,7 +875,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status:  true);
                 carBodyWorkD.add(newIssuesComments);
                 }
                 else{
@@ -870,7 +886,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status:  true);
                 carBodyWorkD.add(newIssuesComments);
                 }
               }
@@ -913,7 +930,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 equipmentR.add(newIssuesComments);
                 }
                 else{
@@ -923,7 +941,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 equipmentR.add(newIssuesComments);
                 }
               }
@@ -966,7 +985,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 equipmentD.add(newIssuesComments);
                 }
                 else{
@@ -976,7 +996,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 equipmentD.add(newIssuesComments);
                 }
               }
@@ -1019,7 +1040,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                      status: true);
                 extraR.add(newIssuesComments);
                 }
                 else{
@@ -1029,7 +1051,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 extraR.add(newIssuesComments);
                 }
               }
@@ -1072,7 +1095,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                      status: true);
                 extraD.add(newIssuesComments);
                 }
                 else{
@@ -1082,7 +1106,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                      status: true);
                 extraD.add(newIssuesComments);
                 }
               }
@@ -1125,7 +1150,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                      status: true);
                 fluidCheckR.add(newIssuesComments);
                 }
                 else{
@@ -1135,7 +1161,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 fluidCheckR.add(newIssuesComments);
                 }
               }
@@ -1178,7 +1205,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status:  true);
                 fluidCheckD.add(newIssuesComments);
                 }
                 else{
@@ -1188,7 +1216,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 fluidCheckD.add(newIssuesComments);
                 }
               }
@@ -1231,7 +1260,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 lightsR.add(newIssuesComments);
                 }
                 else{
@@ -1241,7 +1271,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 lightsR.add(newIssuesComments);
                 }
               }
@@ -1284,7 +1315,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 lightsD.add(newIssuesComments);
                 }
                 else{
@@ -1294,7 +1326,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 lightsD.add(newIssuesComments);
                 }
               }
@@ -1337,7 +1370,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 measureR.add(newIssuesComments);
                 }
                 else{
@@ -1347,7 +1381,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 measureR.add(newIssuesComments);
                 }
               }
@@ -1390,7 +1425,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 measureD.add(newIssuesComments);
                 }
                 else{
@@ -1400,7 +1436,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 measureD.add(newIssuesComments);
                 }
               }
@@ -1443,7 +1480,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 securityR.add(newIssuesComments);
                 }
                 else{
@@ -1453,7 +1491,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 securityR.add(newIssuesComments);
                 }
               }
@@ -1496,7 +1535,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 securityD.add(newIssuesComments);
                 }
                 else{
@@ -1506,7 +1546,8 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: null,
-                    dateAdded: dateAdded);
+                    dateAdded: dateAdded,
+                    status: true);
                 securityD.add(newIssuesComments);
                 }
               }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/monitory_provider.dart';
 
+import '../../../../models/issues_comments.dart';
 import '../../../../public/colors.dart';
 
 class DetailControlForm extends StatelessWidget {
@@ -10,13 +11,14 @@ class DetailControlForm extends StatelessWidget {
   final bool state;
   final int index;
   final MonitoryProvider provider;
+  final List<IssuesComments> list;
 
   const DetailControlForm(
       {super.key,
       required this.title,
       required this.icon,
       required this.state, 
-      required this.index, required this.provider});
+      required this.index, required this.provider, required this.list});
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +91,7 @@ class DetailControlForm extends StatelessWidget {
                       child: Icon(Icons.remove_red_eye_outlined,
                           color: Colors.black),
                       onTap: () {
+                        provider.getActualIssuesComments(list);
                         provider.updateViewPopup(index);
                         
                       },

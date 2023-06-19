@@ -5,8 +5,8 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 
-const List<String> company = ['COMPANY', 'CRY', 'ODE', 'SMI'];
-const List<String> employee = ['EMPLOYEE', 'Gian', 'Jane', 'Michael'];
+const List<String> company = ['Company', 'CRY', 'ODE', 'SMI'];
+const List<String> employee = ['Employee', 'Gian', 'Jane', 'Michael'];
 
 class Calendario extends StatelessWidget {
   const Calendario({super.key});
@@ -29,7 +29,7 @@ class Calendario extends StatelessWidget {
               Container(
                 child: const Text(
                   'Vehicle: ',
-                  style: TextStyle(fontSize: 45),
+                  style: TextStyle(fontSize: 35),
                 ),
               ),
               //INFORMACION DE COLORES
@@ -43,8 +43,8 @@ class Calendario extends StatelessWidget {
                       child: Row(
                         children: [
                           Container(
-                            height: 40,
-                            width: 40,
+                            height: 30,
+                            width: 30,
                             decoration: BoxDecoration(
                               color: const Color.fromRGBO(52, 86, 148, 10),
                               borderRadius: BorderRadius.circular(50),
@@ -52,7 +52,7 @@ class Calendario extends StatelessWidget {
                           ),
                           const Text(
                             "CRY",
-                            style: TextStyle(fontSize: 40),
+                            style: TextStyle(fontSize: 35),
                           )
                         ],
                       ),
@@ -63,8 +63,8 @@ class Calendario extends StatelessWidget {
                       child: Row(
                         children: [
                           Container(
-                            height: 40,
-                            width: 40,
+                            height: 30,
+                            width: 30,
                             decoration: BoxDecoration(
                               color: const Color.fromRGBO(191, 33, 53, 10),
                               borderRadius: BorderRadius.circular(50),
@@ -72,7 +72,7 @@ class Calendario extends StatelessWidget {
                           ),
                           const Text(
                             "ODE",
-                            style: TextStyle(fontSize: 40),
+                            style: TextStyle(fontSize: 35),
                           )
                         ],
                       ),
@@ -83,8 +83,8 @@ class Calendario extends StatelessWidget {
                       child: Row(
                         children: [
                           Container(
-                            height: 40,
-                            width: 40,
+                            height: 30,
+                            width: 30,
                             decoration: BoxDecoration(
                               color: const Color.fromRGBO(217, 217, 217, 10),
                               borderRadius: BorderRadius.circular(50),
@@ -92,7 +92,7 @@ class Calendario extends StatelessWidget {
                           ),
                           const Text(
                             "SMI",
-                            style: TextStyle(fontSize: 40),
+                            style: TextStyle(fontSize: 35),
                           )
                         ],
                       ),

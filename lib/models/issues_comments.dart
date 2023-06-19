@@ -6,12 +6,14 @@ class IssuesComments {
     this.comments,
     this.listImages,
     required this.dateAdded,
+    this.status = false,
   });
 
   String nameIssue;
   String? comments;
   List<String>? listImages;
   DateTime dateAdded;
+  bool status;
 
   factory IssuesComments.fromJson(String str) =>
       IssuesComments.fromMap(json.decode(str));
