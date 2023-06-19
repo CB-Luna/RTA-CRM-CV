@@ -11,6 +11,9 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/monitory.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import '../../models/issues.dart';
+import '../../models/issues_comments.dart';
+
 class MonitoryProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
   List<PlutoRow> rows = [];
@@ -44,6 +47,47 @@ class MonitoryProvider extends ChangeNotifier {
   List<Appointment> meet = <Appointment>[];
   //List<Empleados> usuarios = [];
   //List<Empleados> usuariosTesoreros = [];
+
+  //variable para las secciones del detail popup
+  Issues? issue;
+    // Listas R
+  List<IssuesComments> bucketInspectionR = [];
+  List<IssuesComments> carBodyWorkR = [];
+  List<IssuesComments> equipmentR = [];
+  List<IssuesComments> extraR = [];
+  List<IssuesComments> fluidCheckR = [];
+  List<IssuesComments> lightsR = [];
+  List<IssuesComments> measureR = [];
+  List<IssuesComments> securityR = [];
+
+  // Listas D
+  List<IssuesComments> bucketInspectionD = [];
+  List<IssuesComments> carBodyWorkD = [];
+  List<IssuesComments> equipmentD = [];
+  List<IssuesComments> extraD = [];
+  List<IssuesComments> fluidCheckD = [];
+  List<IssuesComments> lightsD = [];
+  List<IssuesComments> measureD = [];
+  List<IssuesComments> securityD = [];
+
+  //variables para banderas
+  bool bucketInspectR = true;
+  late bool bucketInspectD;
+  late bool carBodyInspectR;
+  late bool carBodyInspectD;
+  late bool equipmentInspectR;
+  late bool equipmentInspectD;
+  late bool extraInspectR;
+  late bool extraInspectD;
+  late bool fluidCheckInspectR;
+  late bool fluidCheckInspectD;
+  late bool ligthsInspectR;
+  late bool ligthsInspectD;
+  late bool measureInspectR;
+  late bool measureInspectD;
+  late bool securityInspectR;
+  late bool securityInspectD;
+  
 
   //List<RolApi> rolesSeleccionados = [];
   List<String> areaNames = [];
@@ -573,6 +617,916 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
   notifyListeners();
   return meet;
 }
+
+ Future<bool> getIssues(Monitory monitory) async {
+    // Limpiar listas
+    issue = null;
+    bucketInspectR = true;
+    bucketInspectD = true;
+    carBodyInspectR = true;
+    carBodyInspectD = true;
+    equipmentInspectR = true;
+    equipmentInspectD = true;
+    extraInspectR = true;
+    extraInspectD = true;
+    fluidCheckInspectR = true;
+    fluidCheckInspectD = true;
+    ligthsInspectR = true;
+    ligthsInspectD = true;
+    measureInspectR = true;
+    measureInspectD = true;
+    securityInspectR = true;
+    securityInspectD = true;
+
+    bucketInspectionR.clear();
+    bucketInspectionD.clear();
+    carBodyWorkR.clear();
+    carBodyWorkD.clear();
+    equipmentR.clear();
+    equipmentD.clear();
+    extraR.clear();
+    extraD.clear();
+    fluidCheckR.clear();
+    fluidCheckD.clear();
+    lightsR.clear();
+    lightsD.clear();
+    measureR.clear();
+    measureD.clear();
+    securityR.clear();
+    securityD.clear();
+
+    
+    try {
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select()
+          .eq('id_control_form', monitory.idControlForm);
+      if(res != null){
+        final listData = res as List<dynamic>;
+        issue = Issues.fromJson(jsonEncode(listData[0]));
+
+        //Repetir esto con todas las listas
+        issue!.bucketInspectionR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                bucketInspectR = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.bucketInspectionR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.bucketInspectionR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.bucketInspectionR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                bucketInspectionR.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.bucketInspectionR.toMap()["${nameIssue}_comments"];
+                if(issue!.bucketInspectionR.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.bucketInspectionR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.bucketInspectionR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                bucketInspectionR.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.bucketInspectionR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                bucketInspectionR.add(newIssuesComments);
+                }
+              }
+            });
+            //Bucket delivered llamada a su lista
+            issue!.bucketInspectionD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                bucketInspectD = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.bucketInspectionD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.bucketInspectionD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.bucketInspectionD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                bucketInspectionD.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.bucketInspectionD.toMap()["${nameIssue}_comments"];
+                if(issue!.bucketInspectionD.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.bucketInspectionD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.bucketInspectionD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                bucketInspectionD.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.bucketInspectionD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                bucketInspectionD.add(newIssuesComments);
+                }
+              }
+            });
+
+            //Car BodyWork R
+            issue!.carBodyworkR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                carBodyInspectR = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.carBodyworkR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.carBodyworkR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.carBodyworkR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                carBodyWorkR.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.carBodyworkR.toMap()["${nameIssue}_comments"];
+                if(issue!.carBodyworkR.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.carBodyworkR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.carBodyworkR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                carBodyWorkR.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.carBodyworkR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                carBodyWorkR.add(newIssuesComments);
+                }
+              }
+            });
+
+            //Car BodyWork D
+            issue!.carBodyworkD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                carBodyInspectD = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.carBodyworkD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.carBodyworkD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.carBodyworkD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                carBodyWorkD.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.carBodyworkD.toMap()["${nameIssue}_comments"];
+                if(issue!.carBodyworkD.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.carBodyworkD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.carBodyworkD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                carBodyWorkD.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.carBodyworkD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                carBodyWorkD.add(newIssuesComments);
+                }
+              }
+            });
+
+            // Equipment R
+            issue!.equimentR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                equipmentInspectR = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.equimentR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.equimentR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.equimentR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                equipmentR.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.equimentR.toMap()["${nameIssue}_comments"];
+                if(issue!.equimentR.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.equimentR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.equimentR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                equipmentR.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.equimentR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                equipmentR.add(newIssuesComments);
+                }
+              }
+            });
+
+            //Equipment R
+            issue!.equimentD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                equipmentInspectD = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.equimentD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.equimentD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.equimentD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                equipmentD.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.equimentD.toMap()["${nameIssue}_comments"];
+                if(issue!.equimentD.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.equimentD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.equimentD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                equipmentD.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.equimentD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                equipmentD.add(newIssuesComments);
+                }
+              }
+            });
+
+            //Extra R
+            issue!.extraR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                extraInspectR = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.extraR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.extraR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.extraR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                extraR.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.extraR.toMap()["${nameIssue}_comments"];
+                if(issue!.extraR.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.extraR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.extraR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                extraR.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.extraR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                extraR.add(newIssuesComments);
+                }
+              }
+            });
+            
+            //Extra D
+            issue!.extraD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                extraInspectD = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.extraD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.extraD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.extraD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                extraD.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.extraD.toMap()["${nameIssue}_comments"];
+                if(issue!.extraD.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.extraD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.extraD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                extraD.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.extraD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                extraD.add(newIssuesComments);
+                }
+              }
+            });
+
+            //Fluid Check R
+            issue!.fluidCheckR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                fluidCheckInspectR = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.fluidCheckR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.fluidCheckR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.fluidCheckR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                fluidCheckR.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.fluidCheckR.toMap()["${nameIssue}_comments"];
+                if(issue!.fluidCheckR.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.fluidCheckR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.fluidCheckR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                fluidCheckR.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.fluidCheckR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                fluidCheckR.add(newIssuesComments);
+                }
+              }
+            });
+
+            //Fluid Check D
+            issue!.fluidCheckD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                fluidCheckInspectD = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.fluidCheckD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.fluidCheckD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.fluidCheckD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                fluidCheckD.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.fluidCheckD.toMap()["${nameIssue}_comments"];
+                if(issue!.fluidCheckD.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.fluidCheckD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.fluidCheckD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                fluidCheckD.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.fluidCheckD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                fluidCheckD.add(newIssuesComments);
+                }
+              }
+            });
+
+            //Lights R
+            issue!.lightsR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                ligthsInspectR = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.lightsR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.lightsR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.lightsR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                lightsR.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.lightsR.toMap()["${nameIssue}_comments"];
+                if(issue!.lightsR.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.lightsR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.lightsR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                lightsR.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.lightsR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                lightsR.add(newIssuesComments);
+                }
+              }
+            });
+
+            //Lights D
+            issue!.lightsD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                ligthsInspectD = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.lightsD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.lightsD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.lightsD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                lightsD.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.lightsD.toMap()["${nameIssue}_comments"];
+                if(issue!.lightsD.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.lightsD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.lightsD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                lightsD.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.lightsD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                lightsD.add(newIssuesComments);
+                }
+              }
+            });
+
+            //Measure R
+            issue!.measureR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                measureInspectR = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.measureR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.measureR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.measureR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                measureR.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.measureR.toMap()["${nameIssue}_comments"];
+                if(issue!.measureR.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.measureR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.measureR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                measureR.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.measureR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                measureR.add(newIssuesComments);
+                }
+              }
+            });
+
+            //Measure D
+            issue!.measureD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                measureInspectD = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.measureD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.measureD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.measureD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                measureD.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.measureD.toMap()["${nameIssue}_comments"];
+                if(issue!.measureD.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.measureD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.measureD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                measureD.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.measureD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                measureD.add(newIssuesComments);
+                }
+              }
+            });
+
+            //Security R
+            issue!.securityR.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                securityInspectR = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.securityR.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.securityR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.securityR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                securityR.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.securityR.toMap()["${nameIssue}_comments"];
+                if(issue!.securityR.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.securityR
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.securityR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                securityR.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.securityR.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                securityR.add(newIssuesComments);
+                }
+              }
+            });
+
+            //Security D
+            issue!.securityD.toMap().forEach((key, value) {
+              if (value == 'Bad' && !(key.contains("_comments"))) {
+                securityInspectD = false;
+                String nameIssue = key;
+                String? comments =
+                    issue!.securityD.toMap()["${nameIssue}_comments"];
+                List<String> listImage = issue!.securityD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                DateTime dateAdded = DateTime.parse(
+                    issue!.securityD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                securityD.add(newIssuesComments);
+              }
+              if (value == 'Good' && !(key.contains("_comments"))) {
+                String nameIssue = key;
+                String? comments =
+                    issue!.securityD.toMap()["${nameIssue}_comments"];
+                if(issue!.securityD.toMap()["${nameIssue}_image"] != null){
+                  List<String> listImage = issue!.securityD
+                    .toMap()["${nameIssue}_image"]
+                    .toString()
+                    .split('|');
+
+                    DateTime dateAdded = DateTime.parse(
+                    issue!.securityD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: listImage,
+                    dateAdded: dateAdded);
+                securityD.add(newIssuesComments);
+                }
+                else{
+                  DateTime dateAdded = DateTime.parse(
+                    issue!.securityD.toMap()["date_added"]);
+                IssuesComments newIssuesComments = IssuesComments(
+                    nameIssue: nameIssue,
+                    comments: comments,
+                    listImages: null,
+                    dateAdded: dateAdded);
+                securityD.add(newIssuesComments);
+                }
+              }
+            });
+        notifyListeners();
+        return true;
+      }
+      else{
+        return false;
+      }
+
+      
+
+    } catch (e) {
+      print("error ${e}");
+      return false;
+      
+    }
+  }
+ 
 
 
 }

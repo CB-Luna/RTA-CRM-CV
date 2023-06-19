@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../widgets/card_header.dart';
 
@@ -8,6 +10,7 @@ class MeasuresPopUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
@@ -17,6 +20,23 @@ class MeasuresPopUp extends StatelessWidget {
         child:  Column(
           children: [
             CardHeader(text: "Measures"),
+             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: 20),
+                  alignment: Alignment.centerLeft,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        provider.updateViewPopup(0);
+                      },
+                      child: const Text(
+                        "BACK",
+                        style: TextStyle(fontSize: 20),
+                      )),
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -36,7 +56,8 @@ class MeasuresPopUp extends StatelessWidget {
                   ),
                   ),
                   Icon( Icons.check_circle_outline_outlined,
-                  color: Color.fromARGB(200, 65, 155, 23)),
+                  color: Color.fromARGB(200, 65, 155, 23),
+                  size: 60,),
                 ],
               ),
             ),
@@ -59,7 +80,8 @@ class MeasuresPopUp extends StatelessWidget {
                   ),
                   ),
                   Icon( Icons.error_outlined,
-                  color: Color.fromARGB(200, 210, 0, 48)),
+                  color: Color.fromARGB(200, 210, 0, 48),
+                  size: 60,),
                 ],
               ),
             ),

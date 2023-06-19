@@ -461,7 +461,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                               children: [
                                                 WidgetSpan(
                                                   child: Icon(
-                                                    Icons.hourglass_bottom_outlined,
+                                                    Icons
+                                                        .hourglass_bottom_outlined,
                                                     color: Color(0xffF3F7F9),
                                                     size: 30,
                                                   ),
@@ -509,7 +510,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                               children: [
                                                 WidgetSpan(
                                                   child: Icon(
-                                                    Icons.hourglass_empty_outlined,
+                                                    Icons
+                                                        .hourglass_empty_outlined,
                                                     color: Color(0xffF3F7F9),
                                                     size: 30,
                                                   ),
@@ -742,24 +744,47 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     ElevatedButton(
-                                                        onPressed: () {
-                                                          monitoryProvider.initializeViewPopup();
-                                                          showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                                return StatefulBuilder(
-                                                                    builder:
-                                                                        (context,
-                                                                            setState) {
-                                                                  
-                                                                    return DetailsPop(vehicle: rendererContext
-                                                                            .cell
-                                                                            .value,);
-                                                                  
+                                                        onPressed: () async {
+                                                          if (await monitoryProvider
+                                                              .getIssues(
+                                                                  rendererContext
+                                                                      .cell
+                                                                      .value) == true) {
+                                                          monitoryProvider
+                                                              .initializeViewPopup();
+                                                            
+                                                            await showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                   (context){
+                                                                  return DetailsPop(
+                                                                    vehicle: rendererContext
+                                                                        .cell
+                                                                        .value,
+                                                                  );
                                                                 });
-                                                              });
+                                                          } else {
+                                                            
+                                                            await showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return Container(
+                                                                    height:
+                                                                        200,
+                                                                    width:
+                                                                        200,
+                                                                    child:
+                                                                        const Center(
+                                                                      child:
+                                                                          Text("No issues found"),
+                                                                    ),
+                                                                  
+                                                                  );
+                                                                });
+                                                          }
                                                         },
                                                         child: const Icon(Icons
                                                             .remove_red_eye_outlined)),

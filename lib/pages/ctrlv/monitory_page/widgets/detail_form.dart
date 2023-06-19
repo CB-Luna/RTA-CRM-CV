@@ -9,18 +9,17 @@ class DetailControlForm extends StatelessWidget {
   final IconData icon;
   final bool state;
   final int index;
+  final MonitoryProvider provider;
 
   const DetailControlForm(
       {super.key,
       required this.title,
       required this.icon,
       required this.state, 
-      required this.index});
+      required this.index, required this.provider});
 
   @override
   Widget build(BuildContext context) {
-    MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
-    
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
