@@ -972,7 +972,7 @@ class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 50,
+                                  //height: 50,
                                   child: Padding(
                                     padding: const EdgeInsets.all(5),
                                     child: CustomScrollBar(

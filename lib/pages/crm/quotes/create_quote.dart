@@ -412,10 +412,27 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         SizedBox(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 5),
+                                            child: CustomTextIconButton(
+                                              isLoading: provider.isLoading,
+                                              icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
+                                              text: 'Create',
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              onTap: () async {
+                                                if (provider.createValidation() && provider.globalRows.isNotEmpty) {
+                                                  await provider.createQuote();
+                                                  context.pushReplacement(routeQuotes);
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
                                           height: 45,
                                           //width: 300,
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -766,23 +783,6 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: CustomTextIconButton(
-                                              isLoading: provider.isLoading,
-                                              icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
-                                              text: 'Create',
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              onTap: () async {
-                                                if (provider.createValidation() && provider.globalRows.isNotEmpty) {
-                                                  await provider.createQuote();
-                                                  context.pushReplacement(routeQuotes);
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -993,7 +993,7 @@ class Comments extends StatelessWidget {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 45,
+                                  //height: 45,
                                   child: Padding(
                                     padding: const EdgeInsets.all(5),
                                     child: CustomScrollBar(
@@ -1033,12 +1033,11 @@ class Comments extends StatelessWidget {
                     icon: Icons.comment_outlined,
                     label: 'Comment',
                     keyboardType: TextInputType.text,
-                    width: (MediaQuery.of(context).size.width / 5 - 20) - 140,
+                    width: (MediaQuery.of(context).size.width / 5 - 20) - 110,
                     // onDone: provider.addComment(),
                   ),
-                  /* SttButton(
+                  SttButton(
                     localeId: 'en_US',
-                    size: 60,
                     listeningTime: 10,
                     onVoiceInput: (text) {
                       provider.commentController.text = text;
@@ -1046,8 +1045,8 @@ class Comments extends StatelessWidget {
                     onStateChange: (isListening) {
                       provider.addComment();
                     },
-                  ), */
-                  Padding(
+                  ),
+                  /* Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: CustomTextIconButton(
                       isLoading: false,
@@ -1059,7 +1058,7 @@ class Comments extends StatelessWidget {
                       text: 'Send',
                       onTap: () => provider.addComment(),
                     ),
-                  ),
+                  ), */
                 ],
               ),
             ),

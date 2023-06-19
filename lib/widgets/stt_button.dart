@@ -21,7 +21,7 @@ class SttButton extends StatefulWidget {
     required this.onVoiceInput,
     this.onStateChange,
     this.listeningTime = 15,
-    this.size = 40,
+    this.size = 48,
     this.tooltip = "Activate Speech To Text",
     this.color,
   }) : super(key: key);
@@ -86,7 +86,7 @@ class _SttButtonState extends State<SttButton> {
 
   @override
   Widget build(BuildContext context) {
-    return AvatarGlow(
+    return /* AvatarGlow(
         animate: isListening,
         repeat: true,
         endRadius: widget.size,
@@ -103,6 +103,13 @@ class _SttButtonState extends State<SttButton> {
         tooltip: widget.tooltip,
         child: Icon(isListening ? Icons.mic : Icons.mic_none),
       ), */
-        );
+        ); */
+        CustomTextIconButton(
+      isLoading: false,
+      height: widget.size,
+      icon: Icon(isListening ? Icons.mic : Icons.mic_none, color: AppTheme.of(context).primaryBackground),
+      text: 'Speech',
+      onTap: listen,
+    );
   }
 }
