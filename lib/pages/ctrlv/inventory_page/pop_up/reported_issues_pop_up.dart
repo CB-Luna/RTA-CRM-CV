@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/comments_photos_pop_up.dart';
 
-import '../../../../models/user.dart';
-import '../../../../models/vehicle.dart';
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../widgets/custom_card.dart';
 import '../widgets/listIssuesCard.dart';
 
 class ReportedIssues extends StatefulWidget {
-  final Vehicle vehicle;
-  const ReportedIssues({super.key, required this.vehicle});
+  const ReportedIssues({super.key});
 
   @override
   State<ReportedIssues> createState() => _ReportedIssuesState();
@@ -20,9 +17,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-    List<String> IssuesName = ["gas", "motor", "oil"];
 
-    //provider.getIssues(widget.vehicle, provider.users);
     return AlertDialog(
         backgroundColor: Colors.transparent,
         content: provider.vistaPhotosComments
@@ -45,21 +40,24 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                               child: Text("BACK")),
                           Container(
                               width: 100,
+                              height: 25,
                               alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(20)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 0.1,
-                                      blurRadius: 3,
-                                      offset: const Offset(
-                                          0, 0), // changes position of shadow
-                                    ),
-                                  ]),
-                              child: Text(widget.vehicle.licesensePlates)),
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      blurRadius: 4,
+                                      color: Colors.grey,
+                                      offset: Offset(10, 10))
+                                ],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              ),
+                              child: Text(
+                                provider.actualVehicle!.licesensePlates,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              )),
                         ],
                       ),
                     ),
@@ -68,20 +66,28 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                       width: 450,
                       child: ListView.builder(
                           padding: const EdgeInsets.all(8),
-                          itemCount: IssuesName.length,
+                          itemCount: provider.menuIssuesReceived.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
-                                padding: const EdgeInsets.only(bottom: 5.0),
+                                padding: const EdgeInsets.only(
+                                    bottom: 20.0, right: 10),
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(),
+                                  decoration: const BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: const BorderRadius.all(
+                                      boxShadow: [
+                                        BoxShadow(
+                                            blurRadius: 4,
+                                            color: Colors.grey,
+                                            offset: Offset(10, 10))
+                                      ],
+                                      borderRadius: BorderRadius.all(
                                           Radius.circular(20))),
                                   width: MediaQuery.of(context).size.width,
                                   height: 200,
                                   child: ListIssuesCard(
-                                    TextoPrueba: IssuesName[index],
+                                    issuesComments:
+                                        provider.menuIssuesReceived[index]!,
+                                    index: index,
                                   ),
                                 ));
                           }),

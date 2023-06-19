@@ -63,6 +63,9 @@ class InventoryProvider extends ChangeNotifier {
   String? imageBase64Update;
   Uint8List? webImage;
   Uint8List? webImageClear;
+  IssuesXUser? actualIssueXUser;
+  IssuesComments? actualissuesComments;
+  Vehicle? actualVehicle;
   int idvehicle = 15;
   String? colorString = "0xffffffff";
 //------------------------------------------
@@ -103,6 +106,18 @@ class InventoryProvider extends ChangeNotifier {
   List<IssuesComments> measureD = [];
   List<IssuesComments> securityD = [];
 //------------------------------------------
+  // TITULO LISTAS
+  List<String> titulosIssue = [
+    "Bucket Inspection",
+    "Car BodyWork",
+    "Equipment",
+    "Extra",
+    "Fluid Check",
+    "Lights",
+    "Measures",
+    "Security"
+  ];
+//------------------------------------------
 
   // Variables para las tarjetas de los vehiculos
   // Total
@@ -139,11 +154,24 @@ class InventoryProvider extends ChangeNotifier {
   }
 //------------------------------------------
 
-  // void selectCompany(String state) {
-  //   companySelected = companyApi.firstWhere((elem) => elem.company == company);
-  //   notifyListeners();
-  // }
+  void selectVehicle(Vehicle vehicle) {
+    actualVehicle = vehicle;
+    notifyListeners();
+  }
 
+  //------------------------------------------
+
+  void selectIssuesXUser(int index) {
+    actualIssueXUser = issuesxUser[index];
+    notifyListeners();
+  }
+
+  //------------------------------------------
+
+  void selectIssuesComments(IssuesComments issueComments) {
+    actualissuesComments = issueComments;
+    notifyListeners();
+  }
   //----------------------------------------------Paginador variables
 
   InventoryProvider() {
@@ -499,8 +527,7 @@ class InventoryProvider extends ChangeNotifier {
         if (issue.issuesR != 0) {
           // Se verifica que bucketInspection Contentenga un valor en estado BAD
           if (issue.bucketInspectionR.toMap().containsValue("Bad")) {
-            // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
-            //Error en getIssues - Expected a value of type 'List<String>', but got one of type 'String'
+            // ---------------------- bucketInspection_r ----------------------------//
             issue.bucketInspectionR.toMap().forEach((key, value) {
               if (value == 'Bad' && !(key.contains("_comments"))) {
                 String nameIssue = key;
@@ -522,6 +549,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceived.update(0, (value) => bucketInspectionR);
           // ---------------------- CarBodyWork_r ----------------------------//
           if (issue.carBodyworkR.toMap().containsValue("Bad")) {
             // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
@@ -547,6 +575,8 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceived.update(1, (value) => carBodyWorkR);
+
           // ---------------------- equipmentR ----------------------------//
           if (issue.equimentR.toMap().containsValue("Bad")) {
             // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
@@ -572,6 +602,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceived.update(2, (value) => equipmentR);
 
           // ---------------------- extraR ----------------------------//
           if (issue.extraR.toMap().containsValue("Bad")) {
@@ -598,6 +629,8 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceived.update(3, (value) => extraR);
+
           // ---------------------- fluidCheckR ----------------------------//
           if (issue.fluidCheckR.toMap().containsValue("Bad")) {
             // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
@@ -623,6 +656,8 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceived.update(4, (value) => fluidCheckR);
+
           // ---------------------- lightsR ----------------------------//
           if (issue.lightsR.toMap().containsValue("Bad")) {
             // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
@@ -648,6 +683,8 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceived.update(5, (value) => lightsR);
+
           // ---------------------- MeasureR ----------------------------//
           if (issue.measureR.toMap().containsValue("Bad")) {
             // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
@@ -673,6 +710,8 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceived.update(6, (value) => measureR);
+
           // ---------------------- SecurityR ----------------------------//
           if (issue.securityR.toMap().containsValue("Bad")) {
             // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
@@ -699,6 +738,8 @@ class InventoryProvider extends ChangeNotifier {
             });
           }
         }
+        menuIssuesReceived.update(7, (value) => securityR);
+
         //------------------------- APARTADO DE LOS DELIVERED --------------------//
         if (issue.issuesD != 0) {
           // ---------------------- BucketInspectionD ----------------------------//
@@ -925,10 +966,32 @@ class InventoryProvider extends ChangeNotifier {
       print("SecurityD: ${securityD.length}");
       print("SecurityR: ${securityR.length}");
       print("-----------------------------------");
+      notifyListeners();
     } catch (e) {
       print("Error en getIssues - $e");
     }
   }
+
+  //---------------------------------------------
+  Map<int, List<IssuesComments>> menuIssuesReceived = {
+    0: [], //  0
+    1: [], //  1
+    2: [], //  2
+    3: [], //  3
+    4: [], //  4
+    5: [], //  5
+    6: [], // 6
+    7: [], // 7
+    // "Bucket Inspection": [], //  0
+    // "Car BodyWork": [], //  1
+    // "Equipment": [], //  2
+    // "Extra": [], //  3
+    // "Fluids Check": [], //  4
+    // "Lights": [], //  5
+    // "Measures": [], // 6
+    // "Security": [], // 7
+  };
+
   //---------------------------------------------
 
   void getIssuesxUsers(Vehicle vehicle) async {

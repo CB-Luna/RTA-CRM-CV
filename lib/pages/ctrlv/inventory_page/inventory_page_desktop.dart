@@ -1071,9 +1071,13 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                     onPressed: () {
                                                       provider.vistaIssues =
                                                           true;
-                                                      // provider.getIssues(
-                                                      //     rendererContext
-                                                      //         .cell.value);
+                                                      provider.selectVehicle(
+                                                          rendererContext
+                                                              .cell.value);
+                                                      provider.getIssuesxUsers(
+                                                          rendererContext
+                                                              .cell.value);
+
                                                       showDialog(
                                                           context: context,
                                                           builder: (BuildContext
@@ -1081,11 +1085,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                             return StatefulBuilder(
                                                                 builder: (context,
                                                                     setState) {
-                                                              return IssuesPopUp(
-                                                                  vehicle:
-                                                                      rendererContext
-                                                                          .cell
-                                                                          .value);
+                                                              return const IssuesPopUp();
                                                             });
                                                           });
                                                     },
