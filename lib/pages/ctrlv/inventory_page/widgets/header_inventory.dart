@@ -83,18 +83,18 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   !provider.stateManager!.showColumnFilter),
             ),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.11,
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 14),
-            child: CustomTextIconButton(
-              isLoading: false,
-              icon: Icon(Icons.filter_alt_outlined,
-                  color: AppTheme.of(context).primaryBackground),
-              text: 'Filter per month',
-              onTap: () => provider.stateManager!.setShowColumnFilter(
-                  !provider.stateManager!.showColumnFilter),
-            ),
-          ),
+          // Container(
+          //   width: MediaQuery.of(context).size.width * 0.11,
+          //   padding: const EdgeInsets.only(left: 10, right: 10, top: 14),
+          //   child: CustomTextIconButton(
+          //     isLoading: false,
+          //     icon: Icon(Icons.filter_alt_outlined,
+          //         color: AppTheme.of(context).primaryBackground),
+          //     text: 'Filter per month',
+          //     onTap: () => provider.stateManager!.setShowColumnFilter(
+          //         !provider.stateManager!.showColumnFilter),
+          //   ),
+          // ),
           const SizedBox(
             width: 20,
           ),

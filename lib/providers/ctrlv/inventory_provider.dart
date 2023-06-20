@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/company_api.dart';
 import 'package:rta_crm_cv/models/issues_comments.dart';
@@ -15,7 +16,6 @@ import 'package:excel/excel.dart';
 
 import '../../models/issues.dart';
 import '../../models/issues_x_user.dart';
-import '../../models/user.dart';
 
 class InventoryProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
@@ -517,11 +517,9 @@ class InventoryProvider extends ChangeNotifier {
       // .neq('issues_d', '0');
 
       // AQUI está el fallo
-      print("Antes del map");
       issues = (res as List<dynamic>)
           .map((issues) => Issues.fromJson(jsonEncode(issues)))
           .toList();
-      print("Despues del map");
 
       for (Issues issue in issues) {
         if (issue.issuesR != 0) {
@@ -1017,17 +1015,32 @@ class InventoryProvider extends ChangeNotifier {
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
 
     if (sheet == null) return false;
+    CellStyle titulo = CellStyle(
+      fontFamily: getFontFamily(FontFamily.Calibri),
+      fontSize: 16,
+      bold: true,
+      horizontalAlign: HorizontalAlign.Center,
+      verticalAlign: VerticalAlign.Center,
+    );
+    var cellT = sheet.cell(CellIndex.indexByString("A1"));
+    cellT.value = "Title";
+    cellT.cellStyle = titulo;
+
+    var cellT2 = sheet.cell(CellIndex.indexByString("B1"));
+    cellT2.value = "Inventory Reports";
+    cellT2.cellStyle = titulo;
+
+    var cellD = sheet.cell(CellIndex.indexByString("D1"));
+    cellD.value = "Date";
+    cellD.cellStyle = titulo;
+
+    var cellD2 = sheet.cell(CellIndex.indexByString("E1"));
+    cellD2.value = dateFormat(DateTime.now());
+    cellD2.cellStyle = titulo;
+
     //Agregar primera linea
-    sheet.appendRow([
-      'Título',
-      'Vehicle Inventory',
-      '',
-      '',
-      'Fecha',
-      DateFormat("yyy - MMM - dd ").format(DateTime.now()),
-    ]);
-    //Agregar linea vacia
     sheet.appendRow(['']);
+    //Agregar linea vacia
 
     //Agregar headers
     sheet.appendRow([
