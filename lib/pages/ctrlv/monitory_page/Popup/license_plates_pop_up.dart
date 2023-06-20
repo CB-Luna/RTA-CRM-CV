@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rta_crm_cv/widgets/card_header.dart';
 
 import '../../../../public/colors.dart';
 
@@ -17,7 +18,27 @@ class LicenseHistory extends StatelessWidget {
           children: [
             const Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text("License Plates History"),
+              child: CardHeader(text: "License Plate History"),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 20),
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          "BACK",
+                          style: TextStyle(fontSize: 20),
+                        )),
+                  ),
+                ],
+              ),
             ),
             Container(
               margin: const EdgeInsets.all(10),

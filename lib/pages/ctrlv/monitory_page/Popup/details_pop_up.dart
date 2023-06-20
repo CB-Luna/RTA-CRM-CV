@@ -24,7 +24,7 @@ class DetailsPop extends StatelessWidget {
       content: provider.viewPopup == 0
           ? Container(
               width: 1300,
-              height: 620,
+              height: 670,
               decoration: BoxDecoration(
                   gradient: whiteGradient,
                   borderRadius: BorderRadius.circular(20)),
@@ -34,6 +34,26 @@ class DetailsPop extends StatelessWidget {
                     padding: EdgeInsets.all(20.0),
                     child: CardHeader(
                       text: 'DETAILS',
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: 20),
+                          alignment: Alignment.centerLeft,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                "BACK",
+                                style: TextStyle(fontSize: 20),
+                              )),
+                        ),
+                      ],
                     ),
                   ),
                   Row(

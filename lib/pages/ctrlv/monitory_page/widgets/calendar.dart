@@ -197,8 +197,14 @@ class CustomAppointmentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    //CEHCAR EL ULTIMO LUGAR DE LA CADENA SUBJECT Y PONER SOLO HORAS DE ENTRADA EN R y SALIDA EN D
+    String tipo = appointment.subject.endsWith("R") ? "R" : "D";
     return Tooltip(
-      message:"${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${appointment.startTime.hour}:${appointment.startTime.minute} - ${appointment.endTime.hour}:${appointment.endTime.minute}",
+      message:
+      tipo == "R" ? "${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${appointment.startTime.hour}:${appointment.startTime.minute}"
+      : "${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${appointment.endTime.hour}:${appointment.endTime.minute}",
+      
         
       child: Container(
         color: appointment.color,
