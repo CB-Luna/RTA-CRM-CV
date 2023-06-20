@@ -8,6 +8,7 @@ import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/details_pop_up.dart
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/odi_card.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/smi_card.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
+import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
 import 'package:rta_crm_cv/widgets/card_header.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
@@ -982,43 +983,63 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                         });
                                                   },
                                                 ),
-                                                CustomTextIconButton(
-                                                  isLoading: false,
-                                                  icon: Icon(
-                                                    Icons
-                                                        .shopping_basket_outlined,
-                                                    color: AppTheme.of(context)
-                                                        .primaryBackground,
-                                                  ),
-                                                  color: secondaryColor,
-                                                  text: 'Delete',
-                                                  onTap: () async {
-                                                    await showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return StatefulBuilder(
-                                                              builder: (context,
-                                                                  setState) {
-                                                            return DeletePopUp(
-                                                              vehicle:
-                                                                  rendererContext
-                                                                      .cell
-                                                                      .value,
-                                                            );
+                                                AnimatedHoverButton(
+                                                    primaryColor:
+                                                        AppTheme.of(context)
+                                                            .secondaryColor,
+                                                    secondaryColor: Colors.red,
+                                                    onTap: () async {
+                                                      await showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return StatefulBuilder(
+                                                                builder: (context,
+                                                                    setState) {
+                                                              return DeletePopUp(
+                                                                vehicle:
+                                                                    rendererContext
+                                                                        .cell
+                                                                        .value,
+                                                              );
+                                                            });
                                                           });
-                                                        });
-                                                    await provider
-                                                        .getInventory();
-                                                    //   await provider
-                                                    //       .deleteVehicle(
-                                                    //     rendererContext
-                                                    //         .cell.value,
-                                                    //   );
-                                                    //   await provider
-                                                    //       .getInventory();
-                                                  },
-                                                ),
+                                                      await provider
+                                                          .getInventory();
+                                                    },
+                                                    icon: Icons
+                                                        .shopping_basket_outlined,
+                                                    tooltip: "Delete")
+                                                // CustomTextIconButton(
+                                                //   isLoading: false,
+                                                //   icon: Icon(
+                                                //     Icons
+                                                //         .shopping_basket_outlined,
+                                                //     color: AppTheme.of(context)
+                                                //         .primaryBackground,
+                                                //   ),
+                                                //   color: secondaryColor,
+                                                //   text: 'Delete',
+                                                //   onTap: () async {
+                                                //     await showDialog(
+                                                //         context: context,
+                                                //         builder: (BuildContext
+                                                //             context) {
+                                                //           return StatefulBuilder(
+                                                //               builder: (context,
+                                                //                   setState) {
+                                                //             return DeletePopUp(
+                                                //               vehicle:
+                                                //                   rendererContext
+                                                //                       .cell
+                                                //                       .value,
+                                                //             );
+                                                //           });
+                                                //         });
+                                                //     await provider
+                                                //         .getInventory();
+                                                //   },
+                                                // ),
                                               ],
                                             ),
                                           );

@@ -548,6 +548,7 @@ class InventoryProvider extends ChangeNotifier {
             });
           }
           menuIssuesReceived.update(0, (value) => bucketInspectionR);
+
           // ---------------------- CarBodyWork_r ----------------------------//
           if (issue.carBodyworkR.toMap().containsValue("Bad")) {
             // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
@@ -765,6 +766,8 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceivedD.update(0, (value) => bucketInspectionD);
+
           // ---------------------- CarBodyWork_d ----------------------------//
           if (issue.carBodyworkD.toMap().containsValue("Bad")) {
             // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
@@ -790,6 +793,8 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceivedD.update(1, (value) => carBodyWorkD);
+
           // ---------------------- equipmentD ----------------------------//
           if (issue.equimentD.toMap().containsValue("Bad")) {
             // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
@@ -815,6 +820,8 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceivedD.update(2, (value) => equipmentD);
+
           // ---------------------- extraD ----------------------------//
           if (issue.extraD.toMap().containsValue("Bad")) {
             // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
@@ -840,6 +847,8 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceivedD.update(3, (value) => extraD);
+
           // ---------------------- MeasureD ----------------------------//
           if (issue.measureD.toMap().containsValue("Bad")) {
             // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
@@ -865,6 +874,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceivedD.update(4, (value) => measureD);
 
           /////
           /// // ---------------------- fluidCheckD ----------------------------//
@@ -892,6 +902,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceivedD.update(5, (value) => fluidCheckD);
 
           // ---------------------- lightsD ----------------------------//
           if (issue.lightsD.toMap().containsValue("Bad")) {
@@ -918,6 +929,8 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
+          menuIssuesReceivedD.update(6, (value) => lightsD);
+
           // ---------------------- SecurityD ----------------------------//
           if (issue.securityD.toMap().containsValue("Bad")) {
             // AQUI RECORRE EL ISSUE.BUCKETINSPECTIONR Y MARCA ERROR
@@ -945,6 +958,8 @@ class InventoryProvider extends ChangeNotifier {
           }
         }
       }
+      menuIssuesReceivedD.update(7, (value) => securityD);
+
       // PRINT DE LA INFORMACIÓN
       print("-----------------------------------");
       print("BucketInspectionR: ${bucketInspectionR.length}");
@@ -972,6 +987,25 @@ class InventoryProvider extends ChangeNotifier {
 
   //---------------------------------------------
   Map<int, List<IssuesComments>> menuIssuesReceived = {
+    0: [], //  0
+    1: [], //  1
+    2: [], //  2
+    3: [], //  3
+    4: [], //  4
+    5: [], //  5
+    6: [], // 6
+    7: [], // 7
+    // "Bucket Inspection": [], //  0
+    // "Car BodyWork": [], //  1
+    // "Equipment": [], //  2
+    // "Extra": [], //  3
+    // "Fluids Check": [], //  4
+    // "Lights": [], //  5
+    // "Measures": [], // 6
+    // "Security": [], // 7
+  };
+  //---------------------------------------------
+  Map<int, List<IssuesComments>> menuIssuesReceivedD = {
     0: [], //  0
     1: [], //  1
     2: [], //  2
@@ -1042,23 +1076,88 @@ class InventoryProvider extends ChangeNotifier {
     sheet.appendRow(['']);
     //Agregar linea vacia
 
+    //blanco, bold y mas grande
+    CellStyle cellStyle = CellStyle(
+      backgroundColorHex: "#1E90FF",
+      fontColorHex: Colors.white.value.toRadixString(16),
+      fontFamily: getFontFamily(FontFamily.Calibri),
+      fontSize: 16,
+      bold: true,
+      horizontalAlign: HorizontalAlign.Center,
+      verticalAlign: VerticalAlign.Center,
+    );
+    var cell = sheet.cell(CellIndex.indexByString("A3"));
+    cell.value = "id_vehicle";
+    cell.cellStyle = cellStyle;
+
+    var cell2 = sheet.cell(CellIndex.indexByString("B3"));
+    cell2.value = "make";
+    cell2.cellStyle = cellStyle;
+
+    var cell3 = sheet.cell(CellIndex.indexByString("C3"));
+    cell3.value = "model";
+    cell3.cellStyle = cellStyle;
+
+    var cell4 = sheet.cell(CellIndex.indexByString("D3"));
+    cell4.value = "year";
+    cell4.cellStyle = cellStyle;
+
+    var cell5 = sheet.cell(CellIndex.indexByString("E3"));
+    cell5.value = "vin";
+    cell5.cellStyle = cellStyle;
+
+    var cell6 = sheet.cell(CellIndex.indexByString("F3"));
+    cell6.value = "license_plates";
+    cell6.cellStyle = cellStyle;
+
+    var cell7 = sheet.cell(CellIndex.indexByString("G3"));
+    cell7.value = "motor";
+    cell7.cellStyle = cellStyle;
+
+    var cell8 = sheet.cell(CellIndex.indexByString("H3"));
+    cell8.value = "color";
+    cell8.cellStyle = cellStyle;
+
+    var cell9 = sheet.cell(CellIndex.indexByString("I3"));
+    cell9.value = "status";
+    cell9.cellStyle = cellStyle;
+
+    var cell10 = sheet.cell(CellIndex.indexByString("J3"));
+    cell10.value = "company";
+    cell10.cellStyle = cellStyle;
+
+    var cell11 = sheet.cell(CellIndex.indexByString("K3"));
+    cell11.value = "date_added";
+    cell11.cellStyle = cellStyle;
+
+    var cell12 = sheet.cell(CellIndex.indexByString("L3"));
+    cell12.value = "oil_change_due";
+    cell12.cellStyle = cellStyle;
+
+    var cell13 = sheet.cell(CellIndex.indexByString("M3"));
+    cell13.value = "last_Transmission_fluid_change";
+    cell13.cellStyle = cellStyle;
+
+    var cell14 = sheet.cell(CellIndex.indexByString("N3"));
+    cell14.value = "Last_Radiator_fluid_change";
+    cell14.cellStyle = cellStyle;
+
+    var cell15 = sheet.cell(CellIndex.indexByString("O3"));
+    cell15.value = "Issues_r";
+    cell15.cellStyle = cellStyle;
+
+    var cell16 = sheet.cell(CellIndex.indexByString("P3"));
+    cell16.value = "Issues_d";
+    cell16.cellStyle = cellStyle;
     //Agregar headers
-    sheet.appendRow([
-      'id_vehicle',
-      'make',
-      'model',
-      'year',
-      'vin',
-      'license_plates',
-      'motor',
-      'color',
-      'status',
-      'company',
-      'date_Added',
-      'oil_change_due',
-      'Last transmission fluid change:',
-      'Last radiator fluid change:'
-    ]);
+    // sheet.appendRow([
+    //   'status',
+    //   'company',
+    //   'date_Added',
+    //   'oil_change_due',
+    //   'Last transmission fluid change:',
+    //   'Last radiator fluid change:'
+    // ]);
 
     //Agregar datos
     for (Vehicle report in vehicles) {
@@ -1078,6 +1177,8 @@ class InventoryProvider extends ChangeNotifier {
         DateFormat("yyyy - MMM - dd").format(report.lastRadiatorFluidChange),
         DateFormat("yyyy - MMM - dd")
             .format(report.lastTransmissionFluidChange),
+        report.issuesR,
+        report.issuesD
       ];
       sheet.appendRow(row);
     }

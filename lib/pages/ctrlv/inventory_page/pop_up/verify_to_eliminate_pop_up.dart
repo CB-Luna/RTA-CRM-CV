@@ -21,30 +21,92 @@ class _DeletePopUpState extends State<DeletePopUp> {
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
-        width: 150,
-        height: 150,
-        decoration: BoxDecoration(color: Colors.white, boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))], borderRadius: BorderRadius.circular(10)),
+        width: 300,
+        height: 300,
+        decoration: BoxDecoration(
+            gradient: whiteGradient,
+            boxShadow: const [
+              BoxShadow(
+                  blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
+            ],
+            borderRadius: BorderRadius.circular(10)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(" Are you sure you want to Delete?"),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      " ¿Are you sure you want to Delete?",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 28,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          " Vehicle ID: ",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(" ${widget.vehicle.idVehicle} "),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          " License Plates: ",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(" ${widget.vehicle.licesensePlates}"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               ElevatedButton(
                   onPressed: () {
                     provider.deleteVehicle(widget.vehicle);
-                    print("Entro aqui");
-                    print("ID DEL VEHICULO: ${widget.vehicle.idVehicle}");
+
+                    provider.updateState();
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: secondaryColor),
-                  child: const Text("ACCEPT")),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: secondaryColor,
+                      elevation: 20,
+                      shadowColor: secondaryColor),
+                  child: const Text(
+                    "ACCEPT",
+                    style: TextStyle(fontSize: 20),
+                  )),
               ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text("CANCEL"))
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      elevation: 20,
+                      shadowColor: Colors.blue),
+                  child: const Text(
+                    "CANCEL",
+                    style: TextStyle(fontSize: 20),
+                  ))
             ]),
           ],
         ),

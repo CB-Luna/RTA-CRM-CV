@@ -84,9 +84,11 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                 CarouselSlider.builder(
                   itemCount: provider.actualissuesComments?.listImages!.length,
                   itemBuilder: (context, index, realIndex) {
-                    final urlImage =
-                        provider.actualissuesComments?.listImages![index];
-                    return buildImage(urlImage!, index);
+                    // final urlImage =
+                    //     provider.actualissuesComments?.listImages![index];
+                    const urlImage =
+                        "https://supa43.rtatel.com/storage/v1/object/public/measures/400c2d6f-da86-4e3a-bf59-894d4e83f798image_picker2951695346784061281.jpg";
+                    return buildImage(urlImage, index);
                   },
                   options: CarouselOptions(height: 200),
                 )

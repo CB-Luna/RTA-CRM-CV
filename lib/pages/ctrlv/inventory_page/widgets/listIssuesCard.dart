@@ -52,15 +52,14 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                     Container(
                       width: 100,
                       padding: const EdgeInsets.only(left: 10.0),
-                      child: Text(widget
-                          .issuesComments[index].nameIssue.capitalize
-                          .replaceAll("_", " ")),
+                      child: Text(
+                          "-${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")}"),
                     ),
                     const Spacer(),
                     Container(
                       alignment: Alignment.center,
                       child: Text(
-                        " Date: ${DateFormat("MMM/dd/yyyy hh:mm:ss").format(widget.issuesComments[index].dateAdded)}",
+                        " Date: ${DateFormat("MMM/dd/yyyy hh:mm:ss").format(widget.issuesComments[index].dateAdded)} ",
                       ),
                     ),
                     const Spacer(),

@@ -38,14 +38,14 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 20),
                   alignment: Alignment.centerLeft,
                   child: ElevatedButton(
                       onPressed: () {
                         context.pop();
                       },
                       child: const Text(
-                        "BACK",
+                        "Exit",
                         style: TextStyle(fontSize: 20),
                       )),
                 ),
