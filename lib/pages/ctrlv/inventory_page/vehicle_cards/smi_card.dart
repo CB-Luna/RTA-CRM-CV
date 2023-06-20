@@ -6,7 +6,12 @@ class SmiCard extends StatelessWidget {
   final int totalRepairSMI;
   final int totalAssignedSMI;
   final int totalAvailableSMI;
-  const SmiCard({super.key, required this.totalVehicleSMI, required this.totalRepairSMI, required this.totalAssignedSMI, required this.totalAvailableSMI});
+  const SmiCard(
+      {super.key,
+      required this.totalVehicleSMI,
+      required this.totalRepairSMI,
+      required this.totalAssignedSMI,
+      required this.totalAvailableSMI});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class SmiCard extends StatelessWidget {
               width: 260,
               height: 150,
               child: Image.asset(
-                "assets/images/Smi_Car.png",
+                "assets/images/Cry_Car.png",
                 height: 300,
               ),
             ),

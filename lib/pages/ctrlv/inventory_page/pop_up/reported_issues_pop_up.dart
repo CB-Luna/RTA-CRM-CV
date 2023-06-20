@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/comments_photos_pop_up.dart';
+import 'package:rta_crm_cv/public/colors.dart';
 
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../widgets/custom_card.dart';

@@ -6,7 +6,12 @@ class OdiCard extends StatelessWidget {
   final int totalRepairODE;
   final int totalAssignedODE;
   final int totalAvailableODE;
-  const OdiCard({super.key, required this.totalVehicleODE, required this.totalRepairODE, required this.totalAssignedODE, required this.totalAvailableODE});
+  const OdiCard(
+      {super.key,
+      required this.totalVehicleODE,
+      required this.totalRepairODE,
+      required this.totalAssignedODE,
+      required this.totalAvailableODE});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class OdiCard extends StatelessWidget {
               width: 260,
               height: 150,
               child: Image.asset(
-                "assets/images/Odi_Car.png",
+                "assets/images/Cry_Car.png",
                 height: 300,
               ),
             ),

@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
-import '../../../../models/vehicle.dart';
 import '../../../../widgets/captura/custom_text_field.dart';
 import '../widgets/employeeIssuesCard.dart';
 import 'reported_issues_pop_up.dart';
@@ -63,7 +62,7 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                         onPressed: () {
                           context.pop();
                         },
-                        child: Text("Exit")),
+                        child: const Text("Exit")),
                   ),
                 ],
               ),
