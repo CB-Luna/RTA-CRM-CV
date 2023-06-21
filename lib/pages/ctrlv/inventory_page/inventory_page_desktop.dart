@@ -1103,11 +1103,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                           context: context,
                                                           builder: (BuildContext
                                                               context) {
-                                                            return StatefulBuilder(
-                                                                builder: (context,
-                                                                    setState) {
-                                                              return const IssuesPopUp();
-                                                            });
+                                                            return const IssuesPopUp();
                                                           });
                                                     },
                                                     child: const Icon(

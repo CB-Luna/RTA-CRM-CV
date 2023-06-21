@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 
 import '../../../../widgets/get_image_widget.dart';
 
@@ -63,16 +64,28 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
               ),
             ],
           ),
-          ElevatedButton(
-              onPressed: () {
-                provider.getIssues(provider.actualIssueXUser!);
-                provider.cambioVistaIssues();
-              },
-              style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    provider.getIssues(provider.actualIssueXUser!);
+                    provider.cambioVistaIssues();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: const CircleBorder(),
+                  ),
+                  child: Text(
+                      "${provider.actualIssueXUser!.issuesR + provider.actualIssueXUser!.issuesD}")),
+              Text(
+                "Issues",
+                style: TextStyle(
+                  color: AppTheme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              child: Text(
-                  "${provider.actualIssueXUser!.issuesR + provider.actualIssueXUser!.issuesD}")),
+            ],
+          ),
         ],
       ),
     );

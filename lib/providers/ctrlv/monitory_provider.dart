@@ -165,7 +165,7 @@ class MonitoryProvider extends ChangeNotifier {
               "company": PlutoCell(value: monitory.company.company),
               "check_in": PlutoCell(value: DateFormat("MMM-dd-yyyy hh:mm:ss").format(monitory.dateAddedR)),
               "check_out": PlutoCell(value: monitory.dateAddedD == null ? 'N/A' : DateFormat("MMM-dd-yyyy hh:mm:ss").format(monitory.dateAddedD!)),
-              // "gas": PlutoCell(value: monitory.gas),
+              "status": PlutoCell(value: monitory.vehicle.status.status),
               // "mileage": PlutoCell(value: monitory.mileage),
               "details": PlutoCell(value: monitory),
               //"vehicle": PlutoCell(value: monitory.vehicle),

@@ -20,12 +20,10 @@ class _ReportedIssuesState extends State<ReportedIssues> {
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
 
-    return AlertDialog(
-        backgroundColor: Colors.transparent,
-        content: provider.vistaPhotosComments
+    return provider.vistaPhotosComments
             ? CustomCard(
-                width: 450,
-                height: 562,
+                width: 800,
+                height: 600,
                 title: "List of Issues ",
                 child: Column(
                   children: [
@@ -65,7 +63,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                     ),
                     Container(
                       padding: const EdgeInsets.all(10),
-                      height: 550,
+                      height: 850,
                       child: DefaultTabController(
                           length: 2,
                           child: Column(
@@ -81,18 +79,18 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                   unselectedLabelColor:
                                       AppTheme.of(context).primaryColor,
                                   indicator: BoxDecoration(
-                                    color: AppTheme.of(context).primaryColor,
+                                    gradient: blueRadial,
                                     borderRadius: const BorderRadius.vertical(
                                         top: Radius.circular(10)),
                                   ),
                                   tabs: const [
                                     Tab(
                                       height: 30,
-                                      text: "Issues_R",
+                                      text: "Issues Received",
                                     ),
                                     Tab(
                                       height: 30,
-                                      text: "Issues_D",
+                                      text: "Issues Delivered",
                                     ),
                                   ],
                                 ),
@@ -103,7 +101,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                   // Menu ISSUES_R
                                   SizedBox(
                                     height: 500,
-                                    width: 450,
+                                    width: 850,
                                     child: ListView.builder(
                                         padding: const EdgeInsets.all(8),
                                         itemCount:
@@ -143,7 +141,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                   // MENU ISSUES_D
                                   SizedBox(
                                     height: 500,
-                                    width: 450,
+                                    width: 850,
                                     child: ListView.builder(
                                         padding: const EdgeInsets.all(8),
                                         itemCount:
@@ -188,6 +186,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                   ],
                 ),
               )
-            : const CommentsPhotosPopUp());
+            : const CommentsPhotosPopUp();
   }
 }

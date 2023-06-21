@@ -40,7 +40,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
             )),
         SizedBox(
           height: 120,
-          width: 450,
+          width: 850,
           child: ListView.builder(
             itemCount: widget.issuesComments.length,
             itemBuilder: (BuildContext context, int index) {
@@ -50,16 +50,24 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                      width: 100,
+                      width: 200,
                       padding: const EdgeInsets.only(left: 10.0),
                       child: Text(
-                          "-${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")}"),
+                          "•${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")}"),
                     ),
                     const Spacer(),
                     Container(
                       alignment: Alignment.center,
-                      child: Text(
-                        " Date: ${DateFormat("MMM/dd/yyyy hh:mm:ss").format(widget.issuesComments[index].dateAdded)} ",
+                      child: Row(
+                        children: [
+                          const Text(
+                            "Date: ",
+                          ),
+                          Text(
+                            DateFormat("MMM/dd/yyyy hh:mm:ss").format(widget.issuesComments[index].dateAdded),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     ),
                     const Spacer(),
