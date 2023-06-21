@@ -22,6 +22,7 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
     final int cadena = provider.issuesxUser.length;
 
     return AlertDialog(
+      shadowColor: Colors.transparent,
       backgroundColor: Colors.transparent,
       content: provider.vistaIssues
           ? CustomCard(

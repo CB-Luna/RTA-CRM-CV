@@ -983,33 +983,35 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                         });
                                                   },
                                                 ),
-                                                AnimatedHoverButton(
-                                                    primaryColor:
-                                                        AppTheme.of(context)
-                                                            .secondaryColor,
-                                                    secondaryColor: Colors.red,
-                                                    onTap: () async {
-                                                      await showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return StatefulBuilder(
-                                                                builder: (context,
-                                                                    setState) {
-                                                              return DeletePopUp(
-                                                                vehicle:
-                                                                    rendererContext
-                                                                        .cell
-                                                                        .value,
-                                                              );
-                                                            });
-                                                          });
-                                                      await provider
-                                                          .getInventory();
-                                                    },
-                                                    icon: Icons
-                                                        .shopping_basket_outlined,
-                                                    tooltip: "Delete")
+                                                CustomTextIconButton(
+                                                  isLoading: false,
+                                                  icon: Icon(
+                                                    Icons.shopping_basket_outlined,
+                                                    color: AppTheme.of(context)
+                                                        .primaryBackground,
+                                                  ),
+                                                  color: secondaryColor,
+                                                  text: 'Delete',
+                                                  onTap: () async {
+                                                   await showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return StatefulBuilder(
+                                                            builder: (context,
+                                                                setState) {
+                                                          return DeletePopUp(
+                                                            vehicle:
+                                                                rendererContext
+                                                                    .cell
+                                                                    .value,
+                                                          );
+                                                        });
+                                                      });
+                                                  await provider
+                                                      .getInventory();
+                                                  },
+                                                ),
                                                 // CustomTextIconButton(
                                                 //   isLoading: false,
                                                 //   icon: Icon(

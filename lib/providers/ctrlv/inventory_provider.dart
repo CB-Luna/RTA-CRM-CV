@@ -1087,67 +1087,67 @@ class InventoryProvider extends ChangeNotifier {
       verticalAlign: VerticalAlign.Center,
     );
     var cell = sheet.cell(CellIndex.indexByString("A3"));
-    cell.value = "id_vehicle";
+    cell.value = "Id Vehicle";
     cell.cellStyle = cellStyle;
 
     var cell2 = sheet.cell(CellIndex.indexByString("B3"));
-    cell2.value = "make";
+    cell2.value = "Make";
     cell2.cellStyle = cellStyle;
 
     var cell3 = sheet.cell(CellIndex.indexByString("C3"));
-    cell3.value = "model";
+    cell3.value = "Model";
     cell3.cellStyle = cellStyle;
 
     var cell4 = sheet.cell(CellIndex.indexByString("D3"));
-    cell4.value = "year";
+    cell4.value = "Year";
     cell4.cellStyle = cellStyle;
 
     var cell5 = sheet.cell(CellIndex.indexByString("E3"));
-    cell5.value = "vin";
+    cell5.value = "VIN";
     cell5.cellStyle = cellStyle;
 
     var cell6 = sheet.cell(CellIndex.indexByString("F3"));
-    cell6.value = "license_plates";
+    cell6.value = "License Plates";
     cell6.cellStyle = cellStyle;
 
     var cell7 = sheet.cell(CellIndex.indexByString("G3"));
-    cell7.value = "motor";
+    cell7.value = "Motor";
     cell7.cellStyle = cellStyle;
 
     var cell8 = sheet.cell(CellIndex.indexByString("H3"));
-    cell8.value = "color";
+    cell8.value = "Color";
     cell8.cellStyle = cellStyle;
 
     var cell9 = sheet.cell(CellIndex.indexByString("I3"));
-    cell9.value = "status";
+    cell9.value = "Status";
     cell9.cellStyle = cellStyle;
 
     var cell10 = sheet.cell(CellIndex.indexByString("J3"));
-    cell10.value = "company";
+    cell10.value = "Company";
     cell10.cellStyle = cellStyle;
 
     var cell11 = sheet.cell(CellIndex.indexByString("K3"));
-    cell11.value = "date_added";
+    cell11.value = "Date Added";
     cell11.cellStyle = cellStyle;
 
     var cell12 = sheet.cell(CellIndex.indexByString("L3"));
-    cell12.value = "oil_change_due";
+    cell12.value = "Oil Change Due";
     cell12.cellStyle = cellStyle;
 
     var cell13 = sheet.cell(CellIndex.indexByString("M3"));
-    cell13.value = "last_Transmission_fluid_change";
+    cell13.value = "Last Transmission Fluid Change";
     cell13.cellStyle = cellStyle;
 
     var cell14 = sheet.cell(CellIndex.indexByString("N3"));
-    cell14.value = "Last_Radiator_fluid_change";
+    cell14.value = "Last Radiator Fluid Change";
     cell14.cellStyle = cellStyle;
 
     var cell15 = sheet.cell(CellIndex.indexByString("O3"));
-    cell15.value = "Issues_r";
+    cell15.value = "Issues Received";
     cell15.cellStyle = cellStyle;
 
     var cell16 = sheet.cell(CellIndex.indexByString("P3"));
-    cell16.value = "Issues_d";
+    cell16.value = "Issues Delivered";
     cell16.cellStyle = cellStyle;
     //Agregar headers
     // sheet.appendRow([
@@ -1172,10 +1172,10 @@ class InventoryProvider extends ChangeNotifier {
         report.color,
         report.status.status,
         report.company.company,
-        DateFormat("yyyy - MMM - dd").format(report.dateAdded),
-        DateFormat("yyyy - MMM - dd").format(report.oilChangeDue),
-        DateFormat("yyyy - MMM - dd").format(report.lastRadiatorFluidChange),
-        DateFormat("yyyy - MMM - dd")
+        DateFormat("MMM/dd/yyyy").format(report.dateAdded),
+        DateFormat("MMM/dd/yyyy").format(report.oilChangeDue),
+        DateFormat("MMM/dd/yyyy").format(report.lastRadiatorFluidChange),
+        DateFormat("MMM/dd/yyyy")
             .format(report.lastTransmissionFluidChange),
         report.issuesR,
         report.issuesD

@@ -20,6 +20,7 @@ class DetailsPop extends StatelessWidget {
   Widget build(BuildContext context) {
     MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
     return AlertDialog(
+      shadowColor: Colors.transparent,
       backgroundColor: Colors.transparent,
       content: provider.viewPopup == 0
           ? Container(

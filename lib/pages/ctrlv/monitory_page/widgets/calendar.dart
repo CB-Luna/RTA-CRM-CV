@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../../../models/monitory.dart';
@@ -202,14 +204,14 @@ class CustomAppointmentView extends StatelessWidget {
     String tipo = appointment.subject.endsWith("R") ? "R" : "D";
     return Tooltip(
       message:
-      tipo == "R" ? "${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${appointment.startTime.hour}:${appointment.startTime.minute}"
-      : "${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${appointment.endTime.hour}:${appointment.endTime.minute}",
-      
+      tipo == "R" ? "${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${DateFormat("hh:mm").format(appointment.startTime)}"
+      : "${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${DateFormat("hh:mm").format(appointment.endTime)}",
+      textAlign: TextAlign.center,
         
       child: Container(
         color: appointment.color,
         child: Text(appointment.subject,
-        style:TextStyle(color: Colors.white,
+        style:TextStyle(color: monitory.company.company == "SMI" ? Colors.black : Colors.white,
                 fontWeight: FontWeight.bold,)),
       ),
     );

@@ -327,7 +327,7 @@ class MonitoryProvider extends ChangeNotifier {
     cell3.cellStyle = cellStyle;
 
     var cell4 = sheet.cell(CellIndex.indexByString("D3"));
-    cell4.value = "Type Form";
+    cell4.value = "Status";
     cell4.cellStyle = cellStyle;
 
     var cell5 = sheet.cell(CellIndex.indexByString("E3"));
@@ -351,8 +351,12 @@ class MonitoryProvider extends ChangeNotifier {
     cell9.cellStyle = cellStyle;
 
     var cell10 = sheet.cell(CellIndex.indexByString("J3"));
-    cell10.value = "Date Added";
+    cell10.value = "Check In";
     cell10.cellStyle = cellStyle;
+
+    var cell11 = sheet.cell(CellIndex.indexByString("K3"));
+    cell11.value = "Check Out";
+    cell11.cellStyle = cellStyle;
     //Agregar headers
     // sheet.appendRow([
     //   'Id Control Form',
@@ -372,13 +376,15 @@ class MonitoryProvider extends ChangeNotifier {
       final List<dynamic> row = [
         vehicle.idControlForm,
         vehicle.idVehicle,
-        vehicle.employee.name,
+        "${vehicle.employee.name} ${vehicle.employee.lastName}",
+        vehicle.vehicle.status.status,
         vehicle.vin,
         vehicle.licensePlates,
         vehicle.company.company,
         vehicle.gasR,
         vehicle.mileageR,
         DateFormat("MMM-dd-yyyy").format(vehicle.dateAddedR),
+        vehicle.dateAddedD  != null ? DateFormat("MMM-dd-yyyy").format(vehicle.dateAddedD!) : "NA",
       ];
       sheet.appendRow(row);
     }

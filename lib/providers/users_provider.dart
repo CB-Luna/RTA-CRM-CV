@@ -215,7 +215,8 @@ class UsersProvider extends ChangeNotifier {
       final res = await supabase
           .from('users')
           .select()
-          .like('name', '%${searchController.text}%');
+          .like('name', '%${searchController.text}%')
+          .order('sequential_id', ascending: true);
 
       if (res == null) {
         log('Error en getUsuarios()');
