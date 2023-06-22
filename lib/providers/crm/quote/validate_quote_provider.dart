@@ -174,7 +174,6 @@ class ValidateQuoteProvider extends ChangeNotifier {
             'update_quote_status',
             params: {"estatus": "Finance Validate", "id": id, "user_uuid": currentUser!.id},
           );
-
           await supabaseCRM.from('leads_history').insert(
               {"user": currentUser!.id, "action": 'UPDATE', "description": 'Quote validated by Finance', "table": 'quotes', "id_table": id, "name": "${currentUser!.name} ${currentUser!.lastName}"});
         } else if (currentUser!.isSenExec) {
@@ -182,7 +181,6 @@ class ValidateQuoteProvider extends ChangeNotifier {
             'update_quote_status',
             params: {"estatus": "Sen. Exec. Validate", "id": id, "user_uuid": currentUser!.id},
           );
-
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,
             "action": 'UPDATE',

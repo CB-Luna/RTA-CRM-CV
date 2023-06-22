@@ -473,7 +473,9 @@ class CreateQuoteProvider extends ChangeNotifier {
   }
 
   bool isValidated() {
-    if (typesSelectedValue == 'Disconnect' && existingCircuitIDController.text.isEmpty) {
+    if (typesSelectedValue == 'New' && newCircuitIDController.text.isEmpty) {
+      return false;
+    } else if (typesSelectedValue == 'Disconnect' && existingCircuitIDController.text.isEmpty) {
       return false;
     } else if (typesSelectedValue == 'Upgrade' && existingCircuitIDController.text.isEmpty && newCircuitIDController.text.isEmpty) {
       return false;
