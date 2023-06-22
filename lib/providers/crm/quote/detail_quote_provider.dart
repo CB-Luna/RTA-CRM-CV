@@ -175,7 +175,9 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       orderTypesSelectedValue = quote.orderInfo.orderType;
       typesSelectedValue = quote.orderInfo.type;
-      if (quote.orderInfo.type == 'Disconnect') {
+      if (quote.orderInfo.type == 'New') {
+        newCircuitIDController.text = quote.orderInfo.newCircuitId!;
+      } else if (quote.orderInfo.type == 'Disconnect') {
         existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
       } else if (quote.orderInfo.type == 'Upgrade') {
         existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;

@@ -224,7 +224,9 @@ class CreateQuoteProvider extends ChangeNotifier {
   }
 
   bool createValidation() {
-    if (typesSelectedValue == 'Disconnect' && existingCircuitIDController.text.isEmpty) {
+    if (typesSelectedValue == 'New' && newCircuitIDController.text.isEmpty) {
+      return false;
+    } else if (typesSelectedValue == 'Disconnect' && existingCircuitIDController.text.isEmpty) {
       return false;
     } else if (typesSelectedValue == 'Upgrade' && existingCircuitIDController.text.isEmpty && newCircuitIDController.text.isEmpty) {
       return false;
@@ -244,11 +246,13 @@ class CreateQuoteProvider extends ChangeNotifier {
 
       Map<String, dynamic> quoteInfo = {};
 
+      //OrderType
       Map<String, dynamic> orderType = {};
       if (typesSelectedValue == 'New') {
         orderType.addAll({
           'order_type': orderTypesSelectedValue,
           'type': typesSelectedValue,
+          'new_circuit_id': newCircuitIDController.text,
         });
       } else if (typesSelectedValue == 'Disconnect') {
         orderType.addAll({
@@ -266,6 +270,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       }
       quoteInfo.addAll(orderType);
 
+      //DataCenter
       Map<String, dynamic> dataCenter = {};
       if (dataCenterSelectedValue != 'New') {
         dataCenter.addAll({
@@ -280,6 +285,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       }
       quoteInfo.addAll(dataCenter);
 
+      //Vendor
       var responseVendor = await supabaseCRM.from('vendors').select().eq('vendor_name', vendorSelectedValue);
       Vendor vendor = Vendor.fromJson(jsonEncode(responseVendor[0]));
 
@@ -302,11 +308,13 @@ class CreateQuoteProvider extends ChangeNotifier {
       }
       quoteInfo.addAll(circuitType);
 
+      //DDoS - BGPerring
       quoteInfo.addAll({
         'ddos_type': ddosSelectedValue,
         'bgp_type': bgpSelectedValue,
       });
 
+      //IP Adress
       Map<String, dynamic> ipAdress = {};
       if (ipAdressSelectedValue == 'Interface') {
         ipAdress.addAll({
@@ -321,6 +329,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       }
       quoteInfo.addAll(ipAdress);
 
+      //Items
       List<Map<String, dynamic>> items = [];
       for (var row in globalRows) {
         Map<String, dynamic> item = {
@@ -332,6 +341,7 @@ class CreateQuoteProvider extends ChangeNotifier {
         items.add(item);
       }
 
+      //Comments
       List<Map<String, dynamic>> commentsList = [];
       for (var comment in comments) {
         Map<String, dynamic> item = {
@@ -785,7 +795,9 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     orderTypesSelectedValue = quote.orderInfo.orderType;
     typesSelectedValue = quote.orderInfo.type;
-    if (quote.orderInfo.type == 'Disconnect') {
+    if (quote.orderInfo.type == 'New') {
+      newCircuitIDController.text = quote.orderInfo.newCircuitId!;
+    } else if (quote.orderInfo.type == 'Disconnect') {
       existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
     } else if (quote.orderInfo.type == 'Upgrade') {
       existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;

@@ -137,7 +137,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                             keyboardType: TextInputType.text,
                                           ),
                                         ),
-                                      if (provider.typesSelectedValue == 'Upgrade')
+                                      if (provider.typesSelectedValue == 'Upgrade' || provider.typesSelectedValue == 'New')
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
