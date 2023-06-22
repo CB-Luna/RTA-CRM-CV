@@ -80,6 +80,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomDDownMenu(
+                                          enabled: false,
                                           list: provider.orderTypesList,
                                           label: 'Order Type',
                                           onChanged: (p0) {
@@ -93,6 +94,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomDDownMenu(
+                                          enabled: false,
                                           list: provider.typesList,
                                           dropdownValue: provider.typesSelectedValue,
                                           onChanged: (p0) {
@@ -130,6 +132,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomDDownMenu(
+                                          enabled: false,
                                           list: provider.dataCentersList,
                                           dropdownValue: provider.dataCenterSelectedValue,
                                           onChanged: (p0) {
@@ -168,6 +171,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomDDownMenu(
+                                            enabled: false,
                                             list: provider.vendorsList,
                                             dropdownValue: provider.vendorSelectedValue,
                                             onChanged: (p0) {
@@ -183,6 +187,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomDDownMenu(
+                                            enabled: false,
                                             list: provider.circuitInfosList,
                                             dropdownValue: provider.circuitTypeSelectedValue,
                                             onChanged: (p0) {
@@ -197,6 +202,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                           Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
                                             child: CustomDDownMenu(
+                                              enabled: false,
                                               list: provider.evcodList,
                                               dropdownValue: provider.evcodSelectedValue,
                                               onChanged: (p0) {
@@ -224,6 +230,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                           child: Row(
                                             children: [
                                               CustomTabButton(
+                                                enabled: false,
                                                 on: provider.ddosSelectedValue == 'Yes',
                                                 //icon: Icons.security_outlined,
                                                 label: 'DDoS Migration',
@@ -235,6 +242,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                               Padding(
                                                 padding: const EdgeInsets.only(left: 10),
                                                 child: CustomDDownMenu(
+                                                  enabled: false,
                                                   list: provider.bgpList,
                                                   dropdownValue: provider.bgpSelectedValue,
                                                   onChanged: (p0) {
@@ -253,6 +261,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                           child: Row(
                                             children: [
                                               CustomTabButton(
+                                                enabled: false,
                                                 on: provider.ipAdressSelectedValue == 'Interface',
                                                 label: 'IP Adresses',
                                                 option1: 'Interface',
@@ -264,6 +273,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 Padding(
                                                   padding: const EdgeInsets.only(left: 10),
                                                   child: CustomTabButton(
+                                                    enabled: false,
                                                     on: provider.ipInterfaceSelectedValue == 'IPv4',
                                                     label: 'IP Interface',
                                                     option1: 'IPv4',
@@ -276,6 +286,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 Padding(
                                                   padding: const EdgeInsets.only(left: 10),
                                                   child: CustomDDownMenu(
+                                                    enabled: false,
                                                     list: provider.subnetList,
                                                     dropdownValue: provider.subnetSelectedValue,
                                                     onChanged: (p0) {
@@ -372,7 +383,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                         SizedBox(
+                                        SizedBox(
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 10),
                                             child: Row(
@@ -404,7 +415,6 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                             ),
                                           ),
                                         ),
-                                      
                                         SizedBox(
                                           //width: 300,
                                           child: Padding(
@@ -423,12 +433,13 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       ),
                                                       Text(
                                                         'Items',
-                                                        style:TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText), /* TextStyle(
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                            fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            color: AppTheme.of(context)
+                                                                .primaryText), /* TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                         ), */
@@ -438,15 +449,13 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 ),
                                                 SizedBox(
                                                   width: 20,
-                                                  child: Text(
-                                                    ':',
-                                                    style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)
-                                                  ),
+                                                  child: Text(':',
+                                                      style: TextStyle(
+                                                          fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                          fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                          fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                          color: AppTheme.of(context).primaryText)),
                                                 ),
                                                 SizedBox(
                                                   child: Text(
@@ -479,29 +488,25 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                         padding: const EdgeInsets.only(right: 10),
                                                         child: Icon(Icons.attach_money, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
-                                                      Text(
-                                                        'Subtotal',
-                                                        style: TextStyle(
+                                                      Text('Subtotal',
+                                                          style: TextStyle(
                                                               fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                               fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                               fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
                                                               fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)
-                                                      ),
+                                                              color: AppTheme.of(context).primaryText)),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
-                                                  child: Text(
-                                                    ':',
-                                                    style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)
-                                                  ),
+                                                  child: Text(':',
+                                                      style: TextStyle(
+                                                          fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                          fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                          fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                          color: AppTheme.of(context).primaryText)),
                                                 ),
                                                 SizedBox(
                                                   child: Text(
@@ -534,29 +539,25 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                         padding: const EdgeInsets.only(right: 10),
                                                         child: Icon(Icons.money_off, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
-                                                      Text(
-                                                        'Cost',
-                                                        style: TextStyle(
+                                                      Text('Cost',
+                                                          style: TextStyle(
                                                               fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                               fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                               fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
                                                               fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)
-                                                      ),
+                                                              color: AppTheme.of(context).primaryText)),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
-                                                  child: Text(
-                                                    ':',
-                                                    style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)
-                                                  ),
+                                                  child: Text(':',
+                                                      style: TextStyle(
+                                                          fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                          fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                          fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                          color: AppTheme.of(context).primaryText)),
                                                 ),
                                                 SizedBox(
                                                   child: Text(
@@ -589,29 +590,25 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                         padding: const EdgeInsets.only(right: 10),
                                                         child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
-                                                      Text(
-                                                        'Total',
-                                                        style: TextStyle(
+                                                      Text('Total',
+                                                          style: TextStyle(
                                                               fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                               fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                               fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
                                                               fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)
-                                                      ),
+                                                              color: AppTheme.of(context).primaryText)),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
-                                                  child: Text(
-                                                    ':',
-                                                    style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)
-                                                  ),
+                                                  child: Text(':',
+                                                      style: TextStyle(
+                                                          fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                          fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                          fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                          color: AppTheme.of(context).primaryText)),
                                                 ),
                                                 SizedBox(
                                                   child: Text(
@@ -644,29 +641,25 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                         padding: const EdgeInsets.only(right: 10),
                                                         child: Icon(Icons.confirmation_num_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
-                                                      Text(
-                                                        'Tax',
-                                                        style: TextStyle(
+                                                      Text('Tax',
+                                                          style: TextStyle(
                                                               fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                               fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                               fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
                                                               fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)
-                                                      ),
+                                                              color: AppTheme.of(context).primaryText)),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
-                                                  child: Text(
-                                                    ':',
-                                                    style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)
-                                                  ),
+                                                  child: Text(':',
+                                                      style: TextStyle(
+                                                          fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                          fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                          fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                          color: AppTheme.of(context).primaryText)),
                                                 ),
                                                 SizedBox(
                                                   child: Text(
@@ -699,29 +692,25 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                         padding: const EdgeInsets.only(right: 10),
                                                         child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
-                                                      Text(
-                                                        'Total+Tax',
-                                                        style: TextStyle(
+                                                      Text('Total+Tax',
+                                                          style: TextStyle(
                                                               fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                               fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                               fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
                                                               fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)
-                                                      ),
+                                                              color: AppTheme.of(context).primaryText)),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
-                                                  child: Text(
-                                                    ':',
-                                                    style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)
-                                                  ),
+                                                  child: Text(':',
+                                                      style: TextStyle(
+                                                          fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                          fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                          fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                          color: AppTheme.of(context).primaryText)),
                                                 ),
                                                 SizedBox(
                                                   child: Text(
@@ -800,7 +789,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                             ),
                                           ),
                                         ),
-                                       ],
+                                      ],
                                     ),
                                   ),
                                 ),

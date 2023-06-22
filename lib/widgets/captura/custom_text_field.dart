@@ -83,7 +83,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   prefixIconColor: AppTheme.of(context).primaryColor,
                   label: Text(
                     widget.label,
-                    style: TextStyle(color: AppTheme.of(context).primaryColor),
+                    style: TextStyle(fontSize: 20, color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
                   ),
                 ),
                 cursorColor: AppTheme.of(context).primaryColor,

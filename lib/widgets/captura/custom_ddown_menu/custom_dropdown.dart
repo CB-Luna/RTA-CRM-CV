@@ -4,6 +4,7 @@ import 'package:rta_crm_cv/theme/theme.dart';
 class CustomDDownMenu extends StatefulWidget {
   const CustomDDownMenu({
     super.key,
+    this.enabled = true,
     required this.list,
     required this.dropdownValue,
     required this.onChanged,
@@ -13,6 +14,7 @@ class CustomDDownMenu extends StatefulWidget {
     this.hint,
   });
 
+  final bool enabled;
   final double width;
   final IconData icon;
   final String label;
@@ -38,7 +40,7 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
             padding: const EdgeInsets.only(left: 40),
             child: Text(
               widget.label,
-              style: TextStyle(color: AppTheme.of(context).primaryColor),
+              style: TextStyle(fontSize: 16, color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
             ),
           ),
           Container(
@@ -60,14 +62,14 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
             child: Row(
               children: [
                 const SizedBox(width: 10),
-                Icon(widget.icon, color: AppTheme.of(context).hintText.color),
+                Icon(widget.icon, color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
                 const SizedBox(width: 10),
                 SizedBox(
                   width: widget.width - 50,
                   child: DropdownButton<String>(
                     hint: Text(
                       widget.hint ?? '',
-                      style: TextStyle(color: AppTheme.of(context).primaryColor),
+                      style: TextStyle(color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
                     ),
                     icon: Expanded(
                       child: Row(
@@ -75,7 +77,7 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
                         children: [
                           Icon(
                             Icons.arrow_drop_down,
-                            color: AppTheme.of(context).primaryColor,
+                            color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color,
                             size: 25,
                           )
                         ],
@@ -86,14 +88,14 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
                     dropdownColor: AppTheme.of(context).primaryBackground,
                     style: TextStyle(color: AppTheme.of(context).primaryColor),
                     underline: const SizedBox.shrink(),
-                    onChanged: widget.onChanged,
+                    onChanged: widget.enabled ? widget.onChanged : null,
                     value: widget.dropdownValue,
                     items: widget.list.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(
                           value,
-                          style: TextStyle(color: AppTheme.of(context).primaryColor),
+                          style: TextStyle(fontSize: 14, color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
                         ),
                       );
                     }).toList(),
