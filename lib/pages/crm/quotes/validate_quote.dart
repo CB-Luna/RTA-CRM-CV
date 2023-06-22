@@ -372,6 +372,39 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
+                                         SizedBox(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                CustomTextIconButton(
+                                                  isLoading: provider.isLoading,
+                                                  width: (MediaQuery.of(context).size.width / 5) / 2 - 25,
+                                                  icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
+                                                  text: 'Accept',
+                                                  color: AppTheme.of(context).tertiaryColor,
+                                                  onTap: () async {
+                                                    context.pushReplacement(routeQuotes);
+                                                    await provider.validate(true);
+                                                  },
+                                                ),
+                                                CustomTextIconButton(
+                                                  isLoading: provider.isLoading,
+                                                  width: (MediaQuery.of(context).size.width / 5) / 2 - 25,
+                                                  icon: Icon(Icons.close, color: AppTheme.of(context).primaryBackground),
+                                                  color: secondaryColor,
+                                                  text: 'Reject',
+                                                  onTap: () async {
+                                                    context.pushReplacement(routeQuotes);
+                                                    await provider.validate(false);
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      
                                         SizedBox(
                                           //width: 300,
                                           child: Padding(
@@ -767,39 +800,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                CustomTextIconButton(
-                                                  isLoading: provider.isLoading,
-                                                  width: (MediaQuery.of(context).size.width / 5) / 2 - 25,
-                                                  icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
-                                                  text: 'Accept',
-                                                  color: AppTheme.of(context).tertiaryColor,
-                                                  onTap: () async {
-                                                    context.pushReplacement(routeQuotes);
-                                                    await provider.validate(true);
-                                                  },
-                                                ),
-                                                CustomTextIconButton(
-                                                  isLoading: provider.isLoading,
-                                                  width: (MediaQuery.of(context).size.width / 5) / 2 - 25,
-                                                  icon: Icon(Icons.close, color: AppTheme.of(context).primaryBackground),
-                                                  color: secondaryColor,
-                                                  text: 'Reject',
-                                                  onTap: () async {
-                                                    context.pushReplacement(routeQuotes);
-                                                    await provider.validate(false);
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
+                                       ],
                                     ),
                                   ),
                                 ),
