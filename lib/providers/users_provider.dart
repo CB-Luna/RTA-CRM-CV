@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -12,6 +13,7 @@ import 'package:path/path.dart' as p;
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
+import 'package:rta_crm_cv/public/colors.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 import 'package:uuid/uuid.dart';
 
@@ -32,13 +34,15 @@ class UsersProvider extends ChangeNotifier {
   }
 
   List<Role> roles = [];
-
+  List<Company> companys = [];
   Role? selectedRole;
-
+  Role? selectedRoleUpdate;
+  Company? selectedCompany;
+  Company? selectedCompanyUpdate;
   List<State> states = [];
 
   State? selectedState;
-
+  State? selectedStateUpdate;
   String? imageName;
   Uint8List? webImage;
 
@@ -48,6 +52,26 @@ class UsersProvider extends ChangeNotifier {
   final phoneController = TextEditingController();
   final stateController = TextEditingController();
   final roleController = TextEditingController();
+  final companyCOntroller = TextEditingController();
+
+  // EDIT
+  final nameControllerUpdate = TextEditingController();
+  final lastNameControllerUpdate = TextEditingController();
+  final emailControllerUpdate = TextEditingController();
+  final phoneControllerUpdate = TextEditingController();
+  final stateControllerUpdate = TextEditingController();
+  final roleControllerUpdate = TextEditingController();
+  final companyCOntrollerUpdate = TextEditingController();
+
+  void updateControllers(User users) {
+    nameControllerUpdate.text = users.name;
+    lastNameControllerUpdate.text = users.lastName;
+    emailControllerUpdate.text = users.email;
+    phoneControllerUpdate.text = users.homePhone;
+    selectedStateUpdate = selectedState;
+    selectedRoleUpdate = selectedRole;
+    selectedCompanyUpdate = selectedCompany;
+  }
 
   void clearControllers({bool notify = true}) {
     nameController.clear();
@@ -56,17 +80,42 @@ class UsersProvider extends ChangeNotifier {
     phoneController.clear();
     stateController.clear();
     roleController.clear();
+    companyCOntroller.clear();
 
     if (notify) notifyListeners();
   }
 
+  // NORMAL
   void selectRole(String role) {
     selectedRole = roles.firstWhere((elem) => elem.roleName == role);
     notifyListeners();
   }
 
+  void selectCompany(String companyName) {
+    selectedCompany =
+        companys.firstWhere((elem) => elem.company == companyName);
+    notifyListeners();
+  }
+
   void selectState(String state) {
     selectedState = states.firstWhere((elem) => elem.name == state);
+    notifyListeners();
+  }
+
+  // UPDATE
+  void selectRoleUpdate(String role) {
+    selectedRoleUpdate = roles.firstWhere((elem) => elem.roleName == role);
+    notifyListeners();
+  }
+
+  void selectCompanyUpdate(String companyName) {
+    selectedCompanyUpdate =
+        companys.firstWhere((elem) => elem.company == companyName);
+    notifyListeners();
+  }
+
+  void selectStateUpdate(String state) {
+    selectedStateUpdate = states.firstWhere((elem) => elem.name == state);
     notifyListeners();
   }
 
@@ -117,11 +166,30 @@ class UsersProvider extends ChangeNotifier {
             ascending: true,
           );
 
-      states = (res as List<dynamic>).map((pais) => State.fromJson(jsonEncode(pais))).toList();
+      states = (res as List<dynamic>)
+          .map((pais) => State.fromJson(jsonEncode(pais)))
+          .toList();
 
       if (notify) notifyListeners();
     } catch (e) {
       log('Error en getStates() -$e');
+    }
+  }
+
+  Future<void> getCompany({bool notify = true}) async {
+    try {
+      final res = await supabase.from('company').select().order(
+            'company',
+            ascending: true,
+          );
+
+      companys = (res as List<dynamic>)
+          .map((compani) => Company.fromJson(jsonEncode(compani)))
+          .toList();
+
+      if (notify) notifyListeners();
+    } catch (e) {
+      log('Error en getCompany() -$e');
     }
   }
 
@@ -131,7 +199,9 @@ class UsersProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    roles = (res as List<dynamic>).map((rol) => Role.fromJson(jsonEncode(rol))).toList();
+    roles = (res as List<dynamic>)
+        .map((rol) => Role.fromJson(jsonEncode(rol)))
+        .toList();
 
     if (notify) notifyListeners();
   }
@@ -142,13 +212,19 @@ class UsersProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      final res = await supabase.from('users').select().like('name', '%${searchController.text}%');
+      final res = await supabase
+          .from('users')
+          .select()
+          .like('name', '%${searchController.text}%')
+          .order('sequential_id', ascending: true);
 
       if (res == null) {
         log('Error en getUsuarios()');
         return;
       }
-      users = (res as List<dynamic>).map((usuario) => User.fromJson(jsonEncode(usuario))).toList();
+      users = (res as List<dynamic>)
+          .map((usuario) => User.fromJson(jsonEncode(usuario)))
+          .toList();
 
       rows.clear();
       for (User user in users) {
@@ -162,7 +238,8 @@ class UsersProvider extends ChangeNotifier {
               'EMAIL_Column': PlutoCell(value: user.email),
               'MOBILE_Column': PlutoCell(value: user.mobilePhone),
               'STATE_Column': PlutoCell(value: user.state.name),
-              'ACTIONS_Column': PlutoCell(value: user.id),
+              'COMPANY_Column': PlutoCell(value: user.company.company),
+              'ACTIONS_Column': PlutoCell(value: user),
             },
           ),
         );
@@ -236,7 +313,7 @@ class UsersProvider extends ChangeNotifier {
             'id_role_fk': selectedRole!.id,
             'state_fk': selectedState!.id,
             // TODO: implementar campo de Company
-            'id_company_fk': 1,
+            'id_company_fk': selectedCompany!.id,
           },
         );
       }
@@ -247,15 +324,39 @@ class UsersProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> deleteUser(String userId) async {
+  Future<bool> deleteUser(User users) async {
     try {
-      await supabase.rpc(
-        'delete_user',
-        params: {'user_id': userId},
-      );
+      await supabase
+          .from('user_profile')
+          .delete()
+          .match({'user_profile_id': users.id});
+
       return true;
     } catch (e) {
       log('Error in deleteUser() - $e');
+      return false;
+    }
+  }
+
+  Future<bool> updateUser(User users) async {
+    try {
+      await supabase.from('user_profile').update({
+        'user_profile_id': users.id,
+        'name': nameControllerUpdate.text,
+        'last_name': lastNameControllerUpdate.text,
+        'home_phone': phoneControllerUpdate.text,
+        'mobile_phone': phoneControllerUpdate.text,
+        'address': '124 Main St.',
+        'image': imageName,
+        'birthdate': DateTime.now().toIso8601String(),
+        'id_role_fk': selectedRoleUpdate?.id ?? users.role.id,
+        'state_fk': selectedStateUpdate?.id ?? users.state.id,
+        // TODO: implementar campo de Company
+        'id_company_fk': selectedCompanyUpdate?.id ?? users.company.id,
+      }).eq('user_profile_id', users.id);
+      return true;
+    } catch (e) {
+      print('Error in UpdateUser() - $e');
       return false;
     }
   }
@@ -332,13 +433,15 @@ class UsersProvider extends ChangeNotifier {
   SMIInput<bool>? iHoverDashboards;
   SMIInput<bool>? iSelectedDashboards;
   Future<void> dashboardsIconRive() async {
-    final ByteData data = await rootBundle.load('assets/rive/dashboards_icon.riv');
+    final ByteData data =
+        await rootBundle.load('assets/rive/dashboards_icon.riv');
 
     final file = RiveFile.import(data);
 
     final artboard = file.mainArtboard;
 
-    sMCDashboards = StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCDashboards =
+        StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCDashboards != null) {
       artboard.addController(sMCDashboards!);
