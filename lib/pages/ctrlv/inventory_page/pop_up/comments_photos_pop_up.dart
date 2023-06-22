@@ -87,7 +87,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                     // final urlImage =
                     //     provider.actualissuesComments?.listImages![index];
                     const urlImage =
-                        "https://supa43.rtatel.com/storage/v1/object/public/measures/400c2d6f-da86-4e3a-bf59-894d4e83f798image_picker2951695346784061281.jpg";
+                        "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
                     return buildImage(urlImage, index);
                   },
                   options: CarouselOptions(height: 200),

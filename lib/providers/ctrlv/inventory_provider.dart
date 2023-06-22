@@ -66,7 +66,7 @@ class InventoryProvider extends ChangeNotifier {
   IssuesXUser? actualIssueXUser;
   IssuesComments? actualissuesComments;
   Vehicle? actualVehicle;
-  int idvehicle = 15;
+  int idvehicle = 16;
   String? colorString = "0xffffffff";
 //------------------------------------------
 
@@ -357,7 +357,6 @@ class InventoryProvider extends ChangeNotifier {
     try {
       await supabaseCtrlV.from('vehicle').insert(
         {
-          'id_vehicle': idvehicle,
           'make': brandController.text,
           'model': modelController.text,
           'year': yearController.text,
@@ -1175,8 +1174,7 @@ class InventoryProvider extends ChangeNotifier {
         DateFormat("MMM/dd/yyyy").format(report.dateAdded),
         DateFormat("MMM/dd/yyyy").format(report.oilChangeDue),
         DateFormat("MMM/dd/yyyy").format(report.lastRadiatorFluidChange),
-        DateFormat("MMM/dd/yyyy")
-            .format(report.lastTransmissionFluidChange),
+        DateFormat("MMM/dd/yyyy").format(report.lastTransmissionFluidChange),
         report.issuesR,
         report.issuesD
       ];
