@@ -390,10 +390,15 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       ),
                                                       Text(
                                                         'Items',
-                                                        style: TextStyle(
+                                                        style:TextStyle(
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText), /* TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        ),
+                                                        ), */
                                                       ),
                                                     ],
                                                   ),
@@ -403,9 +408,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   child: Text(
                                                     ':',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                    ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText)
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -442,9 +449,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       Text(
                                                         'Subtotal',
                                                         style: TextStyle(
-                                                          color: AppTheme.of(context).contenidoTablas.color,
-                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText)
                                                       ),
                                                     ],
                                                   ),
@@ -454,9 +463,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   child: Text(
                                                     ':',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                    ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText)
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -493,9 +504,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       Text(
                                                         'Cost',
                                                         style: TextStyle(
-                                                          color: AppTheme.of(context).contenidoTablas.color,
-                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText)
                                                       ),
                                                     ],
                                                   ),
@@ -505,9 +518,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   child: Text(
                                                     ':',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                    ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText)
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -544,9 +559,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       Text(
                                                         'Total',
                                                         style: TextStyle(
-                                                          color: AppTheme.of(context).contenidoTablas.color,
-                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText)
                                                       ),
                                                     ],
                                                   ),
@@ -556,9 +573,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   child: Text(
                                                     ':',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                    ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText)
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -595,9 +614,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       Text(
                                                         'Tax',
                                                         style: TextStyle(
-                                                          color: AppTheme.of(context).contenidoTablas.color,
-                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText)
                                                       ),
                                                     ],
                                                   ),
@@ -607,9 +628,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   child: Text(
                                                     ':',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                    ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText)
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -646,9 +669,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       Text(
                                                         'Total+Tax',
                                                         style: TextStyle(
-                                                          color: AppTheme.of(context).contenidoTablas.color,
-                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText)
                                                       ),
                                                     ],
                                                   ),
@@ -658,9 +683,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   child: Text(
                                                     ':',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                    ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText)
                                                   ),
                                                 ),
                                                 SizedBox(

@@ -52,12 +52,14 @@ class SupabaseQueries {
       //print(res.toString());
       Configuration config =
           Configuration.fromJson(jsonEncode(res[0]['configuracion']));
+      
       return config;
     } catch (e) {
       log('Error en getUserTheme() - $e');
       return null;
     }
   }
+
   static Future<Assets> getAssets() async {
     Map<String, String> assetMap = {
       'logoColor': 'assets/images/LogoColor.png',
@@ -65,10 +67,10 @@ class SupabaseQueries {
       'bg1': 'assets/images/bg1.png',
       'bgLogin': 'assets/images/bgLogin.png',
       'avatar': 'assets/images/avatar.png',
-      'background':'assets/images/background.png',
-      'background2':'assets/images/background2.png',
-      'background3':'assets/images/background3.png',
-      'background4':'assets/images/background4.png',
+      'background': 'assets/images/background.png',
+      'background2': 'assets/images/background2.png',
+      'background3': 'assets/images/background3.png',
+      'background4': 'assets/images/background4.png',
     };
     try {
       //Logo Color
@@ -83,8 +85,8 @@ class SupabaseQueries {
       //BG Login
       res = supabase.storage.from('assets').getPublicUrl('bgLogin.png');
       assetMap['bgLogin'] = res;
-      //avatar 
-       res = supabase.storage.from('assets').getPublicUrl('avatar.png');
+      //avatar
+      res = supabase.storage.from('assets').getPublicUrl('avatar.png');
       assetMap['avatar'] = res;
       //background
       res = supabase.storage.from('assets').getPublicUrl('background.png');

@@ -405,9 +405,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                       Text(
                                                         'Items',
                                                         style: TextStyle(
-                                                          color: AppTheme.of(context).contenidoTablas.color,
-                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ],
                                                   ),
@@ -417,9 +419,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                   child: Text(
                                                     ':',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                    ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -456,9 +460,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                       Text(
                                                         'Subtotal',
                                                         style: TextStyle(
-                                                          color: AppTheme.of(context).contenidoTablas.color,
-                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ],
                                                   ),
@@ -468,9 +474,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                   child: Text(
                                                     ':',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                    ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -507,9 +515,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                       Text(
                                                         'Cost',
                                                         style: TextStyle(
-                                                          color: AppTheme.of(context).contenidoTablas.color,
-                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ],
                                                   ),
@@ -519,9 +529,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                   child: Text(
                                                     ':',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                    ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -558,9 +570,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                       Text(
                                                         'Total',
                                                         style: TextStyle(
-                                                          color: AppTheme.of(context).contenidoTablas.color,
-                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ],
                                                   ),
@@ -570,9 +584,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                   child: Text(
                                                     ':',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                    ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -609,9 +625,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                       Text(
                                                         'Tax',
                                                         style: TextStyle(
-                                                          color: AppTheme.of(context).contenidoTablas.color,
-                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ],
                                                   ),
@@ -621,9 +639,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                   child: Text(
                                                     ':',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                    ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -660,9 +680,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                       Text(
                                                         'Total+Tax',
                                                         style: TextStyle(
-                                                          color: AppTheme.of(context).contenidoTablas.color,
-                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                        ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ],
                                                   ),
@@ -672,9 +694,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                   child: Text(
                                                     ':',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                    ),
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              color: AppTheme.of(context).primaryText),
                                                   ),
                                                 ),
                                                 SizedBox(

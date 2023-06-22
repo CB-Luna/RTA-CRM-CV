@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
@@ -37,7 +39,8 @@ class _SideMenuState extends State<SideMenu> {
               topRight: Radius.circular(15),
               bottomRight: Radius.circular(15),
             ),
-            border: Border.all(width: 1.5, color: AppTheme.of(context).primaryBackground),
+            border: Border.all(
+                width: 1.5, color: AppTheme.of(context).primaryBackground),
           ),
           child: CustomScrollBar(
             scrollDirection: Axis.horizontal,
@@ -48,7 +51,8 @@ class _SideMenuState extends State<SideMenu> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 10, bottom: 10, right: 10),
+                    padding:
+                        const EdgeInsets.only(left: 10, bottom: 10, right: 10),
                     child: provider.isOpen
                         ? SizedBox(
                             width: 250,
@@ -59,10 +63,17 @@ class _SideMenuState extends State<SideMenu> {
                                 //   'https://rtatel.com/wp-content/uploads/2022/11/cropped-RTAREGISTERED.png',
                                 //   height: getHeight(60, context),
                                 // ),
-                                Image.asset(
-                                  "assets/images/rta_logo.png",
-                                  height: getHeight(60, context),
-                                ),
+                                AppTheme.themeMode == ThemeMode.dark
+                                    ? Image.network(
+                                        assets.logoBlanco,
+                                        key: ValueKey(Random().nextInt(100)),
+                                        height: getHeight(25, context),
+                                      )
+                                    : Image.network(
+                                        assets.logoColor,
+                                        key: ValueKey(Random().nextInt(100)),
+                                        height: getHeight(25, context),
+                                      ),
 
                                 InkWell(
                                   hoverColor: Colors.transparent,
@@ -74,7 +85,8 @@ class _SideMenuState extends State<SideMenu> {
                                   onTap: () {
                                     setState(() {
                                       provider.isOpen = !provider.isOpen;
-                                      provider.forcedOpen = !provider.forcedOpen;
+                                      provider.forcedOpen =
+                                          !provider.forcedOpen;
                                     });
                                   },
                                 )
@@ -87,10 +99,12 @@ class _SideMenuState extends State<SideMenu> {
                               AppTheme.themeMode == ThemeMode.dark
                                   ? Image.network(
                                       assets.logoBlanco,
+                                      key: ValueKey(Random().nextInt(100)),
                                       height: getHeight(25, context),
                                     )
                                   : Image.network(
                                       assets.logoColor,
+                                      key: ValueKey(Random().nextInt(100)),
                                       height: getHeight(25, context),
                                     ),
                               InkWell(
