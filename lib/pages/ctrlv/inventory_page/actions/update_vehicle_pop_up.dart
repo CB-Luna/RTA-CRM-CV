@@ -265,10 +265,20 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                             }
                           }),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextFieldForm(
+                        label: '13. Initial Mileage',
+                        controller: provider.mileageControllerUpdate,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.name,
+                      ),
+                    ),
                     Column(
                       children: [
                         Text(
-                          "13. Update Vehicle Image",
+                          "14. Update Vehicle Image",
                           style: TextStyle(
                             color: AppTheme.of(context).primaryColor,
                           ),

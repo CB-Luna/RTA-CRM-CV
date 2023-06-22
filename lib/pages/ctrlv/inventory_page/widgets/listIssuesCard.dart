@@ -64,7 +64,8 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                             "Date: ",
                           ),
                           Text(
-                            DateFormat("MMM/dd/yyyy hh:mm:ss").format(widget.issuesComments[index].dateAdded),
+                            DateFormat("MMM/dd/yyyy hh:mm:ss")
+                                .format(widget.issuesComments[index].dateAdded),
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -76,6 +77,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                           provider.selectIssuesComments(
                               widget.issuesComments[index]);
                           provider.cambiosVistaPhotosComments();
+                          provider.setIssueViewActual(2);
                         },
                         child: const Icon(Icons.remove_red_eye_outlined))
                   ],

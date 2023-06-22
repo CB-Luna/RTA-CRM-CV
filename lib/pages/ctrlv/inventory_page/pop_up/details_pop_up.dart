@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/models/vehicle.dart';
+import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 
 import '../../../../widgets/card_header.dart';
 import 'cuadro_details.dart';
+import 'issues_pop_up.dart';
+import 'reported_issues_pop_up.dart';
 
 class DetailsPopUp extends StatefulWidget {
   final Vehicle vehicle;
@@ -18,6 +23,8 @@ class DetailsPopUp extends StatefulWidget {
 class _DetailsPopUpState extends State<DetailsPopUp> {
   @override
   Widget build(BuildContext context) {
+    InventoryProvider provider = Provider.of<InventoryProvider>(context);
+
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
@@ -249,10 +256,24 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                 Padding(
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
-                                  child: Text(
-                                    " \n ${widget.vehicle.issuesR.toString()}",
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        " \n ${provider.actualIssueXUser!.issuesR + provider.actualIssueXUser!.issuesD}",
+                                        style: const TextStyle(
+                                            color: Colors.white, fontSize: 18),
+                                      ),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return const ReportedIssues();
+                                                });
+                                          },
+                                          child: const Text("Issues"))
+                                    ],
                                   ),
                                 ),
                               ],

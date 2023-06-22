@@ -3,12 +3,12 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/issues_pop_up.dart';
+import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/cry_card.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/details_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/odi_card.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/smi_card.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
-import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
 import 'package:rta_crm_cv/widgets/card_header.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
@@ -19,6 +19,7 @@ import '../../../providers/side_menu_provider.dart';
 import '../../../public/colors.dart';
 import '../../../theme/theme.dart';
 import '../../../widgets/custom_text_icon_button.dart';
+import 'pop_up/comments_photos_pop_up.dart';
 import 'pop_up/verify_to_eliminate_pop_up.dart';
 import 'widgets/header_inventory.dart';
 import 'actions/update_vehicle_pop_up.dart';
@@ -774,6 +775,52 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                           );
                                         },
                                       ),
+                                      PlutoColumn(
+                                        title: 'mileage',
+                                        field: 'mileage',
+                                        backgroundColor:
+                                            const Color(0XFF6491F7),
+                                        titleSpan: const TextSpan(
+                                          children: [
+                                            WidgetSpan(
+                                              child: Icon(
+                                                Icons.warehouse_outlined,
+                                                color: Color(0xffF3F7F9),
+                                                size: 20,
+                                              ),
+                                            ),
+                                            WidgetSpan(
+                                                child: SizedBox(
+                                              width: 10,
+                                            )),
+                                            TextSpan(
+                                                text: 'mileage',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          ],
+                                        ),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.11,
+                                        cellPadding: EdgeInsets.zero,
+                                        titleTextAlign:
+                                            PlutoColumnTextAlign.center,
+                                        textAlign: PlutoColumnTextAlign.center,
+                                        type: PlutoColumnType.text(),
+                                        enableEditingMode: false,
+                                        renderer: (rendererContext) {
+                                          return Container(
+                                            height: rowHeight,
+                                            // width: rendererContext
+                                            //.cell.column.width,                                                    .cell.column.width,
+                                            decoration: BoxDecoration(
+                                                gradient: whiteGradient),
+                                            child: Center(
+                                                child: Text(rendererContext
+                                                    .cell.value)),
+                                          );
+                                        },
+                                      ),
                                       // PlutoColumn(
                                       //   title: 'Date Added',
                                       //   field: 'date_added',
@@ -986,30 +1033,31 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 CustomTextIconButton(
                                                   isLoading: false,
                                                   icon: Icon(
-                                                    Icons.shopping_basket_outlined,
+                                                    Icons
+                                                        .shopping_basket_outlined,
                                                     color: AppTheme.of(context)
                                                         .primaryBackground,
                                                   ),
                                                   color: secondaryColor,
                                                   text: 'Delete',
                                                   onTap: () async {
-                                                   await showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return StatefulBuilder(
-                                                            builder: (context,
-                                                                setState) {
-                                                          return DeletePopUp(
-                                                            vehicle:
-                                                                rendererContext
-                                                                    .cell
-                                                                    .value,
-                                                          );
+                                                    await showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return StatefulBuilder(
+                                                              builder: (context,
+                                                                  setState) {
+                                                            return DeletePopUp(
+                                                              vehicle:
+                                                                  rendererContext
+                                                                      .cell
+                                                                      .value,
+                                                            );
+                                                          });
                                                         });
-                                                      });
-                                                  await provider
-                                                      .getInventory();
+                                                    await provider
+                                                        .getInventory();
                                                   },
                                                 ),
                                                 // CustomTextIconButton(
@@ -1100,7 +1148,9 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                       provider.getIssuesxUsers(
                                                           rendererContext
                                                               .cell.value);
-
+                                                      provider
+                                                          .setIssueViewActual(
+                                                              0);
                                                       showDialog(
                                                           context: context,
                                                           builder: (BuildContext

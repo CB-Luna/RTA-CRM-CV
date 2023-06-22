@@ -60,9 +60,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                 await showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return StatefulBuilder(builder: (context, setState) {
-                        return const AddVehiclePopUp();
-                      });
+                      return const AddVehiclePopUp();
                     });
                 await provider.updateState();
               },

@@ -70,7 +70,8 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
               ElevatedButton(
                   onPressed: () {
                     provider.getIssues(provider.actualIssueXUser!);
-                    provider.cambioVistaIssues();
+                    provider.setIssueViewActual(1);
+                    print(provider.issuesView);
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),

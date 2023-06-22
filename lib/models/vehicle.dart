@@ -21,7 +21,8 @@ class Vehicle {
       required this.lastRadiatorFluidChange,
       required this.lastTransmissionFluidChange,
       required this.issuesR,
-       this.issuesD});
+      required this.mileage,
+      this.issuesD});
 
   int idVehicle;
   String make;
@@ -40,7 +41,7 @@ class Vehicle {
   CompanyApi company;
   int issuesR;
   int? issuesD;
-
+  int mileage;
   factory Vehicle.fromJson(String str) => Vehicle.fromMap(json.decode(str));
 
   factory Vehicle.fromMap(Map<String, dynamic> json) => Vehicle(
@@ -62,8 +63,8 @@ class Vehicle {
       lastTransmissionFluidChange:
           DateTime.parse(json["last_transmission_fluid_change"]),
       issuesR: json["issues_r"],
-      issuesD: json["issues_d"]
-      );
+      issuesD: json["issues_d"],
+      mileage: json["mileage"]);
 
   Map<String, dynamic> toMap() => {
         "id_vehicle": idVehicle,
@@ -83,6 +84,7 @@ class Vehicle {
         "last_transmission_fluid_change":
             lastTransmissionFluidChange.toIso8601String(),
         "issues_r": issuesR,
-        "issues_d": issuesD
+        "issues_d": issuesD,
+        "mileage": mileage
       };
 }

@@ -259,10 +259,20 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                             }
                           }),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextFieldForm(
+                        label: '13. Initial Mileage',
+                        controller: provider.mileageController,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.name,
+                      ),
+                    ),
                     Column(
                       children: [
                         Text(
-                          "13. Add Vehicle Image",
+                          "14. Add Vehicle Image",
                           style: TextStyle(
                             color: AppTheme.of(context).primaryColor,
                           ),
@@ -313,7 +323,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                       if (!mounted) return;
                       fToast.showToast(
                         child: const SuccessToast(
-                          message: 'Usuario creado',
+                          message: 'Vehicle Added Succesfuly',
                         ),
                         gravity: ToastGravity.BOTTOM,
                         toastDuration: const Duration(seconds: 2),

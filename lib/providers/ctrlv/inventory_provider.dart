@@ -34,6 +34,7 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController dateTimeControllerLTFC = TextEditingController();
   TextEditingController searchController = TextEditingController();
   TextEditingController yearController = TextEditingController();
+  TextEditingController mileageController = TextEditingController();
   //TextEditingController statusController = TextEditingController();
 //------------------------------------------
   //Update Inventario
@@ -49,6 +50,7 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController searchControllerUpadte = TextEditingController();
   TextEditingController yearControllerUpdate = TextEditingController();
   TextEditingController colorControllers = TextEditingController();
+  TextEditingController mileageControllerUpdate = TextEditingController();
   //------------------------------------------
 
   //TextEditingController statusControllerUpadte = TextEditingController();
@@ -196,6 +198,7 @@ class InventoryProvider extends ChangeNotifier {
         DateFormat("MMM/dd/yyyy").format(vehicle.lastRadiatorFluidChange);
     dateTimeControllerLTFCUpadte.text =
         DateFormat("MMM/dd/yyyy").format(vehicle.lastTransmissionFluidChange);
+    mileageControllerUpdate.text = vehicle.mileage.toString();
   }
 //---------------------------------------------
 
@@ -254,6 +257,13 @@ class InventoryProvider extends ChangeNotifier {
         .toList();
 
     if (notify) notifyListeners();
+  }
+
+//---------------------------------------------
+  int issuesView = 0;
+  void setIssueViewActual(int value) {
+    issuesView = value;
+    notifyListeners();
   }
 //---------------------------------------------
 
@@ -325,7 +335,8 @@ class InventoryProvider extends ChangeNotifier {
         'date_added': DateTime.now().toIso8601String(),
         'oil_change_due': dateTimeControllerOilUpdate.text,
         'last_radiator_fluid_change': dateTimeControllerRFCUpadte.text,
-        'last_transmission_fluid_change': dateTimeControllerLTFCUpadte.text
+        'last_transmission_fluid_change': dateTimeControllerLTFCUpadte.text,
+        'mileage': mileageControllerUpdate.text
       }).eq("id_vehicle", vehicle.idVehicle);
       return true;
     } catch (e) {
@@ -370,7 +381,8 @@ class InventoryProvider extends ChangeNotifier {
           'date_added': DateTime.now().toIso8601String(),
           'oil_change_due': dateTimeControllerOil.text,
           'last_radiator_fluid_change': dateTimeControllerRFC.text,
-          'last_transmission_fluid_change': dateTimeControllerLTFC.text
+          'last_transmission_fluid_change': dateTimeControllerLTFC.text,
+          'mileage': mileageController.text
         },
       );
       return true;
@@ -463,6 +475,7 @@ class InventoryProvider extends ChangeNotifier {
               //     value: DateFormat("MMM/dd/yyyy")
               //         .format(vehicle.dateAdded)
               //         .toString()),
+              "mileage": PlutoCell(value: vehicle.mileage.toString()),
               "details": PlutoCell(value: vehicle),
               "actions": PlutoCell(value: vehicle),
               "issues": PlutoCell(value: vehicle)

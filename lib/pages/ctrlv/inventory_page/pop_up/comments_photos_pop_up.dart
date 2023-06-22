@@ -30,7 +30,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
               alignment: Alignment.centerLeft,
               child: ElevatedButton(
                 onPressed: () {
-                  provider.cambiosVistaPhotosComments();
+                  provider.setIssueViewActual(1);
                 },
                 child: const Text("Back"),
               ),
