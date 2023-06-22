@@ -258,11 +258,11 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                       0, 0, 0, 10),
                                   child: Row(
                                     children: [
-                                      Text(
-                                        " \n ${provider.actualIssueXUser!.issuesR + provider.actualIssueXUser!.issuesD}",
-                                        style: const TextStyle(
-                                            color: Colors.white, fontSize: 18),
-                                      ),
+                                      // Text(
+                                      //   " \n ${provider.actualIssueXUser!.issuesR + provider.actualIssueXUser!.issuesD}",
+                                      //   style: const TextStyle(
+                                      //       color: Colors.white, fontSize: 18),
+                                      // ),
                                       ElevatedButton(
                                           onPressed: () {
                                             showDialog(

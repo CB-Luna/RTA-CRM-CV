@@ -44,14 +44,15 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           const SizedBox(
             width: 20,
           ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.1,
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 13),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
+              width: 131,
               isLoading: false,
               icon: Icon(Icons.add_box_outlined,
                   color: AppTheme.of(context).primaryBackground),
               text: 'Add Vehicle',
+              color: AppTheme.of(context).primaryColor,
               onTap: () async {
                 provider.clearControllers();
                 await provider.getCompanies(notify: false);
@@ -66,21 +67,56 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
               },
             ),
           ),
+          // Container(
+          //   width: MediaQuery.of(context).size.width * 0.1,
+          //   padding: const EdgeInsets.only(left: 10, right: 10, top: 13),
+          //   child: CustomTextIconButton(
+          //     isLoading: false,
+          //     icon: Icon(Icons.add_box_outlined,
+          //         color: AppTheme.of(context).primaryBackground),
+          //     text: 'Add Vehicle',
+          //     onTap: () async {
+          //       provider.clearControllers();
+          //       await provider.getCompanies(notify: false);
+          //       await provider.getStatus(notify: false);
+          //       // ignore: use_build_context_synchronously
+          //       await showDialog(
+          //           context: context,
+          //           builder: (BuildContext context) {
+          //             return const AddVehiclePopUp();
+          //           });
+          //       await provider.updateState();
+          //     },
+          //   ),
+          // ),
           const SizedBox(
             width: 20,
           ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.1,
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 13),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
+              width: 131,
               isLoading: false,
-              icon: Icon(Icons.filter_alt_outlined,
+              icon: Icon(Icons.add_box_outlined,
                   color: AppTheme.of(context).primaryBackground),
               text: 'Filter',
+              color: AppTheme.of(context).primaryColor,
               onTap: () => provider.stateManager!.setShowColumnFilter(
                   !provider.stateManager!.showColumnFilter),
             ),
           ),
+          // Container(
+          //   width: MediaQuery.of(context).size.width * 0.1,
+          //   padding: const EdgeInsets.only(left: 10, right: 10, top: 13),
+          //   child: CustomTextIconButton(
+          //     isLoading: false,
+          //     icon: Icon(Icons.filter_alt_outlined,
+          //         color: AppTheme.of(context).primaryBackground),
+          //     text: 'Filter',
+          //     onTap: () => provider.stateManager!.setShowColumnFilter(
+          //         !provider.stateManager!.showColumnFilter),
+          //   ),
+          // ),
           // Container(
           //   width: MediaQuery.of(context).size.width * 0.11,
           //   padding: const EdgeInsets.only(left: 10, right: 10, top: 14),
@@ -97,20 +133,34 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             width: 20,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 11.0),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.1,
-              child: CustomTextIconButton(
-                isLoading: false,
-                icon: Icon(Icons.download_outlined,
-                    color: AppTheme.of(context).primaryBackground),
-                text: 'Export Data',
-                onTap: () {
-                  provider.excelActivityReports();
-                },
-              ),
+            padding: const EdgeInsets.only(left: 10, top: 10),
+            child: CustomTextIconButton(
+              width: 131,
+              isLoading: false,
+              icon: Icon(Icons.add_box_outlined,
+                  color: AppTheme.of(context).primaryBackground),
+              text: 'Export Data',
+              color: AppTheme.of(context).primaryColor,
+              onTap: () {
+                provider.excelActivityReports();
+              },
             ),
-          )
+          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 11.0),
+          //   child: SizedBox(
+          //     width: MediaQuery.of(context).size.width * 0.1,
+          //     child: CustomTextIconButton(
+          //       isLoading: false,
+          //       icon: Icon(Icons.download_outlined,
+          //           color: AppTheme.of(context).primaryBackground),
+          //       text: 'Export Data',
+          //       onTap: () {
+          //         provider.excelActivityReports();
+          //       },
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );
