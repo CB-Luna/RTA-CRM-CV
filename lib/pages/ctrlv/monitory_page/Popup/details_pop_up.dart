@@ -50,7 +50,7 @@ class DetailsPop extends StatelessWidget {
                                 Navigator.pop(context);
                               },
                               child: const Text(
-                                "BACK",
+                                "Exit",
                                 style: TextStyle(fontSize: 20),
                               )),
                         ),
@@ -126,14 +126,14 @@ class DetailsPop extends StatelessWidget {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0, 0, 0, 10),
                                         child: Text(
-                                          " Insurance Renewal Due: ",
+                                          " Last Transmission Fluid Change: ",
                                           style: TextStyle(color: Colors.white),
                                         ),
                                       ),
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0, 0, 0, 10),
-                                        child: Text(" Registration Due: ",
+                                        child: Text(" Last Radiator Fluid Change: ",
                                             style:
                                                 TextStyle(color: Colors.white)),
                                       ),
@@ -353,11 +353,11 @@ class DetailsPop extends StatelessWidget {
                               tabs: [
                                 Tab(
                                   height: 30,
-                                  text: "Received",
+                                  text: "Check Out",
                                 ),
                                 Tab(
                                   height: 30,
-                                  text: "Delivered",
+                                  text: "Check In",
                                 ),
                               ],
                             ),
@@ -389,7 +389,7 @@ class DetailsPop extends StatelessWidget {
           //cambio de PopUp
           //Id enviarle el de control form para tomar todos los datos de las diferntes tablas.
           provider.viewPopup == 1
-              ? MeasuresPopUp()
+              ? MeasuresPopUp(row: vehicle)
               : provider.viewPopup == 2
                   ? ExtraPopUp(catalog: "Lights")
                   : provider.viewPopup == 3

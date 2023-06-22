@@ -163,8 +163,8 @@ class MonitoryProvider extends ChangeNotifier {
               "vin": PlutoCell(value: monitory.vin),
               "license_plates": PlutoCell(value: monitory.licensePlates),
               "company": PlutoCell(value: monitory.company.company),
-              "check_in": PlutoCell(value: DateFormat("MMM-dd-yyyy hh:mm:ss").format(monitory.dateAddedR)),
-              "check_out": PlutoCell(value: monitory.dateAddedD == null ? 'N/A' : DateFormat("MMM-dd-yyyy hh:mm:ss").format(monitory.dateAddedD!)),
+              "check_out": PlutoCell(value: DateFormat("MMM-dd-yyyy hh:mm:ss").format(monitory.dateAddedR)),
+              "check_in": PlutoCell(value: monitory.dateAddedD == null ? 'N/A' : DateFormat("MMM-dd-yyyy hh:mm:ss").format(monitory.dateAddedD!)),
               "status": PlutoCell(value: monitory.vehicle.status.status),
               // "mileage": PlutoCell(value: monitory.mileage),
               "details": PlutoCell(value: monitory),
@@ -357,19 +357,7 @@ class MonitoryProvider extends ChangeNotifier {
     var cell11 = sheet.cell(CellIndex.indexByString("K3"));
     cell11.value = "Check Out";
     cell11.cellStyle = cellStyle;
-    //Agregar headers
-    // sheet.appendRow([
-    //   'Id Control Form',
-    //   'Id Vehicle',
-    //   'Employee',
-    //   'Type Form',
-    //   'VIN',
-    //   'License Plates',
-    //   'Company',
-    //   'Gas',
-    //   'Mileage',
-    //   'Date Added',
-    // ]);
+   
 
     //Agregar datos
     for (var vehicle in monitory) {

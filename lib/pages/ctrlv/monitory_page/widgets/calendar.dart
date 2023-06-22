@@ -105,57 +105,7 @@ class Calendario extends StatelessWidget {
               //BUSCADOR DE MES
 
               //COMPANY
-              Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * .06,
-                width: MediaQuery.of(context).size.width * .15,
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(224, 234, 255, 10),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: DropdownButton<String>(
-                  value: comp,
-                  icon: const Icon(Icons.arrow_downward),
-                  elevation: 16,
-                  onChanged: (String? value) {
-                    provider.getAppointmentsbyCompany(provider.monitory, value!);
-                  },
-                  items: company.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: const TextStyle(fontSize: 30),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              //Employee
-              Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * .06,
-                width: MediaQuery.of(context).size.width * .15,
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(224, 234, 255, 10),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: DropdownButton<String>(
-                  value: emp,
-                  icon: const Icon(Icons.arrow_downward),
-                  elevation: 16,
-                  onChanged: (String? value) {},
-                  items: employee.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: const TextStyle(fontSize: 30),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
+              
             ],
           ),
         ),
@@ -163,7 +113,18 @@ class Calendario extends StatelessWidget {
           child: SfCalendar(
             showWeekNumber: true,
             showDatePickerButton: true,
-            view: CalendarView.week,
+            weekNumberStyle: WeekNumberStyle(
+              textStyle: TextStyle(
+                fontSize: 15,
+                color: Colors.black,
+              ),
+            ),
+            view: CalendarView.workWeek,
+            timeSlotViewSettings: TimeSlotViewSettings(
+              timeIntervalHeight: 70,
+              timeTextStyle: TextStyle(fontSize: 15,
+              color: Colors.black,)
+            ),
             firstDayOfWeek: 1,
             dataSource: MeetingDataSource(provider.meet),
             appointmentBuilder: (BuildContext context, CalendarAppointmentDetails details) {

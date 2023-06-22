@@ -37,7 +37,7 @@ class LicenseHistory extends StatelessWidget {
                           Navigator.pop(context);
                         },
                         child: const Text(
-                          "BACK",
+                          "Back",
                           style: TextStyle(fontSize: 20),
                         )),
                   ),

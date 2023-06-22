@@ -98,15 +98,23 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                             const SizedBox(
                               height: 20,
                             ),
+                            CardHeader(text: "Vehicle Status"),
 
-                            MonitoryPageHeader(),
+                            
                             const SizedBox(
                               height: 20,
                             ),
                             // Titulo de la tabla
-                            const Padding(
+                            Padding(
                                 padding: EdgeInsets.only(bottom: 10),
-                                child: CardHeader(text: "Vehicle Status")),
+                                child:MonitoryPageHeader() ),
+                             Container(
+                              padding:
+                                  const EdgeInsets.only(top: 40, bottom: 40,right: 10),
+                              //color: Colors.red,
+                              height: 905,
+                              child: const Calendario(),
+                            ),
 
                             widget.provider.monitory.isEmpty
                                 ? const CircularProgressIndicator()
@@ -457,8 +465,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                               },
                                             ),
                                             PlutoColumn(
-                                              title: 'Check_In',
-                                              field: 'check_in',
+                                              title: 'Check_Out',
+                                              field: 'check_out',
                                               titleSpan: const TextSpan(
                                                 children: [
                                                   WidgetSpan(
@@ -474,7 +482,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     width: 10,
                                                   )),
                                                   TextSpan(
-                                                      text: 'Check In',
+                                                      text: 'Check Out',
                                                       style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 22)),
@@ -506,8 +514,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                               },
                                             ),
                                             PlutoColumn(
-                                              title: 'Check_Out',
-                                              field: 'check_out',
+                                              title: 'Check_In',
+                                              field: 'check_in',
                                               titleSpan: const TextSpan(
                                                 children: [
                                                   WidgetSpan(
@@ -523,7 +531,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     width: 10,
                                                   )),
                                                   TextSpan(
-                                                      text: 'Check Out',
+                                                      text: 'Check In',
                                                       style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 22)),
@@ -828,13 +836,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       ),
                                     ),
                                 ),
-                            Container(
-                              padding:
-                                  const EdgeInsets.only(top: 40, bottom: 40,right: 10),
-                              //color: Colors.red,
-                              height: 905,
-                              child: const Calendario(),
-                            )
+                           
                           ],
                         ),
                       ),
