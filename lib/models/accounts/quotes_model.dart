@@ -11,8 +11,6 @@ class Quotes {
   double subtotal;
   double cost;
   double total;
-  double tax;
-  double totalPlusTax;
   double margin;
   double probability;
   OrderInfo orderInfo;
@@ -21,11 +19,18 @@ class Quotes {
   String idQuoteOrigin;
   int idLead;
   int idVendor;
-  String nameVendor;
-  String nameLead;
+  double tax;
+  double totalPlusTax;
+  double taxMoney;
+  String organitationName;
+  String account;
+  String contact;
+  String phoneNumber;
+  String email;
   String assignedTo;
   int leadProbability;
   DateTime expectedClose;
+  String vendorName;
 
   Quotes({
     required this.id,
@@ -38,8 +43,6 @@ class Quotes {
     required this.subtotal,
     required this.cost,
     required this.total,
-    required this.tax,
-    required this.totalPlusTax,
     required this.margin,
     required this.probability,
     required this.orderInfo,
@@ -48,11 +51,18 @@ class Quotes {
     required this.idQuoteOrigin,
     required this.idLead,
     required this.idVendor,
-    required this.nameVendor,
-    required this.nameLead,
+    required this.tax,
+    required this.totalPlusTax,
+    required this.taxMoney,
+    required this.organitationName,
+    required this.account,
+    required this.contact,
+    required this.phoneNumber,
+    required this.email,
     required this.assignedTo,
     required this.leadProbability,
     required this.expectedClose,
+    required this.vendorName,
   });
 
   factory Quotes.fromJson(String str) => Quotes.fromMap(json.decode(str));
@@ -68,10 +78,8 @@ class Quotes {
         status: json["status"],
         expCloseDate: DateTime.parse(json["exp_close_date"]),
         subtotal: json["subtotal"],
-        cost: json["cost"]?.toDouble(),
-        total: json["total"]?.toDouble(),
-        tax: json["tax"]?.toDouble(),
-        totalPlusTax: json["total_plus_tax"]?.toDouble(),
+        cost: json["cost"],
+        total: json["total"],
         margin: json["margin"]?.toDouble(),
         probability: json["probability"],
         orderInfo: OrderInfo.fromMap(json["order_info"]),
@@ -80,11 +88,18 @@ class Quotes {
         idQuoteOrigin: json["id_quote_origin"],
         idLead: json["id_lead"],
         idVendor: json["id_vendor"],
-        nameVendor: json["vendor_name"],
-        nameLead: json["name_lead"],
+        tax: json["tax"],
+        totalPlusTax: json["total_plus_tax"],
+        taxMoney: json["tax_money"],
+        organitationName: json["organitation_name"],
+        account: json["account"],
+        contact: json["contact"],
+        phoneNumber: json["phone_number"],
+        email: json["email"],
         assignedTo: json["assigned_to"],
         leadProbability: json["lead_probability"],
         expectedClose: DateTime.parse(json["expected_close"]),
+        vendorName: json["vendor_name"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -98,21 +113,26 @@ class Quotes {
         "subtotal": subtotal,
         "cost": cost,
         "total": total,
-        "tax": tax,
-        "total_plus_tax": totalPlusTax,
         "margin": margin,
         "probability": probability,
         "order_info": orderInfo.toMap(),
         "items": List<dynamic>.from(items.map((x) => x.toMap())),
-        "comments": comments.isEmpty ? [] : List<dynamic>.from(comments.map((x) => x.toMap())),
+        "comments": List<dynamic>.from(comments.map((x) => x.toMap())),
         "id_quote_origin": idQuoteOrigin,
         "id_lead": idLead,
         "id_vendor": idVendor,
-        "vendor_name": nameVendor,
-        "name_lead": nameLead,
+        "tax": tax,
+        "total_plus_tax": totalPlusTax,
+        "tax_money": taxMoney,
+        "organitation_name": organitationName,
+        "account": account,
+        "contact": contact,
+        "phone_number": phoneNumber,
+        "email": email,
         "assigned_to": assignedTo,
         "lead_probability": leadProbability,
         "expected_close": expectedClose.toIso8601String(),
+        "vendor_name": vendorName,
       };
 }
 

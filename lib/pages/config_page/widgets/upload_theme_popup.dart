@@ -7,6 +7,7 @@ import 'package:rta_crm_cv/providers/visual_state_provider.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/success_toast.dart';
 
 class UploadThemePopup extends StatefulWidget {
@@ -52,7 +53,7 @@ class _UploadThemePopupState extends State<UploadThemePopup> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.175,
                 height: MediaQuery.of(context).size.height * 0.20,
-                child: SingleChildScrollView(
+                child: CustomScrollBar(
                   scrollDirection: Axis.vertical,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

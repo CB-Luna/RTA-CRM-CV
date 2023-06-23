@@ -8,6 +8,7 @@ import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
 import 'package:rta_crm_cv/widgets/success_toast.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 
 class DownloadThemePopup extends StatefulWidget {
   const DownloadThemePopup({Key? key}) : super(key: key);
@@ -29,7 +30,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
         context,
         listen: false,
       );
-      await provider.descargarTemas();
+      await provider.updateState();
     });
   }
 
@@ -67,7 +68,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.175,
                 height: MediaQuery.of(context).size.height * 0.3,
-                child: SingleChildScrollView(
+                child: CustomScrollBar(
                   scrollDirection: Axis.vertical,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -96,7 +97,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                                 horizontal: 30,
                                 vertical: 10,
                               ),
-                              child: SingleChildScrollView(
+                              child: CustomScrollBar(
                                 scrollDirection: Axis.vertical,
                                 child: ListView.builder(
                                   padding: EdgeInsets.zero,
@@ -146,6 +147,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                               gravity: ToastGravity.BOTTOM,
                               toastDuration: const Duration(seconds: 2),
                             );
+                            //context.pushReplacement('/config');
                           }
                         },
                       ),

@@ -35,13 +35,7 @@ final GoRouter router = GoRouter(
 
     //if user is logged in and in the login page
 
-    if (loggedIn && isLoggingIn) {
-      if (currentUser!.isCRM) {
-        return '/prospects';
-      } else if (currentUser!.isCV) {
-        return '/';
-      }
-    }
+    if (loggedIn && isLoggingIn) return '/';
 
     return null;
   },
@@ -52,7 +46,7 @@ final GoRouter router = GoRouter(
       name: 'root',
       builder: (BuildContext context, GoRouterState state) {
         if (currentUser!.isCRM) {
-          return const AccountsPage();
+          return const QuotesPage();
         } else if (currentUser!.isCV) {
           return const DashboardsCTRLVPage();
         } else {
@@ -62,11 +56,12 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) => CustomTransitionPage<void>(
         key: state.pageKey,
         child: currentUser!.isCRM
-            ? const AccountsPage()
+            ? const QuotesPage()
             : currentUser!.isCRM
                 ? const DashboardsCTRLVPage()
                 : const PageNotFoundPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeTransition(
           opacity: animation,
           child: child,
         ),
@@ -125,7 +120,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const AccountsPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const AccountsPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const AccountsPage()),
     ),
     GoRoute(
       path: routeQuoteCreation,
@@ -133,7 +129,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const CreateQuotePage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const CreateQuotePage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const CreateQuotePage()),
     ),
     GoRoute(
       path: routeQuoteDetail,
@@ -141,7 +138,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const DetailQuotePage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const DetailQuotePage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const DetailQuotePage()),
     ),
     GoRoute(
       path: routeQuoteValidation,
@@ -149,7 +147,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const ValidateQuotePage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const ValidateQuotePage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const ValidateQuotePage()),
     ),
     GoRoute(
       path: '/schedulings',
@@ -157,7 +156,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const SchedulingsPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const SchedulingsPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const SchedulingsPage()),
     ),
     GoRoute(
       path: '/network',
@@ -165,7 +165,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const NetworkPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const NetworkPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const NetworkPage()),
     ),
     GoRoute(
       path: '/tickets',
@@ -173,7 +174,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const TicketsPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const TicketsPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const TicketsPage()),
     ),
     GoRoute(
       path: routeQuotes,
@@ -181,7 +183,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const QuotesPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const QuotesPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const QuotesPage()),
     ),
 
     GoRoute(
@@ -190,7 +193,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const CampaignsPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const CampaignsPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const CampaignsPage()),
     ),
     GoRoute(
       path: '/reports',
@@ -198,7 +202,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const ReportsPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const ReportsPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const ReportsPage()),
     ),
     GoRoute(
       path: '/users',
@@ -206,7 +211,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const UsersPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const UsersPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const UsersPage()),
     ),
     GoRoute(
       path: '/vehicle_status',
@@ -214,7 +220,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const MonitoryPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const MonitoryPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const MonitoryPage()),
     ),
     GoRoute(
       path: '/inventory',
@@ -222,7 +229,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const InventoryPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const InventoryPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const InventoryPage()),
     ),
     /////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
@@ -233,7 +241,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const ConfigPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const ConfigPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const ConfigPage()),
     ),
   ],
 );

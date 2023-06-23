@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/card_header.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 
 class CustomCard extends StatefulWidget {
   const CustomCard({
@@ -50,12 +51,9 @@ class _CustomCardState extends State<CustomCard> {
               height: widget.height != null ? widget.height! - 65 : null,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: RawScrollbar(
-                  thumbColor: AppTheme.of(context).primaryColor,
-                  radius: const Radius.circular(15),
-                  thickness: 7,
-                  thumbVisibility: true,
-                  child: SingleChildScrollView(scrollDirection: Axis.vertical, child: widget.child),
+                child: CustomScrollBar(
+                  scrollDirection: Axis.vertical,
+                  child: widget.child,
                 ),
               ),
             ),

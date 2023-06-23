@@ -175,7 +175,9 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       orderTypesSelectedValue = quote.orderInfo.orderType;
       typesSelectedValue = quote.orderInfo.type;
-      if (quote.orderInfo.type == 'Disconnect') {
+      if (quote.orderInfo.type == 'New') {
+        newCircuitIDController.text = quote.orderInfo.newCircuitId!;
+      } else if (quote.orderInfo.type == 'Disconnect') {
         existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
       } else if (quote.orderInfo.type == 'Upgrade') {
         existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
@@ -248,7 +250,7 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       Leads lead = Leads.fromJson(jsonEncode(responseLead[0]));
 
-      companyController.text = lead.organitationName;
+      companyController.text = lead.account;
       nameController.text = lead.firstName;
       lastNameController.text = lead.lastName;
       emailController.text = lead.email;

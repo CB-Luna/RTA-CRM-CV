@@ -63,6 +63,9 @@ dependencies:
   excel: ^2.1.0
   syncfusion_flutter_calendar: ^21.2.6
   csv: ^5.0.2
+  fl_chart: ^0.62.0
+  speech_to_text: ^6.1.1
+  avatar_glow: ^2.0.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -110,6 +113,13 @@ flutter:
         - asset: assets/fonts/Gotham-Light.otf
         - asset: assets/fonts/Gotham-Regular.ttf
         - asset: assets/fonts/Gotham-Thin.otf
+    - family: UniNeue
+      fonts:
+        - asset: assets/fonts/UniNeue-Black.otf
+        - asset: assets/fonts/UniNeue-Bold.otf
+        - asset: assets/fonts/UniNeue-Light.otf
+        - asset: assets/fonts/UniNeue-Regular.otf
+        - asset: assets/fonts/UniNeue-Thin.otf
     - family: Segoe
       fonts:
         - asset: assets/fonts/Segoe-Ui.ttf

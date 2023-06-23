@@ -57,13 +57,16 @@ class _CustomTabBarOptionState extends State<CustomTabBarOption> {
               ),
               gradient: widget.isOn ? widget.gradient : blueRadial,
             ),
-            child: Center(
-              child: Text(
-                widget.text,
-                style: GoogleFonts.poppins(
-                  color: AppTheme.of(context).primaryBackground,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Center(
+                child: Text(
+                  widget.text,
+                  style: GoogleFonts.poppins(
+                    color: AppTheme.of(context).primaryBackground,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),

@@ -30,7 +30,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             // Sección CRM
-            SideMenuItem(
+            /* SideMenuItem(
               selected: provider.indexSelected[0],
               leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
               isOpen: widget.isOpen,
@@ -44,8 +44,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               onExit: (event) {
                 provider.iHoverDashboards?.change(false);
               },
-            ),
-            if (currentUser!.isCRM || currentUser!.isAdminCrm)
+            ), */
+            /* if (currentUser!.isCRM || currentUser!.isAdminCrm)
               SideMenuItem(
                 selected: provider.indexSelected[1],
                 leading: provider.aRAccounts != null ? Rive(artboard: provider.aRAccounts!) : const CircularProgressIndicator(),
@@ -60,7 +60,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 onExit: (event) {
                   provider.iHoverAccounts?.change(false);
                 },
-              ),
+              ), */
             if (false)
               SideMenuItem(
                 selected: provider.indexSelected[2],
@@ -114,7 +114,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 selected: provider.indexSelected[4],
                 leading: provider.aRTickets != null ? Rive(artboard: provider.aRTickets!) : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
-                title: 'Quotes',
+                title: 'Order',
                 onTap: () async {
                   context.pushReplacement(routeQuotes);
                 },
@@ -126,7 +126,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 },
               ),
 
-            if (currentUser!.isCRM || currentUser!.isAdminCrm)
+           /*  if (currentUser!.isCRM || currentUser!.isAdminCrm)
               SideMenuItem(
                 selected: provider.indexSelected[5],
                 leading: provider.aRInventories != null ? Rive(artboard: provider.aRInventories!) : const CircularProgressIndicator(),
@@ -141,7 +141,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 onExit: (event) {
                   provider.iHoverInventories?.change(false);
                 },
-              ),
+              ), */
             if (false)
               SideMenuItem(
                 selected: provider.indexSelected[6],

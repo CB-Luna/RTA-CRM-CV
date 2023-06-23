@@ -292,9 +292,9 @@ class ThemeTypography extends Typography {
   @override
   TextStyle get encabezadoTablas => TextStyle(
         fontSize: 22,
-        fontFamily: 'Bicyclette-Bold',
+        fontFamily: 'Gotham-Regular',
         fontWeight: FontWeight.w600,
-        color: theme.primaryText,
+        color: theme.primaryBackground,
       );
 
   @override
@@ -304,7 +304,7 @@ class ThemeTypography extends Typography {
   TextStyle get contenidoTablas => TextStyle(
         fontSize: 18,
         fontFamily: 'Gotham-Light',
-        fontWeight: FontWeight.w300,
+        fontWeight: FontWeight.w400,
         color: theme.primaryText,
       );
 

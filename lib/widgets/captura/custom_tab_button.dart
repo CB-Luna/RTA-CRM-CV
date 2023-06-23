@@ -4,6 +4,7 @@ import 'package:rta_crm_cv/theme/theme.dart';
 class CustomTabButton extends StatefulWidget {
   const CustomTabButton({
     super.key,
+    this.enabled = true,
     required this.on,
     required this.label,
     required this.option1,
@@ -13,6 +14,7 @@ class CustomTabButton extends StatefulWidget {
     this.width,
   });
 
+  final bool enabled;
   final double? width;
   final bool on;
   final String label;
@@ -34,7 +36,7 @@ class CustomTabButtonState extends State<CustomTabButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 51,
+      height: 54,
       width: widget.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +44,7 @@ class CustomTabButtonState extends State<CustomTabButton> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 40),
-            child: Text(widget.label, style: TextStyle(color: AppTheme.of(context).primaryColor)),
+            child: Text(widget.label, style: TextStyle(fontSize: 16, color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color)),
           ),
           Row(
             children: [
@@ -50,7 +52,9 @@ class CustomTabButtonState extends State<CustomTabButton> {
                 onTap: widget.onTap,
                 onTapDown: (details) {
                   setState(() {
-                    pressing1 = true;
+                    if (widget.enabled) {
+                      pressing1 = true;
+                    }
                   });
                 },
                 onTapUp: (details) {
@@ -69,7 +73,11 @@ class CustomTabButtonState extends State<CustomTabButton> {
                     duration: const Duration(milliseconds: 100),
                     decoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
-                        color: widget.on ? AppTheme.of(context).primaryColor : AppTheme.of(context).primaryBackground,
+                        color: widget.on
+                            ? widget.enabled
+                                ? AppTheme.of(context).primaryColor
+                                : AppTheme.of(context).hintText.color
+                            : AppTheme.of(context).primaryBackground,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
@@ -90,14 +98,22 @@ class CustomTabButtonState extends State<CustomTabButton> {
                       child: Center(
                         child: Text(
                           widget.option1,
-                          style: TextStyle(color: widget.on ? AppTheme.of(context).primaryBackground : AppTheme.of(context).primaryColor),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: widget.on
+                                  ? AppTheme.of(context).primaryBackground
+                                  : widget.enabled
+                                      ? AppTheme.of(context).primaryColor
+                                      : AppTheme.of(context).hintText.color),
                         ),
                       ),
                     ),
                   ),
                   onEnter: (event) {
                     setState(() {
-                      hover1 = true;
+                      if (widget.enabled) {
+                        hover1 = true;
+                      }
                     });
                   },
                   onExit: (event) {
@@ -111,7 +127,9 @@ class CustomTabButtonState extends State<CustomTabButton> {
                 onTap: widget.onTap,
                 onTapDown: (details) {
                   setState(() {
-                    pressing2 = true;
+                    if (widget.enabled) {
+                      pressing2 = true;
+                    }
                   });
                 },
                 onTapUp: (details) {
@@ -130,7 +148,11 @@ class CustomTabButtonState extends State<CustomTabButton> {
                     duration: const Duration(milliseconds: 100),
                     decoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
-                        color: widget.on ? AppTheme.of(context).primaryBackground : AppTheme.of(context).primaryColor,
+                        color: widget.on
+                            ? AppTheme.of(context).primaryBackground
+                            : widget.enabled
+                                ? AppTheme.of(context).hintText.color
+                                : AppTheme.of(context).primaryColor,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
@@ -151,14 +173,22 @@ class CustomTabButtonState extends State<CustomTabButton> {
                       child: Center(
                         child: Text(
                           widget.option2,
-                          style: TextStyle(color: widget.on ? AppTheme.of(context).primaryColor : AppTheme.of(context).primaryBackground),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: widget.on
+                                  ? widget.enabled
+                                      ? AppTheme.of(context).primaryColor
+                                      : AppTheme.of(context).hintText.color
+                                  : AppTheme.of(context).primaryBackground),
                         ),
                       ),
                     ),
                   ),
                   onEnter: (event) {
                     setState(() {
-                      hover2 = true;
+                      if (widget.enabled) {
+                        hover2 = true;
+                      }
                     });
                   },
                   onExit: (event) {
