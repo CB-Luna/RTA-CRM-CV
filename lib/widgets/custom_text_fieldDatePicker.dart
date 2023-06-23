@@ -24,7 +24,8 @@ class CustomTextFieldDatePicker extends StatefulWidget {
   final Widget child;
 
   @override
-  State<CustomTextFieldDatePicker> createState() => _CustomTextFieldDatePickerState();
+  State<CustomTextFieldDatePicker> createState() =>
+      _CustomTextFieldDatePickerState();
 }
 
 class _CustomTextFieldDatePickerState extends State<CustomTextFieldDatePicker> {
@@ -34,14 +35,17 @@ class _CustomTextFieldDatePickerState extends State<CustomTextFieldDatePicker> {
       width: widget.width,
       height: 35,
       duration: const Duration(milliseconds: 100),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white, boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.5),
-          spreadRadius: 0.1,
-          blurRadius: 3,
-          offset: const Offset(0, 0), // changes position of shadow
-        ),
-      ]),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 0.1,
+              blurRadius: 3,
+              offset: const Offset(0, 0), // changes position of shadow
+            ),
+          ]),
       child: Form(
         child: TextField(
           enabled: widget.enabled,
@@ -52,14 +56,16 @@ class _CustomTextFieldDatePickerState extends State<CustomTextFieldDatePicker> {
             filled: true,
             border: const OutlineInputBorder(borderSide: BorderSide.none),
             disabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
+              borderSide:
+                  BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
               borderRadius: BorderRadius.circular(5),
             ),
             enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.transparent),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppTheme.of(context).primaryColor, width: 0.5),
+              borderSide: BorderSide(
+                  color: AppTheme.of(context).primaryColor, width: 0.5),
               borderRadius: BorderRadius.circular(5),
             ),
             errorBorder: OutlineInputBorder(
@@ -70,7 +76,9 @@ class _CustomTextFieldDatePickerState extends State<CustomTextFieldDatePicker> {
             prefixIconColor: AppTheme.of(context).primaryColor,
             label: Text(
               widget.label,
-              style: TextStyle(color: AppTheme.of(context).primaryColor),
+              style: TextStyle(
+                  fontFamily: 'UniNeue',
+                  color: AppTheme.of(context).primaryText),
             ),
           ),
           cursorColor: AppTheme.of(context).primaryColor,

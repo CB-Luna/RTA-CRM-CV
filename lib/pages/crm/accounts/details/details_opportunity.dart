@@ -7,6 +7,7 @@ import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
 class DetailsOpportunity extends StatefulWidget {
@@ -50,7 +51,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                         children: [
                           Form(
                             key: formKey,
-                            child: SingleChildScrollView(
+                            child: CustomScrollBar(
                               scrollDirection: Axis.vertical,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,13 +98,20 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 10),
-                                    child: CustomTextField(
+                                    child: CustomDDownMenu(
+                                      hint: 'None',
                                       label: 'Contact',
                                       icon: Icons.group,
-                                      controller: provider.contactController,
-                                      enabled: provider.editmode,
                                       width: 350,
-                                      keyboardType: TextInputType.emailAddress,
+                                      list: provider.contactList,
+                                      dropdownValue: provider.selectContactValue,
+                                      onChanged: provider.editmode == false
+                                          ? (p0) {}
+                                          : (p0) {
+                                              if (p0 != null) {
+                                                provider.selectContact(p0);
+                                              }
+                                            },
                                     ),
                                   ),
                                   Padding(
@@ -162,7 +170,7 @@ class _DetailsOpportunityState extends State<DetailsOpportunity> {
                         children: [
                           Form(
                             key: formKey2,
-                            child: SingleChildScrollView(
+                            child: CustomScrollBar(
                               scrollDirection: Axis.vertical,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

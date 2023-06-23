@@ -12,6 +12,7 @@ import 'package:rta_crm_cv/providers/crm/accounts/account_page_provider.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_tab_bar/custom_tab_bar_option.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
@@ -44,7 +45,8 @@ class _AccountsPageState extends State<AccountsPage> {
               child: Container(
                 height: MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(gradient: whiteGradient),
-                child: SingleChildScrollView(
+                child: CustomScrollBar(
+                  scrollDirection: Axis.vertical,
                   child: Column(
                     children: [
                       Padding(
@@ -71,7 +73,7 @@ class _AccountsPageState extends State<AccountsPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10),
-                        child: SingleChildScrollView(
+                        child: CustomScrollBar(
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [

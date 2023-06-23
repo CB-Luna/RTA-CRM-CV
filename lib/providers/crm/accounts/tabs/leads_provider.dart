@@ -34,18 +34,22 @@ class LeadsProvider extends ChangeNotifier {
 //Listas DropdownMenu
   late String selectSaleStoreValue, selectAssignedTValue, selectLeadSourceValue;
   List<String> saleStoreList = [
+    '',
+    'None',
     'Mike Haddock',
     'Rosalia Silvey',
     'Tom Carrol',
     'Vini Garcia',
   ];
   List<String> assignedList = [
+    '',
     'Frank Befera',
     'Rosalia Silvey',
     'Tom Carrol',
     'Mike Haddock',
   ];
   List<String> leadSourceList = [
+    '',
     'Social Media',
     'Campain',
     'TV',
@@ -116,7 +120,8 @@ class LeadsProvider extends ChangeNotifier {
             data: Theme.of(context).copyWith(
               colorScheme: ColorScheme.light(
                 primary: AppTheme.of(context).primaryColor, // color Appbar
-                onPrimary: AppTheme.of(context).primaryBackground, // Color letras
+                onPrimary:
+                    AppTheme.of(context).primaryBackground, // Color letras
                 onSurface: AppTheme.of(context).primaryColor, // Color Meses
               ),
               dialogBackgroundColor: AppTheme.of(context).primaryBackground,
@@ -146,7 +151,9 @@ class LeadsProvider extends ChangeNotifier {
         log('Error en getLeads()');
         return;
       }
-      List<Leads> leads = (res as List<dynamic>).map((lead) => Leads.fromJson(jsonEncode(lead))).toList();
+      List<Leads> leads = (res as List<dynamic>)
+          .map((lead) => Leads.fromJson(jsonEncode(lead)))
+          .toList();
 
       rows.clear();
       for (Leads lead in leads) {
@@ -154,7 +161,8 @@ class LeadsProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: lead.id),
-              'NAME_Column': PlutoCell(value: lead.nameLead),
+              'ACCOUNT_Column': PlutoCell(value: lead.account),
+              'NAME_Column': PlutoCell(value: lead.organitationName),
               'AMOUNT_Column': PlutoCell(value: lead.quoteAmount),
               'PROBABILITY_Column': PlutoCell(value: lead.probability),
               'CLOSED_Column': PlutoCell(value: lead.expectedClose),
@@ -181,12 +189,15 @@ class LeadsProvider extends ChangeNotifier {
       //Registrar al usuario con una contraseña temporal
       var resp = (await supabaseCRM.from('leads').insert({
         "name_lead": "${firstNameController.text} ${lastNameController.text}",
-        "quote_amount": quoteamountController.text,
+        "quote_amount": quoteamountController.text.isEmpty
+            ? '0'
+            : quoteamountController.text,
         "probability": slydervalue.toString(),
         "expected_close": create.toString(),
         "assigned_to": selectAssignedTValue,
-        "status": "In proccess",
-        "organitation_name": "${firstNameController.text} ${lastNameController.text}",
+        "status": "In process",
+        "organitation_name":
+            "${firstNameController.text} ${lastNameController.text}", //lista compañia
         "first_name": firstNameController.text,
         "last_name": lastNameController.text,
         "phone_number": phoneController.text,
@@ -203,6 +214,7 @@ class LeadsProvider extends ChangeNotifier {
         "description": 'New Lead created',
         "table": 'leads',
         "id_table": resp["id"].toString(),
+        "name": "${currentUser!.name} ${currentUser!.lastName}"
       });
     } catch (e) {
       log('Error en registrarOpportunity() - $e');
@@ -241,13 +253,15 @@ class LeadsProvider extends ChangeNotifier {
         var resp = (await supabaseCRM
             .from('leads')
             .update({
-              "name_lead": "${firstNameController.text} ${lastNameController.text}",
+              "name_lead":
+                  "${firstNameController.text} ${lastNameController.text}",
               "quote_amount": quoteamountController.text,
               "probability": slydervalue.toString(),
               "expected_close": create.toString(),
               "assigned_to": selectAssignedTValue,
-              "status": "In proccess",
-              "organitation_name": "${firstNameController.text} ${lastNameController.text}",
+              "status": "In process",
+              "organitation_name":
+                  "${firstNameController.text} ${lastNameController.text}",
               "first_name": firstNameController.text,
               "last_name": lastNameController.text,
               "phone_number": phoneController.text,
@@ -266,6 +280,7 @@ class LeadsProvider extends ChangeNotifier {
           "description": 'Lead updated',
           "table": 'leads',
           "id_table": resp["id"].toString(),
+          "name": "${currentUser!.name} ${currentUser!.lastName}"
         });
       }
 

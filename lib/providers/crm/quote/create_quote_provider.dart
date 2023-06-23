@@ -224,7 +224,9 @@ class CreateQuoteProvider extends ChangeNotifier {
   }
 
   bool createValidation() {
-    if (typesSelectedValue == 'Disconnect' && existingCircuitIDController.text.isEmpty) {
+    if (typesSelectedValue == 'New' && newCircuitIDController.text.isEmpty) {
+      return false;
+    } else if (typesSelectedValue == 'Disconnect' && existingCircuitIDController.text.isEmpty) {
       return false;
     } else if (typesSelectedValue == 'Upgrade' && existingCircuitIDController.text.isEmpty && newCircuitIDController.text.isEmpty) {
       return false;
@@ -244,11 +246,13 @@ class CreateQuoteProvider extends ChangeNotifier {
 
       Map<String, dynamic> quoteInfo = {};
 
+      //OrderType
       Map<String, dynamic> orderType = {};
       if (typesSelectedValue == 'New') {
         orderType.addAll({
           'order_type': orderTypesSelectedValue,
           'type': typesSelectedValue,
+          'new_circuit_id': newCircuitIDController.text,
         });
       } else if (typesSelectedValue == 'Disconnect') {
         orderType.addAll({
@@ -266,6 +270,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       }
       quoteInfo.addAll(orderType);
 
+      //DataCenter
       Map<String, dynamic> dataCenter = {};
       if (dataCenterSelectedValue != 'New') {
         dataCenter.addAll({
@@ -280,6 +285,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       }
       quoteInfo.addAll(dataCenter);
 
+      //Vendor
       var responseVendor = await supabaseCRM.from('vendors').select().eq('vendor_name', vendorSelectedValue);
       Vendor vendor = Vendor.fromJson(jsonEncode(responseVendor[0]));
 
@@ -302,11 +308,13 @@ class CreateQuoteProvider extends ChangeNotifier {
       }
       quoteInfo.addAll(circuitType);
 
+      //DDoS - BGPerring
       quoteInfo.addAll({
         'ddos_type': ddosSelectedValue,
         'bgp_type': bgpSelectedValue,
       });
 
+      //IP Adress
       Map<String, dynamic> ipAdress = {};
       if (ipAdressSelectedValue == 'Interface') {
         ipAdress.addAll({
@@ -321,6 +329,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       }
       quoteInfo.addAll(ipAdress);
 
+      //Items
       List<Map<String, dynamic>> items = [];
       for (var row in globalRows) {
         Map<String, dynamic> item = {
@@ -332,6 +341,7 @@ class CreateQuoteProvider extends ChangeNotifier {
         items.add(item);
       }
 
+      //Comments
       List<Map<String, dynamic>> commentsList = [];
       for (var comment in comments) {
         Map<String, dynamic> item = {
@@ -343,7 +353,7 @@ class CreateQuoteProvider extends ChangeNotifier {
         commentsList.add(item);
       }
 
-      if (idLead != null) {
+      if (idLead != null && prevId == null) {
         var resp = (await supabaseCRM.from('quotes').insert({
           "created_by": currentUser!.id,
           "updated_by": currentUser!.id,
@@ -372,9 +382,10 @@ class CreateQuoteProvider extends ChangeNotifier {
           "description": 'New origin quote created',
           "table": 'quotes',
           "id_table": resp["id"].toString(),
+          "name": "${currentUser!.name} ${currentUser!.lastName}"
         });
       } else {
-        var response = await supabaseCRM.from('leads').select().eq('organitation_name', leadSelectedValue);
+        var response = await supabaseCRM.from('leads').select().eq('account', leadSelectedValue);
         Leads lead = Leads.fromJson(jsonEncode(response[0]));
 
         if (prevId != null) {
@@ -404,6 +415,7 @@ class CreateQuoteProvider extends ChangeNotifier {
             "description": 'New quote created replacing the previous quote',
             "table": 'quotes',
             "id_table": resp["id"].toString(),
+            "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
 
           await supabaseCRM.from('quotes').update({"status": "Closed"}).eq("id", prevId);
@@ -414,6 +426,7 @@ class CreateQuoteProvider extends ChangeNotifier {
             "description": 'Previous quote turns to Closed',
             "table": 'quotes',
             "id_table": prevId.toString(),
+            "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
 
           prevId = null;
@@ -446,6 +459,7 @@ class CreateQuoteProvider extends ChangeNotifier {
             "description": 'New origin quote created',
             "table": 'quotes',
             "id_table": resp["id"].toString(),
+            "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
         }
       }
@@ -459,7 +473,9 @@ class CreateQuoteProvider extends ChangeNotifier {
   }
 
   bool isValidated() {
-    if (typesSelectedValue == 'Disconnect' && existingCircuitIDController.text.isEmpty) {
+    if (typesSelectedValue == 'New' && newCircuitIDController.text.isEmpty) {
+      return false;
+    } else if (typesSelectedValue == 'Disconnect' && existingCircuitIDController.text.isEmpty) {
       return false;
     } else if (typesSelectedValue == 'Upgrade' && existingCircuitIDController.text.isEmpty && newCircuitIDController.text.isEmpty) {
       return false;
@@ -469,11 +485,11 @@ class CreateQuoteProvider extends ChangeNotifier {
       return false;
     } else if (lineItemCenterController.text.isEmpty ||
         unitPriceController.text.isEmpty ||
-        double.parse(unitPriceController.text) < 0 ||
+        double.parse(unitPriceController.text.replaceAll(RegExp(r','), '')) < 0 ||
         unitCostController.text.isEmpty ||
-        double.parse(unitCostController.text) < 0 ||
+        double.parse(unitCostController.text.replaceAll(RegExp(r','), '')) < 0 ||
         quantityController.text.isEmpty ||
-        double.parse(quantityController.text) < 0) {
+        double.parse(quantityController.text.replaceAll(RegExp(r','), '')) < 0) {
       return false;
     } else {
       return true;
@@ -529,9 +545,9 @@ class CreateQuoteProvider extends ChangeNotifier {
         'IP_SUBNET_Column': PlutoCell(value: ipSubnet),
         ////////////////////////////////////////////////////////////////////
         'LINE_ITEM_Column': PlutoCell(value: lineItemCenterController.text),
-        'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text)),
-        'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text) * -1),
-        'QUANTITY_Column': PlutoCell(value: int.parse(quantityController.text)),
+        'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text.replaceAll(RegExp(r','), ''))),
+        'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text.replaceAll(RegExp(r','), '')) * -1),
+        'QUANTITY_Column': PlutoCell(value: int.parse(quantityController.text.replaceAll(RegExp(r','), ''))),
         'ACTIONS_Column': PlutoCell(value: 'Actions'),
       },
     );
@@ -655,9 +671,9 @@ class CreateQuoteProvider extends ChangeNotifier {
         'IP_SUBNET_Column': PlutoCell(value: ipSubnet), */
         ////////////////////////////////////////////////////////////////////
         'LINE_ITEM_Column': PlutoCell(value: lineItemCenterController.text),
-        'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text)),
-        'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text) * -1),
-        'QUANTITY_Column': PlutoCell(value: int.parse(quantityController.text)),
+        'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text.replaceAll(RegExp(r','), ''))),
+        'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text.replaceAll(RegExp(r','), '')) * -1),
+        'QUANTITY_Column': PlutoCell(value: int.parse(quantityController.text.replaceAll(RegExp(r','), ''))),
         'ACTIONS_Column': PlutoCell(value: 'Actions'),
       },
     );
@@ -703,6 +719,10 @@ class CreateQuoteProvider extends ChangeNotifier {
     total = 0;
     margin = 0;
 
+    if (taxController.text.isEmpty) {
+      taxController.text = '0';
+    }
+
     // PlutoGrid
     for (var row in globalRows) {
       totalItems++;
@@ -712,8 +732,8 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     total = subtotal - cost;
 
-    if (taxController.text != '0' && double.parse(taxController.text) != 0 && taxController.text != '') {
-      totalPlusTax = (double.parse(taxController.text) * total / 100) + total;
+    if (taxController.text != '0' || taxController.text != '0.00' && double.parse(taxController.text.replaceAll(RegExp(r','), '')) != 0 && taxController.text.isNotEmpty) {
+      totalPlusTax = (double.parse(taxController.text.replaceAll(RegExp(r','), '')) * total / 100) + total;
     } else {
       totalPlusTax = total;
     }
@@ -777,7 +797,9 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     orderTypesSelectedValue = quote.orderInfo.orderType;
     typesSelectedValue = quote.orderInfo.type;
-    if (quote.orderInfo.type == 'Disconnect') {
+    if (quote.orderInfo.type == 'New') {
+      newCircuitIDController.text = quote.orderInfo.newCircuitId!;
+    } else if (quote.orderInfo.type == 'Disconnect') {
       existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
     } else if (quote.orderInfo.type == 'Upgrade') {
       existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
@@ -847,18 +869,18 @@ class CreateQuoteProvider extends ChangeNotifier {
 
       Leads lead = Leads.fromJson(jsonEncode(response[0]));
 
-      leadSelectedValue = lead.organitationName;
-      companyController.text = lead.organitationName;
+      leadSelectedValue = lead.account;
+      companyController.text = lead.account;
       nameController.text = lead.firstName;
       lastNameController.text = lead.lastName;
       emailController.text = lead.email;
       phoneController.text = lead.phoneNumber;
     } else if (leadName != null) {
-      var response = await supabaseCRM.from('leads').select().eq('organitation_name', leadName);
+      var response = await supabaseCRM.from('leads').select().eq('account', leadName);
 
       Leads lead = Leads.fromJson(jsonEncode(response[0]));
 
-      companyController.text = lead.organitationName;
+      companyController.text = lead.account;
       nameController.text = lead.firstName;
       lastNameController.text = lead.lastName;
       emailController.text = lead.email;
@@ -885,9 +907,9 @@ class CreateQuoteProvider extends ChangeNotifier {
     List<Leads> leads = (response as List<dynamic>).map((lead) => Leads.fromJson(jsonEncode(lead))).toList();
 
     for (var lead in leads) {
-      leadsList.add(lead.organitationName);
+      leadsList.add(lead.account);
     }
-    selectLead(leads.first.organitationName);
+    selectLead(leads.first.account);
 
     notifyListeners();
   }

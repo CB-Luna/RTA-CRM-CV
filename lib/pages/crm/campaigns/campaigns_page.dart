@@ -8,6 +8,7 @@ import 'package:rta_crm_cv/pages/crm/accounts/tabs/campaigns_tab.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 class CampaignsPage extends StatefulWidget {
@@ -35,7 +36,8 @@ class _CampaignsPageState extends State<CampaignsPage> {
               child: Container(
                 height: MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(gradient: whiteGradient),
-                child: SingleChildScrollView(
+                child: CustomScrollBar(
+                  scrollDirection: Axis.vertical,
                   child: Column(
                     children: [
                       Padding(

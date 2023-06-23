@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/login_page/widgets/custom_clipper.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
@@ -19,6 +20,12 @@ class _ImageCarouselState extends State<ImageCarousel> {
     'assets/images/background2.png',
     'assets/images/background3.png',
     'assets/images/background4.png',
+  ];
+  List<String> AssetsImages = [
+    assets.background,
+    assets.background2,
+    assets.background3,
+    assets.background4,
   ];
 
   int currentReview = 0;
@@ -59,23 +66,41 @@ class _ImageCarouselState extends State<ImageCarousel> {
           right: 250,
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: List.generate(
-              images.length,
-              (index) => GestureDetector(
-                onTap: () => carouselController.animateToPage(index),
-                child: Container(
-                  height: 6.18,
-                  width: 61.84,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    color: index == currentReview
-                        ? AppTheme.of(context).primaryColor
-                        : Colors.grey,
+            children: AssetsImages.isEmpty
+                ? List.generate(
+                    images.length,
+                    (index) => GestureDetector(
+                      onTap: () => carouselController.animateToPage(index),
+                      child: Container(
+                        height: 6.18,
+                        width: 61.84,
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: index == currentReview
+                              ? AppTheme.of(context).primaryColor
+                              : Colors.grey,
+                        ),
+                      ),
+                    ),
+                  )
+                : List.generate(
+                    AssetsImages.length,
+                    (index) => GestureDetector(
+                      onTap: () => carouselController.animateToPage(index),
+                      child: Container(
+                        height: 6.18,
+                        width: 61.84,
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: index == currentReview
+                              ? AppTheme.of(context).primaryColor
+                              : Colors.grey,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
           ),
         ),
         Positioned(

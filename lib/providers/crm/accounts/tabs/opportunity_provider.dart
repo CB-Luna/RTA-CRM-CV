@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart' hide State;
+import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/functions/date_format.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/opportunity_model.dart';
+import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/models/models.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
@@ -14,7 +18,10 @@ class OpportunityProvider extends ChangeNotifier {
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
   //checks box pop up
-  bool timeline = false, decisionmaker = false, techspec = false, budget = false;
+  bool timeline = false,
+      decisionmaker = false,
+      techspec = false,
+      budget = false;
 
   bool editmode = false;
   late int? id;
@@ -27,8 +34,12 @@ class OpportunityProvider extends ChangeNotifier {
   double slydervalue = 10, min = 0, max = 100;
   //Controladores Basic Information
   final nameController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
   final accountController = TextEditingController();
   final contactController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
   //Controladores Other Information
   final closedateController = TextEditingController();
   final quoteamountController = TextEditingController();
@@ -46,14 +57,17 @@ class OpportunityProvider extends ChangeNotifier {
     decisionmaker = false;
     techspec = false;
     budget = false;
-
     nameController.clear();
+
+    firstNameController.clear();
+    lastNameController.clear();
     accountController.clear();
-    contactController.clear();
     closedateController.clear();
     quoteamountController.clear();
     probabilityController.clear();
     descriptionController.clear();
+    emailController.clear();
+    phoneController.clear();
 
     selectSaleStoreValue = saleStoreList.first;
     selectAssignedTValue = assignedList.first;
@@ -76,7 +90,8 @@ class OpportunityProvider extends ChangeNotifier {
             data: Theme.of(context).copyWith(
               colorScheme: ColorScheme.light(
                 primary: AppTheme.of(context).primaryColor, // color Appbar
-                onPrimary: AppTheme.of(context).primaryBackground, // Color letras
+                onPrimary:
+                    AppTheme.of(context).primaryBackground, // Color letras
                 onSurface: AppTheme.of(context).primaryColor, // Color Meses
               ),
               dialogBackgroundColor: AppTheme.of(context).primaryBackground,
@@ -95,27 +110,40 @@ class OpportunityProvider extends ChangeNotifier {
   }
 
   //listas Drop Menu
-  late String selectSaleStoreValue, selectAssignedTValue, selectLeadSourceValue;
+  late String selectSaleStoreValue,
+      selectAssignedTValue,
+      selectLeadSourceValue,
+      selectContactValue;
   List<String> saleStoreList = [
+    '',
     'Mike Haddock',
     'Rosalia Silvey',
     'Tom Carrol',
     'Vini Garcia',
   ];
   List<String> assignedList = [
+    '',
     'Frank Befera',
     'Rosalia Silvey',
     'Tom Carrol',
     'Mike Haddock',
   ];
   List<String> leadSourceList = [
+    '',
     'Social Media',
     'Campain',
     'TV',
     'Email',
     'Web',
   ];
-
+  List<String> contactList = [
+    '',
+    'Steve Shanks',
+    'Tyler Weinrich',
+    'Chris Byrd',
+    'Michael Pulk',
+    'Wade Moore',
+  ];
   void selectSaleStore(String selected) {
     selectSaleStoreValue = selected;
     notifyListeners();
@@ -131,6 +159,11 @@ class OpportunityProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void selectContact(String selected) {
+    selectContactValue = selected;
+    notifyListeners();
+  }
+
 //Tabla Opportunities
   Future<void> getOpportunity() async {
     if (stateManager != null) {
@@ -143,7 +176,9 @@ class OpportunityProvider extends ChangeNotifier {
         log('Error en getOpportunity()');
         return;
       }
-      List<Opportunity> opportunity = (res as List<dynamic>).map((usuario) => Opportunity.fromJson(jsonEncode(usuario))).toList();
+      List<Opportunity> opportunity = (res as List<dynamic>)
+          .map((usuario) => Opportunity.fromJson(jsonEncode(usuario)))
+          .toList();
 
       rows.clear();
       for (Opportunity user in opportunity) {
@@ -151,7 +186,8 @@ class OpportunityProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: user.id),
-              'NAME_Column': PlutoCell(value: user.nameLead),
+              'ACCOUNT_Column': PlutoCell(value: user.account),
+              'NAME_Column': PlutoCell(value: user.organitationName),
               'AMOUNT_Column': PlutoCell(value: user.quotes.first.total),
               'PROBABILITY_Column': PlutoCell(value: user.probability),
               'CLOSED_Column': PlutoCell(value: user.expectedClose),
@@ -176,22 +212,23 @@ class OpportunityProvider extends ChangeNotifier {
   Future<void> createOpportunity() async {
     try {
       //Registrar al usuario con una contraseña temporal
-      var resp = (await supabaseCRM.from('opportunity').insert({
-        "name": nameController.text,
+      var resp = (await supabaseCRM.from('lead').insert({
+        "name_lead": nameController.text,
         "quote_amount": quoteamountController.text,
         "probability": slydervalue.toString(),
-        "last_activity": DateTime.now().toString(),
         "expected_close": create.toString(),
         "assigned_to": selectAssignedTValue,
-        "status": "Opened",
-        "account": accountController.text,
+        "status": "In process",
+        "organitation_name":
+            accountController.text, //company en quotes account en leads
         "sales_stage": selectSaleStoreValue,
-        "contact": contactController.text,
+        "account": accountController.text,
         "lead_source": selectLeadSourceValue,
         "time_line": timeline,
         "decision_maker": decisionmaker,
         "teach_spec": techspec,
         "budget": budget,
+        "contact": selectContactValue,
         "description": descriptionController.text,
       }).select())[0];
 
@@ -201,6 +238,7 @@ class OpportunityProvider extends ChangeNotifier {
         "description": 'New opportunity created',
         "table": 'opportunity',
         "id_table": resp["id"].toString(),
+        "name": "${currentUser!.name} ${currentUser!.lastName}"
       });
     } catch (e) {
       log('Error en registrarOpportunity() - $e');
@@ -209,7 +247,8 @@ class OpportunityProvider extends ChangeNotifier {
 
   Future<void> getData() async {
     if (id != null) {
-      var response = await supabaseCRM.from('opportunities_view').select().eq('id', id);
+      var response =
+          await supabaseCRM.from('opportunities_view').select().eq('id', id);
 
       if (response == null) {
         log('Error en getData()');
@@ -219,16 +258,16 @@ class OpportunityProvider extends ChangeNotifier {
       nameController.text = opportunity.nameLead;
       accountController.text = opportunity.account;
       selectSaleStoreValue = opportunity.salesStage;
+      selectContactValue = opportunity.contact;
       accountController.text = opportunity.account;
-      contactController.text = "${opportunity.firstName} ${opportunity.lastName}";
       selectAssignedTValue = opportunity.assignedTo;
       selectLeadSourceValue = opportunity.leadSource;
       closedateController.text = opportunity.expectedClose.toString();
-      quoteamountController.text = opportunity.quotes.first.total.toString();
-      /* timeline = opportunity.timeLine;
+      quoteamountController.text = opportunity.quoteAmount.toString();
+      timeline = opportunity.timeLine;
       decisionmaker = opportunity.decisionMaker;
       techspec = opportunity.teachSpec;
-      budget = opportunity.budget; */
+      budget = opportunity.budget;
       slydervalue = opportunity.probability.toDouble();
       descriptionController.text = opportunity.description;
     }
@@ -240,19 +279,18 @@ class OpportunityProvider extends ChangeNotifier {
     try {
       {
         var resp = (await supabaseCRM
-            .from('opportunity')
+            .from('leads')
             .update({
-              "name": nameController.text,
+              "name_lead": nameController.text,
               "quote_amount": quoteamountController.text,
               "probability": slydervalue.toString(),
-              "last_activity": DateTime.now().toString(),
               "expected_close": create.toString(),
               "assigned_to": selectAssignedTValue,
-              "status": "Opened",
-              "account": accountController.text,
+              "organitation_name": accountController.text,
               "sales_stage": selectSaleStoreValue,
-              "contact": contactController.text,
+              "account": accountController.text,
               "lead_source": selectLeadSourceValue,
+              "contact": selectContactValue,
               "time_line": timeline,
               "decision_maker": decisionmaker,
               "teach_spec": techspec,
@@ -268,6 +306,7 @@ class OpportunityProvider extends ChangeNotifier {
           "description": 'Opportunity updated',
           "table": 'opportunity',
           "id_table": resp["id"].toString(),
+          "name": "${currentUser!.name} ${currentUser!.lastName}"
         });
       }
 
@@ -338,7 +377,119 @@ class OpportunityProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void load() {
-    stateManager!.setShowLoading(true);
+  ////////////////////////////////////////////////////////
+  /////////////////////////Export/////////////////////////
+  ////////////////////////////////////////////////////////
+
+  Future<void> exportData() async {
+    var res =
+        await supabaseCRM.from('quotes_view').select().neq('status', 'Closed');
+
+    List<Quotes> quotes = (res as List<dynamic>)
+        .map((quote) => Quotes.fromJson(jsonEncode(quote)))
+        .toList();
+
+    Excel excel = Excel.createExcel();
+    Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
+
+    if (sheet == null) return;
+
+    sheet.removeRow(0);
+
+    CellStyle cellStyle = CellStyle(bold: true);
+
+    //Agregar primera linea
+    sheet.appendRow([
+      'Title',
+      'Opportunities Report',
+      '',
+      'User',
+      '${currentUser?.name} ${currentUser?.lastName}',
+      '',
+      'Date',
+      dateFormat(DateTime.now(), true),
+    ]);
+
+    for (var i = 0; i < 8; i++) {
+      sheet.row(0)[i]!.cellStyle = cellStyle;
+    }
+
+    //Agregar linea vacia
+    sheet.appendRow(['']);
+
+    //Agregar headers
+    sheet.appendRow([
+      'DataCenter',
+      'Vendor',
+      'Type',
+      'Description',
+      'Cost',
+      'Taxes',
+      'Account Number',
+      'Contract Number',
+      'Contract Signed',
+      'Term',
+      'Out of Term',
+      'Contact',
+      'Phone',
+      'Email',
+      //'Notes',
+    ]);
+
+    for (var i = 0; i < 14; i++) {
+      sheet.row(2)[i]!.cellStyle = cellStyle;
+    }
+
+    sheet.selectRange(
+      CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0),
+      end: CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: 0),
+    );
+
+    double cost = 0;
+    double tax = 0;
+
+    for (var quote in quotes) {
+      cost = cost + quote.cost;
+      tax = tax + quote.taxMoney;
+      final List<dynamic> excelRow = [
+        quote.orderInfo.dataCenterLocation,
+        quote.vendorName,
+        quote.orderInfo.circuitType,
+        quote.items.first.lineItem,
+        quote.cost,
+        quote.totalPlusTax - quote.total,
+        quote.account,
+        'Contract',
+        'Signed',
+        'Term',
+        'Out',
+        quote.contact,
+        quote.phoneNumber,
+        quote.email,
+      ];
+      sheet.appendRow(excelRow);
+    }
+
+    //Agregar linea vacia
+    sheet.appendRow(['']);
+
+    sheet.appendRow([
+      'Total gigFAST Network',
+      '',
+      '',
+      '',
+      cost,
+      tax,
+      cost + tax,
+    ]);
+
+    for (var i = 0; i < 7; i++) {
+      sheet.row(sheet.rows.length - 1)[i]!.cellStyle = cellStyle;
+    }
+
+    //Descargar
+    excel.save(
+        fileName:
+            "Opportunities_Report_${DateFormat('MMMM_dd_yyyy').format(DateTime.now())}.xlsx");
   }
 }

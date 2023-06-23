@@ -40,5 +40,9 @@ Future<void> initGlobals() async {
   if (config == null) return;
   assets.logoBlanco = config.logos.logoBlanco;
   assets.logoColor = config.logos.logoColor;
+  assets.background = config.carrusel.background;
+  assets.background2 = config.carrusel.background2;
+  assets.background3 = config.carrusel.background3;
+  assets.background4 = config.carrusel.background4;
   AppTheme.initConfiguration(config);
 }

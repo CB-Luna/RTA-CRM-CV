@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/crm/accounts/tabs/campaigns_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -11,6 +12,7 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
+import 'package:rta_crm_cv/widgets/pluto_grid_cells/pluto_grid_status_cell.dart';
 
 class CampaignsTab extends StatefulWidget {
   const CampaignsTab({super.key});
@@ -29,31 +31,58 @@ class _CampaignsTabState extends State<CampaignsTab> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            padding: const EdgeInsets.only(bottom: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                  text: 'Filter',
-                  onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+                SizedBox(
+                  width: 250,
+                  child: Row(
+                    children: [
+                      CustomTextIconButton(
+                        isLoading: false,
+                        icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                        text: 'Filter',
+                        onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: CustomTextIconButton(
+                          isLoading: false,
+                          icon: Icon(Icons.view_column_outlined, color: AppTheme.of(context).primaryBackground),
+                          text: 'Set Columns',
+                          onTap: () => provider.stateManager!.showSetColumnsPopup(context),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 CustomTextField(
+                  width: 500,
                   enabled: true,
                   controller: provider.searchController,
                   icon: Icons.search,
                   label: 'Search',
                   keyboardType: TextInputType.text,
                 ),
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                  text: 'Create Campaign',
-                  color: AppTheme.of(context).tertiaryColor,
-                  onTap: () async {
-                    // context.pushReplacement(routeQuoteCreation);
-                  },
+                SizedBox(
+                  width: 250,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      if (currentUser!.isSales)
+                        CustomTextIconButton(
+                          isLoading: false,
+                          icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                          text: 'Create Campaign',
+                          color: AppTheme.of(context).tertiaryColor,
+                          onTap: () async {
+                            // context.pushReplacement(routeQuoteCreation);
+                          },
+                        ),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -95,7 +124,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.vpn_key_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'ID', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'ID', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ID',
@@ -104,22 +133,19 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   textAlign: PlutoColumnTextAlign.center,
                   type: PlutoColumnType.text(),
                   enableRowDrag: false,
+                  enableDropToResize: false,
                   enableEditingMode: false,
-                  width: 100,
+                  width: 120,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
                           rendererContext.cell.value.toString(),
-                          style: AppTheme.of(context).contenidoTablas.override(
-                                fontFamily: 'Gotham-Regular',
-                                useGoogleFonts: false,
-                                color: AppTheme.of(context).primaryColor,
-                              ),
+                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
                         ),
                       ),
                     );
@@ -129,7 +155,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Name', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Name', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'NAME',
@@ -143,9 +169,13 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                          child: Text(
+                        rendererContext.cell.value ?? '-',
+                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                      )),
                     );
                   },
                 ),
@@ -153,7 +183,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.percent_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Contact List', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Contact List', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'CONTACT',
@@ -167,9 +197,13 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                          child: Text(
+                        rendererContext.cell.value ?? '-',
+                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                      )),
                     );
                   },
                 ),
@@ -177,7 +211,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Suppression List', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Suppression List', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'SUPPRESSION',
@@ -191,9 +225,13 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                          child: Text(
+                        rendererContext.cell.value ?? '-',
+                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                      )),
                     );
                   },
                 ),
@@ -201,7 +239,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Subjects', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Subjects', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'SUBJECTS',
@@ -215,12 +253,12 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
                         rendererContext.cell.value ?? '-',
-                        textAlign: TextAlign.center,
+                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                       )),
                     );
                   },
@@ -229,7 +267,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Launch Date', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Launch Date', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'LAUNCH',
@@ -243,9 +281,13 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
+                      child: Center(
+                          child: Text(
+                        rendererContext.cell.value ?? '-',
+                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                      )),
                     );
                   },
                 ),
@@ -253,7 +295,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.traffic_outlined, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Status', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Status', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'STATUS',
@@ -265,12 +307,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(child: Text(rendererContext.cell.value ?? '-')),
-                    );
+                    return PlutoGridStatusCell(text: rendererContext.cell.value);
                   },
                   footerRenderer: (context) {
                     return SizedBox(
@@ -306,7 +343,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   titleSpan: TextSpan(children: [
                     WidgetSpan(child: Icon(Icons.list, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Actions', style: TextStyle(color: AppTheme.of(context).primaryBackground))
+                    TextSpan(text: 'Actions', style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ACTIONS',
@@ -323,7 +360,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   renderer: (rendererContext) {
                     return Container(
                       height: rowHeight,
-                      width: rendererContext.cell.column.width,
+                      // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -331,22 +368,33 @@ class _CampaignsTabState extends State<CampaignsTab> {
                           CustomTextIconButton(
                             isLoading: false,
                             icon: Icon(
-                              Icons.fact_check_outlined,
+                              Icons.remove_red_eye_outlined,
                               color: AppTheme.of(context).primaryBackground,
                             ),
-                            text: 'Edit',
+                            text: 'Details',
                             onTap: () {},
                           ),
-                          CustomTextIconButton(
-                            isLoading: false,
-                            icon: Icon(
-                              Icons.shopping_basket_outlined,
-                              color: AppTheme.of(context).primaryBackground,
+                          if (currentUser!.isSales)
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.fact_check_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Edit',
+                              onTap: () {},
                             ),
-                            color: secondaryColor,
-                            text: 'Delete',
-                            onTap: () {},
-                          ),
+                          if (currentUser!.isSales)
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.shopping_basket_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              color: secondaryColor,
+                              text: 'Delete',
+                              onTap: () {},
+                            ),
                         ],
                       ),
                     );

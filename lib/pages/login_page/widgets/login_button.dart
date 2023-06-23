@@ -100,7 +100,7 @@ class _LoginButtonState extends State<LoginButton> {
             );
 
             if (!mounted) return;
-            context.pushReplacement('/dashboards');
+            context.pushReplacement('/');
           } catch (e) {
             if (e is AuthException) {
               await ApiErrorHandler.callToast('Invalid credentials');
