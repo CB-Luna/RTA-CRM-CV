@@ -52,16 +52,19 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
                                 .encabezadoTablas
                                 .fontFamily,
                             fontSize:
-                                AppTheme.of(context).encabezadoTablas.fontSize,
+                                AppTheme.of(context).contenidoTablas.fontSize,
                             fontStyle:
                                 AppTheme.of(context).encabezadoTablas.fontStyle,
-                            fontWeight: AppTheme.of(context)
-                                .encabezadoTablas
-                                .fontWeight,
                             color: AppTheme.of(context).primaryText)),
                     Text(
                       "${provider.actualIssueXUser!.name} ${provider.actualIssueXUser!.lastName}",
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        color: AppTheme.of(context).contenidoTablas.color,
+                        fontFamily: 'Bicyclette-Thin',
+                        fontWeight:
+                            AppTheme.of(context).encabezadoTablas.fontWeight,
+                        fontSize: AppTheme.of(context).contenidoTablas.fontSize,
+                      ),
                     )
                   ],
                 ),
@@ -69,10 +72,24 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text("Company: "),
+                  Text("Company: ",
+                      style: TextStyle(
+                          fontFamily:
+                              AppTheme.of(context).encabezadoTablas.fontFamily,
+                          fontSize:
+                              AppTheme.of(context).contenidoTablas.fontSize,
+                          fontStyle:
+                              AppTheme.of(context).encabezadoTablas.fontStyle,
+                          color: AppTheme.of(context).primaryText)),
                   Text(
                     "${provider.actualIssueXUser!.company} ",
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      color: AppTheme.of(context).contenidoTablas.color,
+                      fontFamily: 'Bicyclette-Thin',
+                      fontWeight:
+                          AppTheme.of(context).encabezadoTablas.fontWeight,
+                      fontSize: AppTheme.of(context).contenidoTablas.fontSize,
+                    ),
                   )
                 ],
               ),
@@ -96,7 +113,9 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
                 "Issues",
                 style: TextStyle(
                   color: AppTheme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Bicyclette-Thin',
+                  fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                  fontSize: AppTheme.of(context).contenidoTablas.fontSize,
                 ),
               ),
             ],

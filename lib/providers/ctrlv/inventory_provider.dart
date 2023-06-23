@@ -991,6 +991,12 @@ class InventoryProvider extends ChangeNotifier {
       print("SecurityD: ${securityD.length}");
       print("SecurityR: ${securityR.length}");
       print("-----------------------------------");
+
+      print("MenuReceived:  ${menuIssuesReceived.length}");
+      print("MenuReceivedD:  ${menuIssuesReceivedD.length}");
+      print("MenuReceivedT:  ${menuIssuesReceivedT.length}");
+
+      print("-----------------------------------");
       notifyListeners();
     } catch (e) {
       print("Error en getIssues - $e");
@@ -1007,6 +1013,33 @@ class InventoryProvider extends ChangeNotifier {
     5: [], //  5
     6: [], // 6
     7: [], // 7
+
+    // "Bucket Inspection": [], //  0
+    // "Car BodyWork": [], //  1
+    // "Equipment": [], //  2
+    // "Extra": [], //  3P
+    // "Fluids Check": [], //  4
+    // "Lights": [], //  5
+    // "Measures": [], // 6
+    // "Security": [], // 7
+  };
+  Map<int, List<IssuesComments>> menuIssuesReceivedT = {
+    // 0: [], //  0
+    // 1: [], //  1
+    // 2: [], //  2
+    // 3: [], //  3
+    // 4: [], //  4
+    // 5: [], //  5
+    // 6: [], // 6
+    // 7: [], // 7
+    // 8: [],
+    // 9: [],
+    // 10: [],
+    // 11: [],
+    // 12: [],
+    // 13: [],
+    // 14: [],
+    // 15: [],
     // "Bucket Inspection": [], //  0
     // "Car BodyWork": [], //  1
     // "Equipment": [], //  2
@@ -1018,6 +1051,7 @@ class InventoryProvider extends ChangeNotifier {
   };
   //---------------------------------------------
   Map<int, List<IssuesComments>> menuIssuesReceivedD = {
+    // 7'
     0: [], //  0
     1: [], //  1
     2: [], //  2

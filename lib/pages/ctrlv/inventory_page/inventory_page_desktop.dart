@@ -842,8 +842,29 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                           MainAxisAlignment
                                                               .center,
                                                       children: [
-                                                        ElevatedButton(
-                                                            onPressed: () {
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 10),
+                                                          child:
+                                                              CustomTextIconButton(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            width: 65,
+                                                            isLoading: false,
+                                                            icon: Icon(
+                                                                Icons
+                                                                    .remove_red_eye_outlined,
+                                                                color: AppTheme.of(
+                                                                        context)
+                                                                    .primaryBackground),
+                                                            text: '',
+                                                            color: AppTheme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                            onTap: () async {
                                                               provider.getIssuesxUsers(
                                                                   rendererContext
                                                                       .cell
@@ -868,10 +889,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                                     });
                                                                   });
                                                             },
-                                                            child: const Icon(
-                                                              Icons
-                                                                  .remove_red_eye_outlined,
-                                                            ))
+                                                          ),
+                                                        ),
                                                       ],
                                                     )),
                                                   );
@@ -1012,36 +1031,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                                 .getInventory();
                                                           },
                                                         ),
-                                                        // CustomTextIconButton(
-                                                        //   isLoading: false,
-                                                        //   icon: Icon(
-                                                        //     Icons
-                                                        //         .shopping_basket_outlined,
-                                                        //     color: AppTheme.of(context)
-                                                        //         .primaryBackground,
-                                                        //   ),
-                                                        //   color: secondaryColor,
-                                                        //   text: 'Delete',
-                                                        //   onTap: () async {
-                                                        //     await showDialog(
-                                                        //         context: context,
-                                                        //         builder: (BuildContext
-                                                        //             context) {
-                                                        //           return StatefulBuilder(
-                                                        //               builder: (context,
-                                                        //                   setState) {
-                                                        //             return DeletePopUp(
-                                                        //               vehicle:
-                                                        //                   rendererContext
-                                                        //                       .cell
-                                                        //                       .value,
-                                                        //             );
-                                                        //           });
-                                                        //         });
-                                                        //     await provider
-                                                        //         .getInventory();
-                                                        //   },
-                                                        // ),
                                                       ],
                                                     ),
                                                   );
@@ -1092,34 +1081,75 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                           MainAxisAlignment
                                                               .center,
                                                       children: [
-                                                        ElevatedButton(
-                                                            onPressed: () {
-                                                              provider.vistaIssues =
-                                                                  true;
-                                                              provider.selectVehicle(
-                                                                  rendererContext
-                                                                      .cell
-                                                                      .value);
-                                                              provider.getIssuesxUsers(
-                                                                  rendererContext
-                                                                      .cell
-                                                                      .value);
-                                                              provider
-                                                                  .setIssueViewActual(
-                                                                      0);
-                                                              showDialog(
-                                                                  context:
-                                                                      context,
-                                                                  builder:
-                                                                      (BuildContext
-                                                                          context) {
-                                                                    return const IssuesPopUp();
-                                                                  });
-                                                            },
-                                                            child: const Icon(
+                                                        CustomTextIconButton(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          width: 120,
+                                                          isLoading: false,
+                                                          icon: Icon(
                                                               Icons
                                                                   .remove_red_eye_outlined,
-                                                            ))
+                                                              color: AppTheme.of(
+                                                                      context)
+                                                                  .primaryBackground),
+                                                          text: 'Issues',
+                                                          color: AppTheme.of(
+                                                                  context)
+                                                              .primaryColor,
+                                                          onTap: () async {
+                                                            provider.vistaIssues =
+                                                                true;
+                                                            provider.selectVehicle(
+                                                                rendererContext
+                                                                    .cell
+                                                                    .value);
+                                                            provider
+                                                                .getIssuesxUsers(
+                                                                    rendererContext
+                                                                        .cell
+                                                                        .value);
+                                                            provider
+                                                                .setIssueViewActual(
+                                                                    0);
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return const IssuesPopUp();
+                                                                });
+                                                          },
+                                                        ),
+                                                        // ElevatedButton(
+                                                        //     onPressed: () {
+                                                        //       provider.vistaIssues =
+                                                        //           true;
+                                                        //       provider.selectVehicle(
+                                                        //           rendererContext
+                                                        //               .cell
+                                                        //               .value);
+                                                        //       provider.getIssuesxUsers(
+                                                        //           rendererContext
+                                                        //               .cell
+                                                        //               .value);
+                                                        //       provider
+                                                        //           .setIssueViewActual(
+                                                        //               0);
+                                                        //       showDialog(
+                                                        //           context:
+                                                        //               context,
+                                                        //           builder:
+                                                        //               (BuildContext
+                                                        //                   context) {
+                                                        //             return const IssuesPopUp();
+                                                        //           });
+                                                        //     },
+                                                        //     child: const Icon(
+                                                        //       Icons
+                                                        //           .remove_red_eye_outlined,
+                                                        //     ))
                                                       ],
                                                     )),
                                                   );

@@ -5,7 +5,9 @@ import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/comments_photos_pop
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
+import '../../../../theme/theme.dart';
 import '../../../../widgets/captura/custom_text_field.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 import '../widgets/employeeIssuesCard.dart';
 import 'reported_issues_pop_up.dart';
 
@@ -60,11 +62,20 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                     Container(
                       alignment: Alignment.centerRight,
                       padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                          onPressed: () {
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: CustomTextIconButton(
+                          width: 131,
+                          isLoading: false,
+                          icon: Icon(Icons.exit_to_app_outlined,
+                              color: AppTheme.of(context).primaryBackground),
+                          text: 'Exit',
+                          color: AppTheme.of(context).primaryColor,
+                          onTap: () async {
                             context.pop();
                           },
-                          child: const Text("Exit")),
+                        ),
+                      ),
                     ),
                   ],
                 ),
