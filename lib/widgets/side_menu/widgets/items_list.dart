@@ -205,6 +205,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 },
               ),
 
+              
+
             if (currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[10],
@@ -223,6 +225,21 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverUsers?.change(false);
                 },
               ),
+              SideMenuItem(
+              selected: provider.indexSelected[9],
+              leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
+              isOpen: widget.isOpen,
+              title: 'Dashbords',
+              onTap: () async {
+                context.pushReplacement('/dashboards');
+              },
+              onEnter: (event) {
+                provider.iHoverDashboards?.change(true);
+              },
+              onExit: (event) {
+                provider.iHoverDashboards?.change(false);
+              },
+            ),
             if (currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[11],
