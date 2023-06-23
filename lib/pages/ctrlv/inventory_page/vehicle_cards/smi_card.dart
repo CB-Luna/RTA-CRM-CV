@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/widgets/trapecio_gris.dart';
 
+import '../../../../theme/theme.dart';
+
 class SmiCard extends StatelessWidget {
   final int totalVehicleSMI;
   final int totalRepairSMI;
@@ -31,49 +33,57 @@ class SmiCard extends StatelessWidget {
                 height: 300,
               ),
             ),
-            const Text("SMI",
+            Text("SMI",
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 32,
-                )),
+                    fontFamily:
+                        AppTheme.of(context).encabezadoTablas.fontFamily,
+                    fontSize: AppTheme.of(context).encabezadoSubTablas.fontSize,
+                    fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                    fontWeight:
+                        AppTheme.of(context).encabezadoTablas.fontWeight,
+                    color: AppTheme.of(context).primaryText)),
             const SizedBox(
               height: 10,
             ),
             Text(
               "Total: $totalVehicleSMI",
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
+              style: TextStyle(
+                color: AppTheme.of(context).contenidoTablas.color,
+                fontFamily: 'Bicyclette-Thin',
+                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Text(
-              "Vehicle Assigned: $totalAssignedSMI ",
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
+              "Vehicles Assigned: $totalAssignedSMI ",
+              style: TextStyle(
+                color: AppTheme.of(context).contenidoTablas.color,
+                fontFamily: 'Bicyclette-Thin',
+                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Text(
               "Vehicles in Repair: $totalRepairSMI ",
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
+              style: TextStyle(
+                color: AppTheme.of(context).contenidoTablas.color,
+                fontFamily: 'Bicyclette-Thin',
+                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Text(
               "Vehicles Available: $totalAvailableSMI ",
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
+              style: TextStyle(
+                color: AppTheme.of(context).contenidoTablas.color,
+                fontFamily: 'Bicyclette-Thin',
+                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
               ),
             ),
             const SizedBox(

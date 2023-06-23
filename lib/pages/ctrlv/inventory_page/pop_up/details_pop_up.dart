@@ -7,7 +7,9 @@ import 'package:rta_crm_cv/models/vehicle.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 
+import '../../../../theme/theme.dart';
 import '../../../../widgets/card_header.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 import 'cuadro_details.dart';
 import 'issues_pop_up.dart';
 import 'reported_issues_pop_up.dart';
@@ -73,97 +75,217 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                           padding: const EdgeInsets.only(
                               bottom: 20, top: 20, left: 20, right: 20),
                           child: Row(children: [
-                            const Column(
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
                                   child: Text(
                                     "Vehicle_id: ",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                                        fontFamily: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontFamily,
+                                        fontSize: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .fontSize,
+                                        fontStyle: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontStyle,
+                                        fontWeight: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontWeight,
+                                        color: AppTheme.of(context).gris),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
                                   child: Text(
                                     "VIN: ",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                                        fontFamily: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontFamily,
+                                        fontSize: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .fontSize,
+                                        fontStyle: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontStyle,
+                                        fontWeight: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontWeight,
+                                        color: AppTheme.of(context).gris),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
                                   child: Text(
                                     "License Plates: ",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                                        fontFamily: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontFamily,
+                                        fontSize: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .fontSize,
+                                        fontStyle: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontStyle,
+                                        fontWeight: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontWeight,
+                                        color: AppTheme.of(context).gris),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
                                   child: Text(
                                     "Status: ",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                                        fontFamily: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontFamily,
+                                        fontSize: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .fontSize,
+                                        fontStyle: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontStyle,
+                                        fontWeight: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontWeight,
+                                        color: AppTheme.of(context).gris),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
                                   child: Text(
                                     "Company: ",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                                        fontFamily: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontFamily,
+                                        fontSize: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .fontSize,
+                                        fontStyle: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontStyle,
+                                        fontWeight: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontWeight,
+                                        color: AppTheme.of(context).gris),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
                                   child: Text(
                                     "Motor: ",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                                        fontFamily: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontFamily,
+                                        fontSize: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .fontSize,
+                                        fontStyle: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontStyle,
+                                        fontWeight: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontWeight,
+                                        color: AppTheme.of(context).gris),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
                                   child: Text(
                                     "Oil Change Due: ",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                                        fontFamily: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontFamily,
+                                        fontSize: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .fontSize,
+                                        fontStyle: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontStyle,
+                                        fontWeight: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontWeight,
+                                        color: AppTheme.of(context).gris),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
                                   child: Text(
                                     "Last transmission fluid change: ",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                                        fontFamily: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontFamily,
+                                        fontSize: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .fontSize,
+                                        fontStyle: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontStyle,
+                                        fontWeight: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontWeight,
+                                        color: AppTheme.of(context).gris),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
                                   child: Text(
                                     "Last radiator fluid change: ",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                                        fontFamily: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontFamily,
+                                        fontSize: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .fontSize,
+                                        fontStyle: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontStyle,
+                                        fontWeight: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontWeight,
+                                        color: AppTheme.of(context).gris),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
                                   child: Text(
                                     "List of any issues \nreported from daily checks: ",
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                                        fontFamily: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontFamily,
+                                        fontSize: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .fontSize,
+                                        fontStyle: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontStyle,
+                                        fontWeight: AppTheme.of(context)
+                                            .encabezadoTablas
+                                            .fontWeight,
+                                        color: AppTheme.of(context).gris),
                                   ),
                                 ),
                               ],
@@ -259,12 +381,25 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                   child: Row(
                                     children: [
                                       // Text(
-                                      //   " \n ${provider.actualIssueXUser!.issuesR + provider.actualIssueXUser!.issuesD}",
+                                      //   " \n ${provider.actualIssueXUser.issuesR + provider.actualIssueXUser.issuesD}",
                                       //   style: const TextStyle(
                                       //       color: Colors.white, fontSize: 18),
                                       // ),
-                                      ElevatedButton(
-                                          onPressed: () {
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: CustomTextIconButton(
+                                          width: 140,
+                                          isLoading: false,
+                                          icon: Icon(Icons.warning_outlined,
+                                              color: AppTheme.of(context)
+                                                  .primaryBackground),
+                                          text: 'List of Issues',
+                                          color: AppTheme.of(context)
+                                              .tertiaryColor,
+                                          onTap: () async {
+                                            // provider.getIssues(
+                                            //     provider.actualIssueXUser!);
                                             showDialog(
                                                 context: context,
                                                 builder:
@@ -272,7 +407,8 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                                   return const ReportedIssues();
                                                 });
                                           },
-                                          child: const Text("Issues"))
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -284,10 +420,19 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                     ),
                     Column(
                       children: [
-                        Padding(
+                        Container(
+                          padding: EdgeInsets.only(top: 10, bottom: 10),
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 0.1,
+                              blurRadius: 3,
+                              offset: const Offset(
+                                  0, 0), // changes position of shadow
+                            ),
+                          ]),
                           //width: 550,
                           //height: 250,
-                          padding: const EdgeInsets.only(bottom: 10),
                           //color: Colors.green,
                           child: Image.network(
                             widget.vehicle.image,
@@ -308,18 +453,54 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                             children: [
                               Text(
                                 widget.vehicle.make,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontFamily: AppTheme.of(context)
+                                        .encabezadoTablas
+                                        .fontFamily,
+                                    fontSize: AppTheme.of(context)
+                                        .encabezadoTablas
+                                        .fontSize,
+                                    fontStyle: AppTheme.of(context)
+                                        .encabezadoTablas
+                                        .fontStyle,
+                                    fontWeight: AppTheme.of(context)
+                                        .encabezadoTablas
+                                        .fontWeight,
+                                    color: AppTheme.of(context).primaryText),
                               ),
                               Text(
                                 widget.vehicle.model,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontFamily: AppTheme.of(context)
+                                        .encabezadoTablas
+                                        .fontFamily,
+                                    fontSize: AppTheme.of(context)
+                                        .encabezadoTablas
+                                        .fontSize,
+                                    fontStyle: AppTheme.of(context)
+                                        .encabezadoTablas
+                                        .fontStyle,
+                                    fontWeight: AppTheme.of(context)
+                                        .encabezadoTablas
+                                        .fontWeight,
+                                    color: AppTheme.of(context).primaryText),
                               ),
                               Text(
                                 widget.vehicle.year,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontFamily: AppTheme.of(context)
+                                        .encabezadoTablas
+                                        .fontFamily,
+                                    fontSize: AppTheme.of(context)
+                                        .encabezadoTablas
+                                        .fontSize,
+                                    fontStyle: AppTheme.of(context)
+                                        .encabezadoTablas
+                                        .fontStyle,
+                                    fontWeight: AppTheme.of(context)
+                                        .encabezadoTablas
+                                        .fontWeight,
+                                    color: AppTheme.of(context).primaryText),
                               ),
                               Container(
                                 width: 50,

@@ -844,6 +844,13 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                       children: [
                                                         ElevatedButton(
                                                             onPressed: () {
+                                                              provider.getIssuesxUsers(
+                                                                  rendererContext
+                                                                      .cell
+                                                                      .value);
+                                                              // provider.getIssues(
+                                                              //     provider
+                                                              //         .actualIssueXUser!);
                                                               showDialog(
                                                                   context:
                                                                       context,

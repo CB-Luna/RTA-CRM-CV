@@ -44,8 +44,21 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0, top: 5.0),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Nombre: "),
+                    Text("Name: ",
+                        style: TextStyle(
+                            fontFamily: AppTheme.of(context)
+                                .encabezadoTablas
+                                .fontFamily,
+                            fontSize:
+                                AppTheme.of(context).encabezadoTablas.fontSize,
+                            fontStyle:
+                                AppTheme.of(context).encabezadoTablas.fontStyle,
+                            fontWeight: AppTheme.of(context)
+                                .encabezadoTablas
+                                .fontWeight,
+                            color: AppTheme.of(context).primaryText)),
                     Text(
                       "${provider.actualIssueXUser!.name} ${provider.actualIssueXUser!.lastName}",
                       style: const TextStyle(fontWeight: FontWeight.bold),
@@ -54,8 +67,9 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
                 ),
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text("Empresa: "),
+                  const Text("Company: "),
                   Text(
                     "${provider.actualIssueXUser!.company} ",
                     style: const TextStyle(fontWeight: FontWeight.bold),
