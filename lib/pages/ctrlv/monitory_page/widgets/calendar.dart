@@ -7,123 +7,55 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 
-const List<String> company = ['Company', 'CRY', 'ODE', 'SMI'];
-const List<String> employee = ['Employee', 'Gian', 'Jane', 'Michael'];
-
 class Calendario extends StatelessWidget {
   const Calendario({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String comp = company.first;
-    String emp = employee.first;
     MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
 
     return Column(
       children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * .1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              //TITULO O INTRO A CALENDARIO
-              Container(
-                child: const Text(
-                  'Vehicle: ',
-                  style: TextStyle(fontSize: 35),
-                ),
-              ),
-              //INFORMACION DE COLORES
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    //CRY selector
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 25, 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(52, 86, 148, 10),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                          ),
-                          const Text(
-                            "CRY",
-                            style: TextStyle(fontSize: 35),
-                          )
-                        ],
-                      ),
-                    ),
-                    //ODE selector
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 25, 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(191, 33, 53, 10),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                          ),
-                          const Text(
-                            "ODE",
-                            style: TextStyle(fontSize: 35),
-                          )
-                        ],
-                      ),
-                    ),
-                    //SMI selector
-                    Container(
-                      //padding: EdgeInsets.fromLTRB(0, 10, 25, 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(217, 217, 217, 10),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                          ),
-                          const Text(
-                            "SMI",
-                            style: TextStyle(fontSize: 35),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              //BUSCADOR DE MES
-
-              //COMPANY
-              
-            ],
-          ),
-        ),
         Expanded(
           child: SfCalendar(
+            appointmentTextStyle: TextStyle(
+              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+              fontSize: AppTheme.of(context).bodyText1.fontSize,
+              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+              color: AppTheme.of(context).primaryText
+            ),
+            headerStyle: CalendarHeaderStyle(
+              textStyle: TextStyle(
+              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+              fontSize: AppTheme.of(context).bodyText1.fontSize,
+              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+              color: AppTheme.of(context).primaryText
+            ),
+            ),
             showWeekNumber: true,
+            monthViewSettings: const MonthViewSettings(showAgenda: true),
             showDatePickerButton: true,
             weekNumberStyle: WeekNumberStyle(
               textStyle: TextStyle(
-                fontSize: 15,
-                color: Colors.black,
-              ),
+              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+              fontSize: AppTheme.of(context).bodyText1.fontSize,
+              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+              color: AppTheme.of(context).primaryText
             ),
-            view: CalendarView.workWeek,
+            ),
+            view: CalendarView.month,
             timeSlotViewSettings: TimeSlotViewSettings(
-              timeIntervalHeight: 70,
-              timeTextStyle: TextStyle(fontSize: 15,
-              color: Colors.black,)
+              timeIntervalHeight: 100,
+              timeTextStyle: TextStyle(
+              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+              fontSize: AppTheme.of(context).bodyText1.fontSize,
+              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+              color: AppTheme.of(context).primaryText
+            ),
             ),
             firstDayOfWeek: 1,
             dataSource: MeetingDataSource(provider.meet),
@@ -170,10 +102,96 @@ class CustomAppointmentView extends StatelessWidget {
       textAlign: TextAlign.center,
         
       child: Container(
-        color: appointment.color,
-        child: Text(appointment.subject,
-        style:TextStyle(color: monitory.company.company == "SMI" ? Colors.black : Colors.white,
-                fontWeight: FontWeight.bold,)),
+        decoration: BoxDecoration(
+          color: AppTheme.of(context).gris,
+          border: Border.all(
+            color: tipo == "R" ? 
+            const Color(0XFF25A531) : 
+            Colors.orange,
+            width: 1
+          ),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 4,
+              color: tipo == "R" ? 
+                const Color(0XFF25A531) : 
+                Colors.orange,
+              offset: const Offset(-1, 1),
+            )
+          ],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              children: [
+                Text(
+                  appointment.subject.substring(0,appointment.subject.length - 2),
+                  style: TextStyle(
+                    fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                    fontSize: AppTheme.of(context).bodyText1.fontSize,
+                    fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                    fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                    color: AppTheme.of(context).primaryText
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: appointment.color,
+                        ),
+                        width: 10,
+                        height: 10,
+                      ),
+                    ),
+                    Text(
+                      monitory.vehicle.licesensePlates,
+                      style: TextStyle(
+                        fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                        fontSize: AppTheme.of(context).bodyText1.fontSize,
+                        fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                        fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                        color: AppTheme.of(context).primaryText
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: AppTheme.of(context).gris,
+                  border: Border.all(
+                    color: AppTheme.of(context).gris,
+                    width: 1
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 2,
+                      color: AppTheme.of(context).gris,
+                      offset: const Offset(-2, 2),
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Image.network(
+                  monitory.vehicle.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
