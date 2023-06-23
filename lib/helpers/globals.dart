@@ -14,6 +14,7 @@ const storage = FlutterSecureStorage();
 
 late SupabaseClient supabaseCRM;
 late SupabaseClient supabaseCtrlV;
+late SupabaseClient supabaseAuth;
 late SupabaseClient supabasePublic;
 
 String key =

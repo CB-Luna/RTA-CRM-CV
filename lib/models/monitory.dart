@@ -9,27 +9,31 @@ class Monitory {
   Monitory(
       {required this.idControlForm,
       required this.idVehicle,
-      required this.dateAdded,
+      required this.dateAddedR,
+       this.dateAddedD,
       required this.employee,
-      required this.typeForm,
       required this.vin,
-      required this.licesensePlates,
+      required this.licensePlates,
       required this.company,
-      required this.gas,
-      required this.mileage,
+      required this.gasR,
+       this.gasD,
+      required this.mileageR,
+       this.mileageD,
       required this.vehicle
       });
 
   int idControlForm;
   int idVehicle;
-  DateTime dateAdded;
+  DateTime dateAddedR;
+  DateTime? dateAddedD;
   Employee employee;
-  bool typeForm;
   String vin;
-  String licesensePlates;
+  String licensePlates;
   CompanyApi company;
-  String gas;
-  int mileage;
+  String gasR;
+  String? gasD;
+  int mileageR;
+  int? mileageD;
   Vehicle vehicle;
 
   factory Monitory.fromJson(String str) => Monitory.fromMap(json.decode(str));
@@ -37,28 +41,32 @@ class Monitory {
   factory Monitory.fromMap(Map<String, dynamic> json) => Monitory(
       idControlForm: json['id_control_form'],
       idVehicle: json["id_vehicle"],
-      dateAdded: DateTime.parse(json["date_added"]),
+      dateAddedR: DateTime.parse(json["date_added_r"]),
+      dateAddedD: json["date_added_d"] == null ? null: DateTime.parse(json["date_added_d"]),
       employee: Employee.fromJson(jsonEncode(json['employee'])),
-      typeForm: json["type_form"],
       vin: json["vin"],
-      licesensePlates: json["license_plates"],
+      licensePlates: json["license_plates"],
       company: CompanyApi.fromJson(jsonEncode(json['company'])),
-      gas: json['gas'],
-      mileage: json['mileage'],
+      gasR: json['gas_r'],
+      gasD: json['gas_d'],
+      mileageR: json['mileage_r'],
+      mileageD: json['mileage_d'],
       vehicle: Vehicle.fromJson(jsonEncode(json['vehicle'])),
       );
 
   Map<String, dynamic> toMap() => {
         "id_control_form": idControlForm,
         "id_vehicle": idVehicle,
-        "date_added": dateAdded.toIso8601String(),
+        "date_added_r": dateAddedR.toIso8601String(), //check in
+        "date_added_d": dateAddedD?.toIso8601String(), //check out
         "employee": employee.toMap(),
-        "type_form": typeForm,
         "vin": vin,
-        "license_plates": licesensePlates,
+        "license_plates": licensePlates,
         "company": company.toMap(),
-        "gas": gas,
-        "mileage": mileage,
+        "gas_r": gasR,
+        "gas_d": gasD,
+        "mileage_r": mileageR,
+        "mileage_d": mileageD,
         "vehicle": vehicle.toMap(),
       };
 }

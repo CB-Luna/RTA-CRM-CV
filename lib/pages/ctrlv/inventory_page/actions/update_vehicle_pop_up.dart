@@ -39,8 +39,10 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
     DateTime selectedDate = DateTime.now();
     Color pickerColor = const Color(0xff2196f3);
     Color colors = Colors.white;
-    final List<String> companyName = provider.company.map((companies) => companies.company).toList();
-    final List<String> statusName = provider.status.map((statu) => statu.status).toList();
+    final List<String> companyName =
+        provider.company.map((companies) => companies.company).toList();
+    final List<String> statusName =
+        provider.status.map((statu) => statu.status).toList();
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
@@ -109,12 +111,16 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                                       width: 300,
                                       height: 300,
                                       child: YearPicker(
-                                        firstDate: DateTime(DateTime.now().year - 100, 1),
-                                        lastDate: DateTime(DateTime.now().year + 100, 1),
+                                        firstDate: DateTime(
+                                            DateTime.now().year - 100, 1),
+                                        lastDate: DateTime(
+                                            DateTime.now().year + 100, 1),
                                         initialDate: DateTime.now(),
                                         onChanged: (DateTime dateTime) {
                                           selectedDate = dateTime;
-                                          provider.yearControllerUpdate.text = DateFormat("yyyy").format(selectedDate);
+                                          provider.yearControllerUpdate.text =
+                                              DateFormat("yyyy")
+                                                  .format(selectedDate);
 
                                           Navigator.pop(context);
                                         },
@@ -183,9 +189,12 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                         keyboardType: TextInputType.name,
                         //designColor: int.parse(widget.vehicle.color!),
                         onTap: () async {
-                          colors = await showColorPickerDialog(context, pickerColor);
-                          String colorString = "0x${colors.hexAlpha.toLowerCase()}";
-                          provider.updateColor(int.parse(colorString), colorString);
+                          colors =
+                              await showColorPickerDialog(context, pickerColor);
+                          String colorString =
+                              "0x${colors.hexAlpha.toLowerCase()}";
+                          provider.updateColor(
+                              int.parse(colorString), colorString);
                         },
                         designColor: provider.colorController,
                       ),
@@ -200,51 +209,76 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                           width: 350,
                           keyboardType: TextInputType.datetime,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(
+                                context: context,
+                                initialDate: date,
+                                firstDate: DateTime(1980),
+                                lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerOil.text = DateFormat("MMM/dd/yyyy").format(newDate);
+                              provider.dateTimeControllerOil.text =
+                                  DateFormat("MMM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
-                          label: '11. Registration Due',
-                          controller: provider.dateTimeControllerRegUpadte,
+                          label: '11. Last Radiator Fluid Change',
+                          controller: provider.dateTimeControllerRFCUpadte,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
                           keyboardType: TextInputType.datetime,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(
+                                context: context,
+                                initialDate: date,
+                                firstDate: DateTime(1980),
+                                lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerRegUpadte.text = DateFormat("MMM/dd/yyyy").format(newDate);
+                              provider.dateTimeControllerRFCUpadte.text =
+                                  DateFormat("MMM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextFieldForm(
-                          label: '12. Insurance Renewal Due',
-                          controller: provider.dateTimeControllerIRDUpadte,
+                          label: '12. Last Transimission Fluid Change',
+                          controller: provider.dateTimeControllerLTFCUpadte,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
                           keyboardType: TextInputType.name,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(
+                                context: context,
+                                initialDate: date,
+                                firstDate: DateTime(1980),
+                                lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerIRDUpadte.text = DateFormat("MMM/dd/yyyy").format(newDate);
+                              provider.dateTimeControllerLTFCUpadte.text =
+                                  DateFormat("MMM/dd/yyyy").format(newDate);
                             }
                           }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextFieldForm(
+                        label: '13. Initial Mileage',
+                        controller: provider.mileageControllerUpdate,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.name,
+                      ),
                     ),
                     Column(
                       children: [
                         Text(
-                          "13. Add Vehicle Image",
+                          "14. Update Vehicle Image",
                           style: TextStyle(
                             color: AppTheme.of(context).primaryColor,
                           ),
@@ -260,7 +294,8 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                             ),
-                            child: getImageUpdate(provider.webImage!, widget.vehicle),
+                            child: getImageUpdate(
+                                provider.webImage!, widget.vehicle),
                           ),
                         ),
                       ],
@@ -274,7 +309,8 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
               children: [
                 CustomTextIconButton(
                     isLoading: false,
-                    icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
+                    icon: Icon(Icons.save_outlined,
+                        color: AppTheme.of(context).primaryBackground),
                     text: 'Update Vehicle',
                     onTap: () async {
                       if (!formKey.currentState!.validate()) {
@@ -284,7 +320,8 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       bool res = await provider.updateVehicle(widget.vehicle);
 
                       if (!res) {
-                        await ApiErrorHandler.callToast('Error al actualizar el vehiculo');
+                        await ApiErrorHandler.callToast(
+                            'Error al actualizar el vehiculo');
                         return;
                       }
 
@@ -302,8 +339,12 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     }),
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
-                  text: 'Refresh',
+                  icon: Icon(Icons.exit_to_app_outlined,
+                      color: AppTheme.of(context).primaryBackground),
+                  text: 'Exit',
+                  onTap: () {
+                    context.pop();
+                  },
                 ),
               ],
             )

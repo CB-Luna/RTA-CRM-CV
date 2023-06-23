@@ -2,10 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/get_image_widget.dart';
 
 import 'package:rta_crm_cv/providers/providers.dart';
@@ -17,14 +16,20 @@ import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/success_toast.dart';
 
-class AddUserPopUp extends StatefulWidget {
-  const AddUserPopUp({super.key});
+import '../../../models/user.dart';
+
+class UpdateUserPopUp extends StatefulWidget {
+  final User users;
+  const UpdateUserPopUp({
+    super.key,
+    required this.users,
+  });
 
   @override
-  State<AddUserPopUp> createState() => _AddUserPopUpState();
+  State<UpdateUserPopUp> createState() => _UpdateUserPopUpState();
 }
 
-class _AddUserPopUpState extends State<AddUserPopUp> {
+class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
   FToast fToast = FToast();
 
   @override
@@ -33,7 +38,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
     UsersProvider provider = Provider.of<UsersProvider>(context);
     final formKey = GlobalKey<FormState>();
 
-    final List<String> statesNames = provider.states.map((state) => state.name).toList();
+    final List<String> statesNames =
+        provider.states.map((state) => state.name).toList();
 
     final List<String> rolesNames =
         provider.roles.map((role) => role.roleName).toList();
@@ -52,7 +58,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
       ),
       insetPadding: EdgeInsets.zero,
       child: CustomCard(
-        title: 'User Creation',
+        title: 'Update User',
         height: 709,
         width: 380,
         padding: EdgeInsets.zero,
@@ -61,8 +67,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
           children: [
             Form(
               key: formKey,
-              child: CustomScrollBar(
-                scrollDirection: Axis.vertical,
+              child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -85,7 +90,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                       child: CustomTextField(
                         label: 'Name',
                         icon: Icons.person_outline,
-                        controller: provider.nameController,
+                        controller: provider.nameControllerUpdate,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
@@ -96,29 +101,29 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                       child: CustomTextField(
                         label: 'Last Name',
                         icon: Icons.person_outline,
-                        controller: provider.lastNameController,
+                        controller: provider.lastNameControllerUpdate,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomTextField(
-                        label: 'Email',
-                        icon: Icons.alternate_email,
-                        controller: provider.emailController,
-                        enabled: true,
-                        width: 350,
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(vertical: 10),
+                    //   child: CustomTextField(
+                    //     label: 'Email',
+                    //     icon: Icons.alternate_email,
+                    //     controller: provider.emailControllerUpdate,
+                    //     enabled: true,
+                    //     width: 350,
+                    //     keyboardType: TextInputType.emailAddress,
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
                         label: 'Mobile Phone',
                         icon: Icons.phone_outlined,
-                        controller: provider.phoneController,
+                        controller: provider.phoneControllerUpdate,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.phone,
@@ -127,30 +132,30 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDDownMenu(
-                        hint: 'Choose a state',
+                        hint: 'Choose a state [${widget.users.state.name}]',
                         label: 'State',
                         icon: Icons.location_on_outlined,
                         width: 350,
                         list: statesNames,
-                        dropdownValue: provider.selectedState?.name,
+                        dropdownValue: provider.selectedStateUpdate?.name,
                         onChanged: (val) {
                           if (val == null) return;
-                          provider.selectState(val);
+                          provider.selectStateUpdate(val);
                         },
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDDownMenu(
-                        hint: 'Choose a role',
+                        hint: 'Choose a role [${widget.users.role.roleName}]',
                         label: 'Role',
                         icon: Icons.local_offer_outlined,
                         width: 350,
                         list: rolesNames,
-                        dropdownValue: provider.selectedRole?.roleName,
+                        dropdownValue: provider.selectedRoleUpdate?.roleName,
                         onChanged: (val) {
                           if (val == null) return;
-                          provider.selectRole(val);
+                          provider.selectRoleUpdate(val);
                         },
                       ),
                     ),
@@ -158,15 +163,17 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: CustomDDownMenu(
-                          hint: 'Choose a Company',
+                          hint:
+                              'Choose a Company [${widget.users.company.company}]',
                           label: 'Company',
                           icon: Icons.warehouse_outlined,
                           width: 350,
                           list: CompanyNames,
-                          dropdownValue: provider.selectedCompany?.company,
+                          dropdownValue:
+                              provider.selectedCompanyUpdate?.company,
                           onChanged: (val) {
                             if (val == null) return;
-                            provider.selectCompany(val);
+                            provider.selectCompanyUpdate(val);
                           },
                         ),
                       ),
@@ -194,38 +201,19 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     //   }
                     // }
 
-                    //Registrar usuario
-                    final Map<String, String>? result = await provider.registerUser();
-
-                    if (result == null) {
-                      await ApiErrorHandler.callToast('Error registering user');
-                      return;
-                    } else {
-                      if (result['Error'] != null) {
-                        await ApiErrorHandler.callToast(result['Error']!);
-                        return;
-                      }
-                    }
-
-                    final String? userId = result['userId'];
-
-                    if (userId == null) {
-                      await ApiErrorHandler.callToast('Error registering user');
-                      return;
-                    }
-
                     //Crear perfil de usuario
-                    bool res = await provider.createUserProfile(userId);
+                    bool res = await provider.updateUser(widget.users);
 
                     if (!res) {
-                      await ApiErrorHandler.callToast('Error creating user profile');
+                      await ApiErrorHandler.callToast(
+                          'Error Updating user profile');
                       return;
                     }
 
                     if (!mounted) return;
                     fToast.showToast(
                       child: const SuccessToast(
-                        message: 'Usuario creado',
+                        message: 'Usuario Actualizado',
                       ),
                       gravity: ToastGravity.BOTTOM,
                       toastDuration: const Duration(seconds: 2),

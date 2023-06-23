@@ -32,6 +32,8 @@ void main() async {
   setPathUrlStrategy();
 
   supabaseCRM = SupabaseClient(supabaseUrl, anonKey, schema: 'crm');
+  supabaseAuth = SupabaseClient(supabaseUrl, anonKey, schema: 'auth');
+
   supabaseCtrlV = SupabaseClient(supabaseUrl, anonKey, schema: 'ctrl_v');
 
   await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);
@@ -110,7 +112,8 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 
-  static _MyAppState of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>()!;
+  static _MyAppState of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>()!;
 }
 
 class _MyAppState extends State<MyApp> {

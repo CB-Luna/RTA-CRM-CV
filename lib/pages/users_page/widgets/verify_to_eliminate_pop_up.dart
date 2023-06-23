@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
+import 'package:rta_crm_cv/providers/providers.dart';
 
-import '../../../../models/vehicle.dart';
 import '../../../../public/colors.dart';
+import '../../../models/user.dart';
 
 class DeletePopUp extends StatefulWidget {
-  final Vehicle vehicle;
-  const DeletePopUp({super.key, required this.vehicle});
+  final User users;
+  const DeletePopUp({super.key, required this.users});
 
   @override
   State<DeletePopUp> createState() => _DeletePopUpState();
@@ -16,7 +16,7 @@ class DeletePopUp extends StatefulWidget {
 class _DeletePopUpState extends State<DeletePopUp> {
   @override
   Widget build(BuildContext context) {
-    InventoryProvider provider = Provider.of<InventoryProvider>(context);
+    UsersProvider provider = Provider.of<UsersProvider>(context);
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
@@ -34,7 +34,7 @@ class _DeletePopUpState extends State<DeletePopUp> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   const Padding(
@@ -52,13 +52,13 @@ class _DeletePopUpState extends State<DeletePopUp> {
                       const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          " Vehicle ID: ",
+                          " User: ",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(" ${widget.vehicle.idVehicle} "),
+                        child: Text(" ${widget.users.name} "),
                       ),
                     ],
                   ),
@@ -67,13 +67,13 @@ class _DeletePopUpState extends State<DeletePopUp> {
                       const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          " License Plates: ",
+                          " User ID: ",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(" ${widget.vehicle.licesensePlates}"),
+                        child: Text(" ${widget.users.sequentialId}"),
                       ),
                     ],
                   ),
@@ -83,8 +83,9 @@ class _DeletePopUpState extends State<DeletePopUp> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               ElevatedButton(
                   onPressed: () {
-                    provider.deleteVehicle(widget.vehicle);
-
+                    provider.deleteUser(widget.users);
+                    print("Entro aqui");
+                    print("ID DEL Usuario: ${widget.users.sequentialId}");
                     provider.updateState();
                   },
                   style: ElevatedButton.styleFrom(
