@@ -115,11 +115,11 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
     }
 
     return CustomCard(
-      width: getWidth(756, context),
+      width: getWidth(670, context),
       height: getHeight(432.91, context),
       title: 'Overwiew',
       child: SizedBox(
-        width: getWidth(756, context),
+        width: getWidth(670, context),
         height: getHeight(350, context),
         child: BarChart(
           BarChartData(

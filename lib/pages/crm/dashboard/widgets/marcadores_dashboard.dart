@@ -34,6 +34,30 @@ class _MarcadoresDashboardState extends State<MarcadoresDashboard> {
         CustomeMarcador(
           width: getWidth(216, context),
           height: getHeight(189.33, context),
+          titulo: 'Orders',
+          text: '\$500',
+          icon: Icons.attach_money,
+        ),
+        SizedBox(width: getWidth(56, context)),
+        CustomeMarcador(
+          width: getWidth(216, context),
+          height: getHeight(189.33, context),
+          titulo: 'Quotes',
+          text: '\$500',
+          icon: Icons.attach_money,
+        ),
+        SizedBox(width: getWidth(56, context)),
+        CustomeMarcador(
+          width: getWidth(216, context),
+          height: getHeight(189.33, context),
+          titulo: 'Canceled',
+          text: '\$500',
+          icon: Icons.attach_money,
+        ),
+        SizedBox(width: getWidth(56, context)),
+       /*  CustomeMarcador(
+          width: getWidth(216, context),
+          height: getHeight(189.33, context),
           titulo: 'Lead',
           text: '\$500',
           icon: Icons.attach_money,
@@ -53,7 +77,7 @@ class _MarcadoresDashboardState extends State<MarcadoresDashboard> {
           titulo: 'Quotes',
           text: '\$500',
           icon: Icons.attach_money,
-        ),
+        ), */
       ],
     );
   }
