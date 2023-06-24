@@ -170,6 +170,14 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                 },
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                width: 40,
+                height: 2,
+                color: AppTheme.of(context).tertiaryColor,
+              ),
+            ),
           ],
         ),
         Padding(
@@ -177,7 +185,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
           child: Container(
             width: MediaQuery.of(context).size.width * 0.5,
             height: 2,
-            color: AppTheme.of(context).alternate,
+            color: AppTheme.of(context).primaryColor,
           ),
         ),
         Row(
@@ -217,6 +225,14 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                 onTap: () async {
                   
                 },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                width: 40,
+                height: 2,
+                color: AppTheme.of(context).alternate,
               ),
             ),
           ],

@@ -48,6 +48,24 @@ class MonitoryProvider extends ChangeNotifier {
   //List<Empleados> usuarios = [];
   //List<Empleados> usuariosTesoreros = [];
 
+  //Variables para calendario
+  DateTime actualDate = DateTime.now();
+  int numCheckOutCRY = 0;
+  int numCheckOutODE = 0;
+  int numCheckOutSMI = 0;
+  int numCheckInCRY = 0;
+  int numCheckInODE = 0;
+  int numCheckInSMI = 0;
+
+  List<bool> isTaped = [
+    false, //numCheckOutCRY   0
+    false, //numCheckOutODE   1
+    false, //numCheckOutSMI   2
+    false, //numCheckInCRY    3
+    false, //numCheckInODE    4
+    false, //numCheckInSMI    5
+  ];
+
   //variable para las secciones del detail popup
   Issues? issue;
     // Listas R
@@ -174,7 +192,7 @@ class MonitoryProvider extends ChangeNotifier {
         );
       }
 
-      getAppointments(monitory);
+      getAppointments();
 
       if (stateManager != null) {
         stateManager!.notifyListeners();
@@ -400,120 +418,184 @@ class MonitoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Appointment> getAppointments(List<Monitory> events) {
 
-  for (Monitory event in events) {
-    //si hay final
-    if (event.dateAddedD != null) {
-      switch (event.company.company) {
-        case "CRY":
-          meet.add(Appointment(
-            startTime: event.dateAddedR,
-            endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            subject: "${event.employee.name} ${event.employee.lastName} R",
-            color: const Color.fromRGBO(52, 86, 148, 10),
-            id: event.idControlForm,
-            // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-            // isAllDay: true,
-          ));
-
-          meet.add(Appointment(
-            startTime: event.dateAddedD!.add(const Duration(hours: -1)),
-            endTime: event.dateAddedD!,
-            subject: "${event.employee.name} ${event.employee.lastName} D",
-            color: const Color.fromRGBO(52, 86, 148, 10),
-            id: event.idControlForm,
-            // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-            // isAllDay: true,
-          ));
-          break;
-        case "ODE":
-        meet.add(Appointment(
-            startTime: event.dateAddedR,
-            endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            subject: "${event.employee.name} ${event.employee.lastName} R",
-            color: const Color(0XFFB2333A),
-            id: event.idControlForm,
-          ));
-
-          meet.add(Appointment(
-            startTime: event.dateAddedD!.add(const Duration(hours: -1)),
-            endTime: event.dateAddedD!,
-            subject: "${event.employee.name} ${event.employee.lastName} D",
-            color: const Color(0XFFB2333A),
-            id: event.idControlForm,
-          ));
-          break;
-        case "SMI":
-        meet.add(Appointment(
-            startTime: event.dateAddedR,
-            endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            subject: "${event.employee.name} ${event.employee.lastName} R",
-            color: const Color(0XFF4D4D4D),
-            id: event.idControlForm,
-          ));
-
-          meet.add(Appointment(
-            startTime: event.dateAddedD!.add(const Duration(hours: -1)),
-            endTime: event.dateAddedD!,
-            subject: "${event.employee.name} ${event.employee.lastName} D",
-            color: const Color(0XFF4D4D4D),
-            id: event.idControlForm,
-          ));
-          break;
-        default:
-      }
-    }
-    //no hay final
-    else {
-      switch (event.company.company) {
-        case "CRY":
-          meet.add(Appointment(
-            startTime: event.dateAddedR,
-            endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            subject: "${event.employee.name} ${event.employee.lastName} R",
-            color: const Color.fromRGBO(52, 86, 148, 10),
-            id: event.idControlForm,
-            // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-            // isAllDay: true,
-          ));
-          break;
-        case "ODE":
-        meet.add(Appointment(
-            startTime: event.dateAddedR,
-            endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            subject: "${event.employee.name} ${event.employee.lastName} R",
-            color: const Color(0XFFB2333A),
-            id: event.idControlForm,
-          ));
-
-          break;
-        case "SMI":
-        meet.add(Appointment(
-            startTime: event.dateAddedR,
-            endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            subject: "${event.employee.name} ${event.employee.lastName} R",
-            color: const Color(0XFF4D4D4D),
-            id: event.idControlForm,
-          ));
-
-          break;
-        default:
-      }
-    }
+  void updateActualDate(DateTime selectedDate){
+    actualDate = selectedDate;
+    notifyListeners();
   }
+
+
+
+  bool getAppointmentsByDate(DateTime dateSelected) {
+    meet.clear();
+    numCheckOutCRY = 0;
+    numCheckOutODE = 0;
+    numCheckOutSMI = 0;
+    numCheckInCRY = 0;
+    numCheckInODE = 0;
+    numCheckInSMI = 0;
+    
+    for (Monitory event in monitory) {
+      //si hay final
+      if (event.dateAddedD != null) {
+        switch (event.company.company) {
+          case "CRY":
+            if ((dateSelected.day == event.dateAddedR.day) & 
+              (dateSelected.month == event.dateAddedR.month) &
+              (dateSelected.year == event.dateAddedR.year)) {
+              meet.add(Appointment(
+                startTime: event.dateAddedR,
+                endTime: event.dateAddedR.add(const Duration(hours: 1)),
+                subject: "${event.employee.name} ${event.employee.lastName}",
+                color: const Color(0XFF345694),
+                id: event.idControlForm,
+                // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+                // isAllDay: true,
+              ));
+              
+                  numCheckOutCRY += 1;
+            }
+            if ((dateSelected.day == event.dateAddedD!.day) & 
+              (dateSelected.month == event.dateAddedD!.month) &
+              (dateSelected.year == event.dateAddedD!.year)) {
+              meet.add(Appointment(
+                startTime: event.dateAddedD!.add(const Duration(hours: -1)),
+                endTime: event.dateAddedD!,
+                subject: "${event.employee.name} ${event.employee.lastName}",
+                color: const Color(0XFF345694),
+                id: event.idControlForm,
+                // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+                // isAllDay: true,
+              ));
+                numCheckInCRY += 1;
+            }
+            break;
+          case "ODE":
+            if ((dateSelected.day == event.dateAddedR.day) & 
+              (dateSelected.month == event.dateAddedR.month) &
+              (dateSelected.year == event.dateAddedR.year)) {
+              meet.add(Appointment(
+                  startTime: event.dateAddedR,
+                  endTime: event.dateAddedR.add(const Duration(hours: 1)),
+                  subject: "${event.employee.name} ${event.employee.lastName} R",
+                  color: const Color(0XFFB2333A),
+                  id: event.idControlForm,
+                ));
+              numCheckOutODE += 1;
+            }
+            
+            if ((dateSelected.day == event.dateAddedD!.day) & 
+              (dateSelected.month == event.dateAddedD!.month) &
+              (dateSelected.year == event.dateAddedD!.year)) {
+              meet.add(Appointment(
+                startTime: event.dateAddedD!.add(const Duration(hours: -1)),
+                endTime: event.dateAddedD!,
+                subject: "${event.employee.name} ${event.employee.lastName} D",
+                color: const Color(0XFFB2333A),
+                id: event.idControlForm,
+              ));
+              numCheckInODE += 1;
+            }
+            break;
+          case "SMI":
+            if ((dateSelected.day == event.dateAddedR.day) & 
+              (dateSelected.month == event.dateAddedR.month) &
+              (dateSelected.year == event.dateAddedR.year)) {
+              meet.add(Appointment(
+                  startTime: event.dateAddedR,
+                  endTime: event.dateAddedR.add(const Duration(hours: 1)),
+                  subject: "${event.employee.name} ${event.employee.lastName}",
+                  color: const Color(0XFF4D4D4D),
+                  id: event.idControlForm,
+                ));
+                numCheckOutSMI += 1;
+              }
+
+            if ((dateSelected.day == event.dateAddedD!.day) & 
+              (dateSelected.month == event.dateAddedD!.month) &
+              (dateSelected.year == event.dateAddedD!.year)) {
+              meet.add(Appointment(
+                startTime: event.dateAddedD!.add(const Duration(hours: -1)),
+                endTime: event.dateAddedD!,
+                subject: "${event.employee.name} ${event.employee.lastName}",
+                color: const Color(0XFF4D4D4D),
+                id: event.idControlForm,
+              ));
+              numCheckInSMI += 1;
+            }
+            break;
+          default:
+        }
+      }
+      //no hay final
+      else {
+        switch (event.company.company) {
+          case "CRY":
+            if ((dateSelected.day == event.dateAddedR.day) & 
+              (dateSelected.month == event.dateAddedR.month) &
+              (dateSelected.year == event.dateAddedR.year)) {
+              meet.add(Appointment(
+                startTime: event.dateAddedR,
+                endTime: event.dateAddedR.add(const Duration(hours: 1)),
+                subject: "${event.employee.name} ${event.employee.lastName}",
+                color: const Color(0XFF345694),
+                id: event.idControlForm,
+                // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+                // isAllDay: true,
+              ));
+              numCheckOutCRY += 1;
+            }
+            break;
+          case "ODE":
+            if ((dateSelected.day == event.dateAddedR.day) & 
+              (dateSelected.month == event.dateAddedR.month) &
+              (dateSelected.year == event.dateAddedR.year)) {
+              meet.add(Appointment(
+                  startTime: event.dateAddedR,
+                  endTime: event.dateAddedR.add(const Duration(hours: 1)),
+                  subject: "${event.employee.name} ${event.employee.lastName} R",
+                  color: const Color(0XFFB2333A),
+                  id: event.idControlForm,
+                ));
+              numCheckOutODE += 1;
+            }
+            break;
+          case "SMI":
+            if ((dateSelected.day == event.dateAddedR.day) & 
+              (dateSelected.month == event.dateAddedR.month) &
+              (dateSelected.year == event.dateAddedR.year)) {
+              meet.add(Appointment(
+                  startTime: event.dateAddedR,
+                  endTime: event.dateAddedR.add(const Duration(hours: 1)),
+                  subject: "${event.employee.name} ${event.employee.lastName}",
+                  color: const Color(0XFF4D4D4D),
+                  id: event.idControlForm,
+                ));
+              numCheckOutSMI += 1;
+            }
+            break;
+          default:
+        }
+      }
+    }
   notifyListeners();
-  return meet;
+  return true;
 }
 
-List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company) {
-  
+ bool getAppointments() {
+  final today = DateTime.now();
+  meet.clear();
+  numCheckOutCRY = 0;
+  numCheckOutODE = 0;
+  numCheckOutSMI = 0;
+  numCheckInCRY = 0;
+  numCheckInODE = 0;
+  numCheckInSMI = 0;
 
-  for (Monitory event in events) {
-    if(event.company.company == company){
+  for (Monitory event in monitory) {
     //si hay final
     if (event.dateAddedD != null) {
-      switch (company) {
+      switch (event.company.company) {
         case "CRY":
           meet.add(Appointment(
             startTime: event.dateAddedR,
@@ -524,6 +606,11 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             // recurrenceRule: 'FREQ=DAILY;COUNT=10',
             // isAllDay: true,
           ));
+          if ((today.day == event.dateAddedR.day) & 
+          (today.month == event.dateAddedR.month) &
+          (today.year == event.dateAddedR.year)) {
+            numCheckOutCRY += 1;
+          }
 
           meet.add(Appointment(
             startTime: event.dateAddedD!.add(const Duration(hours: -1)),
@@ -534,16 +621,25 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             // recurrenceRule: 'FREQ=DAILY;COUNT=10',
             // isAllDay: true,
           ));
+          if ((today.day == event.dateAddedD!.day) & 
+          (today.month == event.dateAddedD!.month) &
+          (today.year == event.dateAddedD!.year)) {
+            numCheckInCRY += 1;
+          }
           break;
         case "ODE":
-        meet.add(Appointment(
-            startTime: event.dateAddedR,
-            endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            subject: "${event.employee.name} ${event.employee.lastName} R",
-            color: const Color(0XFFB2333A),
-            id: event.idControlForm,
-          ));
-
+          meet.add(Appointment(
+              startTime: event.dateAddedR,
+              endTime: event.dateAddedR.add(const Duration(hours: 1)),
+              subject: "${event.employee.name} ${event.employee.lastName} R",
+              color: const Color(0XFFB2333A),
+              id: event.idControlForm,
+            ));
+          if ((today.day == event.dateAddedR.day) & 
+          (today.month == event.dateAddedR.month) &
+          (today.year == event.dateAddedR.year)) {
+            numCheckOutODE += 1;
+          }
           meet.add(Appointment(
             startTime: event.dateAddedD!.add(const Duration(hours: -1)),
             endTime: event.dateAddedD!,
@@ -551,15 +647,25 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             color: const Color(0XFFB2333A),
             id: event.idControlForm,
           ));
+            if ((today.day == event.dateAddedD!.day) & 
+            (today.month == event.dateAddedD!.month) &
+            (today.year == event.dateAddedD!.year)) {
+              numCheckInODE += 1;
+            }
           break;
         case "SMI":
-        meet.add(Appointment(
+          meet.add(Appointment(
             startTime: event.dateAddedR,
             endTime: event.dateAddedR.add(const Duration(hours: 1)),
             subject: "${event.employee.name} ${event.employee.lastName}",
             color: const Color(0XFF4D4D4D),
             id: event.idControlForm,
           ));
+          if ((today.day == event.dateAddedR.day) & 
+          (today.month == event.dateAddedR.month) &
+          (today.year == event.dateAddedR.year)) {
+            numCheckOutSMI += 1;
+          }
 
           meet.add(Appointment(
             startTime: event.dateAddedD!.add(const Duration(hours: -1)),
@@ -568,13 +674,18 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             color: const Color(0XFF4D4D4D),
             id: event.idControlForm,
           ));
+          if ((today.day == event.dateAddedD!.day) & 
+          (today.month == event.dateAddedD!.month) &
+          (today.year == event.dateAddedD!.year)) {
+            numCheckInSMI += 1;
+          }
           break;
         default:
       }
     }
     //no hay final
     else {
-      switch (company) {
+      switch (event.company.company) {
         case "CRY":
           meet.add(Appointment(
             startTime: event.dateAddedR,
@@ -585,6 +696,11 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             // recurrenceRule: 'FREQ=DAILY;COUNT=10',
             // isAllDay: true,
           ));
+          if ((today.day == event.dateAddedR.day) & 
+          (today.month == event.dateAddedR.month) &
+          (today.year == event.dateAddedR.year)) {
+            numCheckOutCRY += 1;
+          }
           break;
         case "ODE":
         meet.add(Appointment(
@@ -594,7 +710,11 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             color: const Color(0XFFB2333A),
             id: event.idControlForm,
           ));
-
+          if ((today.day == event.dateAddedR.day) & 
+            (today.month == event.dateAddedR.month) &
+            (today.year == event.dateAddedR.year)) {
+              numCheckOutODE += 1;
+          }
           break;
         case "SMI":
         meet.add(Appointment(
@@ -605,14 +725,18 @@ List<Appointment> getAppointmentsbyCompany(List<Monitory> events,String company)
             id: event.idControlForm,
           ));
 
+          if ((today.day == event.dateAddedR.day) & 
+          (today.month == event.dateAddedR.month) &
+          (today.year == event.dateAddedR.year)) {
+            numCheckOutSMI += 1;
+          }
           break;
         default:
       }
     }
-    }
   }
   notifyListeners();
-  return meet;
+  return true;
 }
 
 void getActualIssuesComments(List<IssuesComments> issuesComments){
