@@ -4,7 +4,6 @@ import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:rta_crm_cv/widgets/card_header.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -72,7 +71,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                                 Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 20),
+                                      padding: const EdgeInsets.only(left: 40),
                                       child: Text(
                                         "Issues Per Company",
                                         style: TextStyle(
@@ -271,7 +270,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                             Row(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 20),
+                                  padding: const EdgeInsets.only(left: 40),
                                   child: Text(
                                     "Mileage Per Vehicle",
                                     style: TextStyle(
@@ -305,7 +304,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                             Row(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 20),
+                                  padding: const EdgeInsets.only(left: 40),
                                   child: Text(
                                     "Gas/Diesel % Per Vehicle",
                                     style: TextStyle(
@@ -323,10 +322,13 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                                 BarChartData(
                                   barGroups: _getdataGas(),
                                   titlesData: licenseData,
+                                  //Para cambiar informacion del Hover
                                   // barTouchData: BarTouchData(
                                   //   touchTooltipData: BarTouchTooltipData(
+                                  //     //color fondo de hover
                                   //       tooltipBgColor: const Color.fromARGB(
                                   //           255, 204, 204, 204),
+                                  //           //informacion que se desplegara en hover
                                   //       getTooltipItem:
                                   //           (group, groupIndex, rod, rodIndex) {
                                   //         String ace;
@@ -505,6 +507,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           BarChartRodData(
             toY: 14500,
             color: AppTheme.of(context).secondaryColor,
+            width: 10,
           ),
         ],
       ),
@@ -514,6 +517,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           BarChartRodData(
             toY: 6500,
             color: AppTheme.of(context).primaryColor,
+            width: 10,
           ),
         ],
       ),
@@ -523,6 +527,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           BarChartRodData(
             toY: 9500,
             color: AppTheme.of(context).secondaryColor,
+            width: 10,
           ),
         ],
       ),
@@ -532,6 +537,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           BarChartRodData(
             toY: 8740,
             color: AppTheme.of(context).primaryText,
+            width: 10,
           ),
         ],
       ),
@@ -539,8 +545,9 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
         x: 4,
         barRods: [
           BarChartRodData(
-            toY: 25100,
+            toY: 25000,
             color: AppTheme.of(context).secondaryColor,
+            width: 10,
           ),
         ],
       ),
@@ -550,6 +557,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           BarChartRodData(
             toY: 18490,
             color: AppTheme.of(context).primaryColor,
+            width: 10,
           ),
         ],
       ),
@@ -566,6 +574,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           BarChartRodData(
             toY: 90,
             color: AppTheme.of(context).secondaryColor,
+            width: 10,
           ),
         ],
       ),
@@ -575,6 +584,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           BarChartRodData(
             toY: 50,
             color: AppTheme.of(context).primaryColor,
+            width: 10,
           ),
         ],
       ),
@@ -584,6 +594,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           BarChartRodData(
             toY: 35,
             color: AppTheme.of(context).secondaryColor,
+            width: 10,
           ),
         ],
       ),
@@ -593,6 +604,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           BarChartRodData(
             toY: 48,
             color: AppTheme.of(context).primaryText,
+            width: 10,
           ),
         ],
       ),
@@ -602,6 +614,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           BarChartRodData(
             toY: 25,
             color: AppTheme.of(context).secondaryColor,
+            width: 10,
           ),
         ],
       ),
@@ -611,6 +624,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           BarChartRodData(
             toY: 62,
             color: AppTheme.of(context).primaryColor,
+            width: 10,
           ),
         ],
       ),
@@ -620,6 +634,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           BarChartRodData(
             toY: 100,
             color: AppTheme.of(context).primaryColor,
+            width: 10,
           ),
         ],
       ),
@@ -719,7 +734,8 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
         ),
         leftTitles: AxisTitles(
           axisNameSize: 15,
-          sideTitles: SideTitles(showTitles: true),
+          sideTitles: SideTitles(showTitles: true,
+          reservedSize: 40,),
         ),
         topTitles: AxisTitles(
           sideTitles: SideTitles(showTitles: false),
