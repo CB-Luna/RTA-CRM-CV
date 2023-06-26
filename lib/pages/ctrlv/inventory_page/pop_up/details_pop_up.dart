@@ -46,7 +46,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: CustomTextIconButton(
-                      width: 131,
+                      width: 83,
                       isLoading: false,
                       icon: Icon(Icons.exit_to_app_outlined,
                           color: AppTheme.of(context).primaryBackground),

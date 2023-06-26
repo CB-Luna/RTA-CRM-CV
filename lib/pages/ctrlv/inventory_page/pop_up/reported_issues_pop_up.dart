@@ -39,7 +39,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   CustomTextIconButton(
-                    width: 131,
+                    width: 83,
                     isLoading: false,
                     icon: Icon(Icons.arrow_back_outlined,
                         color: AppTheme.of(context).primaryBackground),
@@ -143,40 +143,8 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
-                  child: Text(
-                    "Check Out",
-                    style: TextStyle(
-                        fontFamily:
-                            AppTheme.of(context).encabezadoTablas.fontFamily,
-                        fontSize:
-                            AppTheme.of(context).encabezadoTablas.fontSize,
-                        fontStyle:
-                            AppTheme.of(context).encabezadoTablas.fontStyle,
-                        fontWeight:
-                            AppTheme.of(context).encabezadoTablas.fontWeight,
-                        color: Colors.orange),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: Text(
-                    "Check In",
-                    style: TextStyle(
-                        fontFamily:
-                            AppTheme.of(context).encabezadoTablas.fontFamily,
-                        fontSize:
-                            AppTheme.of(context).encabezadoTablas.fontSize,
-                        fontStyle:
-                            AppTheme.of(context).encabezadoTablas.fontStyle,
-                        fontWeight:
-                            AppTheme.of(context).encabezadoTablas.fontWeight,
-                        color: const Color(0XFF25A531)),
-                  ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.only(left: 60.0),
+                Container(
+                    padding: const EdgeInsets.only(right: 87.0),
                     child: DropdownButton(
                       value: dropdownvalue,
                       icon: const Icon(Icons.keyboard_arrow_down_outlined),
@@ -192,16 +160,49 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         });
                       },
                     )),
+                Container(
+                  padding: const EdgeInsets.only(right: 40.0, left: 60.0),
+                  child: Text(
+                    "Check Out",
+                    style: TextStyle(
+                        fontFamily:
+                            AppTheme.of(context).encabezadoTablas.fontFamily,
+                        fontSize:
+                            AppTheme.of(context).encabezadoTablas.fontSize,
+                        fontStyle:
+                            AppTheme.of(context).encabezadoTablas.fontStyle,
+                        fontWeight:
+                            AppTheme.of(context).encabezadoTablas.fontWeight,
+                        color: Colors.orange),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 40.0, right: 50),
+                  child: Text(
+                    "Check In",
+                    style: TextStyle(
+                        fontFamily:
+                            AppTheme.of(context).encabezadoTablas.fontFamily,
+                        fontSize:
+                            AppTheme.of(context).encabezadoTablas.fontSize,
+                        fontStyle:
+                            AppTheme.of(context).encabezadoTablas.fontStyle,
+                        fontWeight:
+                            AppTheme.of(context).encabezadoTablas.fontWeight,
+                        color: const Color(0XFF25A531)),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 50,
+                    right: 30,
                   ),
                   child: CustomTextIconButton(
-                    width: 131,
+                    width: 82,
                     isLoading: false,
-                    icon: Icon(Icons.add_box_outlined,
+                    icon: Icon(Icons.calendar_today_outlined,
                         color: AppTheme.of(context).primaryBackground),
-                    text: 'Filter',
+                    text: 'Date',
                     color: AppTheme.of(context).primaryColor,
                     onTap: () => provider.stateManager!.setShowColumnFilter(
                         !provider.stateManager!.showColumnFilter),
