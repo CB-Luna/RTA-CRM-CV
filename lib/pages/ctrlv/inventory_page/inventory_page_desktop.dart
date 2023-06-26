@@ -3,13 +3,11 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/issues_pop_up.dart';
-import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/cry_card.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/details_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/odi_card.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/smi_card.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
-import 'package:rta_crm_cv/widgets/card_header.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 //import 'widgets/carga_de_ticket_popup.dart';
@@ -20,7 +18,6 @@ import '../../../public/colors.dart';
 import '../../../theme/theme.dart';
 import '../../../widgets/custom_card.dart';
 import '../../../widgets/custom_text_icon_button.dart';
-import 'pop_up/comments_photos_pop_up.dart';
 import 'pop_up/verify_to_eliminate_pop_up.dart';
 import 'widgets/header_inventory.dart';
 import 'actions/update_vehicle_pop_up.dart';
@@ -869,9 +866,22 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                                   rendererContext
                                                                       .cell
                                                                       .value);
+                                                              provider.selectVehicle(
+                                                                  rendererContext
+                                                                      .cell
+                                                                      .value);
+
+                                                              // No entra en GetIssues por que esta nulo el actualissueIUser
+
                                                               // provider.getIssues(
                                                               //     provider
                                                               //         .actualIssueXUser!);
+                                                              // provider.selectIssuesXUser(
+                                                              //     provider
+                                                              //         .issuesxUser
+                                                              //         .length);
+                                                              print(
+                                                                  "IssuesxUser:  ${provider.actualIssueXUser}");
                                                               showDialog(
                                                                   context:
                                                                       context,
@@ -1112,6 +1122,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                             provider
                                                                 .setIssueViewActual(
                                                                     0);
+
                                                             showDialog(
                                                                 context:
                                                                     context,

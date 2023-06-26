@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart';
-import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/models/vehicle.dart';
-import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 
 import '../../../../theme/theme.dart';
@@ -12,7 +9,6 @@ import '../../../../widgets/card_header.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 import 'cuadro_details.dart';
 import 'issues_pop_up.dart';
-import 'reported_issues_pop_up.dart';
 
 class DetailsPopUp extends StatefulWidget {
   final Vehicle vehicle;
@@ -25,8 +21,6 @@ class DetailsPopUp extends StatefulWidget {
 class _DetailsPopUpState extends State<DetailsPopUp> {
   @override
   Widget build(BuildContext context) {
-    InventoryProvider provider = Provider.of<InventoryProvider>(context);
-
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
@@ -570,13 +564,11 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                           color: AppTheme.of(context)
                                               .tertiaryColor,
                                           onTap: () async {
-                                            // provider.getIssues(
-                                            //     provider.actualIssueXUser!);
                                             showDialog(
                                                 context: context,
                                                 builder:
                                                     (BuildContext context) {
-                                                  return const ReportedIssues();
+                                                  return const IssuesPopUp();
                                                 });
                                           },
                                         ),
