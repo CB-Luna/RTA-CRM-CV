@@ -18,9 +18,11 @@ class _ReportedIssuesState extends State<ReportedIssues> {
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-    // provider.menuIssuesReceivedT.addAll(provider.menuIssuesReceived);
-    // provider.menuIssuesReceivedT.addAll(provider.menuIssuesReceivedD);
-    //provider.menuIssuesReceived.addAll(provider.menuIssuesReceivedD);
+    String dropdownvalue = "Check In";
+    var items = [
+      'Check In',
+      'Check Out',
+    ];
     return AlertDialog(
       shadowColor: Colors.transparent,
       backgroundColor: Colors.transparent,
@@ -71,7 +73,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                     .encabezadoTablas
                                     .fontFamily,
                                 fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
+                                    .contenidoTablas
                                     .fontSize,
                                 fontStyle: AppTheme.of(context)
                                     .encabezadoTablas
@@ -88,7 +90,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                     .encabezadoTablas
                                     .fontFamily,
                                 fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
+                                    .contenidoTablas
                                     .fontSize,
                                 fontStyle: AppTheme.of(context)
                                     .encabezadoTablas
@@ -105,7 +107,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                     .encabezadoTablas
                                     .fontFamily,
                                 fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
+                                    .contenidoTablas
                                     .fontSize,
                                 fontStyle: AppTheme.of(context)
                                     .encabezadoTablas
@@ -122,7 +124,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                     .encabezadoTablas
                                     .fontFamily,
                                 fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
+                                    .contenidoTablas
                                     .fontSize,
                                 fontStyle: AppTheme.of(context)
                                     .encabezadoTablas
@@ -137,24 +139,28 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Check Out",
-                  style: TextStyle(
-                      fontFamily:
-                          AppTheme.of(context).encabezadoTablas.fontFamily,
-                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                      fontStyle:
-                          AppTheme.of(context).encabezadoTablas.fontStyle,
-                      fontWeight:
-                          AppTheme.of(context).encabezadoTablas.fontWeight,
-                      color: Colors.orange),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: Text(
+                    "Check Out",
+                    style: TextStyle(
+                        fontFamily:
+                            AppTheme.of(context).encabezadoTablas.fontFamily,
+                        fontSize:
+                            AppTheme.of(context).encabezadoTablas.fontSize,
+                        fontStyle:
+                            AppTheme.of(context).encabezadoTablas.fontStyle,
+                        fontWeight:
+                            AppTheme.of(context).encabezadoTablas.fontWeight,
+                        color: Colors.orange),
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
                     "Check In",
                     style: TextStyle(
@@ -166,7 +172,39 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                             AppTheme.of(context).encabezadoTablas.fontStyle,
                         fontWeight:
                             AppTheme.of(context).encabezadoTablas.fontWeight,
-                        color: Color(0XFF25A531)),
+                        color: const Color(0XFF25A531)),
+                  ),
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(left: 60.0),
+                    child: DropdownButton(
+                      value: dropdownvalue,
+                      icon: const Icon(Icons.keyboard_arrow_down_outlined),
+                      items: items.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Text(items),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownvalue = newValue!;
+                        });
+                      },
+                    )),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 50,
+                  ),
+                  child: CustomTextIconButton(
+                    width: 131,
+                    isLoading: false,
+                    icon: Icon(Icons.add_box_outlined,
+                        color: AppTheme.of(context).primaryBackground),
+                    text: 'Filter',
+                    color: AppTheme.of(context).primaryColor,
+                    onTap: () => provider.stateManager!.setShowColumnFilter(
+                        !provider.stateManager!.showColumnFilter),
                   ),
                 ),
               ],

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:pluto_grid_export/pluto_grid_export.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/company_api.dart';
@@ -511,7 +512,7 @@ class InventoryProvider extends ChangeNotifier {
     measureD.clear();
     securityR.clear();
     securityD.clear();
-
+    print("ENTRO EN GET ISSUES");
     //
     try {
       final res = await supabaseCtrlV
@@ -1081,6 +1082,10 @@ class InventoryProvider extends ChangeNotifier {
       issuesxUser = (res as List<dynamic>)
           .map((issuesxUser) => IssuesXUser.fromJson(jsonEncode(issuesxUser)))
           .toList();
+      print("Se entro a GETISSUESXUSERS");
+
+      print("Cuantos valores hay en issuesxUser: ${issuesxUser.length}");
+      print("Vehicle id: ${vehicle.idVehicle}");
     } catch (e) {
       print("Error en getIssuesxUsers - $e");
     }

@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 import '../../../../providers/ctrlv/inventory_provider.dart';
+import '../../../../theme/theme.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 
 class CommentsPhotosPopUp extends StatefulWidget {
   const CommentsPhotosPopUp({super.key});
@@ -28,17 +30,23 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
           children: [
             Container(
               alignment: Alignment.centerLeft,
-              child: ElevatedButton(
-                onPressed: () {
+              child: CustomTextIconButton(
+                width: 110,
+                isLoading: false,
+                icon: Icon(Icons.arrow_back_outlined,
+                    color: AppTheme.of(context).primaryBackground),
+                text: 'Back',
+                color: AppTheme.of(context).primaryColor,
+                onTap: () async {
                   provider.setIssueViewActual(1);
                 },
-                child: const Text("Back"),
               ),
             ),
             Column(
               children: [
                 Container(
                   padding: const EdgeInsets.all(15.0),
+                  alignment: Alignment.center,
                   width: 200,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -50,15 +58,14 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                     ],
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Row(
-                    children: [
-                      const Text("Date: "),
-                      Text(
-                        DateFormat("MMM/dd/yyyy")
-                            .format(provider.actualissuesComments!.dateAdded),
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      )
-                    ],
+                  child: Text(
+                    DateFormat("MMM/dd/yyyy")
+                        .format(provider.actualissuesComments!.dateAdded),
+                    style: TextStyle(
+                        color: AppTheme.of(context).contenidoTablas.color,
+                        fontFamily: 'Bicyclette-Thin',
+                        fontSize: AppTheme.of(context).contenidoTablas.fontSize,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
