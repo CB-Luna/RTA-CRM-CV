@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +25,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
       'Check In',
       'Check Out',
     ];
+    void changeDropdown(String? newValue) {
+      setState(() {
+        dropdownvalue = newValue!;
+      });
+    }
+
     return AlertDialog(
       shadowColor: Colors.transparent,
       backgroundColor: Colors.transparent,
@@ -155,9 +163,16 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         );
                       }).toList(),
                       onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownvalue = newValue!;
-                        });
+                        print("----------------------");
+                        print(dropdownvalue);
+
+                        changeDropdown(newValue);
+
+                        print("----------------------");
+                        print(dropdownvalue);
+
+                        if (dropdownvalue == 'Check In') {
+                        } else if (dropdownvalue == 'Check Out') {}
                       },
                     )),
                 Container(
@@ -198,15 +213,13 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                     right: 30,
                   ),
                   child: CustomTextIconButton(
-                    width: 82,
-                    isLoading: false,
-                    icon: Icon(Icons.calendar_today_outlined,
-                        color: AppTheme.of(context).primaryBackground),
-                    text: 'Date',
-                    color: AppTheme.of(context).primaryColor,
-                    onTap: () => provider.stateManager!.setShowColumnFilter(
-                        !provider.stateManager!.showColumnFilter),
-                  ),
+                      width: 82,
+                      isLoading: false,
+                      icon: Icon(Icons.calendar_today_outlined,
+                          color: AppTheme.of(context).primaryBackground),
+                      text: 'Date',
+                      color: AppTheme.of(context).primaryColor,
+                      onTap: () => {provider.filtrarPorMes(19)}),
                 ),
               ],
             )),
@@ -217,6 +230,8 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                   padding: const EdgeInsets.all(8),
                   itemCount: 8,
                   itemBuilder: (BuildContext context, int index) {
+                    provider.selectIssuesCommentsR(index);
+                    provider.selectIssuesCommentsD(index);
                     return Padding(
                         padding: const EdgeInsets.only(bottom: 20.0, right: 10),
                         child: Container(

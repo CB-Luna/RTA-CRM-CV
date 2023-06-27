@@ -4,6 +4,8 @@ import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 
 import '../../../../models/vehicle.dart';
 import '../../../../public/colors.dart';
+import '../../../../theme/theme.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 
 class DeletePopUp extends StatefulWidget {
   final Vehicle vehicle;
@@ -77,36 +79,50 @@ class _DeletePopUpState extends State<DeletePopUp> {
                       ),
                     ],
                   ),
+                  CustomTextIconButton(
+                    width: 101,
+                    isLoading: false,
+                    icon: Icon(Icons.archive_outlined,
+                        color: AppTheme.of(context).primaryBackground),
+                    text: 'Archive',
+                    color: AppTheme.of(context).primaryColor,
+                    onTap: () async {
+                      // provider.deleteVehicle(widget.vehicle);
+
+                      // provider.updateState();
+                    },
+                  ),
                 ],
               ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-              ElevatedButton(
-                  onPressed: () {
-                    provider.deleteVehicle(widget.vehicle);
+              CustomTextIconButton(
+                width: 96,
+                isLoading: false,
+                icon: Icon(Icons.dangerous_outlined,
+                    color: AppTheme.of(context).primaryBackground),
+                text: 'Delete',
+                color: AppTheme.of(context).secondaryColor,
+                onTap: () async {
+                  provider.deleteVehicle(widget.vehicle);
 
-                    provider.updateState();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: secondaryColor,
-                      elevation: 20,
-                      shadowColor: secondaryColor),
-                  child: const Text(
-                    "ACCEPT",
-                    style: TextStyle(fontSize: 20),
-                  )),
-              ElevatedButton(
-                  onPressed: () {
+                  provider.updateState();
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: CustomTextIconButton(
+                  width: 96,
+                  isLoading: false,
+                  icon: Icon(Icons.cancel_outlined,
+                      color: AppTheme.of(context).primaryBackground),
+                  text: 'Cancel',
+                  color: AppTheme.of(context).primaryColor,
+                  onTap: () async {
                     Navigator.pop(context);
                   },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      elevation: 20,
-                      shadowColor: Colors.blue),
-                  child: const Text(
-                    "CANCEL",
-                    style: TextStyle(fontSize: 20),
-                  ))
+                ),
+              ),
             ]),
           ],
         ),
