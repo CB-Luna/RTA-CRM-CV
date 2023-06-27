@@ -164,7 +164,7 @@ class QuotesProvider extends ChangeNotifier {
         } else if (currentUser!.isFinance) {
           res = await supabaseCRM.from('quotes_view').select().or('status.eq.Sen. Exec. Validate,status.eq.Margin Positive');
         } else if (currentUser!.isOpperations) {
-          res = await supabaseCRM.from('quotes_view').select().eq('status', 'Finance Validate');
+          res = await supabaseCRM.from('quotes_view').select().eq('status', 'Finance Validate').or('status.eq.Accepted');
         }
       }
 

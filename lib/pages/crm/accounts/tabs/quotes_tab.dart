@@ -103,7 +103,7 @@ class _QuotesTabState extends State<QuotesTab> {
                           await provider.exportData();
                         },
                       ),
-                      if (currentUser!.isSales)
+                      /* if (currentUser!.isSales)
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: CustomTextIconButton(
@@ -119,7 +119,7 @@ class _QuotesTabState extends State<QuotesTab> {
                               context.pushReplacement(routeQuoteCreation);
                             },
                           ),
-                        ),
+                        ), */
                     ],
                   ),
                 ),
@@ -233,7 +233,7 @@ class _QuotesTabState extends State<QuotesTab> {
                     );
                   },
                 ),
-                if (currentUser!.isSales)
+                if (currentUser!.isSales || currentUser!.isOpperations)
                   PlutoColumn(
                     titleSpan: TextSpan(children: [
                       WidgetSpan(child: Icon(Icons.traffic_outlined, color: AppTheme.of(context).primaryBackground)),
@@ -309,6 +309,41 @@ class _QuotesTabState extends State<QuotesTab> {
                                 await providerCreate.getLead(rendererContext.row.cells["ID_LEAD_Column"]!.value, null);
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteCreation);
+                              },
+                            ),
+                          if (currentUser!.isSales && rendererContext.row.cells["STATUS_Column"]!.value == 'Accepted')
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.add,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              color: AppTheme.of(context).tertiaryColor,
+                              text: 'Create Order',
+                              onTap: () async {
+                                await supabaseCRM.rpc(
+                                  'update_quote_status',
+                                  params: {"estatus": "Order Created", "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id},
+                                );
+                                await provider.getQuotes(null);
+                              },
+                            ),
+                          if (currentUser!.isSales && rendererContext.row.cells["STATUS_Column"]!.value == 'Order Created')
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.add,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              color: AppTheme.of(context).tertiaryColor,
+                              text: 'Cross Connect',
+                              onTap: () async {
+                                //Change to status 'Order Created'
+                                await supabaseCRM.rpc(
+                                  'update_quote_status',
+                                  params: {"estatus": "Cross Connected", "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id},
+                                );
+                                await provider.getQuotes(null);
                               },
                             ),
                           if (currentUser!.isSenExec && rendererContext.row.cells["STATUS_Column"]!.value == 'Opened')

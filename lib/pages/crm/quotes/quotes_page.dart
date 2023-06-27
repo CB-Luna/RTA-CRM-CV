@@ -191,6 +191,57 @@ class _QuotesPageState extends State<QuotesPage> {
                             ),
                           ),
                         ),
+                      if (currentUser!.isOpperations)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: CustomScrollBar(
+                            scrollDirection: Axis.horizontal,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 15),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[7],
+                                          text: 'All',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(7),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[3],
+                                          text: 'Finance Validate',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(3),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[4],
+                                          text: 'Accepted',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(4),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       const Padding(
                         padding: EdgeInsets.all(10),
                         child: QuotesTab(),
