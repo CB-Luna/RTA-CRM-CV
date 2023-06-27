@@ -7,6 +7,7 @@ import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 import 'package:fl_chart/fl_chart.dart';
 
+import '../../providers/ctrlv/dashboard_provider.dart';
 import '../../widgets/custom_card.dart';
 
 class DashboardsCTRLVPage extends StatefulWidget {
@@ -23,14 +24,16 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
       super.initState();
 
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-        final DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(
+        final DashboardCVProvider provider = Provider.of<DashboardCVProvider>(
           context,
           listen: false,
         );
-        await provider.updateState();
+         provider.updateState();
       });
     }
+    
 
+    DashboardCVProvider providerDash = Provider.of<DashboardCVProvider>(context);
     SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
     provider.setIndex(9);
     final List<double> data = [30, 25, 45];
@@ -65,13 +68,13 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                         children: [
                           Container(
                             width: MediaQuery.of(context).size.width / 2,
-                            height: 550,
+                            height: 600,
                             child: Column(
                               children: [
                                 Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 40),
+                                      padding: const EdgeInsets.only(left: 40,bottom: 30),
                                       child: Text(
                                         "Issues Per Company",
                                         style: TextStyle(
@@ -88,7 +91,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                                   height: 500,
                                   child: BarChart(
                                     BarChartData(
-                                      barGroups: _getdata(),
+                                      barGroups: _getdata(providerDash),
                                       titlesData: titlesData,
                                     ),
                                     swapAnimationDuration:
@@ -264,7 +267,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                         ],
                       ),
                       Container(
-                        height: 800,
+                        height: 600,
                         child: Column(
                           children: [
                             Row(
@@ -373,21 +376,22 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
     );
   }
 
-  List<BarChartGroupData> _getdata() {
+  List<BarChartGroupData> _getdata(DashboardCVProvider provider) {
+
     List<BarChartGroupData> data = [
       BarChartGroupData(
         x: 0,
         barRods: [
           BarChartRodData(
-            toY: 10,
+            toY:provider.issuesSmi.toDouble(),//providerIssue.issuesSmi.toDouble(),
             color: AppTheme.of(context).secondaryColor,
           ),
           BarChartRodData(
-            toY: 8,
+            toY: provider.issuesOde.toDouble(),
             color: AppTheme.of(context).primaryText,
           ),
           BarChartRodData(
-            toY: 14,
+            toY: provider.issuesCry.toDouble(),
             color: AppTheme.of(context).primaryColor,
           ),
         ],
@@ -671,6 +675,21 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
         break;
       case 6:
         text = 'Jul';
+        break;
+        case 7:
+        text = 'Aug';
+        break;
+      case 8:
+        text = 'Sep';
+        break;
+      case 9:
+        text = 'Oct';
+        break;
+      case 10:
+        text = 'Nov';
+        break;
+      case 11:
+        text = 'Dec';
         break;
       default:
         text = '';
