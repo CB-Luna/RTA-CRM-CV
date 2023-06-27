@@ -95,7 +95,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
-              width: 131,
+              width: 83,
               isLoading: false,
               icon: Icon(Icons.add_box_outlined,
                   color: AppTheme.of(context).primaryBackground),

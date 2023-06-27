@@ -145,6 +145,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                               Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: CustomTextIconButton(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   width: 80,
                                   isLoading: false,
                                   icon: Icon(Icons.remove_red_eye_outlined,
@@ -251,22 +252,26 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                 ),
                               ),
                               const Spacer(),
-                              Padding(
+                              Container(
+                                alignment: Alignment.center,
                                 padding: const EdgeInsets.only(right: 10),
-                                child: CustomTextIconButton(
-                                  width: 80,
-                                  isLoading: false,
-                                  icon: Icon(Icons.remove_red_eye_outlined,
-                                      color: AppTheme.of(context)
-                                          .primaryBackground),
-                                  text: '',
-                                  color: AppTheme.of(context).primaryColor,
-                                  onTap: () async {
-                                    provider.selectIssuesComments(
-                                        widget.issuesComments[index]);
-                                    provider.cambiosVistaPhotosComments();
-                                    provider.setIssueViewActual(2);
-                                  },
+                                child: Center(
+                                  child: CustomTextIconButton(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    width: 80,
+                                    isLoading: false,
+                                    icon: Icon(Icons.remove_red_eye_outlined,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground),
+                                    text: ' ',
+                                    color: AppTheme.of(context).primaryColor,
+                                    onTap: () async {
+                                      provider.selectIssuesComments(
+                                          widget.issuesComments[index]);
+                                      provider.cambiosVistaPhotosComments();
+                                      provider.setIssueViewActual(2);
+                                    },
+                                  ),
                                 ),
                               ),
                               // ElevatedButton(

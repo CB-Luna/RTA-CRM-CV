@@ -31,7 +31,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
             Container(
               alignment: Alignment.centerLeft,
               child: CustomTextIconButton(
-                width: 110,
+                width: 83,
                 isLoading: false,
                 icon: Icon(Icons.arrow_back_outlined,
                     color: AppTheme.of(context).primaryBackground),

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +25,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
       'Check In',
       'Check Out',
     ];
+    void changeDropdown(String? newValue) {
+      setState(() {
+        dropdownvalue = newValue!;
+      });
+    }
+
     return AlertDialog(
       shadowColor: Colors.transparent,
       backgroundColor: Colors.transparent,
@@ -39,7 +47,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   CustomTextIconButton(
-                    width: 131,
+                    width: 83,
                     isLoading: false,
                     icon: Icon(Icons.arrow_back_outlined,
                         color: AppTheme.of(context).primaryBackground),
@@ -143,8 +151,32 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
+                Container(
+                    padding: const EdgeInsets.only(right: 87.0),
+                    child: DropdownButton(
+                      value: dropdownvalue,
+                      icon: const Icon(Icons.keyboard_arrow_down_outlined),
+                      items: items.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Text(items),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        print("----------------------");
+                        print(dropdownvalue);
+
+                        changeDropdown(newValue);
+
+                        print("----------------------");
+                        print(dropdownvalue);
+
+                        if (dropdownvalue == 'Check In') {
+                        } else if (dropdownvalue == 'Check Out') {}
+                      },
+                    )),
+                Container(
+                  padding: const EdgeInsets.only(right: 40.0, left: 60.0),
                   child: Text(
                     "Check Out",
                     style: TextStyle(
@@ -160,7 +192,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 40.0, right: 50),
                   child: Text(
                     "Check In",
                     style: TextStyle(
@@ -176,36 +208,18 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                   ),
                 ),
                 Padding(
-                    padding: const EdgeInsets.only(left: 60.0),
-                    child: DropdownButton(
-                      value: dropdownvalue,
-                      icon: const Icon(Icons.keyboard_arrow_down_outlined),
-                      items: items.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(items),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownvalue = newValue!;
-                        });
-                      },
-                    )),
-                Padding(
                   padding: const EdgeInsets.only(
                     left: 50,
+                    right: 30,
                   ),
                   child: CustomTextIconButton(
-                    width: 131,
-                    isLoading: false,
-                    icon: Icon(Icons.add_box_outlined,
-                        color: AppTheme.of(context).primaryBackground),
-                    text: 'Filter',
-                    color: AppTheme.of(context).primaryColor,
-                    onTap: () => provider.stateManager!.setShowColumnFilter(
-                        !provider.stateManager!.showColumnFilter),
-                  ),
+                      width: 82,
+                      isLoading: false,
+                      icon: Icon(Icons.calendar_today_outlined,
+                          color: AppTheme.of(context).primaryBackground),
+                      text: 'Date',
+                      color: AppTheme.of(context).primaryColor,
+                      onTap: () => {provider.filtrarPorMes(19)}),
                 ),
               ],
             )),
@@ -216,6 +230,8 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                   padding: const EdgeInsets.all(8),
                   itemCount: 8,
                   itemBuilder: (BuildContext context, int index) {
+                    provider.selectIssuesCommentsR(index);
+                    provider.selectIssuesCommentsD(index);
                     return Padding(
                         padding: const EdgeInsets.only(bottom: 20.0, right: 10),
                         child: Container(

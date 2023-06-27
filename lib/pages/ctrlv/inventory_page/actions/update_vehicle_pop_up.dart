@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_dropdown_inventory.dart';
@@ -35,6 +36,9 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
 
     final formKey = GlobalKey<FormState>();
+    var cardMask = MaskTextInputFormatter(
+        mask: '###-%%%%',
+        filter: {"#": RegExp(r'[a-zA-Z]'), "%": RegExp(r'[0-9]')});
     DateTime date = DateTime.now();
     DateTime selectedDate = DateTime.now();
     Color pickerColor = const Color(0xff2196f3);
@@ -59,7 +63,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
                         hint: widget.vehicle.company.company,
                         label: '1. Company',
@@ -73,7 +77,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                         label: '2. Brand',
                         controller: provider.makeControllerUpdate,
@@ -83,7 +87,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                         label: '3. Model',
                         controller: provider.modelControllerUpdate,
@@ -93,7 +97,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
                         child: CustomTextFieldForm(
                             label: '4. year',
                             controller: provider.yearControllerUpdate,
@@ -132,7 +136,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                               );
                             })),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                         label: '5. VIN',
                         controller: provider.vinControllerUpdate,
@@ -142,17 +146,18 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                         label: '6. Plate Number',
                         controller: provider.plateNumberControllerUpdate,
+                        inputFormatters: [cardMask],
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
                         hint: widget.vehicle.status.status,
                         label: '7. status',
@@ -169,7 +174,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                         label: '8. Motor',
                         controller: provider.motorControllerUpadte,
@@ -179,7 +184,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                         label: '9. Color',
                         enabled: true,
@@ -200,7 +205,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                           label: '10. oil change due',
                           controller: provider.dateTimeControllerOilUpdate,
@@ -222,7 +227,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                           }),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                           label: '11. Last Radiator Fluid Change',
                           controller: provider.dateTimeControllerRFCUpadte,
@@ -244,7 +249,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                           }),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                           label: '12. Last Transimission Fluid Change',
                           controller: provider.dateTimeControllerLTFCUpadte,
@@ -266,7 +271,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                           }),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                         label: '13. Initial Mileage',
                         controller: provider.mileageControllerUpdate,

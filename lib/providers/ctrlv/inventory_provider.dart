@@ -108,6 +108,9 @@ class InventoryProvider extends ChangeNotifier {
   List<IssuesComments> lightsD = [];
   List<IssuesComments> measureD = [];
   List<IssuesComments> securityD = [];
+
+  List<IssuesComments> listaTotalIssues = [];
+
 //------------------------------------------
   // TITULO LISTAS
   List<String> titulosIssue = [
@@ -163,12 +166,36 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   //------------------------------------------
+  List<IssuesComments> issuesComments = [];
+  void selectIssuesCommentsR(int index) {
+    issuesComments = menuIssuesReceived[index]!;
+    //print("IssuesComments: ${issuesComments.length} ");
+    notifyListeners();
+  }
+
+  //------------------------------------------
+  List<IssuesComments> issuesCommentsD = [];
+  void selectIssuesCommentsD(int index) {
+    issuesCommentsD = menuIssuesReceivedD[index]!;
+    notifyListeners();
+  }
+  //------------------------------------------
 
   void selectIssuesXUser(int index) {
     actualIssueXUser = issuesxUser[index];
     notifyListeners();
   }
 
+  //------------------------------------------
+  List<IssuesComments> listaFiltrada = []; // Lista filtrada, inicialmente vacía
+
+  void filtrarPorMes(int dia) {
+    listaFiltrada = listaTotalIssues
+        .where((elemento) => elemento.dateAdded.day == dia)
+        .toList();
+    print("Provider.listafiltrada: ${listaFiltrada.length}");
+    notifyListeners();
+  }
   //------------------------------------------
 
   void selectIssuesComments(IssuesComments issueComments) {
@@ -1082,10 +1109,10 @@ class InventoryProvider extends ChangeNotifier {
       issuesxUser = (res as List<dynamic>)
           .map((issuesxUser) => IssuesXUser.fromJson(jsonEncode(issuesxUser)))
           .toList();
-      print("Se entro a GETISSUESXUSERS");
+      // print("Se entro a GETISSUESXUSERS");
 
-      print("Cuantos valores hay en issuesxUser: ${issuesxUser.length}");
-      print("Vehicle id: ${vehicle.idVehicle}");
+      // print("Cuantos valores hay en issuesxUser: ${issuesxUser.length}");
+      // print("Vehicle id: ${vehicle.idVehicle}");
     } catch (e) {
       print("Error en getIssuesxUsers - $e");
     }
