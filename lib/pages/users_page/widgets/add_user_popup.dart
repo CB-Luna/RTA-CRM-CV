@@ -33,7 +33,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
     UsersProvider provider = Provider.of<UsersProvider>(context);
     final formKey = GlobalKey<FormState>();
 
-    final List<String> statesNames = provider.states.map((state) => state.name).toList();
+    final List<String> statesNames =
+        provider.states.map((state) => state.name).toList();
 
     final List<String> rolesNames =
         provider.roles.map((role) => role.roleName).toList();
@@ -170,6 +171,39 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                           },
                         ),
                       ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextField(
+                        label: 'Status',
+                        icon: Icons.settings_backup_restore_outlined,
+                        controller: provider.statusController,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.text,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextField(
+                        label: 'License',
+                        icon: Icons.settings_backup_restore_outlined,
+                        controller: provider.licenseController,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.text,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextField(
+                        label: 'Certification',
+                        icon: Icons.settings_backup_restore_outlined,
+                        controller: provider.certificationController,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.text,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -195,7 +229,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     // }
 
                     //Registrar usuario
-                    final Map<String, String>? result = await provider.registerUser();
+                    final Map<String, String>? result =
+                        await provider.registerUser();
 
                     if (result == null) {
                       await ApiErrorHandler.callToast('Error registering user');
@@ -218,7 +253,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     bool res = await provider.createUserProfile(userId);
 
                     if (!res) {
-                      await ApiErrorHandler.callToast('Error creating user profile');
+                      await ApiErrorHandler.callToast(
+                          'Error creating user profile');
                       return;
                     }
 
@@ -236,9 +272,12 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                 ),
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.refresh_outlined,
+                  icon: Icon(Icons.exit_to_app_outlined,
                       color: AppTheme.of(context).primaryBackground),
-                  text: 'Refresh',
+                  text: 'Exit',
+                  onTap: () {
+                    context.pop();
+                  },
                 ),
               ],
             )

@@ -53,6 +53,9 @@ class UsersProvider extends ChangeNotifier {
   final stateController = TextEditingController();
   final roleController = TextEditingController();
   final companyCOntroller = TextEditingController();
+  final statusController = TextEditingController();
+  final licenseController = TextEditingController();
+  final certificationController = TextEditingController();
 
   // EDIT
   final nameControllerUpdate = TextEditingController();
@@ -62,6 +65,9 @@ class UsersProvider extends ChangeNotifier {
   final stateControllerUpdate = TextEditingController();
   final roleControllerUpdate = TextEditingController();
   final companyCOntrollerUpdate = TextEditingController();
+  final statusControllerUpdate = TextEditingController();
+  final licenseControllerUpdate = TextEditingController();
+  final certificationControllerUpdate = TextEditingController();
 
   void updateControllers(User users) {
     nameControllerUpdate.text = users.name;
@@ -71,6 +77,9 @@ class UsersProvider extends ChangeNotifier {
     selectedStateUpdate = selectedState;
     selectedRoleUpdate = selectedRole;
     selectedCompanyUpdate = selectedCompany;
+    stateControllerUpdate.text = users.status!;
+    licenseControllerUpdate.text = users.license!;
+    certificationControllerUpdate.text = users.certification!;
   }
 
   void clearControllers({bool notify = true}) {
@@ -239,6 +248,9 @@ class UsersProvider extends ChangeNotifier {
               'MOBILE_Column': PlutoCell(value: user.mobilePhone),
               'STATE_Column': PlutoCell(value: user.state.name),
               'COMPANY_Column': PlutoCell(value: user.company.company),
+              'STATUS_Column': PlutoCell(value: user.status),
+              'LICENSE_Column': PlutoCell(value: user.license),
+              'CERTIFICATION_Column': PlutoCell(value: user.certification),
               'ACTIONS_Column': PlutoCell(value: user),
             },
           ),
@@ -314,6 +326,9 @@ class UsersProvider extends ChangeNotifier {
             'state_fk': selectedState!.id,
             // TODO: implementar campo de Company
             'id_company_fk': selectedCompany!.id,
+            'status': statusController.text,
+            'license': licenseController.text,
+            'certification': certificationController.text
           },
         );
       }
@@ -353,6 +368,9 @@ class UsersProvider extends ChangeNotifier {
         'state_fk': selectedStateUpdate?.id ?? users.state.id,
         // TODO: implementar campo de Company
         'id_company_fk': selectedCompanyUpdate?.id ?? users.company.id,
+        'status': statusControllerUpdate.text,
+        'license': licenseControllerUpdate.text,
+        'certification': certificationControllerUpdate.text
       }).eq('user_profile_id', users.id);
       return true;
     } catch (e) {

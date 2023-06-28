@@ -17,6 +17,7 @@ import 'package:excel/excel.dart';
 
 import '../../models/issues.dart';
 import '../../models/issues_x_user.dart';
+import '../../models/vehicle_dashboard.dart';
 
 class InventoryProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
@@ -86,6 +87,7 @@ class InventoryProvider extends ChangeNotifier {
   List<StatusApi> status = [];
   List<Vehicle> vehicles = [];
   List<Issues> issues = [];
+  List<VehicleDash> vehicleArchive = [];
   List<IssuesXUser> issuesxUser = [];
 //------------------------------------------
 
@@ -419,16 +421,23 @@ class InventoryProvider extends ChangeNotifier {
       return false;
     }
   }
-  //---------------------------------------------
 
+  bool bandera1 = true;
+
+  //---------------------------------------------
   Future<void> getInventory() async {
+    bandera1 = true;
+
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
     }
     try {
       // SUPBASECTRlV es el control vehicular
-      final res = await supabaseCtrlV.from('inventory_view').select();
+      final res = await supabaseCtrlV
+          .from('inventory_view')
+          .select()
+          .not('namestatus', 'eq', 'Not Active');
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
           .toList();
@@ -520,7 +529,128 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   //---------------------------------------------
+  Future<void> UpdateStatusVehicle() async {
+    bandera1 = false;
+    if (stateManager != null) {
+      stateManager!.setShowLoading(true);
+      notifyListeners();
+    }
+    try {
+      // SUPBASECTRlV es el control vehicular
+      final res = await supabaseCtrlV
+          .from('inventory_view')
+          .select()
+          .eq('namestatus', 'Not Active');
+      vehicles = (res as List<dynamic>)
+          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
+          .toList();
+      rows.clear();
+      totalVehicleODE = 0;
+      totalVehicleCRY = 0;
+      totalVehicleSMI = 0;
+      // Repair
+      totalRepairODE = 0;
+      totalRepairCRY = 0;
+      totalRepairSMI = 0;
+      // Assigned
+      totalAssignedODE = 0;
+      totalAssignedCRY = 0;
+      totalAssignedSMI = 0;
+      // Available
+      totalAvailableODE = 0;
+      totalAvailableCRY = 0;
+      totalAvailableSMI = 0;
+      for (Vehicle vehicle in vehicles) {
+        if (vehicle.company.company == "ODE") {
+          totalVehicleODE = totalVehicleODE + 1;
+          if (vehicle.status.status == "Repair") {
+            totalRepairODE = totalRepairODE + 1;
+          }
+          if (vehicle.status.status == "Assigned") {
+            totalAssignedODE = totalAssignedODE + 1;
+          }
+          if (vehicle.status.status == "Available") {
+            totalAvailableODE = totalAvailableODE + 1;
+          }
+        }
+        if (vehicle.company.company == "CRY") {
+          totalVehicleCRY = totalVehicleCRY + 1;
+          if (vehicle.status.status == "Repair") {
+            totalRepairCRY = totalRepairCRY + 1;
+          }
+          if (vehicle.status.status == "Assigned") {
+            totalAssignedCRY = totalAssignedCRY + 1;
+          }
+          if (vehicle.status.status == "Available") {
+            totalAvailableCRY = totalAvailableCRY + 1;
+          }
+        }
+        if (vehicle.company.company == "SMI") {
+          totalVehicleSMI = totalVehicleSMI + 1;
+          if (vehicle.status.status == "Repair") {
+            totalRepairSMI = totalRepairSMI + 1;
+          }
+          if (vehicle.status.status == "Assigned") {
+            totalAssignedSMI = totalAssignedSMI + 1;
+          }
+          if (vehicle.status.status == "Available") {
+            totalAvailableSMI = totalAvailableSMI + 1;
+          }
+        }
+        rows.add(
+          PlutoRow(
+            cells: {
+              // "id_vehicle": PlutoCell(value: vehicle.idVehicle),
+              // "image": PlutoCell(value: vehicle.image),
+              "make": PlutoCell(value: vehicle.make),
+              "model": PlutoCell(value: vehicle.model),
+              "year": PlutoCell(value: vehicle.year),
+              "vin": PlutoCell(value: vehicle.vin),
+              "license_plates": PlutoCell(value: vehicle.licesensePlates),
+              "motor": PlutoCell(value: vehicle.motor),
+              // "color": PlutoCell(value: vehicle.color),
+              "status": PlutoCell(value: vehicle.status.status),
+              "company": PlutoCell(value: vehicle.company.company),
+              // "date_added": PlutoCell(
+              //     value: DateFormat("MMM/dd/yyyy")
+              //         .format(vehicle.dateAdded)
+              //         .toString()),
+              "mileage": PlutoCell(value: vehicle.mileage.toString()),
+              "details": PlutoCell(value: vehicle),
+              "actions": PlutoCell(value: vehicle),
+              "issues": PlutoCell(value: vehicle)
+            },
+          ),
+        );
+      }
 
+      if (stateManager != null) stateManager!.notifyListeners();
+    } catch (e) {
+      log('Error en getInventory() - $e');
+    }
+    notifyListeners();
+  }
+  //---------------------------------------------
+
+  Future<void> getArchiveVehicle() async {
+    try {
+      final res = await supabaseCtrlV
+          .from('vehicle')
+          .select()
+          .match({'id_status_fk': 4.toString()});
+      print(res);
+
+      // AQUI está el fallo
+      vehicleArchive = (res as List<dynamic>)
+          .map((vehicleArchive) =>
+              VehicleDash.fromJson(jsonEncode(vehicleArchive)))
+          .toList();
+    } catch (e) {
+      print("Error en getArchiveVehicle - $e");
+    }
+  }
+
+  //---------------------------------------------
   Future<void> getIssues(IssuesXUser issuesXUser) async {
     // Limpiar listas
     bucketInspectionR.clear();

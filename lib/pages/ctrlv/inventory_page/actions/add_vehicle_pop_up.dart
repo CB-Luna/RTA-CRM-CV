@@ -78,7 +78,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                        label: '2. Brand',
+                        label: '2. Make',
                         controller: provider.brandController,
                         enabled: true,
                         width: 350,
@@ -147,7 +147,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                        label: '6. Plate Number',
+                        label: '6. License Plates',
                         controller: provider.plateNumberController,
                         inputFormatters: [cardMask],
                         enabled: true,

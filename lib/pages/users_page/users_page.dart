@@ -63,15 +63,20 @@ class _UsersPageState extends State<UsersPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomTextIconButton(
                               isLoading: false,
-                              icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                              icon: Icon(Icons.filter_alt_outlined,
+                                  color:
+                                      AppTheme.of(context).primaryBackground),
                               text: 'Filter',
-                              onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+                              onTap: () => provider.stateManager!
+                                  .setShowColumnFilter(
+                                      !provider.stateManager!.showColumnFilter),
                             ),
                             CustomTextField(
                               enabled: true,
@@ -80,11 +85,14 @@ class _UsersPageState extends State<UsersPage> {
                               label: 'Search',
                               keyboardType: TextInputType.text,
                             ),
-                            if (!currentUser!.isAdmin) const SizedBox(width: 106),
+                            if (!currentUser!.isAdmin)
+                              const SizedBox(width: 106),
                             if (currentUser!.isAdmin)
                               CustomTextIconButton(
                                 isLoading: false,
-                                icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                                icon: Icon(Icons.add,
+                                    color:
+                                        AppTheme.of(context).primaryBackground),
                                 text: 'Add User',
                                 onTap: () async {
                                   provider.clearControllers(notify: false);
@@ -121,17 +129,23 @@ class _UsersPageState extends State<UsersPage> {
                                 ],
                                 resolveDefaultColumnFilter: (column, resolver) {
                                   if (column.field == 'ID_Column') {
-                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>()
+                                        as PlutoFilterType;
                                   } else if (column.field == 'AVATAR_Column') {
-                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>()
+                                        as PlutoFilterType;
                                   } else if (column.field == 'USER_Column') {
-                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>()
+                                        as PlutoFilterType;
                                   } else if (column.field == 'ROLE_Column') {
-                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>()
+                                        as PlutoFilterType;
                                   } else if (column.field == 'EMAIL_Column') {
-                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>()
+                                        as PlutoFilterType;
                                   } else if (column.field == 'MOBILE_Column') {
-                                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                    return resolver<PlutoFilterTypeContains>()
+                                        as PlutoFilterType;
                                   } else if (column.field == 'STATE_Column') {
                                     return resolver<PlutoFilterTypeContains>()
                                         as PlutoFilterType;
@@ -139,16 +153,23 @@ class _UsersPageState extends State<UsersPage> {
                                     return resolver<PlutoFilterTypeContains>()
                                         as PlutoFilterType;
                                   }
-                                  return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
                                 },
                               ),
                             ),
                             columns: [
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(child: Icon(Icons.vpn_key_outlined, color: AppTheme.of(context).primaryBackground)),
+                                  WidgetSpan(
+                                      child: Icon(Icons.vpn_key_outlined,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(text: 'ID', style: AppTheme.of(context).encabezadoTablas)
+                                  TextSpan(
+                                      text: 'ID',
+                                      style:
+                                          AppTheme.of(context).encabezadoTablas)
                                 ]),
                                 backgroundColor: const Color(0XFF6491F7),
                                 title: 'ID',
@@ -165,11 +186,18 @@ class _UsersPageState extends State<UsersPage> {
                                   return Container(
                                     height: rowHeight,
                                     // width: rendererContext.cell.column.width,
-                                    decoration: BoxDecoration(gradient: whiteGradient),
+                                    decoration:
+                                        BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                       child: Text(
                                         rendererContext.cell.value.toString(),
-                                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
+                                        style: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false,
+                                                color: AppTheme.of(context)
+                                                    .primaryColor),
                                       ),
                                     ),
                                   );
@@ -177,10 +205,12 @@ class _UsersPageState extends State<UsersPage> {
                                 footerRenderer: (context) {
                                   return SizedBox(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         CustomIconButton(
-                                          icon: Icons.keyboard_arrow_down_outlined,
+                                          icon: Icons
+                                              .keyboard_arrow_down_outlined,
                                           toolTip: 'less',
                                           onTap: () {
                                             provider.setPageSize('less');
@@ -189,11 +219,13 @@ class _UsersPageState extends State<UsersPage> {
                                         const SizedBox(width: 10),
                                         Text(
                                           provider.pageRowCount.toString(),
-                                          style: const TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         ),
                                         const SizedBox(width: 10),
                                         CustomIconButton(
-                                          icon: Icons.keyboard_arrow_up_outlined,
+                                          icon:
+                                              Icons.keyboard_arrow_up_outlined,
                                           toolTip: 'more',
                                           onTap: () {
                                             provider.setPageSize('more');
@@ -242,9 +274,15 @@ class _UsersPageState extends State<UsersPage> {
                               ), */
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                                  WidgetSpan(
+                                      child: Icon(Icons.person_outline,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(text: 'USER', style: AppTheme.of(context).encabezadoTablas)
+                                  TextSpan(
+                                      text: 'USER',
+                                      style:
+                                          AppTheme.of(context).encabezadoTablas)
                                 ]),
                                 backgroundColor: const Color(0XFF6491F7),
                                 title: 'USER',
@@ -259,11 +297,16 @@ class _UsersPageState extends State<UsersPage> {
                                   return Container(
                                     height: rowHeight,
                                     // width: rendererContext.cell.column.width,
-                                    decoration: BoxDecoration(gradient: whiteGradient),
+                                    decoration:
+                                        BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                         child: Text(
                                       rendererContext.cell.value ?? '-',
-                                      style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                      style: AppTheme.of(context)
+                                          .contenidoTablas
+                                          .override(
+                                              fontFamily: 'Gotham-Regular',
+                                              useGoogleFonts: false),
                                     )),
                                   );
                                 },
@@ -271,10 +314,12 @@ class _UsersPageState extends State<UsersPage> {
                                   return SizedBox(
                                     height: 50,
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         CustomIconButton(
-                                          icon: Icons.keyboard_double_arrow_left,
+                                          icon:
+                                              Icons.keyboard_double_arrow_left,
                                           toolTip: 'start',
                                           onTap: () {
                                             provider.setPage('start');
@@ -282,7 +327,8 @@ class _UsersPageState extends State<UsersPage> {
                                         ),
                                         const SizedBox(width: 2),
                                         CustomIconButton(
-                                          icon: Icons.keyboard_arrow_left_outlined,
+                                          icon: Icons
+                                              .keyboard_arrow_left_outlined,
                                           toolTip: 'previous',
                                           onTap: () {
                                             provider.setPage('previous');
@@ -302,7 +348,8 @@ class _UsersPageState extends State<UsersPage> {
                                         ),
                                         const SizedBox(width: 5),
                                         CustomIconButton(
-                                          icon: Icons.keyboard_arrow_right_outlined,
+                                          icon: Icons
+                                              .keyboard_arrow_right_outlined,
                                           toolTip: 'next',
                                           onTap: () {
                                             provider.setPage('next');
@@ -310,7 +357,8 @@ class _UsersPageState extends State<UsersPage> {
                                         ),
                                         const SizedBox(width: 2),
                                         CustomIconButton(
-                                          icon: Icons.keyboard_double_arrow_right,
+                                          icon:
+                                              Icons.keyboard_double_arrow_right,
                                           toolTip: 'end',
                                           onTap: () {
                                             provider.setPage('end');
@@ -324,9 +372,15 @@ class _UsersPageState extends State<UsersPage> {
                               ),
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
+                                  WidgetSpan(
+                                      child: Icon(Icons.local_offer_outlined,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(text: 'ROLE', style: AppTheme.of(context).encabezadoTablas)
+                                  TextSpan(
+                                      text: 'ROLE',
+                                      style:
+                                          AppTheme.of(context).encabezadoTablas)
                                 ]),
                                 backgroundColor: const Color(0XFF6491F7),
                                 title: 'ROLE',
@@ -341,20 +395,31 @@ class _UsersPageState extends State<UsersPage> {
                                   return Container(
                                     height: rowHeight,
                                     // width: rendererContext.cell.column.width,
-                                    decoration: BoxDecoration(gradient: whiteGradient),
+                                    decoration:
+                                        BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                         child: Text(
                                       rendererContext.cell.value ?? '-',
-                                      style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                      style: AppTheme.of(context)
+                                          .contenidoTablas
+                                          .override(
+                                              fontFamily: 'Gotham-Regular',
+                                              useGoogleFonts: false),
                                     )),
                                   );
                                 },
                               ),
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(child: Icon(Icons.alternate_email, color: AppTheme.of(context).primaryBackground)),
+                                  WidgetSpan(
+                                      child: Icon(Icons.alternate_email,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(text: 'EMAIL', style: AppTheme.of(context).encabezadoTablas)
+                                  TextSpan(
+                                      text: 'EMAIL',
+                                      style:
+                                          AppTheme.of(context).encabezadoTablas)
                                 ]),
                                 backgroundColor: const Color(0XFF6491F7),
                                 title: 'EMAIL',
@@ -369,20 +434,31 @@ class _UsersPageState extends State<UsersPage> {
                                   return Container(
                                     height: rowHeight,
                                     // width: rendererContext.cell.column.width,
-                                    decoration: BoxDecoration(gradient: whiteGradient),
+                                    decoration:
+                                        BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                         child: Text(
                                       rendererContext.cell.value ?? '-',
-                                      style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                      style: AppTheme.of(context)
+                                          .contenidoTablas
+                                          .override(
+                                              fontFamily: 'Gotham-Regular',
+                                              useGoogleFonts: false),
                                     )),
                                   );
                                 },
                               ),
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(child: Icon(Icons.phone_outlined, color: AppTheme.of(context).primaryBackground)),
+                                  WidgetSpan(
+                                      child: Icon(Icons.phone_outlined,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(text: 'MOBILE PHONE', style: AppTheme.of(context).encabezadoTablas)
+                                  TextSpan(
+                                      text: 'MOBILE PHONE',
+                                      style:
+                                          AppTheme.of(context).encabezadoTablas)
                                 ]),
                                 backgroundColor: const Color(0XFF6491F7),
                                 title: 'MOBILE PHONE',
@@ -397,20 +473,31 @@ class _UsersPageState extends State<UsersPage> {
                                   return Container(
                                     height: rowHeight,
                                     // width: rendererContext.cell.column.width,
-                                    decoration: BoxDecoration(gradient: whiteGradient),
+                                    decoration:
+                                        BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                         child: Text(
                                       rendererContext.cell.value ?? '-',
-                                      style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                      style: AppTheme.of(context)
+                                          .contenidoTablas
+                                          .override(
+                                              fontFamily: 'Gotham-Regular',
+                                              useGoogleFonts: false),
                                     )),
                                   );
                                 },
                               ),
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
-                                  WidgetSpan(child: Icon(Icons.location_on_outlined, color: AppTheme.of(context).primaryBackground)),
+                                  WidgetSpan(
+                                      child: Icon(Icons.location_on_outlined,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
-                                  TextSpan(text: 'STATE', style: AppTheme.of(context).encabezadoTablas)
+                                  TextSpan(
+                                      text: 'STATE',
+                                      style:
+                                          AppTheme.of(context).encabezadoTablas)
                                 ]),
                                 backgroundColor: const Color(0XFF6491F7),
                                 title: 'STATE',
@@ -425,11 +512,16 @@ class _UsersPageState extends State<UsersPage> {
                                   return Container(
                                     height: rowHeight,
                                     // width: rendererContext.cell.column.width,
-                                    decoration: BoxDecoration(gradient: whiteGradient),
+                                    decoration:
+                                        BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                         child: Text(
                                       rendererContext.cell.value ?? '-',
-                                      style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                      style: AppTheme.of(context)
+                                          .contenidoTablas
+                                          .override(
+                                              fontFamily: 'Gotham-Regular',
+                                              useGoogleFonts: false),
                                     )),
                                   );
                                 },
@@ -471,6 +563,108 @@ class _UsersPageState extends State<UsersPage> {
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
                                   WidgetSpan(
+                                      child: Icon(Icons.warehouse_outlined,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(
+                                      text: 'Status',
+                                      style: TextStyle(
+                                          color: AppTheme.of(context)
+                                              .primaryBackground))
+                                ]),
+                                backgroundColor: const Color(0XFF6491F7),
+                                title: 'Status',
+                                field: 'STATUS_Column',
+                                width: 200,
+                                titleTextAlign: PlutoColumnTextAlign.start,
+                                textAlign: PlutoColumnTextAlign.center,
+                                type: PlutoColumnType.text(),
+                                enableEditingMode: false,
+                                cellPadding: EdgeInsets.zero,
+                                renderer: (rendererContext) {
+                                  return Container(
+                                    height: rowHeight,
+                                    width: rendererContext.cell.column.width,
+                                    decoration:
+                                        BoxDecoration(gradient: whiteGradient),
+                                    child: Center(
+                                        child: Text(
+                                            rendererContext.cell.value ?? '-')),
+                                  );
+                                },
+                              ),
+                              PlutoColumn(
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(
+                                      child: Icon(Icons.warehouse_outlined,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(
+                                      text: 'License',
+                                      style: TextStyle(
+                                          color: AppTheme.of(context)
+                                              .primaryBackground))
+                                ]),
+                                backgroundColor: const Color(0XFF6491F7),
+                                title: 'License',
+                                field: 'LICENSE_Column',
+                                width: 200,
+                                titleTextAlign: PlutoColumnTextAlign.start,
+                                textAlign: PlutoColumnTextAlign.center,
+                                type: PlutoColumnType.text(),
+                                enableEditingMode: false,
+                                cellPadding: EdgeInsets.zero,
+                                renderer: (rendererContext) {
+                                  return Container(
+                                    height: rowHeight,
+                                    width: rendererContext.cell.column.width,
+                                    decoration:
+                                        BoxDecoration(gradient: whiteGradient),
+                                    child: Center(
+                                        child: Text(
+                                            rendererContext.cell.value ?? '-')),
+                                  );
+                                },
+                              ),
+                              PlutoColumn(
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(
+                                      child: Icon(Icons.warehouse_outlined,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(
+                                      text: 'Certification',
+                                      style: TextStyle(
+                                          color: AppTheme.of(context)
+                                              .primaryBackground))
+                                ]),
+                                backgroundColor: const Color(0XFF6491F7),
+                                title: 'Certification',
+                                field: 'CERTIFICATION_Column',
+                                width: 200,
+                                titleTextAlign: PlutoColumnTextAlign.start,
+                                textAlign: PlutoColumnTextAlign.center,
+                                type: PlutoColumnType.text(),
+                                enableEditingMode: false,
+                                cellPadding: EdgeInsets.zero,
+                                renderer: (rendererContext) {
+                                  return Container(
+                                    height: rowHeight,
+                                    width: rendererContext.cell.column.width,
+                                    decoration:
+                                        BoxDecoration(gradient: whiteGradient),
+                                    child: Center(
+                                        child: Text(
+                                            rendererContext.cell.value ?? '-')),
+                                  );
+                                },
+                              ),
+                              PlutoColumn(
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(
                                     child: Icon(Icons.list,
                                         color: AppTheme.of(context)
                                             .primaryBackground),
@@ -480,7 +674,9 @@ class _UsersPageState extends State<UsersPage> {
                                   ),
                                   TextSpan(
                                     text: 'ACTIONS',
-                                    style: TextStyle(color: AppTheme.of(context).primaryBackground),
+                                    style: TextStyle(
+                                        color: AppTheme.of(context)
+                                            .primaryBackground),
                                   )
                                 ]),
                                 backgroundColor: const Color(0XFF6491F7),
@@ -499,15 +695,18 @@ class _UsersPageState extends State<UsersPage> {
                                   return Container(
                                     height: rowHeight,
                                     // width: rendererContext.cell.column.width,
-                                    decoration: BoxDecoration(gradient: whiteGradient),
+                                    decoration:
+                                        BoxDecoration(gradient: whiteGradient),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         CustomTextIconButton(
                                           isLoading: false,
                                           icon: Icon(
                                             Icons.fact_check_outlined,
-                                            color: AppTheme.of(context).primaryBackground,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground,
                                           ),
                                           text: 'Edit',
                                           onTap: () async {
@@ -539,7 +738,8 @@ class _UsersPageState extends State<UsersPage> {
                                           isLoading: false,
                                           icon: Icon(
                                             Icons.shopping_basket_outlined,
-                                            color: AppTheme.of(context).primaryBackground,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground,
                                           ),
                                           color: secondaryColor,
                                           text: 'Delete',

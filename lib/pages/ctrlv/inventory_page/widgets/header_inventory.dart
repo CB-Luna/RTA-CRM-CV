@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/archive_pop_up.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 
@@ -143,6 +144,20 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
               color: AppTheme.of(context).primaryColor,
               onTap: () {
                 provider.excelActivityReports();
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, top: 10),
+            child: CustomTextIconButton(
+              width: 96,
+              isLoading: false,
+              icon: Icon(Icons.archive_outlined,
+                  color: AppTheme.of(context).primaryBackground),
+              text: 'Archive',
+              color: AppTheme.of(context).primaryColor,
+              onTap: () async {
+                await provider.UpdateStatusVehicle();
               },
             ),
           ),
