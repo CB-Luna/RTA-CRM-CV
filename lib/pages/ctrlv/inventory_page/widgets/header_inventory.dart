@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/archive_pop_up.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 
@@ -161,21 +160,20 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
               },
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 11.0),
-          //   child: SizedBox(
-          //     width: MediaQuery.of(context).size.width * 0.1,
-          //     child: CustomTextIconButton(
-          //       isLoading: false,
-          //       icon: Icon(Icons.download_outlined,
-          //           color: AppTheme.of(context).primaryBackground),
-          //       text: 'Export Data',
-          //       onTap: () {
-          //         provider.excelActivityReports();
-          //       },
-          //     ),
-          //   ),
-          // )
+          Padding(
+            padding: const EdgeInsets.only(left: 10, top: 10),
+            child: CustomTextIconButton(
+              width: 96,
+              isLoading: false,
+              icon: Icon(Icons.open_in_browser_outlined,
+                  color: AppTheme.of(context).primaryBackground),
+              text: 'Active',
+              color: AppTheme.of(context).primaryColor,
+              onTap: () async {
+                await provider.updateState();
+              },
+            ),
+          ),
         ],
       ),
     );

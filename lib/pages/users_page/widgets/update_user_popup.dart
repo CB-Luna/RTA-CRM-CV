@@ -257,9 +257,12 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                 ),
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.refresh_outlined,
+                  icon: Icon(Icons.exit_to_app_outlined,
                       color: AppTheme.of(context).primaryBackground),
-                  text: 'Refresh',
+                  text: 'Exit',
+                  onTap: () {
+                    context.pop();
+                  },
                 ),
               ],
             )

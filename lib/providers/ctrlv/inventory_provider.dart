@@ -11,6 +11,7 @@ import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/company_api.dart';
 import 'package:rta_crm_cv/models/issues_comments.dart';
+import 'package:rta_crm_cv/models/issues_open_close.dart';
 import 'package:rta_crm_cv/models/status_api.dart';
 import 'package:rta_crm_cv/models/vehicle.dart';
 import 'package:excel/excel.dart';
@@ -87,12 +88,16 @@ class InventoryProvider extends ChangeNotifier {
   List<StatusApi> status = [];
   List<Vehicle> vehicles = [];
   List<Issues> issues = [];
+  List<BucketInspection> issuePart1 = [];
+  List<BucketInspection> issuePartD = [];
+
   List<VehicleDash> vehicleArchive = [];
   List<IssuesXUser> issuesxUser = [];
 //------------------------------------------
 
   // Listas R
   List<IssuesComments> bucketInspectionR = [];
+  List<IssueOpenclose> bucketInspectionRR = [];
   List<IssuesComments> carBodyWorkR = [];
   List<IssuesComments> equipmentR = [];
   List<IssuesComments> extraR = [];
@@ -423,6 +428,17 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   bool bandera1 = true;
+  //---------------------------------------------
+  Future<void> changeStatusInventory(Vehicle vehicle) async {
+    try {
+      await supabaseCtrlV
+          .from("vehicle")
+          .update({'id_status_fk': 4}).eq('id_vehicle', vehicle.idVehicle);
+    } catch (e) {
+      print("Error in changeStatusInventory() - $e");
+    }
+    notifyListeners();
+  }
 
   //---------------------------------------------
   Future<void> getInventory() async {
@@ -650,9 +666,110 @@ class InventoryProvider extends ChangeNotifier {
     }
   }
 
-  //---------------------------------------------
-  Future<void> getIssues(IssuesXUser issuesXUser) async {
-    // Limpiar listas
+  // --------------------------------------------
+  Future<void> getIssuesBasics(IssuesXUser issuesXUser) async {
+    clearListgetIssues();
+
+    try {
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'bucket_inspection_r ->id_bucket_inspection, bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner, bucket_inspection_r ->date_added')
+          // Si pongo   'bucket_inspection_r ->holes_drilled ->"Bad" me marca Bad y no holes_drilled
+          // .select(
+          // ' id_vehicle,id_control_form, issues_r,issues_d, id_bucket_inspection_r_fk , car_bodywork_r->, equiment_r,user_profile,extra_r,fluid_check_r,lights_r,measure_r,security_r,bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner')
+          //.eq('bucket_inspection_r ->holes_drilled', 'Bad')
+          // .match({
+          //   'bucket_inspection_r ->holes_drilled': 'bad',
+          //   'bucket_inspection_r ->insulated': 'bad',
+          //   'bucket_inspection_r ->bucket_liner': 'bad',
+          // })
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'bucket_inspection_d ->id_bucket_inspection, bucket_inspection_d ->holes_drilled,bucket_inspection_d ->insulated, bucket_inspection_d ->bucket_liner, bucket_inspection_d ->date_added')
+          // Si pongo   'bucket_inspection_r ->holes_drilled ->"Bad" me marca Bad y no holes_drilled
+          // .select(
+          // ' id_vehicle,id_control_form, issues_r,issues_d, id_bucket_inspection_r_fk , car_bodywork_r->, equiment_r,user_profile,extra_r,fluid_check_r,lights_r,measure_r,security_r,bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner')
+          //.eq('bucket_inspection_r ->holes_drilled', 'Bad')
+          // .match({
+          //   'bucket_inspection_r ->holes_drilled': 'bad',
+          //   'bucket_inspection_r ->insulated': 'bad',
+          //   'bucket_inspection_r ->bucket_liner': 'bad',
+          // })
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+      print(res);
+
+      issuePart1 = (res as List<dynamic>)
+          .map(
+              (issuePart1) => BucketInspection.fromJson(jsonEncode(issuePart1)))
+          .toList();
+      for (BucketInspection issue in issuePart1) {
+        // BucketInspectionR
+        if (issue.holesDrilled == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idBucketInspection: issue.idBucketInspection!,
+              nameIssue: "Holes Drilled",
+              dateAddedOpen: issue.dateAdded!);
+          bucketInspectionRR.add(newIssueComments);
+        }
+        if (issue.bucketLiner == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idBucketInspection: issue.idBucketInspection!,
+              nameIssue: "Bucket Liner",
+              dateAddedOpen: issue.dateAdded!);
+          bucketInspectionRR.add(newIssueComments);
+        }
+        if (issue.insulated == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idBucketInspection: issue.idBucketInspection!,
+              nameIssue: "Insulated",
+              dateAddedOpen: issue.dateAdded!);
+          bucketInspectionRR.add(newIssueComments);
+        }
+        menuIssuesReceivedA.update(0, (value) => bucketInspectionRR);
+      }
+      for (BucketInspection issue in issuePart1) {
+        // BucketInspectionR
+        if (issue.holesDrilled == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idBucketInspection: issue.idBucketInspection!,
+              nameIssue: "Holes Drilled",
+              dateAddedOpen: issue.dateAdded!);
+          bucketInspectionRR.add(newIssueComments);
+        }
+        if (issue.bucketLiner == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idBucketInspection: issue.idBucketInspection!,
+              nameIssue: "Bucket Liner",
+              dateAddedOpen: issue.dateAdded!);
+          bucketInspectionRR.add(newIssueComments);
+        }
+        if (issue.insulated == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idBucketInspection: issue.idBucketInspection!,
+              nameIssue: "Insulated",
+              dateAddedOpen: issue.dateAdded!);
+          bucketInspectionRR.add(newIssueComments);
+        }
+        menuIssuesReceivedA.update(0, (value) => bucketInspectionRR);
+      }
+      print("BucketInspectionRR: ${bucketInspectionRR.length}");
+
+      print("Entro a getIssuesBasics");
+    } catch (e) {
+      print("Error in getIssuesBasics() - $e");
+    }
+  }
+
+  // --------------------------------------------
+  void clearListgetIssues() {
     bucketInspectionR.clear();
     bucketInspectionD.clear();
     carBodyWorkR.clear();
@@ -669,6 +786,12 @@ class InventoryProvider extends ChangeNotifier {
     measureD.clear();
     securityR.clear();
     securityD.clear();
+  }
+
+  //---------------------------------------------
+  Future<void> getIssues(IssuesXUser issuesXUser) async {
+    // Limpiar listas
+    clearListgetIssues();
     print("ENTRO EN GET ISSUES");
     //
     try {
@@ -679,14 +802,6 @@ class InventoryProvider extends ChangeNotifier {
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      // .match({
-      //   'id_vehicle': issuesXUser.idVehicleFk,
-      //   'id_user_fk': issuesXUser.userProfileId,
-      // })
-      // .neq('issues_r', '0')
-      // .neq('issues_d', '0');
-
-      // AQUI está el fallo
       issues = (res as List<dynamic>)
           .map((issues) => Issues.fromJson(jsonEncode(issues)))
           .toList();
@@ -1181,6 +1296,47 @@ class InventoryProvider extends ChangeNotifier {
     // "Measures": [], // 6
     // "Security": [], // 7
   };
+  //---------------------------------------------
+  Map<int, List<IssueOpenclose>> menuIssuesReceivedA = {
+    0: [], //  0
+    1: [], //  1
+    2: [], //  2
+    3: [], //  3
+    4: [], //  4
+    5: [], //  5
+    6: [], // 6
+    7: [], // 7
+
+    // "Bucket Inspection": [], //  0
+    // "Car BodyWork": [], //  1
+    // "Equipment": [], //  2
+    // "Extra": [], //  3P
+    // "Fluids Check": [], //  4
+    // "Lights": [], //  5
+    // "Measures": [], // 6
+    // "Security": [], // 7
+  };
+  //---------------------------------------------
+  Map<int, List<IssueOpenclose>> menuIssuesReceivedr = {
+    0: [], //  0
+    1: [], //  1
+    2: [], //  2
+    3: [], //  3
+    4: [], //  4
+    5: [], //  5
+    6: [], // 6
+    7: [], // 7
+
+    // "Bucket Inspection": [], //  0
+    // "Car BodyWork": [], //  1
+    // "Equipment": [], //  2
+    // "Extra": [], //  3P
+    // "Fluids Check": [], //  4
+    // "Lights": [], //  5
+    // "Measures": [], // 6
+    // "Security": [], // 7
+  };
+
   Map<int, List<IssuesComments>> menuIssuesReceivedT = {
     // 0: [], //  0
     // 1: [], //  1

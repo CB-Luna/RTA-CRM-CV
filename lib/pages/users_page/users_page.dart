@@ -78,6 +78,36 @@ class _UsersPageState extends State<UsersPage> {
                                   .setShowColumnFilter(
                                       !provider.stateManager!.showColumnFilter),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10, top: 10),
+                              child: CustomTextIconButton(
+                                width: 96,
+                                isLoading: false,
+                                icon: Icon(Icons.archive_outlined,
+                                    color:
+                                        AppTheme.of(context).primaryBackground),
+                                text: 'Archive',
+                                color: AppTheme.of(context).primaryColor,
+                                onTap: () async {
+                                  await provider.getUsersNotActive();
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10, top: 10),
+                              child: CustomTextIconButton(
+                                width: 96,
+                                isLoading: false,
+                                icon: Icon(Icons.open_in_browser_outlined,
+                                    color:
+                                        AppTheme.of(context).primaryBackground),
+                                text: 'Active',
+                                color: AppTheme.of(context).primaryColor,
+                                onTap: () async {
+                                  await provider.updateState();
+                                },
+                              ),
+                            ),
                             CustomTextField(
                               enabled: true,
                               controller: provider.searchController,
@@ -535,9 +565,8 @@ class _UsersPageState extends State<UsersPage> {
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
                                       text: 'COMPANY',
-                                      style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .primaryBackground))
+                                      style:
+                                          AppTheme.of(context).encabezadoTablas)
                                 ]),
                                 backgroundColor: const Color(0XFF6491F7),
                                 title: 'COMPANY',
@@ -569,9 +598,8 @@ class _UsersPageState extends State<UsersPage> {
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
                                       text: 'Status',
-                                      style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .primaryBackground))
+                                      style:
+                                          AppTheme.of(context).encabezadoTablas)
                                 ]),
                                 backgroundColor: const Color(0XFF6491F7),
                                 title: 'Status',
@@ -603,9 +631,8 @@ class _UsersPageState extends State<UsersPage> {
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
                                       text: 'License',
-                                      style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .primaryBackground))
+                                      style:
+                                          AppTheme.of(context).encabezadoTablas)
                                 ]),
                                 backgroundColor: const Color(0XFF6491F7),
                                 title: 'License',
@@ -637,9 +664,8 @@ class _UsersPageState extends State<UsersPage> {
                                   const WidgetSpan(child: SizedBox(width: 10)),
                                   TextSpan(
                                       text: 'Certification',
-                                      style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .primaryBackground))
+                                      style:
+                                          AppTheme.of(context).encabezadoTablas)
                                 ]),
                                 backgroundColor: const Color(0XFF6491F7),
                                 title: 'Certification',

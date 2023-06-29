@@ -87,9 +87,7 @@ class _DeletePopUpState extends State<DeletePopUp> {
                     text: 'Archive',
                     color: AppTheme.of(context).primaryColor,
                     onTap: () async {
-                      // provider.deleteVehicle(widget.vehicle);
-
-                      // provider.updateState();
+                      provider.changeStatusInventory(widget.vehicle);
                     },
                   ),
                 ],
