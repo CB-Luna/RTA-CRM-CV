@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
+import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+
+import '../../../../providers/ctrlv/monitory_provider.dart';
 
 class MonitoryFiltersWidget extends StatefulWidget {
   const MonitoryFiltersWidget({Key? key}) : super(key: key);
@@ -30,6 +33,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
     // final SeguimientoFacturasProvider provider =
     //     Provider.of<SeguimientoFacturasProvider>(context);
 
+    MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
     return Column(
       children: [
         //Información de colores
@@ -49,7 +53,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                         height: 30,
                         width: 30,
                         decoration: BoxDecoration(
-                          color: AppTheme.of(context).secondaryColor,
+                          color: AppTheme.of(context).primaryColor,
                           borderRadius: BorderRadius.circular(50),
                         ),
                       ),
@@ -77,7 +81,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                         height: 30,
                         width: 30,
                         decoration: BoxDecoration(
-                          color: AppTheme.of(context).primaryColor,
+                          color: AppTheme.of(context).secondaryColor,
                           borderRadius: BorderRadius.circular(50),
                         ),
                       ),
@@ -105,7 +109,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                         height: 30,
                         width: 30,
                         decoration: BoxDecoration(
-                          color: AppTheme.of(context).primaryText,
+                          color: Color.fromRGBO(255, 138, 0, 1),
                           borderRadius: BorderRadius.circular(50),
                         ),
                       ),
@@ -131,10 +135,10 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
             Padding(
               padding: const EdgeInsets.only(right: 5),
               child: EstatusWidget(
-                numRegisters: 0,
+                numRegisters: provider.numCheckOutCRY,
                 text: 'Check Out CRY',
                 isTaped: false,
-                color: AppTheme.of(context).secondaryColor,
+                color: AppTheme.of(context).primaryColor,
                 onTap: () async {
                   // provider.seleccionado(14);
                   // provider.estatusFiltrado = 'Confirmación de Selección';
@@ -145,10 +149,10 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: EstatusWidget(
-                numRegisters: 0,
+                numRegisters: provider.numCheckOutODE,
                 text: 'Check Out ODE',
                 isTaped: false,
-                color: AppTheme.of(context).primaryColor,
+                color: AppTheme.of(context).secondaryColor,
                 onTap: () async {
                   // provider.seleccionado(1);
                   // provider.estatusFiltrado = 'NC Pendiente';
@@ -159,10 +163,10 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: EstatusWidget(
-                numRegisters: 0,
+                numRegisters: provider.numCheckOutSMI,
                 text: 'Check Out SMI',
                 isTaped: false,
-                color: AppTheme.of(context).primaryText,
+                color: Color.fromRGBO(255, 138, 0, 1),
                 onTap: () async {
                   // provider.seleccionado(2);
                   // provider.estatusFiltrado = 'NC Recibida';
@@ -174,7 +178,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
                 width: 40,
-                height: 2,
+                height: 6,
                 color: AppTheme.of(context).tertiaryColor,
               ),
             ),
@@ -194,20 +198,8 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
             Padding(
               padding: const EdgeInsets.only(right: 5),
               child: EstatusWidget(
-                numRegisters: 0,
+                numRegisters: provider.numCheckInCRY,
                 text: 'Check In CRY',
-                isTaped: false,
-                color: AppTheme.of(context).secondaryColor,
-                onTap: () async {
-                  
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: EstatusWidget(
-                numRegisters: 0,
-                text: 'Check In ODE',
                 isTaped: false,
                 color: AppTheme.of(context).primaryColor,
                 onTap: () async {
@@ -218,10 +210,22 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: EstatusWidget(
-                numRegisters: 0,
+                numRegisters: provider.numCheckInODE,
+                text: 'Check In ODE',
+                isTaped: false,
+                color: AppTheme.of(context).secondaryColor,
+                onTap: () async {
+                  
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: EstatusWidget(
+                numRegisters: provider.numCheckInSMI,
                 text: 'Check In SMI',
                 isTaped: false,
-                color: AppTheme.of(context).primaryText,
+                color: Color.fromRGBO(255, 138, 0, 1),
                 onTap: () async {
                   
                 },
@@ -231,7 +235,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
                 width: 40,
-                height: 2,
+                height: 6,
                 color: AppTheme.of(context).alternate,
               ),
             ),

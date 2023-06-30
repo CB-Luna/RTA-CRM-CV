@@ -29,14 +29,25 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            width: 200,
-            child: CustomTextIconButton(
-              isLoading: false,
-              icon: Icon(Icons.download_outlined, color: AppTheme.of(context).primaryBackground),
-              text: 'Export Data',
-              onTap: () {
-                provider.excelActivityReports();
-              },
+            width: 300,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomTextIconButton(
+                  isLoading: false,
+                  icon: Icon(Icons.download_outlined, color: AppTheme.of(context).primaryBackground),
+                  text: 'Export Data',
+                  onTap: () {
+                    provider.excelActivityReports();
+                  },
+                ),
+                CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                              text: 'Filter',
+                              onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+                            ),
+              ],
             ),
           )
         ],

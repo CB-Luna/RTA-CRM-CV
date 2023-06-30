@@ -7,17 +7,24 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 
-class Calendario extends StatelessWidget {
+class Calendario extends StatefulWidget {
   const Calendario({super.key});
 
+  @override
+  State<Calendario> createState() => _CalendarioState();
+}
+
+class _CalendarioState extends State<Calendario> {
   @override
   Widget build(BuildContext context) {
     MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
 
     return Column(
       children: [
+        
         Expanded(
           child: SfCalendar(
+            controller: provider.calendarController,
             // onTap: (calendarTapDetails) {
             //   provider.updateActualDate(calendarTapDetails.date!);
             //   print("Actual Date es: ${provider.actualDate}");
@@ -40,6 +47,7 @@ class Calendario extends StatelessWidget {
             ),
             showWeekNumber: true,
             monthViewSettings: const MonthViewSettings(
+              agendaStyle: AgendaStyle(),
               agendaItemHeight: 60,
               appointmentDisplayCount: 10,
               showAgenda: true,
@@ -53,6 +61,7 @@ class Calendario extends StatelessWidget {
               fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
               color: AppTheme.of(context).primaryText
             ),
+            
             ),
             weekNumberStyle: WeekNumberStyle(
               textStyle: TextStyle(
@@ -63,6 +72,7 @@ class Calendario extends StatelessWidget {
               color: AppTheme.of(context).primaryText
             ),
             ),
+            onSelectionChanged: (calendarSelectionDetails) => provider.getAppointmentsByDate(),
             view: CalendarView.month,
             firstDayOfWeek: 1,
             dataSource: MeetingDataSource(provider.meet),
@@ -91,17 +101,22 @@ class MeetingDataSource extends CalendarDataSource {
   }
 }
 
-class CustomAppointmentView extends StatelessWidget {
+class CustomAppointmentView extends StatefulWidget {
   final Appointment appointment;
   final Monitory monitory;
 
   const CustomAppointmentView(this.appointment, this.monitory);
 
   @override
+  State<CustomAppointmentView> createState() => _CustomAppointmentViewState();
+}
+
+class _CustomAppointmentViewState extends State<CustomAppointmentView> {
+  @override
   Widget build(BuildContext context) {
 
     //CEHCAR EL ULTIMO LUGAR DE LA CADENA SUBJECT Y PONER SOLO HORAS DE ENTRADA EN R y SALIDA EN D
-    String tipo = appointment.subject.endsWith("R") ? "R" : "D";
+    String tipo = widget.appointment.subject.endsWith("R") ? "R" : "D";
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.of(context).gris,
@@ -129,10 +144,10 @@ class CustomAppointmentView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "${appointment.subject.
-                  substring(0,appointment
+                "${widget.appointment.subject.
+                  substring(0,widget.appointment
                   .subject.length - 2)} ${DateFormat("hh:mm a")
-                  .format(appointment.startTime)}",
+                  .format(widget.appointment.startTime)}",
                 style: TextStyle(
                   fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                   fontSize: AppTheme.of(context).bodyText1.fontSize,
@@ -149,14 +164,14 @@ class CustomAppointmentView extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: appointment.color,
+                        color: widget.appointment.color,
                       ),
                       width: 10,
                       height: 10,
                     ),
                   ),
                   Text(
-                    monitory.vehicle.licesensePlates,
+                    widget.monitory.vehicle.licesensePlates,
                     style: TextStyle(
                       fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                       fontSize: AppTheme.of(context).bodyText1.fontSize,
@@ -190,7 +205,7 @@ class CustomAppointmentView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Image.network(
-                monitory.vehicle.image,
+                widget.monitory.vehicle.image,
                 fit: BoxFit.cover,
               ),
             ),

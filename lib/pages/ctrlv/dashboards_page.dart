@@ -383,7 +383,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
         x: 0,
         barRods: [
           BarChartRodData(
-            toY:provider.issuesSmi.toDouble(),//providerIssue.issuesSmi.toDouble(),
+            toY:provider.issuesSmi.toDouble(),
             color: AppTheme.of(context).secondaryColor,
           ),
           BarChartRodData(

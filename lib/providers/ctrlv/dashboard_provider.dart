@@ -43,11 +43,8 @@ class DashboardCVProvider extends ChangeNotifier {
               .from('vehicle')
               .select()
               .eq('id_vehicle', issue!.idVehicle);
-          //print("resp ${resp.toString()}");
-          //print(jsonEncode(resp.toString()));
           if (resp != null) {
             final listVehicle = resp as List<dynamic>;
-           // print(listVehicle[0].toString());
             final vehicle = VehicleDash.fromJson(jsonEncode(listVehicle[0]));
             if (vehicle.company == 3) {
               if (issue!.issuesD != null) {

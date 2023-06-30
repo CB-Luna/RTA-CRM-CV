@@ -181,23 +181,6 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                       children: [
                                                         Text(rendererContext
                                                             .cell.value),
-                                                        ElevatedButton(
-                                                            onPressed: () {
-                                                              showDialog(
-                                                                  context: context,
-                                                                  builder:
-                                                                      (BuildContext
-                                                                          context) {
-                                                                    return StatefulBuilder(
-                                                                        builder:
-                                                                            (context,
-                                                                                setState) {
-                                                                      return const LicenseHistory();
-                                                                    });
-                                                                  });
-                                                            },
-                                                            child: const Icon(Icons
-                                                                .remove_red_eye_outlined)),
                                                       ],
                                                     ),
                                                   );
