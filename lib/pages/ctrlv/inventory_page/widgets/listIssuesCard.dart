@@ -6,19 +6,14 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/issues_comments.dart';
+import '../../../../models/issues_open_close.dart';
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 
 class ListIssuesCard extends StatefulWidget {
-  final List<IssuesComments> issuesComments;
-  final List<IssuesComments> issuesCommentsD;
-  final int index;
-  const ListIssuesCard(
-      {super.key,
-      required this.issuesComments,
-      required this.index,
-      required this.issuesCommentsD});
+  final List<IssueOpenclose> issuesComments;
+  const ListIssuesCard({super.key, required this.issuesComments});
 
   @override
   State<ListIssuesCard> createState() => _ListIssuesCardState();
@@ -28,8 +23,11 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-    return SizedBox(
-        height: 420,
+    return Container(
+        margin: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(20)),
+        height: 300,
         child: Column(
           children: [
             Container(
@@ -38,22 +36,21 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                 // Este issue es el nombre
                 child: Row(
                   children: [
-                    Text(
-                      provider.titulosIssue[widget.index],
-                      style: TextStyle(
-                          fontFamily:
-                              AppTheme.of(context).encabezadoTablas.fontFamily,
-                          fontSize:
-                              AppTheme.of(context).encabezadoTablas.fontSize,
-                          fontStyle:
-                              AppTheme.of(context).encabezadoTablas.fontStyle,
-                          fontWeight:
-                              AppTheme.of(context).encabezadoTablas.fontWeight,
-                          color: AppTheme.of(context).primaryText),
-                    ),
                     Padding(
                       padding: const EdgeInsets.only(left: 60.0),
                       child: Row(children: [
+                        Text(
+                          "Name Issue",
+                          style: TextStyle(
+                              color: AppTheme.of(context).contenidoTablas.color,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          width: 120,
+                        ),
                         Text(
                           "Issue Open",
                           style: TextStyle(
@@ -126,8 +123,8 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                   children: [
                                     Text(
                                       DateFormat("MMM/dd/yyyy hh:mm:ss").format(
-                                          widget
-                                              .issuesComments[index].dateAdded),
+                                          widget.issuesComments[index]
+                                              .dateAddedOpen),
                                       style: TextStyle(
                                         color: AppTheme.of(context)
                                             .contenidoTablas
@@ -154,8 +151,8 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                   text: '',
                                   color: AppTheme.of(context).primaryColor,
                                   onTap: () async {
-                                    provider.selectIssuesComments(
-                                        widget.issuesComments[index]);
+                                    // provider.selectIssuesComments(
+                                    //     widget.issuesComments[index]);
                                     provider.cambiosVistaPhotosComments();
                                     provider.setIssueViewActual(2);
                                   },
@@ -176,119 +173,119 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    //color: const Color(0XFF25A531),
-                    height: 120,
-                    width: 850,
-                    child: ListView.builder(
-                      itemCount: widget.issuesCommentsD.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                width: 150,
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Column(
-                                  children: [
-                                    // Text(
-                                    //     "•${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")}"),
-                                    Text(
-                                      "•${widget.issuesCommentsD[index].nameIssue.capitalize.replaceAll("_", " ")}",
-                                      style: TextStyle(
-                                        color: const Color(0XFF25A531),
-                                        fontFamily: 'Bicyclette-Thin',
-                                        fontSize: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .fontSize,
-                                      ),
-                                      // style: const TextStyle(
-                                      //     color: Color(0XFF25A531)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 50,
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      DateFormat("MMM/dd/yyyy hh:mm:ss").format(
-                                          widget.issuesCommentsD[index]
-                                              .dateAdded),
-                                      style: TextStyle(
-                                        color: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .color,
-                                        fontFamily: 'Bicyclette-Thin',
-                                        fontSize: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .fontSize,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 70),
-                                    Text(
-                                      "Jun/12/2023",
-                                      // DateFormat("MMM/dd/yyyy hh:mm:ss").format(
-                                      //     widget.issuesCommentsD[index]
-                                      //         .dateAdded),
-                                      style: TextStyle(
-                                        color: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .color,
-                                        fontFamily: 'Bicyclette-Thin',
-                                        fontSize: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .fontSize,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const Spacer(),
-                              Container(
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.only(right: 10),
-                                child: Center(
-                                  child: CustomTextIconButton(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    width: 80,
-                                    isLoading: false,
-                                    icon: Icon(Icons.remove_red_eye_outlined,
-                                        color: AppTheme.of(context)
-                                            .primaryBackground),
-                                    text: ' ',
-                                    color: AppTheme.of(context).primaryColor,
-                                    onTap: () async {
-                                      provider.selectIssuesComments(
-                                          widget.issuesComments[index]);
-                                      provider.cambiosVistaPhotosComments();
-                                      provider.setIssueViewActual(2);
-                                    },
-                                  ),
-                                ),
-                              ),
-                              // ElevatedButton(
-                              //     onPressed: () {
-                              //       provider.selectIssuesComments(
-                              //           widget.issuesCommentsD[index]);
-                              //       provider.cambiosVistaPhotosComments();
-                              //       provider.setIssueViewActual(2);
-                              //     },
-                              //     child:
-                              //         const Icon(Icons.remove_red_eye_outlined))
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  // SizedBox(
+                  //   //color: const Color(0XFF25A531),
+                  //   height: 120,
+                  //   width: 850,
+                  //   child: ListView.builder(
+                  //     itemCount: widget.issuesCommentsD!.length,
+                  //     itemBuilder: (BuildContext context, int index) {
+                  //       return Padding(
+                  //         padding: const EdgeInsets.all(4.0),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //           children: [
+                  //             Container(
+                  //               alignment: Alignment.centerLeft,
+                  //               width: 150,
+                  //               padding: const EdgeInsets.only(left: 10.0),
+                  //               child: Column(
+                  //                 children: [
+                  //                   // Text(
+                  //                   //     "•${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")}"),
+                  //                   Text(
+                  //                     "•${widget.issuesCommentsD![index].nameIssue.capitalize.replaceAll("_", " ")}",
+                  //                     style: TextStyle(
+                  //                       color: const Color(0XFF25A531),
+                  //                       fontFamily: 'Bicyclette-Thin',
+                  //                       fontSize: AppTheme.of(context)
+                  //                           .contenidoTablas
+                  //                           .fontSize,
+                  //                     ),
+                  //                     // style: const TextStyle(
+                  //                     //     color: Color(0XFF25A531)),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //             const SizedBox(
+                  //               width: 50,
+                  //             ),
+                  //             Container(
+                  //               alignment: Alignment.center,
+                  //               child: Row(
+                  //                 children: [
+                  //                   Text(
+                  //                     DateFormat("MMM/dd/yyyy hh:mm:ss").format(
+                  //                         widget.issuesCommentsD![index]
+                  //                             .dateAdded),
+                  //                     style: TextStyle(
+                  //                       color: AppTheme.of(context)
+                  //                           .contenidoTablas
+                  //                           .color,
+                  //                       fontFamily: 'Bicyclette-Thin',
+                  //                       fontSize: AppTheme.of(context)
+                  //                           .contenidoTablas
+                  //                           .fontSize,
+                  //                     ),
+                  //                   ),
+                  //                   const SizedBox(width: 70),
+                  //                   Text(
+                  //                     "Jun/12/2023",
+                  //                     // DateFormat("MMM/dd/yyyy hh:mm:ss").format(
+                  //                     //     widget.issuesCommentsD[index]
+                  //                     //         .dateAdded),
+                  //                     style: TextStyle(
+                  //                       color: AppTheme.of(context)
+                  //                           .contenidoTablas
+                  //                           .color,
+                  //                       fontFamily: 'Bicyclette-Thin',
+                  //                       fontSize: AppTheme.of(context)
+                  //                           .contenidoTablas
+                  //                           .fontSize,
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //             const Spacer(),
+                  //             Container(
+                  //               alignment: Alignment.center,
+                  //               padding: const EdgeInsets.only(right: 10),
+                  //               child: Center(
+                  //                 child: CustomTextIconButton(
+                  //                   mainAxisAlignment: MainAxisAlignment.center,
+                  //                   width: 80,
+                  //                   isLoading: false,
+                  //                   icon: Icon(Icons.remove_red_eye_outlined,
+                  //                       color: AppTheme.of(context)
+                  //                           .primaryBackground),
+                  //                   text: ' ',
+                  //                   color: AppTheme.of(context).primaryColor,
+                  //                   onTap: () async {
+                  //                     // provider.selectIssuesComments(
+                  //                     //     widget.issuesComments[index]);
+                  //                     provider.cambiosVistaPhotosComments();
+                  //                     provider.setIssueViewActual(2);
+                  //                   },
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //             // ElevatedButton(
+                  //             //     onPressed: () {
+                  //             //       provider.selectIssuesComments(
+                  //             //           widget.issuesCommentsD[index]);
+                  //             //       provider.cambiosVistaPhotosComments();
+                  //             //       provider.setIssueViewActual(2);
+                  //             //     },
+                  //             //     child:
+                  //             //         const Icon(Icons.remove_red_eye_outlined))
+                  //           ],
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                 ],
               ),
             )

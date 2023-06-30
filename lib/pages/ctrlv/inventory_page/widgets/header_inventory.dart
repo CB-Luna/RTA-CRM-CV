@@ -146,21 +146,34 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
               },
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 11.0),
-          //   child: SizedBox(
-          //     width: MediaQuery.of(context).size.width * 0.1,
-          //     child: CustomTextIconButton(
-          //       isLoading: false,
-          //       icon: Icon(Icons.download_outlined,
-          //           color: AppTheme.of(context).primaryBackground),
-          //       text: 'Export Data',
-          //       onTap: () {
-          //         provider.excelActivityReports();
-          //       },
-          //     ),
-          //   ),
-          // )
+          Padding(
+            padding: const EdgeInsets.only(left: 10, top: 10),
+            child: CustomTextIconButton(
+              width: 96,
+              isLoading: false,
+              icon: Icon(Icons.archive_outlined,
+                  color: AppTheme.of(context).primaryBackground),
+              text: 'Archive',
+              color: AppTheme.of(context).primaryColor,
+              onTap: () async {
+                await provider.UpdateStatusVehicle();
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, top: 10),
+            child: CustomTextIconButton(
+              width: 96,
+              isLoading: false,
+              icon: Icon(Icons.open_in_browser_outlined,
+                  color: AppTheme.of(context).primaryBackground),
+              text: 'Active',
+              color: AppTheme.of(context).primaryColor,
+              onTap: () async {
+                await provider.updateState();
+              },
+            ),
+          ),
         ],
       ),
     );

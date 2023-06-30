@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/public/colors.dart';
 
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../theme/theme.dart';
@@ -226,39 +227,135 @@ class _ReportedIssuesState extends State<ReportedIssues> {
             SizedBox(
               height: 500,
               width: 850,
-              child: ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: 8,
-                  itemBuilder: (BuildContext context, int index) {
-                    provider.selectIssuesCommentsR(index);
-                    provider.selectIssuesCommentsD(index);
-                    return Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0, right: 10),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    blurRadius: 4,
-                                    color: Colors.grey,
-                                    offset: Offset(10, 10))
-                              ],
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          width: MediaQuery.of(context).size.width,
-                          height: 200,
-                          child: ListIssuesCard(
-                            issuesComments: provider.menuIssuesReceived[index]!,
-                            index: index,
-                            issuesCommentsD:
-                                provider.menuIssuesReceivedD[index]!,
+              child: DefaultTabController(
+                length: 8,
+                initialIndex: 0,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 20,
+                      child: TabBar(
+                        labelStyle: TextStyle(
+                            fontFamily: AppTheme.of(context)
+                                .encabezadoTablas
+                                .fontFamily,
+                            fontSize:
+                                AppTheme.of(context).contenidoTablas.fontSize,
+                            fontStyle:
+                                AppTheme.of(context).encabezadoTablas.fontStyle,
+                            fontWeight: AppTheme.of(context)
+                                .encabezadoTablas
+                                .fontWeight,
+                            color: AppTheme.of(context).primaryText),
+                        unselectedLabelColor: Colors.black,
+                        indicator: BoxDecoration(
+                          color: AppTheme.of(context).primaryColor,
+                          borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(10)),
+                        ),
+                        tabs: const [
+                          Tab(
+                            height: 20,
+                            text: "Bucket Inpection",
                           ),
-                        ));
-                  }),
-            ),
+                          Tab(
+                            height: 20,
+                            text: "Car Bodywork",
+                          ),
+                          Tab(
+                            height: 20,
+                            text: "Equipment",
+                          ),
+                          Tab(
+                            height: 20,
+                            text: "Extra",
+                          ),
+                          Tab(
+                            height: 20,
+                            text: "Fluid Check",
+                          ),
+                          Tab(
+                            height: 20,
+                            text: "Lights",
+                          ),
+                          Tab(
+                            height: 20,
+                            text: "Measures",
+                          ),
+                          Tab(
+                            height: 20,
+                            text: "Security",
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                        child: TabBarView(children: [
+                      ListIssuesCard(
+                          issuesComments: provider.bucketInspectionRR),
+                      Container(
+                        color: Colors.black,
+                      ),
+                      Container(
+                        color: Colors.blue,
+                      ),
+                      Container(
+                        color: Colors.green,
+                      ),
+                      Container(
+                        color: Colors.yellow,
+                      ),
+                      Container(
+                        color: Colors.pink,
+                      ),
+                      Container(
+                        color: Colors.white,
+                      ),
+                      Container(
+                        color: Colors.orange,
+                      ),
+                      // ListIssuesCard(
+                      //   issuesComments: provider.bucketInspectionRR,
+                      //   //index: index,
+                      //   // issuesCommentsD:
+                      //   //     provider.menuIssuesReceivedD[index]!,
+                      // ),
+                    ]))
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
+      // ListView.builder(
+      //     padding: const EdgeInsets.all(8),
+      //     itemCount: 8,
+      //     itemBuilder: (BuildContext context, int index) {
+      //       provider.selectIssuesCommentsR(index);
+      //       provider.selectIssuesCommentsD(index);
+      //       return Padding(
+      //           padding: const EdgeInsets.only(bottom: 20.0, right: 10),
+      //           child: Container(
+      //             decoration: const BoxDecoration(
+      //                 color: Colors.white,
+      //                 boxShadow: [
+      //                   BoxShadow(
+      //                       blurRadius: 4,
+      //                       color: Colors.grey,
+      //                       offset: Offset(10, 10))
+      //                 ],
+      //                 borderRadius:
+      //                     BorderRadius.all(Radius.circular(20))),
+      //             width: MediaQuery.of(context).size.width,
+      //             height: 200,
+      //             child: ListIssuesCard(
+      //               issuesComments: provider.bucketInspectionRR,
+      //               index: index,
+      //               issuesCommentsD:
+      //                   provider.menuIssuesReceivedD[index]!,
+      //             ),
+      //           ));
     );
   }
 }
