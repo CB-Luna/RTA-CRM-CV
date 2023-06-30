@@ -8,20 +8,19 @@ import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 
-class ListIssuesCard extends StatefulWidget {
+class ListIssuesCardD extends StatefulWidget {
   final List<IssueOpenclose> issuesComments;
-  const ListIssuesCard({super.key, required this.issuesComments});
+  const ListIssuesCardD({super.key, required this.issuesComments});
 
   @override
-  State<ListIssuesCard> createState() => _ListIssuesCardState();
+  State<ListIssuesCardD> createState() => _ListIssuesCardDState();
 }
 
-class _ListIssuesCardState extends State<ListIssuesCard> {
+class _ListIssuesCardDState extends State<ListIssuesCardD> {
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-    provider.getIssuesCarBodywork(provider.actualIssueXUser!);
-
+    provider.getIssuesEquipment(provider.actualIssueXUser!);
     return Container(
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -106,7 +105,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                     Text(
                                       "•${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")}",
                                       style: TextStyle(
-                                        color: Colors.orange,
+                                        color: const Color(0XFF25A531),
                                         fontFamily: 'Bicyclette-Thin',
                                         fontSize: AppTheme.of(context)
                                             .contenidoTablas

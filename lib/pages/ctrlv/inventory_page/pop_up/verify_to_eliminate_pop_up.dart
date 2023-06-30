@@ -39,13 +39,28 @@ class _DeletePopUpState extends State<DeletePopUp> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 10),
+                    child: CustomTextIconButton(
+                      width: 96,
+                      isLoading: false,
+                      icon: Icon(Icons.exit_to_app_outlined,
+                          color: AppTheme.of(context).primaryBackground),
+                      text: 'Exit',
+                      color: AppTheme.of(context).primaryColor,
+                      onTap: () async {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      " ¿Are you sure you want to Delete?",
+                      " ¿Are you sure you want to Delete or Archive?",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 28,
+                        fontSize: 20,
                       ),
                     ),
                   ),
@@ -79,17 +94,6 @@ class _DeletePopUpState extends State<DeletePopUp> {
                       ),
                     ],
                   ),
-                  CustomTextIconButton(
-                    width: 101,
-                    isLoading: false,
-                    icon: Icon(Icons.archive_outlined,
-                        color: AppTheme.of(context).primaryBackground),
-                    text: 'Archive',
-                    color: AppTheme.of(context).primaryColor,
-                    onTap: () async {
-                      provider.changeStatusInventory(widget.vehicle);
-                    },
-                  ),
                 ],
               ),
             ),
@@ -107,19 +111,16 @@ class _DeletePopUpState extends State<DeletePopUp> {
                   provider.updateState();
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: CustomTextIconButton(
-                  width: 96,
-                  isLoading: false,
-                  icon: Icon(Icons.cancel_outlined,
-                      color: AppTheme.of(context).primaryBackground),
-                  text: 'Cancel',
-                  color: AppTheme.of(context).primaryColor,
-                  onTap: () async {
-                    Navigator.pop(context);
-                  },
-                ),
+              CustomTextIconButton(
+                width: 101,
+                isLoading: false,
+                icon: Icon(Icons.archive_outlined,
+                    color: AppTheme.of(context).primaryBackground),
+                text: 'Archive',
+                color: AppTheme.of(context).primaryColor,
+                onTap: () async {
+                  provider.changeStatusInventory(widget.vehicle);
+                },
               ),
             ]),
           ],

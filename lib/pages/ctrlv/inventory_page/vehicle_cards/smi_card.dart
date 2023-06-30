@@ -41,14 +41,14 @@ class SmiCard extends StatelessWidget {
                     fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
                     fontWeight:
                         AppTheme.of(context).encabezadoTablas.fontWeight,
-                    color: AppTheme.of(context).primaryText)),
+                    color: AppTheme.of(context).gris)),
             const SizedBox(
               height: 10,
             ),
             Text(
               "Total: $totalVehicleSMI",
               style: TextStyle(
-                color: AppTheme.of(context).contenidoTablas.color,
+                color: AppTheme.of(context).gris,
                 fontFamily: 'Bicyclette-Thin',
                 fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
               ),
@@ -59,7 +59,7 @@ class SmiCard extends StatelessWidget {
             Text(
               "Vehicles Assigned: $totalAssignedSMI ",
               style: TextStyle(
-                color: AppTheme.of(context).contenidoTablas.color,
+                color: AppTheme.of(context).gris,
                 fontFamily: 'Bicyclette-Thin',
                 fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
               ),
@@ -70,7 +70,7 @@ class SmiCard extends StatelessWidget {
             Text(
               "Vehicles in Repair: $totalRepairSMI ",
               style: TextStyle(
-                color: AppTheme.of(context).contenidoTablas.color,
+                color: AppTheme.of(context).gris,
                 fontFamily: 'Bicyclette-Thin',
                 fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
               ),
@@ -81,7 +81,7 @@ class SmiCard extends StatelessWidget {
             Text(
               "Vehicles Available: $totalAvailableSMI ",
               style: TextStyle(
-                color: AppTheme.of(context).contenidoTablas.color,
+                color: AppTheme.of(context).gris,
                 fontFamily: 'Bicyclette-Thin',
                 fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
               ),

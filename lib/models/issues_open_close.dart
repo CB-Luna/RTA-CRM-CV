@@ -4,11 +4,11 @@ class IssueOpenclose {
   IssueOpenclose(
       {required this.nameIssue,
       required this.dateAddedOpen,
-      required this.idBucketInspection,
+      required this.idIssue,
       this.dateAddedClose});
 
   String nameIssue;
-  int idBucketInspection;
+  int idIssue;
   DateTime dateAddedOpen;
   DateTime? dateAddedClose;
 
@@ -18,13 +18,13 @@ class IssueOpenclose {
   factory IssueOpenclose.fromMap(Map<String, dynamic> json) => IssueOpenclose(
       dateAddedOpen: json["date_added"],
       nameIssue: json['nameIssue'],
-      idBucketInspection: json["id_bucket_inspection"],
+      idIssue: json["id"],
       dateAddedClose: json["date_added_close"]);
 
   Map<String, dynamic> toMap() => {
         "nameIssues": nameIssue,
 
-        "idBucketInspection": idBucketInspection,
+        "id": idIssue,
         "date_added": dateAddedOpen.toIso8601String(), //check out
         "date_added_close": dateAddedClose!.toIso8601String(), //check out
       };

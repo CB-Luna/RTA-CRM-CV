@@ -89,7 +89,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             const EdgeInsets.only(right: 8.0),
                                         child: Icon(
                                           Icons.numbers_outlined,
-                                          color: AppTheme.of(context).gris,
+                                          color: AppTheme.of(context).alternate,
                                         ),
                                       ),
                                       Text(
@@ -107,7 +107,8 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             fontWeight: AppTheme.of(context)
                                                 .encabezadoTablas
                                                 .fontWeight,
-                                            color: AppTheme.of(context).gris),
+                                            color:
+                                                AppTheme.of(context).alternate),
                                       ),
                                     ],
                                   ),
@@ -122,7 +123,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             const EdgeInsets.only(right: 8.0),
                                         child: Icon(
                                           Icons.dialpad_outlined,
-                                          color: AppTheme.of(context).gris,
+                                          color: AppTheme.of(context).alternate,
                                         ),
                                       ),
                                       Text(
@@ -140,7 +141,8 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             fontWeight: AppTheme.of(context)
                                                 .encabezadoTablas
                                                 .fontWeight,
-                                            color: AppTheme.of(context).gris),
+                                            color:
+                                                AppTheme.of(context).alternate),
                                       ),
                                     ],
                                   ),
@@ -155,7 +157,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             const EdgeInsets.only(right: 8.0),
                                         child: Icon(
                                           Icons.credit_card_outlined,
-                                          color: AppTheme.of(context).gris,
+                                          color: AppTheme.of(context).alternate,
                                         ),
                                       ),
                                       Text(
@@ -173,7 +175,8 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             fontWeight: AppTheme.of(context)
                                                 .encabezadoTablas
                                                 .fontWeight,
-                                            color: AppTheme.of(context).gris),
+                                            color:
+                                                AppTheme.of(context).alternate),
                                       ),
                                     ],
                                   ),
@@ -188,7 +191,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             const EdgeInsets.only(right: 8.0),
                                         child: Icon(
                                           Icons.car_repair_outlined,
-                                          color: AppTheme.of(context).gris,
+                                          color: AppTheme.of(context).alternate,
                                         ),
                                       ),
                                       Text(
@@ -206,7 +209,8 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             fontWeight: AppTheme.of(context)
                                                 .encabezadoTablas
                                                 .fontWeight,
-                                            color: AppTheme.of(context).gris),
+                                            color:
+                                                AppTheme.of(context).alternate),
                                       ),
                                     ],
                                   ),
@@ -221,7 +225,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             const EdgeInsets.only(right: 8.0),
                                         child: Icon(
                                           Icons.warehouse_outlined,
-                                          color: AppTheme.of(context).gris,
+                                          color: AppTheme.of(context).alternate,
                                         ),
                                       ),
                                       Text(
@@ -239,7 +243,8 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             fontWeight: AppTheme.of(context)
                                                 .encabezadoTablas
                                                 .fontWeight,
-                                            color: AppTheme.of(context).gris),
+                                            color:
+                                                AppTheme.of(context).alternate),
                                       ),
                                     ],
                                   ),
@@ -254,7 +259,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             const EdgeInsets.only(right: 8.0),
                                         child: Icon(
                                           Icons.directions_car_outlined,
-                                          color: AppTheme.of(context).gris,
+                                          color: AppTheme.of(context).alternate,
                                         ),
                                       ),
                                       Text(
@@ -272,7 +277,8 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             fontWeight: AppTheme.of(context)
                                                 .encabezadoTablas
                                                 .fontWeight,
-                                            color: AppTheme.of(context).gris),
+                                            color:
+                                                AppTheme.of(context).alternate),
                                       ),
                                     ],
                                   ),
@@ -287,7 +293,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             const EdgeInsets.only(right: 8.0),
                                         child: Icon(
                                           Icons.calendar_today_outlined,
-                                          color: AppTheme.of(context).gris,
+                                          color: AppTheme.of(context).alternate,
                                         ),
                                       ),
                                       Text(
@@ -305,7 +311,8 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             fontWeight: AppTheme.of(context)
                                                 .encabezadoTablas
                                                 .fontWeight,
-                                            color: AppTheme.of(context).gris),
+                                            color:
+                                                AppTheme.of(context).alternate),
                                       ),
                                     ],
                                   ),
@@ -320,7 +327,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             const EdgeInsets.only(right: 8.0),
                                         child: Icon(
                                           Icons.calendar_view_day_outlined,
-                                          color: AppTheme.of(context).gris,
+                                          color: AppTheme.of(context).alternate,
                                         ),
                                       ),
                                       Text(
@@ -338,7 +345,8 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             fontWeight: AppTheme.of(context)
                                                 .encabezadoTablas
                                                 .fontWeight,
-                                            color: AppTheme.of(context).gris),
+                                            color:
+                                                AppTheme.of(context).alternate),
                                       ),
                                     ],
                                   ),
@@ -353,7 +361,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             const EdgeInsets.only(right: 8.0),
                                         child: Icon(
                                           Icons.calendar_month_outlined,
-                                          color: AppTheme.of(context).gris,
+                                          color: AppTheme.of(context).alternate,
                                         ),
                                       ),
                                       Text(
@@ -371,40 +379,8 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                             fontWeight: AppTheme.of(context)
                                                 .encabezadoTablas
                                                 .fontWeight,
-                                            color: AppTheme.of(context).gris),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 10),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: Icon(
-                                          Icons.warning_outlined,
-                                          color: AppTheme.of(context).gris,
-                                        ),
-                                      ),
-                                      Text(
-                                        "List of any issues \nreported from daily checks: ",
-                                        style: TextStyle(
-                                            fontFamily: AppTheme.of(context)
-                                                .encabezadoTablas
-                                                .fontFamily,
-                                            fontSize: AppTheme.of(context)
-                                                .contenidoTablas
-                                                .fontSize,
-                                            fontStyle: AppTheme.of(context)
-                                                .encabezadoTablas
-                                                .fontStyle,
-                                            fontWeight: AppTheme.of(context)
-                                                .encabezadoTablas
-                                                .fontWeight,
-                                            color: AppTheme.of(context).gris),
+                                            color:
+                                                AppTheme.of(context).alternate),
                                       ),
                                     ],
                                   ),
@@ -544,36 +520,25 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                 Padding(
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
-                                  child: Row(
-                                    children: [
-                                      // Text(
-                                      //   " \n ${provider.actualIssueXUser.issuesR + provider.actualIssueXUser.issuesD}",
-                                      //   style: const TextStyle(
-                                      //       color: Colors.white, fontSize: 18),
-                                      // ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: CustomTextIconButton(
-                                          width: 140,
-                                          isLoading: false,
-                                          icon: Icon(Icons.warning_outlined,
-                                              color: AppTheme.of(context)
-                                                  .primaryBackground),
-                                          text: 'List of Issues',
+                                  child: Container(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    alignment: Alignment.centerLeft,
+                                    child: CustomTextIconButton(
+                                      width: 140,
+                                      isLoading: false,
+                                      icon: Icon(Icons.warning_outlined,
                                           color: AppTheme.of(context)
-                                              .tertiaryColor,
-                                          onTap: () async {
-                                            showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return const IssuesPopUp();
-                                                });
-                                          },
-                                        ),
-                                      ),
-                                    ],
+                                              .primaryBackground),
+                                      text: 'List of Issues',
+                                      color: AppTheme.of(context).tertiaryColor,
+                                      onTap: () async {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return const IssuesPopUp();
+                                            });
+                                      },
+                                    ),
                                   ),
                                 ),
                               ],

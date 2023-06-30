@@ -22,7 +22,7 @@ class CryCard extends StatelessWidget {
       height: 400,
       width: 400,
       child: CustomPaint(
-        size: Size(339, (480).toDouble()),
+        size: Size(339, (490).toDouble()),
         painter: RPSCustomPainter(),
         child: Column(
           children: [

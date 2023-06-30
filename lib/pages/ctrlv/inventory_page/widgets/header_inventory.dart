@@ -67,28 +67,6 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
               },
             ),
           ),
-          // Container(
-          //   width: MediaQuery.of(context).size.width * 0.1,
-          //   padding: const EdgeInsets.only(left: 10, right: 10, top: 13),
-          //   child: CustomTextIconButton(
-          //     isLoading: false,
-          //     icon: Icon(Icons.add_box_outlined,
-          //         color: AppTheme.of(context).primaryBackground),
-          //     text: 'Add Vehicle',
-          //     onTap: () async {
-          //       provider.clearControllers();
-          //       await provider.getCompanies(notify: false);
-          //       await provider.getStatus(notify: false);
-          //       // ignore: use_build_context_synchronously
-          //       await showDialog(
-          //           context: context,
-          //           builder: (BuildContext context) {
-          //             return const AddVehiclePopUp();
-          //           });
-          //       await provider.updateState();
-          //     },
-          //   ),
-          // ),
           const SizedBox(
             width: 20,
           ),
@@ -97,7 +75,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             child: CustomTextIconButton(
               width: 83,
               isLoading: false,
-              icon: Icon(Icons.add_box_outlined,
+              icon: Icon(Icons.filter_alt_outlined,
                   color: AppTheme.of(context).primaryBackground),
               text: 'Filter',
               color: AppTheme.of(context).primaryColor,
@@ -105,30 +83,6 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   !provider.stateManager!.showColumnFilter),
             ),
           ),
-          // Container(
-          //   width: MediaQuery.of(context).size.width * 0.1,
-          //   padding: const EdgeInsets.only(left: 10, right: 10, top: 13),
-          //   child: CustomTextIconButton(
-          //     isLoading: false,
-          //     icon: Icon(Icons.filter_alt_outlined,
-          //         color: AppTheme.of(context).primaryBackground),
-          //     text: 'Filter',
-          //     onTap: () => provider.stateManager!.setShowColumnFilter(
-          //         !provider.stateManager!.showColumnFilter),
-          //   ),
-          // ),
-          // Container(
-          //   width: MediaQuery.of(context).size.width * 0.11,
-          //   padding: const EdgeInsets.only(left: 10, right: 10, top: 14),
-          //   child: CustomTextIconButton(
-          //     isLoading: false,
-          //     icon: Icon(Icons.filter_alt_outlined,
-          //         color: AppTheme.of(context).primaryBackground),
-          //     text: 'Filter per month',
-          //     onTap: () => provider.stateManager!.setShowColumnFilter(
-          //         !provider.stateManager!.showColumnFilter),
-          //   ),
-          // ),
           const SizedBox(
             width: 20,
           ),
@@ -137,7 +91,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             child: CustomTextIconButton(
               width: 131,
               isLoading: false,
-              icon: Icon(Icons.add_box_outlined,
+              icon: Icon(Icons.download_for_offline_outlined,
                   color: AppTheme.of(context).primaryBackground),
               text: 'Export Data',
               color: AppTheme.of(context).primaryColor,
@@ -149,11 +103,11 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
-              width: 96,
+              width: 112,
               isLoading: false,
               icon: Icon(Icons.archive_outlined,
                   color: AppTheme.of(context).primaryBackground),
-              text: 'Archive',
+              text: 'Not Active',
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
                 await provider.UpdateStatusVehicle();

@@ -90,6 +90,10 @@ class InventoryProvider extends ChangeNotifier {
   List<Issues> issues = [];
   List<BucketInspection> issuePart1 = [];
   List<BucketInspection> issuePartD = [];
+  List<CarBodywork> issueCarBodywR = [];
+  List<CarBodywork> issueCarBodyWD = [];
+  List<Equiment> issueEquipmentR = [];
+  List<Equiment> issueEquipmentD = [];
 
   List<VehicleDash> vehicleArchive = [];
   List<IssuesXUser> issuesxUser = [];
@@ -98,6 +102,9 @@ class InventoryProvider extends ChangeNotifier {
   // Listas R
   List<IssuesComments> bucketInspectionR = [];
   List<IssueOpenclose> bucketInspectionRR = [];
+  List<IssueOpenclose> carBodyWorkRR = [];
+  List<IssueOpenclose> equipmentRR = [];
+
   List<IssuesComments> carBodyWorkR = [];
   List<IssuesComments> equipmentR = [];
   List<IssuesComments> extraR = [];
@@ -108,6 +115,10 @@ class InventoryProvider extends ChangeNotifier {
 
   // Listas D
   List<IssuesComments> bucketInspectionD = [];
+  List<IssueOpenclose> bucketInspectionDD = [];
+  List<IssueOpenclose> carBodyWorkDD = [];
+  List<IssueOpenclose> equipmentDD = [];
+
   List<IssuesComments> carBodyWorkD = [];
   List<IssuesComments> equipmentD = [];
   List<IssuesComments> extraD = [];
@@ -516,7 +527,7 @@ class InventoryProvider extends ChangeNotifier {
               // "id_vehicle": PlutoCell(value: vehicle.idVehicle),
               // "image": PlutoCell(value: vehicle.image),
               "make": PlutoCell(value: vehicle.make),
-              "model": PlutoCell(value: vehicle.model),
+              "model": PlutoCell(value: vehicle.fullName),
               "year": PlutoCell(value: vehicle.year),
               "vin": PlutoCell(value: vehicle.vin),
               "license_plates": PlutoCell(value: vehicle.licesensePlates),
@@ -529,9 +540,9 @@ class InventoryProvider extends ChangeNotifier {
               //         .format(vehicle.dateAdded)
               //         .toString()),
               "mileage": PlutoCell(value: vehicle.mileage.toString()),
-              "details": PlutoCell(value: vehicle),
+              //"details": PlutoCell(value: vehicle),
               "actions": PlutoCell(value: vehicle),
-              "issues": PlutoCell(value: vehicle)
+              //"issues": PlutoCell(value: vehicle)
             },
           ),
         );
@@ -619,7 +630,7 @@ class InventoryProvider extends ChangeNotifier {
               // "id_vehicle": PlutoCell(value: vehicle.idVehicle),
               // "image": PlutoCell(value: vehicle.image),
               "make": PlutoCell(value: vehicle.make),
-              "model": PlutoCell(value: vehicle.model),
+              "model": PlutoCell(value: vehicle.fullName),
               "year": PlutoCell(value: vehicle.year),
               "vin": PlutoCell(value: vehicle.vin),
               "license_plates": PlutoCell(value: vehicle.licesensePlates),
@@ -632,9 +643,9 @@ class InventoryProvider extends ChangeNotifier {
               //         .format(vehicle.dateAdded)
               //         .toString()),
               "mileage": PlutoCell(value: vehicle.mileage.toString()),
-              "details": PlutoCell(value: vehicle),
+              //"details": PlutoCell(value: vehicle),
               "actions": PlutoCell(value: vehicle),
-              "issues": PlutoCell(value: vehicle)
+              //"issues": PlutoCell(value: vehicle)
             },
           ),
         );
@@ -668,13 +679,13 @@ class InventoryProvider extends ChangeNotifier {
 
   // --------------------------------------------
   Future<void> getIssuesBasics(IssuesXUser issuesXUser) async {
-    clearListgetIssues();
+    // clearListgetIssues();
 
     try {
       final res = await supabaseCtrlV
           .from('issues_view')
           .select(
-              'bucket_inspection_r ->id_bucket_inspection, bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner, bucket_inspection_r ->date_added')
+              'id_vehicle, bucket_inspection_r ->id_bucket_inspection, bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner, bucket_inspection_r ->date_added')
           // Si pongo   'bucket_inspection_r ->holes_drilled ->"Bad" me marca Bad y no holes_drilled
           // .select(
           // ' id_vehicle,id_control_form, issues_r,issues_d, id_bucket_inspection_r_fk , car_bodywork_r->, equiment_r,user_profile,extra_r,fluid_check_r,lights_r,measure_r,security_r,bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner')
@@ -692,73 +703,69 @@ class InventoryProvider extends ChangeNotifier {
           .from('issues_view')
           .select(
               'bucket_inspection_d ->id_bucket_inspection, bucket_inspection_d ->holes_drilled,bucket_inspection_d ->insulated, bucket_inspection_d ->bucket_liner, bucket_inspection_d ->date_added')
-          // Si pongo   'bucket_inspection_r ->holes_drilled ->"Bad" me marca Bad y no holes_drilled
-          // .select(
-          // ' id_vehicle,id_control_form, issues_r,issues_d, id_bucket_inspection_r_fk , car_bodywork_r->, equiment_r,user_profile,extra_r,fluid_check_r,lights_r,measure_r,security_r,bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner')
-          //.eq('bucket_inspection_r ->holes_drilled', 'Bad')
-          // .match({
-          //   'bucket_inspection_r ->holes_drilled': 'bad',
-          //   'bucket_inspection_r ->insulated': 'bad',
-          //   'bucket_inspection_r ->bucket_liner': 'bad',
-          // })
           .eq('id_vehicle', issuesXUser.idVehicleFk)
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
-      print(res);
+
+      print(resD);
 
       issuePart1 = (res as List<dynamic>)
           .map(
               (issuePart1) => BucketInspection.fromJson(jsonEncode(issuePart1)))
           .toList();
+      issuePartD = (resD as List<dynamic>)
+          .map(
+              (issuePartD) => BucketInspection.fromJson(jsonEncode(issuePartD)))
+          .toList();
+
+      // BucketInspectionR
       for (BucketInspection issue in issuePart1) {
-        // BucketInspectionR
         if (issue.holesDrilled == "Bad") {
           IssueOpenclose newIssueComments = IssueOpenclose(
-              idBucketInspection: issue.idBucketInspection!,
+              idIssue: issue.idBucketInspection!,
               nameIssue: "Holes Drilled",
               dateAddedOpen: issue.dateAdded!);
           bucketInspectionRR.add(newIssueComments);
         }
         if (issue.bucketLiner == "Bad") {
           IssueOpenclose newIssueComments = IssueOpenclose(
-              idBucketInspection: issue.idBucketInspection!,
+              idIssue: issue.idBucketInspection!,
               nameIssue: "Bucket Liner",
               dateAddedOpen: issue.dateAdded!);
           bucketInspectionRR.add(newIssueComments);
         }
         if (issue.insulated == "Bad") {
           IssueOpenclose newIssueComments = IssueOpenclose(
-              idBucketInspection: issue.idBucketInspection!,
+              idIssue: issue.idBucketInspection!,
               nameIssue: "Insulated",
               dateAddedOpen: issue.dateAdded!);
           bucketInspectionRR.add(newIssueComments);
         }
-        menuIssuesReceivedA.update(0, (value) => bucketInspectionRR);
       }
-      for (BucketInspection issue in issuePart1) {
-        // BucketInspectionR
+
+      // BucketInspectionD
+      for (BucketInspection issue in issuePartD) {
         if (issue.holesDrilled == "Bad") {
           IssueOpenclose newIssueComments = IssueOpenclose(
-              idBucketInspection: issue.idBucketInspection!,
+              idIssue: issue.idBucketInspection!,
               nameIssue: "Holes Drilled",
               dateAddedOpen: issue.dateAdded!);
-          bucketInspectionRR.add(newIssueComments);
+          bucketInspectionDD.add(newIssueComments);
         }
         if (issue.bucketLiner == "Bad") {
           IssueOpenclose newIssueComments = IssueOpenclose(
-              idBucketInspection: issue.idBucketInspection!,
+              idIssue: issue.idBucketInspection!,
               nameIssue: "Bucket Liner",
               dateAddedOpen: issue.dateAdded!);
-          bucketInspectionRR.add(newIssueComments);
+          bucketInspectionDD.add(newIssueComments);
         }
         if (issue.insulated == "Bad") {
           IssueOpenclose newIssueComments = IssueOpenclose(
-              idBucketInspection: issue.idBucketInspection!,
+              idIssue: issue.idBucketInspection!,
               nameIssue: "Insulated",
               dateAddedOpen: issue.dateAdded!);
           bucketInspectionRR.add(newIssueComments);
         }
-        menuIssuesReceivedA.update(0, (value) => bucketInspectionRR);
       }
       print("BucketInspectionRR: ${bucketInspectionRR.length}");
 
@@ -766,26 +773,366 @@ class InventoryProvider extends ChangeNotifier {
     } catch (e) {
       print("Error in getIssuesBasics() - $e");
     }
+    notifyListeners();
+  }
+
+  // --------------------------------------------
+  Future<void> getIssuesCarBodywork(IssuesXUser issuesXUser) async {
+    try {
+      // CardBodyWork_R
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'car_bodywork_r ->id_car_bodywork, car_bodywork_r ->wiper_blades_front,car_bodywork_r ->wiper_blades_back, car_bodywork_r ->windshield_wiper_front,car_bodywork_r->windshield_wiper_back,car_bodywork_r ->general_body,car_bodywork_r ->decaling,car_bodywork_r ->tires,car_bodywork_r->glass,car_bodywork_r ->mirrors,car_bodywork_r-> parking,car_bodywork_r->brakes,car_bodywork_r ->emg_brakes,car_bodywork_r->horn ,car_bodywork_r ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // CardBodyWork_D
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'car_bodywork_d ->id_car_bodywork, car_bodywork_d ->wiper_blades_front,car_bodywork_d ->wiper_blades_back, car_bodywork_d ->windshield_wiper_front,car_bodywork_d->windshield_wiper_back,car_bodywork_d ->general_body,car_bodywork_d ->decaling,car_bodywork_d ->tires,car_bodywork_d->glass,car_bodywork_d ->mirrors,car_bodywork_d-> parking,car_bodywork_d->brakes,car_bodywork_d ->emg_brakes,car_bodywork_d->horn ,car_bodywork_d ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      print(resD);
+
+      issueCarBodywR = (res as List<dynamic>)
+          .map((issueCarBodywR) =>
+              CarBodywork.fromJson(jsonEncode(issueCarBodywR)))
+          .toList();
+      issueCarBodyWD = (resD as List<dynamic>)
+          .map((issueCarBodyWD) =>
+              CarBodywork.fromJson(jsonEncode(issueCarBodyWD)))
+          .toList();
+
+      // BucketInspectionR
+      for (CarBodywork issue in issueCarBodywR) {
+        if (issue.wiperBladesFront == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Wuper Blades Front",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+        if (issue.wiperBladesBack == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Wiper Blades Back",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+        if (issue.windshieldWiperFront == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "WindShield Wiper Front",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+        if (issue.windshieldWiperBack == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "WindShield Wiper Back",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+        if (issue.generalBody == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "General Body",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+        if (issue.decaling == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Decaling",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+        if (issue.tires == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Tires",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+        if (issue.glass == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Glass",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+        if (issue.mirrors == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Mirrors",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+        if (issue.parking == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Parking",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+        if (issue.brakes == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Brakes",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+        if (issue.emgBrakes == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Emg Brakes",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+        if (issue.horn == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Horn",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkRR.add(newIssueComments);
+        }
+      }
+
+      // BucketInspectionD
+      for (CarBodywork issue in issueCarBodyWD) {
+        if (issue.wiperBladesFront == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Wuper Blades Front",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+        if (issue.wiperBladesBack == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Wiper Blades Back",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+        if (issue.windshieldWiperFront == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "WindShield Wiper Front",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+        if (issue.windshieldWiperBack == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "WindShield Wiper Back",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+        if (issue.generalBody == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "General Body",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+        if (issue.decaling == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Decaling",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+        if (issue.tires == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Tires",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+        if (issue.glass == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Glass",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+        if (issue.mirrors == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Mirrors",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+        if (issue.parking == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Parking",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+        if (issue.brakes == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Brakes",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+        if (issue.emgBrakes == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Emg Brakes",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+        if (issue.horn == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Horn",
+              dateAddedOpen: issue.dateAdded!);
+          carBodyWorkDD.add(newIssueComments);
+        }
+      }
+      //print("BucketInspectionRR: ${bucketInspectionRR.length}");
+
+      print("Entro a getIssuesCarBodywork");
+    } catch (e) {
+      print("Error in getIssuesCarBodywork() - $e");
+    }
+    notifyListeners();
+  }
+
+  Future<void> getIssuesEquipment(IssuesXUser issuesXUser) async {
+    try {
+      // getIssuesEquipment_r
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'equiment_r ->id_equiment_r, equiment_r ->ignition_key,equiment_r ->bins_box_key, equiment_r ->vehicle_registration_copy,equiment_r->vehicle_insurance_copy,equiment_r ->bucket_lift_operator_manual,equiment_r ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // getIssuesEquipment_d
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'equiment_d ->id_equiment_d, equiment_d ->ignition_key,equiment_d ->bins_box_key, equiment_d ->vehicle_registration_copy,equiment_d->vehicle_insurance_copy,equiment_d ->bucket_lift_operator_manual,equiment_d ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      print(resD);
+
+      issueEquipmentR = (res as List<dynamic>)
+          .map((issueEquipmentR) =>
+              Equiment.fromJson(jsonEncode(issueEquipmentR)))
+          .toList();
+      issueEquipmentD = (resD as List<dynamic>)
+          .map((issueEquipmentD) =>
+              Equiment.fromJson(jsonEncode(issueEquipmentD)))
+          .toList();
+
+      // BucketInspectionR
+      for (Equiment issue in issueEquipmentR) {
+        if (issue.ignitionKey == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "ignition key",
+              dateAddedOpen: issue.dateAdded!);
+          equipmentRR.add(newIssueComments);
+        }
+        if (issue.binsBoxKey == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Bins Box Key",
+              dateAddedOpen: issue.dateAdded!);
+          equipmentRR.add(newIssueComments);
+        }
+        if (issue.vehicleRegistrationCopy == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Vehicle Registration Copy",
+              dateAddedOpen: issue.dateAdded!);
+          equipmentRR.add(newIssueComments);
+        }
+        if (issue.vehicleInsuranceCopy == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Vehicle Insurance Copy",
+              dateAddedOpen: issue.dateAdded!);
+          equipmentRR.add(newIssueComments);
+        }
+        if (issue.bucketLiftOperatorManual == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Bucket Lift Operator Manual",
+              dateAddedOpen: issue.dateAdded!);
+          equipmentRR.add(newIssueComments);
+        }
+      }
+      // BucketInspectionD
+
+      for (Equiment issue in issueEquipmentD) {
+        if (issue.ignitionKey == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "ignition key",
+              dateAddedOpen: issue.dateAdded!);
+          equipmentDD.add(newIssueComments);
+        }
+        if (issue.binsBoxKey == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Bins Box Key",
+              dateAddedOpen: issue.dateAdded!);
+          equipmentDD.add(newIssueComments);
+        }
+        if (issue.vehicleRegistrationCopy == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Vehicle Registration Copy",
+              dateAddedOpen: issue.dateAdded!);
+          equipmentDD.add(newIssueComments);
+        }
+        if (issue.vehicleInsuranceCopy == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Vehicle Insurance Copy",
+              dateAddedOpen: issue.dateAdded!);
+          equipmentDD.add(newIssueComments);
+        }
+        if (issue.bucketLiftOperatorManual == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Bucket Lift Operator Manual",
+              dateAddedOpen: issue.dateAdded!);
+          equipmentDD.add(newIssueComments);
+        }
+      }
+      //print("BucketInspectionRR: ${bucketInspectionRR.length}");
+
+      print("Entro a getIssuesEquipment");
+    } catch (e) {
+      print("Error in getIssuesEquipment() - $e");
+    }
+    clearListgetIssues();
+
+    notifyListeners();
   }
 
   // --------------------------------------------
   void clearListgetIssues() {
-    bucketInspectionR.clear();
-    bucketInspectionD.clear();
-    carBodyWorkR.clear();
-    carBodyWorkD.clear();
-    equipmentR.clear();
-    equipmentD.clear();
-    extraR.clear();
-    extraD.clear();
-    fluidCheckR.clear();
-    fluidCheckD.clear();
-    lightsR.clear();
-    lightsD.clear();
-    measureR.clear();
-    measureD.clear();
-    securityR.clear();
-    securityD.clear();
+    bucketInspectionRR.clear();
+    bucketInspectionDD.clear();
+    carBodyWorkRR.clear();
+    carBodyWorkDD.clear();
+    equipmentRR.clear();
+    equipmentDD.clear();
   }
 
   //---------------------------------------------

@@ -103,6 +103,7 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
                     //provider.getIssues(provider.actualIssueXUser!);
                     provider.getIssuesBasics(provider.actualIssueXUser!);
                     provider.setIssueViewActual(1);
+
                     print(provider.issuesView);
                   },
                   style: ElevatedButton.styleFrom(

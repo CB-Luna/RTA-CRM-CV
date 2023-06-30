@@ -1,14 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/public/colors.dart';
 
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_card.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 import '../widgets/listIssuesCard.dart';
+import '../widgets/listIssuesCardD.dart';
 
 class ReportedIssues extends StatefulWidget {
   const ReportedIssues({super.key});
@@ -260,8 +258,15 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           ),
                           Tab(
                             height: 20,
-                            text: "Car Bodywork",
+                            text: "Car BodyWork",
                           ),
+                          // child: InkWell(
+                          //   onTap: () {
+                          //     provider.getIssuesCarBodywork(
+                          //         provider.actualIssueXUser!);
+                          //   },
+                          //   child: Text("Card Bodywork"),
+                          // )),
                           Tab(
                             height: 20,
                             text: "Equipment",
@@ -291,13 +296,27 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                     ),
                     Expanded(
                         child: TabBarView(children: [
-                      ListIssuesCard(
-                          issuesComments: provider.bucketInspectionRR),
-                      Container(
-                        color: Colors.black,
+                      Column(
+                        children: [
+                          ListIssuesCard(
+                              issuesComments: provider.bucketInspectionRR),
+                          ListIssuesCardD(
+                              issuesComments: provider.bucketInspectionDD),
+                        ],
                       ),
-                      Container(
-                        color: Colors.blue,
+                      Column(
+                        children: [
+                          ListIssuesCard(
+                              issuesComments: provider.carBodyWorkRR),
+                          ListIssuesCardD(
+                              issuesComments: provider.carBodyWorkDD),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          ListIssuesCard(issuesComments: provider.equipmentRR),
+                          ListIssuesCardD(issuesComments: provider.equipmentDD),
+                        ],
                       ),
                       Container(
                         color: Colors.green,
