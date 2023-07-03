@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../theme/theme.dart';
-import '../../../../widgets/custom_card.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 import '../widgets/listIssuesCard.dart';
 import '../widgets/listIssuesCardD.dart';
@@ -30,13 +29,10 @@ class _ReportedIssuesState extends State<ReportedIssues> {
       });
     }
 
-    return AlertDialog(
-      shadowColor: Colors.transparent,
-      backgroundColor: Colors.transparent,
-      content: CustomCard(
-        width: 800,
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: 1500,
         height: 560,
-        title: "List of Issues ",
         child: Column(
           children: [
             Container(
@@ -222,16 +218,14 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                 ),
               ],
             )),
-            SizedBox(
-              height: 500,
-              width: 850,
+            Expanded(
               child: DefaultTabController(
                 length: 8,
                 initialIndex: 0,
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 20,
+                      height: 36,
                       child: TabBar(
                         labelStyle: TextStyle(
                             fontFamily: AppTheme.of(context)
@@ -239,8 +233,8 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 .fontFamily,
                             fontSize:
                                 AppTheme.of(context).contenidoTablas.fontSize,
-                            fontStyle:
-                                AppTheme.of(context).encabezadoTablas.fontStyle,
+                            // fontStyle:
+                            //     AppTheme.of(context).encabezadoTablas.fontStyle,
                             fontWeight: AppTheme.of(context)
                                 .encabezadoTablas
                                 .fontWeight,
@@ -253,93 +247,88 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         ),
                         tabs: const [
                           Tab(
-                            height: 20,
+                            height: 30,
                             text: "Bucket Inpection",
                           ),
                           Tab(
-                            height: 20,
+                            height: 30,
                             text: "Car BodyWork",
                           ),
-                          // child: InkWell(
-                          //   onTap: () {
-                          //     provider.getIssuesCarBodywork(
-                          //         provider.actualIssueXUser!);
-                          //   },
-                          //   child: Text("Card Bodywork"),
-                          // )),
                           Tab(
-                            height: 20,
+                            height: 30,
                             text: "Equipment",
                           ),
                           Tab(
-                            height: 20,
+                            height: 30,
                             text: "Extra",
                           ),
                           Tab(
-                            height: 20,
+                            height: 30,
                             text: "Fluid Check",
                           ),
                           Tab(
-                            height: 20,
+                            height: 30,
                             text: "Lights",
                           ),
                           Tab(
-                            height: 20,
+                            height: 35,
                             text: "Measures",
                           ),
                           Tab(
-                            height: 20,
+                            height: 35,
                             text: "Security",
                           ),
                         ],
                       ),
                     ),
                     Expanded(
-                        child: TabBarView(children: [
-                      Column(
-                        children: [
-                          ListIssuesCard(
-                              issuesComments: provider.bucketInspectionRR),
-                          ListIssuesCardD(
-                              issuesComments: provider.bucketInspectionDD),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          ListIssuesCard(
-                              issuesComments: provider.carBodyWorkRR),
-                          ListIssuesCardD(
-                              issuesComments: provider.carBodyWorkDD),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          ListIssuesCard(issuesComments: provider.equipmentRR),
-                          ListIssuesCardD(issuesComments: provider.equipmentDD),
-                        ],
-                      ),
-                      Container(
-                        color: Colors.green,
-                      ),
-                      Container(
-                        color: Colors.yellow,
-                      ),
-                      Container(
-                        color: Colors.pink,
-                      ),
-                      Container(
-                        color: Colors.white,
-                      ),
-                      Container(
-                        color: Colors.orange,
-                      ),
-                      // ListIssuesCard(
-                      //   issuesComments: provider.bucketInspectionRR,
-                      //   //index: index,
-                      //   // issuesCommentsD:
-                      //   //     provider.menuIssuesReceivedD[index]!,
-                      // ),
-                    ]))
+                      child: SizedBox(
+                          width: 1250,
+                          height: 360,
+                          child: TabBarView(children: [
+                            Column(
+                              children: [
+                                ListIssuesCard(
+                                    issuesComments:
+                                        provider.bucketInspectionRR),
+                                ListIssuesCardD(
+                                    issuesComments:
+                                        provider.bucketInspectionDD),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                ListIssuesCard(
+                                    issuesComments: provider.carBodyWorkRR),
+                                ListIssuesCardD(
+                                    issuesComments: provider.carBodyWorkDD),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                ListIssuesCard(
+                                    issuesComments: provider.equipmentRR),
+                                ListIssuesCardD(
+                                    issuesComments: provider.equipmentDD),
+                              ],
+                            ),
+                            Container(
+                              color: Colors.green,
+                            ),
+                            Container(
+                              color: Colors.yellow,
+                            ),
+                            Container(
+                              color: Colors.pink,
+                            ),
+                            Container(
+                              color: Colors.white,
+                            ),
+                            Container(
+                              color: Colors.orange,
+                            ),
+                          ])),
+                    )
                   ],
                 ),
               ),
@@ -347,34 +336,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
           ],
         ),
       ),
-      // ListView.builder(
-      //     padding: const EdgeInsets.all(8),
-      //     itemCount: 8,
-      //     itemBuilder: (BuildContext context, int index) {
-      //       provider.selectIssuesCommentsR(index);
-      //       provider.selectIssuesCommentsD(index);
-      //       return Padding(
-      //           padding: const EdgeInsets.only(bottom: 20.0, right: 10),
-      //           child: Container(
-      //             decoration: const BoxDecoration(
-      //                 color: Colors.white,
-      //                 boxShadow: [
-      //                   BoxShadow(
-      //                       blurRadius: 4,
-      //                       color: Colors.grey,
-      //                       offset: Offset(10, 10))
-      //                 ],
-      //                 borderRadius:
-      //                     BorderRadius.all(Radius.circular(20))),
-      //             width: MediaQuery.of(context).size.width,
-      //             height: 200,
-      //             child: ListIssuesCard(
-      //               issuesComments: provider.bucketInspectionRR,
-      //               index: index,
-      //               issuesCommentsD:
-      //                   provider.menuIssuesReceivedD[index]!,
-      //             ),
-      //           ));
     );
   }
 }

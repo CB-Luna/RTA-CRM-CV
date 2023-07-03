@@ -32,6 +32,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
           ],
         ),
         height: 200,
+        width: 850,
         child: Column(
           children: [
             Container(
@@ -39,9 +40,10 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                 alignment: Alignment.centerLeft,
                 // Este issue es el nombre
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 60.0),
+                      padding: const EdgeInsets.only(left: 10.0),
                       child: Row(children: [
                         Text(
                           "Name Issue",
@@ -88,14 +90,15 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                   SizedBox(
                     //color: Colors.orange,
                     height: 120,
-                    width: 850,
+                    width: 600,
                     child: ListView.builder(
                       itemCount: widget.issuesComments.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
-                          padding: const EdgeInsets.all(4.0),
+                          padding:
+                              const EdgeInsets.only(left: 140.0, bottom: 8.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
                                 alignment: Alignment.centerLeft,
@@ -112,8 +115,6 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                             .contenidoTablas
                                             .fontSize,
                                       ),
-                                      // style:
-                                      //     const TextStyle(color: Colors.orange),
                                     ),
                                   ],
                                 ),
@@ -177,119 +178,6 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                       },
                     ),
                   ),
-                  // SizedBox(
-                  //   //color: const Color(0XFF25A531),
-                  //   height: 120,
-                  //   width: 850,
-                  //   child: ListView.builder(
-                  //     itemCount: widget.issuesCommentsD!.length,
-                  //     itemBuilder: (BuildContext context, int index) {
-                  //       return Padding(
-                  //         padding: const EdgeInsets.all(4.0),
-                  //         child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //           children: [
-                  //             Container(
-                  //               alignment: Alignment.centerLeft,
-                  //               width: 150,
-                  //               padding: const EdgeInsets.only(left: 10.0),
-                  //               child: Column(
-                  //                 children: [
-                  //                   // Text(
-                  //                   //     "•${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")}"),
-                  //                   Text(
-                  //                     "•${widget.issuesCommentsD![index].nameIssue.capitalize.replaceAll("_", " ")}",
-                  //                     style: TextStyle(
-                  //                       color: const Color(0XFF25A531),
-                  //                       fontFamily: 'Bicyclette-Thin',
-                  //                       fontSize: AppTheme.of(context)
-                  //                           .contenidoTablas
-                  //                           .fontSize,
-                  //                     ),
-                  //                     // style: const TextStyle(
-                  //                     //     color: Color(0XFF25A531)),
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             ),
-                  //             const SizedBox(
-                  //               width: 50,
-                  //             ),
-                  //             Container(
-                  //               alignment: Alignment.center,
-                  //               child: Row(
-                  //                 children: [
-                  //                   Text(
-                  //                     DateFormat("MMM/dd/yyyy hh:mm:ss").format(
-                  //                         widget.issuesCommentsD![index]
-                  //                             .dateAdded),
-                  //                     style: TextStyle(
-                  //                       color: AppTheme.of(context)
-                  //                           .contenidoTablas
-                  //                           .color,
-                  //                       fontFamily: 'Bicyclette-Thin',
-                  //                       fontSize: AppTheme.of(context)
-                  //                           .contenidoTablas
-                  //                           .fontSize,
-                  //                     ),
-                  //                   ),
-                  //                   const SizedBox(width: 70),
-                  //                   Text(
-                  //                     "Jun/12/2023",
-                  //                     // DateFormat("MMM/dd/yyyy hh:mm:ss").format(
-                  //                     //     widget.issuesCommentsD[index]
-                  //                     //         .dateAdded),
-                  //                     style: TextStyle(
-                  //                       color: AppTheme.of(context)
-                  //                           .contenidoTablas
-                  //                           .color,
-                  //                       fontFamily: 'Bicyclette-Thin',
-                  //                       fontSize: AppTheme.of(context)
-                  //                           .contenidoTablas
-                  //                           .fontSize,
-                  //                     ),
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             ),
-                  //             const Spacer(),
-                  //             Container(
-                  //               alignment: Alignment.center,
-                  //               padding: const EdgeInsets.only(right: 10),
-                  //               child: Center(
-                  //                 child: CustomTextIconButton(
-                  //                   mainAxisAlignment: MainAxisAlignment.center,
-                  //                   width: 80,
-                  //                   isLoading: false,
-                  //                   icon: Icon(Icons.remove_red_eye_outlined,
-                  //                       color: AppTheme.of(context)
-                  //                           .primaryBackground),
-                  //                   text: ' ',
-                  //                   color: AppTheme.of(context).primaryColor,
-                  //                   onTap: () async {
-                  //                     // provider.selectIssuesComments(
-                  //                     //     widget.issuesComments[index]);
-                  //                     provider.cambiosVistaPhotosComments();
-                  //                     provider.setIssueViewActual(2);
-                  //                   },
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //             // ElevatedButton(
-                  //             //     onPressed: () {
-                  //             //       provider.selectIssuesComments(
-                  //             //           widget.issuesCommentsD[index]);
-                  //             //       provider.cambiosVistaPhotosComments();
-                  //             //       provider.setIssueViewActual(2);
-                  //             //     },
-                  //             //     child:
-                  //             //         const Icon(Icons.remove_red_eye_outlined))
-                  //           ],
-                  //         ),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
                 ],
               ),
             )

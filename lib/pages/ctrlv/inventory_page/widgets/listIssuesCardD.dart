@@ -38,9 +38,10 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                 alignment: Alignment.centerLeft,
                 // Este issue es el nombre
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 60.0),
+                      padding: const EdgeInsets.only(left: 10.0),
                       child: Row(children: [
                         Text(
                           "Name Issue",
@@ -87,14 +88,15 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                   SizedBox(
                     //color: Colors.orange,
                     height: 120,
-                    width: 850,
+                    width: 600,
                     child: ListView.builder(
                       itemCount: widget.issuesComments.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
-                          padding: const EdgeInsets.all(4.0),
+                          padding:
+                              const EdgeInsets.only(left: 140.0, bottom: 8.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
                                 alignment: Alignment.centerLeft,

@@ -25,7 +25,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
         title: provider.actualissuesComments!.nameIssue.capitalize
             .replaceAll("_", " "),
         width: 450,
-        height: 562,
+        height: 500,
         child: Column(
           children: [
             Container(
