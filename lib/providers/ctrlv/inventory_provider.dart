@@ -18,6 +18,7 @@ import 'package:excel/excel.dart';
 
 import '../../models/issues.dart';
 import '../../models/issues_x_user.dart';
+import '../../models/services.dart';
 import '../../models/vehicle_dashboard.dart';
 
 class InventoryProvider extends ChangeNotifier {
@@ -35,6 +36,9 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController dateTimeControllerOil = TextEditingController();
   TextEditingController dateTimeControllerRFC = TextEditingController();
   TextEditingController dateTimeControllerLTFC = TextEditingController();
+  TextEditingController serviceDateController = TextEditingController();
+  TextEditingController? nextDateController = TextEditingController();
+
   TextEditingController searchController = TextEditingController();
   TextEditingController yearController = TextEditingController();
   TextEditingController mileageController = TextEditingController();
@@ -79,6 +83,7 @@ class InventoryProvider extends ChangeNotifier {
   List<String> dropdownMenuItems = [];
   StatusApi? statusSelected;
   CompanyApi? companySelected;
+  Services? serviceSelected;
   StatusApi? statusSelectedUpdate;
   CompanyApi? companySelectedUpdate;
 //------------------------------------------
@@ -86,7 +91,9 @@ class InventoryProvider extends ChangeNotifier {
   // Lista de Modelos
   List<CompanyApi> company = [];
   List<StatusApi> status = [];
+  List<Services> service = [];
   List<Vehicle> vehicles = [];
+  List<Services> services = [];
   List<Issues> issues = [];
   List<BucketInspection> issuePart1 = [];
   List<BucketInspection> issuePartD = [];
@@ -291,6 +298,20 @@ class InventoryProvider extends ChangeNotifier {
 
     if (notify) notifyListeners();
   }
+//---------------------------------------------
+
+  Future<void> getServices({bool notify = true}) async {
+    final res = await supabaseCtrlV
+        .from('services')
+        .select()
+        .order('service', ascending: true);
+    print("Entro a getServices()");
+    service = (res as List<dynamic>)
+        .map((service) => Services.fromJson(jsonEncode(service)))
+        .toList();
+    if (notify) notifyListeners();
+  }
+//---------------------------------------------
 
   Future<void> getStatus({bool notify = true}) async {
     final res = await supabaseCtrlV.from('status').select().order(
@@ -331,6 +352,11 @@ class InventoryProvider extends ChangeNotifier {
 
   void selectStatUpdate(String statu) {
     statusSelectedUpdate = status.firstWhere((elem) => elem.status == statu);
+    notifyListeners();
+  }
+
+  void selectService(String servicesvar) {
+    serviceSelected = service.firstWhere((elem) => elem.service == servicesvar);
     notifyListeners();
   }
 
@@ -405,6 +431,43 @@ class InventoryProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       log('Error in deleteVehicle() - $e');
+      return false;
+    }
+  }
+
+//---------------------------------------------
+  Future<bool> createVehicleService() async {
+    try {
+      await supabaseCtrlV.from('vehicle_services').insert({
+        'created_at': DateTime.now().toIso8601String(),
+        'id_vehicle_fk': actualVehicle!.idVehicle,
+        'id_service_fk': serviceSelected?.idService,
+        'service_date': serviceDateController.text,
+        'next_date': nextDateController?.text ?? ""
+      });
+      return true;
+    } catch (e) {
+      print("Error in createVehicleService() - $e");
+      print(actualVehicle!.idVehicle);
+      return false;
+    }
+  }
+
+  //---------------------------------------------
+  Future<bool> getServicesPage() async {
+    try {
+      final res = await supabaseCtrlV
+          .from('service_view')
+          .select()
+          .match({"id_vehicle_fk": actualVehicle!.idVehicle});
+
+      services = (res as List<dynamic>)
+          .map((services) => Services.fromJson(jsonEncode(services)))
+          .toList();
+      return true;
+    } catch (e) {
+      print("Error in getServicesPage() - $e");
+      print(actualVehicle!.idVehicle);
       return false;
     }
   }
@@ -1120,7 +1183,7 @@ class InventoryProvider extends ChangeNotifier {
     } catch (e) {
       print("Error in getIssuesEquipment() - $e");
     }
-    clearListgetIssues();
+    //clearListgetIssues();
 
     notifyListeners();
   }

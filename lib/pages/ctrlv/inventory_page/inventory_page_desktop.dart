@@ -18,6 +18,7 @@ import '../../../public/colors.dart';
 import '../../../theme/theme.dart';
 import '../../../widgets/custom_card.dart';
 import '../../../widgets/custom_text_icon_button.dart';
+import 'actions/add_services_pop_up.dart';
 import 'pop_up/verify_to_eliminate_pop_up.dart';
 import 'widgets/header_inventory.dart';
 import 'actions/update_vehicle_pop_up.dart';
@@ -985,6 +986,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                                   rendererContext
                                                                       .cell
                                                                       .value);
+                                                              provider
+                                                                  .getServicesPage();
 
                                                               // No entra en GetIssues por que esta nulo el actualissueIUser
 
@@ -995,8 +998,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                               //     provider
                                                               //         .issuesxUser
                                                               //         .length);
-                                                              print(
-                                                                  "IssuesxUser:  ${provider.actualIssueXUser}");
+
                                                               showDialog(
                                                                   context:
                                                                       context,
@@ -1113,7 +1115,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                           isLoading: false,
                                                           icon: Icon(
                                                               Icons
-                                                                  .warning_amber_outlined,
+                                                                  .list_alt_outlined,
                                                               color: AppTheme.of(
                                                                       context)
                                                                   .primaryBackground),
@@ -1122,28 +1124,23 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                                   context)
                                                               .primaryColor,
                                                           onTap: () async {
-                                                            // provider.vistaIssues =
-                                                            //     true;
-                                                            // provider.selectVehicle(
-                                                            //     rendererContext
-                                                            //         .cell
-                                                            //         .value);
-                                                            // provider
-                                                            //     .getIssuesxUsers(
-                                                            //         rendererContext
-                                                            //             .cell
-                                                            //             .value);
-                                                            // provider
-                                                            //     .setIssueViewActual(
-                                                            //         0);
+                                                            await provider
+                                                                .getServices(
+                                                                    notify:
+                                                                        false);
+                                                            provider.selectVehicle(
+                                                                rendererContext
+                                                                    .cell
+                                                                    .value);
 
+                                                            // ignore: use_build_context_synchronously
                                                             showDialog(
                                                                 context:
                                                                     context,
                                                                 builder:
                                                                     (BuildContext
                                                                         context) {
-                                                                  return const IssuesPopUp();
+                                                                  return const AddServicePopUp();
                                                                 });
                                                           },
                                                         ),
