@@ -5,7 +5,7 @@ import 'package:rta_crm_cv/pages/crm/dashboard/widgets/Tabla_meses.dart';
 import 'package:rta_crm_cv/pages/crm/dashboard/widgets/marcadores_dashboard.dart';
 import 'package:rta_crm_cv/pages/crm/dashboard/widgets/Transaction_history.dart';
 import 'package:rta_crm_cv/pages/crm/dashboard/widgets/grafica_dashboard.dart';
-//import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
+import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -21,11 +21,22 @@ class DashboardsCRMPage extends StatefulWidget {
 
 class _DashboardsCRMPageState extends State<DashboardsCRMPage> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(
+        context,
+        listen: false,
+      );
+      await provider.updateState();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
-    //DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(context);
     sideM.setIndex(0);
-
     return Material(
       child: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -77,19 +88,22 @@ class _DashboardsCRMPageState extends State<DashboardsCRMPage> {
                           child: MarcadoresDashboard(),
                         ),
                       ),
-                      const Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: GraficaDashboard(),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: TablaMeses(),
-                          ),
-                        ],
+                      const CustomScrollBar(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: GraficaDashboard(),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: TablaMeses(),
+                            ),
+                          ],
+                        ),
                       ),
                       //Transaction history
                       const Padding(

@@ -24,6 +24,8 @@ class _TransactionHistoryState extends State<TransactionHistory> {
     DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(context);
     return CustomCard(
       title: 'Transaction History',
+      //width: getWidth(790, context),
+      //height: getHeight(280, context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -364,7 +366,8 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'Description',
                   field: 'DESCRIPTION',
-                  width: 300,
+                  width: 1105,
+                  //width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
                   type: PlutoColumnType.text(),
@@ -380,7 +383,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                     );
                   },
                 ),
-                PlutoColumn(
+                /*  PlutoColumn(
                   titleSpan: TextSpan(children: [
                     WidgetSpan(
                         child: Icon(Icons.table_chart,
@@ -409,8 +412,8 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                           child: Text(rendererContext.cell.value ?? '-')),
                     );
                   },
-                ),
-                PlutoColumn(
+                ), */
+                /* PlutoColumn(
                   titleSpan: TextSpan(children: [
                     WidgetSpan(
                         child: Icon(Icons.vpn_key_outlined,
@@ -439,7 +442,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                           child: Text(rendererContext.cell.value ?? '-')),
                     );
                   },
-                ),
+                ), */
               ],
               rows: provider.rows,
               onLoaded: (event) async {

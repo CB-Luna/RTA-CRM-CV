@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/functions/date_format.dart';
+import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
@@ -25,7 +27,7 @@ class _TablaMesesState extends State<TablaMeses> {
     return CustomCard(
       width: getWidth(670, context),
       height: getHeight(432.91, context),
-      title: 'Quotes History',
+      title: 'Overview History',
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -62,14 +64,22 @@ class _TablaMesesState extends State<TablaMeses> {
                   ),
                 ),
                 CustomTextField(
-                  width: 500,
+                  width: 200,
                   enabled: true,
                   controller: provider.searchController,
                   icon: Icons.search,
                   label: 'Search',
                   keyboardType: TextInputType.text,
                 ),
-                SizedBox(width: getWidth(56, context)),
+                CustomTextIconButton(
+                  isLoading: false,
+                  icon: Icon(Icons.calendar_month,
+                      color: AppTheme.of(context).primaryBackground),
+                  text:'${dateFormat(provider.dateRange.start)} - ${dateFormat(provider.dateRange.end)}',
+                    onTap: () {
+                    provider.pickDateRange(context);
+                  },
+                ),
               ],
             ),
           ),
@@ -89,22 +99,19 @@ class _TablaMesesState extends State<TablaMeses> {
                     if (column.field == 'ID') {
                       return resolver<PlutoFilterTypeContains>()
                           as PlutoFilterType;
-                    } else if (column.field == 'CREATE_AT') {
+                    } else if (column.field == 'NAME_Column') {
                       return resolver<PlutoFilterTypeContains>()
                           as PlutoFilterType;
-                    } else if (column.field == 'USER') {
+                    } else if (column.field == 'TOTAL_Column') {
                       return resolver<PlutoFilterTypeContains>()
                           as PlutoFilterType;
-                    } else if (column.field == 'ACTION') {
+                    } else if (column.field == 'MARGIN_Column') {
                       return resolver<PlutoFilterTypeContains>()
                           as PlutoFilterType;
-                    } else if (column.field == 'DESCRIPTION') {
+                    } else if (column.field == 'VENDOR_Column') {
                       return resolver<PlutoFilterTypeContains>()
                           as PlutoFilterType;
-                    } else if (column.field == 'TABLE') {
-                      return resolver<PlutoFilterTypeContains>()
-                          as PlutoFilterType;
-                    } else if (column.field == 'ID_TABLE') {
+                    } else if (column.field == 'DESCRIPTION_Column') {
                       return resolver<PlutoFilterTypeContains>()
                           as PlutoFilterType;
                     }
@@ -122,12 +129,11 @@ class _TablaMesesState extends State<TablaMeses> {
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(
                         text: 'ID',
-                        style: TextStyle(
-                            color: AppTheme.of(context).primaryBackground))
+                        style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ID',
-                  field: 'ID',
+                  field: 'ID_Column',
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
                   type: PlutoColumnType.text(),
@@ -145,10 +151,9 @@ class _TablaMesesState extends State<TablaMeses> {
                         child: Text(
                           rendererContext.cell.value.toString(),
                           style: AppTheme.of(context).contenidoTablas.override(
-                                fontFamily: 'Gotham-Regular',
-                                useGoogleFonts: false,
-                                color: AppTheme.of(context).primaryColor,
-                              ),
+                              fontFamily: 'Gotham-Regular',
+                              useGoogleFonts: false,
+                              color: AppTheme.of(context).primaryColor),
                         ),
                       ),
                     );
@@ -186,22 +191,20 @@ class _TablaMesesState extends State<TablaMeses> {
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
                     WidgetSpan(
-                        child: Icon(Icons.calendar_month_outlined,
+                        child: Icon(Icons.person_outline,
                             color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(
-                        text: 'Create Date',
-                        style: TextStyle(
-                            color: AppTheme.of(context).primaryBackground))
+                        text: 'Name',
+                        style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'CREATE',
-                  field: 'CREATE_AT',
+                  title: 'NAME',
+                  field: 'NAME_Column',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(
-                      format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
+                  type: PlutoColumnType.text(),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -210,7 +213,13 @@ class _TablaMesesState extends State<TablaMeses> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
-                          child: Text(rendererContext.cell.value ?? '-')),
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(
+                              fontFamily: 'Gotham-Regular',
+                              useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                   footerRenderer: (context) {
@@ -265,21 +274,20 @@ class _TablaMesesState extends State<TablaMeses> {
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
                     WidgetSpan(
-                        child: Icon(Icons.person_outline,
+                        child: Icon(Icons.attach_money,
                             color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(
-                        text: 'Name',
-                        style: TextStyle(
-                            color: AppTheme.of(context).primaryBackground))
+                        text: 'Total',
+                        style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'Name',
-                  field: 'NAME',
+                  title: 'TOTAL',
+                  field: 'TOTAL_Column',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.text(),
+                  type: PlutoColumnType.number(),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -288,114 +296,98 @@ class _TablaMesesState extends State<TablaMeses> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
-                          child: Text(rendererContext.cell.value ?? '-')),
-                    );
-                  },
-                ),
-                /* PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.person_outline,
-                            color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'User',
-                        style: TextStyle(
-                            color: AppTheme.of(context).primaryBackground))
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'User',
-                  field: 'USER',
-                  width: 225,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.text(),
-                  enableEditingMode: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      // width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(
-                          child: Text(rendererContext.cell.value ?? '-')),
-                    );
-                  },
-                ), */
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.history_edu,
-                            color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Action',
-                        style: TextStyle(
-                            color: AppTheme.of(context).primaryBackground))
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'Action',
-                  field: 'ACTION',
-                  width: 225,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.text(),
-                  enableEditingMode: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      // width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(
-                          child: Text(rendererContext.cell.value ?? '-')),
+                          child: Text(
+                        '\$ ${moneyFormat(rendererContext.cell.value)} USD',
+                        style: AppTheme.of(context).contenidoTablas.override(
+                            fontFamily: 'Gotham-Regular',
+                            useGoogleFonts: false),
+                      )),
                     );
                   },
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
                     WidgetSpan(
-                        child: Icon(Icons.description,
+                        child: Icon(Icons.percent_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(
+                        text: 'Margin',
+                        style: AppTheme.of(context).encabezadoTablas)
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'MARGIN',
+                  field: 'MARGIN_Column',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      // width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(
+                        child: Text(
+                          '${moneyFormat(rendererContext.cell.value)}%',
+                          style: AppTheme.of(context).contenidoTablas.override(
+                              fontFamily: 'Gotham-Regular',
+                              useGoogleFonts: false),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
+                            color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(
+                        text: 'Vendor',
+                        style: AppTheme.of(context).encabezadoTablas)
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'VENDOR',
+                  field: 'VENDOR_Column',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      // width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(
+                              fontFamily: 'Gotham-Regular',
+                              useGoogleFonts: false),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
                             color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(
                         text: 'Description',
-                        style: TextStyle(
-                            color: AppTheme.of(context).primaryBackground))
+                        style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'Description',
-                  field: 'DESCRIPTION',
-                  width: 300,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.text(),
-                  enableEditingMode: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      // width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(
-                          child: Text(rendererContext.cell.value ?? '-')),
-                    );
-                  },
-                ),
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.table_chart,
-                            color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Table',
-                        style: TextStyle(
-                            color: AppTheme.of(context).primaryBackground))
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'Table',
-                  field: 'TABLE',
+                  title: 'DESCRIPTION',
+                  field: 'DESCRIPTION_Column',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
@@ -408,42 +400,18 @@ class _TablaMesesState extends State<TablaMeses> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
-                          child: Text(rendererContext.cell.value ?? '-')),
-                    );
-                  },
-                ),
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(
-                        child: Icon(Icons.vpn_key_outlined,
-                            color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(
-                        text: 'Id Table',
-                        style: TextStyle(
-                            color: AppTheme.of(context).primaryBackground))
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'Id Table',
-                  field: 'ID_TABLE',
-                  width: 175,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.text(),
-                  enableEditingMode: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      // width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(
-                          child: Text(rendererContext.cell.value ?? '-')),
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(
+                              fontFamily: 'Gotham-Regular',
+                              useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
               ],
-              rows: provider.rows,
+              rows: provider.rows2,
               onLoaded: (event) async {
                 provider.stateManager = event.stateManager;
               },
