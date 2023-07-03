@@ -4,6 +4,7 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/custom_agenda.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/monitory_filters.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/monitory_page_header.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/calendar.dart';
@@ -89,6 +90,13 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                 //color: Colors.red,
                                 height: MediaQuery.of(context).size.height * 0.5,
                                 child: const Calendario(),
+                              ),
+                               Container(
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 40,right: 10),
+                                //color: Colors.red,
+                                height: MediaQuery.of(context).size.height * 0.5,
+                                child: const CustomAgenda(),
                               ),
                         
                               // Titulo de la tabla

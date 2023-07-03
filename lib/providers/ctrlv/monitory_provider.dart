@@ -144,6 +144,9 @@ class MonitoryProvider extends ChangeNotifier {
   //----------------------------------------------
 
   CalendarController calendarController = CalendarController();
+  List<Monitory> idEventos = [];
+  String selectedDay = DateFormat("MMM-dd-yyyy").format(DateTime.now());
+  String selectedMonth = DateFormat("MMMM").format(DateTime.now());
 
   //----------------------------------------------
 
@@ -460,6 +463,7 @@ class MonitoryProvider extends ChangeNotifier {
 
   bool getAppointmentsByDate() {
     // meet.clear();
+    idEventos.clear();
     numCheckOutCRY = 0;
     numCheckOutODE = 0;
     numCheckOutSMI = 0;
@@ -475,12 +479,14 @@ class MonitoryProvider extends ChangeNotifier {
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
                 (calendarController.selectedDate!.month == event.dateAddedR.month) &
                 (calendarController.selectedDate!.year == event.dateAddedR.year)) {
-
+              
+              idEventos.add(event);
               numCheckOutCRY += 1;
             }
             if ((calendarController.selectedDate!.day == event.dateAddedD!.day) &
                 (calendarController.selectedDate!.month == event.dateAddedD!.month) &
                 (calendarController.selectedDate!.year == event.dateAddedD!.year)) {
+                  idEventos.add(event);
               numCheckInCRY += 1;
             }
             continue;
@@ -488,12 +494,14 @@ class MonitoryProvider extends ChangeNotifier {
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
                 (calendarController.selectedDate!.month == event.dateAddedR.month) &
                 (calendarController.selectedDate!.year == event.dateAddedR.year)) {
+                  idEventos.add(event);
               numCheckOutODE += 1;
             }
 
             if ((calendarController.selectedDate!.day == event.dateAddedD!.day) &
                 (calendarController.selectedDate!.month == event.dateAddedD!.month) &
                 (calendarController.selectedDate!.year == event.dateAddedD!.year)) {
+                  idEventos.add(event);
               numCheckInODE += 1;
             }
             continue;
@@ -501,12 +509,14 @@ class MonitoryProvider extends ChangeNotifier {
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
                 (calendarController.selectedDate!.month == event.dateAddedR.month) &
                 (calendarController.selectedDate!.year == event.dateAddedR.year)) {
+                  idEventos.add(event);
               numCheckOutSMI += 1;
             }
 
             if ((calendarController.selectedDate!.day == event.dateAddedD!.day) &
                 (calendarController.selectedDate!.month == event.dateAddedD!.month) &
                 (calendarController.selectedDate!.year == event.dateAddedD!.year)) {
+                  idEventos.add(event);
               numCheckInSMI += 1;
             }
             continue;
@@ -520,6 +530,7 @@ class MonitoryProvider extends ChangeNotifier {
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
                 (calendarController.selectedDate!.month == event.dateAddedR.month) &
                 (calendarController.selectedDate!.year == event.dateAddedR.year)) {
+                  idEventos.add(event);
               numCheckOutCRY += 1;
             }
             continue;
@@ -527,6 +538,7 @@ class MonitoryProvider extends ChangeNotifier {
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
                 (calendarController.selectedDate!.month == event.dateAddedR.month) &
                 (calendarController.selectedDate!.year == event.dateAddedR.year)) {
+                  idEventos.add(event);
               numCheckOutODE += 1;
             }
             continue;
@@ -534,6 +546,7 @@ class MonitoryProvider extends ChangeNotifier {
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
                 (calendarController.selectedDate!.month == event.dateAddedR.month) &
                 (calendarController.selectedDate!.year == event.dateAddedR.year)) {
+                  idEventos.add(event);
               numCheckOutSMI += 1;
             }
             continue;
@@ -1613,6 +1626,76 @@ class MonitoryProvider extends ChangeNotifier {
     } catch (e) {
       print("error ${e}");
       return false;
+    }
+  }
+
+  void getWeekDay(){
+
+    switch(calendarController.selectedDate?.weekday){
+      case 1:
+        selectedDay = "Monday";
+        break;
+      case 2:
+        selectedDay = "Tuesday";
+        break;
+      case 3:
+        selectedDay = "Wednesday";
+        break;
+      case 4:
+        selectedDay = "Thrusday";
+        break;
+      case 5:
+        selectedDay = "Friday";
+        break;
+      case 6:
+        selectedDay = "Saturday";
+        break;
+      case 7:
+        selectedDay = "Sunday";
+        break;
+
+    }
+  }
+  void getMonth(){
+
+    switch(calendarController.selectedDate?.month){
+      case 1:
+        selectedMonth = "Jan";
+        break;
+      case 2:
+        selectedMonth = "Feb";
+        break;
+      case 3:
+        selectedMonth = "Mar";
+        break;
+      case 4:
+        selectedMonth = "Apr";
+        break;
+      case 5:
+        selectedMonth = "May";
+        break;
+      case 6:
+        selectedMonth = "Jun";
+        break;
+      case 7:
+        selectedMonth = "Jul";
+        break;
+      case 8:
+        selectedMonth = "Aug";
+        break;
+      case 9:
+        selectedMonth = "Sep";
+        break;
+      case 10:
+        selectedMonth = "Oct";
+        break;
+      case 11:
+        selectedMonth = "Nov";
+        break;
+      case 12:
+        selectedMonth = "Dec";
+        break;
+
     }
   }
 }
