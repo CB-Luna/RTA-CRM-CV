@@ -95,8 +95,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                 padding:
                                     const EdgeInsets.only(top: 10, bottom: 40,right: 10),
                                 //color: Colors.red,
-                                height: MediaQuery.of(context).size.height * 0.5,
-                                child: const CustomAgenda(),
+                                height: MediaQuery.of(context).size.height * 0.4,
+                                child:  CustomAgenda(width: MediaQuery.of(context).size.width - 300),
                               ),
                         
                               // Titulo de la tabla

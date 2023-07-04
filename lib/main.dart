@@ -103,6 +103,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => DashboardCVProvider(),
         ),
+        
       ],
       child: const MyApp(),
     ),

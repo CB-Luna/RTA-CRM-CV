@@ -147,6 +147,7 @@ class MonitoryProvider extends ChangeNotifier {
   List<Monitory> idEventos = [];
   String selectedDay = DateFormat("MMM-dd-yyyy").format(DateTime.now());
   String selectedMonth = DateFormat("MMMM").format(DateTime.now());
+  int current = 0;
 
   //----------------------------------------------
 
@@ -459,7 +460,7 @@ class MonitoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  
+
 
   bool getAppointmentsByDate() {
     // meet.clear();
