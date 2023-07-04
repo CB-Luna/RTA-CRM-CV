@@ -5,6 +5,7 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 import '../../../../theme/theme.dart';
 import 'issues_pop_up.dart';
+import 'service_pop_up.dart';
 
 class DetailsPopUp extends StatefulWidget {
   final Vehicle vehicle;
@@ -77,11 +78,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                         //   color: Colors.blue,
                         // ),
                         const IssuesPopUp(),
-                        Container(
-                          height: 200,
-                          width: 200,
-                          color: Colors.green,
-                        ),
+                        const ServicePopUp()
                       ],
                     ),
                   ),

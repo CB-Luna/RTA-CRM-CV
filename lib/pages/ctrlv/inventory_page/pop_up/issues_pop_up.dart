@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/comments_photos_pop_up.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
-import 'package:rta_crm_cv/widgets/custom_card.dart';
 
-import '../../../../theme/theme.dart';
 import '../../../../widgets/captura/custom_text_field.dart';
-import '../../../../widgets/custom_text_icon_button.dart';
 import '../widgets/employeeIssuesCard.dart';
 import 'reported_issues_pop_up.dart';
 

@@ -32,16 +32,16 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
         child: Row(
           children: [
             Container(
-              height: (620 * 0.7586633663366337).toDouble(),
+              height: (650 * 0.7586633663366337).toDouble(),
               width: 600,
               alignment: AlignmentDirectional.centerEnd,
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: CustomPaint(
-                size: Size(600, (450 * 0.7586633663366337).toDouble()),
+                size: Size(600, (500 * 0.7586633663366337).toDouble()),
                 painter: RPSCustomPainter(),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      top: 60, bottom: 20, left: 20, right: 20),
+                      top: 65, bottom: 20, left: 60, right: 20),
                   child: Row(children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,6 +56,9 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                                 child: Icon(
                                   Icons.numbers_outlined,
                                   color: AppTheme.of(context).alternate,
+                                  size: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .fontSize,
                                 ),
                               ),
                               Text(

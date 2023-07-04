@@ -12,6 +12,7 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/company_api.dart';
 import 'package:rta_crm_cv/models/issues_comments.dart';
 import 'package:rta_crm_cv/models/issues_open_close.dart';
+import 'package:rta_crm_cv/models/service_api.dart';
 import 'package:rta_crm_cv/models/status_api.dart';
 import 'package:rta_crm_cv/models/vehicle.dart';
 import 'package:excel/excel.dart';
@@ -93,7 +94,7 @@ class InventoryProvider extends ChangeNotifier {
   List<StatusApi> status = [];
   List<Services> service = [];
   List<Vehicle> vehicles = [];
-  List<Services> services = [];
+  List<ServicesApi> services = [];
   List<Issues> issues = [];
   List<BucketInspection> issuePart1 = [];
   List<BucketInspection> issuePartD = [];
@@ -101,6 +102,16 @@ class InventoryProvider extends ChangeNotifier {
   List<CarBodywork> issueCarBodyWD = [];
   List<Equiment> issueEquipmentR = [];
   List<Equiment> issueEquipmentD = [];
+  List<Extra> issueExtraR = [];
+  List<Extra> issueExtradD = [];
+  List<FluidCheck> issueFluidCheckR = [];
+  List<FluidCheck> issueFluidCheckD = [];
+  List<Lights> issueLightsR = [];
+  List<Lights> issueLightsD = [];
+  List<Security> issueSecurityR = [];
+  List<Security> issueSecurityD = [];
+  List<Measure> issueMeasureR = [];
+  List<Measure> issueMeasureD = [];
 
   List<VehicleDash> vehicleArchive = [];
   List<IssuesXUser> issuesxUser = [];
@@ -111,6 +122,11 @@ class InventoryProvider extends ChangeNotifier {
   List<IssueOpenclose> bucketInspectionRR = [];
   List<IssueOpenclose> carBodyWorkRR = [];
   List<IssueOpenclose> equipmentRR = [];
+  List<IssueOpenclose> extraRR = [];
+  List<IssueOpenclose> fluidCheckRR = [];
+  List<IssueOpenclose> lightsRR = [];
+  List<IssueOpenclose> measureRR = [];
+  List<IssueOpenclose> securityRR = [];
 
   List<IssuesComments> carBodyWorkR = [];
   List<IssuesComments> equipmentR = [];
@@ -125,6 +141,11 @@ class InventoryProvider extends ChangeNotifier {
   List<IssueOpenclose> bucketInspectionDD = [];
   List<IssueOpenclose> carBodyWorkDD = [];
   List<IssueOpenclose> equipmentDD = [];
+  List<IssueOpenclose> extraDD = [];
+  List<IssueOpenclose> fluidCheckDD = [];
+  List<IssueOpenclose> lightsDD = [];
+  List<IssueOpenclose> measureDD = [];
+  List<IssueOpenclose> securityDD = [];
 
   List<IssuesComments> carBodyWorkD = [];
   List<IssuesComments> equipmentD = [];
@@ -443,7 +464,8 @@ class InventoryProvider extends ChangeNotifier {
         'id_vehicle_fk': actualVehicle!.idVehicle,
         'id_service_fk': serviceSelected?.idService,
         'service_date': serviceDateController.text,
-        'next_date': nextDateController?.text ?? ""
+        // 'next_date':
+        //     nextDateController?.text == null ? null : nextDateController?.text,
       });
       return true;
     } catch (e) {
@@ -460,9 +482,10 @@ class InventoryProvider extends ChangeNotifier {
           .from('service_view')
           .select()
           .match({"id_vehicle_fk": actualVehicle!.idVehicle});
+      print(res);
 
       services = (res as List<dynamic>)
-          .map((services) => Services.fromJson(jsonEncode(services)))
+          .map((services) => ServicesApi.fromJson(jsonEncode(services)))
           .toList();
       return true;
     } catch (e) {
@@ -770,8 +793,6 @@ class InventoryProvider extends ChangeNotifier {
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      print(resD);
-
       issuePart1 = (res as List<dynamic>)
           .map(
               (issuePart1) => BucketInspection.fromJson(jsonEncode(issuePart1)))
@@ -859,8 +880,6 @@ class InventoryProvider extends ChangeNotifier {
           .eq('id_vehicle', issuesXUser.idVehicleFk)
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
-
-      print(resD);
 
       issueCarBodywR = (res as List<dynamic>)
           .map((issueCarBodywR) =>
@@ -1189,6 +1208,691 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   // --------------------------------------------
+  Future<void> getIssuesExtra(IssuesXUser issuesXUser) async {
+    try {
+      // getIssuesEquipment_r
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'extra_r ->id_extra, extra_r ->ladder,extra_r ->step_ladder, extra_r ->ladder_straps,extra_r->hydraulic_fluid_for_bucket,extra_r ->fiber_reel_rack,extra_r ->bins_locked_and_secure,extra_r ->safety_harness,extra_r ->lanyard_safety_harness, extra_r ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // getIssuesEquipment_d
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'extra_d ->id_extra, extra_d ->ladder,extra_d ->step_ladder, extra_d ->ladder_straps,extra_d->hydraulic_fluid_for_bucket,extra_d ->fiber_reel_rack,extra_d ->bins_locked_and_secure,extra_d ->safety_harness,extra_d ->lanyard_safety_harness, extra_d ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      //print(res);
+
+      issueExtraR = (res as List<dynamic>)
+          .map((issueExtraR) => Extra.fromJson(jsonEncode(issueExtraR)))
+          .toList();
+      issueExtradD = (resD as List<dynamic>)
+          .map((issueExtradD) => Extra.fromJson(jsonEncode(issueExtradD)))
+          .toList();
+
+      // ExtraR
+      for (Extra issue in issueExtraR) {
+        if (issue.ladder == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Ladder",
+              dateAddedOpen: issue.dateAdded!);
+          extraRR.add(newIssueComments);
+        }
+        if (issue.stepLadder == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Step Ladder",
+              dateAddedOpen: issue.dateAdded!);
+          extraRR.add(newIssueComments);
+        }
+        if (issue.ladderStraps == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Ladder Straps",
+              dateAddedOpen: issue.dateAdded!);
+          extraRR.add(newIssueComments);
+        }
+        if (issue.hydraulicFluidForBucket == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Hydraulic Fluid for Bucket",
+              dateAddedOpen: issue.dateAdded!);
+          extraRR.add(newIssueComments);
+        }
+        if (issue.fiberReelRack == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Fiber Reel Rack",
+              dateAddedOpen: issue.dateAdded!);
+          extraRR.add(newIssueComments);
+        }
+        if (issue.binsLockedAndSecure == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Bins Locked and Secure",
+              dateAddedOpen: issue.dateAdded!);
+          extraRR.add(newIssueComments);
+        }
+        if (issue.safetyHarness == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Safety Harness",
+              dateAddedOpen: issue.dateAdded!);
+          extraRR.add(newIssueComments);
+        }
+        if (issue.lanyardSafetyHarness == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Lanyard Safety Harness",
+              dateAddedOpen: issue.dateAdded!);
+          extraRR.add(newIssueComments);
+        }
+      }
+      // ExtraR
+      for (Extra issue in issueExtraR) {
+        if (issue.ladder == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Ladder",
+              dateAddedOpen: issue.dateAdded!);
+          extraDD.add(newIssueComments);
+        }
+        if (issue.stepLadder == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Step Ladder",
+              dateAddedOpen: issue.dateAdded!);
+          extraDD.add(newIssueComments);
+        }
+        if (issue.ladderStraps == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Ladder Straps",
+              dateAddedOpen: issue.dateAdded!);
+          extraDD.add(newIssueComments);
+        }
+        if (issue.hydraulicFluidForBucket == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Hydraulic Fluid for Bucket",
+              dateAddedOpen: issue.dateAdded!);
+          extraDD.add(newIssueComments);
+        }
+        if (issue.fiberReelRack == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Fiber Reel Rack",
+              dateAddedOpen: issue.dateAdded!);
+          extraDD.add(newIssueComments);
+        }
+        if (issue.binsLockedAndSecure == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Bins Locked and Secure",
+              dateAddedOpen: issue.dateAdded!);
+          extraDD.add(newIssueComments);
+        }
+        if (issue.safetyHarness == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Safety Harness",
+              dateAddedOpen: issue.dateAdded!);
+          extraDD.add(newIssueComments);
+        }
+        if (issue.lanyardSafetyHarness == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Lanyard Safety Harness",
+              dateAddedOpen: issue.dateAdded!);
+          extraDD.add(newIssueComments);
+        }
+      }
+      //print("BucketInspectionRR: ${bucketInspectionRR.length}");
+
+      print("Entro a getIssuesExtra");
+      print("ExtraRR: ${extraRR.length}");
+      print("ExtraDD: ${extraDD.length}");
+    } catch (e) {
+      print("Error in getIssuesExtra() - $e");
+    }
+    //clearListgetIssues();
+
+    notifyListeners();
+  }
+
+  // --------------------------------------------
+  Future<void> getIssuesFluidCheck(IssuesXUser issuesXUser) async {
+    try {
+      // getIssuesFluidCheckR
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'fluid_check_r ->id_fluids_check, fluid_check_r ->engine_oil,fluid_check_r ->transmission, fluid_check_r ->coolant,fluid_check_r->power_steering,fluid_check_r ->diesel_exhaust_fluid,fluid_check_r ->windshield_washer_fluid, fluid_check_r ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // getIssuesFluidCheckD
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'fluid_check_d ->id_fluids_check, fluid_check_d ->engine_oil,fluid_check_d ->transmission, fluid_check_d ->coolant,fluid_check_d->power_steering,fluid_check_d ->diesel_exhaust_fluid,fluid_check_d ->windshield_washer_fluid, fluid_check_d ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      print(res);
+
+      issueFluidCheckR = (res as List<dynamic>)
+          .map((issueFluidCheckR) =>
+              FluidCheck.fromJson(jsonEncode(issueFluidCheckR)))
+          .toList();
+      issueFluidCheckD = (resD as List<dynamic>)
+          .map((issueFluidCheckD) =>
+              FluidCheck.fromJson(jsonEncode(issueFluidCheckD)))
+          .toList();
+
+      // FluidCheckR
+      for (FluidCheck issue in issueFluidCheckR) {
+        if (issue.engineOil == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Engine Oil",
+              dateAddedOpen: issue.dateAdded!);
+          fluidCheckRR.add(newIssueComments);
+        }
+        if (issue.transmission == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Transmission",
+              dateAddedOpen: issue.dateAdded!);
+          fluidCheckRR.add(newIssueComments);
+        }
+        if (issue.coolant == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Coolant",
+              dateAddedOpen: issue.dateAdded!);
+          fluidCheckRR.add(newIssueComments);
+        }
+        if (issue.powerSteering == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Power Steering",
+              dateAddedOpen: issue.dateAdded!);
+          fluidCheckRR.add(newIssueComments);
+        }
+        if (issue.dieselExhaustFluid == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Diesel Exhaust Fluid",
+              dateAddedOpen: issue.dateAdded!);
+          fluidCheckRR.add(newIssueComments);
+        }
+        if (issue.windshieldWasherFluid == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Windshield Washer Fluid ",
+              dateAddedOpen: issue.dateAdded!);
+          fluidCheckRR.add(newIssueComments);
+        }
+      }
+      // FluidCheckD
+      for (FluidCheck issue in issueFluidCheckD) {
+        if (issue.engineOil == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Engine Oil",
+              dateAddedOpen: issue.dateAdded!);
+          fluidCheckDD.add(newIssueComments);
+        }
+        if (issue.transmission == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Transmission",
+              dateAddedOpen: issue.dateAdded!);
+          fluidCheckDD.add(newIssueComments);
+        }
+        if (issue.coolant == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Coolant",
+              dateAddedOpen: issue.dateAdded!);
+          fluidCheckDD.add(newIssueComments);
+        }
+        if (issue.powerSteering == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Power Steering",
+              dateAddedOpen: issue.dateAdded!);
+          fluidCheckDD.add(newIssueComments);
+        }
+        if (issue.dieselExhaustFluid == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Diesel Exhaust Fluid",
+              dateAddedOpen: issue.dateAdded!);
+          fluidCheckDD.add(newIssueComments);
+        }
+        if (issue.windshieldWasherFluid == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Windshield Washer Fluid ",
+              dateAddedOpen: issue.dateAdded!);
+          fluidCheckDD.add(newIssueComments);
+        }
+      }
+
+      print("Entro a getIssuesFluidCheck");
+    } catch (e) {
+      print("Error in getIssuesFluidCheck() - $e");
+    }
+
+    notifyListeners();
+  }
+
+// --------------------------------------------
+  Future<void> getIssuesLights(IssuesXUser issuesXUser) async {
+    try {
+      // getIssuesLightsR
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'lights_r ->id_lights, lights_r ->headlights,lights_r ->brake_lights, lights_r ->reverse_lights,lights_r->warning_lights,lights_r ->turn_lights,lights_r ->4_way_flashers,lights_r ->dash_lights,lights_r ->strobe_lights,lights_r ->clearance_lights,lights_r ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // getIssuesLightsD
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'lights_d ->id_lights, lights_d ->headlights,lights_d ->brake_lights, lights_d ->reverse_lights,lights_d->warning_lights,lights_d ->turn_lights,lights_d ->4_way_flashers,lights_d ->dash_lights,lights_d ->strobe_lights,lights_d ->clearance_lights,lights_d ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      print(res);
+
+      issueLightsR = (res as List<dynamic>)
+          .map((issueLightsR) => Lights.fromJson(jsonEncode(issueLightsR)))
+          .toList();
+      issueLightsD = (resD as List<dynamic>)
+          .map((issueLightsD) => Lights.fromJson(jsonEncode(issueLightsD)))
+          .toList();
+
+      // LightsR
+      for (Lights issue in issueLightsR) {
+        if (issue.headlights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Headlights",
+              dateAddedOpen: issue.dateAdded!);
+          lightsRR.add(newIssueComments);
+        }
+        if (issue.brakeLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Brake Lights",
+              dateAddedOpen: issue.dateAdded!);
+          lightsRR.add(newIssueComments);
+        }
+        if (issue.reverseLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Reverse Lights",
+              dateAddedOpen: issue.dateAdded!);
+          lightsRR.add(newIssueComments);
+        }
+        if (issue.warningLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Warning Lights",
+              dateAddedOpen: issue.dateAdded!);
+          lightsRR.add(newIssueComments);
+        }
+        if (issue.turnSignals == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Turn Signals",
+              dateAddedOpen: issue.dateAdded!);
+          lightsRR.add(newIssueComments);
+        }
+        if (issue.the4WayFlashers == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "4 way Flashers ",
+              dateAddedOpen: issue.dateAdded!);
+          lightsRR.add(newIssueComments);
+        }
+        if (issue.dashLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Dash Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          lightsRR.add(newIssueComments);
+        }
+        if (issue.strobeLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Strobe Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          lightsRR.add(newIssueComments);
+        }
+        if (issue.cabRoofLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Cab Roof Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          lightsRR.add(newIssueComments);
+        }
+        if (issue.clearanceLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Clearance Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          lightsRR.add(newIssueComments);
+        }
+      }
+      // LightsD
+      for (Lights issue in issueLightsD) {
+        if (issue.headlights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Headlights",
+              dateAddedOpen: issue.dateAdded!);
+          lightsDD.add(newIssueComments);
+        }
+        if (issue.brakeLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Brake Lights",
+              dateAddedOpen: issue.dateAdded!);
+          lightsDD.add(newIssueComments);
+        }
+        if (issue.reverseLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Reverse Lights",
+              dateAddedOpen: issue.dateAdded!);
+          lightsDD.add(newIssueComments);
+        }
+        if (issue.warningLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Warning Lights",
+              dateAddedOpen: issue.dateAdded!);
+          lightsDD.add(newIssueComments);
+        }
+        if (issue.turnSignals == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Turn Signals",
+              dateAddedOpen: issue.dateAdded!);
+          lightsDD.add(newIssueComments);
+        }
+        if (issue.the4WayFlashers == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "4 way Flashers ",
+              dateAddedOpen: issue.dateAdded!);
+          lightsDD.add(newIssueComments);
+        }
+        if (issue.dashLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Dash Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          lightsDD.add(newIssueComments);
+        }
+        if (issue.strobeLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Strobe Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          lightsDD.add(newIssueComments);
+        }
+        if (issue.cabRoofLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Cab Roof Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          lightsDD.add(newIssueComments);
+        }
+        if (issue.clearanceLights == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Clearance Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          lightsDD.add(newIssueComments);
+        }
+      }
+
+      print("Entro a getIssuesLights");
+    } catch (e) {
+      print("Error in getIssuesLights() - $e");
+    }
+
+    notifyListeners();
+  }
+
+  // --------------------------------------------
+  Future<void> getIssuesMeasure(IssuesXUser issuesXUser) async {
+    try {
+      // getIssuesLightsR
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'measure_r ->id_measure, measure_r ->gas,measure_r ->mileage, measure_r->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // getIssuesLightsD
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'measure_d ->id_measure, measure_d ->gas,measure_d ->mileage, measure_d->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      print(res);
+
+      issueMeasureR = (res as List<dynamic>)
+          .map((issueMeasureR) => Measure.fromJson(jsonEncode(issueMeasureR)))
+          .toList();
+      issueMeasureD = (resD as List<dynamic>)
+          .map((issueMeasureD) => Measure.fromJson(jsonEncode(issueMeasureD)))
+          .toList();
+
+      // MeasureR
+      for (Measure issue in issueMeasureR) {
+        if (issue.gas != "") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idMeasure!,
+              nameIssue: "Gas",
+              percentage: issue.gas,
+              dateAddedOpen: issue.dateAdded!);
+          measureRR.add(newIssueComments);
+        }
+
+        IssueOpenclose newIssueComments = IssueOpenclose(
+            idIssue: issue.idMeasure!,
+            nameIssue: "Mileage",
+            percentage: issue.mileage.toString(),
+            dateAddedOpen: issue.dateAdded!);
+        measureRR.add(newIssueComments);
+      }
+      // MeasureD
+      for (Measure issue in issueMeasureD) {
+        if (issue.gas != "") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idMeasure!,
+              nameIssue: "Gas",
+              percentage: issue.gas,
+              dateAddedOpen: issue.dateAdded!);
+          measureDD.add(newIssueComments);
+        }
+
+        IssueOpenclose newIssueComments = IssueOpenclose(
+            idIssue: issue.idMeasure!,
+            nameIssue: "Mileage",
+            percentage: issue.mileage.toString(),
+            dateAddedOpen: issue.dateAdded!);
+        measureDD.add(newIssueComments);
+      }
+
+      print("Entro a getIssueMeasure");
+    } catch (e) {
+      print("Error in getIssueMeasure() - $e");
+    }
+
+    notifyListeners();
+  }
+
+  // --------------------------------------------
+  Future<void> getIssueSecurity(IssuesXUser issuesXUser) async {
+    try {
+      // getIssuesLightsR
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'security_r ->id_security, security_r ->rta_magnet,security_r ->triangle_reflectors, security_r ->wheel_chocks,security_r->fire_extinguisher,security_r ->firts_aid_kit_safety_vest,security_r ->back_up_alarm,security_r ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // getIssuesLightsD
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'security_d ->id_security, security_d ->rta_magnet,security_d ->triangle_reflectors, security_d ->wheel_chocks,security_d->fire_extinguisher,security_d ->firts_aid_kit_safety_vest,security_d ->back_up_alarm,security_d ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      print(res);
+
+      issueSecurityR = (res as List<dynamic>)
+          .map(
+              (issueSecurityR) => Security.fromJson(jsonEncode(issueSecurityR)))
+          .toList();
+      issueSecurityD = (resD as List<dynamic>)
+          .map(
+              (issueSecurityD) => Security.fromJson(jsonEncode(issueSecurityD)))
+          .toList();
+
+      // SecurityR
+      for (Security issue in issueSecurityR) {
+        if (issue.rtaMagnet == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "RTA Magnet",
+              dateAddedOpen: issue.dateAdded!);
+          securityRR.add(newIssueComments);
+        }
+        if (issue.triangleReflectors == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Triangle Reflectors",
+              dateAddedOpen: issue.dateAdded!);
+          securityRR.add(newIssueComments);
+        }
+        if (issue.wheelChocks == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Wheel Chocks",
+              dateAddedOpen: issue.dateAdded!);
+          securityRR.add(newIssueComments);
+        }
+        if (issue.fireExtinguisher == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Fire Extinguisher",
+              dateAddedOpen: issue.dateAdded!);
+          securityRR.add(newIssueComments);
+        }
+        if (issue.firstAidKitSafetyVest == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "First Aid Kit Safety Vest",
+              dateAddedOpen: issue.dateAdded!);
+          securityRR.add(newIssueComments);
+        }
+        if (issue.backUpAlarm == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Back Up Alarm",
+              dateAddedOpen: issue.dateAdded!);
+          securityRR.add(newIssueComments);
+        }
+      }
+
+      // SecurityR
+      for (Security issue in issueSecurityD) {
+        if (issue.rtaMagnet == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "RTA Magnet",
+              dateAddedOpen: issue.dateAdded!);
+          securityDD.add(newIssueComments);
+        }
+        if (issue.triangleReflectors == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Triangle Reflectors",
+              dateAddedOpen: issue.dateAdded!);
+          securityDD.add(newIssueComments);
+        }
+        if (issue.wheelChocks == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Wheel Chocks",
+              dateAddedOpen: issue.dateAdded!);
+          securityDD.add(newIssueComments);
+        }
+        if (issue.fireExtinguisher == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Fire Extinguisher",
+              dateAddedOpen: issue.dateAdded!);
+          securityDD.add(newIssueComments);
+        }
+        if (issue.firstAidKitSafetyVest == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "First Aid Kit Safety Vest",
+              dateAddedOpen: issue.dateAdded!);
+          securityDD.add(newIssueComments);
+        }
+        if (issue.backUpAlarm == "Bad") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Back Up Alarm",
+              dateAddedOpen: issue.dateAdded!);
+          securityDD.add(newIssueComments);
+        }
+      }
+
+      print("Entro a getIssuesSecuurity");
+    } catch (e) {
+      print("Error in getIssuesSecuurity() - $e");
+    }
+
+    notifyListeners();
+  }
+
+  bool cambiovistaMeasures = true;
+  // --------------------------------------------
   void clearListgetIssues() {
     bucketInspectionRR.clear();
     bucketInspectionDD.clear();
@@ -1196,6 +1900,18 @@ class InventoryProvider extends ChangeNotifier {
     carBodyWorkDD.clear();
     equipmentRR.clear();
     equipmentDD.clear();
+    extraRR.clear();
+    extraDD.clear();
+    lightsRR.clear();
+    lightsDD.clear();
+    fluidCheckRR.clear();
+    fluidCheckDD.clear();
+    lightsRR.clear();
+    lightsDD.clear();
+    measureRR.clear();
+    measureDD.clear();
+    securityRR.clear();
+    securityDD.clear();
   }
 
   //---------------------------------------------

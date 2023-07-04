@@ -37,7 +37,7 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
       backgroundColor: Colors.transparent,
       content: CustomCard(
         title: 'Add Service',
-        height: 350,
+        height: 375,
         width: 380,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,6 +48,16 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Container(
+                        height: 45,
+                        width: 200,
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.only(bottom: 10.0, top: 10.0),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Text(
+                            "License Plates: ${provider.actualVehicle!.licesensePlates}")),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
@@ -80,28 +90,6 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
 
                             if (newDate != null) {
                               provider.serviceDateController.text =
-                                  DateFormat("MM/dd/yyyy").format(newDate);
-                            }
-                          }),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      child: CustomTextFieldForm(
-                          label: '3. Next Date',
-                          controller: provider.nextDateController!,
-                          enabled: true,
-                          onTapCheck: true,
-                          width: 350,
-                          keyboardType: TextInputType.text,
-                          onTap: () async {
-                            DateTime? newDate = await showDatePicker(
-                                context: context,
-                                initialDate: date,
-                                firstDate: DateTime(1980),
-                                lastDate: DateTime(2050));
-
-                            if (newDate != null) {
-                              provider.nextDateController!.text =
                                   DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),

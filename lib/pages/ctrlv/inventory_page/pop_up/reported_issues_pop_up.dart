@@ -39,18 +39,22 @@ class _ReportedIssuesState extends State<ReportedIssues> {
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                ///mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomTextIconButton(
-                    width: 83,
-                    isLoading: false,
-                    icon: Icon(Icons.arrow_back_outlined,
-                        color: AppTheme.of(context).primaryBackground),
-                    text: 'Back',
-                    color: AppTheme.of(context).primaryColor,
-                    onTap: () async {
-                      provider.setIssueViewActual(0);
-                    },
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.only(right: 325.0),
+                    child: CustomTextIconButton(
+                      width: 83,
+                      isLoading: false,
+                      icon: Icon(Icons.arrow_back_outlined,
+                          color: AppTheme.of(context).primaryBackground),
+                      text: 'Back',
+                      color: AppTheme.of(context).primaryColor,
+                      onTap: () async {
+                        provider.setIssueViewActual(0);
+                      },
+                    ),
                   ),
                   Container(
                       width: 400,
@@ -204,7 +208,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                    left: 50,
+                    left: 80,
                     right: 30,
                   ),
                   child: CustomTextIconButton(
@@ -286,9 +290,11 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           width: 1250,
                           height: 360,
                           child: TabBarView(children: [
-                            Column(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 ListIssuesCard(
+                                    contador: 1,
                                     issuesComments:
                                         provider.bucketInspectionRR),
                                 ListIssuesCardD(
@@ -296,36 +302,75 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                         provider.bucketInspectionDD),
                               ],
                             ),
-                            Column(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 ListIssuesCard(
+                                    contador: 2,
                                     issuesComments: provider.carBodyWorkRR),
                                 ListIssuesCardD(
                                     issuesComments: provider.carBodyWorkDD),
                               ],
                             ),
-                            Column(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 ListIssuesCard(
+                                    contador: 3,
                                     issuesComments: provider.equipmentRR),
                                 ListIssuesCardD(
                                     issuesComments: provider.equipmentDD),
                               ],
                             ),
-                            Container(
-                              color: Colors.green,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ListIssuesCard(
+                                    contador: 4,
+                                    issuesComments: provider.extraRR),
+                                ListIssuesCardD(
+                                    issuesComments: provider.extraDD),
+                              ],
                             ),
-                            Container(
-                              color: Colors.yellow,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ListIssuesCard(
+                                    contador: 5,
+                                    issuesComments: provider.fluidCheckRR),
+                                ListIssuesCardD(
+                                    issuesComments: provider.fluidCheckDD),
+                              ],
                             ),
-                            Container(
-                              color: Colors.pink,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ListIssuesCard(
+                                    contador: 6,
+                                    issuesComments: provider.lightsRR),
+                                ListIssuesCardD(
+                                    issuesComments: provider.lightsDD),
+                              ],
                             ),
-                            Container(
-                              color: Colors.white,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ListIssuesCard(
+                                    contador: 7,
+                                    issuesComments: provider.measureRR),
+                                ListIssuesCardD(
+                                    issuesComments: provider.measureDD),
+                              ],
                             ),
-                            Container(
-                              color: Colors.orange,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ListIssuesCard(
+                                    contador: 8,
+                                    issuesComments: provider.securityRR),
+                                ListIssuesCardD(
+                                    issuesComments: provider.securityDD),
+                              ],
                             ),
                           ])),
                     )
