@@ -29,7 +29,7 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
           children: [
             Container(
               height: (650 * 0.7586633663366337).toDouble(),
-              width: 600,
+              width: 611,
               alignment: AlignmentDirectional.centerEnd,
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: CustomPaint(

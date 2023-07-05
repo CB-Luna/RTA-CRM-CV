@@ -2,7 +2,6 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/issues_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/cry_card.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/details_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/odi_card.dart';
@@ -10,7 +9,6 @@ import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/smi_card.dar
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
-//import 'widgets/carga_de_ticket_popup.dart';
 import '../../../helpers/constants.dart';
 import '../../../providers/side_menu_provider.dart';
 
@@ -48,9 +46,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
     sideM.setIndex(7);
-    // final VisualStateProvider visualState =
-    //     Provider.of<VisualStateProvider>(context);
-    // visualState.setTapedOption(1);
 
     return Scaffold(
       key: widget.scaffoldKey,
@@ -371,7 +366,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   );
                                                 },
                                               ),
-
                                               PlutoColumn(
                                                 title: 'Make',
                                                 field: 'make',
@@ -670,118 +664,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   );
                                                 },
                                               ),
-                                              // PlutoColumn(
-                                              //   title: 'details',
-                                              //   field: 'details',
-                                              //   backgroundColor:
-                                              //       const Color(0XFF6491F7),
-                                              //   titleSpan: TextSpan(children: [
-                                              //     WidgetSpan(
-                                              //         child: Icon(
-                                              //             Icons
-                                              //                 .calendar_view_week_outlined,
-                                              //             color: AppTheme.of(
-                                              //                     context)
-                                              //                 .primaryBackground)),
-                                              //     const WidgetSpan(
-                                              //         child:
-                                              //             SizedBox(width: 10)),
-                                              //     TextSpan(
-                                              //         text: 'Details',
-                                              //         style:
-                                              //             AppTheme.of(context)
-                                              //                 .encabezadoTablas)
-                                              //   ]),
-                                              //   width: MediaQuery.of(context)
-                                              //           .size
-                                              //           .width *
-                                              //       0.10,
-                                              //   cellPadding: EdgeInsets.zero,
-                                              //   titleTextAlign:
-                                              //       PlutoColumnTextAlign.center,
-                                              //   textAlign:
-                                              //       PlutoColumnTextAlign.center,
-                                              //   type: PlutoColumnType.text(),
-                                              //   enableEditingMode: false,
-                                              //   renderer: (rendererContext) {
-                                              //     return Container(
-                                              //       height: rowHeight,
-                                              //       decoration: BoxDecoration(
-                                              //           gradient:
-                                              //               whiteGradient),
-                                              //       child: Center(
-                                              //           child: Row(
-                                              //         mainAxisAlignment:
-                                              //             MainAxisAlignment
-                                              //                 .center,
-                                              //         children: [
-                                              //           Padding(
-                                              //             padding:
-                                              //                 const EdgeInsets
-                                              //                         .only(
-                                              //                     left: 10),
-                                              //             child:
-                                              //                 CustomTextIconButton(
-                                              //               mainAxisAlignment:
-                                              //                   MainAxisAlignment
-                                              //                       .center,
-                                              //               width: 65,
-                                              //               isLoading: false,
-                                              //               icon: Icon(
-                                              //                   Icons
-                                              //                       .remove_red_eye_outlined,
-                                              //                   color: AppTheme.of(
-                                              //                           context)
-                                              //                       .primaryBackground),
-                                              //               text: '',
-                                              //               color: AppTheme.of(
-                                              //                       context)
-                                              //                   .primaryColor,
-                                              //               onTap: () async {
-                                              //                 provider.getIssuesxUsers(
-                                              //                     rendererContext
-                                              //                         .cell
-                                              //                         .value);
-                                              //                 provider.selectVehicle(
-                                              //                     rendererContext
-                                              //                         .cell
-                                              //                         .value);
-
-                                              //                 // No entra en GetIssues por que esta nulo el actualissueIUser
-
-                                              //                 // provider.getIssues(
-                                              //                 //     provider
-                                              //                 //         .actualIssueXUser!);
-                                              //                 // provider.selectIssuesXUser(
-                                              //                 //     provider
-                                              //                 //         .issuesxUser
-                                              //                 //         .length);
-                                              //                 print(
-                                              //                     "IssuesxUser:  ${provider.actualIssueXUser}");
-                                              //                 showDialog(
-                                              //                     context:
-                                              //                         context,
-                                              //                     builder:
-                                              //                         (BuildContext
-                                              //                             context) {
-                                              //                       return StatefulBuilder(builder:
-                                              //                           (context,
-                                              //                               setState) {
-                                              //                         return DetailsPopUp(
-                                              //                           vehicle: rendererContext
-                                              //                               .cell
-                                              //                               .value,
-                                              //                         );
-                                              //                       });
-                                              //                     });
-                                              //               },
-                                              //             ),
-                                              //           ),
-                                              //         ],
-                                              //       )),
-                                              //     );
-                                              //   },
-                                              // ),
                                               PlutoColumn(
                                                 title: 'actions',
                                                 field: 'actions',
@@ -863,17 +745,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                                       .value);
                                                               provider
                                                                   .getServicesPage();
-
-                                                              // No entra en GetIssues por que esta nulo el actualissueIUser
-
-                                                              // provider.getIssues(
-                                                              //     provider
-                                                              //         .actualIssueXUser!);
-                                                              // provider.selectIssuesXUser(
-                                                              //     provider
-                                                              //         .issuesxUser
-                                                              //         .length);
-
                                                               showDialog(
                                                                   context:
                                                                       context,
@@ -1024,126 +895,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   );
                                                 },
                                               ),
-                                              // PlutoColumn(
-                                              //   title: 'issues',
-                                              //   field: 'issues',
-                                              //   backgroundColor:
-                                              //       const Color(0XFF6491F7),
-                                              //   titleSpan: TextSpan(children: [
-                                              //     WidgetSpan(
-                                              //         child: Icon(
-                                              //             Icons
-                                              //                 .warning_outlined,
-                                              //             color: AppTheme.of(
-                                              //                     context)
-                                              //                 .primaryBackground)),
-                                              //     const WidgetSpan(
-                                              //         child:
-                                              //             SizedBox(width: 10)),
-                                              //     TextSpan(
-                                              //         text: 'Issues',
-                                              //         style:
-                                              //             AppTheme.of(context)
-                                              //                 .encabezadoTablas)
-                                              //   ]),
-                                              //   width: MediaQuery.of(context)
-                                              //           .size
-                                              //           .width *
-                                              //       0.10,
-                                              //   cellPadding: EdgeInsets.zero,
-                                              //   titleTextAlign:
-                                              //       PlutoColumnTextAlign.center,
-                                              //   textAlign:
-                                              //       PlutoColumnTextAlign.center,
-                                              //   type: PlutoColumnType.text(),
-                                              //   enableEditingMode: false,
-                                              //   renderer: (rendererContext) {
-                                              //     return Container(
-                                              //       height: rowHeight,
-                                              //       decoration: BoxDecoration(
-                                              //           gradient:
-                                              //               whiteGradient),
-                                              //       child: Center(
-                                              //           child: Row(
-                                              //         mainAxisAlignment:
-                                              //             MainAxisAlignment
-                                              //                 .center,
-                                              //         children: [
-                                              //           CustomTextIconButton(
-                                              //             mainAxisAlignment:
-                                              //                 MainAxisAlignment
-                                              //                     .center,
-                                              //             width: 120,
-                                              //             isLoading: false,
-                                              //             icon: Icon(
-                                              //                 Icons
-                                              //                     .remove_red_eye_outlined,
-                                              //                 color: AppTheme.of(
-                                              //                         context)
-                                              //                     .primaryBackground),
-                                              //             text: 'Issues',
-                                              //             color: AppTheme.of(
-                                              //                     context)
-                                              //                 .primaryColor,
-                                              //             onTap: () async {
-                                              //               provider.vistaIssues =
-                                              //                   true;
-                                              //               provider.selectVehicle(
-                                              //                   rendererContext
-                                              //                       .cell
-                                              //                       .value);
-                                              //               provider
-                                              //                   .getIssuesxUsers(
-                                              //                       rendererContext
-                                              //                           .cell
-                                              //                           .value);
-                                              //               provider
-                                              //                   .setIssueViewActual(
-                                              //                       0);
-
-                                              //               showDialog(
-                                              //                   context:
-                                              //                       context,
-                                              //                   builder:
-                                              //                       (BuildContext
-                                              //                           context) {
-                                              //                     return const IssuesPopUp();
-                                              //                   });
-                                              //             },
-                                              //           ),
-                                              //           // ElevatedButton(
-                                              //           //     onPressed: () {
-                                              //           //       provider.vistaIssues =
-                                              //           //           true;
-                                              //           //       provider.selectVehicle(
-                                              //           //           rendererContext
-                                              //           //               .cell
-                                              //           //               .value);
-                                              //           //       provider.getIssuesxUsers(
-                                              //           //           rendererContext
-                                              //           //               .cell
-                                              //           //               .value);
-                                              //           //       provider
-                                              //           //           .setIssueViewActual(
-                                              //           //               0);
-                                              //           //       showDialog(
-                                              //           //           context:
-                                              //           //               context,
-                                              //           //           builder:
-                                              //           //               (BuildContext
-                                              //           //                   context) {
-                                              //           //             return const IssuesPopUp();
-                                              //           //           });
-                                              //           //     },
-                                              //           //     child: const Icon(
-                                              //           //       Icons
-                                              //           //           .remove_red_eye_outlined,
-                                              //           //     ))
-                                              //         ],
-                                              //       )),
-                                              //     );
-                                              //   },
-                                              // ),
                                             ],
                                             rows: widget.provider.rows,
                                             createFooter: (stateManager) {
@@ -1180,21 +931,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                     ),
                                   ],
                                 )),
-                            // InventoryPageHeader(),
-                            // //ESTATUS STEPPER
-                            // const SizedBox(
-                            //   height: 20,
-                            // ),
-                            // // Titulo de la tabla
-                            // const Padding(
-                            //     padding: EdgeInsets.only(bottom: 10),
-                            //     child: CardHeader(text: "Vehicle Inventory")),
-
-                            // // PLUTO GRID
-                            // // widget.provider.vehicles.isEmpty
-                            // //     ? const CircularProgressIndicator()
-
-                            // const SizedBox(height: 20),
                           ],
                         ),
                       ),

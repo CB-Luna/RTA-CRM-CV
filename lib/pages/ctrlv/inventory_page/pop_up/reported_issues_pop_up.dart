@@ -184,7 +184,20 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           color: AppTheme.of(context).primaryBackground),
                       text: 'Date',
                       color: AppTheme.of(context).primaryColor,
-                      onTap: () => {provider.filtrarPorMes(19)}),
+                      onTap: () {
+                        provider.listaTotalIssues.addAll(provider.fluidCheckRR);
+                        provider.listaTotalIssues
+                            .addAll(provider.bucketInspectionRR);
+                        provider.listaTotalIssues
+                            .addAll(provider.carBodyWorkRR);
+                        provider.listaTotalIssues.addAll(provider.equipmentRR);
+                        provider.listaTotalIssues.addAll(provider.extraRR);
+                        provider.listaTotalIssues
+                            .addAll(provider.bucketInspectionRR);
+                        provider.listaTotalIssues.addAll(provider.measureRR);
+                        provider.listaTotalIssues.addAll(provider.securityRR);
+                        provider.filtrarPorMes(12);
+                      }),
                 ),
               ],
             )),

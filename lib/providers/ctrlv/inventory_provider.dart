@@ -155,7 +155,7 @@ class InventoryProvider extends ChangeNotifier {
   List<IssuesComments> measureD = [];
   List<IssuesComments> securityD = [];
 
-  List<IssuesComments> listaTotalIssues = [];
+  List<IssueOpenclose> listaTotalIssues = [];
 
 //------------------------------------------
   // TITULO LISTAS
@@ -211,20 +211,20 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //------------------------------------------
-  List<IssuesComments> issuesComments = [];
-  void selectIssuesCommentsR(int index) {
-    issuesComments = menuIssuesReceived[index]!;
-    //print("IssuesComments: ${issuesComments.length} ");
-    notifyListeners();
-  }
+  // ------------------------------------------
+  // List<IssuesComments> issuesComments = [];
+  // void selectIssuesCommentsR(int index) {
+  //   issuesComments = // menuIssuesReceived[index]!;
+  //   //print("IssuesComments: ${issuesComments.length} ");
+  //   notifyListeners();
+  // }
 
-  //------------------------------------------
-  List<IssuesComments> issuesCommentsD = [];
-  void selectIssuesCommentsD(int index) {
-    issuesCommentsD = menuIssuesReceivedD[index]!;
-    notifyListeners();
-  }
+  // //------------------------------------------
+  // List<IssuesComments> issuesCommentsD = [];
+  // void selectIssuesCommentsD(int index) {
+  //   issuesCommentsD = // // // // menuIssuesReceivedD[index]!;
+  //   notifyListeners();
+  // }
   //------------------------------------------
 
   void selectIssuesXUser(int index) {
@@ -233,11 +233,11 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   //------------------------------------------
-  List<IssuesComments> listaFiltrada = []; // Lista filtrada, inicialmente vacía
-
-  void filtrarPorMes(int dia) {
+  List<IssueOpenclose> listaFiltrada = []; // Lista filtrada, inicialmente vacía
+  void filtrarPorMes(int day) {
+    print("provider.listaTotalISSUES: ${listaTotalIssues.length}");
     listaFiltrada = listaTotalIssues
-        .where((elemento) => elemento.dateAdded.day == dia)
+        .where((elemento) => elemento.dateAddedOpen.day == day)
         .toList();
     print("Provider.listafiltrada: ${listaFiltrada.length}");
     notifyListeners();
@@ -1958,7 +1958,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceived.update(0, (value) => bucketInspectionR);
+          // menuIssuesReceived.update(0, (value) => bucketInspectionR);
 
           // ---------------------- CarBodyWork_r ----------------------------//
           if (issue.carBodyworkR.toMap().containsValue("Bad")) {
@@ -1985,7 +1985,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceived.update(1, (value) => carBodyWorkR);
+          // menuIssuesReceived.update(1, (value) => carBodyWorkR);
 
           // ---------------------- equipmentR ----------------------------//
           if (issue.equimentR.toMap().containsValue("Bad")) {
@@ -2012,7 +2012,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceived.update(2, (value) => equipmentR);
+          // menuIssuesReceived.update(2, (value) => equipmentR);
 
           // ---------------------- extraR ----------------------------//
           if (issue.extraR.toMap().containsValue("Bad")) {
@@ -2039,7 +2039,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceived.update(3, (value) => extraR);
+          // menuIssuesReceived.update(3, (value) => extraR);
 
           // ---------------------- fluidCheckR ----------------------------//
           if (issue.fluidCheckR.toMap().containsValue("Bad")) {
@@ -2066,7 +2066,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceived.update(4, (value) => fluidCheckR);
+          // menuIssuesReceived.update(4, (value) => fluidCheckR);
 
           // ---------------------- lightsR ----------------------------//
           if (issue.lightsR.toMap().containsValue("Bad")) {
@@ -2093,7 +2093,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceived.update(5, (value) => lightsR);
+          // menuIssuesReceived.update(5, (value) => lightsR);
 
           // ---------------------- MeasureR ----------------------------//
           if (issue.measureR.toMap().containsValue("Bad")) {
@@ -2120,7 +2120,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceived.update(6, (value) => measureR);
+          // menuIssuesReceived.update(6, (value) => measureR);
 
           // ---------------------- SecurityR ----------------------------//
           if (issue.securityR.toMap().containsValue("Bad")) {
@@ -2148,7 +2148,7 @@ class InventoryProvider extends ChangeNotifier {
             });
           }
         }
-        menuIssuesReceived.update(7, (value) => securityR);
+        // menuIssuesReceived.update(7, (value) => securityR);
 
         //------------------------- APARTADO DE LOS DELIVERED --------------------//
         if (issue.issuesD != 0) {
@@ -2177,7 +2177,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceivedD.update(0, (value) => bucketInspectionD);
+          // // // // menuIssuesReceivedD.update(0, (value) => bucketInspectionD);
 
           // ---------------------- CarBodyWork_d ----------------------------//
           if (issue.carBodyworkD.toMap().containsValue("Bad")) {
@@ -2204,7 +2204,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceivedD.update(1, (value) => carBodyWorkD);
+          // // // // menuIssuesReceivedD.update(1, (value) => carBodyWorkD);
 
           // ---------------------- equipmentD ----------------------------//
           if (issue.equimentD.toMap().containsValue("Bad")) {
@@ -2231,7 +2231,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceivedD.update(2, (value) => equipmentD);
+          // // // // menuIssuesReceivedD.update(2, (value) => equipmentD);
 
           // ---------------------- extraD ----------------------------//
           if (issue.extraD.toMap().containsValue("Bad")) {
@@ -2258,7 +2258,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceivedD.update(3, (value) => extraD);
+          // // // // menuIssuesReceivedD.update(3, (value) => extraD);
 
           // ---------------------- MeasureD ----------------------------//
           if (issue.measureD.toMap().containsValue("Bad")) {
@@ -2285,7 +2285,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceivedD.update(4, (value) => measureD);
+          // // // // menuIssuesReceivedD.update(4, (value) => measureD);
 
           /////
           /// // ---------------------- fluidCheckD ----------------------------//
@@ -2313,7 +2313,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceivedD.update(5, (value) => fluidCheckD);
+          // // // // menuIssuesReceivedD.update(5, (value) => fluidCheckD);
 
           // ---------------------- lightsD ----------------------------//
           if (issue.lightsD.toMap().containsValue("Bad")) {
@@ -2340,7 +2340,7 @@ class InventoryProvider extends ChangeNotifier {
               }
             });
           }
-          menuIssuesReceivedD.update(6, (value) => lightsD);
+          // // // // menuIssuesReceivedD.update(6, (value) => lightsD);
 
           // ---------------------- SecurityD ----------------------------//
           if (issue.securityD.toMap().containsValue("Bad")) {
@@ -2369,31 +2369,7 @@ class InventoryProvider extends ChangeNotifier {
           }
         }
       }
-      menuIssuesReceivedD.update(7, (value) => securityD);
-
-      // PRINT DE LA INFORMACIÓN
-      print("-----------------------------------");
-      print("BucketInspectionR: ${bucketInspectionR.length}");
-      print("BucketInspectionD: ${bucketInspectionD.length}");
-      print("CarBodyWorkR: ${carBodyWorkR.length}");
-      print("carBodyWorkD: ${carBodyWorkD.length}");
-      print("equipmentR: ${equipmentR.length}");
-      print("equipmentD: ${equipmentD.length}");
-      print("extraR: ${extraR.length}");
-      print("extraD: ${extraD.length}");
-      print("fluidCheckR: ${fluidCheckR.length}");
-      print("fluidCheckD: ${fluidCheckD.length}");
-      print("lightsR: ${lightsR.length}");
-      print("lightsD: ${lightsD.length}");
-      print("measureR: ${measureR.length}");
-      print("measureD: ${measureD.length}");
-      print("SecurityD: ${securityD.length}");
-      print("SecurityR: ${securityR.length}");
-      print("-----------------------------------");
-
-      print("MenuReceived:  ${menuIssuesReceived.length}");
-      print("MenuReceivedD:  ${menuIssuesReceivedD.length}");
-      print("MenuReceivedT:  ${menuIssuesReceivedT.length}");
+      // // // // menuIssuesReceivedD.update(7, (value) => securityD);
 
       print("-----------------------------------");
       notifyListeners();
@@ -2403,112 +2379,6 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   //---------------------------------------------
-  Map<int, List<IssuesComments>> menuIssuesReceived = {
-    0: [], //  0
-    1: [], //  1
-    2: [], //  2
-    3: [], //  3
-    4: [], //  4
-    5: [], //  5
-    6: [], // 6
-    7: [], // 7
-
-    // "Bucket Inspection": [], //  0
-    // "Car BodyWork": [], //  1
-    // "Equipment": [], //  2
-    // "Extra": [], //  3P
-    // "Fluids Check": [], //  4
-    // "Lights": [], //  5
-    // "Measures": [], // 6
-    // "Security": [], // 7
-  };
-  //---------------------------------------------
-  Map<int, List<IssueOpenclose>> menuIssuesReceivedA = {
-    0: [], //  0
-    1: [], //  1
-    2: [], //  2
-    3: [], //  3
-    4: [], //  4
-    5: [], //  5
-    6: [], // 6
-    7: [], // 7
-
-    // "Bucket Inspection": [], //  0
-    // "Car BodyWork": [], //  1
-    // "Equipment": [], //  2
-    // "Extra": [], //  3P
-    // "Fluids Check": [], //  4
-    // "Lights": [], //  5
-    // "Measures": [], // 6
-    // "Security": [], // 7
-  };
-  //---------------------------------------------
-  Map<int, List<IssueOpenclose>> menuIssuesReceivedr = {
-    0: [], //  0
-    1: [], //  1
-    2: [], //  2
-    3: [], //  3
-    4: [], //  4
-    5: [], //  5
-    6: [], // 6
-    7: [], // 7
-
-    // "Bucket Inspection": [], //  0
-    // "Car BodyWork": [], //  1
-    // "Equipment": [], //  2
-    // "Extra": [], //  3P
-    // "Fluids Check": [], //  4
-    // "Lights": [], //  5
-    // "Measures": [], // 6
-    // "Security": [], // 7
-  };
-
-  Map<int, List<IssuesComments>> menuIssuesReceivedT = {
-    // 0: [], //  0
-    // 1: [], //  1
-    // 2: [], //  2
-    // 3: [], //  3
-    // 4: [], //  4
-    // 5: [], //  5
-    // 6: [], // 6
-    // 7: [], // 7
-    // 8: [],
-    // 9: [],
-    // 10: [],
-    // 11: [],
-    // 12: [],
-    // 13: [],
-    // 14: [],
-    // 15: [],
-    // "Bucket Inspection": [], //  0
-    // "Car BodyWork": [], //  1
-    // "Equipment": [], //  2
-    // "Extra": [], //  3
-    // "Fluids Check": [], //  4
-    // "Lights": [], //  5
-    // "Measures": [], // 6
-    // "Security": [], // 7
-  };
-  //---------------------------------------------
-  Map<int, List<IssuesComments>> menuIssuesReceivedD = {
-    // 7'
-    0: [], //  0
-    1: [], //  1
-    2: [], //  2
-    3: [], //  3
-    4: [], //  4
-    5: [], //  5
-    6: [], // 6
-    7: [], // 7
-    // "Bucket Inspection": [], //  0
-    // "Car BodyWork": [], //  1
-    // "Equipment": [], //  2
-    // "Extra": [], //  3
-    // "Fluids Check": [], //  4
-    // "Lights": [], //  5
-    // "Measures": [], // 6
-    // "Security": [], // 7
-  };
 
   //---------------------------------------------
 
