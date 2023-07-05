@@ -481,13 +481,14 @@ class MonitoryProvider extends ChangeNotifier {
                 (calendarController.selectedDate!.month == event.dateAddedR.month) &
                 (calendarController.selectedDate!.year == event.dateAddedR.year)) {
               
-              idEventos.add(event);
+              // idEventos.add(event);
               numCheckOutCRY += 1;
             }
             if ((calendarController.selectedDate!.day == event.dateAddedD!.day) &
                 (calendarController.selectedDate!.month == event.dateAddedD!.month) &
                 (calendarController.selectedDate!.year == event.dateAddedD!.year)) {
                   idEventos.add(event);
+                  numCheckOutCRY -= 1;
               numCheckInCRY += 1;
             }
             continue;
@@ -495,7 +496,7 @@ class MonitoryProvider extends ChangeNotifier {
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
                 (calendarController.selectedDate!.month == event.dateAddedR.month) &
                 (calendarController.selectedDate!.year == event.dateAddedR.year)) {
-                  idEventos.add(event);
+                  // idEventos.add(event);
               numCheckOutODE += 1;
             }
 
@@ -503,6 +504,7 @@ class MonitoryProvider extends ChangeNotifier {
                 (calendarController.selectedDate!.month == event.dateAddedD!.month) &
                 (calendarController.selectedDate!.year == event.dateAddedD!.year)) {
                   idEventos.add(event);
+                  numCheckOutODE -= 1;
               numCheckInODE += 1;
             }
             continue;
@@ -510,7 +512,7 @@ class MonitoryProvider extends ChangeNotifier {
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
                 (calendarController.selectedDate!.month == event.dateAddedR.month) &
                 (calendarController.selectedDate!.year == event.dateAddedR.year)) {
-                  idEventos.add(event);
+                  // idEventos.add(event);
               numCheckOutSMI += 1;
             }
 
@@ -518,6 +520,7 @@ class MonitoryProvider extends ChangeNotifier {
                 (calendarController.selectedDate!.month == event.dateAddedD!.month) &
                 (calendarController.selectedDate!.year == event.dateAddedD!.year)) {
                   idEventos.add(event);
+                  numCheckOutSMI -= 1;
               numCheckInSMI += 1;
             }
             continue;
