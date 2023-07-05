@@ -48,6 +48,8 @@ class CustomAgenda extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: 
+                      provider.idEventos[index].dateAddedD == null ?
+                      //Cuando tiene Fecha de Check In
                       provider.idEventos[index].company.company == "ODE"
                       ?
                       Container(
@@ -55,6 +57,126 @@ class CustomAgenda extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: AppTheme.of(context).secondaryColor,
                           borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            color: AppTheme.of(context).tertiaryColor,
+                            width: 5,
+                          ),
+                        ),
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                                '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                style: TextStyle(
+                                  color: color,
+                                )),
+                            Text(
+                                '${provider.idEventos[index].vehicle.licesensePlates}',
+                                style: TextStyle(
+                                  color: color,
+                                ),),
+                                Text(
+                                DateFormat('hh:mm:ss a').format(provider.idEventos[index].dateAddedR),
+                                style: TextStyle(
+                                  color: color,
+                                ),),
+                            // Text(DateFormat('hh:mm:ss a').format(provider.idEventos[index].dateAddedD),
+                            // style: TextStyle(
+                            //       color: color,
+                            //     ),),
+                            Image.network(
+                              height: 150,
+                              provider.idEventos[index].vehicle.image,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
+                        ),
+                      ): provider.idEventos[index].company.company == "CRY" ?
+                      Container(
+                        width: 400,
+                        decoration: BoxDecoration(
+                          color: AppTheme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            color: AppTheme.of(context).tertiaryColor,
+                            width: 5,
+                          ),
+                        ),
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                                '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                style: TextStyle(
+                                  color: color,
+                                ),),
+                            Text(
+                                '${provider.idEventos[index].vehicle.licesensePlates}',
+                                style: TextStyle(
+                                  color: color,
+                                ),),
+                            Text(provider.idEventos[index].dateAddedD == null ? DateFormat('hh:mm:ss a').format(provider.idEventos[index].dateAddedR): '',
+                            style: TextStyle(
+                                  color: color,
+                                ),),
+                            Image.network(
+                              height: 150,
+                              provider.idEventos[index].vehicle.image,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
+                        )
+                    ): provider.idEventos[index].company.company == "SMI" ?
+                    Container(
+                        width: 400,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(255, 138, 0, 1),
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            color: AppTheme.of(context).tertiaryColor,
+                            width: 5,
+                          ),
+                        ),
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                                '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                style: TextStyle(
+                                  color: color,
+                                ),),
+                            Text(
+                                '${provider.idEventos[index].vehicle.licesensePlates}',
+                                style: TextStyle(
+                                  color: color,
+                                ),),
+                            Text(provider.idEventos[index].dateAddedD == null ? DateFormat('hh:mm:ss a').format(provider.idEventos[index].dateAddedR): '',
+                            style: TextStyle(
+                                  color: color,
+                                ),),
+                            Image.network(
+                              height: 150,
+                              provider.idEventos[index].vehicle.image,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
+                        )
+                    ): Container(): 
+                    //Cuando no tiene Fecha de Check In
+                    provider.idEventos[index].company.company == "ODE"
+                      ?
+                      Container(
+                        width: 400,
+                        decoration: BoxDecoration(
+                          color: AppTheme.of(context).secondaryColor,
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            color: AppTheme.of(context).alternate,
+                            width: 5,
+                          ),
                         ),
                         padding: EdgeInsets.all(10),
                         child: Column(
@@ -75,7 +197,7 @@ class CustomAgenda extends StatelessWidget {
                                   color: color,
                                 ),),
                             Image.network(
-                              height: 200,
+                              height: 150,
                               provider.idEventos[index].vehicle.image,
                               fit: BoxFit.cover,
                             ),
@@ -87,6 +209,10 @@ class CustomAgenda extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: AppTheme.of(context).primaryColor,
                           borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            color: AppTheme.of(context).alternate,
+                            width: 5,
+                          ),
                         ),
                         padding: EdgeInsets.all(10),
                         child: Column(
@@ -107,7 +233,7 @@ class CustomAgenda extends StatelessWidget {
                                   color: color,
                                 ),),
                             Image.network(
-                              height: 200,
+                              height: 150,
                               provider.idEventos[index].vehicle.image,
                               fit: BoxFit.cover,
                             ),
@@ -119,6 +245,10 @@ class CustomAgenda extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Color.fromRGBO(255, 138, 0, 1),
                           borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            color: Color.fromRGBO(245, 6, 213, 1),
+                            width: 5,
+                          ),
                         ),
                         padding: EdgeInsets.all(10),
                         child: Column(
@@ -139,7 +269,7 @@ class CustomAgenda extends StatelessWidget {
                                   color: color,
                                 ),),
                             Image.network(
-                              height: 200,
+                              height: 150,
                               provider.idEventos[index].vehicle.image,
                               fit: BoxFit.cover,
                             ),
