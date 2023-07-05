@@ -32,7 +32,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
       if (widget.contador == 1) {
         provider.cambiovistaMeasures = true;
 
-        provider.getIssuesBasics(provider.actualIssueXUser!);
+        provider.getIssuesFluidCheck(provider.actualIssueXUser!);
         print("getBucketInspection");
       }
       if (widget.contador == 2) {
@@ -56,7 +56,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
       if (widget.contador == 5) {
         provider.cambiovistaMeasures = true;
 
-        provider.getIssuesFluidCheck(provider.actualIssueXUser!);
+        provider.getIssuesBasics(provider.actualIssueXUser!);
         print("getIssuesFluidCheck");
       }
       if (widget.contador == 6) {
@@ -85,7 +85,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
 
     return provider.cambiovistaMeasures == true
         ? Container(
-            margin: const EdgeInsets.all(10),
+            //margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -94,7 +94,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                     blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
               ],
             ),
-            height: 500,
+            height: 300,
             width: 600,
             child: Column(
               children: [
@@ -140,13 +140,13 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                       ],
                     )),
                 SizedBox(
-                  height: 384,
+                  height: 236,
                   width: 850,
                   child: ListView(
                     children: [
                       SizedBox(
                         //color: Colors.orange,
-                        height: 384,
+                        height: 236,
                         width: 600,
                         child: ListView.builder(
                           itemCount: widget.issuesComments.length,
@@ -252,7 +252,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                     blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
               ],
             ),
-            height: 500,
+            height: 300,
             width: 600,
             child: Column(
               children: [
@@ -298,13 +298,13 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                       ],
                     )),
                 SizedBox(
-                  height: 384,
+                  height: 217,
                   width: 850,
                   child: ListView(
                     children: [
                       SizedBox(
                         //color: Colors.orange,
-                        height: 384,
+                        height: 217,
                         width: 600,
                         child: ListView.builder(
                           itemCount: widget.issuesComments.length,

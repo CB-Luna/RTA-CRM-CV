@@ -32,7 +32,7 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                     blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
               ],
             ),
-            height: 500,
+            height: 300,
             width: 580,
             child: Column(
               children: [
@@ -92,13 +92,13 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                       ],
                     )),
                 SizedBox(
-                  height: 384,
+                  height: 236,
                   width: 850,
                   child: ListView(
                     children: [
                       SizedBox(
                         //color: Colors.orange,
-                        height: 384,
+                        height: 236,
                         width: 600,
                         child: ListView.builder(
                           itemCount: widget.issuesComments.length,
@@ -206,7 +206,7 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                     blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
               ],
             ),
-            height: 500,
+            height: 300,
             width: 580,
             child: Column(
               children: [
@@ -266,13 +266,13 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                       ],
                     )),
                 SizedBox(
-                  height: 384,
+                  height: 217,
                   width: 850,
                   child: ListView(
                     children: [
                       SizedBox(
                         //color: Colors.orange,
-                        height: 384,
+                        height: 217,
                         width: 600,
                         child: ListView.builder(
                           itemCount: widget.issuesComments.length,

@@ -18,21 +18,11 @@ class _ReportedIssuesState extends State<ReportedIssues> {
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-    String dropdownvalue = "Check In";
-    var items = [
-      'Check In',
-      'Check Out',
-    ];
-    void changeDropdown(String? newValue) {
-      setState(() {
-        dropdownvalue = newValue!;
-      });
-    }
 
     return SingleChildScrollView(
       child: SizedBox(
         width: 1500,
-        height: 560,
+        height: 400,
         child: Column(
           children: [
             Container(
@@ -151,30 +141,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    padding: const EdgeInsets.only(right: 87.0),
-                    child: DropdownButton(
-                      value: dropdownvalue,
-                      icon: const Icon(Icons.keyboard_arrow_down_outlined),
-                      items: items.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(items),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        print("----------------------");
-                        print(dropdownvalue);
-
-                        changeDropdown(newValue);
-
-                        print("----------------------");
-                        print(dropdownvalue);
-
-                        if (dropdownvalue == 'Check In') {
-                        } else if (dropdownvalue == 'Check Out') {}
-                      },
-                    )),
-                Container(
                   padding: const EdgeInsets.only(right: 40.0, left: 60.0),
                   child: Text(
                     "Check Out",
@@ -237,8 +203,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 .fontFamily,
                             fontSize:
                                 AppTheme.of(context).contenidoTablas.fontSize,
-                            // fontStyle:
-                            //     AppTheme.of(context).encabezadoTablas.fontStyle,
                             fontWeight: AppTheme.of(context)
                                 .encabezadoTablas
                                 .fontWeight,
@@ -252,7 +216,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         tabs: const [
                           Tab(
                             height: 30,
-                            text: "Bucket Inpection",
+                            text: "Fluid Check",
                           ),
                           Tab(
                             height: 30,
@@ -268,7 +232,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           ),
                           Tab(
                             height: 30,
-                            text: "Fluid Check",
+                            text: "Bucket Inpection",
                           ),
                           Tab(
                             height: 30,
@@ -286,17 +250,83 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                       ),
                     ),
                     Expanded(
-                      child: SizedBox(
+                      child: Container(
                           width: 1250,
-                          height: 360,
+                          height: 100,
+                          alignment: Alignment.topCenter,
                           child: TabBarView(children: [
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                ListIssuesCard(
-                                    contador: 1,
-                                    issuesComments:
-                                        provider.bucketInspectionRR),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: ListIssuesCard(
+                                      contador: 1,
+                                      issuesComments: provider.fluidCheckRR),
+                                ),
+                                ListIssuesCardD(
+                                    issuesComments: provider.fluidCheckDD),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: ListIssuesCard(
+                                      contador: 2,
+                                      issuesComments: provider.carBodyWorkRR),
+                                ),
+                                ListIssuesCardD(
+                                    issuesComments: provider.carBodyWorkDD),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: ListIssuesCard(
+                                      contador: 3,
+                                      issuesComments: provider.equipmentRR),
+                                ),
+                                ListIssuesCardD(
+                                    issuesComments: provider.equipmentDD),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: ListIssuesCard(
+                                      contador: 4,
+                                      issuesComments: provider.extraRR),
+                                ),
+                                ListIssuesCardD(
+                                    issuesComments: provider.extraDD),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: ListIssuesCard(
+                                      contador: 5,
+                                      issuesComments:
+                                          provider.bucketInspectionRR),
+                                ),
                                 ListIssuesCardD(
                                     issuesComments:
                                         provider.bucketInspectionDD),
@@ -304,70 +334,45 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ListIssuesCard(
-                                    contador: 2,
-                                    issuesComments: provider.carBodyWorkRR),
-                                ListIssuesCardD(
-                                    issuesComments: provider.carBodyWorkDD),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                ListIssuesCard(
-                                    contador: 3,
-                                    issuesComments: provider.equipmentRR),
-                                ListIssuesCardD(
-                                    issuesComments: provider.equipmentDD),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                ListIssuesCard(
-                                    contador: 4,
-                                    issuesComments: provider.extraRR),
-                                ListIssuesCardD(
-                                    issuesComments: provider.extraDD),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                ListIssuesCard(
-                                    contador: 5,
-                                    issuesComments: provider.fluidCheckRR),
-                                ListIssuesCardD(
-                                    issuesComments: provider.fluidCheckDD),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                ListIssuesCard(
-                                    contador: 6,
-                                    issuesComments: provider.lightsRR),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: ListIssuesCard(
+                                      contador: 6,
+                                      issuesComments: provider.lightsRR),
+                                ),
                                 ListIssuesCardD(
                                     issuesComments: provider.lightsDD),
                               ],
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ListIssuesCard(
-                                    contador: 7,
-                                    issuesComments: provider.measureRR),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: ListIssuesCard(
+                                      contador: 7,
+                                      issuesComments: provider.measureRR),
+                                ),
                                 ListIssuesCardD(
                                     issuesComments: provider.measureDD),
                               ],
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ListIssuesCard(
-                                    contador: 8,
-                                    issuesComments: provider.securityRR),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: ListIssuesCard(
+                                      contador: 8,
+                                      issuesComments: provider.securityRR),
+                                ),
                                 ListIssuesCardD(
                                     issuesComments: provider.securityDD),
                               ],

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rta_crm_cv/models/vehicle.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/generalinfo_pop_up.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 import '../../../../theme/theme.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 import 'issues_pop_up.dart';
 import 'service_pop_up.dart';
 
@@ -32,6 +34,20 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
               initialIndex: 0,
               child: Column(
                 children: [
+                  Container(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    alignment: Alignment.centerLeft,
+                    child: CustomTextIconButton(
+                      width: 93,
+                      isLoading: false,
+                      icon: Icon(Icons.exit_to_app_outlined,
+                          color: AppTheme.of(context).primaryBackground),
+                      text: 'Exit',
+                      onTap: () {
+                        context.pop();
+                      },
+                    ),
+                  ),
                   SizedBox(
                     height: 30,
                     child: TabBar(
@@ -66,17 +82,6 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                     child: TabBarView(
                       children: [
                         GeneralInfoPopUP(vehicle: widget.vehicle),
-                        // const IssuesPopUp(),
-                        // Container(
-                        //   height: 200,
-                        //   width: 200,
-                        //   color: Colors.white,
-                        // ),
-                        // Container(
-                        //   height: 200,
-                        //   width: 200,
-                        //   color: Colors.blue,
-                        // ),
                         const IssuesPopUp(),
                         const ServicePopUp()
                       ],

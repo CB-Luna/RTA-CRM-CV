@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../models/vehicle.dart';
 import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
-import '../../../../widgets/card_header.dart';
-import '../../../../widgets/custom_text_icon_button.dart';
 import '../widgets/trapecio.dart';
-import 'issues_pop_up.dart';
 
 class GeneralInfoPopUP extends StatefulWidget {
   final Vehicle vehicle;
@@ -41,7 +37,7 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                 painter: RPSCustomPainter(),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      top: 65, bottom: 20, left: 60, right: 20),
+                      top: 50, bottom: 20, left: 85, right: 10),
                   child: Row(children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -457,30 +453,6 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                               fontFamily: 'Bicyclette-Thin',
                               fontSize:
                                   AppTheme.of(context).contenidoTablas.fontSize,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                          child: Container(
-                            padding: const EdgeInsets.only(left: 10),
-                            alignment: Alignment.centerLeft,
-                            child: CustomTextIconButton(
-                              width: 140,
-                              isLoading: false,
-                              icon: Icon(Icons.warning_outlined,
-                                  color:
-                                      AppTheme.of(context).primaryBackground),
-                              text: 'List of Issues',
-                              color: AppTheme.of(context).tertiaryColor,
-                              onTap: () async {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return const IssuesPopUp();
-                                    });
-                              },
                             ),
                           ),
                         ),

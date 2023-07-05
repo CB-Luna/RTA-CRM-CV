@@ -92,14 +92,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       height: 425,
                                       width: 339,
                                       decoration: BoxDecoration(
-                                          // color: Colors.white,
-                                          // //gradient: gradients[0],
-                                          // boxShadow: const [
-                                          //   BoxShadow(
-                                          //       blurRadius: 4,
-                                          //       color: Colors.grey,
-                                          //       offset: Offset(10, 10))
-                                          // ],
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: Column(
@@ -126,14 +118,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       height: 425,
                                       width: 339,
                                       decoration: BoxDecoration(
-                                          // color: Colors.white,
-                                          // //gradient: gradients[0],
-                                          // boxShadow: const [
-                                          //   BoxShadow(
-                                          //       blurRadius: 4,
-                                          //       color: Colors.grey,
-                                          //       offset: Offset(10, 10))
-                                          // ],
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: Column(
@@ -160,14 +144,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       height: 425,
                                       width: 339,
                                       decoration: BoxDecoration(
-                                          // color: Colors.white,
-                                          // //gradient: gradients[0],
-                                          // boxShadow: const [
-                                          //   BoxShadow(
-                                          //       blurRadius: 4,
-                                          //       color: Colors.grey,
-                                          //       offset: Offset(10, 10))
-                                          // ],
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: Column(
@@ -214,8 +190,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             key: UniqueKey(),
                                             configuration:
                                                 PlutoGridConfiguration(
-                                              localeText:
-                                                  const PlutoGridLocaleText(),
                                               scrollbar:
                                                   plutoGridScrollbarConfig(
                                                       context),
@@ -229,6 +203,47 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 ],
                                                 resolveDefaultColumnFilter:
                                                     (column, resolver) {
+                                                  if (column.field ==
+                                                      'license_plates') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'VIN') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'Make') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'Model') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'Status') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'Company') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'Mileage') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'Actions') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  }
                                                   return resolver<
                                                           PlutoFilterTypeContains>()
                                                       as PlutoFilterType;
@@ -295,20 +310,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                     ),
                                                   );
                                                 },
-                                                // renderer: (rendererContext) {
-                                                //   return Container(
-                                                //     height: rowHeight,
-                                                //     // width: rendererContext
-                                                //     //.cell.column.width,                                                    .cell.column.width,
-                                                //     decoration: BoxDecoration(
-                                                //         gradient:
-                                                //             whiteGradient),
-                                                //     child: Center(
-                                                //         child: Text(
-                                                //             rendererContext
-                                                //                 .cell.value)),
-                                                //   );
-                                                // },
                                               ),
                                               PlutoColumn(
                                                 title: 'Vin',
@@ -332,27 +333,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                           AppTheme.of(context)
                                                               .encabezadoTablas)
                                                 ]),
-                                                // titleSpan: const TextSpan(
-                                                //   children: [
-                                                //     WidgetSpan(
-                                                //       child: Icon(
-                                                //         Icons.dialpad_outlined,
-                                                //         color:
-                                                //             Color(0xffF3F7F9),
-                                                //         size: 20,
-                                                //       ),
-                                                //     ),
-                                                //     WidgetSpan(
-                                                //         child: SizedBox(
-                                                //       width: 10,
-                                                //     )),
-                                                //     TextSpan(
-                                                //         text: 'VIN',
-                                                //         style: TextStyle(
-                                                //             color:
-                                                //                 Colors.white)),
-                                                //   ],
-                                                // ),
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
@@ -391,88 +371,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   );
                                                 },
                                               ),
-                                              // PlutoColumn(
-                                              //   title: 'Year',
-                                              //   field: 'year',
-                                              //   backgroundColor:
-                                              //       const Color(0XFF6491F7),
-                                              //   titleSpan: TextSpan(children: [
-                                              //     WidgetSpan(
-                                              //         child: Icon(
-                                              //             Icons
-                                              //                 .calendar_today_outlined,
-                                              //             color: AppTheme.of(
-                                              //                     context)
-                                              //                 .primaryBackground)),
-                                              //     const WidgetSpan(
-                                              //         child:
-                                              //             SizedBox(width: 10)),
-                                              //     TextSpan(
-                                              //         text: 'Year',
-                                              //         style:
-                                              //             AppTheme.of(context)
-                                              //                 .encabezadoTablas)
-                                              //   ]),
-                                              //   // titleSpan: const TextSpan(
-                                              //   //   children: [
-                                              //   //     WidgetSpan(
-                                              //   //       child: Icon(
-                                              //   //         Icons
-                                              //   //             .calendar_today_outlined,
-                                              //   //         color:
-                                              //   //             Color(0xffF3F7F9),
-                                              //   //         size: 20,
-                                              //   //       ),
-                                              //   //     ),
-                                              //   //     WidgetSpan(
-                                              //   //         child: SizedBox(
-                                              //   //       width: 10,
-                                              //   //     )),
-                                              //   //     TextSpan(
-                                              //   //         text: 'Year',
-                                              //   //         style: TextStyle(
-                                              //   //             color:
-                                              //   //                 Colors.white)),
-                                              //   //   ],
-                                              //   // ),
-                                              //   width: MediaQuery.of(context)
-                                              //           .size
-                                              //           .width *
-                                              //       0.09,
-                                              //   cellPadding: EdgeInsets.zero,
-                                              //   titleTextAlign:
-                                              //       PlutoColumnTextAlign.center,
-                                              //   textAlign:
-                                              //       PlutoColumnTextAlign.center,
-                                              //   type: PlutoColumnType.text(),
-                                              //   enableEditingMode: false,
-                                              //   renderer: (rendererContext) {
-                                              //     return Container(
-                                              //       height: rowHeight,
-                                              //       // width: rendererContext
-                                              //       //.cell.column.width,                                                    .cell.column.width,
-                                              //       decoration: BoxDecoration(
-                                              //           gradient:
-                                              //               whiteGradient),
-                                              //       child: Center(
-                                              //           child: Text(
-                                              //         rendererContext
-                                              //             .cell.value,
-                                              //         style: AppTheme.of(
-                                              //                 context)
-                                              //             .contenidoTablas
-                                              //             .override(
-                                              //                 fontFamily:
-                                              //                     'Gotham-Regular',
-                                              //                 useGoogleFonts:
-                                              //                     false,
-                                              //                 color: AppTheme.of(
-                                              //                         context)
-                                              //                     .primaryColor),
-                                              //       )),
-                                              //     );
-                                              //   },
-                                              // ),
+
                                               PlutoColumn(
                                                 title: 'Make',
                                                 field: 'make',
@@ -493,28 +392,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                           AppTheme.of(context)
                                                               .encabezadoTablas)
                                                 ]),
-                                                // titleSpan: const TextSpan(
-                                                //   children: [
-                                                //     WidgetSpan(
-                                                //       child: Icon(
-                                                //         Icons
-                                                //             .label_important_outline,
-                                                //         color:
-                                                //             Color(0xffF3F7F9),
-                                                //         size: 20,
-                                                //       ),
-                                                //     ),
-                                                //     WidgetSpan(
-                                                //         child: SizedBox(
-                                                //       width: 10,
-                                                //     )),
-                                                //     TextSpan(
-                                                //         text: 'Make',
-                                                //         style: TextStyle(
-                                                //             color:
-                                                //                 Colors.white)),
-                                                //   ],
-                                                // ),
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
@@ -531,8 +408,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 renderer: (rendererContext) {
                                                   return Container(
                                                     height: rowHeight,
-                                                    // width: rendererContext
-                                                    //.cell.column.width,                                                    .cell.column.width,
                                                     decoration: BoxDecoration(
                                                         gradient:
                                                             whiteGradient),
