@@ -65,7 +65,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
                         hint: 'Choose a Company',
-                        label: '1. Company',
+                        label: '1. Company*',
                         width: 350,
                         list: companyName,
                         dropdownValue: provider.companySelected?.company,
@@ -78,7 +78,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                        label: '2. Make',
+                        label: '2. Make*',
                         controller: provider.brandController,
                         enabled: true,
                         width: 350,
@@ -88,7 +88,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                        label: '3. Model',
+                        label: '3. Model*',
                         controller: provider.modelController,
                         enabled: true,
                         width: 350,
@@ -98,7 +98,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         child: CustomTextFieldForm(
-                            label: '4. year',
+                            label: '4. Year*',
                             controller: provider.yearController,
                             enabled: true,
                             onTapCheck: true,
@@ -137,7 +137,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                        label: '5. VIN',
+                        label: '5. VIN*',
                         controller: provider.vinController,
                         enabled: true,
                         width: 350,
@@ -147,7 +147,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                        label: '6. License Plates',
+                        label: '6. License Plates*',
                         controller: provider.plateNumberController,
                         inputFormatters: [cardMask],
                         enabled: true,
@@ -159,7 +159,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
                         hint: 'Choose the status',
-                        label: '7. status',
+                        label: '7. Status*',
                         width: 350,
                         list: statusName,
                         dropdownValue: provider.statusSelected?.status,
@@ -172,7 +172,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                        label: '8. Motor',
+                        label: '8. Motor*',
                         controller: provider.motorController,
                         enabled: true,
                         width: 350,
@@ -182,7 +182,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                        label: '9. Color',
+                        label: '9. Color*',
                         enabled: true,
                         controller: TextEditingController(),
                         onTapCheck: true,
@@ -202,7 +202,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                          label: '10. oil change due',
+                          label: '10. oil change due*',
                           controller: provider.dateTimeControllerOil,
                           enabled: true,
                           onTapCheck: true,
@@ -224,7 +224,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                          label: '11. Last Radiator Fluid Change',
+                          label: '11. Last Radiator Fluid Change*',
                           controller: provider.dateTimeControllerRFC,
                           enabled: true,
                           onTapCheck: true,
@@ -246,7 +246,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                          label: '12. Last Transmission Fluid Change',
+                          label: '12. Last Transmission Fluid Change*',
                           controller: provider.dateTimeControllerLTFC,
                           enabled: true,
                           onTapCheck: true,
@@ -268,7 +268,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                        label: '13. Initial Mileage',
+                        label: '13. Initial Mileage*',
                         controller: provider.mileageController,
                         //inputFormatters: [cardMaskMil],
                         enabled: true,

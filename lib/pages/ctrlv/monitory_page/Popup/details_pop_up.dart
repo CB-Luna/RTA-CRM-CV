@@ -133,7 +133,8 @@ class DetailsPop extends StatelessWidget {
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0, 0, 0, 10),
-                                        child: Text(" Last Radiator Fluid Change: ",
+                                        child: Text(
+                                            " Last Radiator Fluid Change: ",
                                             style:
                                                 TextStyle(color: Colors.white)),
                                       ),
@@ -278,7 +279,7 @@ class DetailsPop extends StatelessWidget {
                               width: 300,
                               height: 250,
                               child: Image.network(
-                                vehicle.vehicle.image,
+                                vehicle.vehicle.image!,
                                 fit: BoxFit.cover,
                                 height: 250,
                                 width: 540,

@@ -89,7 +89,8 @@ class CustomAgenda extends StatelessWidget {
                                       //     ),),
                                       Image.network(
                                         height: 150,
-                                        provider.idEventos[index].vehicle.image,
+                                        provider
+                                            .idEventos[index].vehicle.image!,
                                         fit: BoxFit.cover,
                                       ),
                                     ],
@@ -137,8 +138,8 @@ class CustomAgenda extends StatelessWidget {
                                           ),
                                           Image.network(
                                             height: 150,
-                                            provider
-                                                .idEventos[index].vehicle.image,
+                                            provider.idEventos[index].vehicle
+                                                .image!,
                                             fit: BoxFit.cover,
                                           ),
                                         ],
@@ -186,7 +187,7 @@ class CustomAgenda extends StatelessWidget {
                                               Image.network(
                                                 height: 150,
                                                 provider.idEventos[index]
-                                                    .vehicle.image,
+                                                    .vehicle.image!,
                                                 fit: BoxFit.cover,
                                               ),
                                             ],
@@ -258,7 +259,7 @@ class CustomAgenda extends StatelessWidget {
                                       ),
                                       Image.network(
                                         height: 150,
-                                        provider.idEventos[index].vehicle.image,
+                                        provider.idEventos[index].vehicle.image!,
                                         fit: BoxFit.cover,
                                       ),
                                     ],
@@ -335,7 +336,7 @@ class CustomAgenda extends StatelessWidget {
                                           Image.network(
                                             height: 150,
                                             provider
-                                                .idEventos[index].vehicle.image,
+                                                .idEventos[index].vehicle.image!,
                                             fit: BoxFit.cover,
                                           ),
                                         ],
@@ -412,7 +413,7 @@ class CustomAgenda extends StatelessWidget {
                                               Image.network(
                                                 height: 150,
                                                 provider.idEventos[index]
-                                                    .vehicle.image,
+                                                    .vehicle.image!,
                                                 fit: BoxFit.cover,
                                               ),
                                             ],

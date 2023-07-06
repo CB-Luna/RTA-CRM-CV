@@ -112,6 +112,7 @@ class InventoryProvider extends ChangeNotifier {
   List<Security> issueSecurityD = [];
   List<Measure> issueMeasureR = [];
   List<Measure> issueMeasureD = [];
+  IssuesComments? registroIssueComments;
 
   List<VehicleDash> vehicleArchive = [];
   List<IssuesXUser> issuesxUser = [];
@@ -348,6 +349,11 @@ class InventoryProvider extends ChangeNotifier {
   }
 
 //---------------------------------------------
+  Future<void> clearRegistroIssueComments() async {
+    registroIssueComments = null;
+  }
+//---------------------------------------------
+
   int issuesView = 0;
   void setIssueViewActual(int value) {
     issuesView = value;
@@ -401,7 +407,7 @@ class InventoryProvider extends ChangeNotifier {
 
   //---------------------------------------------
   void inicializeImage(Vehicle vehicle) {
-    final List<int> codeUnits = vehicle.image.codeUnits;
+    final List<int> codeUnits = vehicle.image!.codeUnits;
     webImage = Uint8List.fromList(codeUnits);
 
     notifyListeners();
@@ -856,6 +862,99 @@ class InventoryProvider extends ChangeNotifier {
       print("Entro a getIssuesBasics");
     } catch (e) {
       print("Error in getIssuesBasics() - $e");
+    }
+    notifyListeners();
+  }
+
+  // --------------------------------------------
+  Future<void> getIssuesBucketInspectionComments(
+      IssueOpenclose issueOpenClose) async {
+    // clearListgetIssues();
+
+    try {
+      if (issueOpenClose.nameIssue == "Holes Drilled") {
+        final res = await supabaseCtrlV
+            .from('bucket_inspection')
+            .select('holes_drilled_comments, holes_drilled_image, date_added')
+            .eq('id_bucket_inspection', issueOpenClose.idIssue);
+        final resHolesDrilled = res as List<dynamic>;
+        if (resHolesDrilled.isNotEmpty) {
+          List<String> listImage = resHolesDrilled.first['holes_drilled_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resHolesDrilled.first['holes_drilled_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resHolesDrilled.first['date_added']));
+        }
+
+        notifyListeners();
+      }
+      if (issueOpenClose.nameIssue == "Bucket Liner") {
+        final res = await supabaseCtrlV
+            .from('bucket_inspection')
+            .select('bucket_liner_comments, bucket_liner_image, date_added')
+            .eq('id_bucket_inspection', issueOpenClose.idIssue);
+        final resBucketLiner = res as List<dynamic>;
+        if (resBucketLiner.isNotEmpty) {
+          List<String> listImage =
+              resBucketLiner.first['holes_drilled_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resBucketLiner.first['bucket_liner_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resBucketLiner.first['date_added']));
+        }
+        notifyListeners();
+      }
+
+      // final resD = await supabaseCtrlV
+      //     .from('issues_view')
+      //     .select(
+      //         'id_vehicle, bucket_inspection_d ->id_bucket_inspection, bucket_inspection_d ->insulated_comments,bucket_inspection_d ->insulated_image, bucket_inspection_d ->holes_drilled_comments,bucket_inspection_d -> holes_drilled_image, bucket_inspection_d ->bucket_liner_comments ,bucket_inspection_d ->bucket_liner_image,bucket_inspection_d ->date_added')
+      //     .eq('id_vehicle', issuesXUser.idVehicleFk)
+      //     .eq('id_user_fk', issuesXUser.userProfileId)
+      //     .or('issues_r.neq.0,issues_d.neq.0');
+
+      // issuePartD = (resD as List<dynamic>)
+      //     .map(
+      //         (issuePartD) => BucketInspection.fromJson(jsonEncode(issuePartD)))
+      //     .toList();
+
+      // BucketInspectionR
+
+      // // BucketInspectionD
+      // for (BucketInspection issue in issuePartD) {
+      //   if (issue.holesDrilled == "Bad") {
+      //     IssueOpenclose newIssueComments = IssueOpenclose(
+      //         idIssue: issue.idBucketInspection!,
+      //         nameIssue: "Holes Drilled",
+      //         dateAddedOpen: issue.dateAdded!);
+      //     bucketInspectionDD.add(newIssueComments);
+      //   }
+      //   if (issue.bucketLiner == "Bad") {
+      //     IssueOpenclose newIssueComments = IssueOpenclose(
+      //         idIssue: issue.idBucketInspection!,
+      //         nameIssue: "Bucket Liner",
+      //         dateAddedOpen: issue.dateAdded!);
+      //     bucketInspectionDD.add(newIssueComments);
+      //   }
+      //   if (issue.insulated == "Bad") {
+      //     IssueOpenclose newIssueComments = IssueOpenclose(
+      //         idIssue: issue.idBucketInspection!,
+      //         nameIssue: "Insulated",
+      //         dateAddedOpen: issue.dateAdded!);
+      //     bucketInspectionRR.add(newIssueComments);
+      //   }
+      // }
+      // print("BucketInspectionRR: ${bucketInspectionRR.length}");
+
+      print("Entro a getIssuesBucketInspectionComments");
+    } catch (e) {
+      print("Error in getIssuesBucketInspectionComments() - $e");
     }
     notifyListeners();
   }

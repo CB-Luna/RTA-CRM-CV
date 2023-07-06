@@ -29,7 +29,7 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
           children: [
             Container(
               height: (650 * 0.7586633663366337).toDouble(),
-              width: 611,
+              width: 615,
               alignment: AlignmentDirectional.centerEnd,
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: CustomPaint(
@@ -479,7 +479,7 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                   //height: 250,
                   //color: Colors.green,
                   child: Image.network(
-                    widget.vehicle.image,
+                    widget.vehicle.image!,
                     height: 250,
                     width: 500,
                     fit: BoxFit.cover,

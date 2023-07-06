@@ -33,6 +33,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
         provider.cambiovistaMeasures = true;
 
         provider.getIssuesFluidCheck(provider.actualIssueXUser!);
+
         print("getBucketInspection");
       }
       if (widget.contador == 2) {
@@ -164,6 +165,8 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                     child: Column(
                                       children: [
                                         Text(
+                                            "${widget.issuesComments[index].idIssue}"),
+                                        Text(
                                           "•${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")}",
                                           style: TextStyle(
                                             color: Colors.orange,
@@ -215,22 +218,15 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                       text: '',
                                       color: AppTheme.of(context).primaryColor,
                                       onTap: () async {
-                                        // provider.selectIssuesComments(
-                                        //     widget.issuesComments[index]);
+                                        provider
+                                            .getIssuesBucketInspectionComments(
+                                                widget.issuesComments[index]);
+
                                         provider.cambiosVistaPhotosComments();
                                         provider.setIssueViewActual(2);
                                       },
                                     ),
                                   ),
-                                  // ElevatedButton(
-                                  //     onPressed: () {
-                                  //       provider.selectIssuesComments(
-                                  //           widget.issuesComments[index]);
-                                  //       provider.cambiosVistaPhotosComments();
-                                  //       provider.setIssueViewActual(2);
-                                  //     },
-                                  //     child:
-                                  //         const Icon(Icons.remove_red_eye_outlined))
                                 ],
                               ),
                             );
