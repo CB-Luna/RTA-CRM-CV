@@ -4,6 +4,7 @@ import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 
 import '../../../../widgets/captura/custom_text_field.dart';
 import '../widgets/employeeIssuesCard.dart';
+import 'comments_photos_pop_up.dart';
 import 'reported_issues_pop_up.dart';
 
 class IssuesPopUp extends StatefulWidget {
@@ -73,10 +74,10 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
           )
         : provider.issuesView == 1
             ? const ReportedIssues()
-            // : provider.issuesView == 2
-            //     ? const CommentsPhotosPopUp()
-            : Container(
-                height: 500,
-              );
+            : provider.issuesView == 2
+                ? const CommentsPhotosPopUp()
+                : Container(
+                    height: 500,
+                  );
   }
 }

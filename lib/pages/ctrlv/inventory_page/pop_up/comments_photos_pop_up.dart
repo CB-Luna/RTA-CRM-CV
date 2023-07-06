@@ -21,12 +21,9 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
 
-    return CustomCard(
-        title: provider.actualissuesComments!.nameIssue.capitalize
-            .replaceAll("_", " "),
-        width: 450,
-        height: 500,
-        child: Column(
+    return Row(
+      children: [
+        Column(
           children: [
             Container(
               alignment: Alignment.centerLeft,
@@ -39,6 +36,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                 color: AppTheme.of(context).primaryColor,
                 onTap: () async {
                   provider.setIssueViewActual(1);
+                  provider.clearRegistroIssueComments;
                 },
               ),
             ),
@@ -60,7 +58,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                   ),
                   child: Text(
                     DateFormat("MMM/dd/yyyy")
-                        .format(provider.actualissuesComments!.dateAdded),
+                        .format(provider.registroIssueComments!.dateAdded),
                     style: TextStyle(
                         color: AppTheme.of(context).contenidoTablas.color,
                         fontFamily: 'Bicyclette-Thin',
@@ -86,23 +84,25 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                   ),
                   child: SingleChildScrollView(
                       child:
-                          Text("${provider.actualissuesComments!.comments}.")),
+                          Text("${provider.registroIssueComments!.comments}.")),
                 ),
-                CarouselSlider.builder(
-                  itemCount: provider.actualissuesComments?.listImages!.length,
-                  itemBuilder: (context, index, realIndex) {
-                    // final urlImage =
-                    //     provider.actualissuesComments?.listImages![index];
-                    const urlImage =
-                        "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
-                    return buildImage(urlImage, index);
-                  },
-                  options: CarouselOptions(height: 200),
-                )
               ],
+            ),
+            CarouselSlider.builder(
+              itemCount: provider.registroIssueComments?.listImages!.length,
+              itemBuilder: (context, index, realIndex) {
+                // final urlImage =
+                //     provider.actualissuesComments?.listImages![index];
+                const urlImage =
+                    "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
+                return buildImage(urlImage, index);
+              },
+              options: CarouselOptions(height: 200),
             )
           ],
-        ));
+        ),
+      ],
+    );
   }
 }
 
