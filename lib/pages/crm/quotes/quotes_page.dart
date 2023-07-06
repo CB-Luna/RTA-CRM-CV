@@ -41,7 +41,7 @@ class _QuotesPageState extends State<QuotesPage> {
 
     QuotesProvider provider = Provider.of<QuotesProvider>(context);
 
-    double filterWidth = 350;
+    double filterWidth = 360;
 
     return Material(
       child: SizedBox(
@@ -96,39 +96,6 @@ class _QuotesPageState extends State<QuotesPage> {
                                         padding: const EdgeInsets.only(right: 10),
                                         child: CustomTabFilterOption(
                                           width: filterWidth,
-                                          isOn: provider.indexSelected[7],
-                                          text: 'All',
-                                          border: greenGradient,
-                                          gradient: greenRadial,
-                                          onTap: () => provider.setIndex(7),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 10),
-                                        child: CustomTabFilterOption(
-                                          width: filterWidth,
-                                          isOn: provider.indexSelected[0],
-                                          text: 'Opened',
-                                          border: greenGradient,
-                                          gradient: greenRadial,
-                                          onTap: () => provider.setIndex(0),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 10),
-                                        child: CustomTabFilterOption(
-                                          width: filterWidth,
-                                          isOn: provider.indexSelected[1],
-                                          text: 'Margin Positive',
-                                          border: greenGradient,
-                                          gradient: greenRadial,
-                                          onTap: () => provider.setIndex(1),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 10),
-                                        child: CustomTabFilterOption(
-                                          width: filterWidth,
                                           isOn: provider.indexSelected[2],
                                           text: 'Sen. Exec. Validate',
                                           border: greenGradient,
@@ -136,10 +103,6 @@ class _QuotesPageState extends State<QuotesPage> {
                                           onTap: () => provider.setIndex(2),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
                                       Padding(
                                         padding: const EdgeInsets.only(right: 10),
                                         child: CustomTabFilterOption(
@@ -156,7 +119,7 @@ class _QuotesPageState extends State<QuotesPage> {
                                         child: CustomTabFilterOption(
                                           width: filterWidth,
                                           isOn: provider.indexSelected[4],
-                                          text: 'Accepted',
+                                          text: 'Network Validate',
                                           border: greenGradient,
                                           gradient: greenRadial,
                                           onTap: () => provider.setIndex(4),
@@ -166,11 +129,85 @@ class _QuotesPageState extends State<QuotesPage> {
                                         padding: const EdgeInsets.only(right: 10),
                                         child: CustomTabFilterOption(
                                           width: filterWidth,
-                                          isOn: provider.indexSelected[5],
+                                          isOn: provider.indexSelected[7],
+                                          text: 'Approved',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(7),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[8],
+                                          text: 'Order Created',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(8),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[9],
+                                          text: 'Network Cross-Connected',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(9),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[10],
+                                          text: 'Network Issues',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(10),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[11],
+                                          text: 'Ticket Closed',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(11),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[1],
+                                          text: 'Sales Form',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(1),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[12],
                                           text: 'Canceled',
                                           border: greenGradient,
                                           gradient: greenRadial,
-                                          onTap: () => provider.setIndex(5),
+                                          onTap: () => provider.setIndex(12),
                                         ),
                                       ),
                                       Padding(
@@ -184,8 +221,19 @@ class _QuotesPageState extends State<QuotesPage> {
                                           onTap: () => provider.setIndex(6),
                                         ),
                                       ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[0],
+                                          text: 'All',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(0),
+                                        ),
+                                      ),
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -206,8 +254,19 @@ class _QuotesPageState extends State<QuotesPage> {
                                         padding: const EdgeInsets.only(right: 10),
                                         child: CustomTabFilterOption(
                                           width: filterWidth,
+                                          isOn: provider.indexSelected[4],
+                                          text: 'Network Validate',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(4),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
                                           isOn: provider.indexSelected[7],
-                                          text: 'All',
+                                          text: 'Approved',
                                           border: greenGradient,
                                           gradient: greenRadial,
                                           onTap: () => provider.setIndex(7),
@@ -217,22 +276,48 @@ class _QuotesPageState extends State<QuotesPage> {
                                         padding: const EdgeInsets.only(right: 10),
                                         child: CustomTabFilterOption(
                                           width: filterWidth,
-                                          isOn: provider.indexSelected[3],
-                                          text: 'Finance Validate',
+                                          isOn: provider.indexSelected[9],
+                                          text: 'Network Cross-Connected',
                                           border: greenGradient,
                                           gradient: greenRadial,
-                                          onTap: () => provider.setIndex(3),
+                                          onTap: () => provider.setIndex(9),
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(right: 10),
                                         child: CustomTabFilterOption(
                                           width: filterWidth,
-                                          isOn: provider.indexSelected[4],
-                                          text: 'Accepted',
+                                          isOn: provider.indexSelected[10],
+                                          text: 'Network Issues',
                                           border: greenGradient,
                                           gradient: greenRadial,
-                                          onTap: () => provider.setIndex(4),
+                                          onTap: () => provider.setIndex(10),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[11],
+                                          text: 'Ticket Closed',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(11),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: CustomTabFilterOption(
+                                          width: filterWidth,
+                                          isOn: provider.indexSelected[0],
+                                          text: 'All',
+                                          border: greenGradient,
+                                          gradient: greenRadial,
+                                          onTap: () => provider.setIndex(0),
                                         ),
                                       ),
                                     ],

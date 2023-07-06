@@ -357,7 +357,7 @@ class CreateQuoteProvider extends ChangeNotifier {
         var resp = (await supabaseCRM.from('quotes').insert({
           "created_by": currentUser!.id,
           "updated_by": currentUser!.id,
-          "status": margin > 20 ? "Margin Positive" : "Opened",
+          "status": margin > 20 ? "Finance Validate" : "Sen. Exec. Validate",
           "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
           "subtotal": subtotal,
           "cost": cost,
@@ -372,6 +372,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "id_quote_origin": null,
           "id_lead": idLead,
           "id_vendor": vendor.id,
+          "id_status": margin > 20 ? 3 : 2
         }).select())[0];
 
         await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);
@@ -392,7 +393,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           var resp = (await supabaseCRM.from('quotes').insert({
             "created_by": currentUser!.id,
             "updated_by": currentUser!.id,
-            "status": margin > 20 ? "Margin Positive" : "Opened",
+            "status": margin > 20 ? "Finance Validate" : "Sen. Exec. Validate",
             "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
             "subtotal": subtotal,
             "cost": cost,
@@ -407,6 +408,7 @@ class CreateQuoteProvider extends ChangeNotifier {
             "id_quote_origin": prevId,
             "id_lead": lead.id,
             "id_vendor": vendor.id,
+            "id_status": margin > 20 ? 3 : 2,
           }).select())[0];
 
           await supabaseCRM.from('leads_history').insert({
@@ -418,7 +420,7 @@ class CreateQuoteProvider extends ChangeNotifier {
             "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
 
-          await supabaseCRM.from('quotes').update({"status": "Closed"}).eq("id", prevId);
+          await supabaseCRM.from('quotes').update({"id_status": 6}).eq("id", prevId);
 
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,
@@ -434,7 +436,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           var resp = (await supabaseCRM.from('quotes').insert({
             "created_by": currentUser!.id,
             "updated_by": currentUser!.id,
-            "status": margin > 20 ? "Margin Positive" : "Opened",
+            "status": margin > 20 ? "Finance Validate" : "Sen. Exec. Validate",
             "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
             "subtotal": subtotal,
             "cost": cost,
@@ -449,6 +451,7 @@ class CreateQuoteProvider extends ChangeNotifier {
             "id_quote_origin": null,
             "id_lead": lead.id,
             "id_vendor": vendor.id,
+            "id_status": margin > 20 ? 3 : 2,
           }).select())[0];
 
           await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);

@@ -13,6 +13,10 @@ import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/models/x2crm/x2crm_quote_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+//import 'package:rta_crm_cv/src/generated/x2_mysql.pbgrpc.dart';
+//import 'package:rta_crm_cv/grpc_web.dart';
+//import 'package:grpc/grpc_web.dart';
+
 class QuotesProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<Quotes> quotes = [];
@@ -75,14 +79,19 @@ class QuotesProvider extends ChangeNotifier {
   }
 
   List<bool> indexSelected = [
-    false, //Opened 0
-    false, //Sen. Exec. Validate 1
-    false, //Margin Positive 2
-    false, //Finance Validate 3
-    false, //Accepted 4
-    false, //Canceled 5
-    false, //Closed 6
-    true, //All 7
+    true, //All
+    false, //Sales Form
+    false, //Sen. Exec. Validate
+    false, //Finance Validate
+    false, //Network Validate
+    false, //Rejected
+    false, //Closed
+    false, //Approved
+    false, //Order Created
+    false, //Network Cross-Connected
+    false, //Network Issues
+    false, //Ticket Closed
+    false, //Canceled
   ];
 
   Future setIndex(int index) async {
@@ -93,31 +102,43 @@ class QuotesProvider extends ChangeNotifier {
 
     switch (index) {
       case 0:
-        await getQuotes('Opened');
-        /*  stateManager!.setFilter(
-          (element) => element.cells['STATUS_Column']!.value.toString() == 'Margin Positive',
-        ); */
+        await getQuotes(null);
         break;
       case 1:
-        await getQuotes('Margin Positive');
+        await getQuotes(1);
         break;
       case 2:
-        await getQuotes('Sen. Exec. Validate');
+        await getQuotes(2);
         break;
       case 3:
-        await getQuotes('Finance Validate');
+        await getQuotes(3);
         break;
       case 4:
-        await getQuotes('Accepted');
+        await getQuotes(4);
         break;
       case 5:
-        await getQuotes('Canceled');
+        await getQuotes(5);
         break;
       case 6:
-        await getQuotes('Closed');
+        await getQuotes(6);
         break;
       case 7:
-        await getQuotes(null);
+        await getQuotes(7);
+        break;
+      case 8:
+        await getQuotes(8);
+        break;
+      case 9:
+        await getQuotes(9);
+        break;
+      case 10:
+        await getQuotes(10);
+        break;
+      case 11:
+        await getQuotes(11);
+        break;
+      case 12:
+        await getQuotes(12);
         break;
     }
 
@@ -146,7 +167,7 @@ class QuotesProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getQuotes(String? status) async {
+  Future<void> getQuotes(int? status) async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
@@ -154,17 +175,18 @@ class QuotesProvider extends ChangeNotifier {
     try {
       dynamic res;
       if (status != null) {
-        res = await supabaseCRM.from('quotes_view').select().eq('status', status);
+        res = await supabaseCRM.from('quotes_view').select().eq('id_status', status);
       } else {
         if (currentUser!.isSales) {
           res = await supabaseCRM.from('quotes_view').select();
-          //res = await supabaseCRM.from('quotes_view').select().eq('status', 'Margin Positive').or('margin.lt.22,margin.gt.45');
         } else if (currentUser!.isSenExec) {
-          res = await supabaseCRM.from('quotes_view').select().eq('status', 'Opened');
+          res = await supabaseCRM.from('quotes_view').select().eq('id_status', 2); //Sen. Exec. Validate
         } else if (currentUser!.isFinance) {
-          res = await supabaseCRM.from('quotes_view').select().or('status.eq.Sen. Exec. Validate,status.eq.Margin Positive');
+          res = await supabaseCRM.from('quotes_view').select().eq('id_status', 3); //Finance Validate
         } else if (currentUser!.isOpperations) {
-          res = await supabaseCRM.from('quotes_view').select().eq('status', 'Finance Validate').or('status.eq.Accepted');
+          res = await supabaseCRM.from('quotes_view').select().or(
+                'id_status.eq.4,id_status.eq.7,id_status.eq.9,id_status.eq.10,id_status.eq.11',
+              ); //Network Validate, Approved, Network Cross-Connect, Network Issues, id_status.eq.Ticket Closed,
         }
       }
 
@@ -192,6 +214,7 @@ class QuotesProvider extends ChangeNotifier {
               'CLOSED_Column': PlutoCell(value: quote.expectedClose),
               'ASSIGNED_Column': PlutoCell(value: quote.assignedTo),
               'LAST_Column': PlutoCell(value: quote.updatedAt),
+              'ID_STATUS_Column': PlutoCell(value: quote.idStatus),
               'STATUS_Column': PlutoCell(value: quote.status),
               'ACTIONS_Column': PlutoCell(value: quote.idQuoteOrigin),
               'ID_LEAD_Column': PlutoCell(value: quote.idLead),
@@ -208,6 +231,8 @@ class QuotesProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+
+    await x2MySQL();
   }
 
   ////////////////////////////////////////////////////////
@@ -333,6 +358,41 @@ class QuotesProvider extends ChangeNotifier {
         ), (payload, [ref]) async {
       await updateState();
     }).subscribe();
+  }
+
+  ////////////////////////////////////////////////////////
+  //////////////////////////GRPC//////////////////////////
+  ////////////////////////////////////////////////////////
+
+  Future<void> x2MySQL() async {
+    /* final channel = ClientChannel(
+      'localhost',
+      port: 50051,
+      options: ChannelOptions(
+        credentials: const ChannelCredentials.insecure(),
+        codecRegistry: CodecRegistry(codecs: const [GzipCodec(), IdentityCodec()]),
+      ),
+    );
+
+    final retriever = RetrieverClient(channel);
+
+    try {
+      var response = await retriever.returnData(DataRequest(), options: CallOptions(compression: const GzipCodec()));
+      print(response.message);
+    } catch (e) {
+      print('Caught error: $e');
+    }
+    await channel.shutdown(); */
+
+    try {
+      /* final channel = GrpcWebClientChannel.xhr(Uri.parse('http://localhost:8081'));
+      final service = RetrieverClient(channel);
+
+      var result = (await service.returnData(DataRequest())).message;
+      print(result); */
+    } catch (e) {
+      print(e);
+    }
   }
 
   ////////////////////////////////////////////////////////

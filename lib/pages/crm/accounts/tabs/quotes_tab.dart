@@ -250,7 +250,10 @@ class _QuotesTabState extends State<QuotesTab> {
                     enableEditingMode: false,
                     cellPadding: EdgeInsets.zero,
                     renderer: (rendererContext) {
-                      return PlutoGridStatusCell(text: rendererContext.cell.value);
+                      return PlutoGridStatusCell(
+                        text: rendererContext.row.cells["STATUS_Column"]!.value,
+                        id: rendererContext.row.cells["ID_STATUS_Column"]!.value,
+                      );
                     },
                   ),
                 PlutoColumn(
@@ -280,39 +283,39 @@ class _QuotesTabState extends State<QuotesTab> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           //if (rendererContext.row.cells["STATUS_Column"]!.value != 'Rejected')
-                          if(rendererContext.row.cells["STATUS_Column"]!.value == 'Sales Form' ) //Sales Form
-                          CustomTextIconButton(
-                            isLoading: false,
-                            icon: Icon(
-                              Icons.assignment,
-                              color: AppTheme.of(context).primaryBackground,
-                            ),
-                            text: 'Fill Form',
-                            color: AppTheme.of(context).tertiaryColor,
-                            onTap: ()  async {
+                          if (rendererContext.row.cells["ID_STATUS_Column"]!.value == 1) //Sales Form
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.assignment,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Fill Form',
+                              color: AppTheme.of(context).tertiaryColor,
+                              onTap: () async {
                                 await providerCreate.clearAll();
                                 await providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
                                 await providerCreate.getLead(rendererContext.row.cells["ID_LEAD_Column"]!.value, null);
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteCreation);
                               },
-                          ),
-                          if(rendererContext.row.cells["STATUS_Column"]!.value != 'Sales Form' )
-                          CustomTextIconButton(
-                            isLoading: false,
-                            icon: Icon(
-                              Icons.remove_red_eye_outlined,
-                              color: AppTheme.of(context).primaryBackground,
                             ),
-                            text: 'Details',
-                            onTap: () async {
-                              detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
-                              await detailProvider.getData();
-                              // ignore: use_build_context_synchronously
-                              context.pushReplacement(routeQuoteDetail);
-                            },
-                          ),
-                          if (currentUser!.isSales && rendererContext.row.cells["STATUS_Column"]!.value == 'Rejected')
+                          if (rendererContext.row.cells["ID_STATUS_Column"]!.value != 1) //Sales Form
+                            CustomTextIconButton(
+                              isLoading: false,
+                              icon: Icon(
+                                Icons.remove_red_eye_outlined,
+                                color: AppTheme.of(context).primaryBackground,
+                              ),
+                              text: 'Details',
+                              onTap: () async {
+                                detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
+                                await detailProvider.getData();
+                                // ignore: use_build_context_synchronously
+                                context.pushReplacement(routeQuoteDetail);
+                              },
+                            ),
+                          if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 5) //Rejected
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -329,7 +332,7 @@ class _QuotesTabState extends State<QuotesTab> {
                                 context.pushReplacement(routeQuoteCreation);
                               },
                             ),
-                          if (currentUser!.isSales && rendererContext.row.cells["STATUS_Column"]!.value == 'Accepted')
+                          if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 7) //Approved
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -341,12 +344,12 @@ class _QuotesTabState extends State<QuotesTab> {
                               onTap: () async {
                                 await supabaseCRM.rpc(
                                   'update_quote_status',
-                                  params: {"estatus": "Order Created", "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id},
+                                  params: {"id_status": 8, "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id}, //Order Created
                                 );
                                 await provider.getQuotes(null);
                               },
                             ),
-                          if (currentUser!.isSales && rendererContext.row.cells["STATUS_Column"]!.value == 'Order Created')
+                          if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 8) //Order Created
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -359,12 +362,12 @@ class _QuotesTabState extends State<QuotesTab> {
                                 //Change to status 'Order Created'
                                 await supabaseCRM.rpc(
                                   'update_quote_status',
-                                  params: {"estatus": "Cross Connected", "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id},
+                                  params: {"id_status": 9, "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id}, //Network Cross Connected
                                 );
                                 await provider.getQuotes(null);
                               },
                             ),
-                          if (currentUser!.isSenExec && rendererContext.row.cells["STATUS_Column"]!.value == 'Opened')
+                          if (currentUser!.isSenExec && rendererContext.row.cells["ID_STATUS_Column"]!.value == 2) //Sen. Exec. Validate
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -380,8 +383,7 @@ class _QuotesTabState extends State<QuotesTab> {
                                 context.pushReplacement(routeQuoteValidation);
                               },
                             ),
-                          if (currentUser!.isFinance &&
-                              (rendererContext.row.cells["STATUS_Column"]!.value == 'Sen. Exec. Validate' || rendererContext.row.cells["STATUS_Column"]!.value == 'Margin Positive'))
+                          if (currentUser!.isFinance && rendererContext.row.cells["ID_STATUS_Column"]!.value == 3) //Finance Validate
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -397,7 +399,7 @@ class _QuotesTabState extends State<QuotesTab> {
                                 context.pushReplacement(routeQuoteValidation);
                               },
                             ),
-                          if (currentUser!.isOpperations && rendererContext.row.cells["STATUS_Column"]!.value == 'Finance Validate')
+                          if (currentUser!.isOpperations && rendererContext.row.cells["ID_STATUS_Column"]!.value == 4) //Network Validate
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(

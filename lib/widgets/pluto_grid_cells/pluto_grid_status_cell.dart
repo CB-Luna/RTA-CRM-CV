@@ -4,12 +4,14 @@ import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class PlutoGridStatusCell extends StatelessWidget {
-  PlutoGridStatusCell({
+  const PlutoGridStatusCell({
     super.key,
     required this.text,
+    required this.id,
   });
 
-  String? text;
+  final String text;
+  final int id;
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +23,18 @@ class PlutoGridStatusCell extends StatelessWidget {
         child: Container(
           width: 150,
           decoration: BoxDecoration(
-            color: statusColor(text),
+            color: statusColor(id),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Padding(
             padding: const EdgeInsets.all(5),
             child: Text(
-              text ?? '-',
+              text,
               textAlign: TextAlign.center,
               style: AppTheme.of(context).contenidoTablas.override(
                     fontFamily: 'Gotham-Regular',
                     useGoogleFonts: false,
-                    color: statusTextColor(text),
+                    color: AppTheme.of(context).primaryBackground,
                   ),
             ),
           ),
@@ -42,38 +44,29 @@ class PlutoGridStatusCell extends StatelessWidget {
   }
 }
 
-Color statusColor(String? status) {
+Color statusColor(int status) {
   late Color color;
 
   switch (status) {
-    case 'In process':
+    case 1: //In process
       color = Colors.greenAccent;
       break;
-    case 'In proccess':
-      color = Colors.greenAccent;
-      break;
-    case 'Opened':
-      color = Colors.greenAccent;
-      break;
-    case 'Margin Positive':
+    case 2: //Sen. Exec. Validate
       color = Colors.blueAccent;
       break;
-    case 'Sen. Exec. Validate':
-      color = Colors.pinkAccent;
-      break;
-    case 'Finance Validate':
+    case 3: //Finance Validate
       color = Colors.orangeAccent;
       break;
-    case 'Validated':
-      color = Colors.purpleAccent;
+    case 4: //Network Validate
+      color = Colors.orangeAccent;
       break;
-    case 'Accepted':
+    case 7: //Approved
       color = Colors.green;
       break;
-    case 'Rejected':
+    case 5: //Rejected
       color = Colors.red;
       break;
-    case 'Closed':
+    case 6: //Closed
       color = Colors.redAccent;
       break;
     default:
@@ -83,13 +76,10 @@ Color statusColor(String? status) {
   return color;
 }
 
-Color statusTextColor(String? status) {
+/* Color statusTextColor(String? status) {
   late Color color;
   switch (status) {
     case 'In process':
-      color = Colors.white;
-      break;
-    case 'In proccess':
       color = Colors.white;
       break;
     case 'Opened':
@@ -107,7 +97,7 @@ Color statusTextColor(String? status) {
     case 'Validated':
       color = Colors.white;
       break;
-    case 'Accepted':
+    case 'Approved':
       color = Colors.white;
       break;
     case 'Rejected':
@@ -121,3 +111,4 @@ Color statusTextColor(String? status) {
   }
   return color;
 }
+ */

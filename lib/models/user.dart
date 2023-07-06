@@ -45,11 +45,11 @@ class User {
 
   // CRM
   bool get isCRM => currentUser!.isAdminCrm || currentUser!.isSales || currentUser!.isSenExec || currentUser!.isFinance || currentUser!.isOpperations;
-  bool get isAdminCrm => role.roleName == 'Admin CRM';
-  bool get isSales => role.roleName == 'Sales';
-  bool get isSenExec => role.roleName == 'Sen. Exec.';
-  bool get isFinance => role.roleName == 'Finance';
-  bool get isOpperations => role.roleName == 'Operations';
+  bool get isAdminCrm => role.id == 4;
+  bool get isSales => role.id == 6;
+  bool get isSenExec => role.id == 9;
+  bool get isFinance => role.id == 8;
+  bool get isOpperations => role.id == 7;
 
   // CV
   bool get isCV => currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isEmployee;

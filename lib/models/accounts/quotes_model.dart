@@ -31,6 +31,7 @@ class Quotes {
   int leadProbability;
   DateTime expectedClose;
   String vendorName;
+  int idStatus;
 
   Quotes({
     required this.id,
@@ -63,6 +64,7 @@ class Quotes {
     required this.leadProbability,
     required this.expectedClose,
     required this.vendorName,
+    required this.idStatus,
   });
 
   factory Quotes.fromJson(String str) => Quotes.fromMap(json.decode(str));
@@ -100,6 +102,7 @@ class Quotes {
         leadProbability: json["lead_probability"],
         expectedClose: DateTime.parse(json["expected_close"]),
         vendorName: json["vendor_name"],
+        idStatus: json["id_status"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -133,6 +136,7 @@ class Quotes {
         "lead_probability": leadProbability,
         "expected_close": expectedClose.toIso8601String(),
         "vendor_name": vendorName,
+        "id_status": idStatus,
       };
 }
 

@@ -169,17 +169,10 @@ class ValidateQuoteProvider extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
       if (validate) {
-        if (currentUser!.isFinance) {
+        if (currentUser!.isSenExec) {
           await supabaseCRM.rpc(
             'update_quote_status',
-            params: {"estatus": "Finance Validate", "id": id, "user_uuid": currentUser!.id},
-          );
-          await supabaseCRM.from('leads_history').insert(
-              {"user": currentUser!.id, "action": 'UPDATE', "description": 'Quote validated by Finance', "table": 'quotes', "id_table": id, "name": "${currentUser!.name} ${currentUser!.lastName}"});
-        } else if (currentUser!.isSenExec) {
-          await supabaseCRM.rpc(
-            'update_quote_status',
-            params: {"estatus": "Sen. Exec. Validate", "id": id, "user_uuid": currentUser!.id},
+            params: {"id_status": 3, "id": id, "user_uuid": currentUser!.id}, //Finance Validate
           );
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,
@@ -189,10 +182,17 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "id_table": id,
             "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
+        } else if (currentUser!.isFinance) {
+          await supabaseCRM.rpc(
+            'update_quote_status',
+            params: {"id_status": 4, "id": id, "user_uuid": currentUser!.id}, //Network Validate
+          );
+          await supabaseCRM.from('leads_history').insert(
+              {"user": currentUser!.id, "action": 'UPDATE', "description": 'Quote validated by Finance', "table": 'quotes', "id_table": id, "name": "${currentUser!.name} ${currentUser!.lastName}"});
         } else if (currentUser!.isOpperations) {
           await supabaseCRM.rpc(
             'update_quote_status',
-            params: {"estatus": "Accepted", "id": id, "user_uuid": currentUser!.id},
+            params: {"id_status": 7, "id": id, "user_uuid": currentUser!.id}, //Approved
           );
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,
@@ -204,8 +204,10 @@ class ValidateQuoteProvider extends ChangeNotifier {
           });
         }
       } else {
-        await supabaseCRM.rpc('update_quote_status', params: {"estatus": "Rejected", "id": id, "user_uuid": currentUser!.id});
-
+        await supabaseCRM.rpc(
+          'update_quote_status',
+          params: {"id_status": 5, "id": id, "user_uuid": currentUser!.id}, //Rejected
+        );
         await supabaseCRM
             .from('leads_history')
             .insert({"user": currentUser!.id, "action": 'UPDATE', "description": 'Quote rejected', "table": 'quotes', "id_table": id, "name": "${currentUser!.name} ${currentUser!.lastName}"});

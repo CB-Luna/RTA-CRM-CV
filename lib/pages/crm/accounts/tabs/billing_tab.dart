@@ -377,7 +377,7 @@ class _BillingTabState extends State<BillingTab> {
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
-                    return PlutoGridStatusCell(text: rendererContext.cell.value);
+                    return PlutoGridStatusCell(text: rendererContext.cell.value, id: 1); //TODO: Change
                   },
                 ),
                 PlutoColumn(
