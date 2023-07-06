@@ -44,7 +44,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     await getVendors();
     idVendor = null;
 
-    await getLeads();
+    //await getLeads();
     idLead = null;
 
     lineItemCenterController.clear();
@@ -895,7 +895,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getLeads() async {
+  /* Future<void> getLeads() async {
     companyController.clear();
     nameController.clear();
     lastNameController.clear();
@@ -916,7 +916,7 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
+ */
   Future<void> selectLead(String selected) async {
     leadSelectedValue = selected;
     await getLead(null, leadSelectedValue);
