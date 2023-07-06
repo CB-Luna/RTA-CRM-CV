@@ -577,15 +577,15 @@ class MonitoryProvider extends ChangeNotifier {
       if (event.dateAddedD != null) {
         switch (event.company.company) {
           case "CRY":
-            meet.add(Appointment(
-              startTime: event.dateAddedR,
-              endTime: event.dateAddedR.add(const Duration(hours: 1)),
-              subject: "${event.employee.name} ${event.employee.lastName}",
-              color: const Color(0XFF345694),
-              id: event.idControlForm,
-              // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-              // isAllDay: true,
-            ));
+            // meet.add(Appointment(
+            //   startTime: event.dateAddedR,
+            //   endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            //   subject: "${event.employee.name} ${event.employee.lastName}",
+            //   color: const Color(0XFF345694),
+            //   id: event.idControlForm,
+            //   // recurrenceRule: 'FREQ=DAILY;COUNT=10',
+            //   // isAllDay: true,
+            // ));
             if ((today.day == event.dateAddedR.day) &
                 (today.month == event.dateAddedR.month) &
                 (today.year == event.dateAddedR.year)) {
@@ -608,13 +608,13 @@ class MonitoryProvider extends ChangeNotifier {
             }
             break;
           case "ODE":
-            meet.add(Appointment(
-              startTime: event.dateAddedR,
-              endTime: event.dateAddedR.add(const Duration(hours: 1)),
-              subject: "${event.employee.name} ${event.employee.lastName} R",
-              color: const Color(0XFFB2333A),
-              id: event.idControlForm,
-            ));
+            // meet.add(Appointment(
+            //   startTime: event.dateAddedR,
+            //   endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            //   subject: "${event.employee.name} ${event.employee.lastName} R",
+            //   color: const Color(0XFFB2333A),
+            //   id: event.idControlForm,
+            // ));
             if ((today.day == event.dateAddedR.day) &
                 (today.month == event.dateAddedR.month) &
                 (today.year == event.dateAddedR.year)) {
@@ -634,13 +634,13 @@ class MonitoryProvider extends ChangeNotifier {
             }
             break;
           case "SMI":
-            meet.add(Appointment(
-              startTime: event.dateAddedR,
-              endTime: event.dateAddedR.add(const Duration(hours: 1)),
-              subject: "${event.employee.name} ${event.employee.lastName}",
-              color: Color.fromRGBO(255, 138, 0, 1),
-              id: event.idControlForm,
-            ));
+            // meet.add(Appointment(
+            //   startTime: event.dateAddedR,
+            //   endTime: event.dateAddedR.add(const Duration(hours: 1)),
+            //   subject: "${event.employee.name} ${event.employee.lastName}",
+            //   color: Color.fromRGBO(255, 138, 0, 1),
+            //   id: event.idControlForm,
+            // ));
             if ((today.day == event.dateAddedR.day) &
                 (today.month == event.dateAddedR.month) &
                 (today.year == event.dateAddedR.year)) {

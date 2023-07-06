@@ -236,7 +236,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
               child: Container(
                 width: 40,
                 height: 6,
-                color: AppTheme.of(context).alternate,
+               color: Color.fromRGBO(245, 6, 213, 1),
               ),
             ),
           ],
