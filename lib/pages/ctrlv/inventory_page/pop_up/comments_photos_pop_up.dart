@@ -88,19 +88,23 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                 ),
               ],
             ),
-            CarouselSlider.builder(
-              itemCount: provider.registroIssueComments?.listImages!.length,
-              itemBuilder: (context, index, realIndex) {
-                // final urlImage =
-                //     provider.actualissuesComments?.listImages![index];
-                const urlImage =
-                    "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
-                return buildImage(urlImage, index);
-              },
-              options: CarouselOptions(height: 200),
-            )
           ],
         ),
+        Container(
+          height: 200,
+          width: 200,
+          child: CarouselSlider.builder(
+            itemCount: provider.registroIssueComments?.listImages!.length,
+            itemBuilder: (context, index, realIndex) {
+              // final urlImage =
+              //     provider.actualissuesComments?.listImages![index];
+              const urlImage =
+                  "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
+              return buildImage(urlImage, index);
+            },
+            options: CarouselOptions(height: 200),
+          ),
+        )
       ],
     );
   }

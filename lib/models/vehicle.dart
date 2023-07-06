@@ -13,7 +13,7 @@ class Vehicle {
       required this.licesensePlates,
       required this.motor,
       this.color,
-      required this.image,
+      this.image,
       required this.status,
       required this.company,
       required this.dateAdded,
@@ -32,7 +32,7 @@ class Vehicle {
   String licesensePlates;
   String motor;
   String? color;
-  String image;
+  String? image;
   DateTime dateAdded;
   DateTime oilChangeDue;
   DateTime lastRadiatorFluidChange;

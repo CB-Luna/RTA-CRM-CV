@@ -80,7 +80,7 @@ Widget? getImageUpdate(dynamic image, Vehicle vehicle,
   if (image == null) {
     print("ENTRO AQUI NO HAY IMAGEN");
     print(image);
-    return Image.network(vehicle.image);
+    return Image.network(vehicle.image!);
   } else if (image is Uint8List) {
     print("ENTRO AQUI Uint8LIST");
 
@@ -102,7 +102,7 @@ Widget? getImageUpdate(dynamic image, Vehicle vehicle,
       fit: boxFit,
     );
   } else {
-    return Image.asset(vehicle.image);
+    return Image.asset(vehicle.image!);
   }
 }
 

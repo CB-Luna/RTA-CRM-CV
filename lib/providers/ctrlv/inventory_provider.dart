@@ -407,7 +407,7 @@ class InventoryProvider extends ChangeNotifier {
 
   //---------------------------------------------
   void inicializeImage(Vehicle vehicle) {
-    final List<int> codeUnits = vehicle.image.codeUnits;
+    final List<int> codeUnits = vehicle.image!.codeUnits;
     webImage = Uint8List.fromList(codeUnits);
 
     notifyListeners();
