@@ -280,6 +280,24 @@ class _QuotesTabState extends State<QuotesTab> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           //if (rendererContext.row.cells["STATUS_Column"]!.value != 'Rejected')
+                          if(rendererContext.row.cells["STATUS_Column"]!.value == 'Sales Form' ) //Sales Form
+                          CustomTextIconButton(
+                            isLoading: false,
+                            icon: Icon(
+                              Icons.assignment,
+                              color: AppTheme.of(context).primaryBackground,
+                            ),
+                            text: 'Fill Form',
+                            color: AppTheme.of(context).tertiaryColor,
+                            onTap: ()  async {
+                                await providerCreate.clearAll();
+                                await providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
+                                await providerCreate.getLead(rendererContext.row.cells["ID_LEAD_Column"]!.value, null);
+                                // ignore: use_build_context_synchronously
+                                context.pushReplacement(routeQuoteCreation);
+                              },
+                          ),
+                          if(rendererContext.row.cells["STATUS_Column"]!.value != 'Sales Form' )
                           CustomTextIconButton(
                             isLoading: false,
                             icon: Icon(

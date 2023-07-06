@@ -24,7 +24,7 @@ class _MarcadoresDashboardState extends State<MarcadoresDashboard> {
       children: [
         CustomeMarcador(
           width: getWidth(216, context),
-          height: getHeight(189.33, context),
+          height: getHeight(200, context),
           bordercolor: AppTheme.of(context).primaryColor,
           contador: '102',
           titulo: 'Totals',
@@ -34,7 +34,7 @@ class _MarcadoresDashboardState extends State<MarcadoresDashboard> {
         SizedBox(width: getWidth(56, context)),
         CustomeMarcador(
           width: getWidth(216, context),
-          height: getHeight(189.33, context),
+          height: getHeight(200, context),
           bordercolor: provider.verde,
           contador: '60',
           titulo: 'Orders',
@@ -44,7 +44,7 @@ class _MarcadoresDashboardState extends State<MarcadoresDashboard> {
         SizedBox(width: getWidth(56, context)),
         CustomeMarcador(
           width: getWidth(216, context),
-          height: getHeight(189.33, context),
+          height: getHeight(200, context),
           bordercolor: provider.amarillo,
           contador: '42',
           titulo: 'Quotes',
@@ -54,7 +54,7 @@ class _MarcadoresDashboardState extends State<MarcadoresDashboard> {
         SizedBox(width: getWidth(56, context)),
         CustomeMarcador(
           width: getWidth(216, context),
-          height: getHeight(189.33, context),
+          height: getHeight(200, context),
           bordercolor: provider.rojo,
           contador: '20',
           titulo: 'Canceled',

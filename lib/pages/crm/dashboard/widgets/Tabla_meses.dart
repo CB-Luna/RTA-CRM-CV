@@ -11,6 +11,7 @@ import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
 class TablaMeses extends StatefulWidget {
@@ -33,54 +34,59 @@ class _TablaMesesState extends State<TablaMeses> {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                SizedBox(
-                  width: 250,
-                  child: Row(
-                    children: [
-                      CustomTextIconButton(
-                        isLoading: false,
-                        icon: Icon(Icons.filter_alt_outlined,
-                            color: AppTheme.of(context).primaryBackground),
-                        text: 'Filter',
-                        onTap: () => provider.stateManager!.setShowColumnFilter(
-                            !provider.stateManager!.showColumnFilter),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: CustomTextIconButton(
+            child: CustomScrollBar(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    width: 250,
+                    child: Row(
+                      children: [
+                        CustomTextIconButton(
                           isLoading: false,
-                          icon: Icon(Icons.view_column_outlined,
+                          icon: Icon(Icons.filter_alt_outlined,
                               color: AppTheme.of(context).primaryBackground),
-                          text: 'Set Columns',
+                          text: 'Filter',
                           onTap: () => provider.stateManager!
-                              .showSetColumnsPopup(context),
+                              .setShowColumnFilter(
+                                  !provider.stateManager!.showColumnFilter),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: CustomTextIconButton(
+                            isLoading: false,
+                            icon: Icon(Icons.view_column_outlined,
+                                color: AppTheme.of(context).primaryBackground),
+                            text: 'Set Columns',
+                            onTap: () => provider.stateManager!
+                                .showSetColumnsPopup(context),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                CustomTextField(
-                  width: 200,
-                  enabled: true,
-                  controller: provider.searchController,
-                  icon: Icons.search,
-                  label: 'Search',
-                  keyboardType: TextInputType.text,
-                ),
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.calendar_month,
-                      color: AppTheme.of(context).primaryBackground),
-                  text:'${dateFormat(provider.dateRange.start)} - ${dateFormat(provider.dateRange.end)}',
+                  CustomTextField(
+                    width: 200,
+                    enabled: true,
+                    controller: provider.searchController,
+                    icon: Icons.search,
+                    label: 'Search',
+                    keyboardType: TextInputType.text,
+                  ),
+                  CustomTextIconButton(
+                    isLoading: false,
+                    icon: Icon(Icons.calendar_month,
+                        color: AppTheme.of(context).primaryBackground),
+                    text:
+                        '${dateFormat(provider.dateRange.start)} - ${dateFormat(provider.dateRange.end)}',
                     onTap: () {
-                    provider.pickDateRange(context);
-                  },
-                ),
-              ],
+                      provider.pickDateRange(context);
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(
