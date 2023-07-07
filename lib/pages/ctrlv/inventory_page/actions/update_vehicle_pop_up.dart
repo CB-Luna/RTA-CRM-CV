@@ -290,7 +290,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                         ),
                         InkWell(
                           onTap: () async {
-                            await provider.selectImage();
+                            await provider.updateImage();
                           },
                           child: Container(
                             width: 105,
@@ -300,7 +300,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                               shape: BoxShape.circle,
                             ),
                             child: getImageUpdate(
-                                provider.webImage!, widget.vehicle),
+                                widget.vehicle, provider.imageUrlUpdate),
                           ),
                         ),
                       ],

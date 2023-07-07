@@ -218,8 +218,11 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                       text: '',
                                       color: AppTheme.of(context).primaryColor,
                                       onTap: () async {
-                                        provider
+                                        await provider
                                             .getIssuesBucketInspectionComments(
+                                                widget.issuesComments[index]);
+                                        await provider
+                                            .getIssueCarBodyWorkComments(
                                                 widget.issuesComments[index]);
 
                                         provider.cambiosVistaPhotosComments();

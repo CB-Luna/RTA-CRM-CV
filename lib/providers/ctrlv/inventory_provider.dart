@@ -16,6 +16,8 @@ import 'package:rta_crm_cv/models/service_api.dart';
 import 'package:rta_crm_cv/models/status_api.dart';
 import 'package:rta_crm_cv/models/vehicle.dart';
 import 'package:excel/excel.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../models/issues.dart';
 import '../../models/issues_x_user.dart';
@@ -69,14 +71,16 @@ class InventoryProvider extends ChangeNotifier {
 //------------------------------------------
 
   String? imageName;
-  String? imageBase64;
-  String? imageBase64Update;
+  String? imageUrl;
+  String? imageUrlUpdate;
   Uint8List? webImage;
   Uint8List? webImageClear;
+  String? imagepicked;
   IssuesXUser? actualIssueXUser;
   IssuesComments? actualissuesComments;
   Vehicle? actualVehicle;
   int idvehicle = 16;
+  Uuid uuid = const Uuid();
   String? colorString = "0xffffffff";
 //------------------------------------------
 
@@ -212,22 +216,6 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ------------------------------------------
-  // List<IssuesComments> issuesComments = [];
-  // void selectIssuesCommentsR(int index) {
-  //   issuesComments = // menuIssuesReceived[index]!;
-  //   //print("IssuesComments: ${issuesComments.length} ");
-  //   notifyListeners();
-  // }
-
-  // //------------------------------------------
-  // List<IssuesComments> issuesCommentsD = [];
-  // void selectIssuesCommentsD(int index) {
-  //   issuesCommentsD = // // // // menuIssuesReceivedD[index]!;
-  //   notifyListeners();
-  // }
-  //------------------------------------------
-
   void selectIssuesXUser(int index) {
     actualIssueXUser = issuesxUser[index];
     notifyListeners();
@@ -264,6 +252,10 @@ class InventoryProvider extends ChangeNotifier {
     motorControllerUpadte.text = vehicle.motor;
     yearControllerUpdate.text = vehicle.year.toString();
     statusSelectedUpdate = statusSelected;
+    imageUrlUpdate = vehicle.image!.replaceAll(
+        "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/",
+        "");
+
     colorControllerUpdate = colorController;
     colorControllers.text = colorController.toString();
     companySelectedUpdate = companySelected;
@@ -275,6 +267,25 @@ class InventoryProvider extends ChangeNotifier {
         DateFormat("MMM/dd/yyyy").format(vehicle.lastTransmissionFluidChange);
     mileageControllerUpdate.text = vehicle.mileage.toString();
   }
+
+  //---------------------------------------------
+
+  Future<void> updateImage() async {
+    final ImagePicker picker = ImagePicker();
+
+    final XFile? pickedImage = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedImage == null) return;
+
+    webImage = await pickedImage.readAsBytes();
+    final res = await supabase.storage.from('assets/Vehicles').updateBinary(
+          imageUrlUpdate!,
+          webImage!,
+        );
+    print(res);
+  }
 //---------------------------------------------
 
   Future<void> selectImage() async {
@@ -284,24 +295,34 @@ class InventoryProvider extends ChangeNotifier {
       source: ImageSource.gallery,
     );
 
+    final String? placeHolderImage;
+
     if (pickedImage == null) return;
 
-    // final String fileExtension = p.extension(pickedImage.name);
-    // const uuid = Uuid();
-    // final String fileName = uuid.v1();
-    // imageName = 'car-$fileName$fileExtension';
-
     webImage = await pickedImage.readAsBytes();
-    imageBase64 = base64Encode(webImage!);
-    imageBase64Update = imageBase64;
     print("-------------------------");
 
-    print(imageBase64);
+    print(imageUrl);
     print("-------------------------");
-    print(imageBase64Update);
     notifyListeners();
-  }
+    placeHolderImage = "${uuid.v4()}${pickedImage.name}";
 
+    final storageResponse =
+        await supabase.storage.from('assets/Vehicles').uploadBinary(
+              placeHolderImage,
+              webImage!,
+              fileOptions: const FileOptions(
+                cacheControl: '3600',
+                upsert: false,
+              ),
+            );
+
+    if (storageResponse.isNotEmpty) {
+      imageUrl = supabase.storage.from('assets/Vehicles').getPublicUrl(
+            placeHolderImage,
+          );
+    }
+  }
 //---------------------------------------------
 
 //---------------------------------------------
@@ -415,8 +436,11 @@ class InventoryProvider extends ChangeNotifier {
 
 //---------------------------------------------
   Future<bool> updateVehicle(Vehicle vehicle) async {
-    print("status: ${vehicle.status.status}");
-    print("company: ${vehicle.company.company}");
+    final res = await supabase.storage.from('assets/Vehicles').updateBinary(
+          imageUrlUpdate!,
+          webImage!,
+        );
+    print(res);
     try {
       await supabaseCtrlV.from('vehicle').update({
         'make': makeControllerUpdate.text,
@@ -426,7 +450,6 @@ class InventoryProvider extends ChangeNotifier {
         'license_plates': plateNumberControllerUpdate.text,
         'motor': motorControllerUpadte.text,
         'color': colorString ?? vehicle.color,
-        'image': "data:image/png;base64,$imageBase64Update",
         'id_status_fk':
             statusSelectedUpdate?.statusId ?? vehicle.status.statusId,
         'id_company_fk':
@@ -470,8 +493,6 @@ class InventoryProvider extends ChangeNotifier {
         'id_vehicle_fk': actualVehicle!.idVehicle,
         'id_service_fk': serviceSelected?.idService,
         'service_date': serviceDateController.text,
-        // 'next_date':
-        //     nextDateController?.text == null ? null : nextDateController?.text,
       });
       return true;
     } catch (e) {
@@ -513,14 +534,29 @@ class InventoryProvider extends ChangeNotifier {
           'license_plates': plateNumberController.text,
           'motor': motorController.text,
           'color': colorString,
-          'image': "data:image/png;base64,$imageBase64",
+          'image': imageUrl,
           'id_status_fk': statusSelected?.statusId,
           'id_company_fk': companySelected?.companyId,
           'date_added': DateTime.now().toIso8601String(),
           'oil_change_due': dateTimeControllerOil.text,
           'last_radiator_fluid_change': dateTimeControllerRFC.text,
           'last_transmission_fluid_change': dateTimeControllerLTFC.text,
-          'mileage': mileageController.text
+          'mileage': mileageController.text,
+          // 'rule_oil_change': {
+          //   "value: 300000",
+          //   "Registered: false",
+          //   "Last Mileage Service: ${mileageController.text}"
+          // },
+          // 'rule_transmission_fluid_change': {
+          //   "value: 100000",
+          //   "Registered: false",
+          //   "Last Mileage Service: ${mileageController.text}"
+          // },
+          // 'rule_radiator_fluid_change': {
+          //   "value: 20000",
+          //   "Registered: false",
+          //   "Last Mileage Service: ${mileageController.text}"
+          // },
         },
       );
       return true;
@@ -778,15 +814,6 @@ class InventoryProvider extends ChangeNotifier {
           .from('issues_view')
           .select(
               'id_vehicle, bucket_inspection_r ->id_bucket_inspection, bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner, bucket_inspection_r ->date_added')
-          // Si pongo   'bucket_inspection_r ->holes_drilled ->"Bad" me marca Bad y no holes_drilled
-          // .select(
-          // ' id_vehicle,id_control_form, issues_r,issues_d, id_bucket_inspection_r_fk , car_bodywork_r->, equiment_r,user_profile,extra_r,fluid_check_r,lights_r,measure_r,security_r,bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner')
-          //.eq('bucket_inspection_r ->holes_drilled', 'Bad')
-          // .match({
-          //   'bucket_inspection_r ->holes_drilled': 'bad',
-          //   'bucket_inspection_r ->insulated': 'bad',
-          //   'bucket_inspection_r ->bucket_liner': 'bad',
-          // })
           .eq('id_vehicle', issuesXUser.idVehicleFk)
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
@@ -910,48 +937,102 @@ class InventoryProvider extends ChangeNotifier {
         }
         notifyListeners();
       }
+      if (issueOpenClose.nameIssue == "Insulated") {
+        final res = await supabaseCtrlV
+            .from('bucket_inspection')
+            .select('insulated_comments, insulated_image, date_added')
+            .eq('id_bucket_inspection', issueOpenClose.idIssue);
+        final resInsulated = res as List<dynamic>;
+        if (resInsulated.isNotEmpty) {
+          List<String> listImage =
+              resInsulated.first['insulated_image'].toString().split('|');
 
-      // final resD = await supabaseCtrlV
-      //     .from('issues_view')
-      //     .select(
-      //         'id_vehicle, bucket_inspection_d ->id_bucket_inspection, bucket_inspection_d ->insulated_comments,bucket_inspection_d ->insulated_image, bucket_inspection_d ->holes_drilled_comments,bucket_inspection_d -> holes_drilled_image, bucket_inspection_d ->bucket_liner_comments ,bucket_inspection_d ->bucket_liner_image,bucket_inspection_d ->date_added')
-      //     .eq('id_vehicle', issuesXUser.idVehicleFk)
-      //     .eq('id_user_fk', issuesXUser.userProfileId)
-      //     .or('issues_r.neq.0,issues_d.neq.0');
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resInsulated.first['insulated_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resInsulated.first['date_added']));
+        }
+        notifyListeners();
+      }
+      print("Entro a getIssuesBucketInspectionComments");
+    } catch (e) {
+      print("Error in getIssuesBucketInspectionComments() - $e");
+    }
+    notifyListeners();
+  }
 
-      // issuePartD = (resD as List<dynamic>)
-      //     .map(
-      //         (issuePartD) => BucketInspection.fromJson(jsonEncode(issuePartD)))
-      //     .toList();
+  // --------------------------------------------
+  Future<void> getIssueCarBodyWorkComments(
+      IssueOpenclose issueOpenClose) async {
+    // clearListgetIssues();
+    print("Entro a  getIssueCarBodyWorkComment");
+    try {
+      if (issueOpenClose.nameIssue == "Wiper Blades Front") {
+        final res = await supabaseCtrlV
+            .from('car_bodywork')
+            .select(
+                'wiper_blades_front_comments, wiper_blades_front_image, date_added')
+            .eq('id_car_bodywork', issueOpenClose.idIssue);
+        final resWiperBladeF = res as List<dynamic>;
+        if (resWiperBladeF.isNotEmpty) {
+          List<String> listImage = resWiperBladeF
+              .first['wiper_blades_front_image']
+              .toString()
+              .split('|');
 
-      // BucketInspectionR
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resWiperBladeF.first['wiper_blades_front_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resWiperBladeF.first['date_added']));
+          print("Response: ${res}");
+          print("------------------");
+          //print("Numero del id: ${issueOpenClose.idIssue}");
+          print("------------------");
 
-      // // BucketInspectionD
-      // for (BucketInspection issue in issuePartD) {
-      //   if (issue.holesDrilled == "Bad") {
-      //     IssueOpenclose newIssueComments = IssueOpenclose(
-      //         idIssue: issue.idBucketInspection!,
-      //         nameIssue: "Holes Drilled",
-      //         dateAddedOpen: issue.dateAdded!);
-      //     bucketInspectionDD.add(newIssueComments);
-      //   }
-      //   if (issue.bucketLiner == "Bad") {
-      //     IssueOpenclose newIssueComments = IssueOpenclose(
-      //         idIssue: issue.idBucketInspection!,
-      //         nameIssue: "Bucket Liner",
-      //         dateAddedOpen: issue.dateAdded!);
-      //     bucketInspectionDD.add(newIssueComments);
-      //   }
-      //   if (issue.insulated == "Bad") {
-      //     IssueOpenclose newIssueComments = IssueOpenclose(
-      //         idIssue: issue.idBucketInspection!,
-      //         nameIssue: "Insulated",
-      //         dateAddedOpen: issue.dateAdded!);
-      //     bucketInspectionRR.add(newIssueComments);
-      //   }
-      // }
-      // print("BucketInspectionRR: ${bucketInspectionRR.length}");
+          print(
+              "RegistroIssueCommentsCar: ${registroIssueComments!.nameIssue}");
+        }
 
+        notifyListeners();
+      }
+      if (issueOpenClose.nameIssue == "Bucket Liner") {
+        final res = await supabaseCtrlV
+            .from('bucket_inspection')
+            .select('bucket_liner_comments, bucket_liner_image, date_added')
+            .eq('id_bucket_inspection', issueOpenClose.idIssue);
+        final resBucketLiner = res as List<dynamic>;
+        if (resBucketLiner.isNotEmpty) {
+          List<String> listImage =
+              resBucketLiner.first['holes_drilled_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resBucketLiner.first['bucket_liner_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resBucketLiner.first['date_added']));
+        }
+        notifyListeners();
+      }
+      if (issueOpenClose.nameIssue == "Insulated") {
+        final res = await supabaseCtrlV
+            .from('bucket_inspection')
+            .select('insulated_comments, insulated_image, date_added')
+            .eq('id_bucket_inspection', issueOpenClose.idIssue);
+        final resInsulated = res as List<dynamic>;
+        if (resInsulated.isNotEmpty) {
+          List<String> listImage =
+              resInsulated.first['insulated_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resInsulated.first['insulated_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resInsulated.first['date_added']));
+        }
+        notifyListeners();
+      }
       print("Entro a getIssuesBucketInspectionComments");
     } catch (e) {
       print("Error in getIssuesBucketInspectionComments() - $e");
@@ -994,7 +1075,7 @@ class InventoryProvider extends ChangeNotifier {
         if (issue.wiperBladesFront == "Bad") {
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
-              nameIssue: "Wuper Blades Front",
+              nameIssue: "Wiper Blades Front",
               dateAddedOpen: issue.dateAdded!);
           carBodyWorkRR.add(newIssueComments);
         }

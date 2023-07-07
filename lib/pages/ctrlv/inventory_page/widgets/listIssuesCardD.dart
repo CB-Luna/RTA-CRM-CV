@@ -169,22 +169,14 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                                       text: '',
                                       color: AppTheme.of(context).primaryColor,
                                       onTap: () async {
-                                        // provider.selectIssuesComments(
-                                        //     widget.issuesComments[index]);
+                                        provider
+                                            .getIssuesBucketInspectionComments(
+                                                widget.issuesComments[index]);
                                         provider.cambiosVistaPhotosComments();
                                         provider.setIssueViewActual(2);
                                       },
                                     ),
                                   ),
-                                  // ElevatedButton(
-                                  //     onPressed: () {
-                                  //       provider.selectIssuesComments(
-                                  //           widget.issuesComments[index]);
-                                  //       provider.cambiosVistaPhotosComments();
-                                  //       provider.setIssueViewActual(2);
-                                  //     },
-                                  //     child:
-                                  //         const Icon(Icons.remove_red_eye_outlined))
                                 ],
                               ),
                             );

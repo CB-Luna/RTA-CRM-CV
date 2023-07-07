@@ -268,7 +268,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                        label: '13. Initial Mileage*',
+                        label: '13. Mileage*',
                         controller: provider.mileageController,
                         //inputFormatters: [cardMaskMil],
                         enabled: true,

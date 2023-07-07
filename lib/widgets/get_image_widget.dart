@@ -75,25 +75,13 @@ Widget? getAddImageV(dynamic image,
   }
 }
 
-Widget? getImageUpdate(dynamic image, Vehicle vehicle,
+Widget? getImageUpdate(Vehicle vehicle, dynamic image,
     {double height = 180, BoxFit boxFit = BoxFit.cover}) {
-  if (image == null) {
-    print("ENTRO AQUI NO HAY IMAGEN");
-    print(image);
-    return Image.network(vehicle.image!);
-  } else if (image is Uint8List) {
-    print("ENTRO AQUI Uint8LIST");
-
-    return Image.memory(
-      image,
-      height: height,
-      width: double.infinity,
-      fit: boxFit,
-    );
-  } else if (image is String?) {
+  if (vehicle.image == null) {
+    return Image.asset('assets/images/default-user-profile-picture.png');
+  } else {
     print("ENTRO AQUI STRING");
-    print(image);
-
+    print(vehicle.image);
     return Image.network(
       image!,
       height: height,
@@ -101,8 +89,6 @@ Widget? getImageUpdate(dynamic image, Vehicle vehicle,
       filterQuality: FilterQuality.high,
       fit: boxFit,
     );
-  } else {
-    return Image.asset(vehicle.image!);
   }
 }
 
