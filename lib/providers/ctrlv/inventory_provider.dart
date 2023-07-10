@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:pluto_grid_export/pluto_grid_export.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/company_api.dart';
@@ -259,12 +258,17 @@ class InventoryProvider extends ChangeNotifier {
     colorControllerUpdate = colorController;
     colorControllers.text = colorController.toString();
     companySelectedUpdate = companySelected;
-    dateTimeControllerOilUpdate.text =
-        DateFormat("MMM/dd/yyyy").format(vehicle.oilChangeDue);
-    dateTimeControllerRFCUpadte.text =
-        DateFormat("MMM/dd/yyyy").format(vehicle.lastRadiatorFluidChange);
+    dateTimeControllerOilUpdate.text = vehicle.oilChangeDue == null
+        ? ""
+        : DateFormat("MMM/dd/yyyy").format(vehicle.oilChangeDue!);
+    dateTimeControllerRFCUpadte.text = vehicle.lastRadiatorFluidChange == null
+        ? ""
+        : DateFormat("MMM/dd/yyyy").format(vehicle.lastRadiatorFluidChange!);
     dateTimeControllerLTFCUpadte.text =
-        DateFormat("MMM/dd/yyyy").format(vehicle.lastTransmissionFluidChange);
+        vehicle.lastTransmissionFluidChange == null
+            ? ""
+            : DateFormat("MMM/dd/yyyy")
+                .format(vehicle.lastTransmissionFluidChange!);
     mileageControllerUpdate.text = vehicle.mileage.toString();
   }
 
@@ -593,6 +597,7 @@ class InventoryProvider extends ChangeNotifier {
           .from('inventory_view')
           .select()
           .not('namestatus', 'eq', 'Not Active');
+
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
           .toList();
@@ -652,25 +657,16 @@ class InventoryProvider extends ChangeNotifier {
         rows.add(
           PlutoRow(
             cells: {
-              // "id_vehicle": PlutoCell(value: vehicle.idVehicle),
-              // "image": PlutoCell(value: vehicle.image),
               "make": PlutoCell(value: vehicle.make),
               "model": PlutoCell(value: vehicle.fullName),
               "year": PlutoCell(value: vehicle.year),
               "vin": PlutoCell(value: vehicle.vin),
               "license_plates": PlutoCell(value: vehicle.licesensePlates),
               "motor": PlutoCell(value: vehicle.motor),
-              // "color": PlutoCell(value: vehicle.color),
               "status": PlutoCell(value: vehicle.status.status),
               "company": PlutoCell(value: vehicle.company.company),
-              // "date_added": PlutoCell(
-              //     value: DateFormat("MMM/dd/yyyy")
-              //         .format(vehicle.dateAdded)
-              //         .toString()),
               "mileage": PlutoCell(value: vehicle.mileage.toString()),
-              //"details": PlutoCell(value: vehicle),
               "actions": PlutoCell(value: vehicle),
-              //"issues": PlutoCell(value: vehicle)
             },
           ),
         );
@@ -986,50 +982,195 @@ class InventoryProvider extends ChangeNotifier {
               comments: resWiperBladeF.first['wiper_blades_front_comments'],
               listImages: listImage,
               dateAdded: DateTime.parse(resWiperBladeF.first['date_added']));
-          print("Response: ${res}");
-          print("------------------");
-          //print("Numero del id: ${issueOpenClose.idIssue}");
-          print("------------------");
-
           print(
               "RegistroIssueCommentsCar: ${registroIssueComments!.nameIssue}");
         }
 
         notifyListeners();
       }
-      if (issueOpenClose.nameIssue == "Bucket Liner") {
+      if (issueOpenClose.nameIssue == "Wiper Blades Back") {
         final res = await supabaseCtrlV
-            .from('bucket_inspection')
-            .select('bucket_liner_comments, bucket_liner_image, date_added')
-            .eq('id_bucket_inspection', issueOpenClose.idIssue);
-        final resBucketLiner = res as List<dynamic>;
-        if (resBucketLiner.isNotEmpty) {
-          List<String> listImage =
-              resBucketLiner.first['holes_drilled_image'].toString().split('|');
+            .from('car_bodywork')
+            .select(
+                'wiper_blades_back_comments, wiper_blades_back_image, date_added')
+            .eq('id_car_bodywork', issueOpenClose.idIssue);
+        final resWiperBladeB = res as List<dynamic>;
+        if (resWiperBladeB.isNotEmpty) {
+          List<String> listImage = resWiperBladeB
+              .first['wiper_blades_back_image']
+              .toString()
+              .split('|');
 
           registroIssueComments = IssuesComments(
               nameIssue: issueOpenClose.nameIssue,
-              comments: resBucketLiner.first['bucket_liner_comments'],
+              comments: resWiperBladeB.first['wiper_blades_back_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resBucketLiner.first['date_added']));
+              dateAdded: DateTime.parse(resWiperBladeB.first['date_added']));
         }
         notifyListeners();
       }
-      if (issueOpenClose.nameIssue == "Insulated") {
+      if (issueOpenClose.nameIssue == "General Body") {
         final res = await supabaseCtrlV
-            .from('bucket_inspection')
-            .select('insulated_comments, insulated_image, date_added')
-            .eq('id_bucket_inspection', issueOpenClose.idIssue);
-        final resInsulated = res as List<dynamic>;
-        if (resInsulated.isNotEmpty) {
+            .from('car_bodywork')
+            .select('general_body_comments, general_body_image, date_added')
+            .eq('id_car_bodywork', issueOpenClose.idIssue);
+        final resGeneralB = res as List<dynamic>;
+        if (resGeneralB.isNotEmpty) {
           List<String> listImage =
-              resInsulated.first['insulated_image'].toString().split('|');
+              resGeneralB.first['general_body_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
               nameIssue: issueOpenClose.nameIssue,
-              comments: resInsulated.first['insulated_comments'],
+              comments: resGeneralB.first['general_body_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resInsulated.first['date_added']));
+              dateAdded: DateTime.parse(resGeneralB.first['date_added']));
+        }
+        notifyListeners();
+      }
+      if (issueOpenClose.nameIssue == "Decaling") {
+        final res = await supabaseCtrlV
+            .from('car_bodywork')
+            .select('decaling_comments, decaling_image, date_added')
+            .eq('id_car_bodywork', issueOpenClose.idIssue);
+        final resDecaling = res as List<dynamic>;
+        if (resDecaling.isNotEmpty) {
+          List<String> listImage =
+              resDecaling.first['decaling_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resDecaling.first['decaling_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resDecaling.first['date_added']));
+        }
+        notifyListeners();
+      }
+      if (issueOpenClose.nameIssue == "Tires") {
+        final res = await supabaseCtrlV
+            .from('car_bodywork')
+            .select('tires_comments, tires_image, date_added')
+            .eq('id_car_bodywork', issueOpenClose.idIssue);
+        final resTires = res as List<dynamic>;
+        if (resTires.isNotEmpty) {
+          List<String> listImage =
+              resTires.first['tires_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resTires.first['tires_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resTires.first['date_added']));
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Glass") {
+        final res = await supabaseCtrlV
+            .from('car_bodywork')
+            .select('glass_comments, glass_image, date_added')
+            .eq('id_car_bodywork', issueOpenClose.idIssue);
+        final resGlass = res as List<dynamic>;
+        if (resGlass.isNotEmpty) {
+          List<String> listImage =
+              resGlass.first['glass_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resGlass.first['glass_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resGlass.first['date_added']));
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Mirrors") {
+        final res = await supabaseCtrlV
+            .from('car_bodywork')
+            .select('mirrors_comments, mirrors_image, date_added')
+            .eq('id_car_bodywork', issueOpenClose.idIssue);
+        final resMirrors = res as List<dynamic>;
+        if (resMirrors.isNotEmpty) {
+          List<String> listImage =
+              resMirrors.first['mirrors_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resMirrors.first['mirrors_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resMirrors.first['date_added']));
+        }
+        notifyListeners();
+      }
+      if (issueOpenClose.nameIssue == "Parking") {
+        final res = await supabaseCtrlV
+            .from('car_bodywork')
+            .select('parking_comments, parking_image, date_added')
+            .eq('id_car_bodywork', issueOpenClose.idIssue);
+        final resParking = res as List<dynamic>;
+        if (resParking.isNotEmpty) {
+          List<String> listImage =
+              resParking.first['parking_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resParking.first['parking_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resParking.first['date_added']));
+        }
+        notifyListeners();
+      }
+      if (issueOpenClose.nameIssue == "Brakes") {
+        final res = await supabaseCtrlV
+            .from('car_bodywork')
+            .select('brakes_comments, brakes_image, date_added')
+            .eq('id_car_bodywork', issueOpenClose.idIssue);
+        final resBrakes = res as List<dynamic>;
+        if (resBrakes.isNotEmpty) {
+          List<String> listImage =
+              resBrakes.first['brakes_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resBrakes.first['brakes_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resBrakes.first['date_added']));
+        }
+        notifyListeners();
+      }
+      if (issueOpenClose.nameIssue == "Emg Brakes") {
+        final res = await supabaseCtrlV
+            .from('car_bodywork')
+            .select('emg_brakes_comments, emg_brakes_image, date_added')
+            .eq('id_car_bodywork', issueOpenClose.idIssue);
+        final resEmgBrakes = res as List<dynamic>;
+        if (resEmgBrakes.isNotEmpty) {
+          List<String> listImage =
+              resEmgBrakes.first['emg_brakes_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resEmgBrakes.first['emg_brakes_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resEmgBrakes.first['date_added']));
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Horn") {
+        final res = await supabaseCtrlV
+            .from('car_bodywork')
+            .select('horn_comments, horn_image, date_added')
+            .eq('id_car_bodywork', issueOpenClose.idIssue);
+        final resHorn = res as List<dynamic>;
+        if (resHorn.isNotEmpty) {
+          List<String> listImage =
+              resHorn.first['horn_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resHorn.first['horn_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resHorn.first['date_added']));
         }
         notifyListeners();
       }
@@ -1261,13 +1402,140 @@ class InventoryProvider extends ChangeNotifier {
       }
       //print("BucketInspectionRR: ${bucketInspectionRR.length}");
 
-      print("Entro a getIssuesCarBodywork");
+      print("Entro a getIssuesCarBodyworkComments");
     } catch (e) {
-      print("Error in getIssuesCarBodywork() - $e");
+      print("Error in getIssuesCarBodyworkComments() - $e");
     }
     notifyListeners();
   }
 
+  // --------------------------------------------
+  Future<void> getIssuesEquipmentComments(IssueOpenclose issueOpenClose) async {
+    // clearListgetIssues();
+    print("Entro a  getIssuesEquipmentComments");
+    try {
+      if (issueOpenClose.nameIssue == "ignition key") {
+        final res = await supabaseCtrlV
+            .from('equipment')
+            .select('ignition_key_comments, ignition_key_image, date_added')
+            .eq('id_equipment', issueOpenClose.idIssue);
+        final resIgnitionK = res as List<dynamic>;
+        if (resIgnitionK.isNotEmpty) {
+          List<String> listImage =
+              resIgnitionK.first['ignition_key_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resIgnitionK.first['ignition_key_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resIgnitionK.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+      if (issueOpenClose.nameIssue == "Bins Box Key") {
+        final res = await supabaseCtrlV
+            .from('equipment')
+            .select('bins_box_key_comments, bins_box_key_image, date_added')
+            .eq('id_equipment', issueOpenClose.idIssue);
+        final resBinsBoxKey = res as List<dynamic>;
+        if (resBinsBoxKey.isNotEmpty) {
+          List<String> listImage =
+              resBinsBoxKey.first['bins_box_key_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resBinsBoxKey.first['bins_box_key_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resBinsBoxKey.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Vehicle Registration Copy") {
+        final res = await supabaseCtrlV
+            .from('equipment')
+            .select(
+                'vehicle_registration_copy_comments, vehicle_registration_copy_image, date_added')
+            .eq('id_equipment', issueOpenClose.idIssue);
+        final resVehicleRC = res as List<dynamic>;
+        if (resVehicleRC.isNotEmpty) {
+          List<String> listImage = resVehicleRC
+              .first['vehicle_registration_copy_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments:
+                  resVehicleRC.first['vehicle_registration_copy_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resVehicleRC.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Vehicle Insurance Copy") {
+        final res = await supabaseCtrlV
+            .from('equipment')
+            .select(
+                'vehicle_insurance_copy_comments, vehicle_insurance_copy_image, date_added')
+            .eq('id_equipment', issueOpenClose.idIssue);
+        final resVehicleIC = res as List<dynamic>;
+        if (resVehicleIC.isNotEmpty) {
+          List<String> listImage = resVehicleIC
+              .first['vehicle_insurance_copy_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resVehicleIC.first['vehicle_insurance_copy_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resVehicleIC.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Bucket Lift Operator Manual") {
+        final res = await supabaseCtrlV
+            .from('equipment')
+            .select(
+                'bucket_lift_operator_manual_comments, bucket_lift_operator_manual_image, date_added')
+            .eq('id_equipment', issueOpenClose.idIssue);
+        final resBucketLiftOM = res as List<dynamic>;
+        if (resBucketLiftOM.isNotEmpty) {
+          List<String> listImage = resBucketLiftOM
+              .first['bucket_lift_operator_manual_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments:
+                  resBucketLiftOM.first['bucket_lift_operator_manual_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resBucketLiftOM.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+      print("Entro a getIssuesEquipmentComments");
+    } catch (e) {
+      print("Error in getIssuesEquipmentComments() - $e");
+    }
+    notifyListeners();
+  }
+
+  // --------------------------------------------
   Future<void> getIssuesEquipment(IssuesXUser issuesXUser) async {
     try {
       // getIssuesEquipment_r
@@ -1549,6 +1817,196 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   // --------------------------------------------
+  Future<void> getIssuesExtraComments(IssueOpenclose issueOpenClose) async {
+    // clearListgetIssues();
+    print("Entro a  getIssuesExtraComments");
+    try {
+      if (issueOpenClose.nameIssue == "Ladder") {
+        final res = await supabaseCtrlV
+            .from('extra')
+            .select('ladder_comments, ladder_image, date_added')
+            .eq('id_extra', issueOpenClose.idIssue);
+        final resLadder = res as List<dynamic>;
+        if (resLadder.isNotEmpty) {
+          List<String> listImage =
+              resLadder.first['ladder_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resLadder.first['ladder_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resLadder.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Step Ladder") {
+        final res = await supabaseCtrlV
+            .from('extra')
+            .select('step_ladder_comments, step_ladder_image, date_added')
+            .eq('id_extra', issueOpenClose.idIssue);
+        final resStepLadder = res as List<dynamic>;
+        if (resStepLadder.isNotEmpty) {
+          List<String> listImage =
+              resStepLadder.first['step_ladder_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resStepLadder.first['step_ladder_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resStepLadder.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Ladder Straps") {
+        final res = await supabaseCtrlV
+            .from('extra')
+            .select('ladder_straps_comments, ladder_straps_image, date_added')
+            .eq('id_extra', issueOpenClose.idIssue);
+        final resLadderS = res as List<dynamic>;
+        if (resLadderS.isNotEmpty) {
+          List<String> listImage =
+              resLadderS.first['ladder_straps_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resLadderS.first['ladder_straps_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resLadderS.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Hydraulic Fluid for Bucket") {
+        final res = await supabaseCtrlV
+            .from('extra')
+            .select(
+                'hydraulic_fluid_for_bucket_comments, hydraulic_fluid_for_bucket_image, date_added')
+            .eq('id_extra', issueOpenClose.idIssue);
+        final resHydraFFB = res as List<dynamic>;
+        if (resHydraFFB.isNotEmpty) {
+          List<String> listImage = resHydraFFB
+              .first['hydraulic_fluid_for_bucket_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments:
+                  resHydraFFB.first['hydraulic_fluid_for_bucket_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resHydraFFB.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Fiber Reel Rack") {
+        final res = await supabaseCtrlV
+            .from('extra')
+            .select(
+                'fiber_reel_rack_comments, fiber_reel_rack_image, date_added')
+            .eq('id_extra', issueOpenClose.idIssue);
+        final resFiberRR = res as List<dynamic>;
+        if (resFiberRR.isNotEmpty) {
+          List<String> listImage =
+              resFiberRR.first['fiber_reel_rack_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resFiberRR.first['fiber_reel_rack_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resFiberRR.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Bins Locked and Secure") {
+        final res = await supabaseCtrlV
+            .from('extra')
+            .select(
+                'bins_locked_and_secure_comments, bins_locked_and_secure_image, date_added')
+            .eq('id_extra', issueOpenClose.idIssue);
+        final resBinsLAS = res as List<dynamic>;
+        if (resBinsLAS.isNotEmpty) {
+          List<String> listImage = resBinsLAS
+              .first['bins_locked_and_secure_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resBinsLAS.first['bins_locked_and_secure_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resBinsLAS.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Safety Harness") {
+        final res = await supabaseCtrlV
+            .from('extra')
+            .select('safety_harness_comments, safety_harness_image, date_added')
+            .eq('id_extra', issueOpenClose.idIssue);
+        final resSafetyH = res as List<dynamic>;
+        if (resSafetyH.isNotEmpty) {
+          List<String> listImage =
+              resSafetyH.first['safety_harness_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resSafetyH.first['safety_harness_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resSafetyH.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Lanyard Safety Harness") {
+        final res = await supabaseCtrlV
+            .from('extra')
+            .select(
+                'lanyard_safety_harness_comments, lanyard_safety_harness_image, date_added')
+            .eq('id_extra', issueOpenClose.idIssue);
+        final resLanyardSH = res as List<dynamic>;
+        if (resLanyardSH.isNotEmpty) {
+          List<String> listImage = resLanyardSH
+              .first['lanyard_safety_harness_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resLanyardSH.first['lanyard_safety_harness_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resLanyardSH.first['date_added']));
+          print(
+              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+      print("Entro a getIssuesEquipmentComments");
+    } catch (e) {
+      print("Error in getIssuesEquipmentComments() - $e");
+    }
+    notifyListeners();
+  }
+
+  // --------------------------------------------
   Future<void> getIssuesFluidCheck(IssuesXUser issuesXUser) async {
     try {
       // getIssuesFluidCheckR
@@ -1676,6 +2134,152 @@ class InventoryProvider extends ChangeNotifier {
       print("Error in getIssuesFluidCheck() - $e");
     }
 
+    notifyListeners();
+  }
+
+// --------------------------------------------
+  Future<void> getIssuesFluidsCheckComments(
+      IssueOpenclose issueOpenClose) async {
+    // clearListgetIssues();
+    print("Entro a getIssuesFluidsCheckComments");
+    try {
+      if (issueOpenClose.nameIssue == "Engine Oil") {
+        final res = await supabaseCtrlV
+            .from('fluids_check')
+            .select('engine_oil_comments, engine_oil_image, date_added')
+            .eq('id_fluids_check', issueOpenClose.idIssue);
+        final resEngineOil = res as List<dynamic>;
+        if (resEngineOil.isNotEmpty) {
+          List<String> listImage =
+              resEngineOil.first['engine_oil_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resEngineOil.first['engine_oil_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resEngineOil.first['date_added']));
+          print(
+              "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Transmission") {
+        final res = await supabaseCtrlV
+            .from('fluids_check')
+            .select('transmission_comments, transmission_image, date_added')
+            .eq('id_fluids_check', issueOpenClose.idIssue);
+        final resTransmission = res as List<dynamic>;
+        if (resTransmission.isNotEmpty) {
+          List<String> listImage =
+              resTransmission.first['transmission_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resTransmission.first['transmission_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resTransmission.first['date_added']));
+          print(
+              "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Coolant") {
+        final res = await supabaseCtrlV
+            .from('fluids_check')
+            .select('coolant_comments, coolant_image, date_added')
+            .eq('id_fluids_check', issueOpenClose.idIssue);
+        final resCoolant = res as List<dynamic>;
+        if (resCoolant.isNotEmpty) {
+          List<String> listImage =
+              resCoolant.first['coolant_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resCoolant.first['coolant_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resCoolant.first['date_added']));
+          print(
+              "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Power Steering") {
+        final res = await supabaseCtrlV
+            .from('fluids_check')
+            .select('power_steering_comments, power_steering_image, date_added')
+            .eq('id_fluids_check', issueOpenClose.idIssue);
+        final resPowerS = res as List<dynamic>;
+        if (resPowerS.isNotEmpty) {
+          List<String> listImage =
+              resPowerS.first['power_steering_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resPowerS.first['power_steering_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resPowerS.first['date_added']));
+          print(
+              "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Diesel Exhaust Fluid") {
+        final res = await supabaseCtrlV
+            .from('fluids_check')
+            .select(
+                'diesel_exhaust_fluid_comments, diesel_exhaust_fluid_image, date_added')
+            .eq('id_fluids_check', issueOpenClose.idIssue);
+        final resDieselExF = res as List<dynamic>;
+        if (resDieselExF.isNotEmpty) {
+          List<String> listImage = resDieselExF
+              .first['diesel_exhaust_fluid_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resDieselExF.first['diesel_exhaust_fluid_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resDieselExF.first['date_added']));
+          print(
+              "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Windshield Washer Fluid ") {
+        final res = await supabaseCtrlV
+            .from('fluids_check')
+            .select(
+                'windshield_washer_fluid_comments, windshield_washer_fluid_image, date_added')
+            .eq('id_fluids_check', issueOpenClose.idIssue);
+        final resWindshieldWF = res as List<dynamic>;
+        if (resWindshieldWF.isNotEmpty) {
+          List<String> listImage = resWindshieldWF
+              .first['windshield_washer_fluid_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments:
+                  resWindshieldWF.first['windshield_washer_fluid_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resWindshieldWF.first['date_added']));
+          print(
+              "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      print("Entro a getIssuesFluidsCheckComments");
+    } catch (e) {
+      print("Error in getIssuesFluidsCheckComments() - $e");
+    }
     notifyListeners();
   }
 
@@ -1865,6 +2469,220 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   // --------------------------------------------
+  Future<void> getIssuesLightsComments(IssueOpenclose issueOpenClose) async {
+    // clearListgetIssues();
+    print("Entro a getIssuesLightsComments");
+    try {
+      if (issueOpenClose.nameIssue == "Headlights") {
+        final res = await supabaseCtrlV
+            .from('lights')
+            .select('headlights_comments, headlights_image, date_added')
+            .eq('id_lights', issueOpenClose.idIssue);
+        final resLights = res as List<dynamic>;
+        if (resLights.isNotEmpty) {
+          List<String> listImage =
+              resLights.first['headlights_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resLights.first['headlights_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resLights.first['date_added']));
+          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Brake Lights") {
+        final res = await supabaseCtrlV
+            .from('lights')
+            .select('brake_lights_comments, brake_lights_image, date_added')
+            .eq('id_lights', issueOpenClose.idIssue);
+        final resBrakeLights = res as List<dynamic>;
+        if (resBrakeLights.isNotEmpty) {
+          List<String> listImage =
+              resBrakeLights.first['brake_lights_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resBrakeLights.first['brake_lights_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resBrakeLights.first['date_added']));
+          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Reverse Lights") {
+        final res = await supabaseCtrlV
+            .from('lights')
+            .select('reverse_lights_comments, reverse_lights_image, date_added')
+            .eq('id_lights', issueOpenClose.idIssue);
+        final resReverseL = res as List<dynamic>;
+        if (resReverseL.isNotEmpty) {
+          List<String> listImage =
+              resReverseL.first['reverse_lights_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resReverseL.first['reverse_lights_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resReverseL.first['date_added']));
+          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Warning Lights") {
+        final res = await supabaseCtrlV
+            .from('lights')
+            .select('warning_lights_comments, warning_lights_image, date_added')
+            .eq('id_lights', issueOpenClose.idIssue);
+        final resWarningL = res as List<dynamic>;
+        if (resWarningL.isNotEmpty) {
+          List<String> listImage =
+              resWarningL.first['warning_lights_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resWarningL.first['warning_lights_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resWarningL.first['date_added']));
+          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Turn Signals") {
+        final res = await supabaseCtrlV
+            .from('lights')
+            .select('turn_signals_comments, turn_signals_image, date_added')
+            .eq('id_lights', issueOpenClose.idIssue);
+        final resTurnS = res as List<dynamic>;
+        if (resTurnS.isNotEmpty) {
+          List<String> listImage =
+              resTurnS.first['turn_signals_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resTurnS.first['turn_signals_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resTurnS.first['date_added']));
+          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "4 way Flashers ") {
+        final res = await supabaseCtrlV
+            .from('lights')
+            .select('4_way_flashers_comments, 4_way_flashers_image, date_added')
+            .eq('id_lights', issueOpenClose.idIssue);
+        final res4WayF = res as List<dynamic>;
+        if (res4WayF.isNotEmpty) {
+          List<String> listImage =
+              res4WayF.first['4_way_flashers_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: res4WayF.first['4_way_flashers_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(res4WayF.first['date_added']));
+          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Dash Lights ") {
+        final res = await supabaseCtrlV
+            .from('lights')
+            .select('dash_lights_comments, dash_lights_image, date_added')
+            .eq('id_lights', issueOpenClose.idIssue);
+        final resDashL = res as List<dynamic>;
+        if (resDashL.isNotEmpty) {
+          List<String> listImage =
+              resDashL.first['dash_lights_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resDashL.first['dash_lights_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resDashL.first['date_added']));
+          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Strobe Lights ") {
+        final res = await supabaseCtrlV
+            .from('lights')
+            .select('strobe_lights_comments, strobe_lights_image, date_added')
+            .eq('id_lights', issueOpenClose.idIssue);
+        final resStrobeL = res as List<dynamic>;
+        if (resStrobeL.isNotEmpty) {
+          List<String> listImage =
+              resStrobeL.first['strobe_lights_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resStrobeL.first['strobe_lights_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resStrobeL.first['date_added']));
+          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Cab Roof Lights ") {
+        final res = await supabaseCtrlV
+            .from('lights')
+            .select(
+                'cab_roof_lights_comments, cab_roof_lights_image, date_added')
+            .eq('id_lights', issueOpenClose.idIssue);
+        final resCabRoofL = res as List<dynamic>;
+        if (resCabRoofL.isNotEmpty) {
+          List<String> listImage =
+              resCabRoofL.first['cab_roof_lights_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resCabRoofL.first['cab_roof_lights_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resCabRoofL.first['date_added']));
+          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Clearance Lights ") {
+        final res = await supabaseCtrlV
+            .from('lights')
+            .select(
+                'clearance_lights_comments, clearance_lights_image, date_added')
+            .eq('id_lights', issueOpenClose.idIssue);
+        final resClearanceL = res as List<dynamic>;
+        if (resClearanceL.isNotEmpty) {
+          List<String> listImage = resClearanceL.first['clearance_lights_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resClearanceL.first['clearance_lights_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resClearanceL.first['date_added']));
+          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+      print("Entro a getIssuesLightsComments");
+    } catch (e) {
+      print("Error in getIssuesLightsComments() - $e");
+    }
+    notifyListeners();
+  }
+
+  // --------------------------------------------
   Future<void> getIssuesMeasure(IssuesXUser issuesXUser) async {
     try {
       // getIssuesLightsR
@@ -1936,6 +2754,60 @@ class InventoryProvider extends ChangeNotifier {
       print("Error in getIssueMeasure() - $e");
     }
 
+    notifyListeners();
+  }
+
+// --------------------------------------------
+  Future<void> getIssuesMeasuresComments(IssueOpenclose issueOpenClose) async {
+    // clearListgetIssues();
+    print("Entro a getIssuesMeasuresComments");
+    try {
+      if (issueOpenClose.nameIssue == "Gas") {
+        final res = await supabaseCtrlV
+            .from('measures')
+            .select('gas_comments, gas_image, date_added')
+            .eq('id_measure', issueOpenClose.idIssue);
+        final resGas = res as List<dynamic>;
+        if (resGas.isNotEmpty) {
+          List<String> listImage =
+              resGas.first['gas_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resGas.first['gas_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resGas.first['date_added']));
+          print(
+              "getIssuesMeasuresComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Mileage") {
+        final res = await supabaseCtrlV
+            .from('measures')
+            .select('mileage_comments, mileage_image, date_added')
+            .eq('id_measure', issueOpenClose.idIssue);
+        final resMileage = res as List<dynamic>;
+        if (resMileage.isNotEmpty) {
+          List<String> listImage =
+              resMileage.first['gas_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resMileage.first['gas_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resMileage.first['date_added']));
+          print(
+              "getIssuesMeasuresComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      print("Entro a getIssuesMeasuresComments");
+    } catch (e) {
+      print("Error in getIssuesMeasuresComments() - $e");
+    }
     notifyListeners();
   }
 
@@ -2068,6 +2940,154 @@ class InventoryProvider extends ChangeNotifier {
       print("Error in getIssuesSecuurity() - $e");
     }
 
+    notifyListeners();
+  }
+
+  // --------------------------------------------
+  Future<void> getIssuesSecurityComments(IssueOpenclose issueOpenClose) async {
+    // clearListgetIssues();
+    print("Entro a getIssuesSecurityComments");
+    try {
+      if (issueOpenClose.nameIssue == "RTA Magnet") {
+        final res = await supabaseCtrlV
+            .from('security')
+            .select('rta_magnet_comments, rta_magnet_image, date_added')
+            .eq('id_security', issueOpenClose.idIssue);
+        final resRTAM = res as List<dynamic>;
+        if (resRTAM.isNotEmpty) {
+          List<String> listImage =
+              resRTAM.first['rta_magnet_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resRTAM.first['rta_magnet_commnets'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resRTAM.first['date_added']));
+          print(
+              "getIssuesSecurityComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Triangle Reflectors") {
+        final res = await supabaseCtrlV
+            .from('security')
+            .select(
+                'triangle_reflectors_comments, triangle_reflectors_image, date_added')
+            .eq('id_security', issueOpenClose.idIssue);
+        final resTriangleR = res as List<dynamic>;
+        if (resTriangleR.isNotEmpty) {
+          List<String> listImage = resTriangleR
+              .first['triangle_reflectors_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resTriangleR.first['triangle_reflectors_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resTriangleR.first['date_added']));
+          print(
+              "getIssuesSecurityComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Wheel Chocks") {
+        final res = await supabaseCtrlV
+            .from('security')
+            .select('wheel_chocks_comments, wheel_chocks_image, date_added')
+            .eq('id_security', issueOpenClose.idIssue);
+        final resWheelChocks = res as List<dynamic>;
+        if (resWheelChocks.isNotEmpty) {
+          List<String> listImage =
+              resWheelChocks.first['wheel_chocks_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resWheelChocks.first['wheel_chocks_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resWheelChocks.first['date_added']));
+          print(
+              "getIssuesSecurityComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Fire Extinguisher") {
+        final res = await supabaseCtrlV
+            .from('security')
+            .select(
+                'fire_extinguisher_comments, fire_extinguisher_image, date_added')
+            .eq('id_security', issueOpenClose.idIssue);
+        final resFireExting = res as List<dynamic>;
+        if (resFireExting.isNotEmpty) {
+          List<String> listImage = resFireExting
+              .first['fire_extinguisher_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resFireExting.first['fire_extinguisher_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resFireExting.first['date_added']));
+          print(
+              "getIssuesSecurityComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "First Aid Kit Safety Vest") {
+        final res = await supabaseCtrlV
+            .from('security')
+            .select(
+                'first_aid_kit_safety_vest_comments, first_aid_kit_safety_vest_image, date_added')
+            .eq('id_security', issueOpenClose.idIssue);
+        final resFirstAidKSV = res as List<dynamic>;
+        if (resFirstAidKSV.isNotEmpty) {
+          List<String> listImage = resFirstAidKSV
+              .first['first_aid_kit_safety_vest_image']
+              .toString()
+              .split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments:
+                  resFirstAidKSV.first['first_aid_kit_safety_vest_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resFirstAidKSV.first['date_added']));
+          print(
+              "getIssuesSecurityComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      if (issueOpenClose.nameIssue == "Back Up Alarm") {
+        final res = await supabaseCtrlV
+            .from('security')
+            .select('back_up_alarm_comments, back_up_alarm_image, date_added')
+            .eq('id_security', issueOpenClose.idIssue);
+        final resBackUpAlarm = res as List<dynamic>;
+        if (resBackUpAlarm.isNotEmpty) {
+          List<String> listImage =
+              resBackUpAlarm.first['back_up_alarm_image'].toString().split('|');
+
+          registroIssueComments = IssuesComments(
+              nameIssue: issueOpenClose.nameIssue,
+              comments: resBackUpAlarm.first['back_up_alarm_comments'],
+              listImages: listImage,
+              dateAdded: DateTime.parse(resBackUpAlarm.first['date_added']));
+          print(
+              "getIssuesSecurityComments: ${registroIssueComments!.nameIssue}");
+        }
+        notifyListeners();
+      }
+
+      print("Entro a getIssuesSecurityComments");
+    } catch (e) {
+      print("Error in getIssuesSecurityComments() - $e");
+    }
     notifyListeners();
   }
 
@@ -2713,9 +3733,16 @@ class InventoryProvider extends ChangeNotifier {
         report.status.status,
         report.company.company,
         DateFormat("MMM/dd/yyyy").format(report.dateAdded),
-        DateFormat("MMM/dd/yyyy").format(report.oilChangeDue),
-        DateFormat("MMM/dd/yyyy").format(report.lastRadiatorFluidChange),
-        DateFormat("MMM/dd/yyyy").format(report.lastTransmissionFluidChange),
+        report.oilChangeDue == null
+            ? null
+            : DateFormat("MMM/dd/yyyy").format(report.oilChangeDue!),
+        report.lastRadiatorFluidChange == null
+            ? null
+            : DateFormat("MMM/dd/yyyy").format(report.lastRadiatorFluidChange!),
+        report.lastTransmissionFluidChange == null
+            ? null
+            : DateFormat("MMM/dd/yyyy")
+                .format(report.lastTransmissionFluidChange!),
         report.issuesR,
         report.issuesD
       ];

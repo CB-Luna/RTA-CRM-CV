@@ -421,7 +421,9 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
                           child: Text(
-                            " ${DateFormat("MMM/dd/yyyy").format(widget.vehicle.oilChangeDue)}",
+                            widget.vehicle.oilChangeDue == null
+                                ? ""
+                                : " ${DateFormat("MMM/dd/yyyy").format(widget.vehicle.oilChangeDue!)}",
                             style: TextStyle(
                               color: AppTheme.of(context).gris,
                               fontFamily: 'Bicyclette-Thin',
@@ -434,7 +436,10 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
                           child: Text(
-                            " ${DateFormat("MMM/dd/yyyy").format(widget.vehicle.lastRadiatorFluidChange)}",
+                            widget.vehicle.lastRadiatorFluidChange == null
+                                ? ""
+                                : DateFormat("MMM/dd/yyyy").format(
+                                    widget.vehicle.lastRadiatorFluidChange!),
                             style: TextStyle(
                               color: AppTheme.of(context).gris,
                               fontFamily: 'Bicyclette-Thin',
@@ -447,7 +452,10 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
                           child: Text(
-                            " ${DateFormat("MMM/dd/yyyy").format(widget.vehicle.lastTransmissionFluidChange)}",
+                            widget.vehicle.lastTransmissionFluidChange == null
+                                ? ""
+                                : DateFormat("MMM/dd/yyyy").format(widget
+                                    .vehicle.lastTransmissionFluidChange!),
                             style: TextStyle(
                               color: AppTheme.of(context).gris,
                               fontFamily: 'Bicyclette-Thin',

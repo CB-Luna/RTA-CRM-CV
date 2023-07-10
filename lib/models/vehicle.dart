@@ -34,9 +34,9 @@ class Vehicle {
   String? color;
   String? image;
   DateTime dateAdded;
-  DateTime oilChangeDue;
-  DateTime lastRadiatorFluidChange;
-  DateTime lastTransmissionFluidChange;
+  DateTime? oilChangeDue;
+  DateTime? lastRadiatorFluidChange;
+  DateTime? lastTransmissionFluidChange;
   StatusApi status;
   CompanyApi company;
   int issuesR;
@@ -60,11 +60,16 @@ class Vehicle {
       status: StatusApi.fromJson(jsonEncode(json['status'])),
       company: CompanyApi.fromJson(jsonEncode(json['company'])),
       dateAdded: DateTime.parse(json["date_added"]),
-      oilChangeDue: DateTime.parse(json["oil_change_due"]),
-      lastRadiatorFluidChange:
-          DateTime.parse(json["last_radiator_fluid_change"]),
+      oilChangeDue: json["oil_change_due"] == null
+          ? null
+          : DateTime.parse(json["oil_change_due"]),
+      lastRadiatorFluidChange: json["last_radiator_fluid_change"] == null
+          ? null
+          : DateTime.parse(json["last_radiator_fluid_change"]),
       lastTransmissionFluidChange:
-          DateTime.parse(json["last_transmission_fluid_change"]),
+          json["last_transmission_fluid_change"] == null
+              ? null
+              : DateTime.parse(json["last_transmission_fluid_change"]),
       issuesR: json["issues_r"],
       issuesD: json["issues_d"],
       mileage: json["mileage"]);
@@ -82,10 +87,11 @@ class Vehicle {
         "status": status.toMap(),
         "company": company.toMap(),
         "date_added": dateAdded.toIso8601String(),
-        "oil_change_due": oilChangeDue.toIso8601String(),
-        "last_radiator_fluid_change": lastRadiatorFluidChange.toIso8601String(),
+        "oil_change_due": oilChangeDue?.toIso8601String(),
+        "last_radiator_fluid_change":
+            lastRadiatorFluidChange?.toIso8601String(),
         "last_transmission_fluid_change":
-            lastTransmissionFluidChange.toIso8601String(),
+            lastTransmissionFluidChange?.toIso8601String(),
         "issues_r": issuesR,
         "issues_d": issuesD,
         "mileage": mileage

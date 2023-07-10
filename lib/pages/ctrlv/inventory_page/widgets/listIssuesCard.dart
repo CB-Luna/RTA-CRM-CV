@@ -34,7 +34,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
 
         provider.getIssuesFluidCheck(provider.actualIssueXUser!);
 
-        print("getBucketInspection");
+        print("getIssuesFluidCheck");
       }
       if (widget.contador == 2) {
         provider.cambiovistaMeasures = true;
@@ -58,7 +58,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
         provider.cambiovistaMeasures = true;
 
         provider.getIssuesBasics(provider.actualIssueXUser!);
-        print("getIssuesFluidCheck");
+        print("getBucketInspection");
       }
       if (widget.contador == 6) {
         provider.cambiovistaMeasures = true;
@@ -218,13 +218,55 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                       text: '',
                                       color: AppTheme.of(context).primaryColor,
                                       onTap: () async {
-                                        await provider
-                                            .getIssuesBucketInspectionComments(
-                                                widget.issuesComments[index]);
-                                        await provider
-                                            .getIssueCarBodyWorkComments(
-                                                widget.issuesComments[index]);
-
+                                        if (widget.contador == 1) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider.getIssuesFluidsCheckComments(
+                                              widget.issuesComments[index]);
+                                          print("getIssuesFluidCheckComments");
+                                        }
+                                        if (widget.contador == 2) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider.getIssueCarBodyWorkComments(
+                                              widget.issuesComments[index]);
+                                          print("getCarbodyworkComments");
+                                        }
+                                        if (widget.contador == 3) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider.getIssuesEquipmentComments(
+                                              widget.issuesComments[index]);
+                                          print("getequipmentComments");
+                                        }
+                                        if (widget.contador == 4) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider.getIssuesExtraComments(
+                                              widget.issuesComments[index]);
+                                          print("getextraComments");
+                                        }
+                                        if (widget.contador == 5) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider
+                                              .getIssuesBucketInspectionComments(
+                                                  widget.issuesComments[index]);
+                                          print("getBucketInspectionComments");
+                                        }
+                                        if (widget.contador == 6) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider.getIssuesLightsComments(
+                                              widget.issuesComments[index]);
+                                          print("getIssuesLightsComments");
+                                        }
+                                        if (widget.contador == 7) {
+                                          provider.cambiovistaMeasures = false;
+                                          provider.getIssuesMeasuresComments(
+                                              widget.issuesComments[index]);
+                                          print("getIssuesMeasureComments");
+                                        }
+                                        if (widget.contador == 8) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider.getIssuesSecurityComments(
+                                              widget.issuesComments[index]);
+                                          print("getIssuesSecurityComments");
+                                        }
                                         provider.cambiosVistaPhotosComments();
                                         provider.setIssueViewActual(2);
                                       },

@@ -220,10 +220,13 @@ class DetailsPop extends StatelessWidget {
                                           padding: const EdgeInsetsDirectional
                                               .fromSTEB(0, 0, 0, 10),
                                           child: Text(
-                                            DateFormat("MMM-dd-yyyy")
-                                                .format(vehicle.vehicle
-                                                    .lastTransmissionFluidChange)
-                                                .toString(),
+                                            vehicle.vehicle
+                                                        .lastTransmissionFluidChange ==
+                                                    null
+                                                ? ""
+                                                : DateFormat("MMM/dd/yyyy")
+                                                    .format(vehicle.vehicle
+                                                        .lastTransmissionFluidChange!),
                                             style: const TextStyle(
                                                 color: Colors.white),
                                           ),
@@ -232,10 +235,13 @@ class DetailsPop extends StatelessWidget {
                                           padding: const EdgeInsetsDirectional
                                               .fromSTEB(0, 0, 0, 10),
                                           child: Text(
-                                            DateFormat("MMM-dd-yyyy")
-                                                .format(vehicle.vehicle
-                                                    .lastRadiatorFluidChange)
-                                                .toString(),
+                                            vehicle.vehicle
+                                                        .lastRadiatorFluidChange ==
+                                                    null
+                                                ? ""
+                                                : DateFormat("MMM/dd/yyyy")
+                                                    .format(vehicle.vehicle
+                                                        .lastRadiatorFluidChange!),
                                             style: const TextStyle(
                                                 color: Colors.white),
                                           ),
@@ -244,10 +250,9 @@ class DetailsPop extends StatelessWidget {
                                           padding: const EdgeInsetsDirectional
                                               .fromSTEB(0, 0, 0, 10),
                                           child: Text(
-                                            DateFormat("MMM-dd-yyyy")
-                                                .format(vehicle
-                                                    .vehicle.oilChangeDue)
-                                                .toString(),
+                                            vehicle.vehicle.oilChangeDue == null
+                                                ? ""
+                                                : " ${DateFormat("MMM/dd/yyyy").format(vehicle.vehicle.oilChangeDue!)}",
                                             //"${vehicle.vehicle.oilChangeDue.month}-${vehicle.vehicle.oilChangeDue.day}-${vehicle.vehicle.oilChangeDue.year}",
                                             style: const TextStyle(
                                                 color: Colors.white),
