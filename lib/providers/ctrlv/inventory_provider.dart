@@ -288,6 +288,69 @@ class InventoryProvider extends ChangeNotifier {
           }).eq("id_fluids_check", registroIssueComments!.idIssue);
 
           return true;
+        case 2:
+          print(contadorSeccion);
+          await supabaseCtrlV.from('car_bodywork').update({
+            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
+                "Good",
+            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
+                "Issue Closed update at ${dateTimeClosedIssueController.text}"
+          }).eq("id_carbodywork", registroIssueComments!.idIssue);
+          return true;
+        case 3:
+          print(contadorSeccion);
+          await supabaseCtrlV.from('equipment').update({
+            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
+                "Good",
+            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
+                "Issue Closed update at ${dateTimeClosedIssueController.text}"
+          }).eq("id_equipment", registroIssueComments!.idIssue);
+          return true;
+        case 4:
+          print(contadorSeccion);
+          await supabaseCtrlV.from('extra').update({
+            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
+                "Good",
+            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
+                "Issue Closed update at ${dateTimeClosedIssueController.text}"
+          }).eq("id_extra", registroIssueComments!.idIssue);
+          return true;
+        case 5:
+          print(contadorSeccion);
+          await supabaseCtrlV.from('bucket_inspection').update({
+            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
+                "Good",
+            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
+                "Issue Closed update at ${dateTimeClosedIssueController.text}"
+          }).eq("id_bucket_inspection", registroIssueComments!.idIssue);
+          return true;
+        case 6:
+          print(contadorSeccion);
+          await supabaseCtrlV.from('lights').update({
+            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
+                "Good",
+            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
+                "Issue Closed update at ${dateTimeClosedIssueController.text}"
+          }).eq("id_lights", registroIssueComments!.idIssue);
+          return true;
+        case 7:
+          print(contadorSeccion);
+          await supabaseCtrlV.from('measures').update({
+            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
+                "Good",
+            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
+                "Issue Closed update at ${dateTimeClosedIssueController.text}"
+          }).eq("id_measure", registroIssueComments!.idIssue);
+          return true;
+        case 8:
+          print(contadorSeccion);
+          await supabaseCtrlV.from('security').update({
+            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
+                "Good",
+            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
+                "Issue Closed update at ${dateTimeClosedIssueController.text}"
+          }).eq("id_security", registroIssueComments!.idIssue);
+          return true;
 
         default:
           return true;
