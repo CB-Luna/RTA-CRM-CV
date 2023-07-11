@@ -108,6 +108,7 @@ class MonitoryProvider extends ChangeNotifier {
 
   //IssuesCommentsActual
   List<IssuesComments> actualIssuesComments = [];
+  IssuesComments? actualDetailField;
 
   //List<RolApi> rolesSeleccionados = [];
   List<String> areaNames = [];
@@ -721,6 +722,11 @@ class MonitoryProvider extends ChangeNotifier {
 
   void getActualIssuesComments(List<IssuesComments> issuesComments) {
     actualIssuesComments = issuesComments;
+    notifyListeners();
+  }
+
+  void getActualDetailField(IssuesComments issuesComments) {
+    actualDetailField = issuesComments;
     notifyListeners();
   }
 

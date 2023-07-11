@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../widgets/card_header.dart';
+import 'comments_images_issues.dart';
 
 class ExtraPopUp extends StatelessWidget {
   final String catalog;
@@ -88,7 +89,10 @@ class ExtraPopUp extends StatelessWidget {
                             : Icon(Icons.cancel,
                               size: 30,
                                 color: Color.fromARGB(200, 210, 0, 48)),
-                          onTap: () {},
+                          onTap: () {
+                            provider.getActualDetailField(provider.actualIssuesComments[index]);
+                            provider.updateViewPopup(9);
+                          },
                           
                         ),
                         ],
