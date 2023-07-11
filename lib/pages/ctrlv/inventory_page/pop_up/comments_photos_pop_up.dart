@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
+import 'close_issue_pop_up.dart';
 
 class CommentsPhotosPopUp extends StatefulWidget {
   const CommentsPhotosPopUp({super.key});
@@ -56,8 +58,10 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  DateFormat("MMM/dd/yyyy")
-                      .format(provider.registroIssueComments!.dateAdded),
+                  provider.registroIssueComments?.dateAdded == null
+                      ? "No Date"
+                      : DateFormat("MMM/dd/yyyy")
+                          .format(provider.registroIssueComments!.dateAdded),
                   style: TextStyle(
                       color: AppTheme.of(context).contenidoTablas.color,
                       fontFamily: 'Bicyclette-Thin',
@@ -68,7 +72,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
               Container(
                 padding: const EdgeInsets.all(15.0),
                 alignment: Alignment.center,
-                width: 200,
+                width: 250,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: const [
@@ -80,7 +84,10 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  provider.registroIssueComments!.nameIssue,
+                  provider.registroIssueComments?.nameIssue == null
+                      ? "No Issue"
+                      : provider.registroIssueComments!.nameIssue.capitalize
+                          .replaceAll("_", " "),
                   style: TextStyle(
                       color: AppTheme.of(context).contenidoTablas.color,
                       fontFamily: 'Bicyclette-Thin',
@@ -93,31 +100,59 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Container(
-                margin: const EdgeInsets.all(20.0),
-                padding: const EdgeInsets.all(10.0),
-                height: 150,
-                alignment: Alignment.center,
-                width: 350,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [
-                    BoxShadow(
-                        blurRadius: 4,
-                        color: Colors.grey,
-                        offset: Offset(10, 10))
-                  ],
-                ),
-                child: SingleChildScrollView(
-                    child:
-                        Text("${provider.registroIssueComments!.comments}.")),
+              Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(10.0),
+                    height: 150,
+                    alignment: Alignment.center,
+                    width: 350,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                            blurRadius: 4,
+                            color: Colors.grey,
+                            offset: Offset(10, 10))
+                      ],
+                    ),
+                    child: SingleChildScrollView(
+                        child: Text(
+                            "${provider.registroIssueComments?.comments}.")),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: CustomTextIconButton(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      width: 140,
+                      isLoading: false,
+                      icon: Icon(Icons.remove_red_eye_outlined,
+                          color: AppTheme.of(context).primaryBackground),
+                      text: 'Close Issue',
+                      color: AppTheme.of(context).primaryColor,
+                      onTap: () async {
+                        await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return StatefulBuilder(
+                                  builder: (context, setState) {
+                                return const CloseIssuePopUp();
+                              });
+                            });
+                      },
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 335,
                 width: 400,
                 child: CarouselSlider.builder(
-                  itemCount: provider.registroIssueComments?.listImages!.length,
+                  itemCount: provider.registroIssueComments?.listImages == null
+                      ? 0
+                      : provider.registroIssueComments?.listImages?.length,
                   itemBuilder: (context, index, realIndex) {
                     // final urlImage =
                     //     provider.actualissuesComments?.listImages![index];

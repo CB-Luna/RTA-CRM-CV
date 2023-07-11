@@ -35,12 +35,13 @@ class UsersProvider extends ChangeNotifier {
 
   List<Role> roles = [];
   List<Company> companys = [];
+  List<String> statusy = [];
   Role? selectedRole;
   Role? selectedRoleUpdate;
   Company? selectedCompany;
   Company? selectedCompanyUpdate;
   List<State> states = [];
-
+  String? dropdownvalue = "Active";
   State? selectedState;
   State? selectedStateUpdate;
   String? imageName;
@@ -73,7 +74,7 @@ class UsersProvider extends ChangeNotifier {
     nameControllerUpdate.text = users.name;
     lastNameControllerUpdate.text = users.lastName;
     emailControllerUpdate.text = users.email;
-    phoneControllerUpdate.text = users.homePhone;
+    phoneControllerUpdate.text = users.homePhone ?? "-";
     selectedStateUpdate = selectedState;
     selectedRoleUpdate = selectedRole;
     selectedCompanyUpdate = selectedCompany;
@@ -383,7 +384,7 @@ class UsersProvider extends ChangeNotifier {
             'state_fk': selectedState!.id,
             // TODO: implementar campo de Company
             'id_company_fk': selectedCompany!.id,
-            'status': statusController.text,
+            'status': dropdownvalue,
             'license': licenseController.text,
             'certification': certificationController.text
           },

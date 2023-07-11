@@ -217,7 +217,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                               .primaryBackground),
                                       text: '',
                                       color: AppTheme.of(context).primaryColor,
-                                      onTap: () async {
+                                      onTap: () {
                                         if (widget.contador == 1) {
                                           provider.cambiovistaMeasures = true;
                                           provider.getIssuesFluidsCheckComments(
@@ -267,6 +267,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                               widget.issuesComments[index]);
                                           print("getIssuesSecurityComments");
                                         }
+                                        provider.setContador(widget.contador);
                                         provider.cambiosVistaPhotosComments();
                                         provider.setIssueViewActual(2);
                                       },

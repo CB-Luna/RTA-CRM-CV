@@ -101,8 +101,6 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
             children: [
               ElevatedButton(
                   onPressed: () {
-                    //provider.getIssues(provider.actualIssueXUser!);
-
                     provider.setIssueViewActual(1);
 
                     print(provider.issuesView);

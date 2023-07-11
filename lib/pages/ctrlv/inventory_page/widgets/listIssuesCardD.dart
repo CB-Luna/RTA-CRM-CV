@@ -10,7 +10,9 @@ import '../../../../widgets/custom_text_icon_button.dart';
 
 class ListIssuesCardD extends StatefulWidget {
   final List<IssueOpenclose> issuesComments;
-  const ListIssuesCardD({super.key, required this.issuesComments});
+  final int contador;
+  const ListIssuesCardD(
+      {super.key, required this.issuesComments, required this.contador});
 
   @override
   State<ListIssuesCardD> createState() => _ListIssuesCardDState();
@@ -169,9 +171,55 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                                       text: '',
                                       color: AppTheme.of(context).primaryColor,
                                       onTap: () async {
-                                        provider
-                                            .getIssuesBucketInspectionComments(
-                                                widget.issuesComments[index]);
+                                        if (widget.contador == 1) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider.getIssuesFluidsCheckComments(
+                                              widget.issuesComments[index]);
+                                          print("getIssuesFluidCheckComments");
+                                        }
+                                        if (widget.contador == 2) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider.getIssueCarBodyWorkComments(
+                                              widget.issuesComments[index]);
+                                          print("getCarbodyworkComments");
+                                        }
+                                        if (widget.contador == 3) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider.getIssuesEquipmentComments(
+                                              widget.issuesComments[index]);
+                                          print("getequipmentComments");
+                                        }
+                                        if (widget.contador == 4) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider.getIssuesExtraComments(
+                                              widget.issuesComments[index]);
+                                          print("getextraComments");
+                                        }
+                                        if (widget.contador == 5) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider
+                                              .getIssuesBucketInspectionComments(
+                                                  widget.issuesComments[index]);
+                                          print("getBucketInspectionComments");
+                                        }
+                                        if (widget.contador == 6) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider.getIssuesLightsComments(
+                                              widget.issuesComments[index]);
+                                          print("getIssuesLightsComments");
+                                        }
+                                        if (widget.contador == 7) {
+                                          provider.cambiovistaMeasures = false;
+                                          provider.getIssuesMeasuresComments(
+                                              widget.issuesComments[index]);
+                                          print("getIssuesMeasureComments");
+                                        }
+                                        if (widget.contador == 8) {
+                                          provider.cambiovistaMeasures = true;
+                                          provider.getIssuesSecurityComments(
+                                              widget.issuesComments[index]);
+                                          print("getIssuesSecurityComments");
+                                        }
                                         provider.cambiosVistaPhotosComments();
                                         provider.setIssueViewActual(2);
                                       },

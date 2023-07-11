@@ -185,17 +185,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                       text: 'Date',
                       color: AppTheme.of(context).primaryColor,
                       onTap: () {
-                        // provider.listaTotalIssues.addAll(provider.fluidCheckRR);
-                        // provider.listaTotalIssues
-                        //     .addAll(provider.bucketInspectionRR);
-                        // provider.listaTotalIssues
-                        //     .addAll(provider.carBodyWorkRR);
-                        // provider.listaTotalIssues.addAll(provider.equipmentRR);
-                        // provider.listaTotalIssues.addAll(provider.extraRR);
-                        // provider.listaTotalIssues
-                        //     .addAll(provider.bucketInspectionRR);
-                        // provider.listaTotalIssues.addAll(provider.measureRR);
-                        // provider.listaTotalIssues.addAll(provider.securityRR);
                         provider.filtrarPorMes(12);
                       }),
                 ),
@@ -280,6 +269,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       issuesComments: provider.fluidCheckRR),
                                 ),
                                 ListIssuesCardD(
+                                    contador: 1,
                                     issuesComments: provider.fluidCheckDD),
                               ],
                             ),
@@ -295,6 +285,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       issuesComments: provider.carBodyWorkRR),
                                 ),
                                 ListIssuesCardD(
+                                    contador: 2,
                                     issuesComments: provider.carBodyWorkDD),
                               ],
                             ),
@@ -310,6 +301,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       issuesComments: provider.equipmentRR),
                                 ),
                                 ListIssuesCardD(
+                                    contador: 3,
                                     issuesComments: provider.equipmentDD),
                               ],
                             ),
@@ -325,6 +317,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       issuesComments: provider.extraRR),
                                 ),
                                 ListIssuesCardD(
+                                    contador: 4,
                                     issuesComments: provider.extraDD),
                               ],
                             ),
@@ -341,6 +334,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                           provider.bucketInspectionRR),
                                 ),
                                 ListIssuesCardD(
+                                    contador: 5,
                                     issuesComments:
                                         provider.bucketInspectionDD),
                               ],
@@ -357,6 +351,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       issuesComments: provider.lightsRR),
                                 ),
                                 ListIssuesCardD(
+                                    contador: 6,
                                     issuesComments: provider.lightsDD),
                               ],
                             ),
@@ -372,6 +367,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       issuesComments: provider.measureRR),
                                 ),
                                 ListIssuesCardD(
+                                    contador: 7,
                                     issuesComments: provider.measureDD),
                               ],
                             ),
@@ -387,6 +383,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       issuesComments: provider.securityRR),
                                 ),
                                 ListIssuesCardD(
+                                    contador: 8,
                                     issuesComments: provider.securityDD),
                               ],
                             ),

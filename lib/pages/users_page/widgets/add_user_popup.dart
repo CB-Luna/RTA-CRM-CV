@@ -38,6 +38,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
 
     final List<String> rolesNames =
         provider.roles.map((role) => role.roleName).toList();
+    final List<String> statusName = ["Not Active", "Active"];
     final List<String> CompanyNames =
         provider.companys.map((companyName) => companyName.company).toList();
 
@@ -173,13 +174,19 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                       ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomTextField(
+                      child: CustomDDownMenu(
+                        hint: 'Choose a status',
                         label: 'Status',
                         icon: Icons.settings_backup_restore_outlined,
-                        controller: provider.statusController,
-                        enabled: true,
                         width: 350,
-                        keyboardType: TextInputType.text,
+                        list: statusName,
+                        dropdownValue: provider.dropdownvalue,
+                        onChanged: (val) {
+                          if (val == null) return;
+                          provider.dropdownvalue = val;
+                          print(val);
+                          provider.notifyListeners();
+                        },
                       ),
                     ),
                     Padding(

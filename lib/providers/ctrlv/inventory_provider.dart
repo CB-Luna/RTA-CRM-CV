@@ -40,6 +40,7 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController dateTimeControllerLTFC = TextEditingController();
   TextEditingController serviceDateController = TextEditingController();
   TextEditingController? nextDateController = TextEditingController();
+  TextEditingController dateTimeClosedIssueController = TextEditingController();
 
   TextEditingController searchController = TextEditingController();
   TextEditingController yearController = TextEditingController();
@@ -273,6 +274,31 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   //---------------------------------------------
+  Future<bool> closeIssue() async {
+    // print(res);
+    try {
+      switch (contadorSeccion) {
+        case 1:
+          print(contadorSeccion);
+          await supabaseCtrlV.from('fluids_check').update({
+            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
+                "Good",
+            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
+                "Issue Closed update at ${dateTimeClosedIssueController.text}"
+          }).eq("id_fluids_check", registroIssueComments!.idIssue);
+
+          return true;
+
+        default:
+          return true;
+      }
+    } catch (e) {
+      print('Error in closeIssue() - $e');
+      return false;
+    }
+  }
+
+  //---------------------------------------------
 
   Future<void> updateImage() async {
     final ImagePicker picker = ImagePicker();
@@ -288,7 +314,7 @@ class InventoryProvider extends ChangeNotifier {
           imageUrlUpdate!,
           webImage!,
         );
-    print(res);
+    // print(res);
   }
 //---------------------------------------------
 
@@ -384,6 +410,13 @@ class InventoryProvider extends ChangeNotifier {
     issuesView = value;
     notifyListeners();
   }
+
+//---------------------------------------------
+  int contadorSeccion = 0;
+  void setContador(int contador) {
+    contadorSeccion = contador;
+    notifyListeners();
+  }
 //---------------------------------------------
 
   void selectCompany(String companys) {
@@ -444,7 +477,7 @@ class InventoryProvider extends ChangeNotifier {
           imageUrlUpdate!,
           webImage!,
         );
-    print(res);
+    // print(res);
     try {
       await supabaseCtrlV.from('vehicle').update({
         'make': makeControllerUpdate.text,
@@ -462,7 +495,9 @@ class InventoryProvider extends ChangeNotifier {
         'oil_change_due': dateTimeControllerOilUpdate.text,
         'last_radiator_fluid_change': dateTimeControllerRFCUpadte.text,
         'last_transmission_fluid_change': dateTimeControllerLTFCUpadte.text,
-        'mileage': mileageControllerUpdate.text
+        'mileage': mileageControllerUpdate.text,
+
+        //(registroIssueComments!.nameIssue)
       }).eq("id_vehicle", vehicle.idVehicle);
       return true;
     } catch (e) {
@@ -513,7 +548,7 @@ class InventoryProvider extends ChangeNotifier {
           .from('service_view')
           .select()
           .match({"id_vehicle_fk": actualVehicle!.idVehicle});
-      print(res);
+      // print(res);
 
       services = (res as List<dynamic>)
           .map((services) => ServicesApi.fromJson(jsonEncode(services)))
@@ -789,7 +824,7 @@ class InventoryProvider extends ChangeNotifier {
           .from('vehicle')
           .select()
           .match({'id_status_fk': 4.toString()});
-      print(res);
+      // print(res);
 
       // AQUI está el fallo
       vehicleArchive = (res as List<dynamic>)
@@ -907,6 +942,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resHolesDrilled.first['holes_drilled_comments'],
               listImages: listImage,
@@ -926,6 +962,7 @@ class InventoryProvider extends ChangeNotifier {
               resBucketLiner.first['holes_drilled_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resBucketLiner.first['bucket_liner_comments'],
               listImages: listImage,
@@ -944,6 +981,7 @@ class InventoryProvider extends ChangeNotifier {
               resInsulated.first['insulated_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resInsulated.first['insulated_comments'],
               listImages: listImage,
@@ -978,6 +1016,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resWiperBladeF.first['wiper_blades_front_comments'],
               listImages: listImage,
@@ -1002,6 +1041,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resWiperBladeB.first['wiper_blades_back_comments'],
               listImages: listImage,
@@ -1020,6 +1060,7 @@ class InventoryProvider extends ChangeNotifier {
               resGeneralB.first['general_body_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resGeneralB.first['general_body_comments'],
               listImages: listImage,
@@ -1038,6 +1079,7 @@ class InventoryProvider extends ChangeNotifier {
               resDecaling.first['decaling_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resDecaling.first['decaling_comments'],
               listImages: listImage,
@@ -1056,6 +1098,7 @@ class InventoryProvider extends ChangeNotifier {
               resTires.first['tires_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resTires.first['tires_comments'],
               listImages: listImage,
@@ -1075,6 +1118,7 @@ class InventoryProvider extends ChangeNotifier {
               resGlass.first['glass_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resGlass.first['glass_comments'],
               listImages: listImage,
@@ -1094,6 +1138,7 @@ class InventoryProvider extends ChangeNotifier {
               resMirrors.first['mirrors_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resMirrors.first['mirrors_comments'],
               listImages: listImage,
@@ -1112,6 +1157,7 @@ class InventoryProvider extends ChangeNotifier {
               resParking.first['parking_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resParking.first['parking_comments'],
               listImages: listImage,
@@ -1130,6 +1176,7 @@ class InventoryProvider extends ChangeNotifier {
               resBrakes.first['brakes_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resBrakes.first['brakes_comments'],
               listImages: listImage,
@@ -1148,6 +1195,7 @@ class InventoryProvider extends ChangeNotifier {
               resEmgBrakes.first['emg_brakes_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resEmgBrakes.first['emg_brakes_comments'],
               listImages: listImage,
@@ -1167,6 +1215,7 @@ class InventoryProvider extends ChangeNotifier {
               resHorn.first['horn_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resHorn.first['horn_comments'],
               listImages: listImage,
@@ -1174,9 +1223,9 @@ class InventoryProvider extends ChangeNotifier {
         }
         notifyListeners();
       }
-      print("Entro a getIssuesBucketInspectionComments");
+      print("Entro a getIssueCarBodyWorkComments");
     } catch (e) {
-      print("Error in getIssuesBucketInspectionComments() - $e");
+      print("Error in getIssueCarBodyWorkComments() - $e");
     }
     notifyListeners();
   }
@@ -1425,6 +1474,7 @@ class InventoryProvider extends ChangeNotifier {
               resIgnitionK.first['ignition_key_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resIgnitionK.first['ignition_key_comments'],
               listImages: listImage,
@@ -1445,6 +1495,7 @@ class InventoryProvider extends ChangeNotifier {
               resBinsBoxKey.first['bins_box_key_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resBinsBoxKey.first['bins_box_key_comments'],
               listImages: listImage,
@@ -1469,6 +1520,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments:
                   resVehicleRC.first['vehicle_registration_copy_comments'],
@@ -1494,6 +1546,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resVehicleIC.first['vehicle_insurance_copy_comments'],
               listImages: listImage,
@@ -1518,6 +1571,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments:
                   resBucketLiftOM.first['bucket_lift_operator_manual_comments'],
@@ -1676,7 +1730,7 @@ class InventoryProvider extends ChangeNotifier {
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      //print(res);
+      //// print(res);
 
       issueExtraR = (res as List<dynamic>)
           .map((issueExtraR) => Extra.fromJson(jsonEncode(issueExtraR)))
@@ -1832,6 +1886,7 @@ class InventoryProvider extends ChangeNotifier {
               resLadder.first['ladder_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resLadder.first['ladder_comments'],
               listImages: listImage,
@@ -1853,6 +1908,7 @@ class InventoryProvider extends ChangeNotifier {
               resStepLadder.first['step_ladder_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resStepLadder.first['step_ladder_comments'],
               listImages: listImage,
@@ -1875,6 +1931,7 @@ class InventoryProvider extends ChangeNotifier {
 
           registroIssueComments = IssuesComments(
               nameIssue: issueOpenClose.nameIssue,
+              idIssue: issueOpenClose.idIssue,
               comments: resLadderS.first['ladder_straps_comments'],
               listImages: listImage,
               dateAdded: DateTime.parse(resLadderS.first['date_added']));
@@ -1898,6 +1955,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments:
                   resHydraFFB.first['hydraulic_fluid_for_bucket_comments'],
@@ -1921,6 +1979,7 @@ class InventoryProvider extends ChangeNotifier {
               resFiberRR.first['fiber_reel_rack_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resFiberRR.first['fiber_reel_rack_comments'],
               listImages: listImage,
@@ -1945,6 +2004,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resBinsLAS.first['bins_locked_and_secure_comments'],
               listImages: listImage,
@@ -1966,6 +2026,7 @@ class InventoryProvider extends ChangeNotifier {
               resSafetyH.first['safety_harness_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resSafetyH.first['safety_harness_comments'],
               listImages: listImage,
@@ -1990,6 +2051,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resLanyardSH.first['lanyard_safety_harness_comments'],
               listImages: listImage,
@@ -2027,7 +2089,7 @@ class InventoryProvider extends ChangeNotifier {
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      print(res);
+      // print(res);
 
       issueFluidCheckR = (res as List<dynamic>)
           .map((issueFluidCheckR) =>
@@ -2043,7 +2105,7 @@ class InventoryProvider extends ChangeNotifier {
         if (issue.engineOil == "Bad") {
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
-              nameIssue: "Engine Oil",
+              nameIssue: "engine_oil",
               dateAddedOpen: issue.dateAdded!);
           fluidCheckRR.add(newIssueComments);
         }
@@ -2143,7 +2205,7 @@ class InventoryProvider extends ChangeNotifier {
     // clearListgetIssues();
     print("Entro a getIssuesFluidsCheckComments");
     try {
-      if (issueOpenClose.nameIssue == "Engine Oil") {
+      if (issueOpenClose.nameIssue == "engine_oil") {
         final res = await supabaseCtrlV
             .from('fluids_check')
             .select('engine_oil_comments, engine_oil_image, date_added')
@@ -2154,6 +2216,7 @@ class InventoryProvider extends ChangeNotifier {
               resEngineOil.first['engine_oil_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resEngineOil.first['engine_oil_comments'],
               listImages: listImage,
@@ -2175,6 +2238,7 @@ class InventoryProvider extends ChangeNotifier {
               resTransmission.first['transmission_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resTransmission.first['transmission_comments'],
               listImages: listImage,
@@ -2196,6 +2260,7 @@ class InventoryProvider extends ChangeNotifier {
               resCoolant.first['coolant_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resCoolant.first['coolant_comments'],
               listImages: listImage,
@@ -2217,6 +2282,7 @@ class InventoryProvider extends ChangeNotifier {
               resPowerS.first['power_steering_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resPowerS.first['power_steering_comments'],
               listImages: listImage,
@@ -2242,6 +2308,7 @@ class InventoryProvider extends ChangeNotifier {
 
           registroIssueComments = IssuesComments(
               nameIssue: issueOpenClose.nameIssue,
+              idIssue: issueOpenClose.idIssue,
               comments: resDieselExF.first['diesel_exhaust_fluid_comments'],
               listImages: listImage,
               dateAdded: DateTime.parse(resDieselExF.first['date_added']));
@@ -2265,6 +2332,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments:
                   resWindshieldWF.first['windshield_washer_fluid_comments'],
@@ -2304,7 +2372,7 @@ class InventoryProvider extends ChangeNotifier {
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      print(res);
+      // print(res);
 
       issueLightsR = (res as List<dynamic>)
           .map((issueLightsR) => Lights.fromJson(jsonEncode(issueLightsR)))
@@ -2485,6 +2553,7 @@ class InventoryProvider extends ChangeNotifier {
 
           registroIssueComments = IssuesComments(
               nameIssue: issueOpenClose.nameIssue,
+              idIssue: issueOpenClose.idIssue,
               comments: resLights.first['headlights_comments'],
               listImages: listImage,
               dateAdded: DateTime.parse(resLights.first['date_added']));
@@ -2504,6 +2573,7 @@ class InventoryProvider extends ChangeNotifier {
               resBrakeLights.first['brake_lights_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resBrakeLights.first['brake_lights_comments'],
               listImages: listImage,
@@ -2524,6 +2594,7 @@ class InventoryProvider extends ChangeNotifier {
               resReverseL.first['reverse_lights_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resReverseL.first['reverse_lights_comments'],
               listImages: listImage,
@@ -2544,6 +2615,7 @@ class InventoryProvider extends ChangeNotifier {
               resWarningL.first['warning_lights_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resWarningL.first['warning_lights_comments'],
               listImages: listImage,
@@ -2564,6 +2636,7 @@ class InventoryProvider extends ChangeNotifier {
               resTurnS.first['turn_signals_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resTurnS.first['turn_signals_comments'],
               listImages: listImage,
@@ -2584,6 +2657,7 @@ class InventoryProvider extends ChangeNotifier {
               res4WayF.first['4_way_flashers_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: res4WayF.first['4_way_flashers_comments'],
               listImages: listImage,
@@ -2604,6 +2678,7 @@ class InventoryProvider extends ChangeNotifier {
               resDashL.first['dash_lights_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resDashL.first['dash_lights_comments'],
               listImages: listImage,
@@ -2624,6 +2699,7 @@ class InventoryProvider extends ChangeNotifier {
               resStrobeL.first['strobe_lights_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resStrobeL.first['strobe_lights_comments'],
               listImages: listImage,
@@ -2646,6 +2722,7 @@ class InventoryProvider extends ChangeNotifier {
 
           registroIssueComments = IssuesComments(
               nameIssue: issueOpenClose.nameIssue,
+              idIssue: issueOpenClose.idIssue,
               comments: resCabRoofL.first['cab_roof_lights_comments'],
               listImages: listImage,
               dateAdded: DateTime.parse(resCabRoofL.first['date_added']));
@@ -2667,6 +2744,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resClearanceL.first['clearance_lights_comments'],
               listImages: listImage,
@@ -2703,7 +2781,7 @@ class InventoryProvider extends ChangeNotifier {
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      print(res);
+      // print(res);
 
       issueMeasureR = (res as List<dynamic>)
           .map((issueMeasureR) => Measure.fromJson(jsonEncode(issueMeasureR)))
@@ -2773,6 +2851,7 @@ class InventoryProvider extends ChangeNotifier {
               resGas.first['gas_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resGas.first['gas_comments'],
               listImages: listImage,
@@ -2794,6 +2873,7 @@ class InventoryProvider extends ChangeNotifier {
               resMileage.first['gas_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resMileage.first['gas_comments'],
               listImages: listImage,
@@ -2832,7 +2912,7 @@ class InventoryProvider extends ChangeNotifier {
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      print(res);
+      // print(res);
 
       issueSecurityR = (res as List<dynamic>)
           .map(
@@ -2959,6 +3039,7 @@ class InventoryProvider extends ChangeNotifier {
               resRTAM.first['rta_magnet_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resRTAM.first['rta_magnet_commnets'],
               listImages: listImage,
@@ -2983,6 +3064,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resTriangleR.first['triangle_reflectors_comments'],
               listImages: listImage,
@@ -3005,6 +3087,7 @@ class InventoryProvider extends ChangeNotifier {
 
           registroIssueComments = IssuesComments(
               nameIssue: issueOpenClose.nameIssue,
+              idIssue: issueOpenClose.idIssue,
               comments: resWheelChocks.first['wheel_chocks_comments'],
               listImages: listImage,
               dateAdded: DateTime.parse(resWheelChocks.first['date_added']));
@@ -3028,6 +3111,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resFireExting.first['fire_extinguisher_comments'],
               listImages: listImage,
@@ -3052,6 +3136,7 @@ class InventoryProvider extends ChangeNotifier {
               .split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments:
                   resFirstAidKSV.first['first_aid_kit_safety_vest_comments'],
@@ -3074,6 +3159,7 @@ class InventoryProvider extends ChangeNotifier {
               resBackUpAlarm.first['back_up_alarm_image'].toString().split('|');
 
           registroIssueComments = IssuesComments(
+              idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resBackUpAlarm.first['back_up_alarm_comments'],
               listImages: listImage,
@@ -3150,6 +3236,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded = DateTime.parse(
                     issue.bucketInspectionR.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3177,6 +3264,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.carBodyworkR.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3204,6 +3292,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.equimentR.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3231,6 +3320,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.extraR.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3258,6 +3348,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.fluidCheckR.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3285,6 +3376,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.lightsR.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3312,6 +3404,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.measureR.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3339,6 +3432,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.securityR.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3369,6 +3463,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded = DateTime.parse(
                     issue.bucketInspectionD.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3397,6 +3492,7 @@ class InventoryProvider extends ChangeNotifier {
                     DateTime.parse(issue.carBodyworkD.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
                     nameIssue: nameIssue,
+                    idIssue: 0,
                     comments: comments,
                     listImages: listImage,
                     dateAdded: dateAdded);
@@ -3423,6 +3519,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.equimentD.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3450,6 +3547,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.extraD.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3477,6 +3575,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.measureD.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3505,6 +3604,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.fluidCheckD.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3532,6 +3632,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.lightsD.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3559,6 +3660,7 @@ class InventoryProvider extends ChangeNotifier {
                 DateTime dateAdded =
                     DateTime.parse(issue.securityD.toMap()["date_added"]);
                 IssuesComments newIssuesComments = IssuesComments(
+                    idIssue: 0,
                     nameIssue: nameIssue,
                     comments: comments,
                     listImages: listImage,
@@ -3591,10 +3693,6 @@ class InventoryProvider extends ChangeNotifier {
       issuesxUser = (res as List<dynamic>)
           .map((issuesxUser) => IssuesXUser.fromJson(jsonEncode(issuesxUser)))
           .toList();
-      // print("Se entro a GETISSUESXUSERS");
-
-      // print("Cuantos valores hay en issuesxUser: ${issuesxUser.length}");
-      // print("Vehicle id: ${vehicle.idVehicle}");
     } catch (e) {
       print("Error en getIssuesxUsers - $e");
     }

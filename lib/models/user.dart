@@ -30,11 +30,11 @@ class User {
   String name;
   String? middleName;
   String lastName;
-  String homePhone;
+  String? homePhone;
   String mobilePhone;
   String address;
   String? image;
-  DateTime birthDate;
+  DateTime? birthDate;
   Role role;
   Company company;
   State state;
@@ -84,7 +84,9 @@ class User {
         mobilePhone: json['mobile_phone'],
         address: json['address'],
         image: json['image'],
-        birthDate: DateTime.parse(json['birthdate']),
+        birthDate: json['birthdate'] == null
+            ? null
+            : DateTime.parse(json['birthdate']),
         role: Role.fromJson(jsonEncode(json['role'])),
         company: Company.fromJson(jsonEncode(json['company'])),
         state: State.fromJson(jsonEncode(json['state'])),

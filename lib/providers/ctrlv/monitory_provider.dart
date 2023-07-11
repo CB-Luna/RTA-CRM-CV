@@ -460,8 +460,6 @@ class MonitoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   bool getAppointmentsByDate() {
     // meet.clear();
     idEventos.clear();
@@ -478,49 +476,63 @@ class MonitoryProvider extends ChangeNotifier {
         switch (event.company.company) {
           case "CRY":
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
-                (calendarController.selectedDate!.month == event.dateAddedR.month) &
-                (calendarController.selectedDate!.year == event.dateAddedR.year)) {
-              
+                (calendarController.selectedDate!.month ==
+                    event.dateAddedR.month) &
+                (calendarController.selectedDate!.year ==
+                    event.dateAddedR.year)) {
               // idEventos.add(event);
               numCheckOutCRY += 1;
             }
-            if ((calendarController.selectedDate!.day == event.dateAddedD!.day) &
-                (calendarController.selectedDate!.month == event.dateAddedD!.month) &
-                (calendarController.selectedDate!.year == event.dateAddedD!.year)) {
-                  idEventos.add(event);
-                  numCheckOutCRY -= 1;
+            if ((calendarController.selectedDate!.day ==
+                    event.dateAddedD!.day) &
+                (calendarController.selectedDate!.month ==
+                    event.dateAddedD!.month) &
+                (calendarController.selectedDate!.year ==
+                    event.dateAddedD!.year)) {
+              idEventos.add(event);
+              numCheckOutCRY -= 1;
               numCheckInCRY += 1;
             }
             continue;
           case "ODE":
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
-                (calendarController.selectedDate!.month == event.dateAddedR.month) &
-                (calendarController.selectedDate!.year == event.dateAddedR.year)) {
-                  // idEventos.add(event);
+                (calendarController.selectedDate!.month ==
+                    event.dateAddedR.month) &
+                (calendarController.selectedDate!.year ==
+                    event.dateAddedR.year)) {
+              // idEventos.add(event);
               numCheckOutODE += 1;
             }
 
-            if ((calendarController.selectedDate!.day == event.dateAddedD!.day) &
-                (calendarController.selectedDate!.month == event.dateAddedD!.month) &
-                (calendarController.selectedDate!.year == event.dateAddedD!.year)) {
-                  idEventos.add(event);
-                  numCheckOutODE -= 1;
+            if ((calendarController.selectedDate!.day ==
+                    event.dateAddedD!.day) &
+                (calendarController.selectedDate!.month ==
+                    event.dateAddedD!.month) &
+                (calendarController.selectedDate!.year ==
+                    event.dateAddedD!.year)) {
+              idEventos.add(event);
+              numCheckOutODE -= 1;
               numCheckInODE += 1;
             }
             continue;
           case "SMI":
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
-                (calendarController.selectedDate!.month == event.dateAddedR.month) &
-                (calendarController.selectedDate!.year == event.dateAddedR.year)) {
-                  // idEventos.add(event);
+                (calendarController.selectedDate!.month ==
+                    event.dateAddedR.month) &
+                (calendarController.selectedDate!.year ==
+                    event.dateAddedR.year)) {
+              // idEventos.add(event);
               numCheckOutSMI += 1;
             }
 
-            if ((calendarController.selectedDate!.day == event.dateAddedD!.day) &
-                (calendarController.selectedDate!.month == event.dateAddedD!.month) &
-                (calendarController.selectedDate!.year == event.dateAddedD!.year)) {
-                  idEventos.add(event);
-                  numCheckOutSMI -= 1;
+            if ((calendarController.selectedDate!.day ==
+                    event.dateAddedD!.day) &
+                (calendarController.selectedDate!.month ==
+                    event.dateAddedD!.month) &
+                (calendarController.selectedDate!.year ==
+                    event.dateAddedD!.year)) {
+              idEventos.add(event);
+              numCheckOutSMI -= 1;
               numCheckInSMI += 1;
             }
             continue;
@@ -532,25 +544,31 @@ class MonitoryProvider extends ChangeNotifier {
         switch (event.company.company) {
           case "CRY":
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
-                (calendarController.selectedDate!.month == event.dateAddedR.month) &
-                (calendarController.selectedDate!.year == event.dateAddedR.year)) {
-                  idEventos.add(event);
+                (calendarController.selectedDate!.month ==
+                    event.dateAddedR.month) &
+                (calendarController.selectedDate!.year ==
+                    event.dateAddedR.year)) {
+              idEventos.add(event);
               numCheckOutCRY += 1;
             }
             continue;
           case "ODE":
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
-                (calendarController.selectedDate!.month == event.dateAddedR.month) &
-                (calendarController.selectedDate!.year == event.dateAddedR.year)) {
-                  idEventos.add(event);
+                (calendarController.selectedDate!.month ==
+                    event.dateAddedR.month) &
+                (calendarController.selectedDate!.year ==
+                    event.dateAddedR.year)) {
+              idEventos.add(event);
               numCheckOutODE += 1;
             }
             continue;
           case "SMI":
             if ((calendarController.selectedDate!.day == event.dateAddedR.day) &
-                (calendarController.selectedDate!.month == event.dateAddedR.month) &
-                (calendarController.selectedDate!.year == event.dateAddedR.year)) {
-                  idEventos.add(event);
+                (calendarController.selectedDate!.month ==
+                    event.dateAddedR.month) &
+                (calendarController.selectedDate!.year ==
+                    event.dateAddedR.year)) {
+              idEventos.add(event);
               numCheckOutSMI += 1;
             }
             continue;
@@ -785,6 +803,7 @@ class MonitoryProvider extends ChangeNotifier {
             DateTime dateAdded =
                 DateTime.parse(issue!.bucketInspectionR.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
+                idIssue: 0,
                 nameIssue: nameIssue,
                 comments: comments,
                 listImages: listImage,
@@ -806,6 +825,7 @@ class MonitoryProvider extends ChangeNotifier {
                   issue!.bucketInspectionR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -816,6 +836,7 @@ class MonitoryProvider extends ChangeNotifier {
                   issue!.bucketInspectionR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -840,6 +861,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.bucketInspectionD.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -860,6 +882,7 @@ class MonitoryProvider extends ChangeNotifier {
                   issue!.bucketInspectionD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -870,6 +893,7 @@ class MonitoryProvider extends ChangeNotifier {
                   issue!.bucketInspectionD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -895,6 +919,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.carBodyworkR.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -914,6 +939,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.carBodyworkR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -924,6 +950,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.carBodyworkR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -949,6 +976,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.carBodyworkD.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -968,6 +996,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.carBodyworkD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -978,6 +1007,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.carBodyworkD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1003,6 +1033,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.equimentR.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -1022,6 +1053,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.equimentR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -1032,6 +1064,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.equimentR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1057,6 +1090,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.equimentD.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -1076,6 +1110,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.equimentD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -1086,6 +1121,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.equimentD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1110,6 +1146,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.extraR.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -1128,6 +1165,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.extraR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -1138,6 +1176,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.extraR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1162,6 +1201,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.extraD.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -1180,6 +1220,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.extraD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -1190,6 +1231,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.extraD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1215,6 +1257,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.fluidCheckR.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -1234,6 +1277,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.fluidCheckR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -1244,6 +1288,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.fluidCheckR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1269,6 +1314,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.fluidCheckD.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -1288,6 +1334,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.fluidCheckD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -1298,6 +1345,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.fluidCheckD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1322,6 +1370,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.lightsR.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -1340,6 +1389,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.lightsR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -1350,6 +1400,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.lightsR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1374,6 +1425,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.lightsD.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -1392,6 +1444,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.lightsD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -1402,6 +1455,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.lightsD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1426,6 +1480,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.measureR.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -1444,6 +1499,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.measureR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -1454,6 +1510,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.measureR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1478,6 +1535,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.measureD.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -1496,6 +1554,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.measureD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -1506,6 +1565,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.measureD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1531,6 +1591,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.securityR.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -1550,6 +1611,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.securityR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -1560,6 +1622,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.securityR.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1585,6 +1648,7 @@ class MonitoryProvider extends ChangeNotifier {
                 DateTime.parse(issue!.securityD.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
+                idIssue: 0,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -1604,6 +1668,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.securityD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
@@ -1614,6 +1679,7 @@ class MonitoryProvider extends ChangeNotifier {
                   DateTime.parse(issue!.securityD.toMap()["date_added"]);
               IssuesComments newIssuesComments = IssuesComments(
                   nameIssue: nameIssue,
+                  idIssue: 0,
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
@@ -1633,9 +1699,8 @@ class MonitoryProvider extends ChangeNotifier {
     }
   }
 
-  void getWeekDay(){
-
-    switch(calendarController.selectedDate?.weekday){
+  void getWeekDay() {
+    switch (calendarController.selectedDate?.weekday) {
       case 1:
         selectedDay = "Monday";
         break;
@@ -1657,12 +1722,11 @@ class MonitoryProvider extends ChangeNotifier {
       case 7:
         selectedDay = "Sunday";
         break;
-
     }
   }
-  void getMonth(){
 
-    switch(calendarController.selectedDate?.month){
+  void getMonth() {
+    switch (calendarController.selectedDate?.month) {
       case 1:
         selectedMonth = "Jan";
         break;
@@ -1699,7 +1763,6 @@ class MonitoryProvider extends ChangeNotifier {
       case 12:
         selectedMonth = "Dec";
         break;
-
     }
   }
 }
