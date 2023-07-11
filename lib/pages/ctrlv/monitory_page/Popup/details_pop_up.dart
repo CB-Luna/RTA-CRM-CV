@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/ctrlv/monitory_page/Popup/parts.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/cuadro.dart';
 
 import '../../../../models/monitory.dart';
@@ -8,6 +9,8 @@ import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../widgets/forms_answer_delivered.dart';
 import '../widgets/forms_answer_received.dart';
+import 'bucket_expanded.dart';
+import 'comments_images_issues.dart';
 import 'extra_parts.dart';
 import 'measures.dart';
 import 'package:rta_crm_cv/widgets/card_header.dart';
@@ -403,14 +406,18 @@ class DetailsPop extends StatelessWidget {
                       : provider.viewPopup == 4
                           ? ExtraPopUp(catalog: "Fluid Check")
                           : provider.viewPopup == 5
-                              ? ExtraPopUp(catalog: "Bucket Inspection")
+                              ? BucketExtraPopUp()
                               : provider.viewPopup == 6
                                   ? ExtraPopUp(catalog: "Security")
                                   : provider.viewPopup == 7
                                       ? ExtraPopUp(catalog: "Extra")
                                       : provider.viewPopup == 8
                                           ? ExtraPopUp(catalog: "Equipment")
-                                          : Container(),
+                                          :provider.viewPopup == 9
+                                          ? CommentsImagesIssues()
+                                          : provider.viewPopup == 10
+                                          ? BucketCommentsImagesIssues()
+                                          :Container(),
     );
   }
 }
