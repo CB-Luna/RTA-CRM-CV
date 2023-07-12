@@ -33,6 +33,7 @@ class QuotesProvider extends ChangeNotifier {
   }
 
   Future<void> updateState() async {
+    await setIndex(0);
     await getQuotes(null);
   }
 
@@ -145,13 +146,13 @@ class QuotesProvider extends ChangeNotifier {
         await getQuotes(12);
         break;
       case 13:
-        await getQuotes(13);
+        await getQuotes(13); //2-3-4
         break;
       case 14:
-        await getQuotes(14);
+        await getQuotes(14); //12-5
         break;
       case 15:
-        await getQuotes(15);
+        await getQuotes(15); //9-10
         break;
     }
 
@@ -199,6 +200,10 @@ class QuotesProvider extends ChangeNotifier {
                 'id_status.eq.5,id_status.eq.12',
               );
         } else if (currentUser!.isSales && status == 15) {
+          res = await supabaseCRM.from('quotes_view').select().or(
+                'id_status.eq.9,id_status.eq.10',
+              );
+        } else if (currentUser!.isOpperations && status == 15) {
           res = await supabaseCRM.from('quotes_view').select().or(
                 'id_status.eq.9,id_status.eq.10',
               );

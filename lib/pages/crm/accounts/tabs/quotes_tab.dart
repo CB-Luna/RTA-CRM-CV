@@ -103,7 +103,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       if (provider.indexSelected[13] ||
                           provider.indexSelected[2] ||
                           provider.indexSelected[3] ||
-                          provider.indexSelected[4])
+                          provider.indexSelected[4] && currentUser!.isSales)
                         Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: Row(
