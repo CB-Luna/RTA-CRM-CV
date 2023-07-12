@@ -2,15 +2,19 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:flutter/material.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/leads_model.dart';
 import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/models/quotes/vendor_model.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/models/orders.dart';
+import 'package:file_picker/file_picker.dart';
 
 class CreateQuoteProvider extends ChangeNotifier {
   CreateQuoteProvider() {
@@ -942,5 +946,30 @@ class CreateQuoteProvider extends ChangeNotifier {
   void selectVendor(String vendorName) {
     vendorSelectedValue = vendorName;
     notifyListeners();
+  }
+
+  bool popupVisorPdfVisible = true;
+ FilePickerResult? docProveedor;
+  PdfController? pdfController;
+  
+  void verPdf(bool visible) {
+    popupVisorPdfVisible = visible;
+    notifyListeners();
+  }
+
+  Future<void> pickProveedorDoc() async {
+    FilePickerResult? picker = await FilePickerWeb.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf', 'xml']);
+    //get and load pdf
+    if (picker != null) {
+      docProveedor = picker;
+      pdfController = PdfController(
+        document: PdfDocument.openData(picker.files.single.bytes!),
+      );
+    } else {
+      pdfController = null;
+    }
+
+    notifyListeners();
+    return;
   }
 }

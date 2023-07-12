@@ -48,26 +48,35 @@ Color statusColor(int status) {
   late Color color;
 
   switch (status) {
-    case 1: //In process
+    case 1: //Sales Form
       color = Colors.greenAccent;
       break;
     case 2: //Sen. Exec. Validate
-      color = Colors.blueAccent;
+      color = Colors.orangeAccent; // Colors.blueAccent;
       break;
     case 3: //Finance Validate
       color = Colors.orangeAccent;
       break;
-    case 4: //Network Validate
+    case 4: //Engineer Validate
       color = Colors.orangeAccent;
+      break;
+    case 5: //Rejected
+      color = Colors.redAccent;
+      break;
+    case 6: //Closed
+      color = Colors.redAccent;
       break;
     case 7: //Approved
       color = Colors.green;
       break;
-    case 5: //Rejected
-      color = Colors.red;
+    case 8: //Order Created
+      color = Colors.blueAccent;
       break;
-    case 6: //Closed
-      color = Colors.redAccent;
+    case 11: //Tickets
+      color = Colors.deepPurpleAccent;
+      break;
+    case 12: //canceled
+      color = Colors.red;
       break;
     default:
       return Colors.black;

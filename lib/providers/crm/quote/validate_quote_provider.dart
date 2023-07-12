@@ -185,7 +185,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
         } else if (currentUser!.isFinance) {
           await supabaseCRM.rpc(
             'update_quote_status',
-            params: {"id_status": 4, "id": id, "user_uuid": currentUser!.id}, //Network Validate
+            params: {"id_status": 4, "id": id, "user_uuid": currentUser!.id}, //Engineer Validate
           );
           await supabaseCRM.from('leads_history').insert(
               {"user": currentUser!.id, "action": 'UPDATE', "description": 'Quote validated by Finance', "table": 'quotes', "id_table": id, "name": "${currentUser!.name} ${currentUser!.lastName}"});

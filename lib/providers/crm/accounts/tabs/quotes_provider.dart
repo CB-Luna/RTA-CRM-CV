@@ -83,7 +83,7 @@ class QuotesProvider extends ChangeNotifier {
     false, //Sales Form
     false, //Sen. Exec. Validate
     false, //Finance Validate
-    false, //Network Validate
+    false, //Engineer Validate
     false, //Rejected
     false, //Closed
     false, //Approved
@@ -92,6 +92,9 @@ class QuotesProvider extends ChangeNotifier {
     false, //Network Issues
     false, //Ticket Closed
     false, //Canceled
+    false, //Sales
+    false, //Canceled-Rejected
+    false, //Networks
   ];
 
   Future setIndex(int index) async {
@@ -103,6 +106,7 @@ class QuotesProvider extends ChangeNotifier {
     switch (index) {
       case 0:
         await getQuotes(null);
+
         break;
       case 1:
         await getQuotes(1);
@@ -140,6 +144,15 @@ class QuotesProvider extends ChangeNotifier {
       case 12:
         await getQuotes(12);
         break;
+      case 13:
+        await getQuotes(13);
+        break;
+      case 14:
+        await getQuotes(14);
+        break;
+      case 15:
+        await getQuotes(15);
+        break;
     }
 
     notifyListeners();
@@ -150,7 +163,8 @@ class QuotesProvider extends ChangeNotifier {
       'Authorization': 'Basic YWxleGM6NW1saDM5UjhQUVc4WnI3TzhDcGlPSDJvZE1xaGtFOE8=',
       //'Cookie': 'PHPSESSID=u3lgismtbbamh7g3k6b8dqteuk; YII_CSRF_TOKEN=Z2VybTVsZERNcV9faDVSUlE1VFRZeHk3WmNUWmRiSEMSMv7x7artFlmFwAp6GLyf7Qsi4oYOGXtsrcYz02xGJg%3D%3D'
     };
-    var request = http.Request('GET', Uri.parse('http://34.130.182.108/X2CRM-master/x2engine/index.php/api2/Quotes'));
+    var request = http.Request(
+        'GET', Uri.parse('http://34.130.182.108/X2CRM-master/x2engine/index.php/api2/Quotes'));
 
     request.headers.addAll(headers);
 
@@ -161,7 +175,8 @@ class QuotesProvider extends ChangeNotifier {
 
       var res = jsonDecode(await response.stream.bytesToString());
 
-      x2crmQuotes = (res as List<dynamic>).map((quote) => X2CrmQuote.fromJson(jsonEncode(quote))).toList();
+      x2crmQuotes =
+          (res as List<dynamic>).map((quote) => X2CrmQuote.fromJson(jsonEncode(quote))).toList();
     } else {
       log(response.reasonPhrase.toString());
     }
@@ -175,18 +190,36 @@ class QuotesProvider extends ChangeNotifier {
     try {
       dynamic res;
       if (status != null) {
-        res = await supabaseCRM.from('quotes_view').select().eq('id_status', status);
+        if (currentUser!.isSales && status == 13) {
+          res = await supabaseCRM.from('quotes_view').select().or(
+                'id_status.eq.4,id_status.eq.2,id_status.eq.3',
+              );
+        } else if (currentUser!.isSales && status == 14) {
+          res = await supabaseCRM.from('quotes_view').select().or(
+                'id_status.eq.5,id_status.eq.12',
+              );
+        } else if (currentUser!.isSales && status == 15) {
+          res = await supabaseCRM.from('quotes_view').select().or(
+                'id_status.eq.9,id_status.eq.10',
+              );
+        } else {
+          res = await supabaseCRM.from('quotes_view').select().eq('id_status', status);
+        }
       } else {
         if (currentUser!.isSales) {
           res = await supabaseCRM.from('quotes_view').select();
         } else if (currentUser!.isSenExec) {
-          res = await supabaseCRM.from('quotes_view').select().eq('id_status', 2); //Sen. Exec. Validate
+          res = await supabaseCRM
+              .from('quotes_view')
+              .select()
+              .eq('id_status', 2); //Sen. Exec. Validate
         } else if (currentUser!.isFinance) {
-          res = await supabaseCRM.from('quotes_view').select().eq('id_status', 3); //Finance Validate
+          res =
+              await supabaseCRM.from('quotes_view').select().eq('id_status', 3); //Finance Validate
         } else if (currentUser!.isOpperations) {
           res = await supabaseCRM.from('quotes_view').select().or(
                 'id_status.eq.4,id_status.eq.7,id_status.eq.9,id_status.eq.10,id_status.eq.11',
-              ); //Network Validate, Approved, Network Cross-Connect, Network Issues, id_status.eq.Ticket Closed,
+              ); //Engineer Validate, Approved, Network Cross-Connect, Network Issues, id_status.eq.Ticket Closed,
         }
       }
 
@@ -207,7 +240,8 @@ class QuotesProvider extends ChangeNotifier {
               'TOTAL_Column': PlutoCell(value: quote.total),
               'MARGIN_Column': PlutoCell(value: quote.margin),
               'VENDOR_Column': PlutoCell(value: quote.vendorName),
-              'ORDER_Column': PlutoCell(value: ' ${quote.orderInfo.type} ${quote.orderInfo.orderType}'),
+              'ORDER_Column':
+                  PlutoCell(value: ' ${quote.orderInfo.type} ${quote.orderInfo.orderType}'),
               'DESCRIPTION_Column': PlutoCell(value: quote.items.first.lineItem),
               'DATACENTER_Column': PlutoCell(value: quote.orderInfo.dataCenterLocation),
               'PROBABILITY_Column': PlutoCell(value: quote.leadProbability),
