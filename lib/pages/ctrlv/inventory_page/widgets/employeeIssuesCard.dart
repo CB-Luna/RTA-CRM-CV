@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/models/issues_open_close.dart';
-import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
+import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../widgets/get_image_widget.dart';
 
 class EmployeeIssuesCard extends StatefulWidget {
@@ -18,7 +17,9 @@ class EmployeeIssuesCard extends StatefulWidget {
 class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
   @override
   Widget build(BuildContext context) {
-    InventoryProvider provider = Provider.of<InventoryProvider>(context);
+    //InventoryProvider provider = Provider.of<InventoryProvider>(context);
+    IssueReportedProvider isssueReportedProvider =
+        Provider.of<IssueReportedProvider>(context);
     return Container(
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -38,7 +39,7 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
             ),
-            child: getUserImage(provider.webImage),
+            child: getUserImage(isssueReportedProvider.webImage),
           ),
           Column(
             children: [
@@ -58,7 +59,7 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
                                 AppTheme.of(context).encabezadoTablas.fontStyle,
                             color: AppTheme.of(context).primaryText)),
                     Text(
-                      "${provider.actualIssueXUser!.name} ${provider.actualIssueXUser!.lastName}",
+                      "${isssueReportedProvider.actualIssueXUser!.name} ${isssueReportedProvider.actualIssueXUser!.lastName}",
                       style: TextStyle(
                         color: AppTheme.of(context).contenidoTablas.color,
                         fontFamily: 'Bicyclette-Thin',
@@ -83,7 +84,7 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
                               AppTheme.of(context).encabezadoTablas.fontStyle,
                           color: AppTheme.of(context).primaryText)),
                   Text(
-                    "${provider.actualIssueXUser!.company} ",
+                    "${isssueReportedProvider.actualIssueXUser!.company} ",
                     style: TextStyle(
                       color: AppTheme.of(context).contenidoTablas.color,
                       fontFamily: 'Bicyclette-Thin',
@@ -101,15 +102,13 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
             children: [
               ElevatedButton(
                   onPressed: () {
-                    provider.setIssueViewActual(1);
-
-                    print(provider.issuesView);
+                    isssueReportedProvider.setIssueViewActual(1);
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
                   ),
                   child: Text(
-                      "${provider.actualIssueXUser!.issuesR + provider.actualIssueXUser!.issuesD}")),
+                      "${isssueReportedProvider.actualIssueXUser!.issuesR + isssueReportedProvider.actualIssueXUser!.issuesD}")),
               Text(
                 "Issues",
                 style: TextStyle(

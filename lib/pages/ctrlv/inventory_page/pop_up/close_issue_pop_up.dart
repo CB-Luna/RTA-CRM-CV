@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 import '../../../../providers/ctrlv/inventory_provider.dart';
+import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../services/api_error_handler.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_fieldForm.dart';
@@ -36,10 +37,11 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
-    InventoryProvider provider = Provider.of<InventoryProvider>(context);
+    IssueReportedProvider isssueReportedProvider =
+        Provider.of<IssueReportedProvider>(context);
     final formKey = GlobalKey<FormState>();
     DateTime date = DateTime.now();
-    print(provider.registroIssueComments!.nameIssue);
+    print(isssueReportedProvider.registroIssueComments!.nameIssue);
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
@@ -106,7 +108,8 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                           label: 'Date of the finished Issue',
-                          controller: provider.dateTimeClosedIssueController,
+                          controller: isssueReportedProvider
+                              .dateTimeClosedIssueController,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
@@ -119,7 +122,8 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                                 lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeClosedIssueController.text =
+                              isssueReportedProvider
+                                      .dateTimeClosedIssueController.text =
                                   DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
@@ -141,7 +145,7 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                         return;
                       }
                       if (light1 != false) {
-                        bool res = await provider.closeIssue();
+                        bool res = await isssueReportedProvider.closeIssue();
                         if (!res) {
                           await ApiErrorHandler.callToast(
                               'Error al Cerrar el Issue');

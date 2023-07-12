@@ -10,6 +10,7 @@ import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 import '../../../helpers/constants.dart';
+import '../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../providers/side_menu_provider.dart';
 
 import '../../../public/colors.dart';
@@ -45,6 +46,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
   Widget build(BuildContext context) {
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
+    IssueReportedProvider isssueReportedProvider =
+        Provider.of<IssueReportedProvider>(context);
     sideM.setIndex(7);
 
     return Scaffold(
@@ -735,14 +738,20 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                                     context)
                                                                 .primaryColor,
                                                             onTap: () async {
-                                                              provider.getIssuesxUsers(
-                                                                  rendererContext
-                                                                      .cell
-                                                                      .value);
+                                                              isssueReportedProvider
+                                                                  .getIssuesxUsers(
+                                                                      rendererContext
+                                                                          .cell
+                                                                          .value);
                                                               provider.selectVehicle(
                                                                   rendererContext
                                                                       .cell
                                                                       .value);
+                                                              isssueReportedProvider
+                                                                  .selectVehicle(
+                                                                      rendererContext
+                                                                          .cell
+                                                                          .value);
                                                               provider
                                                                   .getServicesPage();
                                                               showDialog(

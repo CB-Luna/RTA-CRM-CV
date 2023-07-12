@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../models/issues_open_close.dart';
 import '../../../../providers/ctrlv/inventory_provider.dart';
+import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 
@@ -22,8 +23,9 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-
-    return provider.cambiovistaMeasures == true
+    IssueReportedProvider isssueReportedProvider =
+        Provider.of<IssueReportedProvider>(context);
+    return isssueReportedProvider.cambiovistaMeasures == true
         ? Container(
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -118,6 +120,8 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                                     child: Column(
                                       children: [
                                         Text(
+                                            "${widget.issuesComments[index].idIssue}"),
+                                        Text(
                                           "•${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")}",
                                           style: TextStyle(
                                             color: const Color(0XFF25A531),
@@ -171,57 +175,14 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                                       text: '',
                                       color: AppTheme.of(context).primaryColor,
                                       onTap: () async {
-                                        if (widget.contador == 1) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider.getIssuesFluidsCheckComments(
-                                              widget.issuesComments[index]);
-                                          print("getIssuesFluidCheckComments");
-                                        }
-                                        if (widget.contador == 2) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider.getIssueCarBodyWorkComments(
-                                              widget.issuesComments[index]);
-                                          print("getCarbodyworkComments");
-                                        }
-                                        if (widget.contador == 3) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider.getIssuesEquipmentComments(
-                                              widget.issuesComments[index]);
-                                          print("getequipmentComments");
-                                        }
-                                        if (widget.contador == 4) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider.getIssuesExtraComments(
-                                              widget.issuesComments[index]);
-                                          print("getextraComments");
-                                        }
-                                        if (widget.contador == 5) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider
-                                              .getIssuesBucketInspectionComments(
-                                                  widget.issuesComments[index]);
-                                          print("getBucketInspectionComments");
-                                        }
-                                        if (widget.contador == 6) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider.getIssuesLightsComments(
-                                              widget.issuesComments[index]);
-                                          print("getIssuesLightsComments");
-                                        }
-                                        if (widget.contador == 7) {
-                                          provider.cambiovistaMeasures = false;
-                                          provider.getIssuesMeasuresComments(
-                                              widget.issuesComments[index]);
-                                          print("getIssuesMeasureComments");
-                                        }
-                                        if (widget.contador == 8) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider.getIssuesSecurityComments(
-                                              widget.issuesComments[index]);
-                                          print("getIssuesSecurityComments");
-                                        }
-                                        provider.cambiosVistaPhotosComments();
-                                        provider.setIssueViewActual(2);
+                                        isssueReportedProvider
+                                            .getIssuePhotosComments(
+                                                widget.contador,
+                                                widget.issuesComments[index]);
+                                        isssueReportedProvider
+                                            .setContador(widget.contador);
+                                        isssueReportedProvider
+                                            .setIssueViewActual(2);
                                       },
                                     ),
                                   ),
@@ -383,22 +344,17 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                                       text: '',
                                       color: AppTheme.of(context).primaryColor,
                                       onTap: () async {
-                                        // provider.selectIssuesComments(
-                                        //     widget.issuesComments[index]);
-                                        provider.cambiosVistaPhotosComments();
-                                        provider.setIssueViewActual(2);
+                                        isssueReportedProvider
+                                            .getIssuePhotosComments(
+                                                widget.contador,
+                                                widget.issuesComments[index]);
+                                        isssueReportedProvider
+                                            .setContador(widget.contador);
+                                        isssueReportedProvider
+                                            .setIssueViewActual(2);
                                       },
                                     ),
                                   ),
-                                  // ElevatedButton(
-                                  //     onPressed: () {
-                                  //       provider.selectIssuesComments(
-                                  //           widget.issuesComments[index]);
-                                  //       provider.cambiosVistaPhotosComments();
-                                  //       provider.setIssueViewActual(2);
-                                  //     },
-                                  //     child:
-                                  //         const Icon(Icons.remove_red_eye_outlined))
                                 ],
                               ),
                             );

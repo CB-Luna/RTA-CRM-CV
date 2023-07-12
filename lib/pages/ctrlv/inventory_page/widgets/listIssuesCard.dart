@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../models/issues_open_close.dart';
 import '../../../../providers/ctrlv/inventory_provider.dart';
+import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 
@@ -24,57 +25,66 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final InventoryProvider provider = Provider.of<InventoryProvider>(
+      IssueReportedProvider isssueReportedProvider =
+          Provider.of<IssueReportedProvider>(
         context,
         listen: false,
       );
-      provider.clearListgetIssues();
+      isssueReportedProvider.clearListgetIssues();
       if (widget.contador == 1) {
-        provider.cambiovistaMeasures = true;
+        isssueReportedProvider.cambiovistaMeasures = true;
 
-        provider.getIssuesFluidCheck(provider.actualIssueXUser!);
+        isssueReportedProvider
+            .getIssuesFluidCheck(isssueReportedProvider.actualIssueXUser!);
 
         print("getIssuesFluidCheck");
       }
       if (widget.contador == 2) {
-        provider.cambiovistaMeasures = true;
+        isssueReportedProvider.cambiovistaMeasures = true;
 
-        provider.getIssuesCarBodywork(provider.actualIssueXUser!);
+        isssueReportedProvider
+            .getIssuesCarBodywork(isssueReportedProvider.actualIssueXUser!);
         print("getCarbodywork");
       }
       if (widget.contador == 3) {
-        provider.cambiovistaMeasures = true;
+        isssueReportedProvider.cambiovistaMeasures = true;
 
-        provider.getIssuesEquipment(provider.actualIssueXUser!);
+        isssueReportedProvider
+            .getIssuesEquipment(isssueReportedProvider.actualIssueXUser!);
         print("getequipment");
       }
       if (widget.contador == 4) {
-        provider.cambiovistaMeasures = true;
+        isssueReportedProvider.cambiovistaMeasures = true;
 
-        provider.getIssuesExtra(provider.actualIssueXUser!);
+        isssueReportedProvider
+            .getIssuesExtra(isssueReportedProvider.actualIssueXUser!);
         print("getextra");
       }
       if (widget.contador == 5) {
-        provider.cambiovistaMeasures = true;
+        isssueReportedProvider.cambiovistaMeasures = true;
 
-        provider.getIssuesBasics(provider.actualIssueXUser!);
+        isssueReportedProvider
+            .getIssuesBasics(isssueReportedProvider.actualIssueXUser!);
         print("getBucketInspection");
       }
       if (widget.contador == 6) {
-        provider.cambiovistaMeasures = true;
+        isssueReportedProvider.cambiovistaMeasures = true;
 
-        provider.getIssuesLights(provider.actualIssueXUser!);
+        isssueReportedProvider
+            .getIssuesLights(isssueReportedProvider.actualIssueXUser!);
         print("getIssuesLights");
       }
       if (widget.contador == 7) {
-        provider.cambiovistaMeasures = false;
-        provider.getIssuesMeasure(provider.actualIssueXUser!);
+        isssueReportedProvider.cambiovistaMeasures = false;
+        isssueReportedProvider
+            .getIssuesMeasure(isssueReportedProvider.actualIssueXUser!);
         print("getIssuesMeasure");
       }
       if (widget.contador == 8) {
-        provider.cambiovistaMeasures = true;
+        isssueReportedProvider.cambiovistaMeasures = true;
 
-        provider.getIssueSecurity(provider.actualIssueXUser!);
+        isssueReportedProvider
+            .getIssueSecurity(isssueReportedProvider.actualIssueXUser!);
         print("getIssueSecurity");
       }
     });
@@ -83,8 +93,9 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-
-    return provider.cambiovistaMeasures == true
+    IssueReportedProvider isssueReportedProvider =
+        Provider.of<IssueReportedProvider>(context);
+    return isssueReportedProvider.cambiovistaMeasures == true
         ? Container(
             //margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -218,58 +229,14 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                       text: '',
                                       color: AppTheme.of(context).primaryColor,
                                       onTap: () {
-                                        if (widget.contador == 1) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider.getIssuesFluidsCheckComments(
-                                              widget.issuesComments[index]);
-                                          print("getIssuesFluidCheckComments");
-                                        }
-                                        if (widget.contador == 2) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider.getIssueCarBodyWorkComments(
-                                              widget.issuesComments[index]);
-                                          print("getCarbodyworkComments");
-                                        }
-                                        if (widget.contador == 3) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider.getIssuesEquipmentComments(
-                                              widget.issuesComments[index]);
-                                          print("getequipmentComments");
-                                        }
-                                        if (widget.contador == 4) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider.getIssuesExtraComments(
-                                              widget.issuesComments[index]);
-                                          print("getextraComments");
-                                        }
-                                        if (widget.contador == 5) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider
-                                              .getIssuesBucketInspectionComments(
-                                                  widget.issuesComments[index]);
-                                          print("getBucketInspectionComments");
-                                        }
-                                        if (widget.contador == 6) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider.getIssuesLightsComments(
-                                              widget.issuesComments[index]);
-                                          print("getIssuesLightsComments");
-                                        }
-                                        if (widget.contador == 7) {
-                                          provider.cambiovistaMeasures = false;
-                                          provider.getIssuesMeasuresComments(
-                                              widget.issuesComments[index]);
-                                          print("getIssuesMeasureComments");
-                                        }
-                                        if (widget.contador == 8) {
-                                          provider.cambiovistaMeasures = true;
-                                          provider.getIssuesSecurityComments(
-                                              widget.issuesComments[index]);
-                                          print("getIssuesSecurityComments");
-                                        }
-                                        provider.setContador(widget.contador);
-                                        provider.cambiosVistaPhotosComments();
-                                        provider.setIssueViewActual(2);
+                                        isssueReportedProvider
+                                            .getIssuePhotosComments(
+                                                widget.contador,
+                                                widget.issuesComments[index]);
+                                        isssueReportedProvider
+                                            .setContador(widget.contador);
+                                        isssueReportedProvider
+                                            .setIssueViewActual(2);
                                       },
                                     ),
                                   ),
@@ -415,22 +382,17 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                       text: '',
                                       color: AppTheme.of(context).primaryColor,
                                       onTap: () async {
-                                        // provider.selectIssuesComments(
-                                        //     widget.issuesComments[index]);
-                                        provider.cambiosVistaPhotosComments();
-                                        provider.setIssueViewActual(2);
+                                        isssueReportedProvider
+                                            .getIssuePhotosComments(
+                                                widget.contador,
+                                                widget.issuesComments[index]);
+                                        isssueReportedProvider
+                                            .setContador(widget.contador);
+                                        isssueReportedProvider
+                                            .setIssueViewActual(2);
                                       },
                                     ),
                                   ),
-                                  // ElevatedButton(
-                                  //     onPressed: () {
-                                  //       provider.selectIssuesComments(
-                                  //           widget.issuesComments[index]);
-                                  //       provider.cambiosVistaPhotosComments();
-                                  //       provider.setIssueViewActual(2);
-                                  //     },
-                                  //     child:
-                                  //         const Icon(Icons.remove_red_eye_outlined))
                                 ],
                               ),
                             );

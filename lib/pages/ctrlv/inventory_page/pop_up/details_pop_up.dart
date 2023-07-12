@@ -73,7 +73,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                         ),
                         Tab(
                           height: 30,
-                          text: " Services",
+                          text: " Service",
                         )
                       ],
                     ),

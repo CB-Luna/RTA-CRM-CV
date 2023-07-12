@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../providers/ctrlv/inventory_provider.dart';
+import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 import 'close_issue_pop_up.dart';
@@ -20,7 +21,8 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-
+    IssueReportedProvider isssueReportedProvider =
+        Provider.of<IssueReportedProvider>(context);
     return Container(
       child: Column(
         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,8 +37,8 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
               text: 'Back',
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
-                provider.setIssueViewActual(1);
-                provider.clearRegistroIssueComments;
+                isssueReportedProvider.setIssueViewActual(1);
+                isssueReportedProvider.clearRegistroIssueComments;
               },
             ),
           ),
@@ -58,10 +60,11 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  provider.registroIssueComments?.dateAdded == null
+                  isssueReportedProvider.registroIssueComments?.dateAdded ==
+                          null
                       ? "No Date"
-                      : DateFormat("MMM/dd/yyyy")
-                          .format(provider.registroIssueComments!.dateAdded),
+                      : DateFormat("MMM/dd/yyyy").format(isssueReportedProvider
+                          .registroIssueComments!.dateAdded),
                   style: TextStyle(
                       color: AppTheme.of(context).contenidoTablas.color,
                       fontFamily: 'Bicyclette-Thin',
@@ -84,9 +87,11 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  provider.registroIssueComments?.nameIssue == null
+                  isssueReportedProvider.registroIssueComments?.nameIssue ==
+                          null
                       ? "No Issue"
-                      : provider.registroIssueComments!.nameIssue.capitalize
+                      : isssueReportedProvider
+                          .registroIssueComments!.nameIssue.capitalize
                           .replaceAll("_", " "),
                   style: TextStyle(
                       color: AppTheme.of(context).contenidoTablas.color,
@@ -120,7 +125,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                     ),
                     child: SingleChildScrollView(
                         child: Text(
-                            "${provider.registroIssueComments?.comments}.")),
+                            "${isssueReportedProvider.registroIssueComments?.comments}.")),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 10),
@@ -150,9 +155,12 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                 height: 335,
                 width: 400,
                 child: CarouselSlider.builder(
-                  itemCount: provider.registroIssueComments?.listImages == null
+                  itemCount: isssueReportedProvider
+                              .registroIssueComments?.listImages ==
+                          null
                       ? 0
-                      : provider.registroIssueComments?.listImages?.length,
+                      : isssueReportedProvider
+                          .registroIssueComments?.listImages?.length,
                   itemBuilder: (context, index, realIndex) {
                     // final urlImage =
                     //     provider.actualissuesComments?.listImages![index];
