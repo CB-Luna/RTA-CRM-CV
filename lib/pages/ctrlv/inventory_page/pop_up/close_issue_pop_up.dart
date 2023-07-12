@@ -21,7 +21,18 @@ class CloseIssuePopUp extends StatefulWidget {
 
 class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
   FToast fToast = FToast();
+  bool light0 = true;
+  bool light1 = true;
 
+  final MaterialStateProperty<Icon?> thumbIcon =
+      MaterialStateProperty.resolveWith<Icon?>(
+    (Set<MaterialState> states) {
+      if (states.contains(MaterialState.selected)) {
+        return const Icon(Icons.check);
+      }
+      return const Icon(Icons.close);
+    },
+  );
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
@@ -73,7 +84,22 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                                     .fontSize,
                               ),
                             )),
-                        const SwitchExample(),
+                        // const SwitchExample(),
+
+                        Switch(
+                          thumbIcon: thumbIcon,
+                          value: light1,
+                          onChanged: (bool value) {
+                            setState(() {
+                              light1 = value;
+                              if (light1 != false) {
+                                print("Verdadero");
+                              } else {
+                                print("falso");
+                              }
+                            });
+                          },
+                        ),
                       ],
                     ),
                     Padding(
@@ -114,26 +140,27 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                       if (!formKey.currentState!.validate()) {
                         return;
                       }
+                      if (light1 != false) {
+                        bool res = await provider.closeIssue();
+                        if (!res) {
+                          await ApiErrorHandler.callToast(
+                              'Error al Cerrar el Issue');
+                          return;
+                        }
+                        if (!mounted) return;
+                        fToast.showToast(
+                          child: const SuccessToast(
+                            message: 'Issue Closed Succesfuly',
+                          ),
+                          gravity: ToastGravity.BOTTOM,
+                          toastDuration: const Duration(seconds: 2),
+                        );
 
-                      bool res = await provider.closeIssue();
-
-                      if (!res) {
-                        await ApiErrorHandler.callToast(
-                            'Error al Cerrar el Issue');
-                        return;
+                        if (context.canPop()) context.pop();
+                        context.pop();
+                      } else {
+                        print("falso");
                       }
-                      print(res);
-                      if (!mounted) return;
-                      fToast.showToast(
-                        child: const SuccessToast(
-                          message: 'Issue Closed Succesfuly',
-                        ),
-                        gravity: ToastGravity.BOTTOM,
-                        toastDuration: const Duration(seconds: 2),
-                      );
-
-                      if (context.canPop()) context.pop();
-                      context.pop();
                     }),
                 CustomTextIconButton(
                   isLoading: false,
