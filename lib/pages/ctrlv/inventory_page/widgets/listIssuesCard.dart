@@ -24,75 +24,70 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      IssueReportedProvider isssueReportedProvider =
-          Provider.of<IssueReportedProvider>(
-        context,
-        listen: false,
-      );
-      isssueReportedProvider.clearListgetIssues();
+    setState(() {
+      context.read<IssueReportedProvider>();
+      context.read<IssueReportedProvider>().clearListgetIssues();
       if (widget.contador == 1) {
-        isssueReportedProvider.cambiovistaMeasures = true;
+        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
 
-        isssueReportedProvider
-            .getIssuesFluidCheck(isssueReportedProvider.actualIssueXUser!);
+        context.read<IssueReportedProvider>().getIssuesFluidCheck(
+            context.read<IssueReportedProvider>().actualIssueXUser!);
 
-        print("getIssuesFluidCheck");
+        //print ("getIssuesFluidCheck");
       }
       if (widget.contador == 2) {
-        isssueReportedProvider.cambiovistaMeasures = true;
+        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
 
-        isssueReportedProvider
-            .getIssuesCarBodywork(isssueReportedProvider.actualIssueXUser!);
-        print("getCarbodywork");
+        context.read<IssueReportedProvider>().getIssuesCarBodywork(
+            context.read<IssueReportedProvider>().actualIssueXUser!);
+        //print ("getCarbodywork");
       }
       if (widget.contador == 3) {
-        isssueReportedProvider.cambiovistaMeasures = true;
+        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
 
-        isssueReportedProvider
-            .getIssuesEquipment(isssueReportedProvider.actualIssueXUser!);
-        print("getequipment");
+        context.read<IssueReportedProvider>().getIssuesEquipment(
+            context.read<IssueReportedProvider>().actualIssueXUser!);
+        //print ("getequipment");
       }
       if (widget.contador == 4) {
-        isssueReportedProvider.cambiovistaMeasures = true;
+        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
 
-        isssueReportedProvider
-            .getIssuesExtra(isssueReportedProvider.actualIssueXUser!);
-        print("getextra");
+        context.read<IssueReportedProvider>().getIssuesExtra(
+            context.read<IssueReportedProvider>().actualIssueXUser!);
+        // //print ("getextra");
       }
       if (widget.contador == 5) {
-        isssueReportedProvider.cambiovistaMeasures = true;
+        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
 
-        isssueReportedProvider
-            .getIssuesBasics(isssueReportedProvider.actualIssueXUser!);
-        print("getBucketInspection");
+        context.read<IssueReportedProvider>().getIssuesBasics(
+            context.read<IssueReportedProvider>().actualIssueXUser!);
+        ////print  ("getBucketInspection");
       }
       if (widget.contador == 6) {
-        isssueReportedProvider.cambiovistaMeasures = true;
+        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
 
-        isssueReportedProvider
-            .getIssuesLights(isssueReportedProvider.actualIssueXUser!);
-        print("getIssuesLights");
+        context.read<IssueReportedProvider>().getIssuesLights(
+            context.read<IssueReportedProvider>().actualIssueXUser!);
+        //print ("getIssuesLights");
       }
       if (widget.contador == 7) {
-        isssueReportedProvider.cambiovistaMeasures = false;
-        isssueReportedProvider
-            .getIssuesMeasure(isssueReportedProvider.actualIssueXUser!);
-        print("getIssuesMeasure");
+        context.read<IssueReportedProvider>().cambiovistaMeasures = false;
+        context.read<IssueReportedProvider>().getIssuesMeasure(
+            context.read<IssueReportedProvider>().actualIssueXUser!);
+        //print ("getIssuesMeasure");
       }
       if (widget.contador == 8) {
-        isssueReportedProvider.cambiovistaMeasures = true;
+        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
 
-        isssueReportedProvider
-            .getIssueSecurity(isssueReportedProvider.actualIssueXUser!);
-        print("getIssueSecurity");
+        context.read<IssueReportedProvider>().getIssueSecurity(
+            context.read<IssueReportedProvider>().actualIssueXUser!);
+        //print ("getIssueSecurity");
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    InventoryProvider provider = Provider.of<InventoryProvider>(context);
     IssueReportedProvider isssueReportedProvider =
         Provider.of<IssueReportedProvider>(context);
     return isssueReportedProvider.cambiovistaMeasures == true
