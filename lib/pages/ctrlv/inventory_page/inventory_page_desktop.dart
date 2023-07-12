@@ -2,25 +2,22 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/issues_pop_up.dart';
-import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/cry_card.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/details_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/odi_card.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/smi_card.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
-import 'package:rta_crm_cv/widgets/card_header.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
-//import 'widgets/carga_de_ticket_popup.dart';
 import '../../../helpers/constants.dart';
+import '../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../providers/side_menu_provider.dart';
 
 import '../../../public/colors.dart';
 import '../../../theme/theme.dart';
 import '../../../widgets/custom_card.dart';
 import '../../../widgets/custom_text_icon_button.dart';
-import 'pop_up/comments_photos_pop_up.dart';
+import 'actions/add_services_pop_up.dart';
 import 'pop_up/verify_to_eliminate_pop_up.dart';
 import 'widgets/header_inventory.dart';
 import 'actions/update_vehicle_pop_up.dart';
@@ -49,10 +46,9 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
   Widget build(BuildContext context) {
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
+    IssueReportedProvider isssueReportedProvider =
+        Provider.of<IssueReportedProvider>(context);
     sideM.setIndex(7);
-    // final VisualStateProvider visualState =
-    //     Provider.of<VisualStateProvider>(context);
-    // visualState.setTapedOption(1);
 
     return Scaffold(
       key: widget.scaffoldKey,
@@ -94,14 +90,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       height: 425,
                                       width: 339,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          //gradient: gradients[0],
-                                          boxShadow: const [
-                                            BoxShadow(
-                                                blurRadius: 4,
-                                                color: Colors.grey,
-                                                offset: Offset(10, 10))
-                                          ],
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: Column(
@@ -128,14 +116,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       height: 425,
                                       width: 339,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          //gradient: gradients[0],
-                                          boxShadow: const [
-                                            BoxShadow(
-                                                blurRadius: 4,
-                                                color: Colors.grey,
-                                                offset: Offset(10, 10))
-                                          ],
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: Column(
@@ -162,14 +142,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       height: 425,
                                       width: 339,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          //gradient: gradients[0],
-                                          boxShadow: const [
-                                            BoxShadow(
-                                                blurRadius: 4,
-                                                color: Colors.grey,
-                                                offset: Offset(10, 10))
-                                          ],
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: Column(
@@ -216,8 +188,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             key: UniqueKey(),
                                             configuration:
                                                 PlutoGridConfiguration(
-                                              localeText:
-                                                  const PlutoGridLocaleText(),
                                               scrollbar:
                                                   plutoGridScrollbarConfig(
                                                       context),
@@ -231,6 +201,47 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 ],
                                                 resolveDefaultColumnFilter:
                                                     (column, resolver) {
+                                                  if (column.field ==
+                                                      'license_plates') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'VIN') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'Make') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'Model') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'Status') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'Company') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'Mileage') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  } else if (column.field ==
+                                                      'Actions') {
+                                                    return resolver<
+                                                            PlutoFilterTypeContains>()
+                                                        as PlutoFilterType;
+                                                  }
                                                   return resolver<
                                                           PlutoFilterTypeContains>()
                                                       as PlutoFilterType;
@@ -263,7 +274,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
-                                                    0.16,
+                                                    0.12,
                                                 cellPadding: EdgeInsets.zero,
                                                 titleTextAlign:
                                                     PlutoColumnTextAlign.center,
@@ -297,20 +308,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                     ),
                                                   );
                                                 },
-                                                // renderer: (rendererContext) {
-                                                //   return Container(
-                                                //     height: rowHeight,
-                                                //     // width: rendererContext
-                                                //     //.cell.column.width,                                                    .cell.column.width,
-                                                //     decoration: BoxDecoration(
-                                                //         gradient:
-                                                //             whiteGradient),
-                                                //     child: Center(
-                                                //         child: Text(
-                                                //             rendererContext
-                                                //                 .cell.value)),
-                                                //   );
-                                                // },
                                               ),
                                               PlutoColumn(
                                                 title: 'Vin',
@@ -334,113 +331,10 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                           AppTheme.of(context)
                                                               .encabezadoTablas)
                                                 ]),
-                                                // titleSpan: const TextSpan(
-                                                //   children: [
-                                                //     WidgetSpan(
-                                                //       child: Icon(
-                                                //         Icons.dialpad_outlined,
-                                                //         color:
-                                                //             Color(0xffF3F7F9),
-                                                //         size: 20,
-                                                //       ),
-                                                //     ),
-                                                //     WidgetSpan(
-                                                //         child: SizedBox(
-                                                //       width: 10,
-                                                //     )),
-                                                //     TextSpan(
-                                                //         text: 'VIN',
-                                                //         style: TextStyle(
-                                                //             color:
-                                                //                 Colors.white)),
-                                                //   ],
-                                                // ),
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
                                                     0.12,
-                                                cellPadding: EdgeInsets.zero,
-                                                titleTextAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                textAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                type: PlutoColumnType.text(),
-                                                enableEditingMode: false,
-                                                renderer: (rendererContext) {
-                                                  return Container(
-                                                    height: rowHeight,
-                                                    // width: rendererContext
-                                                    //.cell.column.width,                                                    .cell.column.width,
-                                                    decoration: BoxDecoration(
-                                                        gradient:
-                                                            whiteGradient),
-                                                    child: Center(
-                                                        child: Text(
-                                                      rendererContext
-                                                          .cell.value,
-                                                      style: AppTheme.of(
-                                                              context)
-                                                          .contenidoTablas
-                                                          .override(
-                                                              fontFamily:
-                                                                  'Gotham-Regular',
-                                                              useGoogleFonts:
-                                                                  false,
-                                                              color: AppTheme.of(
-                                                                      context)
-                                                                  .primaryColor),
-                                                    )),
-                                                  );
-                                                },
-                                              ),
-                                              PlutoColumn(
-                                                title: 'Year',
-                                                field: 'year',
-                                                backgroundColor:
-                                                    const Color(0XFF6491F7),
-                                                titleSpan: TextSpan(children: [
-                                                  WidgetSpan(
-                                                      child: Icon(
-                                                          Icons
-                                                              .calendar_today_outlined,
-                                                          color: AppTheme.of(
-                                                                  context)
-                                                              .primaryBackground)),
-                                                  const WidgetSpan(
-                                                      child:
-                                                          SizedBox(width: 10)),
-                                                  TextSpan(
-                                                      text: 'Year',
-                                                      style:
-                                                          AppTheme.of(context)
-                                                              .encabezadoTablas)
-                                                ]),
-                                                // titleSpan: const TextSpan(
-                                                //   children: [
-                                                //     WidgetSpan(
-                                                //       child: Icon(
-                                                //         Icons
-                                                //             .calendar_today_outlined,
-                                                //         color:
-                                                //             Color(0xffF3F7F9),
-                                                //         size: 20,
-                                                //       ),
-                                                //     ),
-                                                //     WidgetSpan(
-                                                //         child: SizedBox(
-                                                //       width: 10,
-                                                //     )),
-                                                //     TextSpan(
-                                                //         text: 'Year',
-                                                //         style: TextStyle(
-                                                //             color:
-                                                //                 Colors.white)),
-                                                //   ],
-                                                // ),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.09,
                                                 cellPadding: EdgeInsets.zero,
                                                 titleTextAlign:
                                                     PlutoColumnTextAlign.center,
@@ -495,28 +389,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                           AppTheme.of(context)
                                                               .encabezadoTablas)
                                                 ]),
-                                                // titleSpan: const TextSpan(
-                                                //   children: [
-                                                //     WidgetSpan(
-                                                //       child: Icon(
-                                                //         Icons
-                                                //             .label_important_outline,
-                                                //         color:
-                                                //             Color(0xffF3F7F9),
-                                                //         size: 20,
-                                                //       ),
-                                                //     ),
-                                                //     WidgetSpan(
-                                                //         child: SizedBox(
-                                                //       width: 10,
-                                                //     )),
-                                                //     TextSpan(
-                                                //         text: 'Make',
-                                                //         style: TextStyle(
-                                                //             color:
-                                                //                 Colors.white)),
-                                                //   ],
-                                                // ),
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
@@ -533,8 +405,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 renderer: (rendererContext) {
                                                   return Container(
                                                     height: rowHeight,
-                                                    // width: rendererContext
-                                                    //.cell.column.width,                                                    .cell.column.width,
                                                     decoration: BoxDecoration(
                                                         gradient:
                                                             whiteGradient),
@@ -702,7 +572,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
-                                                    0.11,
+                                                    0.10,
                                                 cellPadding: EdgeInsets.zero,
                                                 titleTextAlign:
                                                     PlutoColumnTextAlign.center,
@@ -798,79 +668,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 },
                                               ),
                                               PlutoColumn(
-                                                title: 'details',
-                                                field: 'details',
-                                                backgroundColor:
-                                                    const Color(0XFF6491F7),
-                                                titleSpan: TextSpan(children: [
-                                                  WidgetSpan(
-                                                      child: Icon(
-                                                          Icons
-                                                              .calendar_view_week_outlined,
-                                                          color: AppTheme.of(
-                                                                  context)
-                                                              .primaryBackground)),
-                                                  const WidgetSpan(
-                                                      child:
-                                                          SizedBox(width: 10)),
-                                                  TextSpan(
-                                                      text: 'Details',
-                                                      style:
-                                                          AppTheme.of(context)
-                                                              .encabezadoTablas)
-                                                ]),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.10,
-                                                cellPadding: EdgeInsets.zero,
-                                                titleTextAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                textAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                type: PlutoColumnType.text(),
-                                                enableEditingMode: false,
-                                                renderer: (rendererContext) {
-                                                  return Container(
-                                                    height: rowHeight,
-                                                    decoration: BoxDecoration(
-                                                        gradient:
-                                                            whiteGradient),
-                                                    child: Center(
-                                                        child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        ElevatedButton(
-                                                            onPressed: () {
-                                                              showDialog(
-                                                                  context:
-                                                                      context,
-                                                                  builder:
-                                                                      (BuildContext
-                                                                          context) {
-                                                                    return StatefulBuilder(builder:
-                                                                        (context,
-                                                                            setState) {
-                                                                      return DetailsPopUp(
-                                                                        vehicle: rendererContext
-                                                                            .cell
-                                                                            .value,
-                                                                      );
-                                                                    });
-                                                                  });
-                                                            },
-                                                            child: const Icon(
-                                                              Icons
-                                                                  .remove_red_eye_outlined,
-                                                            ))
-                                                      ],
-                                                    )),
-                                                  );
-                                                },
-                                              ),
-                                              PlutoColumn(
                                                 title: 'actions',
                                                 field: 'actions',
                                                 backgroundColor:
@@ -895,7 +692,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
-                                                    0.14,
+                                                    0.30,
                                                 cellPadding: EdgeInsets.zero,
                                                 titleTextAlign:
                                                     PlutoColumnTextAlign.center,
@@ -916,6 +713,66 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                           MainAxisAlignment
                                                               .spaceAround,
                                                       children: [
+                                                        // Details
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 8.0,
+                                                                  right: 8.0),
+                                                          child:
+                                                              CustomTextIconButton(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            width: 92,
+                                                            isLoading: false,
+                                                            icon: Icon(
+                                                                Icons
+                                                                    .remove_red_eye_outlined,
+                                                                color: AppTheme.of(
+                                                                        context)
+                                                                    .primaryBackground),
+                                                            text: 'Details',
+                                                            color: AppTheme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                            onTap: () async {
+                                                              isssueReportedProvider
+                                                                  .getIssuesxUsers(
+                                                                      rendererContext
+                                                                          .cell
+                                                                          .value);
+                                                              provider.selectVehicle(
+                                                                  rendererContext
+                                                                      .cell
+                                                                      .value);
+                                                              isssueReportedProvider
+                                                                  .selectVehicle(
+                                                                      rendererContext
+                                                                          .cell
+                                                                          .value);
+                                                              provider
+                                                                  .getServicesPage();
+                                                              showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (BuildContext
+                                                                          context) {
+                                                                    return StatefulBuilder(builder:
+                                                                        (context,
+                                                                            setState) {
+                                                                      return DetailsPopUp(
+                                                                        vehicle: rendererContext
+                                                                            .cell
+                                                                            .value,
+                                                                      );
+                                                                    });
+                                                                  });
+                                                            },
+                                                          ),
+                                                        ),
                                                         CustomTextIconButton(
                                                           isLoading: false,
                                                           icon: Icon(
@@ -1005,116 +862,45 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                                 .getInventory();
                                                           },
                                                         ),
-                                                        // CustomTextIconButton(
-                                                        //   isLoading: false,
-                                                        //   icon: Icon(
-                                                        //     Icons
-                                                        //         .shopping_basket_outlined,
-                                                        //     color: AppTheme.of(context)
-                                                        //         .primaryBackground,
-                                                        //   ),
-                                                        //   color: secondaryColor,
-                                                        //   text: 'Delete',
-                                                        //   onTap: () async {
-                                                        //     await showDialog(
-                                                        //         context: context,
-                                                        //         builder: (BuildContext
-                                                        //             context) {
-                                                        //           return StatefulBuilder(
-                                                        //               builder: (context,
-                                                        //                   setState) {
-                                                        //             return DeletePopUp(
-                                                        //               vehicle:
-                                                        //                   rendererContext
-                                                        //                       .cell
-                                                        //                       .value,
-                                                        //             );
-                                                        //           });
-                                                        //         });
-                                                        //     await provider
-                                                        //         .getInventory();
-                                                        //   },
-                                                        // ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                              PlutoColumn(
-                                                title: 'issues',
-                                                field: 'issues',
-                                                backgroundColor:
-                                                    const Color(0XFF6491F7),
-                                                titleSpan: TextSpan(children: [
-                                                  WidgetSpan(
-                                                      child: Icon(
-                                                          Icons
-                                                              .warning_outlined,
+                                                        CustomTextIconButton(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          width: 120,
+                                                          isLoading: false,
+                                                          icon: Icon(
+                                                              Icons
+                                                                  .list_alt_outlined,
+                                                              color: AppTheme.of(
+                                                                      context)
+                                                                  .primaryBackground),
+                                                          text: 'Services',
                                                           color: AppTheme.of(
                                                                   context)
-                                                              .primaryBackground)),
-                                                  const WidgetSpan(
-                                                      child:
-                                                          SizedBox(width: 10)),
-                                                  TextSpan(
-                                                      text: 'Issues',
-                                                      style:
-                                                          AppTheme.of(context)
-                                                              .encabezadoTablas)
-                                                ]),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.10,
-                                                cellPadding: EdgeInsets.zero,
-                                                titleTextAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                textAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                type: PlutoColumnType.text(),
-                                                enableEditingMode: false,
-                                                renderer: (rendererContext) {
-                                                  return Container(
-                                                    height: rowHeight,
-                                                    decoration: BoxDecoration(
-                                                        gradient:
-                                                            whiteGradient),
-                                                    child: Center(
-                                                        child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        ElevatedButton(
-                                                            onPressed: () {
-                                                              provider.vistaIssues =
-                                                                  true;
-                                                              provider.selectVehicle(
-                                                                  rendererContext
-                                                                      .cell
-                                                                      .value);
-                                                              provider.getIssuesxUsers(
-                                                                  rendererContext
-                                                                      .cell
-                                                                      .value);
-                                                              provider
-                                                                  .setIssueViewActual(
-                                                                      0);
-                                                              showDialog(
-                                                                  context:
-                                                                      context,
-                                                                  builder:
-                                                                      (BuildContext
-                                                                          context) {
-                                                                    return const IssuesPopUp();
-                                                                  });
-                                                            },
-                                                            child: const Icon(
-                                                              Icons
-                                                                  .remove_red_eye_outlined,
-                                                            ))
+                                                              .primaryColor,
+                                                          onTap: () async {
+                                                            await provider
+                                                                .getServices(
+                                                                    notify:
+                                                                        false);
+                                                            provider.selectVehicle(
+                                                                rendererContext
+                                                                    .cell
+                                                                    .value);
+
+                                                            // ignore: use_build_context_synchronously
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return const AddServicePopUp();
+                                                                });
+                                                          },
+                                                        ),
                                                       ],
-                                                    )),
+                                                    ),
                                                   );
                                                 },
                                               ),
@@ -1154,21 +940,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                     ),
                                   ],
                                 )),
-                            // InventoryPageHeader(),
-                            // //ESTATUS STEPPER
-                            // const SizedBox(
-                            //   height: 20,
-                            // ),
-                            // // Titulo de la tabla
-                            // const Padding(
-                            //     padding: EdgeInsets.only(bottom: 10),
-                            //     child: CardHeader(text: "Vehicle Inventory")),
-
-                            // // PLUTO GRID
-                            // // widget.provider.vehicles.isEmpty
-                            // //     ? const CircularProgressIndicator()
-
-                            // const SizedBox(height: 20),
                           ],
                         ),
                       ),

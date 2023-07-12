@@ -177,6 +177,39 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                           },
                         ),
                       ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextField(
+                        label: 'Status',
+                        icon: Icons.settings_backup_restore_outlined,
+                        controller: provider.statusControllerUpdate,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.text,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextField(
+                        label: 'License',
+                        icon: Icons.settings_backup_restore_outlined,
+                        controller: provider.licenseControllerUpdate,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.text,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextField(
+                        label: 'Certification',
+                        icon: Icons.settings_backup_restore_outlined,
+                        controller: provider.certificationControllerUpdate,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.text,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -224,9 +257,12 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                 ),
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.refresh_outlined,
+                  icon: Icon(Icons.exit_to_app_outlined,
                       color: AppTheme.of(context).primaryBackground),
-                  text: 'Refresh',
+                  text: 'Exit',
+                  onTap: () {
+                    context.pop();
+                  },
                 ),
               ],
             )

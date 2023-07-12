@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:rta_crm_cv/models/company_api.dart';
 import 'package:rta_crm_cv/models/status_api.dart';
 
-class Vehicle {
-  Vehicle(
+class VehicleDash {
+  VehicleDash(
       {required this.idVehicle,
       required this.make,
       required this.model,
@@ -13,16 +13,14 @@ class Vehicle {
       required this.licesensePlates,
       required this.motor,
       this.color,
-      this.image,
+      required this.image,
       required this.status,
       required this.company,
       required this.dateAdded,
       required this.oilChangeDue,
       required this.lastRadiatorFluidChange,
       required this.lastTransmissionFluidChange,
-      required this.issuesR,
-      required this.mileage,
-      this.issuesD});
+      required this.mileage,});
 
   int idVehicle;
   String make;
@@ -32,22 +30,17 @@ class Vehicle {
   String licesensePlates;
   String motor;
   String? color;
-  String? image;
+  String image;
   DateTime dateAdded;
-  DateTime? oilChangeDue;
-  DateTime? lastRadiatorFluidChange;
-  DateTime? lastTransmissionFluidChange;
-  StatusApi status;
-  CompanyApi company;
-  int issuesR;
-  int? issuesD;
+  DateTime oilChangeDue;
+  DateTime lastRadiatorFluidChange;
+  DateTime lastTransmissionFluidChange;
+  int status;
+  int company;
   int mileage;
+  factory VehicleDash.fromJson(String str) => VehicleDash.fromMap(json.decode(str));
 
-  String get fullName => '$model $year';
-
-  factory Vehicle.fromJson(String str) => Vehicle.fromMap(json.decode(str));
-
-  factory Vehicle.fromMap(Map<String, dynamic> json) => Vehicle(
+  factory VehicleDash.fromMap(Map<String, dynamic> json) => VehicleDash(
       idVehicle: json["id_vehicle"],
       make: json["make"],
       model: json["model"],
@@ -57,21 +50,14 @@ class Vehicle {
       motor: json["motor"],
       color: json["color"],
       image: json["image"],
-      status: StatusApi.fromJson(jsonEncode(json['status'])),
-      company: CompanyApi.fromJson(jsonEncode(json['company'])),
+      status: json['id_status_fk'],
+      company: json['id_company_fk'],
       dateAdded: DateTime.parse(json["date_added"]),
-      oilChangeDue: json["oil_change_due"] == null
-          ? null
-          : DateTime.parse(json["oil_change_due"]),
-      lastRadiatorFluidChange: json["last_radiator_fluid_change"] == null
-          ? null
-          : DateTime.parse(json["last_radiator_fluid_change"]),
+      oilChangeDue: DateTime.parse(json["oil_change_due"]),
+      lastRadiatorFluidChange:
+          DateTime.parse(json["last_radiator_fluid_change"]),
       lastTransmissionFluidChange:
-          json["last_transmission_fluid_change"] == null
-              ? null
-              : DateTime.parse(json["last_transmission_fluid_change"]),
-      issuesR: json["issues_r"],
-      issuesD: json["issues_d"],
+          DateTime.parse(json["last_transmission_fluid_change"]),
       mileage: json["mileage"]);
 
   Map<String, dynamic> toMap() => {
@@ -84,16 +70,13 @@ class Vehicle {
         "motor": motor,
         "color": color,
         "image": image,
-        "status": status.toMap(),
-        "company": company.toMap(),
+        "id_status_fk": status,
+        "id_company_fk": company,
         "date_added": dateAdded.toIso8601String(),
-        "oil_change_due": oilChangeDue?.toIso8601String(),
-        "last_radiator_fluid_change":
-            lastRadiatorFluidChange?.toIso8601String(),
+        "oil_change_due": oilChangeDue.toIso8601String(),
+        "last_radiator_fluid_change": lastRadiatorFluidChange.toIso8601String(),
         "last_transmission_fluid_change":
-            lastTransmissionFluidChange?.toIso8601String(),
-        "issues_r": issuesR,
-        "issues_d": issuesD,
+            lastTransmissionFluidChange.toIso8601String(),
         "mileage": mileage
       };
 }

@@ -4,6 +4,8 @@ import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 
 import '../../../../models/vehicle.dart';
 import '../../../../public/colors.dart';
+import '../../../../theme/theme.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 
 class DeletePopUp extends StatefulWidget {
   final Vehicle vehicle;
@@ -37,13 +39,28 @@ class _DeletePopUpState extends State<DeletePopUp> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 10),
+                    child: CustomTextIconButton(
+                      width: 96,
+                      isLoading: false,
+                      icon: Icon(Icons.exit_to_app_outlined,
+                          color: AppTheme.of(context).primaryBackground),
+                      text: 'Exit',
+                      color: AppTheme.of(context).primaryColor,
+                      onTap: () async {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      " ¿Are you sure you want to Delete?",
+                      " ¿Are you sure you want to Delete or Archive?",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 28,
+                        fontSize: 20,
                       ),
                     ),
                   ),
@@ -81,32 +98,30 @@ class _DeletePopUpState extends State<DeletePopUp> {
               ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-              ElevatedButton(
-                  onPressed: () {
-                    provider.deleteVehicle(widget.vehicle);
+              CustomTextIconButton(
+                width: 96,
+                isLoading: false,
+                icon: Icon(Icons.dangerous_outlined,
+                    color: AppTheme.of(context).primaryBackground),
+                text: 'Delete',
+                color: AppTheme.of(context).secondaryColor,
+                onTap: () async {
+                  provider.deleteVehicle(widget.vehicle);
 
-                    provider.updateState();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: secondaryColor,
-                      elevation: 20,
-                      shadowColor: secondaryColor),
-                  child: const Text(
-                    "ACCEPT",
-                    style: TextStyle(fontSize: 20),
-                  )),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      elevation: 20,
-                      shadowColor: Colors.blue),
-                  child: const Text(
-                    "CANCEL",
-                    style: TextStyle(fontSize: 20),
-                  ))
+                  provider.updateState();
+                },
+              ),
+              CustomTextIconButton(
+                width: 101,
+                isLoading: false,
+                icon: Icon(Icons.archive_outlined,
+                    color: AppTheme.of(context).primaryBackground),
+                text: 'Archive',
+                color: AppTheme.of(context).primaryColor,
+                onTap: () async {
+                  provider.changeStatusInventory(widget.vehicle);
+                },
+              ),
             ]),
           ],
         ),

@@ -9,90 +9,25 @@ import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 
-class ListIssuesCard extends StatefulWidget {
+class ListIssuesCardD extends StatefulWidget {
   final List<IssueOpenclose> issuesComments;
   final int contador;
-  const ListIssuesCard(
+  const ListIssuesCardD(
       {super.key, required this.issuesComments, required this.contador});
 
   @override
-  State<ListIssuesCard> createState() => _ListIssuesCardState();
+  State<ListIssuesCardD> createState() => _ListIssuesCardDState();
 }
 
-class _ListIssuesCardState extends State<ListIssuesCard> {
-  @override
-  void initState() {
-    super.initState();
-
-    setState(() {
-      context.read<IssueReportedProvider>();
-      context.read<IssueReportedProvider>().clearListgetIssues();
-      if (widget.contador == 1) {
-        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
-
-        context.read<IssueReportedProvider>().getIssuesFluidCheck(
-            context.read<IssueReportedProvider>().actualIssueXUser!);
-
-        //print ("getIssuesFluidCheck");
-      }
-      if (widget.contador == 2) {
-        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
-
-        context.read<IssueReportedProvider>().getIssuesCarBodywork(
-            context.read<IssueReportedProvider>().actualIssueXUser!);
-        //print ("getCarbodywork");
-      }
-      if (widget.contador == 3) {
-        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
-
-        context.read<IssueReportedProvider>().getIssuesEquipment(
-            context.read<IssueReportedProvider>().actualIssueXUser!);
-        //print ("getequipment");
-      }
-      if (widget.contador == 4) {
-        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
-
-        context.read<IssueReportedProvider>().getIssuesExtra(
-            context.read<IssueReportedProvider>().actualIssueXUser!);
-        // //print ("getextra");
-      }
-      if (widget.contador == 5) {
-        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
-
-        context.read<IssueReportedProvider>().getIssuesBasics(
-            context.read<IssueReportedProvider>().actualIssueXUser!);
-        ////print  ("getBucketInspection");
-      }
-      if (widget.contador == 6) {
-        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
-
-        context.read<IssueReportedProvider>().getIssuesLights(
-            context.read<IssueReportedProvider>().actualIssueXUser!);
-        //print ("getIssuesLights");
-      }
-      if (widget.contador == 7) {
-        context.read<IssueReportedProvider>().cambiovistaMeasures = false;
-        context.read<IssueReportedProvider>().getIssuesMeasure(
-            context.read<IssueReportedProvider>().actualIssueXUser!);
-        //print ("getIssuesMeasure");
-      }
-      if (widget.contador == 8) {
-        context.read<IssueReportedProvider>().cambiovistaMeasures = true;
-
-        context.read<IssueReportedProvider>().getIssueSecurity(
-            context.read<IssueReportedProvider>().actualIssueXUser!);
-        //print ("getIssueSecurity");
-      }
-    });
-  }
-
+class _ListIssuesCardDState extends State<ListIssuesCardD> {
   @override
   Widget build(BuildContext context) {
+    InventoryProvider provider = Provider.of<InventoryProvider>(context);
     IssueReportedProvider isssueReportedProvider =
         Provider.of<IssueReportedProvider>(context);
     return isssueReportedProvider.cambiovistaMeasures == true
         ? Container(
-            //margin: const EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -102,14 +37,13 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
               ],
             ),
             height: 300,
-            width: 600,
+            width: 580,
             child: Column(
               children: [
                 Container(
                     alignment: Alignment.centerLeft,
                     // Este issue es el nombre
                     child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Row(children: [
                           Padding(
@@ -143,6 +77,21 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 90.0),
+                            child: Text(
+                              "Issue Close",
+                              style: TextStyle(
+                                  color: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .color,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )
                         ])
                       ],
                     )),
@@ -166,7 +115,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                 children: [
                                   Container(
                                     alignment: Alignment.centerLeft,
-                                    width: 150,
+                                    width: 125,
                                     padding: const EdgeInsets.only(left: 10.0),
                                     child: Column(
                                       children: [
@@ -175,12 +124,14 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                         Text(
                                           "•${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")}",
                                           style: TextStyle(
-                                            color: Colors.orange,
+                                            color: const Color(0XFF25A531),
                                             fontFamily: 'Bicyclette-Thin',
                                             fontSize: AppTheme.of(context)
                                                 .contenidoTablas
                                                 .fontSize,
                                           ),
+                                          // style:
+                                          //     const TextStyle(color: Colors.orange),
                                         ),
                                       ],
                                     ),
@@ -223,7 +174,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                               .primaryBackground),
                                       text: '',
                                       color: AppTheme.of(context).primaryColor,
-                                      onTap: () {
+                                      onTap: () async {
                                         isssueReportedProvider
                                             .getIssuePhotosComments(
                                                 widget.contador,
@@ -257,14 +208,13 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
               ],
             ),
             height: 300,
-            width: 600,
+            width: 580,
             child: Column(
               children: [
                 Container(
                     alignment: Alignment.centerLeft,
                     // Este issue es el nombre
                     child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Row(children: [
                           Padding(
@@ -298,6 +248,21 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 90.0),
+                            child: Text(
+                              "Issue Close",
+                              style: TextStyle(
+                                  color: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .color,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )
                         ])
                       ],
                     )),
@@ -321,19 +286,21 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                 children: [
                                   Container(
                                     alignment: Alignment.centerLeft,
-                                    width: 150,
+                                    width: 125,
                                     padding: const EdgeInsets.only(left: 10.0),
                                     child: Column(
                                       children: [
                                         Text(
                                           "•${"${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")} = ${widget.issuesComments[index].percentage!}"}",
                                           style: TextStyle(
-                                            color: Colors.orange,
+                                            color: const Color(0XFF25A531),
                                             fontFamily: 'Bicyclette-Thin',
                                             fontSize: AppTheme.of(context)
                                                 .contenidoTablas
                                                 .fontSize,
                                           ),
+                                          // style:
+                                          //     const TextStyle(color: Colors.orange),
                                         ),
                                       ],
                                     ),

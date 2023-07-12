@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
+import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../widgets/get_image_widget.dart';
 
 class EmployeeIssuesCard extends StatefulWidget {
@@ -17,7 +17,9 @@ class EmployeeIssuesCard extends StatefulWidget {
 class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
   @override
   Widget build(BuildContext context) {
-    InventoryProvider provider = Provider.of<InventoryProvider>(context);
+    //InventoryProvider provider = Provider.of<InventoryProvider>(context);
+    IssueReportedProvider isssueReportedProvider =
+        Provider.of<IssueReportedProvider>(context);
     return Container(
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -37,28 +39,59 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
             ),
-            child: getUserImage(provider.webImage),
+            child: getUserImage(isssueReportedProvider.webImage),
           ),
           Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0, top: 5.0),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Nombre: "),
+                    Text("Name: ",
+                        style: TextStyle(
+                            fontFamily: AppTheme.of(context)
+                                .encabezadoTablas
+                                .fontFamily,
+                            fontSize:
+                                AppTheme.of(context).contenidoTablas.fontSize,
+                            fontStyle:
+                                AppTheme.of(context).encabezadoTablas.fontStyle,
+                            color: AppTheme.of(context).primaryText)),
                     Text(
-                      "${provider.actualIssueXUser!.name} ${provider.actualIssueXUser!.lastName}",
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      "${isssueReportedProvider.actualIssueXUser!.name} ${isssueReportedProvider.actualIssueXUser!.lastName}",
+                      style: TextStyle(
+                        color: AppTheme.of(context).contenidoTablas.color,
+                        fontFamily: 'Bicyclette-Thin',
+                        fontWeight:
+                            AppTheme.of(context).encabezadoTablas.fontWeight,
+                        fontSize: AppTheme.of(context).contenidoTablas.fontSize,
+                      ),
                     )
                   ],
                 ),
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text("Empresa: "),
+                  Text("Company: ",
+                      style: TextStyle(
+                          fontFamily:
+                              AppTheme.of(context).encabezadoTablas.fontFamily,
+                          fontSize:
+                              AppTheme.of(context).contenidoTablas.fontSize,
+                          fontStyle:
+                              AppTheme.of(context).encabezadoTablas.fontStyle,
+                          color: AppTheme.of(context).primaryText)),
                   Text(
-                    "${provider.actualIssueXUser!.company} ",
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    "${isssueReportedProvider.actualIssueXUser!.company} ",
+                    style: TextStyle(
+                      color: AppTheme.of(context).contenidoTablas.color,
+                      fontFamily: 'Bicyclette-Thin',
+                      fontWeight:
+                          AppTheme.of(context).encabezadoTablas.fontWeight,
+                      fontSize: AppTheme.of(context).contenidoTablas.fontSize,
+                    ),
                   )
                 ],
               ),
@@ -69,20 +102,20 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
             children: [
               ElevatedButton(
                   onPressed: () {
-                    provider.getIssues(provider.actualIssueXUser!);
-                    provider.setIssueViewActual(1);
-                    print(provider.issuesView);
+                    isssueReportedProvider.setIssueViewActual(1);
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
                   ),
                   child: Text(
-                      "${provider.actualIssueXUser!.issuesR + provider.actualIssueXUser!.issuesD}")),
+                      "${isssueReportedProvider.actualIssueXUser!.issuesR + isssueReportedProvider.actualIssueXUser!.issuesD}")),
               Text(
                 "Issues",
                 style: TextStyle(
                   color: AppTheme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Bicyclette-Thin',
+                  fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                  fontSize: AppTheme.of(context).contenidoTablas.fontSize,
                 ),
               ),
             ],

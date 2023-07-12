@@ -6,134 +6,83 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
+import 'custom_agenda.dart';
 
-const List<String> company = ['Company', 'CRY', 'ODE', 'SMI'];
-const List<String> employee = ['Employee', 'Gian', 'Jane', 'Michael'];
-
-class Calendario extends StatelessWidget {
+class Calendario extends StatefulWidget {
   const Calendario({super.key});
 
   @override
+  State<Calendario> createState() => _CalendarioState();
+}
+
+class _CalendarioState extends State<Calendario> {
+  @override
   Widget build(BuildContext context) {
-    String comp = company.first;
-    String emp = employee.first;
     MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
 
     return Column(
       children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * .1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              //TITULO O INTRO A CALENDARIO
-              Container(
-                child: const Text(
-                  'Vehicle: ',
-                  style: TextStyle(fontSize: 35),
-                ),
-              ),
-              //INFORMACION DE COLORES
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    //CRY selector
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 25, 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(52, 86, 148, 10),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                          ),
-                          const Text(
-                            "CRY",
-                            style: TextStyle(fontSize: 35),
-                          )
-                        ],
-                      ),
-                    ),
-                    //ODE selector
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 25, 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(191, 33, 53, 10),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                          ),
-                          const Text(
-                            "ODE",
-                            style: TextStyle(fontSize: 35),
-                          )
-                        ],
-                      ),
-                    ),
-                    //SMI selector
-                    Container(
-                      //padding: EdgeInsets.fromLTRB(0, 10, 25, 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(217, 217, 217, 10),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                          ),
-                          const Text(
-                            "SMI",
-                            style: TextStyle(fontSize: 35),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              //BUSCADOR DE MES
-
-              //COMPANY
-              
-            ],
-          ),
-        ),
         Expanded(
           child: SfCalendar(
+            controller: provider.calendarController,
+            // onTap: (calendarTapDetails) {
+            //   provider.updateActualDate(calendarTapDetails.date!);
+            //   print("Actual Date es: ${provider.actualDate}");
+            // },
+            appointmentTextStyle: TextStyle(
+                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                fontSize: AppTheme.of(context).bodyText1.fontSize,
+                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                color: AppTheme.of(context).primaryText),
+            headerStyle: CalendarHeaderStyle(
+              textAlign: TextAlign.center,
+              textStyle: TextStyle(
+                  fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                  fontSize: 30, //AppTheme.of(context).bodyText1.fontSize,
+                  fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                  fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                  color: AppTheme.of(context).primaryText),
+            ),
             showWeekNumber: true,
+            monthViewSettings: const MonthViewSettings(
+              agendaStyle: AgendaStyle(),
+              agendaItemHeight: 60,
+              appointmentDisplayCount: 10,
+              dayFormat: 'EEEE',
+            ),
             showDatePickerButton: true,
+            viewHeaderStyle: ViewHeaderStyle(
+              backgroundColor: AppTheme.of(context).gris,
+              dayTextStyle: TextStyle(
+                  fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                  fontSize: AppTheme.of(context).bodyText1.fontSize,
+                  fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                  fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                  color: AppTheme.of(context).primaryText),
+            ),
             weekNumberStyle: WeekNumberStyle(
               textStyle: TextStyle(
-                fontSize: 15,
-                color: Colors.black,
-              ),
+                  fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                  fontSize: AppTheme.of(context).bodyText1.fontSize,
+                  fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                  fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                  color: AppTheme.of(context).primaryText),
             ),
-            view: CalendarView.workWeek,
-            timeSlotViewSettings: TimeSlotViewSettings(
-              timeIntervalHeight: 70,
-              timeTextStyle: TextStyle(fontSize: 15,
-              color: Colors.black,)
-            ),
+            onSelectionChanged: (calendarSelectionDetails) =>
+                provider.getAppointmentsByDate(),
+            view: CalendarView.month,
             firstDayOfWeek: 1,
             dataSource: MeetingDataSource(provider.meet),
-            appointmentBuilder: (BuildContext context, CalendarAppointmentDetails details) {
+            appointmentBuilder:
+                (BuildContext context, CalendarAppointmentDetails details) {
               final idAppointment = details.appointments.first.id;
-              //busqueda en los objetos de monitory, donde el primeroque encuentre con la busqueda
-              final monitory = provider.monitory.firstWhere((element) => element.idControlForm == idAppointment);
-          return CustomAppointmentView(details.appointments.first,monitory);
 
-          },
+              final monitory = provider.monitory.firstWhere(
+                  (element) => element.idControlForm == idAppointment);
+              return CustomAppointmentView(
+                  details.appointments.first, monitory);
+            },
           ),
         ),
       ],
@@ -141,39 +90,117 @@ class Calendario extends StatelessWidget {
   }
 }
 
-
-
-
-
-
 class MeetingDataSource extends CalendarDataSource {
   MeetingDataSource(List<Appointment> source) {
     appointments = source;
   }
 }
 
-class CustomAppointmentView extends StatelessWidget {
+class CustomAppointmentView extends StatefulWidget {
   final Appointment appointment;
   final Monitory monitory;
 
   const CustomAppointmentView(this.appointment, this.monitory);
 
   @override
-  Widget build(BuildContext context) {
+  State<CustomAppointmentView> createState() => _CustomAppointmentViewState();
+}
 
+class _CustomAppointmentViewState extends State<CustomAppointmentView> {
+  @override
+  Widget build(BuildContext context) {
     //CEHCAR EL ULTIMO LUGAR DE LA CADENA SUBJECT Y PONER SOLO HORAS DE ENTRADA EN R y SALIDA EN D
-    String tipo = appointment.subject.endsWith("R") ? "R" : "D";
-    return Tooltip(
-      message:
-      tipo == "R" ? "${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${DateFormat("hh:mm").format(appointment.startTime)}"
-      : "${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${DateFormat("hh:mm").format(appointment.endTime)}",
-      textAlign: TextAlign.center,
-        
-      child: Container(
-        color: appointment.color,
-        child: Text(appointment.subject,
-        style:TextStyle(color: monitory.company.company == "SMI" ? Colors.black : Colors.white,
-                fontWeight: FontWeight.bold,)),
+    String tipo = widget.appointment.subject.endsWith("R") ? "R" : "D";
+    return Container(
+      width: 350,
+      height: 100,
+      decoration: BoxDecoration(
+        color: AppTheme.of(context).gris,
+        border: Border.all(
+            color:
+                tipo == "R" ? const Color(0XFF25A531) : const Color(0XFF173938),
+            width: 1),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 4,
+            color:
+                tipo == "R" ? const Color(0XFF25A531) : const Color(0XFF173938),
+            offset: const Offset(-1, 1),
+          )
+        ],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${widget.appointment.subject.substring(0, widget.appointment.subject.length - 2)} ${DateFormat("hh:mm a").format(widget.appointment.startTime)}",
+                style: TextStyle(
+                    fontFamily:
+                        AppTheme.of(context).encabezadoTablas.fontFamily,
+                    fontSize: AppTheme.of(context).bodyText1.fontSize,
+                    fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                    fontWeight:
+                        AppTheme.of(context).encabezadoTablas.fontWeight,
+                    color: AppTheme.of(context).primaryText),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: widget.appointment.color,
+                      ),
+                      width: 10,
+                      height: 10,
+                    ),
+                  ),
+                  Text(
+                    widget.monitory.vehicle.licesensePlates,
+                    style: TextStyle(
+                        fontFamily:
+                            AppTheme.of(context).encabezadoTablas.fontFamily,
+                        fontSize: AppTheme.of(context).bodyText1.fontSize,
+                        fontStyle:
+                            AppTheme.of(context).encabezadoTablas.fontStyle,
+                        fontWeight:
+                            AppTheme.of(context).encabezadoTablas.fontWeight,
+                        color: AppTheme.of(context).primaryText),
+                  ),
+                ],
+              )
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: AppTheme.of(context).gris,
+                border: Border.all(color: AppTheme.of(context).gris, width: 1),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 2,
+                    color: AppTheme.of(context).gris,
+                    offset: const Offset(-2, 2),
+                  )
+                ],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Image.network(
+                widget.monitory.vehicle.image!,
+                fit: BoxFit.cover,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

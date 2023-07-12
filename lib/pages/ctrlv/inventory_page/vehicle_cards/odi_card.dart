@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/widgets/trapecio_rojo.dart';
 
+import '../../../../theme/theme.dart';
+
 class OdiCard extends StatelessWidget {
   final int totalVehicleODE;
   final int totalRepairODE;
@@ -31,53 +33,61 @@ class OdiCard extends StatelessWidget {
                 height: 300,
               ),
             ),
-            const Text("ODE",
+            Text("ODE",
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                )),
+                    fontFamily:
+                        AppTheme.of(context).encabezadoTablas.fontFamily,
+                    fontSize: AppTheme.of(context).encabezadoSubTablas.fontSize,
+                    fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                    fontWeight:
+                        AppTheme.of(context).encabezadoTablas.fontWeight,
+                    color: AppTheme.of(context).gris)),
             const SizedBox(
               height: 10,
             ),
             Text(
               "Total: $totalVehicleODE",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
+              style: TextStyle(
+                color: AppTheme.of(context).gris,
+                fontFamily: 'Bicyclette-Thin',
+                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
               ),
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              "Vehicle's Assigned: $totalAssignedODE ",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
+              "Vehicles Assigned: $totalAssignedODE ",
+              style: TextStyle(
+                color: AppTheme.of(context).gris,
+                fontFamily: 'Bicyclette-Thin',
+                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Text(
               "Vehicles in Repair: $totalRepairODE ",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
+              style: TextStyle(
+                color: AppTheme.of(context).gris,
+                fontFamily: 'Bicyclette-Thin',
+                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Text(
               "Vehicles Available: $totalAvailableODE ",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
+              style: TextStyle(
+                color: AppTheme.of(context).gris,
+                fontFamily: 'Bicyclette-Thin',
+                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
           ],
         ),

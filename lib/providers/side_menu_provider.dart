@@ -72,6 +72,7 @@ class SideMenuProvider extends ChangeNotifier {
     iSelectedTickets?.change(indexSelected[4]);
     iSelectedReports?.change(indexSelected[6]);
     iSelectedUsers?.change(indexSelected[7]);
+    iSelectedDashboards?.change(indexSelected[9]);
     iSelectedInventories?.change(indexSelected[10]);
     iSelectedMonitory?.change(indexSelected[11]);
   }

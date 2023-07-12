@@ -48,7 +48,7 @@ final GoRouter router = GoRouter(
         if (currentUser!.isCRM) {
           return const QuotesPage();
         } else if (currentUser!.isCV) {
-          return const DashboardsCTRLVPage();
+          return const MonitoryPage();
         } else {
           return const PageNotFoundPage();
         }
@@ -57,8 +57,8 @@ final GoRouter router = GoRouter(
         key: state.pageKey,
         child: currentUser!.isCRM
             ? const QuotesPage()
-            : currentUser!.isCRM
-                ? const DashboardsCTRLVPage()
+            : currentUser!.isCV
+                ? const MonitoryPage()
                 : const PageNotFoundPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             FadeTransition(
