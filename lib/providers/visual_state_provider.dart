@@ -10,10 +10,8 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/helpers/supabase/queries.dart';
 import 'package:rta_crm_cv/models/configuration.dart';
 import 'package:rta_crm_cv/models/modelo_pantalla/tema_descargado.dart';
-import 'package:rta_crm_cv/models/user.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 class VisualStateProvider extends ChangeNotifier {
   //THEME

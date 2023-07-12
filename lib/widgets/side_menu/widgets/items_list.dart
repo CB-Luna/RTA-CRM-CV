@@ -30,7 +30,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             // Sección CRM
-            /* SideMenuItem(
+             if (currentUser!.isCRM || currentUser!.isAdminCrm)
+            SideMenuItem(
               selected: provider.indexSelected[0],
               leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
               isOpen: widget.isOpen,
@@ -44,7 +45,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               onExit: (event) {
                 provider.iHoverDashboards?.change(false);
               },
-            ), */
+            ),
             /* if (currentUser!.isCRM || currentUser!.isAdminCrm)
               SideMenuItem(
                 selected: provider.indexSelected[1],

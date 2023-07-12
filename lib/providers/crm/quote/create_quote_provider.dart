@@ -2,15 +2,19 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:flutter/material.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/leads_model.dart';
 import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/models/quotes/vendor_model.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/models/orders.dart';
+import 'package:file_picker/file_picker.dart';
 
 class CreateQuoteProvider extends ChangeNotifier {
   CreateQuoteProvider() {
@@ -44,7 +48,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     await getVendors();
     idVendor = null;
 
-    await getLeads();
+    //await getLeads();
     idLead = null;
 
     lineItemCenterController.clear();
@@ -357,7 +361,7 @@ class CreateQuoteProvider extends ChangeNotifier {
         var resp = (await supabaseCRM.from('quotes').insert({
           "created_by": currentUser!.id,
           "updated_by": currentUser!.id,
-          "status": margin > 20 ? "Margin Positive" : "Opened",
+          "status": margin > 20 ? "Finance Validate" : "Sen. Exec. Validate",
           "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
           "subtotal": subtotal,
           "cost": cost,
@@ -372,6 +376,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "id_quote_origin": null,
           "id_lead": idLead,
           "id_vendor": vendor.id,
+          "id_status": margin > 20 ? 3 : 2
         }).select())[0];
 
         await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);
@@ -392,7 +397,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           var resp = (await supabaseCRM.from('quotes').insert({
             "created_by": currentUser!.id,
             "updated_by": currentUser!.id,
-            "status": margin > 20 ? "Margin Positive" : "Opened",
+            "status": margin > 20 ? "Finance Validate" : "Sen. Exec. Validate",
             "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
             "subtotal": subtotal,
             "cost": cost,
@@ -407,6 +412,7 @@ class CreateQuoteProvider extends ChangeNotifier {
             "id_quote_origin": prevId,
             "id_lead": lead.id,
             "id_vendor": vendor.id,
+            "id_status": margin > 20 ? 3 : 2,
           }).select())[0];
 
           await supabaseCRM.from('leads_history').insert({
@@ -418,7 +424,7 @@ class CreateQuoteProvider extends ChangeNotifier {
             "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
 
-          await supabaseCRM.from('quotes').update({"status": "Closed"}).eq("id", prevId);
+          await supabaseCRM.from('quotes').update({"id_status": 6}).eq("id", prevId);
 
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,
@@ -434,7 +440,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           var resp = (await supabaseCRM.from('quotes').insert({
             "created_by": currentUser!.id,
             "updated_by": currentUser!.id,
-            "status": margin > 20 ? "Margin Positive" : "Opened",
+            "status": margin > 20 ? "Finance Validate" : "Sen. Exec. Validate",
             "exp_close_date": DateTime.now().add(const Duration(days: 30)).toString(),
             "subtotal": subtotal,
             "cost": cost,
@@ -449,6 +455,7 @@ class CreateQuoteProvider extends ChangeNotifier {
             "id_quote_origin": null,
             "id_lead": lead.id,
             "id_vendor": vendor.id,
+            "id_status": margin > 20 ? 3 : 2,
           }).select())[0];
 
           await supabaseCRM.from('quotes').update({"id_quote_origin": resp["id"]}).eq("id", resp["id"]);
@@ -892,7 +899,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getLeads() async {
+  /* Future<void> getLeads() async {
     companyController.clear();
     nameController.clear();
     lastNameController.clear();
@@ -913,7 +920,7 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
+ */
   Future<void> selectLead(String selected) async {
     leadSelectedValue = selected;
     await getLead(null, leadSelectedValue);
@@ -939,5 +946,30 @@ class CreateQuoteProvider extends ChangeNotifier {
   void selectVendor(String vendorName) {
     vendorSelectedValue = vendorName;
     notifyListeners();
+  }
+
+  bool popupVisorPdfVisible = true;
+ FilePickerResult? docProveedor;
+  PdfController? pdfController;
+  
+  void verPdf(bool visible) {
+    popupVisorPdfVisible = visible;
+    notifyListeners();
+  }
+
+  Future<void> pickProveedorDoc() async {
+    FilePickerResult? picker = await FilePickerWeb.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf', 'xml']);
+    //get and load pdf
+    if (picker != null) {
+      docProveedor = picker;
+      pdfController = PdfController(
+        document: PdfDocument.openData(picker.files.single.bytes!),
+      );
+    } else {
+      pdfController = null;
+    }
+
+    notifyListeners();
+    return;
   }
 }

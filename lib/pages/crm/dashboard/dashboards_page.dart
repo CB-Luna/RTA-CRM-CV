@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
-import 'package:rta_crm_cv/pages/crm/dashboard/widgets/grafica_esfera_dashboard.dart';
+import 'package:rta_crm_cv/pages/crm/dashboard/widgets/Tabla_meses.dart';
 import 'package:rta_crm_cv/pages/crm/dashboard/widgets/marcadores_dashboard.dart';
-import 'package:rta_crm_cv/pages/crm/dashboard/widgets/pluto_dashboard.dart';
+import 'package:rta_crm_cv/pages/crm/dashboard/widgets/Transaction_history.dart';
 import 'package:rta_crm_cv/pages/crm/dashboard/widgets/grafica_dashboard.dart';
-//import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
+import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -21,11 +21,22 @@ class DashboardsCRMPage extends StatefulWidget {
 
 class _DashboardsCRMPageState extends State<DashboardsCRMPage> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(
+        context,
+        listen: false,
+      );
+      await provider.updateState();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
-    //DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(context);
     sideM.setIndex(0);
-
     return Material(
       child: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -44,7 +55,8 @@ class _DashboardsCRMPageState extends State<DashboardsCRMPage> {
                     children: [
                       //Titulo
                       Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 10, top: 10, right: 10, bottom: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -53,49 +65,50 @@ class _DashboardsCRMPageState extends State<DashboardsCRMPage> {
                                 child: SizedBox(
                                   height: 40,
                                   width: 40,
-                                  child: sideM.aRAccounts != null ? Rive(artboard: sideM.aRDashboards!) : const CircularProgressIndicator(),
+                                  child: sideM.aRAccounts != null
+                                      ? Rive(artboard: sideM.aRDashboards!)
+                                      : const CircularProgressIndicator(),
                                 )),
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: SizedBox(
                                 height: 40,
-                                child: Text('Dashboards', style: AppTheme.of(context).title1),
+                                child: Text('Dashboards',
+                                    style: AppTheme.of(context).title1),
                               ),
                             ),
                           ],
                         ),
                       ),
                       //Contenido
-                      const Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          // marcadores y grafica
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              //marcadores
-                              Padding(
-                                padding: EdgeInsets.all(10),
-                                child: MarcadoresDashboard(),
-                              ),
-                              //grafica
-                              Padding(
-                                padding: EdgeInsets.all(10),
-                                child: GraficaDashboard(),
-                              )
-                            ],
-                          ),
-                          //Grafica esferas
-                          GraficaEsferaDashboard()
-                        ],
+                      const Padding(
+                        padding: EdgeInsets.all(10),
+                        child: CustomScrollBar(
+                          scrollDirection: Axis.horizontal,
+                          child: MarcadoresDashboard(),
+                        ),
+                      ),
+                      const CustomScrollBar(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: GraficaDashboard(),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(10),
+                              child: TablaMeses(),
+                            ),
+                          ],
+                        ),
                       ),
                       //Transaction history
                       const Padding(
                         padding: EdgeInsets.all(10),
-                        child: PlutoDashboard(),
+                        child: TransactionHistory(),
                       )
                     ],
                   ),
