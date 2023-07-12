@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
+import 'package:rta_crm_cv/widgets/horizontalscroll.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -148,6 +149,7 @@ class _MyAppState extends State<MyApp> {
         ),
         themeMode: _themeMode,
         routerConfig: router,
+        scrollBehavior: MyCustomScrollBehavior(),
       ),
     );
   }

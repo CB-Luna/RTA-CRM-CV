@@ -307,7 +307,7 @@ class _CampaignsTabState extends State<CampaignsTab> {
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
-                    return PlutoGridStatusCell(text: rendererContext.cell.value);
+                    return PlutoGridStatusCell(text: rendererContext.cell.value, id: 1); //TODO: Change
                   },
                   footerRenderer: (context) {
                     return SizedBox(

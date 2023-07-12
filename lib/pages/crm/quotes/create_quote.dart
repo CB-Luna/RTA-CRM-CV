@@ -3,10 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/functions/money_format.dart';
+import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/tabs/table_top_text.dart';
@@ -125,7 +127,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           width: txfFieldWidth,
                                         ),
                                       ),
-                                      if (provider.typesSelectedValue == 'Disconnect' || provider.typesSelectedValue == 'Upgrade')
+                                      if (provider.typesSelectedValue == 'Disconnect' ||
+                                          provider.typesSelectedValue == 'Upgrade')
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
@@ -137,7 +140,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                             keyboardType: TextInputType.text,
                                           ),
                                         ),
-                                      if (provider.typesSelectedValue == 'Upgrade' || provider.typesSelectedValue == 'New')
+                                      if (provider.typesSelectedValue == 'Upgrade' ||
+                                          provider.typesSelectedValue == 'New')
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
@@ -416,11 +420,13 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                             padding: const EdgeInsets.symmetric(vertical: 5),
                                             child: CustomTextIconButton(
                                               isLoading: provider.isLoading,
-                                              icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
+                                              icon: Icon(Icons.check,
+                                                  color: AppTheme.of(context).primaryBackground),
                                               text: 'Create',
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               onTap: () async {
-                                                if (provider.createValidation() && provider.globalRows.isNotEmpty) {
+                                                if (provider.createValidation() &&
+                                                    provider.globalRows.isNotEmpty) {
                                                   await provider.createQuote();
                                                   context.pushReplacement(routeQuotes);
                                                 }
@@ -432,7 +438,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           height: 45,
                                           //width: 300,
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 10),
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -443,35 +450,71 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.only(right: 10),
-                                                        child: Icon(Icons.format_list_numbered, color: AppTheme.of(context).contenidoTablas.color, size: 25),
+                                                        child: Icon(Icons.format_list_numbered,
+                                                            color: AppTheme.of(context)
+                                                                .contenidoTablas
+                                                                .color,
+                                                            size: 25),
                                                       ),
-                                                      Text('Items',
-                                                          style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText),),
+                                                      Text(
+                                                        'Items',
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontFamily,
+                                                            fontSize: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontSize,
+                                                            fontStyle: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontStyle,
+                                                            fontWeight: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontWeight,
+                                                            color:
+                                                                AppTheme.of(context).primaryText),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
-                                                  child: Text(':',
-                                                      style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText),),
+                                                  child: Text(
+                                                    ':',
+                                                    style: TextStyle(
+                                                        fontFamily: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontFamily,
+                                                        fontSize: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontSize,
+                                                        fontStyle: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontStyle,
+                                                        fontWeight: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontWeight,
+                                                        color: AppTheme.of(context).primaryText),
+                                                  ),
                                                 ),
                                                 SizedBox(
                                                   child: Text(
-                                                    moneyFormat(provider.globalRows.length.toDouble()).substring(0, moneyFormat(provider.globalRows.length.toDouble()).length - 3),
+                                                    moneyFormat(
+                                                            provider.globalRows.length.toDouble())
+                                                        .substring(
+                                                            0,
+                                                            moneyFormat(provider.globalRows.length
+                                                                        .toDouble())
+                                                                    .length -
+                                                                3),
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
+                                                      color: AppTheme.of(context)
+                                                          .contenidoTablas
+                                                          .color,
                                                       fontFamily: 'Bicyclette-Thin',
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                      fontSize: AppTheme.of(context)
+                                                          .encabezadoTablas
+                                                          .fontSize,
                                                     ),
                                                   ),
                                                 ),
@@ -483,7 +526,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           height: 45,
                                           //width: MediaQuery.of(context).size.width / 5 - 150,
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -494,35 +538,64 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.only(right: 10),
-                                                        child: Icon(Icons.attach_money, color: AppTheme.of(context).contenidoTablas.color, size: 25),
+                                                        child: Icon(Icons.attach_money,
+                                                            color: AppTheme.of(context)
+                                                                .contenidoTablas
+                                                                .color,
+                                                            size: 25),
                                                       ),
-                                                      Text('Subtotal',
-                                                          style:TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText),),
+                                                      Text(
+                                                        'Subtotal',
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontFamily,
+                                                            fontSize: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontSize,
+                                                            fontStyle: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontStyle,
+                                                            fontWeight: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontWeight,
+                                                            color:
+                                                                AppTheme.of(context).primaryText),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
-                                                  child: Text(':',
-                                                      style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText),),
+                                                  child: Text(
+                                                    ':',
+                                                    style: TextStyle(
+                                                        fontFamily: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontFamily,
+                                                        fontSize: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontSize,
+                                                        fontStyle: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontStyle,
+                                                        fontWeight: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontWeight,
+                                                        color: AppTheme.of(context).primaryText),
+                                                  ),
                                                 ),
                                                 SizedBox(
                                                   child: Text(
                                                     '\$ ${moneyFormat(provider.subtotal)} USD',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
+                                                      color: AppTheme.of(context)
+                                                          .contenidoTablas
+                                                          .color,
                                                       fontFamily: 'Bicyclette-Thin',
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                      fontSize: AppTheme.of(context)
+                                                          .encabezadoTablas
+                                                          .fontSize,
                                                     ),
                                                   ),
                                                 ),
@@ -534,7 +607,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           height: 45,
                                           //width: MediaQuery.of(context).size.width / 5 - 150,
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -545,35 +619,64 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.only(right: 10),
-                                                        child: Icon(Icons.money_off, color: AppTheme.of(context).contenidoTablas.color, size: 25),
+                                                        child: Icon(Icons.money_off,
+                                                            color: AppTheme.of(context)
+                                                                .contenidoTablas
+                                                                .color,
+                                                            size: 25),
                                                       ),
-                                                      Text('Cost',
-                                                          style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText),),
+                                                      Text(
+                                                        'Cost',
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontFamily,
+                                                            fontSize: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontSize,
+                                                            fontStyle: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontStyle,
+                                                            fontWeight: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontWeight,
+                                                            color:
+                                                                AppTheme.of(context).primaryText),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
-                                                  child: Text(':',
-                                                      style:TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText),),
+                                                  child: Text(
+                                                    ':',
+                                                    style: TextStyle(
+                                                        fontFamily: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontFamily,
+                                                        fontSize: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontSize,
+                                                        fontStyle: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontStyle,
+                                                        fontWeight: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontWeight,
+                                                        color: AppTheme.of(context).primaryText),
+                                                  ),
                                                 ),
                                                 SizedBox(
                                                   child: Text(
                                                     '\$ ${moneyFormat(provider.cost)} USD',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
+                                                      color: AppTheme.of(context)
+                                                          .contenidoTablas
+                                                          .color,
                                                       fontFamily: 'Bicyclette-Thin',
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                      fontSize: AppTheme.of(context)
+                                                          .encabezadoTablas
+                                                          .fontSize,
                                                     ),
                                                   ),
                                                 ),
@@ -585,7 +688,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           height: 45,
                                           //width: MediaQuery.of(context).size.width / 5 - 150,
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -596,35 +700,64 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.only(right: 10),
-                                                        child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
+                                                        child: Icon(Icons.monetization_on_outlined,
+                                                            color: AppTheme.of(context)
+                                                                .contenidoTablas
+                                                                .color,
+                                                            size: 25),
                                                       ),
-                                                      Text('Total',
-                                                          style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText),),
+                                                      Text(
+                                                        'Total',
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontFamily,
+                                                            fontSize: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontSize,
+                                                            fontStyle: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontStyle,
+                                                            fontWeight: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontWeight,
+                                                            color:
+                                                                AppTheme.of(context).primaryText),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
-                                                  child: Text(':',
-                                                      style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText),),
+                                                  child: Text(
+                                                    ':',
+                                                    style: TextStyle(
+                                                        fontFamily: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontFamily,
+                                                        fontSize: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontSize,
+                                                        fontStyle: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontStyle,
+                                                        fontWeight: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontWeight,
+                                                        color: AppTheme.of(context).primaryText),
+                                                  ),
                                                 ),
                                                 SizedBox(
                                                   child: Text(
                                                     '\$ ${moneyFormat(provider.total)} USD',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
+                                                      color: AppTheme.of(context)
+                                                          .contenidoTablas
+                                                          .color,
                                                       fontFamily: 'Bicyclette-Thin',
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                      fontSize: AppTheme.of(context)
+                                                          .encabezadoTablas
+                                                          .fontSize,
                                                     ),
                                                   ),
                                                 ),
@@ -636,7 +769,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           //width: MediaQuery.of(context).size.width / 5 - 150,
                                           height: 45,
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -647,27 +781,52 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.only(right: 10),
-                                                        child: Icon(Icons.confirmation_num_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
+                                                        child: Icon(Icons.confirmation_num_outlined,
+                                                            color: AppTheme.of(context)
+                                                                .contenidoTablas
+                                                                .color,
+                                                            size: 25),
                                                       ),
-                                                      Text('Tax',
-                                                          style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText),),
+                                                      Text(
+                                                        'Tax',
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontFamily,
+                                                            fontSize: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontSize,
+                                                            fontStyle: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontStyle,
+                                                            fontWeight: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontWeight,
+                                                            color:
+                                                                AppTheme.of(context).primaryText),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
-                                                  child: Text(':',
-                                                      style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText),),
+                                                  child: Text(
+                                                    ':',
+                                                    style: TextStyle(
+                                                        fontFamily: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontFamily,
+                                                        fontSize: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontSize,
+                                                        fontStyle: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontStyle,
+                                                        fontWeight: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontWeight,
+                                                        color: AppTheme.of(context).primaryText),
+                                                  ),
                                                 ),
                                                 CustomTextField(
                                                   enabled: true,
@@ -700,7 +859,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           height: 45,
                                           //width: MediaQuery.of(context).size.width / 5 - 150,
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -711,35 +871,64 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.only(right: 10),
-                                                        child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
+                                                        child: Icon(Icons.monetization_on_outlined,
+                                                            color: AppTheme.of(context)
+                                                                .contenidoTablas
+                                                                .color,
+                                                            size: 25),
                                                       ),
-                                                      Text('Total+Tax',
-                                                          style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText),),
+                                                      Text(
+                                                        'Total+Tax',
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontFamily,
+                                                            fontSize: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontSize,
+                                                            fontStyle: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontStyle,
+                                                            fontWeight: AppTheme.of(context)
+                                                                .encabezadoTablas
+                                                                .fontWeight,
+                                                            color:
+                                                                AppTheme.of(context).primaryText),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
-                                                  child: Text(':',
-                                                      style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText),),
+                                                  child: Text(
+                                                    ':',
+                                                    style: TextStyle(
+                                                        fontFamily: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontFamily,
+                                                        fontSize: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontSize,
+                                                        fontStyle: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontStyle,
+                                                        fontWeight: AppTheme.of(context)
+                                                            .encabezadoTablas
+                                                            .fontWeight,
+                                                        color: AppTheme.of(context).primaryText),
+                                                  ),
                                                 ),
                                                 SizedBox(
                                                   child: Text(
                                                     '\$ ${moneyFormat(provider.totalPlusTax)} USD',
                                                     style: TextStyle(
-                                                      color: AppTheme.of(context).contenidoTablas.color,
+                                                      color: AppTheme.of(context)
+                                                          .contenidoTablas
+                                                          .color,
                                                       fontFamily: 'Bicyclette-Thin',
-                                                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                      fontSize: AppTheme.of(context)
+                                                          .encabezadoTablas
+                                                          .fontSize,
                                                     ),
                                                   ),
                                                 ),
@@ -748,17 +937,21 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 10),
                                           child: Container(
                                             //width: MediaQuery.of(context).size.width / 5 - 150,
                                             decoration: BoxDecoration(
-                                              color: provider.margin < 20 ? secondaryColor : AppTheme.of(context).primaryColor,
+                                              color: provider.margin < 20
+                                                  ? secondaryColor
+                                                  : AppTheme.of(context).primaryColor,
                                               borderRadius: const BorderRadius.all(
                                                 Radius.circular(15),
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                              padding: const EdgeInsets.symmetric(
+                                                  vertical: 5, horizontal: 10),
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -769,16 +962,28 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                       children: [
                                                         Padding(
                                                           padding: const EdgeInsets.only(right: 10),
-                                                          child: Icon(Icons.percent, color: AppTheme.of(context).primaryBackground, size: 25),
+                                                          child: Icon(Icons.percent,
+                                                              color: AppTheme.of(context)
+                                                                  .primaryBackground,
+                                                              size: 25),
                                                         ),
                                                         Text(
                                                           'Margin',
                                                           style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryBackground),
+                                                              fontFamily: AppTheme.of(context)
+                                                                  .encabezadoTablas
+                                                                  .fontFamily,
+                                                              fontSize: AppTheme.of(context)
+                                                                  .encabezadoTablas
+                                                                  .fontSize,
+                                                              fontStyle: AppTheme.of(context)
+                                                                  .encabezadoTablas
+                                                                  .fontStyle,
+                                                              fontWeight: AppTheme.of(context)
+                                                                  .encabezadoTablas
+                                                                  .fontWeight,
+                                                              color: AppTheme.of(context)
+                                                                  .primaryBackground),
                                                         ),
                                                       ],
                                                     ),
@@ -788,18 +993,32 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     child: Text(
                                                       ':',
                                                       style: TextStyle(
-                                                          fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                          fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                          fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                          color: AppTheme.of(context).primaryBackground),
+                                                          fontFamily: AppTheme.of(context)
+                                                              .encabezadoTablas
+                                                              .fontFamily,
+                                                          fontSize: AppTheme.of(context)
+                                                              .encabezadoTablas
+                                                              .fontSize,
+                                                          fontStyle: AppTheme.of(context)
+                                                              .encabezadoTablas
+                                                              .fontStyle,
+                                                          fontWeight: AppTheme.of(context)
+                                                              .encabezadoTablas
+                                                              .fontWeight,
+                                                          color: AppTheme.of(context)
+                                                              .primaryBackground),
                                                     ),
                                                   ),
                                                   SizedBox(
                                                     child: Text(
                                                       '${moneyFormat(provider.margin)}%',
                                                       style: TextStyle(
-                                                          fontFamily: 'Bicyclette-Thin', fontSize: AppTheme.of(context).encabezadoTablas.fontSize, color: AppTheme.of(context).primaryBackground),
+                                                          fontFamily: 'Bicyclette-Thin',
+                                                          fontSize: AppTheme.of(context)
+                                                              .encabezadoTablas
+                                                              .fontSize,
+                                                          color: AppTheme.of(context)
+                                                              .primaryBackground),
                                                     ),
                                                   ),
                                                 ],
@@ -820,87 +1039,190 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                           child: SizedBox(
                             height: 35,
                             width: MediaQuery.of(context).size.width - 20,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: CustomTextField(
-                                    enabled: true,
-                                    width: txfFieldWidth,
-                                    controller: provider.lineItemCenterController,
-                                    label: 'Line Item',
-                                    icon: Icons.local_offer_outlined,
-                                    keyboardType: TextInputType.text,
+                            child: CustomScrollBar(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: CustomTextField(
+                                      enabled: true,
+                                      width: txfFieldWidth,
+                                      controller: provider.lineItemCenterController,
+                                      label: 'Line Item',
+                                      icon: Icons.local_offer_outlined,
+                                      keyboardType: TextInputType.text,
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: CustomTextField(
-                                    enabled: true,
-                                    width: txfFieldWidth,
-                                    controller: provider.unitPriceController,
-                                    label: 'Unit Price',
-                                    icon: Icons.attach_money_outlined,
-                                    keyboardType: TextInputType.text,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      CurrencyInputFormatter(),
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: CustomTextField(
+                                      enabled: true,
+                                      width: txfFieldWidth,
+                                      controller: provider.unitPriceController,
+                                      label: 'Unit Price',
+                                      icon: Icons.attach_money_outlined,
+                                      keyboardType: TextInputType.text,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        CurrencyInputFormatter(),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: CustomTextField(
-                                    enabled: true,
-                                    width: txfFieldWidth,
-                                    controller: provider.unitCostController,
-                                    label: 'Unit Cost',
-                                    icon: Icons.price_check_outlined,
-                                    keyboardType: TextInputType.text,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      CurrencyInputFormatter(),
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: CustomTextField(
+                                      enabled: true,
+                                      width: txfFieldWidth,
+                                      controller: provider.unitCostController,
+                                      label: 'Unit Cost',
+                                      icon: Icons.price_check_outlined,
+                                      keyboardType: TextInputType.text,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        CurrencyInputFormatter(),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: CustomTextField(
-                                    enabled: true,
-                                    width: txfFieldWidth,
-                                    controller: provider.quantityController,
-                                    label: 'Quantity',
-                                    icon: Icons.shopping_cart_outlined,
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      ThousandsSeparatorInputFormatter(),
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: CustomTextField(
+                                      enabled: true,
+                                      width: txfFieldWidth,
+                                      controller: provider.quantityController,
+                                      label: 'Quantity',
+                                      icon: Icons.shopping_cart_outlined,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        ThousandsSeparatorInputFormatter(),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: CustomTextIconButton(
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: CustomTextIconButton(
+                                        isLoading: false,
+                                        icon: Icon(Icons.add,
+                                            color: AppTheme.of(context).primaryBackground),
+                                        text: 'Add',
+                                        onTap: () {
+                                          if (provider.isValidated()) {
+                                            provider.addRowPlutoGrid();
+                                          }
+                                        }),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: CustomTextIconButton(
                                       isLoading: false,
-                                      icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                                      text: 'Add',
-                                      onTap: () {
-                                        if (provider.isValidated()) {
-                                          provider.addRowPlutoGrid();
-                                        }
-                                      }),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: CustomTextIconButton(
-                                    isLoading: false,
-                                    icon: Icon(Icons.refresh, color: AppTheme.of(context).primaryBackground),
-                                    text: 'Reset',
-                                    onTap: () async => provider.resetFormPlutoGrid(),
+                                      icon: Icon(Icons.refresh,
+                                          color: AppTheme.of(context).primaryBackground),
+                                      text: 'Reset',
+                                      onTap: () async => provider.resetFormPlutoGrid(),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: CustomTextIconButton(
+                                        color: provider.docProveedor != null
+                                            ? AppTheme.of(context).primaryColor
+                                            : AppTheme.of(context).tertiaryColor,
+                                        isLoading: false,
+                                        icon: Icon(
+                                          provider.docProveedor != null
+                                              ? Icons.remove_red_eye_outlined
+                                              : Icons.upload_outlined,
+                                          color: AppTheme.of(context).primaryBackground,
+                                        ),
+                                        text:
+                                            provider.docProveedor != null ? 'View File' : 'Upload',
+                                        onTap: (provider.pdfController != null &&
+                                                provider.docProveedor != null &&
+                                                provider.popupVisorPdfVisible)
+                                            ? () async {
+                                                await showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return AlertDialog(
+                                                      backgroundColor: Colors.transparent,
+                                                      shadowColor: Colors.transparent,
+                                                      content: Container(
+                                                        width: getWidth(1000, context),
+                                                        height: getHeight(1000, context),
+                                                        color: Colors.transparent,
+                                                        child: PdfView(
+                                                          pageSnapping: false,
+                                                          scrollDirection: Axis.vertical,
+                                                          physics: const BouncingScrollPhysics(),
+                                                          renderer: (PdfPage page) {
+                                                            if (page.width >= page.height) {
+                                                              return page.render(
+                                                                width: page.width * 7,
+                                                                height: page.height * 4,
+                                                                format: PdfPageImageFormat.jpeg,
+                                                                backgroundColor: '#15FF0D',
+                                                              );
+                                                            } else if (page.width == page.height) {
+                                                              return page.render(
+                                                                width: page.width * 4,
+                                                                height: page.height * 4,
+                                                                format: PdfPageImageFormat.jpeg,
+                                                                backgroundColor: '#15FF0D',
+                                                              );
+                                                            } else {
+                                                              return page.render(
+                                                                width: page.width * 4,
+                                                                height: page.height * 7,
+                                                                format: PdfPageImageFormat.jpeg,
+                                                                backgroundColor: '#15FF0D',
+                                                              );
+                                                            }
+                                                          },
+                                                          controller: provider.pdfController!,
+                                                          onDocumentLoaded: (document) {},
+                                                          onPageChanged: (page) {},
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              }
+                                            : () {
+                                                if (provider.pdfController != null &&
+                                                    provider.docProveedor != null &&
+                                                    provider.popupVisorPdfVisible == false) {
+                                                  provider.verPdf(true);
+                                                  setState(() {});
+                                                } else {
+                                                  provider.pickProveedorDoc();
+                                                  provider.verPdf(true);
+                                                }
+                                              }),
+                                  ),
+                                  provider.pdfController != null
+                                      ? Padding(
+                                          padding: const EdgeInsets.only(right: 10),
+                                          child: CustomTextIconButton(
+                                            isLoading: false,
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: AppTheme.of(context).primaryBackground,
+                                            ),
+                                            text: 'Delete File',
+                                            onTap: () => setState(
+                                              () {
+                                                provider.pdfController = null;
+                                                provider.docProveedor = null;
+                                                provider.popupVisorPdfVisible = false;
+                                              },
+                                            ),
+                                          ),
+                                        )
+                                      : Container(),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -952,14 +1274,17 @@ class Comments extends StatelessWidget {
         children: [
           Container(
             height: MediaQuery.of(context).size.height / 2.25 - 150,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppTheme.of(context).primaryBackground, boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 0.1,
-                blurRadius: 3,
-                offset: const Offset(0, 0), // changes position of shadow
-              ),
-            ]),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: AppTheme.of(context).primaryBackground,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.1,
+                    blurRadius: 3,
+                    offset: const Offset(0, 0), // changes position of shadow
+                  ),
+                ]),
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
@@ -968,8 +1293,10 @@ class Comments extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: Row(
-                    mainAxisAlignment:
-                        provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName ? MainAxisAlignment.end : MainAxisAlignment.start,
+                    mainAxisAlignment: provider.comments[index].name == currentUser!.name &&
+                            provider.comments[index].role == currentUser!.role.roleName
+                        ? MainAxisAlignment.end
+                        : MainAxisAlignment.start,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -980,7 +1307,9 @@ class Comments extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                  color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName
+                                  color: provider.comments[index].name == currentUser!.name &&
+                                          provider.comments[index].role ==
+                                              currentUser!.role.roleName
                                       ? AppTheme.of(context).secondaryColor
                                       : AppTheme.of(context).primaryColor),
                               color: AppTheme.of(context).primaryBackground,
@@ -1000,7 +1329,9 @@ class Comments extends StatelessWidget {
                                 Container(
                                   height: 30,
                                   decoration: BoxDecoration(
-                                    color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName
+                                    color: provider.comments[index].name == currentUser!.name &&
+                                            provider.comments[index].role ==
+                                                currentUser!.role.roleName
                                         ? AppTheme.of(context).secondaryColor
                                         : AppTheme.of(context).primaryColor,
                                   ),
@@ -1010,7 +1341,8 @@ class Comments extends StatelessWidget {
                                       children: [
                                         Text(
                                           '${provider.comments[index].role} - ${provider.comments[index].name}',
-                                          style: TextStyle(color: AppTheme.of(context).primaryBackground),
+                                          style: TextStyle(
+                                              color: AppTheme.of(context).primaryBackground),
                                         ),
                                       ],
                                     ),
@@ -1175,7 +1507,8 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                         decoration: BoxDecoration(
                           color: provider.quotes[index].expanded == true
                               ? AppTheme.of(context).primaryColor
-                              : AppTheme.of(context).primaryBackground == AppTheme.of(context).primaryBackground
+                              : AppTheme.of(context).primaryBackground ==
+                                      AppTheme.of(context).primaryBackground
                                   ? AppTheme.of(context).secondaryText
                                   : Colors.grey,
                         ),
@@ -1188,19 +1521,25 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   TableTopText(
-                                    text: '${provider.quotes[index].type} - ${provider.quotes[index].orderType}',
+                                    text:
+                                        '${provider.quotes[index].type} - ${provider.quotes[index].orderType}',
                                     style: AppTheme.of(context).contenidoTablas,
                                     group: provider.tableTopGroup,
                                   ),
-                                  if (provider.quotes[index].type == 'Disconnect') Text('ID: ${provider.quotes[index].existingCircuitID}'),
+                                  if (provider.quotes[index].type == 'Disconnect')
+                                    Text('ID: ${provider.quotes[index].existingCircuitID}'),
                                   if (provider.quotes[index].type == 'Upgrade')
                                     RichText(
                                       text: TextSpan(
                                         children: [
-                                          const TextSpan(text: 'Existing ID: ', style: TextStyle(color: Colors.red)),
+                                          const TextSpan(
+                                              text: 'Existing ID: ',
+                                              style: TextStyle(color: Colors.red)),
                                           TextSpan(text: provider.quotes[index].existingCircuitID),
                                           const TextSpan(text: ' - '),
-                                          const TextSpan(text: 'New ID: ', style: TextStyle(color: Colors.green)),
+                                          const TextSpan(
+                                              text: 'New ID: ',
+                                              style: TextStyle(color: Colors.green)),
                                           TextSpan(text: provider.quotes[index].newCircuitID),
                                         ],
                                       ),
@@ -1225,7 +1564,8 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                     ),
                                   if (provider.quotes[index].circuitType == 'EVCoD')
                                     TableTopText(
-                                      text: '${provider.quotes[index].circuitType} - ${provider.quotes[index].evcodType}',
+                                      text:
+                                          '${provider.quotes[index].circuitType} - ${provider.quotes[index].evcodType}',
                                       style: AppTheme.of(context).contenidoTablas,
                                       group: provider.tableTopGroup,
                                     ),
@@ -1260,7 +1600,8 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                               Expanded(
                                 child: Center(
                                   child: TableTopText(
-                                    text: '${provider.quotes[index].ipAdress} - ${provider.quotes[index].ipInterface}',
+                                    text:
+                                        '${provider.quotes[index].ipAdress} - ${provider.quotes[index].ipInterface}',
                                     style: AppTheme.of(context).contenidoTablas,
                                     group: provider.tableTopGroup,
                                   ),
@@ -1270,7 +1611,8 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                               Expanded(
                                 child: Center(
                                   child: TableTopText(
-                                    text: '${provider.quotes[index].ipAdress} - ${provider.quotes[index].ipSubnet}',
+                                    text:
+                                        '${provider.quotes[index].ipAdress} - ${provider.quotes[index].ipSubnet}',
                                     style: AppTheme.of(context).contenidoTablas,
                                     group: provider.tableTopGroup,
                                   ),
@@ -1298,24 +1640,33 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                       ],
                                       resolveDefaultColumnFilter: (column, resolver) {
                                         if (column.field == 'LINE_ITEM_Column') {
-                                          return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                          return resolver<PlutoFilterTypeContains>()
+                                              as PlutoFilterType;
                                         } else if (column.field == 'UNIT_PRICE_Column') {
-                                          return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                          return resolver<PlutoFilterTypeContains>()
+                                              as PlutoFilterType;
                                         } else if (column.field == 'UNIT_COST_Column') {
-                                          return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                          return resolver<PlutoFilterTypeContains>()
+                                              as PlutoFilterType;
                                         } else if (column.field == 'QUANTITY_Column') {
-                                          return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                          return resolver<PlutoFilterTypeContains>()
+                                              as PlutoFilterType;
                                         }
-                                        return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                        return resolver<PlutoFilterTypeContains>()
+                                            as PlutoFilterType;
                                       },
                                     ),
                                   ),
                                   columns: [
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(
+                                            child: Icon(Icons.local_offer_outlined,
+                                                color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
-                                        TextSpan(text: 'Line Item', style: AppTheme.of(context).encabezadoTablas)
+                                        TextSpan(
+                                            text: 'Line Item',
+                                            style: AppTheme.of(context).encabezadoTablas)
                                       ]),
                                       backgroundColor: const Color(0XFF6491F7),
                                       title: 'LINE ITEM',
@@ -1334,16 +1685,22 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                               child: Text(
                                             rendererContext.cell.value ?? '-',
-                                            style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                            style: AppTheme.of(context).contenidoTablas.override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false),
                                           )),
                                         );
                                       },
                                     ),
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(child: Icon(Icons.attach_money_outlined, color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(
+                                            child: Icon(Icons.attach_money_outlined,
+                                                color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
-                                        TextSpan(text: 'Unit Price', style: AppTheme.of(context).encabezadoTablas)
+                                        TextSpan(
+                                            text: 'Unit Price',
+                                            style: AppTheme.of(context).encabezadoTablas)
                                       ]),
                                       backgroundColor: const Color(0XFF6491F7),
                                       title: 'UNIT PRICE',
@@ -1362,16 +1719,22 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                               child: Text(
                                             '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                                            style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                            style: AppTheme.of(context).contenidoTablas.override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false),
                                           )),
                                         );
                                       },
                                     ),
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(child: Icon(Icons.price_check_outlined, color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(
+                                            child: Icon(Icons.price_check_outlined,
+                                                color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
-                                        TextSpan(text: 'Unit Cost', style: AppTheme.of(context).encabezadoTablas)
+                                        TextSpan(
+                                            text: 'Unit Cost',
+                                            style: AppTheme.of(context).encabezadoTablas)
                                       ]),
                                       backgroundColor: const Color(0XFF6491F7),
                                       title: 'UNIT COST',
@@ -1390,16 +1753,22 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                               child: Text(
                                             '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                                            style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                            style: AppTheme.of(context).contenidoTablas.override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false),
                                           )),
                                         );
                                       },
                                     ),
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(child: Icon(Icons.shopping_cart_outlined, color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(
+                                            child: Icon(Icons.shopping_cart_outlined,
+                                                color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
-                                        TextSpan(text: 'Quantity', style: AppTheme.of(context).encabezadoTablas)
+                                        TextSpan(
+                                            text: 'Quantity',
+                                            style: AppTheme.of(context).encabezadoTablas)
                                       ]),
                                       backgroundColor: const Color(0XFF6491F7),
                                       title: 'QUANTITY',
@@ -1418,16 +1787,22 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                               child: Text(
                                             rendererContext.cell.value ?? '-'.toString(),
-                                            style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                            style: AppTheme.of(context).contenidoTablas.override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false),
                                           )),
                                         );
                                       },
                                     ),
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(child: Icon(Icons.settings, color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(
+                                            child: Icon(Icons.settings,
+                                                color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
-                                        TextSpan(text: 'Actions', style: AppTheme.of(context).encabezadoTablas)
+                                        TextSpan(
+                                            text: 'Actions',
+                                            style: AppTheme.of(context).encabezadoTablas)
                                       ]),
                                       backgroundColor: const Color(0XFF6491F7),
                                       title: 'ACTIONS',
@@ -1448,12 +1823,14 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                               padding: const EdgeInsets.all(10.0),
                                               child: CustomTextIconButton(
                                                 isLoading: false,
-                                                icon: Icon(Icons.shopping_basket_outlined, color: AppTheme.of(context).primaryBackground),
+                                                icon: Icon(Icons.shopping_basket_outlined,
+                                                    color: AppTheme.of(context).primaryBackground),
                                                 text: 'Delete',
                                                 color: secondaryColor,
                                                 onTap: () {
                                                   setState(() {
-                                                    provider.quotes[index].items.removeAt(rendererContext.rowIdx);
+                                                    provider.quotes[index].items
+                                                        .removeAt(rendererContext.rowIdx);
                                                     if (provider.quotes[index].items.isEmpty) {
                                                       provider.quotes.removeAt(index);
                                                     }
@@ -1535,7 +1912,9 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
       columns: [
         PlutoColumn(
           titleSpan: TextSpan(children: [
-            WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
+            WidgetSpan(
+                child: Icon(Icons.local_offer_outlined,
+                    color: AppTheme.of(context).primaryBackground)),
             const WidgetSpan(child: SizedBox(width: 10)),
             TextSpan(text: 'Line Item', style: AppTheme.of(context).encabezadoTablas)
           ]),
@@ -1556,14 +1935,18 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 rendererContext.cell.value ?? '-',
-                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style: AppTheme.of(context)
+                    .contenidoTablas
+                    .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
         ),
         PlutoColumn(
           titleSpan: TextSpan(children: [
-            WidgetSpan(child: Icon(Icons.attach_money_outlined, color: AppTheme.of(context).primaryBackground)),
+            WidgetSpan(
+                child: Icon(Icons.attach_money_outlined,
+                    color: AppTheme.of(context).primaryBackground)),
             const WidgetSpan(child: SizedBox(width: 10)),
             TextSpan(text: 'Unit Price', style: AppTheme.of(context).encabezadoTablas)
           ]),
@@ -1584,14 +1967,18 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style: AppTheme.of(context)
+                    .contenidoTablas
+                    .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
         ),
         PlutoColumn(
           titleSpan: TextSpan(children: [
-            WidgetSpan(child: Icon(Icons.price_check_outlined, color: AppTheme.of(context).primaryBackground)),
+            WidgetSpan(
+                child: Icon(Icons.price_check_outlined,
+                    color: AppTheme.of(context).primaryBackground)),
             const WidgetSpan(child: SizedBox(width: 10)),
             TextSpan(text: 'Unit Cost', style: AppTheme.of(context).encabezadoTablas)
           ]),
@@ -1612,14 +1999,18 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style: AppTheme.of(context)
+                    .contenidoTablas
+                    .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
         ),
         PlutoColumn(
           titleSpan: TextSpan(children: [
-            WidgetSpan(child: Icon(Icons.shopping_cart_outlined, color: AppTheme.of(context).primaryBackground)),
+            WidgetSpan(
+                child: Icon(Icons.shopping_cart_outlined,
+                    color: AppTheme.of(context).primaryBackground)),
             const WidgetSpan(child: SizedBox(width: 10)),
             TextSpan(text: 'Quantity', style: AppTheme.of(context).encabezadoTablas)
           ]),
@@ -1640,7 +2031,9 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 rendererContext.cell.value != null ? rendererContext.cell.value.toString() : '-',
-                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style: AppTheme.of(context)
+                    .contenidoTablas
+                    .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
@@ -1670,7 +2063,8 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
                   padding: const EdgeInsets.all(10.0),
                   child: CustomTextIconButton(
                     isLoading: false,
-                    icon: Icon(Icons.shopping_basket_outlined, color: AppTheme.of(context).primaryBackground),
+                    icon: Icon(Icons.shopping_basket_outlined,
+                        color: AppTheme.of(context).primaryBackground),
                     text: 'Delete',
                     color: secondaryColor,
                     onTap: () {

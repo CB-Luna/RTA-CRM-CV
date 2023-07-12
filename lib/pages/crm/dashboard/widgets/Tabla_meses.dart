@@ -1,92 +1,96 @@
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
-
+import 'package:rta_crm_cv/functions/date_format.dart';
+import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/providers/crm/accounts/tabs/billing_provider.dart';
+import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
-import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
-import 'package:rta_crm_cv/widgets/pluto_grid_cells/pluto_grid_status_cell.dart';
 
-class BillingTab extends StatefulWidget {
-  const BillingTab({super.key});
+class TablaMeses extends StatefulWidget {
+  const TablaMeses({Key? key}) : super(key: key);
 
   @override
-  State<BillingTab> createState() => _BillingTabState();
+  State<TablaMeses> createState() => _TablaMesesState();
 }
 
-class _BillingTabState extends State<BillingTab> {
+class _TablaMesesState extends State<TablaMeses> {
   @override
   Widget build(BuildContext context) {
-    BillingProvider provider = Provider.of<BillingProvider>(context);
+    DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(context);
     return CustomCard(
-      title: 'Billing',
+      width: getWidth(670, context),
+      height: getHeight(432.91, context),
+      title: 'Overview History',
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                SizedBox(
-                  width: 250,
-                  child: Row(
-                    children: [
-                      CustomTextIconButton(
-                        isLoading: false,
-                        icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                        text: 'Filter',
-                        onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: CustomTextIconButton(
+            child: CustomScrollBar(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    width: 250,
+                    child: Row(
+                      children: [
+                        CustomTextIconButton(
                           isLoading: false,
-                          icon: Icon(Icons.view_column_outlined, color: AppTheme.of(context).primaryBackground),
-                          text: 'Set Columns',
-                          onTap: () => provider.stateManager!.showSetColumnsPopup(context),
+                          icon: Icon(Icons.filter_alt_outlined,
+                              color: AppTheme.of(context).primaryBackground),
+                          text: 'Filter',
+                          onTap: () => provider.stateManager!
+                              .setShowColumnFilter(
+                                  !provider.stateManager!.showColumnFilter),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: CustomTextIconButton(
+                            isLoading: false,
+                            icon: Icon(Icons.view_column_outlined,
+                                color: AppTheme.of(context).primaryBackground),
+                            text: 'Set Columns',
+                            onTap: () => provider.stateManager!
+                                .showSetColumnsPopup(context),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                CustomTextField(
-                  width: 500,
-                  enabled: true,
-                  controller: provider.searchController,
-                  icon: Icons.search,
-                  label: 'Search',
-                  keyboardType: TextInputType.text,
-                ),
-                SizedBox(
-                  width: 250,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CustomTextIconButton(
-                        isLoading: false,
-                        icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                        text: 'Create Billing',
-                        color: AppTheme.of(context).tertiaryColor,
-                        onTap: () async {
-                          //context.pushReplacement(routeQuoteCreation);
-                        },
-                      ),
-                    ],
+                  CustomTextField(
+                    width: 200,
+                    enabled: true,
+                    controller: provider.searchController,
+                    icon: Icons.search,
+                    label: 'Search',
+                    keyboardType: TextInputType.text,
                   ),
-                )
-              ],
+                  CustomTextIconButton(
+                    isLoading: false,
+                    icon: Icon(Icons.calendar_month,
+                        color: AppTheme.of(context).primaryBackground),
+                    text:
+                        '${dateFormat(provider.dateRange.start)} - ${dateFormat(provider.dateRange.end)}',
+                    onTap: () {
+                      provider.pickDateRange(context);
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(
-            height: getHeight(750, context),
+            height: getHeight(700, context),
             //width: getWidth(2450, context),
             child: PlutoGrid(
               key: UniqueKey(),
@@ -98,31 +102,40 @@ class _BillingTabState extends State<BillingTab> {
                     ...FilterHelper.defaultFilters,
                   ],
                   resolveDefaultColumnFilter: (column, resolver) {
-                    if (column.field == 'ID_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                    if (column.field == 'ID') {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
                     } else if (column.field == 'NAME_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'CONTACT_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'SUPPRESSION_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'SUBJECTS_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'LAUNCH_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
-                    } else if (column.field == 'STATUS_Column') {
-                      return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
+                    } else if (column.field == 'TOTAL_Column') {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
+                    } else if (column.field == 'MARGIN_Column') {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
+                    } else if (column.field == 'VENDOR_Column') {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
+                    } else if (column.field == 'DESCRIPTION_Column') {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
                     }
-                    return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                    return resolver<PlutoFilterTypeContains>()
+                        as PlutoFilterType;
                   },
                 ),
               ),
               columns: [
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.vpn_key_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.vpn_key_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'ID', style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(
+                        text: 'ID',
+                        style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ID',
@@ -143,7 +156,10 @@ class _BillingTabState extends State<BillingTab> {
                       child: Center(
                         child: Text(
                           rendererContext.cell.value.toString(),
-                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
+                          style: AppTheme.of(context).contenidoTablas.override(
+                              fontFamily: 'Gotham-Regular',
+                              useGoogleFonts: false,
+                              color: AppTheme.of(context).primaryColor),
                         ),
                       ),
                     );
@@ -180,9 +196,13 @@ class _BillingTabState extends State<BillingTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Name', style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(
+                        text: 'Name',
+                        style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'NAME',
@@ -199,10 +219,13 @@ class _BillingTabState extends State<BillingTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
-                          child: Text(
-                        rendererContext.cell.value ?? '-',
-                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
-                      )),
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(
+                              fontFamily: 'Gotham-Regular',
+                              useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                   footerRenderer: (context) {
@@ -227,7 +250,12 @@ class _BillingTabState extends State<BillingTab> {
                             },
                           ),
                           const SizedBox(width: 5),
-                          SizedBox(width: 30, child: Center(child: Text(provider.page.toString(), style: const TextStyle(color: Colors.white)))),
+                          SizedBox(
+                              width: 30,
+                              child: Center(
+                                  child: Text(provider.page.toString(),
+                                      style: const TextStyle(
+                                          color: Colors.white)))),
                           const SizedBox(width: 5),
                           CustomIconButton(
                             icon: Icons.keyboard_arrow_right_outlined,
@@ -251,13 +279,51 @@ class _BillingTabState extends State<BillingTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.percent_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.attach_money,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Contact List', style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(
+                        text: 'Total',
+                        style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'CONTACT',
-                  field: 'CONTACT_Column',
+                  title: 'TOTAL',
+                  field: 'TOTAL_Column',
+                  width: 225,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.number(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      // width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(
+                          child: Text(
+                        '\$ ${moneyFormat(rendererContext.cell.value)} USD',
+                        style: AppTheme.of(context).contenidoTablas.override(
+                            fontFamily: 'Gotham-Regular',
+                            useGoogleFonts: false),
+                      )),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(
+                        child: Icon(Icons.percent_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(
+                        text: 'Margin',
+                        style: AppTheme.of(context).encabezadoTablas)
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'MARGIN',
+                  field: 'MARGIN_Column',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
@@ -270,50 +336,29 @@ class _BillingTabState extends State<BillingTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
-                          child: Text(
-                        rendererContext.cell.value ?? '-',
-                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
-                      )),
+                        child: Text(
+                          '${moneyFormat(rendererContext.cell.value)}%',
+                          style: AppTheme.of(context).contenidoTablas.override(
+                              fontFamily: 'Gotham-Regular',
+                              useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Suppression List', style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(
+                        text: 'Vendor',
+                        style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'SUPPRESSION',
-                  field: 'SUPPRESSION_Column',
-                  width: 225,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
-                  enableEditingMode: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      // width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Center(
-                          child: Text(
-                        rendererContext.cell.value ?? '-',
-                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
-                      )),
-                    );
-                  },
-                ),
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Subjects', style: AppTheme.of(context).encabezadoTablas)
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'SUBJECTS',
-                  field: 'SUBJECTS_Column',
+                  title: 'VENDOR',
+                  field: 'VENDOR_Column',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
@@ -326,26 +371,33 @@ class _BillingTabState extends State<BillingTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
-                          child: Text(
-                        rendererContext.cell.value ?? '-' ?? '-',
-                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
-                      )),
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(
+                              fontFamily: 'Gotham-Regular',
+                              useGoogleFonts: false),
+                        ),
+                      ),
                     );
                   },
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Launch Date', style: AppTheme.of(context).encabezadoTablas)
+                    TextSpan(
+                        text: 'Description',
+                        style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'LAUNCH',
-                  field: 'LAUNCH_Column',
+                  title: 'DESCRIPTION',
+                  field: 'DESCRIPTION_Column',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
+                  type: PlutoColumnType.text(),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -354,84 +406,18 @@ class _BillingTabState extends State<BillingTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
-                          child: Text(
-                        rendererContext.cell.value ?? '-',
-                        style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
-                      )),
-                    );
-                  },
-                ),
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.traffic_outlined, color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Status', style: AppTheme.of(context).encabezadoTablas)
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'STATUS',
-                  field: 'STATUS_Column',
-                  width: 175,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.text(),
-                  enableEditingMode: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return PlutoGridStatusCell(text: rendererContext.cell.value, id: 1); //TODO: Change
-                  },
-                ),
-                PlutoColumn(
-                  titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.list, color: AppTheme.of(context).primaryBackground)),
-                    const WidgetSpan(child: SizedBox(width: 10)),
-                    TextSpan(text: 'Actions', style: AppTheme.of(context).encabezadoTablas)
-                  ]),
-                  backgroundColor: const Color(0XFF6491F7),
-                  title: 'ACTIONS',
-                  field: 'ACTIONS_Column',
-                  width: 190,
-                  titleTextAlign: PlutoColumnTextAlign.start,
-                  textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.text(),
-                  enableEditingMode: false,
-                  enableSorting: false,
-                  enableContextMenu: false,
-                  enableDropToResize: false,
-                  cellPadding: EdgeInsets.zero,
-                  renderer: (rendererContext) {
-                    return Container(
-                      height: rowHeight,
-                      // width: rendererContext.cell.column.width,
-                      decoration: BoxDecoration(gradient: whiteGradient),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          CustomTextIconButton(
-                            isLoading: false,
-                            icon: Icon(
-                              Icons.fact_check_outlined,
-                              color: AppTheme.of(context).primaryBackground,
-                            ),
-                            text: 'Edit',
-                            onTap: () {},
-                          ),
-                          CustomTextIconButton(
-                            isLoading: false,
-                            icon: Icon(
-                              Icons.shopping_basket_outlined,
-                              color: AppTheme.of(context).primaryBackground,
-                            ),
-                            color: secondaryColor,
-                            text: 'Delete',
-                            onTap: () {},
-                          ),
-                        ],
+                        child: Text(
+                          rendererContext.cell.value ?? '-',
+                          style: AppTheme.of(context).contenidoTablas.override(
+                              fontFamily: 'Gotham-Regular',
+                              useGoogleFonts: false),
+                        ),
                       ),
                     );
                   },
                 ),
               ],
-              rows: provider.rows,
+              rows: provider.rows2,
               onLoaded: (event) async {
                 provider.stateManager = event.stateManager;
               },

@@ -411,7 +411,7 @@ class _AccountsTabState extends State<AccountsTab> {
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
-                    return PlutoGridStatusCell(text: rendererContext.cell.value);
+                    return PlutoGridStatusCell(text: rendererContext.cell.value, id: 1); //TODO: Change
                   },
                 ),
                 PlutoColumn(

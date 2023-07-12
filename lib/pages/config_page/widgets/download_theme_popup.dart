@@ -9,6 +9,8 @@ import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
 import 'package:rta_crm_cv/widgets/success_toast.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 
 class DownloadThemePopup extends StatefulWidget {
   const DownloadThemePopup({Key? key}) : super(key: key);
@@ -20,6 +22,12 @@ class DownloadThemePopup extends StatefulWidget {
 class _DownloadThemePopupState extends State<DownloadThemePopup> {
   final formKey = GlobalKey<FormState>();
   FToast fToast = FToast();
+
+  void reloadPage(){
+    html.window.location.reload();
+    //html.window.caches?.delete('cacheName');
+  }
+
 
   @override
   void initState() {
@@ -147,6 +155,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                               gravity: ToastGravity.BOTTOM,
                               toastDuration: const Duration(seconds: 2),
                             );
+                            reloadPage();
                             //context.pushReplacement('/config');
                           }
                         },
