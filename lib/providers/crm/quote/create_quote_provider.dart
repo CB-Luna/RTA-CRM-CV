@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
@@ -949,9 +948,9 @@ class CreateQuoteProvider extends ChangeNotifier {
   }
 
   bool popupVisorPdfVisible = true;
- FilePickerResult? docProveedor;
+  FilePickerResult? docProveedor;
   PdfController? pdfController;
-  
+
   void verPdf(bool visible) {
     popupVisorPdfVisible = visible;
     notifyListeners();

@@ -21,12 +21,7 @@ import 'Popup/details_pop_up.dart';
 import 'Popup/license_plates_pop_up.dart';
 
 class MonitoryPageDesktop extends StatefulWidget {
-  const MonitoryPageDesktop(
-      {Key? key,
-      required this.drawerController,
-      required this.scaffoldKey,
-      required this.provider})
-      : super(key: key);
+  const MonitoryPageDesktop({Key? key, required this.drawerController, required this.scaffoldKey, required this.provider}) : super(key: key);
   final AdvancedDrawerController drawerController;
   final GlobalKey<ScaffoldState> scaffoldKey;
 

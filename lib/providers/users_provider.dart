@@ -13,7 +13,6 @@ import 'package:path/path.dart' as p;
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
-import 'package:rta_crm_cv/public/colors.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 import 'package:uuid/uuid.dart';
 
@@ -105,8 +104,7 @@ class UsersProvider extends ChangeNotifier {
   }
 
   void selectCompany(String companyName) {
-    selectedCompany =
-        companys.firstWhere((elem) => elem.company == companyName);
+    selectedCompany = companys.firstWhere((elem) => elem.company == companyName);
     notifyListeners();
   }
 
@@ -122,8 +120,7 @@ class UsersProvider extends ChangeNotifier {
   }
 
   void selectCompanyUpdate(String companyName) {
-    selectedCompanyUpdate =
-        companys.firstWhere((elem) => elem.company == companyName);
+    selectedCompanyUpdate = companys.firstWhere((elem) => elem.company == companyName);
     notifyListeners();
   }
 
@@ -179,9 +176,7 @@ class UsersProvider extends ChangeNotifier {
             ascending: true,
           );
 
-      states = (res as List<dynamic>)
-          .map((pais) => State.fromJson(jsonEncode(pais)))
-          .toList();
+      states = (res as List<dynamic>).map((pais) => State.fromJson(jsonEncode(pais))).toList();
 
       if (notify) notifyListeners();
     } catch (e) {
@@ -196,9 +191,7 @@ class UsersProvider extends ChangeNotifier {
             ascending: true,
           );
 
-      companys = (res as List<dynamic>)
-          .map((compani) => Company.fromJson(jsonEncode(compani)))
-          .toList();
+      companys = (res as List<dynamic>).map((compani) => Company.fromJson(jsonEncode(compani))).toList();
 
       if (notify) notifyListeners();
     } catch (e) {
@@ -212,9 +205,7 @@ class UsersProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    roles = (res as List<dynamic>)
-        .map((rol) => Role.fromJson(jsonEncode(rol)))
-        .toList();
+    roles = (res as List<dynamic>).map((rol) => Role.fromJson(jsonEncode(rol))).toList();
 
     if (notify) notifyListeners();
   }
@@ -289,9 +280,7 @@ class UsersProvider extends ChangeNotifier {
         log('Error en getUsuarios()');
         return;
       }
-      users = (res as List<dynamic>)
-          .map((usuario) => User.fromJson(jsonEncode(usuario)))
-          .toList();
+      users = (res as List<dynamic>).map((usuario) => User.fromJson(jsonEncode(usuario))).toList();
 
       rows.clear();
       for (User user in users) {
@@ -399,10 +388,7 @@ class UsersProvider extends ChangeNotifier {
 
   Future<bool> deleteUser(User users) async {
     try {
-      await supabase
-          .from('user_profile')
-          .delete()
-          .match({'user_profile_id': users.id});
+      await supabase.from('user_profile').delete().match({'user_profile_id': users.id});
 
       return true;
     } catch (e) {
@@ -511,15 +497,13 @@ class UsersProvider extends ChangeNotifier {
   SMIInput<bool>? iHoverDashboards;
   SMIInput<bool>? iSelectedDashboards;
   Future<void> dashboardsIconRive() async {
-    final ByteData data =
-        await rootBundle.load('assets/rive/dashboards_icon.riv');
+    final ByteData data = await rootBundle.load('assets/rive/dashboards_icon.riv');
 
     final file = RiveFile.import(data);
 
     final artboard = file.mainArtboard;
 
-    sMCDashboards =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCDashboards = StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCDashboards != null) {
       artboard.addController(sMCDashboards!);

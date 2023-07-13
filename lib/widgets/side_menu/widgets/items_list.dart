@@ -35,7 +35,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               selected: provider.indexSelected[0],
               leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
               isOpen: widget.isOpen,
-              title: 'Dashbords',
+              title: 'Dashboards',
               onTap: () async {
                 context.pushReplacement('/dashboards');
               },
@@ -226,6 +226,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverUsers?.change(false);
                 },
               ),
+              if (currentUser!.isCV)
               SideMenuItem(
               selected: provider.indexSelected[9],
               leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),

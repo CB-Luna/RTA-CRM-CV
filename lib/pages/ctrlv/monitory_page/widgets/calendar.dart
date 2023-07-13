@@ -69,19 +69,15 @@ class _CalendarioState extends State<Calendario> {
                   fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                   color: AppTheme.of(context).primaryText),
             ),
-            onSelectionChanged: (calendarSelectionDetails) =>
-                provider.getAppointmentsByDate(),
+            onSelectionChanged: (calendarSelectionDetails) => provider.getAppointmentsByDate(),
             view: CalendarView.month,
             firstDayOfWeek: 1,
             dataSource: MeetingDataSource(provider.meet),
-            appointmentBuilder:
-                (BuildContext context, CalendarAppointmentDetails details) {
+            appointmentBuilder: (BuildContext context, CalendarAppointmentDetails details) {
               final idAppointment = details.appointments.first.id;
 
-              final monitory = provider.monitory.firstWhere(
-                  (element) => element.idControlForm == idAppointment);
-              return CustomAppointmentView(
-                  details.appointments.first, monitory);
+              final monitory = provider.monitory.firstWhere((element) => element.idControlForm == idAppointment);
+              return CustomAppointmentView(details.appointments.first, monitory);
             },
           ),
         ),
@@ -116,15 +112,11 @@ class _CustomAppointmentViewState extends State<CustomAppointmentView> {
       height: 100,
       decoration: BoxDecoration(
         color: AppTheme.of(context).gris,
-        border: Border.all(
-            color:
-                tipo == "R" ? const Color(0XFF25A531) : const Color(0XFF173938),
-            width: 1),
+        border: Border.all(color: tipo == "R" ? const Color(0XFF25A531) : const Color(0XFF173938), width: 1),
         boxShadow: [
           BoxShadow(
             blurRadius: 4,
-            color:
-                tipo == "R" ? const Color(0XFF25A531) : const Color(0XFF173938),
+            color: tipo == "R" ? const Color(0XFF25A531) : const Color(0XFF173938),
             offset: const Offset(-1, 1),
           )
         ],
@@ -139,12 +131,10 @@ class _CustomAppointmentViewState extends State<CustomAppointmentView> {
               Text(
                 "${widget.appointment.subject.substring(0, widget.appointment.subject.length - 2)} ${DateFormat("hh:mm a").format(widget.appointment.startTime)}",
                 style: TextStyle(
-                    fontFamily:
-                        AppTheme.of(context).encabezadoTablas.fontFamily,
+                    fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                     fontSize: AppTheme.of(context).bodyText1.fontSize,
                     fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                    fontWeight:
-                        AppTheme.of(context).encabezadoTablas.fontWeight,
+                    fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                     color: AppTheme.of(context).primaryText),
               ),
               Row(
@@ -164,13 +154,10 @@ class _CustomAppointmentViewState extends State<CustomAppointmentView> {
                   Text(
                     widget.monitory.vehicle.licesensePlates,
                     style: TextStyle(
-                        fontFamily:
-                            AppTheme.of(context).encabezadoTablas.fontFamily,
+                        fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                         fontSize: AppTheme.of(context).bodyText1.fontSize,
-                        fontStyle:
-                            AppTheme.of(context).encabezadoTablas.fontStyle,
-                        fontWeight:
-                            AppTheme.of(context).encabezadoTablas.fontWeight,
+                        fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                        fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                         color: AppTheme.of(context).primaryText),
                   ),
                 ],

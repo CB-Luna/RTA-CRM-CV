@@ -71,9 +71,7 @@ class _QuotesPageState extends State<QuotesPage> {
                                 child: SizedBox(
                                   height: 40,
                                   width: 40,
-                                  child: sideM.aRAccounts != null
-                                      ? Rive(artboard: sideM.aRTickets!)
-                                      : const CircularProgressIndicator(),
+                                  child: sideM.aRTickets != null ? Rive(artboard: sideM.aRTickets!) : const CircularProgressIndicator(),
                                 )),
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
@@ -100,8 +98,7 @@ class _QuotesPageState extends State<QuotesPage> {
                                     bottomRight: Radius.circular(40),
                                     bottomLeft: Radius.circular(15),
                                   ),
-                                  border: Border.all(
-                                      color: AppTheme.of(context).primaryColor, width: 2),
+                                  border: Border.all(color: AppTheme.of(context).primaryColor, width: 2),
                                 ),
                                 child: TabBar(
                                   onTap: (value) {
@@ -147,10 +144,7 @@ class _QuotesPageState extends State<QuotesPage> {
                                         ? Colors.greenAccent
                                         : provider.indexSelected[0]
                                             ? AppTheme.of(context).primaryColor
-                                            : provider.indexSelected[13] ||
-                                                    provider.indexSelected[2] ||
-                                                    provider.indexSelected[3] ||
-                                                    provider.indexSelected[4]
+                                            : provider.indexSelected[13] || provider.indexSelected[2] || provider.indexSelected[3] || provider.indexSelected[4]
                                                 ? Colors.orangeAccent
                                                 : provider.indexSelected[6]
                                                     ? Colors.redAccent
@@ -160,9 +154,7 @@ class _QuotesPageState extends State<QuotesPage> {
                                                             ? Colors.blueAccent
                                                             : provider.indexSelected[11]
                                                                 ? Colors.deepPurpleAccent
-                                                                : provider.indexSelected[14] ||
-                                                                        provider.indexSelected[5] ||
-                                                                        provider.indexSelected[12]
+                                                                : provider.indexSelected[14] || provider.indexSelected[5] || provider.indexSelected[12]
                                                                     ? Colors.red
                                                                     : Colors.black,
                                   ),
@@ -229,8 +221,7 @@ class _QuotesPageState extends State<QuotesPage> {
                                     bottomRight: Radius.circular(40),
                                     bottomLeft: Radius.circular(15),
                                   ),
-                                  border: Border.all(
-                                      color: AppTheme.of(context).primaryColor, width: 2),
+                                  border: Border.all(color: AppTheme.of(context).primaryColor, width: 2),
                                 ),
                                 child: TabBar(
                                   onTap: (value) {

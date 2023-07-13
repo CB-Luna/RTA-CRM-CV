@@ -164,8 +164,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                   itemBuilder: (context, index, realIndex) {
                     // final urlImage =
                     //     provider.actualissuesComments?.listImages![index];
-                    const urlImage =
-                        "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
+                    const urlImage = "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
                     return buildImage(urlImage, index);
                   },
                   options: CarouselOptions(height: 200),

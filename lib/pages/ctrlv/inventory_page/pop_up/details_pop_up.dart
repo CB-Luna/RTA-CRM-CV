@@ -40,8 +40,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                     child: CustomTextIconButton(
                       width: 93,
                       isLoading: false,
-                      icon: Icon(Icons.exit_to_app_outlined,
-                          color: AppTheme.of(context).primaryBackground),
+                      icon: Icon(Icons.exit_to_app_outlined, color: AppTheme.of(context).primaryBackground),
                       text: 'Exit',
                       onTap: () {
                         context.pop();
@@ -59,8 +58,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                       unselectedLabelColor: Colors.black,
                       indicator: BoxDecoration(
                         color: AppTheme.of(context).primaryColor,
-                        borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(10)),
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
                       ),
                       tabs: const [
                         Tab(
@@ -80,11 +78,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                   ),
                   Expanded(
                     child: TabBarView(
-                      children: [
-                        GeneralInfoPopUP(vehicle: widget.vehicle),
-                        const IssuesPopUp(),
-                        const ServicePopUp()
-                      ],
+                      children: [GeneralInfoPopUP(vehicle: widget.vehicle), const IssuesPopUp(), const ServicePopUp()],
                     ),
                   ),
                 ],
