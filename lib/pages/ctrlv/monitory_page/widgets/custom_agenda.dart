@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +16,7 @@ class CustomAgenda extends StatelessWidget {
     Color color = Colors.white;
     DateTime checkIn = DateTime.now();
     //Controlador para compartir entre scrollbar y singlechild
-    ScrollController _scrollController = ScrollController(); 
+    ScrollController _scrollController = ScrollController();
 
     return Column(
       children: [
@@ -25,19 +24,17 @@ class CustomAgenda extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             provider.calendarController.selectedDate == null
-                ? Text('No date selected yet',
+                ? const Text('No date selected yet',
                     style: TextStyle(
                       fontSize: 30,
                     ))
-                : Text(
-                    '${provider.selectedDay}, ${provider.selectedMonth}/${provider.calendarController.selectedDate?.day}/${provider.calendarController.selectedDate?.year}',
-                    style: TextStyle(
+                : Text('${provider.selectedDay}, ${provider.selectedMonth}/${provider.calendarController.selectedDate?.day}/${provider.calendarController.selectedDate?.year}',
+                    style: const TextStyle(
                       fontSize: 30,
                     )),
           ],
         ),
-        provider.calendarController.selectedDate == null ||
-                provider.idEventos.isEmpty
+        provider.calendarController.selectedDate == null || provider.idEventos.isEmpty
             ? Container(
                 height: 200,
               )
@@ -51,8 +48,7 @@ class CustomAgenda extends StatelessWidget {
                       controller: _scrollController,
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children:
-                            List.generate(provider.idEventos.length, (index) {
+                        children: List.generate(provider.idEventos.length, (index) {
                           if (provider.idEventos[index].dateAddedD != null) {
                             checkIn = provider.idEventos[index].dateAddedD!;
                           }
@@ -65,46 +61,38 @@ class CustomAgenda extends StatelessWidget {
                                     ? Container(
                                         width: 400,
                                         decoration: BoxDecoration(
-                                          color:
-                                              AppTheme.of(context).secondaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
+                                          color: AppTheme.of(context).secondaryColor,
+                                          borderRadius: BorderRadius.circular(8.0),
                                           border: Border.all(
-                                            color: AppTheme.of(context)
-                                                .tertiaryColor,
+                                            color: AppTheme.of(context).tertiaryColor,
                                             width: 5,
                                           ),
                                         ),
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Text(
-                                                '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                            Text('${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
                                                 style: TextStyle(
                                                   color: color,
                                                 )),
                                             Text(
-                                              '${provider.idEventos[index].vehicle.licesensePlates}',
+                                              provider.idEventos[index].vehicle.licesensePlates,
                                               style: TextStyle(
                                                 color: color,
                                               ),
                                             ),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                Text(
+                                                const Text(
                                                   'Check Out: ',
                                                   style: TextStyle(
                                                     color: Colors.black,
                                                   ),
                                                 ),
                                                 Text(
-                                                  DateFormat('hh:mm:ss a').format(
-                                                      provider.idEventos[index]
-                                                          .dateAddedR),
+                                                  DateFormat('hh:mm:ss a').format(provider.idEventos[index].dateAddedR),
                                                   style: TextStyle(
                                                     color: color,
                                                   ),
@@ -117,32 +105,26 @@ class CustomAgenda extends StatelessWidget {
                                             //     ),),
                                             Image.network(
                                               height: 150,
-                                              provider.idEventos[index].vehicle
-                                                  .image!,
+                                              provider.idEventos[index].vehicle.image!,
                                               fit: BoxFit.cover,
                                             ),
                                           ],
                                         ),
                                       )
-                                    : provider.idEventos[index].company.company ==
-                                            "CRY"
+                                    : provider.idEventos[index].company.company == "CRY"
                                         ? Container(
                                             width: 400,
                                             decoration: BoxDecoration(
-                                              color: AppTheme.of(context)
-                                                  .primaryColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
+                                              color: AppTheme.of(context).primaryColor,
+                                              borderRadius: BorderRadius.circular(8.0),
                                               border: Border.all(
-                                                color: AppTheme.of(context)
-                                                    .tertiaryColor,
+                                                color: AppTheme.of(context).tertiaryColor,
                                                 width: 5,
                                               ),
                                             ),
-                                            padding: EdgeInsets.all(10),
+                                            padding: const EdgeInsets.all(10),
                                             child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
@@ -151,26 +133,22 @@ class CustomAgenda extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                  provider.idEventos[index].vehicle.licesensePlates,
                                                   style: TextStyle(
                                                     color: color,
                                                   ),
                                                 ),
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       'Check Out: ',
                                                       style: TextStyle(
                                                         color: Colors.black,
                                                       ),
                                                     ),
                                                     Text(
-                                                      DateFormat('hh:mm:ss a')
-                                                          .format(provider
-                                                              .idEventos[index]
-                                                              .dateAddedR),
+                                                      DateFormat('hh:mm:ss a').format(provider.idEventos[index].dateAddedR),
                                                       style: TextStyle(
                                                         color: color,
                                                       ),
@@ -179,32 +157,25 @@ class CustomAgenda extends StatelessWidget {
                                                 ),
                                                 Image.network(
                                                   height: 150,
-                                                  provider.idEventos[index]
-                                                      .vehicle.image!,
+                                                  provider.idEventos[index].vehicle.image!,
                                                   fit: BoxFit.cover,
                                                 ),
                                               ],
                                             ))
-                                        : provider.idEventos[index].company
-                                                    .company ==
-                                                "SMI"
+                                        : provider.idEventos[index].company.company == "SMI"
                                             ? Container(
                                                 width: 400,
                                                 decoration: BoxDecoration(
-                                                  color: Color.fromRGBO(
-                                                      255, 138, 0, 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(8.0),
+                                                  color: const Color.fromRGBO(255, 138, 0, 1),
+                                                  borderRadius: BorderRadius.circular(8.0),
                                                   border: Border.all(
-                                                    color: AppTheme.of(context)
-                                                        .tertiaryColor,
+                                                    color: AppTheme.of(context).tertiaryColor,
                                                     width: 5,
                                                   ),
                                                 ),
-                                                padding: EdgeInsets.all(10),
+                                                padding: const EdgeInsets.all(10),
                                                 child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
                                                     Text(
                                                       '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
@@ -213,28 +184,22 @@ class CustomAgenda extends StatelessWidget {
                                                       ),
                                                     ),
                                                     Text(
-                                                      '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                      provider.idEventos[index].vehicle.licesensePlates,
                                                       style: TextStyle(
                                                         color: color,
                                                       ),
                                                     ),
                                                     Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
-                                                        Text(
+                                                        const Text(
                                                           'Check Out: ',
                                                           style: TextStyle(
                                                             color: Colors.black,
                                                           ),
                                                         ),
                                                         Text(
-                                                          DateFormat('hh:mm:ss a')
-                                                              .format(provider
-                                                                  .idEventos[
-                                                                      index]
-                                                                  .dateAddedR),
+                                                          DateFormat('hh:mm:ss a').format(provider.idEventos[index].dateAddedR),
                                                           style: TextStyle(
                                                             color: color,
                                                           ),
@@ -243,8 +208,7 @@ class CustomAgenda extends StatelessWidget {
                                                     ),
                                                     Image.network(
                                                       height: 150,
-                                                      provider.idEventos[index]
-                                                          .vehicle.image!,
+                                                      provider.idEventos[index].vehicle.image!,
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ],
@@ -256,45 +220,38 @@ class CustomAgenda extends StatelessWidget {
                                     ? Container(
                                         width: 400,
                                         decoration: BoxDecoration(
-                                          color:
-                                              AppTheme.of(context).secondaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
+                                          color: AppTheme.of(context).secondaryColor,
+                                          borderRadius: BorderRadius.circular(8.0),
                                           border: Border.all(
-                                            color: Color.fromRGBO(245, 6, 213, 1),
+                                            color: const Color.fromRGBO(245, 6, 213, 1),
                                             width: 5,
                                           ),
                                         ),
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Text(
-                                                '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                            Text('${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
                                                 style: TextStyle(
                                                   color: color,
                                                 )),
                                             Text(
-                                              '${provider.idEventos[index].vehicle.licesensePlates}',
+                                              provider.idEventos[index].vehicle.licesensePlates,
                                               style: TextStyle(
                                                 color: color,
                                               ),
                                             ),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                Text(
+                                                const Text(
                                                   'Check Out: ',
                                                   style: TextStyle(
                                                     color: Colors.black,
                                                   ),
                                                 ),
                                                 Text(
-                                                  DateFormat('hh:mm:ss a').format(
-                                                      provider.idEventos[index]
-                                                          .dateAddedR),
+                                                  DateFormat('hh:mm:ss a').format(provider.idEventos[index].dateAddedR),
                                                   style: TextStyle(
                                                     color: color,
                                                   ),
@@ -302,18 +259,16 @@ class CustomAgenda extends StatelessWidget {
                                               ],
                                             ),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                Text(
+                                                const Text(
                                                   'Check In: ',
                                                   style: TextStyle(
                                                     color: Colors.black,
                                                   ),
                                                 ),
                                                 Text(
-                                                  DateFormat('hh:mm:ss a')
-                                                      .format(checkIn),
+                                                  DateFormat('hh:mm:ss a').format(checkIn),
                                                   style: TextStyle(
                                                     color: color,
                                                   ),
@@ -322,32 +277,26 @@ class CustomAgenda extends StatelessWidget {
                                             ),
                                             Image.network(
                                               height: 150,
-                                              provider.idEventos[index].vehicle
-                                                  .image!,
+                                              provider.idEventos[index].vehicle.image!,
                                               fit: BoxFit.cover,
                                             ),
                                           ],
                                         ),
                                       )
-                                    : provider.idEventos[index].company.company ==
-                                            "CRY"
+                                    : provider.idEventos[index].company.company == "CRY"
                                         ? Container(
                                             width: 400,
                                             decoration: BoxDecoration(
-                                              color: AppTheme.of(context)
-                                                  .primaryColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
+                                              color: AppTheme.of(context).primaryColor,
+                                              borderRadius: BorderRadius.circular(8.0),
                                               border: Border.all(
-                                                color: Color.fromRGBO(
-                                                    245, 6, 213, 1),
+                                                color: const Color.fromRGBO(245, 6, 213, 1),
                                                 width: 5,
                                               ),
                                             ),
-                                            padding: EdgeInsets.all(10),
+                                            padding: const EdgeInsets.all(10),
                                             child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
@@ -356,26 +305,22 @@ class CustomAgenda extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                  provider.idEventos[index].vehicle.licesensePlates,
                                                   style: TextStyle(
                                                     color: color,
                                                   ),
                                                 ),
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       'Check Out: ',
                                                       style: TextStyle(
                                                         color: Colors.black,
                                                       ),
                                                     ),
                                                     Text(
-                                                      DateFormat('hh:mm:ss a')
-                                                          .format(provider
-                                                              .idEventos[index]
-                                                              .dateAddedR),
+                                                      DateFormat('hh:mm:ss a').format(provider.idEventos[index].dateAddedR),
                                                       style: TextStyle(
                                                         color: color,
                                                       ),
@@ -383,18 +328,16 @@ class CustomAgenda extends StatelessWidget {
                                                   ],
                                                 ),
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    Text(
+                                                    const Text(
                                                       'Check In: ',
                                                       style: TextStyle(
                                                         color: Colors.black,
                                                       ),
                                                     ),
                                                     Text(
-                                                      DateFormat('hh:mm:ss a')
-                                                          .format(checkIn),
+                                                      DateFormat('hh:mm:ss a').format(checkIn),
                                                       style: TextStyle(
                                                         color: color,
                                                       ),
@@ -403,32 +346,25 @@ class CustomAgenda extends StatelessWidget {
                                                 ),
                                                 Image.network(
                                                   height: 150,
-                                                  provider.idEventos[index]
-                                                      .vehicle.image!,
+                                                  provider.idEventos[index].vehicle.image!,
                                                   fit: BoxFit.cover,
                                                 ),
                                               ],
                                             ))
-                                        : provider.idEventos[index].company
-                                                    .company ==
-                                                "SMI"
+                                        : provider.idEventos[index].company.company == "SMI"
                                             ? Container(
                                                 width: 400,
                                                 decoration: BoxDecoration(
-                                                  color: Color.fromRGBO(
-                                                      255, 138, 0, 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(8.0),
+                                                  color: const Color.fromRGBO(255, 138, 0, 1),
+                                                  borderRadius: BorderRadius.circular(8.0),
                                                   border: Border.all(
-                                                    color: Color.fromRGBO(
-                                                        245, 6, 213, 1),
+                                                    color: const Color.fromRGBO(245, 6, 213, 1),
                                                     width: 5,
                                                   ),
                                                 ),
-                                                padding: EdgeInsets.all(10),
+                                                padding: const EdgeInsets.all(10),
                                                 child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
                                                     Text(
                                                       '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
@@ -437,28 +373,22 @@ class CustomAgenda extends StatelessWidget {
                                                       ),
                                                     ),
                                                     Text(
-                                                      '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                      provider.idEventos[index].vehicle.licesensePlates,
                                                       style: TextStyle(
                                                         color: color,
                                                       ),
                                                     ),
                                                     Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
-                                                        Text(
+                                                        const Text(
                                                           'Check Out: ',
                                                           style: TextStyle(
                                                             color: Colors.black,
                                                           ),
                                                         ),
                                                         Text(
-                                                          DateFormat('hh:mm:ss a')
-                                                              .format(provider
-                                                                  .idEventos[
-                                                                      index]
-                                                                  .dateAddedR),
+                                                          DateFormat('hh:mm:ss a').format(provider.idEventos[index].dateAddedR),
                                                           style: TextStyle(
                                                             color: color,
                                                           ),
@@ -466,19 +396,16 @@ class CustomAgenda extends StatelessWidget {
                                                       ],
                                                     ),
                                                     Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
-                                                        Text(
+                                                        const Text(
                                                           'Check In: ',
                                                           style: TextStyle(
                                                             color: Colors.black,
                                                           ),
                                                         ),
                                                         Text(
-                                                          DateFormat('hh:mm:ss a')
-                                                              .format(checkIn),
+                                                          DateFormat('hh:mm:ss a').format(checkIn),
                                                           style: TextStyle(
                                                             color: color,
                                                           ),
@@ -487,8 +414,7 @@ class CustomAgenda extends StatelessWidget {
                                                     ),
                                                     Image.network(
                                                       height: 150,
-                                                      provider.idEventos[index]
-                                                          .vehicle.image!,
+                                                      provider.idEventos[index].vehicle.image!,
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ],

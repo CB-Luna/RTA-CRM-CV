@@ -15,33 +15,15 @@ class AnswerFormDeliveredInventory extends StatelessWidget {
       height: 100,
       decoration: BoxDecoration(
         gradient: blueRadial,
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
+        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(10)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          DetailControlForm(
-              title: "Measures",
-              icon: Icons.speed_outlined,
-              state: provider.measureInspectD,
-              index: 1,
-              provider: provider,
-              list: provider.measureD),
-          DetailControlForm(
-              title: "Lights",
-              icon: Icons.lightbulb_outline,
-              state: provider.ligthsInspectD,
-              index: 2,
-              provider: provider,
-              list: provider.lightsD),
-          DetailControlForm(
-              title: "C. Bodywork",
-              icon: Icons.no_crash_outlined,
-              state: provider.carBodyInspectD,
-              index: 3,
-              provider: provider,
-              list: provider.carBodyWorkD),
+          DetailControlForm(title: "Measures", icon: Icons.speed_outlined, state: provider.measureInspectD, index: 1, provider: provider, list: provider.measureD),
+          DetailControlForm(title: "Lights", icon: Icons.lightbulb_outline, state: provider.ligthsInspectD, index: 2, provider: provider, list: provider.lightsD),
+          DetailControlForm(title: "C. Bodywork", icon: Icons.no_crash_outlined, state: provider.carBodyInspectD, index: 3, provider: provider, list: provider.carBodyWorkD),
           DetailControlForm(
             title: "Fluid Check",
             icon: Icons.invert_colors_outlined,

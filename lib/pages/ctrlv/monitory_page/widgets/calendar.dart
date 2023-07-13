@@ -6,7 +6,6 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
-import 'custom_agenda.dart';
 
 class Calendario extends StatefulWidget {
   const Calendario({super.key});

@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
-import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../services/api_error_handler.dart';
 import '../../../../theme/theme.dart';
@@ -25,8 +24,7 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
   bool light0 = true;
   bool light1 = true;
 
-  final MaterialStateProperty<Icon?> thumbIcon =
-      MaterialStateProperty.resolveWith<Icon?>(
+  final MaterialStateProperty<Icon?> thumbIcon = MaterialStateProperty.resolveWith<Icon?>(
     (Set<MaterialState> states) {
       if (states.contains(MaterialState.selected)) {
         return const Icon(Icons.check);
@@ -37,8 +35,7 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
-    IssueReportedProvider isssueReportedProvider =
-        Provider.of<IssueReportedProvider>(context);
+    IssueReportedProvider isssueReportedProvider = Provider.of<IssueReportedProvider>(context);
     final formKey = GlobalKey<FormState>();
     DateTime date = DateTime.now();
     print(isssueReportedProvider.registroIssueComments!.nameIssue);
@@ -68,8 +65,7 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                                   color: Colors.grey.withOpacity(0.5),
                                   spreadRadius: 0.1,
                                   blurRadius: 3,
-                                  offset: const Offset(
-                                      0, 0), // changes position of shadow
+                                  offset: const Offset(0, 0), // changes position of shadow
                                 ),
                               ],
                             ),
@@ -81,9 +77,7 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryColor,
                                 fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .contenidoTablas
-                                    .fontSize,
+                                fontSize: AppTheme.of(context).contenidoTablas.fontSize,
                               ),
                             )),
                         // const SwitchExample(),
@@ -108,23 +102,16 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                           label: 'Date of the finished Issue',
-                          controller: isssueReportedProvider
-                              .dateTimeClosedIssueController,
+                          controller: isssueReportedProvider.dateTimeClosedIssueController,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
                           keyboardType: TextInputType.name,
                           onTap: () async {
-                            DateTime? newDate = await showDatePicker(
-                                context: context,
-                                initialDate: date,
-                                firstDate: DateTime(1980),
-                                lastDate: DateTime(2050));
+                            DateTime? newDate = await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1980), lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              isssueReportedProvider
-                                      .dateTimeClosedIssueController.text =
-                                  DateFormat("MM/dd/yyyy").format(newDate);
+                              isssueReportedProvider.dateTimeClosedIssueController.text = DateFormat("MM/dd/yyyy").format(newDate);
                             }
                           }),
                     ),
@@ -137,8 +124,7 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
               children: [
                 CustomTextIconButton(
                     isLoading: false,
-                    icon: Icon(Icons.save_outlined,
-                        color: AppTheme.of(context).primaryBackground),
+                    icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
                     text: 'Close Issue',
                     onTap: () async {
                       if (!formKey.currentState!.validate()) {
@@ -147,8 +133,7 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                       if (light1 != false) {
                         bool res = await isssueReportedProvider.closeIssue();
                         if (!res) {
-                          await ApiErrorHandler.callToast(
-                              'Error al Cerrar el Issue');
+                          await ApiErrorHandler.callToast('Error al Cerrar el Issue');
                           return;
                         }
                         if (!mounted) return;
@@ -168,8 +153,7 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                     }),
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.exit_to_app_outlined,
-                      color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.exit_to_app_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Exit',
                   onTap: () {
                     context.pop();
@@ -195,8 +179,7 @@ class _SwitchExampleState extends State<SwitchExample> {
   bool light0 = true;
   bool light1 = true;
 
-  final MaterialStateProperty<Icon?> thumbIcon =
-      MaterialStateProperty.resolveWith<Icon?>(
+  final MaterialStateProperty<Icon?> thumbIcon = MaterialStateProperty.resolveWith<Icon?>(
     (Set<MaterialState> states) {
       if (states.contains(MaterialState.selected)) {
         return const Icon(Icons.check);

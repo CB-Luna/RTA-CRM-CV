@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -28,10 +27,9 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
           context,
           listen: false,
         );
-         provider.updateState();
+        provider.updateState();
       });
     }
-    
 
     DashboardCVProvider providerDash = Provider.of<DashboardCVProvider>(context);
     SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
@@ -39,11 +37,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
     final List<double> data = [30, 25, 45];
     final List<double> data2 = [40, 40, 20];
     final List<String> title = ["Available", "Not\nAvailable", "In Repair"];
-    final List<Color> colors = [
-      AppTheme.lightTheme.primaryColor,
-      AppTheme.lightTheme.secondaryColor,
-      AppTheme.lightTheme.primaryText
-    ];
+    final List<Color> colors = [AppTheme.lightTheme.primaryColor, AppTheme.lightTheme.secondaryColor, AppTheme.lightTheme.primaryText];
 
     return Material(
       child: SizedBox(
@@ -66,7 +60,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                     children: [
                       Row(
                         children: [
-                          Container(
+                          SizedBox(
                             width: MediaQuery.of(context).size.width / 2,
                             height: 600,
                             child: Column(
@@ -74,12 +68,11 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                                 Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 40,bottom: 30),
+                                      padding: const EdgeInsets.only(left: 40, bottom: 30),
                                       child: Text(
                                         "Issues Per Company",
                                         style: TextStyle(
-                                          color:
-                                              AppTheme.of(context).primaryText,
+                                          color: AppTheme.of(context).primaryText,
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -87,17 +80,15 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                                     )
                                   ],
                                 ),
-                                Container(
+                                SizedBox(
                                   height: 500,
                                   child: BarChart(
                                     BarChartData(
                                       barGroups: _getdata(providerDash),
                                       titlesData: titlesData,
                                     ),
-                                    swapAnimationDuration:
-                                        Duration(milliseconds: 150), // Optional
-                                    swapAnimationCurve:
-                                        Curves.linear, // Optional
+                                    swapAnimationDuration: const Duration(milliseconds: 150), // Optional
+                                    swapAnimationCurve: Curves.linear, // Optional
                                   ),
                                 ),
                               ],
@@ -106,61 +97,50 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 2 - 250,
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 2 - 250,
                                 child: Column(
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20),
+                                          padding: const EdgeInsets.only(left: 20),
                                           child: Text(
                                             "Vehicles Per Company",
                                             style: TextStyle(
-                                              color: AppTheme.of(context)
-                                                  .primaryText,
+                                              color: AppTheme.of(context).primaryText,
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Text("Cry",
+                                        Row(
+                                          children: [
+                                            Text("Cry",
+                                                style: TextStyle(
+                                                  color: AppTheme.of(context).primaryText,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 5, right: 5),
+                                              child: Text("Ode",
                                                   style: TextStyle(
-                                                    color: AppTheme.of(context)
-                                                        .primaryText,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  )),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5, right: 5),
-                                                child: Text("Ode",
-                                                    style: TextStyle(
-                                                      color:
-                                                          AppTheme.of(context)
-                                                              .primaryText,
-                                                      fontSize: 20,
-                                                    )),
-                                              ),
-                                              Text("Smi",
-                                                  style: TextStyle(
-                                                    color: AppTheme.of(context)
-                                                        .primaryText,
+                                                    color: AppTheme.of(context).primaryText,
                                                     fontSize: 20,
                                                   )),
-                                            ],
-                                          ),
+                                            ),
+                                            Text("Smi",
+                                                style: TextStyle(
+                                                  color: AppTheme.of(context).primaryText,
+                                                  fontSize: 20,
+                                                )),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                    Container(
+                                    SizedBox(
                                       height: 250,
                                       child: PieChart(
                                         PieChartData(
@@ -169,9 +149,9 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                                             (index) => PieChartSectionData(
                                               value: data[index],
                                               color: colors[index],
-                                              title: '${title[index]}',
+                                              title: title[index],
                                               radius: 70,
-                                              titleStyle: TextStyle(
+                                              titleStyle: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
@@ -184,61 +164,50 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                                   ],
                                 ),
                               ),
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 2 - 250,
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 2 - 250,
                                 child: Column(
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20),
+                                          padding: const EdgeInsets.only(left: 20),
                                           child: Text(
                                             "Employees Per Company",
                                             style: TextStyle(
-                                              color: AppTheme.of(context)
-                                                  .primaryText,
+                                              color: AppTheme.of(context).primaryText,
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Text("Cry",
+                                        Row(
+                                          children: [
+                                            Text("Cry",
+                                                style: TextStyle(
+                                                  color: AppTheme.of(context).primaryText,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 5, right: 5),
+                                              child: Text("Ode",
                                                   style: TextStyle(
-                                                    color: AppTheme.of(context)
-                                                        .primaryText,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  )),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5, right: 5),
-                                                child: Text("Ode",
-                                                    style: TextStyle(
-                                                      color:
-                                                          AppTheme.of(context)
-                                                              .primaryText,
-                                                      fontSize: 20,
-                                                    )),
-                                              ),
-                                              Text("Smi",
-                                                  style: TextStyle(
-                                                    color: AppTheme.of(context)
-                                                        .primaryText,
+                                                    color: AppTheme.of(context).primaryText,
                                                     fontSize: 20,
                                                   )),
-                                            ],
-                                          ),
+                                            ),
+                                            Text("Smi",
+                                                style: TextStyle(
+                                                  color: AppTheme.of(context).primaryText,
+                                                  fontSize: 20,
+                                                )),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                    Container(
+                                    SizedBox(
                                       height: 250,
                                       child: PieChart(
                                         PieChartData(
@@ -249,7 +218,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                                               color: colors[index],
                                               title: '${data2[index]}%',
                                               radius: 70,
-                                              titleStyle: TextStyle(
+                                              titleStyle: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
@@ -266,7 +235,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                           )
                         ],
                       ),
-                      Container(
+                      SizedBox(
                         height: 600,
                         child: Column(
                           children: [
@@ -285,22 +254,21 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                                 )
                               ],
                             ),
-                            Container(
+                            SizedBox(
                               height: 500,
                               child: BarChart(
                                 BarChartData(
                                   barGroups: _getdataMileage(),
                                   titlesData: licenseData,
                                 ),
-                                swapAnimationDuration:
-                                    Duration(milliseconds: 150), // Optional
+                                swapAnimationDuration: const Duration(milliseconds: 150), // Optional
                                 swapAnimationCurve: Curves.linear, // Optional
                               ),
                             ),
                           ],
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 800,
                         child: Column(
                           children: [
@@ -319,7 +287,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                                 )
                               ],
                             ),
-                            Container(
+                            SizedBox(
                               height: 500,
                               child: BarChart(
                                 BarChartData(
@@ -357,8 +325,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                                   //       }),
                                   // ),
                                 ),
-                                swapAnimationDuration:
-                                    Duration(milliseconds: 150), // Optional
+                                swapAnimationDuration: const Duration(milliseconds: 150), // Optional
                                 swapAnimationCurve: Curves.linear, // Optional
                               ),
                             ),
@@ -377,13 +344,12 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
   }
 
   List<BarChartGroupData> _getdata(DashboardCVProvider provider) {
-
     List<BarChartGroupData> data = [
       BarChartGroupData(
         x: 0,
         barRods: [
           BarChartRodData(
-            toY:provider.issuesSmi.toDouble(),
+            toY: provider.issuesSmi.toDouble(),
             color: AppTheme.of(context).secondaryColor,
           ),
           BarChartRodData(
@@ -648,7 +614,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
   }
 
   Widget getTitles(double value, TitleMeta meta) {
-    final style = TextStyle(
+    const style = TextStyle(
       color: Colors.black,
       fontWeight: FontWeight.bold,
       fontSize: 14,
@@ -676,7 +642,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
       case 6:
         text = 'Jul';
         break;
-        case 7:
+      case 7:
         text = 'Aug';
         break;
       case 8:
@@ -703,7 +669,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
   }
 
   Widget getLicenses(double value, TitleMeta meta) {
-    final style = TextStyle(
+    const style = TextStyle(
       color: Colors.black,
       fontWeight: FontWeight.bold,
       fontSize: 14,
@@ -753,8 +719,10 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
         ),
         leftTitles: AxisTitles(
           axisNameSize: 15,
-          sideTitles: SideTitles(showTitles: true,
-          reservedSize: 40,),
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 40,
+          ),
         ),
         topTitles: AxisTitles(
           sideTitles: SideTitles(showTitles: false),

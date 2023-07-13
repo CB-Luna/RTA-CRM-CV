@@ -15,8 +15,6 @@ class _ArchivePopUpState extends State<ArchivePopUp> {
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
     provider.getArchiveVehicle();
-    return AlertDialog(
-        backgroundColor: Colors.transparent,
-        content: CustomCard(title: 'List of Archive Vehicle', child: Text("")));
+    return const AlertDialog(backgroundColor: Colors.transparent, content: CustomCard(title: 'List of Archive Vehicle', child: Text("")));
   }
 }

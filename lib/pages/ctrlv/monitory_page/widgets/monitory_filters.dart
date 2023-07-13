@@ -9,8 +9,7 @@ class MonitoryFiltersWidget extends StatefulWidget {
   const MonitoryFiltersWidget({Key? key}) : super(key: key);
 
   @override
-  State<MonitoryFiltersWidget> createState() =>
-      _MonitoryFiltersWidgetState();
+  State<MonitoryFiltersWidget> createState() => _MonitoryFiltersWidgetState();
 }
 
 class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
@@ -61,11 +60,11 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                     Text(
                       "CRY",
                       style: TextStyle(
-                        fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                        fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                        fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                        fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                        color: AppTheme.of(context).primaryText),
+                          fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                          fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                          fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                          color: AppTheme.of(context).primaryText),
                     )
                   ],
                 ),
@@ -89,11 +88,11 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                     Text(
                       "ODE",
                       style: TextStyle(
-                        fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                        fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                        fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                        fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                        color: AppTheme.of(context).primaryText),
+                          fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                          fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                          fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                          color: AppTheme.of(context).primaryText),
                     )
                   ],
                 ),
@@ -109,7 +108,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                         height: 30,
                         width: 30,
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(255, 138, 0, 1),
+                          color: const Color.fromRGBO(255, 138, 0, 1),
                           borderRadius: BorderRadius.circular(50),
                         ),
                       ),
@@ -117,11 +116,11 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                     Text(
                       "SMI",
                       style: TextStyle(
-                        fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                        fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                        fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                        fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                        color: AppTheme.of(context).primaryText),
+                          fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                          fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                          fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                          fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                          color: AppTheme.of(context).primaryText),
                     )
                   ],
                 ),
@@ -166,7 +165,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                 numRegisters: provider.numCheckOutSMI,
                 text: 'Check Out SMI',
                 isTaped: false,
-                color: Color.fromRGBO(255, 138, 0, 1),
+                color: const Color.fromRGBO(255, 138, 0, 1),
                 onTap: () async {
                   // provider.seleccionado(2);
                   // provider.estatusFiltrado = 'NC Recibida';
@@ -202,9 +201,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                 text: 'Check In CRY',
                 isTaped: false,
                 color: AppTheme.of(context).primaryColor,
-                onTap: () async {
-                  
-                },
+                onTap: () async {},
               ),
             ),
             Padding(
@@ -214,9 +211,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                 text: 'Check In ODE',
                 isTaped: false,
                 color: AppTheme.of(context).secondaryColor,
-                onTap: () async {
-                  
-                },
+                onTap: () async {},
               ),
             ),
             Padding(
@@ -225,10 +220,8 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                 numRegisters: provider.numCheckInSMI,
                 text: 'Check In SMI',
                 isTaped: false,
-                color: Color.fromRGBO(255, 138, 0, 1),
-                onTap: () async {
-                  
-                },
+                color: const Color.fromRGBO(255, 138, 0, 1),
+                onTap: () async {},
               ),
             ),
             Padding(
@@ -236,7 +229,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
               child: Container(
                 width: 40,
                 height: 6,
-               color: Color.fromRGBO(245, 6, 213, 1),
+                color: const Color.fromRGBO(245, 6, 213, 1),
               ),
             ),
           ],
@@ -296,9 +289,7 @@ class _EstatusWidgetState extends State<EstatusWidget> {
               height: 30,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: widget.isTaped
-                    ? AppTheme.of(context).gris
-                    : AppTheme.of(context).primaryBackground,
+                color: widget.isTaped ? AppTheme.of(context).gris : AppTheme.of(context).primaryBackground,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(

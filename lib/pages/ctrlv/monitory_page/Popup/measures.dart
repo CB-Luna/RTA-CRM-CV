@@ -59,7 +59,7 @@ class MeasuresPopUp extends StatelessWidget {
                     size: 60,
                   ),
                   InkWell(
-                    child: Icon(
+                    child: const Icon(
                       Icons.check_circle_outline_outlined,
                       color: Color.fromARGB(200, 65, 155, 23),
                       size: 60,
@@ -91,7 +91,7 @@ class MeasuresPopUp extends StatelessWidget {
                     size: 60,
                   ),
                   InkWell(
-                    child: Icon(
+                    child: const Icon(
                       Icons.check_circle_outline_outlined,
                       color: Color.fromARGB(200, 65, 155, 23),
                       size: 60,

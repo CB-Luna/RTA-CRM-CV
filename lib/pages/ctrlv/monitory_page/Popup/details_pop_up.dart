@@ -186,9 +186,9 @@ class DetailsPop extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Padding(
-                                  padding: EdgeInsets.only(right: 80),
+                                  padding: const EdgeInsets.only(right: 80),
                                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                                     Padding(
                                       padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
@@ -383,17 +383,17 @@ class DetailsPop extends StatelessWidget {
                       : provider.viewPopup == 4
                           ? const ExtraPopUp(catalog: "Fluid Check")
                           : provider.viewPopup == 5
-                              ? BucketExtraPopUp()
+                              ? const BucketExtraPopUp()
                               : provider.viewPopup == 6
                                   ? const ExtraPopUp(catalog: "Security")
                                   : provider.viewPopup == 7
                                       ? const ExtraPopUp(catalog: "Extra")
                                       : provider.viewPopup == 8
-                                          ? ExtraPopUp(catalog: "Equipment")
+                                          ? const ExtraPopUp(catalog: "Equipment")
                                           : provider.viewPopup == 9
-                                              ? CommentsImagesIssues()
+                                              ? const CommentsImagesIssues()
                                               : provider.viewPopup == 10
-                                                  ? BucketCommentsImagesIssues()
+                                                  ? const BucketCommentsImagesIssues()
                                                   : Container(),
     );
   }
