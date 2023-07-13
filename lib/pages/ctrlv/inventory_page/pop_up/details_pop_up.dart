@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rta_crm_cv/models/vehicle.dart';
-import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/generalinfo_pop_up.dart';
-import 'package:rta_crm_cv/widgets/custom_card.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';

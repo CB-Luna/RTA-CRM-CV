@@ -88,7 +88,7 @@ class _LoginFormState extends State<LoginForm> {
                 width: 170,
                 child: CheckboxListTile(
                   contentPadding: EdgeInsets.zero,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   title: Text(
                     'Remember Me',
                     style: GoogleFonts.poppins(
@@ -103,7 +103,7 @@ class _LoginFormState extends State<LoginForm> {
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                   activeColor: AppTheme.of(context).primaryColor,
-                  splashRadius: 0,
+                  //splashRadius: 0,
                 ),
               ),
               Padding(

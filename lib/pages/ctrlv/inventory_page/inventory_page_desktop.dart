@@ -2,6 +2,7 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/cry_card.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/details_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/odi_card.dart';
@@ -18,17 +19,13 @@ import '../../../theme/theme.dart';
 import '../../../widgets/custom_card.dart';
 import '../../../widgets/custom_text_icon_button.dart';
 import 'actions/add_services_pop_up.dart';
+
 import 'pop_up/verify_to_eliminate_pop_up.dart';
 import 'widgets/header_inventory.dart';
 import 'actions/update_vehicle_pop_up.dart';
 
 class InventoryPageDesktop extends StatefulWidget {
-  const InventoryPageDesktop(
-      {Key? key,
-      required this.drawerController,
-      required this.scaffoldKey,
-      required this.provider})
-      : super(key: key);
+  const InventoryPageDesktop({Key? key, required this.drawerController, required this.scaffoldKey, required this.provider}) : super(key: key);
   final AdvancedDrawerController drawerController;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
@@ -161,8 +158,40 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ]),
+                                      OdiCard(
+                                        totalVehicleODE: widget.provider.totalVehicleODE,
+                                        totalRepairODE: widget.provider.totalRepairODE,
+                                        totalAssignedODE: widget.provider.totalAssignedODE,
+                                        totalAvailableODE: widget.provider.totalAvailableODE,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                // Carta de SMI
+                                Container(
+                                  margin: const EdgeInsets.all(20),
+                                  height: 425,
+                                  width: 339,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      //gradient: gradients[0],
+                                      boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))],
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 25,
+                                      ),
+                                      SmiCard(
+                                        totalVehicleSMI: widget.provider.totalVehicleSMI,
+                                        totalAssignedSMI: widget.provider.totalAssignedSMI,
+                                        totalRepairSMI: widget.provider.totalRepairSMI,
+                                        totalAvailableSMI: widget.provider.totalAvailableSMI,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ]),
                             ),
                             CustomCard(
                                 width: MediaQuery.of(context).size.width - 200,
@@ -173,16 +202,12 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                     InventoryPageHeader(),
                                     Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height -
-                                                200,
-                                        width:
-                                            MediaQuery.of(context).size.width,
+                                      child: SizedBox(
+                                        height: MediaQuery.of(context).size.height - 200,
+                                        width: MediaQuery.of(context).size.width,
                                         child: Material(
                                           shadowColor: const Color(0xff9ABEFF),
-                                          borderRadius:
-                                              BorderRadius.circular(15),
+                                          borderRadius: BorderRadius.circular(15),
                                           elevation: 10,
                                           child: PlutoGrid(
                                             key: UniqueKey(),
@@ -195,9 +220,9 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   plutoGridStyleConfig(context),
                                               columnFilter:
                                                   PlutoGridColumnFilterConfig(
+
                                                 filters: const [
-                                                  ...FilterHelper
-                                                      .defaultFilters,
+                                                  ...FilterHelper.defaultFilters,
                                                 ],
                                                 resolveDefaultColumnFilter:
                                                     (column, resolver) {
@@ -245,6 +270,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   return resolver<
                                                           PlutoFilterTypeContains>()
                                                       as PlutoFilterType;
+
                                                 },
                                               ),
                                             ),
@@ -252,58 +278,32 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               PlutoColumn(
                                                 title: 'License Plates',
                                                 field: 'license_plates',
-                                                backgroundColor:
-                                                    const Color(0XFF6491F7),
+                                                backgroundColor: const Color(0XFF6491F7),
                                                 titleSpan: TextSpan(children: [
-                                                  WidgetSpan(
-                                                      child: Icon(
-                                                          Icons
-                                                              .credit_card_outlined,
-                                                          color: AppTheme.of(
-                                                                  context)
-                                                              .primaryBackground)),
-                                                  const WidgetSpan(
-                                                      child:
-                                                          SizedBox(width: 10)),
-                                                  TextSpan(
-                                                      text: 'License Plates',
-                                                      style:
-                                                          AppTheme.of(context)
-                                                              .encabezadoTablas)
+                                                  WidgetSpan(child: Icon(Icons.credit_card_outlined, color: AppTheme.of(context).primaryBackground)),
+                                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                                  TextSpan(text: 'License Plates', style: AppTheme.of(context).encabezadoTablas)
                                                 ]),
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
                                                     0.12,
                                                 cellPadding: EdgeInsets.zero,
-                                                titleTextAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                textAlign:
-                                                    PlutoColumnTextAlign.center,
+                                                titleTextAlign: PlutoColumnTextAlign.center,
+                                                textAlign: PlutoColumnTextAlign.center,
                                                 type: PlutoColumnType.text(),
                                                 enableEditingMode: false,
                                                 renderer: (rendererContext) {
                                                   return Container(
                                                     height: rowHeight,
                                                     // width: rendererContext.cell.column.width,
-                                                    decoration: BoxDecoration(
-                                                        gradient:
-                                                            whiteGradient),
+                                                    decoration: BoxDecoration(gradient: whiteGradient),
                                                     child: Center(
                                                       child: Text(
-                                                        rendererContext
-                                                            .cell.value,
-                                                        style: AppTheme.of(
-                                                                context)
+                                                        rendererContext.cell.value,
+                                                        style: AppTheme.of(context)
                                                             .contenidoTablas
-                                                            .override(
-                                                                fontFamily:
-                                                                    'Gotham-Regular',
-                                                                useGoogleFonts:
-                                                                    false,
-                                                                color: AppTheme.of(
-                                                                        context)
-                                                                    .primaryColor),
+                                                            .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
                                                       ),
                                                     ),
                                                   );
@@ -312,34 +312,19 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               PlutoColumn(
                                                 title: 'Vin',
                                                 field: 'vin',
-                                                backgroundColor:
-                                                    const Color(0XFF6491F7),
+                                                backgroundColor: const Color(0XFF6491F7),
                                                 titleSpan: TextSpan(children: [
-                                                  WidgetSpan(
-                                                      child: Icon(
-                                                          Icons
-                                                              .dialpad_outlined,
-                                                          color: AppTheme.of(
-                                                                  context)
-                                                              .primaryBackground)),
-                                                  const WidgetSpan(
-                                                      child:
-                                                          SizedBox(width: 10)),
-                                                  TextSpan(
-                                                      text: 'VIN',
-                                                      style:
-                                                          AppTheme.of(context)
-                                                              .encabezadoTablas)
+                                                  WidgetSpan(child: Icon(Icons.dialpad_outlined, color: AppTheme.of(context).primaryBackground)),
+                                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                                  TextSpan(text: 'VIN', style: AppTheme.of(context).encabezadoTablas)
                                                 ]),
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
                                                     0.12,
                                                 cellPadding: EdgeInsets.zero,
-                                                titleTextAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                textAlign:
-                                                    PlutoColumnTextAlign.center,
+                                                titleTextAlign: PlutoColumnTextAlign.center,
+                                                textAlign: PlutoColumnTextAlign.center,
                                                 type: PlutoColumnType.text(),
                                                 enableEditingMode: false,
                                                 renderer: (rendererContext) {
@@ -347,24 +332,12 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                     height: rowHeight,
                                                     // width: rendererContext
                                                     //.cell.column.width,                                                    .cell.column.width,
-                                                    decoration: BoxDecoration(
-                                                        gradient:
-                                                            whiteGradient),
+                                                    decoration: BoxDecoration(gradient: whiteGradient),
                                                     child: Center(
                                                         child: Text(
-                                                      rendererContext
-                                                          .cell.value,
-                                                      style: AppTheme.of(
-                                                              context)
-                                                          .contenidoTablas
-                                                          .override(
-                                                              fontFamily:
-                                                                  'Gotham-Regular',
-                                                              useGoogleFonts:
-                                                                  false,
-                                                              color: AppTheme.of(
-                                                                      context)
-                                                                  .primaryColor),
+                                                      rendererContext.cell.value,
+                                                      style:
+                                                          AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
                                                     )),
                                                   );
                                                 },
@@ -373,21 +346,9 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 title: 'Make',
                                                 field: 'make',
                                                 titleSpan: TextSpan(children: [
-                                                  WidgetSpan(
-                                                      child: Icon(
-                                                          Icons
-                                                              .label_important_outline,
-                                                          color: AppTheme.of(
-                                                                  context)
-                                                              .primaryBackground)),
-                                                  const WidgetSpan(
-                                                      child:
-                                                          SizedBox(width: 10)),
-                                                  TextSpan(
-                                                      text: 'Make',
-                                                      style:
-                                                          AppTheme.of(context)
-                                                              .encabezadoTablas)
+                                                  WidgetSpan(child: Icon(Icons.label_important_outline, color: AppTheme.of(context).primaryBackground)),
+                                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                                  TextSpan(text: 'Make', style: AppTheme.of(context).encabezadoTablas)
                                                 ]),
                                                 width: MediaQuery.of(context)
                                                         .size
@@ -396,10 +357,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 backgroundColor:
                                                     const Color(0XFF6491F7),
                                                 cellPadding: EdgeInsets.zero,
-                                                titleTextAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                textAlign:
-                                                    PlutoColumnTextAlign.center,
+                                                titleTextAlign: PlutoColumnTextAlign.center,
+                                                textAlign: PlutoColumnTextAlign.center,
                                                 type: PlutoColumnType.text(),
                                                 enableEditingMode: false,
                                                 renderer: (rendererContext) {
@@ -410,19 +369,9 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                             whiteGradient),
                                                     child: Center(
                                                         child: Text(
-                                                      rendererContext
-                                                          .cell.value,
-                                                      style: AppTheme.of(
-                                                              context)
-                                                          .contenidoTablas
-                                                          .override(
-                                                              fontFamily:
-                                                                  'Gotham-Regular',
-                                                              useGoogleFonts:
-                                                                  false,
-                                                              color: AppTheme.of(
-                                                                      context)
-                                                                  .primaryColor),
+                                                      rendererContext.cell.value,
+                                                      style:
+                                                          AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
                                                     )),
                                                   );
                                                 },
@@ -430,34 +379,16 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               PlutoColumn(
                                                 title: 'Model',
                                                 field: 'model',
-                                                backgroundColor:
-                                                    const Color(0XFF6491F7),
+                                                backgroundColor: const Color(0XFF6491F7),
                                                 titleSpan: TextSpan(children: [
-                                                  WidgetSpan(
-                                                      child: Icon(
-                                                          Icons
-                                                              .local_shipping_outlined,
-                                                          color: AppTheme.of(
-                                                                  context)
-                                                              .primaryBackground)),
-                                                  const WidgetSpan(
-                                                      child:
-                                                          SizedBox(width: 10)),
-                                                  TextSpan(
-                                                      text: 'Model',
-                                                      style:
-                                                          AppTheme.of(context)
-                                                              .encabezadoTablas)
+                                                  WidgetSpan(child: Icon(Icons.local_shipping_outlined, color: AppTheme.of(context).primaryBackground)),
+                                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                                  TextSpan(text: 'Model', style: AppTheme.of(context).encabezadoTablas)
                                                 ]),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.10,
+                                                width: MediaQuery.of(context).size.width * 0.10,
                                                 cellPadding: EdgeInsets.zero,
-                                                titleTextAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                textAlign:
-                                                    PlutoColumnTextAlign.center,
+                                                titleTextAlign: PlutoColumnTextAlign.center,
+                                                textAlign: PlutoColumnTextAlign.center,
                                                 type: PlutoColumnType.text(),
                                                 enableEditingMode: false,
                                                 renderer: (rendererContext) {
@@ -465,24 +396,12 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                     height: rowHeight,
                                                     // width: rendererContext
                                                     //.cell.column.width,                                                    .cell.column.width,
-                                                    decoration: BoxDecoration(
-                                                        gradient:
-                                                            whiteGradient),
+                                                    decoration: BoxDecoration(gradient: whiteGradient),
                                                     child: Center(
                                                         child: Text(
-                                                      rendererContext
-                                                          .cell.value,
-                                                      style: AppTheme.of(
-                                                              context)
-                                                          .contenidoTablas
-                                                          .override(
-                                                              fontFamily:
-                                                                  'Gotham-Regular',
-                                                              useGoogleFonts:
-                                                                  false,
-                                                              color: AppTheme.of(
-                                                                      context)
-                                                                  .primaryColor),
+                                                      rendererContext.cell.value,
+                                                      style:
+                                                          AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
                                                     )),
                                                   );
                                                 },
@@ -490,34 +409,16 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               PlutoColumn(
                                                 title: 'Status',
                                                 field: 'status',
-                                                backgroundColor:
-                                                    const Color(0XFF6491F7),
+                                                backgroundColor: const Color(0XFF6491F7),
                                                 titleSpan: TextSpan(children: [
-                                                  WidgetSpan(
-                                                      child: Icon(
-                                                          Icons
-                                                              .car_repair_outlined,
-                                                          color: AppTheme.of(
-                                                                  context)
-                                                              .primaryBackground)),
-                                                  const WidgetSpan(
-                                                      child:
-                                                          SizedBox(width: 10)),
-                                                  TextSpan(
-                                                      text: 'Status',
-                                                      style:
-                                                          AppTheme.of(context)
-                                                              .encabezadoTablas)
+                                                  WidgetSpan(child: Icon(Icons.car_repair_outlined, color: AppTheme.of(context).primaryBackground)),
+                                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                                  TextSpan(text: 'Status', style: AppTheme.of(context).encabezadoTablas)
                                                 ]),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.11,
+                                                width: MediaQuery.of(context).size.width * 0.11,
                                                 cellPadding: EdgeInsets.zero,
-                                                titleTextAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                textAlign:
-                                                    PlutoColumnTextAlign.center,
+                                                titleTextAlign: PlutoColumnTextAlign.center,
+                                                textAlign: PlutoColumnTextAlign.center,
                                                 type: PlutoColumnType.text(),
                                                 enableEditingMode: false,
                                                 renderer: (rendererContext) {
@@ -525,24 +426,12 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                     height: rowHeight,
                                                     // width: rendererContext
                                                     //.cell.column.width,.cell.column.width,
-                                                    decoration: BoxDecoration(
-                                                        gradient:
-                                                            whiteGradient),
+                                                    decoration: BoxDecoration(gradient: whiteGradient),
                                                     child: Center(
                                                         child: Text(
-                                                      rendererContext
-                                                          .cell.value,
-                                                      style: AppTheme.of(
-                                                              context)
-                                                          .contenidoTablas
-                                                          .override(
-                                                              fontFamily:
-                                                                  'Gotham-Regular',
-                                                              useGoogleFonts:
-                                                                  false,
-                                                              color: AppTheme.of(
-                                                                      context)
-                                                                  .primaryColor),
+                                                      rendererContext.cell.value,
+                                                      style:
+                                                          AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
                                                     )),
                                                   );
                                                 },
@@ -550,34 +439,19 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               PlutoColumn(
                                                 title: 'Company',
                                                 field: 'company',
-                                                backgroundColor:
-                                                    const Color(0XFF6491F7),
+                                                backgroundColor: const Color(0XFF6491F7),
                                                 titleSpan: TextSpan(children: [
-                                                  WidgetSpan(
-                                                      child: Icon(
-                                                          Icons
-                                                              .warehouse_outlined,
-                                                          color: AppTheme.of(
-                                                                  context)
-                                                              .primaryBackground)),
-                                                  const WidgetSpan(
-                                                      child:
-                                                          SizedBox(width: 10)),
-                                                  TextSpan(
-                                                      text: 'Company',
-                                                      style:
-                                                          AppTheme.of(context)
-                                                              .encabezadoTablas)
+                                                  WidgetSpan(child: Icon(Icons.warehouse_outlined, color: AppTheme.of(context).primaryBackground)),
+                                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                                  TextSpan(text: 'Company', style: AppTheme.of(context).encabezadoTablas)
                                                 ]),
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
                                                     0.10,
                                                 cellPadding: EdgeInsets.zero,
-                                                titleTextAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                textAlign:
-                                                    PlutoColumnTextAlign.center,
+                                                titleTextAlign: PlutoColumnTextAlign.center,
+                                                textAlign: PlutoColumnTextAlign.center,
                                                 type: PlutoColumnType.text(),
                                                 enableEditingMode: false,
                                                 renderer: (rendererContext) {
@@ -585,24 +459,12 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                     height: rowHeight,
                                                     // width: rendererContext
                                                     //.cell.column.width,                                                    .cell.column.width,
-                                                    decoration: BoxDecoration(
-                                                        gradient:
-                                                            whiteGradient),
+                                                    decoration: BoxDecoration(gradient: whiteGradient),
                                                     child: Center(
                                                         child: Text(
-                                                      rendererContext
-                                                          .cell.value,
-                                                      style: AppTheme.of(
-                                                              context)
-                                                          .contenidoTablas
-                                                          .override(
-                                                              fontFamily:
-                                                                  'Gotham-Regular',
-                                                              useGoogleFonts:
-                                                                  false,
-                                                              color: AppTheme.of(
-                                                                      context)
-                                                                  .primaryColor),
+                                                      rendererContext.cell.value,
+                                                      style:
+                                                          AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
                                                     )),
                                                   );
                                                 },
@@ -610,34 +472,16 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               PlutoColumn(
                                                 title: 'mileage',
                                                 field: 'mileage',
-                                                backgroundColor:
-                                                    const Color(0XFF6491F7),
+                                                backgroundColor: const Color(0XFF6491F7),
                                                 titleSpan: TextSpan(children: [
-                                                  WidgetSpan(
-                                                      child: Icon(
-                                                          Icons
-                                                              .warehouse_outlined,
-                                                          color: AppTheme.of(
-                                                                  context)
-                                                              .primaryBackground)),
-                                                  const WidgetSpan(
-                                                      child:
-                                                          SizedBox(width: 10)),
-                                                  TextSpan(
-                                                      text: 'Mileage',
-                                                      style:
-                                                          AppTheme.of(context)
-                                                              .encabezadoTablas)
+                                                  WidgetSpan(child: Icon(Icons.warehouse_outlined, color: AppTheme.of(context).primaryBackground)),
+                                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                                  TextSpan(text: 'Mileage', style: AppTheme.of(context).encabezadoTablas)
                                                 ]),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.11,
+                                                width: MediaQuery.of(context).size.width * 0.11,
                                                 cellPadding: EdgeInsets.zero,
-                                                titleTextAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                textAlign:
-                                                    PlutoColumnTextAlign.center,
+                                                titleTextAlign: PlutoColumnTextAlign.center,
+                                                textAlign: PlutoColumnTextAlign.center,
                                                 type: PlutoColumnType.text(),
                                                 enableEditingMode: false,
                                                 renderer: (rendererContext) {
@@ -645,24 +489,12 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                     height: rowHeight,
                                                     // width: rendererContext
                                                     //.cell.column.width,                                                    .cell.column.width,
-                                                    decoration: BoxDecoration(
-                                                        gradient:
-                                                            whiteGradient),
+                                                    decoration: BoxDecoration(gradient: whiteGradient),
                                                     child: Center(
                                                         child: Text(
-                                                      rendererContext
-                                                          .cell.value,
-                                                      style: AppTheme.of(
-                                                              context)
-                                                          .contenidoTablas
-                                                          .override(
-                                                              fontFamily:
-                                                                  'Gotham-Regular',
-                                                              useGoogleFonts:
-                                                                  false,
-                                                              color: AppTheme.of(
-                                                                      context)
-                                                                  .primaryColor),
+                                                      rendererContext.cell.value,
+                                                      style:
+                                                          AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
                                                     )),
                                                   );
                                                 },
@@ -694,10 +526,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                         .width *
                                                     0.30,
                                                 cellPadding: EdgeInsets.zero,
-                                                titleTextAlign:
-                                                    PlutoColumnTextAlign.center,
-                                                textAlign:
-                                                    PlutoColumnTextAlign.center,
+                                                titleTextAlign: PlutoColumnTextAlign.center,
+                                                textAlign: PlutoColumnTextAlign.center,
                                                 type: PlutoColumnType.text(),
                                                 enableEditingMode: false,
                                                 renderer: (rendererContext) {
@@ -755,18 +585,11 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                               provider
                                                                   .getServicesPage();
                                                               showDialog(
-                                                                  context:
-                                                                      context,
-                                                                  builder:
-                                                                      (BuildContext
-                                                                          context) {
-                                                                    return StatefulBuilder(builder:
-                                                                        (context,
-                                                                            setState) {
+                                                                  context: context,
+                                                                  builder: (BuildContext context) {
+                                                                    return StatefulBuilder(builder: (context, setState) {
                                                                       return DetailsPopUp(
-                                                                        vehicle: rendererContext
-                                                                            .cell
-                                                                            .value,
+                                                                        vehicle: rendererContext.cell.value,
                                                                       );
                                                                     });
                                                                   });
@@ -776,54 +599,25 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                         CustomTextIconButton(
                                                           isLoading: false,
                                                           icon: Icon(
-                                                            Icons
-                                                                .fact_check_outlined,
-                                                            color: AppTheme.of(
-                                                                    context)
-                                                                .primaryBackground,
+                                                            Icons.fact_check_outlined,
+                                                            color: AppTheme.of(context).primaryBackground,
                                                           ),
                                                           text: 'Edit',
                                                           onTap: () async {
                                                             //provider.clearControllers();
-                                                            await provider
-                                                                .getCompanies(
-                                                                    notify:
-                                                                        false);
-                                                            await provider
-                                                                .getStatus(
-                                                                    notify:
-                                                                        false);
-                                                            provider
-                                                                .inicializeColor(
-                                                                    rendererContext
-                                                                        .cell
-                                                                        .value);
+                                                            await provider.getCompanies(notify: false);
+                                                            await provider.getStatus(notify: false);
+                                                            provider.inicializeColor(rendererContext.cell.value);
 
-                                                            provider
-                                                                .inicializeImage(
-                                                                    rendererContext
-                                                                        .cell
-                                                                        .value);
-                                                            provider
-                                                                .updateInventoryControllers(
-                                                                    rendererContext
-                                                                        .cell
-                                                                        .value);
+                                                            provider.inicializeImage(rendererContext.cell.value);
+                                                            provider.updateInventoryControllers(rendererContext.cell.value);
                                                             // ignore: use_build_context_synchronously
                                                             await showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                                  return StatefulBuilder(
-                                                                      builder:
-                                                                          (context,
-                                                                              setState) {
+                                                                context: context,
+                                                                builder: (BuildContext context) {
+                                                                  return StatefulBuilder(builder: (context, setState) {
                                                                     return UpdateVehiclePopUp(
-                                                                      vehicle: rendererContext
-                                                                          .cell
-                                                                          .value,
+                                                                      vehicle: rendererContext.cell.value,
                                                                     );
                                                                   });
                                                                 });
@@ -832,34 +626,22 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                         CustomTextIconButton(
                                                           isLoading: false,
                                                           icon: Icon(
-                                                            Icons
-                                                                .shopping_basket_outlined,
-                                                            color: AppTheme.of(
-                                                                    context)
-                                                                .primaryBackground,
+                                                            Icons.shopping_basket_outlined,
+                                                            color: AppTheme.of(context).primaryBackground,
                                                           ),
                                                           color: secondaryColor,
                                                           text: 'Delete',
                                                           onTap: () async {
                                                             await showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                                  return StatefulBuilder(
-                                                                      builder:
-                                                                          (context,
-                                                                              setState) {
+                                                                context: context,
+                                                                builder: (BuildContext context) {
+                                                                  return StatefulBuilder(builder: (context, setState) {
                                                                     return DeletePopUp(
-                                                                      vehicle: rendererContext
-                                                                          .cell
-                                                                          .value,
+                                                                      vehicle: rendererContext.cell.value,
                                                                     );
                                                                   });
                                                                 });
-                                                            await provider
-                                                                .getInventory();
+                                                            await provider.getInventory();
                                                           },
                                                         ),
                                                         CustomTextIconButton(
@@ -912,26 +694,18 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 notify: false,
                                               );
 
-                                              return PlutoPagination(
-                                                  stateManager);
+                                              return PlutoPagination(stateManager);
                                             },
                                             onLoaded: (event) {
-                                              widget.provider.stateManager =
-                                                  event.stateManager;
+                                              widget.provider.stateManager = event.stateManager;
 
                                               stateManager = event.stateManager;
 
-                                              stateManager
-                                                  .setShowColumnFilter(true);
+                                              stateManager.setShowColumnFilter(true);
                                               stateManager.setSelectingMode(
                                                 PlutoGridSelectingMode.row,
                                               );
-                                              stateManager.sortAscending(
-                                                  PlutoColumn(
-                                                      title: '#',
-                                                      field: 'id_vehicle',
-                                                      type: PlutoColumnType
-                                                          .number()));
+                                              stateManager.sortAscending(PlutoColumn(title: '#', field: 'id_vehicle', type: PlutoColumnType.number()));
                                             },
                                             onRowChecked: (event) {},
                                           ),

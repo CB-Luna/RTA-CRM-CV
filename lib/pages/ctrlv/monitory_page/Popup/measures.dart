@@ -17,17 +17,17 @@ class MeasuresPopUp extends StatelessWidget {
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
-         width: 700,
+        width: 700,
         height: 650,
         decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
-        child:  Column(
+        child: Column(
           children: [
-            CardHeader(text: "Measures"),
-             Row(
+            const CardHeader(text: "Measures"),
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 20),
                   alignment: Alignment.centerLeft,
                   child: ElevatedButton(
                       onPressed: () {
@@ -46,16 +46,18 @@ class MeasuresPopUp extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Mileage",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
+                  const Text(
+                    "Mileage",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
+                  Text(
+                    row.mileageR.toString(),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Text(row.mileageR.toString(),
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
+                  const Icon(
+                    Icons.check_circle_outline_outlined,
+                    color: Color.fromARGB(200, 65, 155, 23),
+                    size: 60,
                   ),
                   ),
                   InkWell(
@@ -71,21 +73,22 @@ class MeasuresPopUp extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child:  Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  
-                  Text("Gas/Diesel %",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
+                  const Text(
+                    "Gas/Diesel %",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
+                  Text(
+                    row.gasR.toString(),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Text(row.gasR.toString(),
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
+                  const Icon(
+                    Icons.check_circle_outline_outlined,
+                    color: Color.fromARGB(200, 65, 155, 23),
+                    size: 60,
                   ),
                   ),
                   InkWell(
@@ -99,7 +102,6 @@ class MeasuresPopUp extends StatelessWidget {
                 ],
               ),
             ),
-
           ],
         ),
       ),

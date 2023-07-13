@@ -10,14 +10,13 @@ class LicenseHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
+    MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
         width: 900,
         height: 550,
-        decoration: BoxDecoration(
-            gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
+        decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
             const Padding(
@@ -30,7 +29,7 @@ class LicenseHistory extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
                         onPressed: () {
@@ -48,35 +47,40 @@ class LicenseHistory extends StatelessWidget {
               margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 gradient: blueRadial,
-                borderRadius:
-                    BorderRadius.all(Radius.circular(10.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               ),
-              child:  Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.supervised_user_circle_rounded,
                     color: Colors.white,
                     size: 80,
                   ),
-                  Text("${provider.monitory.first.employee.name} ${provider.monitory.first.employee.lastName}",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),),
-                  Text("${provider.monitory.first.licensePlates}",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),),
-                  Text("${provider.monitory.first.dateAddedR} - ${provider.monitory.first.dateAddedD}",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),),
+                  Text(
+                    "${provider.monitory.first.employee.name} ${provider.monitory.first.employee.lastName}",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    provider.monitory.first.licensePlates,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    "${provider.monitory.first.dateAddedR} - ${provider.monitory.first.dateAddedD}",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ],
               ),
             ),
