@@ -31,7 +31,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 20),
             child: CustomTextField(
               width: 200,
               enabled: true,
@@ -49,8 +49,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             child: CustomTextIconButton(
               width: 131,
               isLoading: false,
-              icon: Icon(Icons.add_box_outlined,
-                  color: AppTheme.of(context).primaryBackground),
+              icon: Icon(Icons.add_box_outlined, color: AppTheme.of(context).primaryBackground),
               text: 'Add Vehicle',
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
@@ -97,12 +96,10 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             child: CustomTextIconButton(
               width: 131,
               isLoading: false,
-              icon: Icon(Icons.add_box_outlined,
-                  color: AppTheme.of(context).primaryBackground),
+              icon: Icon(Icons.add_box_outlined, color: AppTheme.of(context).primaryBackground),
               text: 'Filter',
               color: AppTheme.of(context).primaryColor,
-              onTap: () => provider.stateManager!.setShowColumnFilter(
-                  !provider.stateManager!.showColumnFilter),
+              onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
             ),
           ),
           // Container(
@@ -137,8 +134,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             child: CustomTextIconButton(
               width: 131,
               isLoading: false,
-              icon: Icon(Icons.add_box_outlined,
-                  color: AppTheme.of(context).primaryBackground),
+              icon: Icon(Icons.add_box_outlined, color: AppTheme.of(context).primaryBackground),
               text: 'Export Data',
               color: AppTheme.of(context).primaryColor,
               onTap: () {

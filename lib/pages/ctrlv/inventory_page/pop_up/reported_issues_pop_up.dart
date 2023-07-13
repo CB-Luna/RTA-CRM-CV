@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/comments_photos_pop_up.dart';
-import 'package:rta_crm_cv/public/colors.dart';
 
 import '../../../../providers/ctrlv/inventory_provider.dart';
-import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_card.dart';
 import '../widgets/listIssuesCard.dart';
 
@@ -38,19 +35,14 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                       onPressed: () {
                         provider.setIssueViewActual(0);
                       },
-                      child: Text("BACK")),
+                      child: const Text("BACK")),
                   Container(
                       width: 100,
                       height: 25,
                       alignment: Alignment.center,
                       decoration: const BoxDecoration(
                         color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              blurRadius: 4,
-                              color: Colors.grey,
-                              offset: Offset(10, 10))
-                        ],
+                        boxShadow: [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))],
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                       child: Text(
@@ -71,15 +63,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         padding: const EdgeInsets.only(bottom: 20.0, right: 10),
                         child: Container(
                           decoration: const BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    blurRadius: 4,
-                                    color: Colors.grey,
-                                    offset: Offset(10, 10))
-                              ],
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
+                              color: Colors.white, boxShadow: [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))], borderRadius: BorderRadius.all(Radius.circular(20))),
                           width: MediaQuery.of(context).size.width,
                           height: 200,
                           child: ListIssuesCard(

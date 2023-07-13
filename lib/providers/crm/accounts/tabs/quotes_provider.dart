@@ -6,16 +6,15 @@ import 'package:flutter/material.dart' hide State;
 import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
+import 'package:rta_crm_cv/models/grpc/model_x2_mysql_quotes.dart';
 import 'package:rta_crm_cv/models/x2crm/x2crm_quote_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-//import 'package:rta_crm_cv/src/generated/x2_mysql.pbgrpc.dart';
-//import 'package:rta_crm_cv/grpc_web.dart';
-//import 'package:grpc/grpc_web.dart';
+import 'package:grpc/grpc_web.dart';
+import 'package:rta_crm_cv/src/generated/x2_mysql_quotes.pbgrpc.dart';
 
 class QuotesProvider extends ChangeNotifier {
   final searchController = TextEditingController();
@@ -107,7 +106,6 @@ class QuotesProvider extends ChangeNotifier {
     switch (index) {
       case 0:
         await getQuotes(null);
-
         break;
       case 1:
         await getQuotes(1);
@@ -159,7 +157,7 @@ class QuotesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getX2CRMQuotes() async {
+/*   Future<void> getX2CRMQuotes() async {
     var headers = {
       'Authorization': 'Basic YWxleGM6NW1saDM5UjhQUVc4WnI3TzhDcGlPSDJvZE1xaGtFOE8=',
       //'Cookie': 'PHPSESSID=u3lgismtbbamh7g3k6b8dqteuk; YII_CSRF_TOKEN=Z2VybTVsZERNcV9faDVSUlE1VFRZeHk3WmNUWmRiSEMSMv7x7artFlmFwAp6GLyf7Qsi4oYOGXtsrcYz02xGJg%3D%3D'
@@ -181,7 +179,7 @@ class QuotesProvider extends ChangeNotifier {
     } else {
       log(response.reasonPhrase.toString());
     }
-  }
+  } */
 
   Future<void> getQuotes(int? status) async {
     if (stateManager != null) {
@@ -214,13 +212,9 @@ class QuotesProvider extends ChangeNotifier {
         if (currentUser!.isSales) {
           res = await supabaseCRM.from('quotes_view').select();
         } else if (currentUser!.isSenExec) {
-          res = await supabaseCRM
-              .from('quotes_view')
-              .select()
-              .eq('id_status', 2); //Sen. Exec. Validate
+          res = await supabaseCRM.from('quotes_view').select().eq('id_status', 2); //Sen. Exec. Validate
         } else if (currentUser!.isFinance) {
-          res =
-              await supabaseCRM.from('quotes_view').select().eq('id_status', 3); //Finance Validate
+          res = await supabaseCRM.from('quotes_view').select().eq('id_status', 3); //Finance Validate
         } else if (currentUser!.isOpperations) {
           res = await supabaseCRM.from('quotes_view').select().or(
                 'id_status.eq.4,id_status.eq.7,id_status.eq.9,id_status.eq.10,id_status.eq.11',
@@ -245,8 +239,7 @@ class QuotesProvider extends ChangeNotifier {
               'TOTAL_Column': PlutoCell(value: quote.total),
               'MARGIN_Column': PlutoCell(value: quote.margin),
               'VENDOR_Column': PlutoCell(value: quote.vendorName),
-              'ORDER_Column':
-                  PlutoCell(value: ' ${quote.orderInfo.type} ${quote.orderInfo.orderType}'),
+              'ORDER_Column': PlutoCell(value: ' ${quote.orderInfo.type} ${quote.orderInfo.orderType}'),
               'DESCRIPTION_Column': PlutoCell(value: quote.items.first.lineItem),
               'DATACENTER_Column': PlutoCell(value: quote.orderInfo.dataCenterLocation),
               'PROBABILITY_Column': PlutoCell(value: quote.leadProbability),
@@ -263,8 +256,6 @@ class QuotesProvider extends ChangeNotifier {
       }
 
       if (stateManager != null) stateManager!.notifyListeners();
-
-      await getX2CRMQuotes();
     } catch (e) {
       log('Error en getQuotes() - $e');
     }
@@ -404,31 +395,44 @@ class QuotesProvider extends ChangeNotifier {
   ////////////////////////////////////////////////////////
 
   Future<void> x2MySQL() async {
-    /* final channel = ClientChannel(
-      'localhost',
-      port: 50051,
-      options: ChannelOptions(
-        credentials: const ChannelCredentials.insecure(),
-        codecRegistry: CodecRegistry(codecs: const [GzipCodec(), IdentityCodec()]),
-      ),
-    );
-
-    final retriever = RetrieverClient(channel);
-
     try {
-      var response = await retriever.returnData(DataRequest(), options: CallOptions(compression: const GzipCodec()));
-      print(response.message);
-    } catch (e) {
-      print('Caught error: $e');
-    }
-    await channel.shutdown(); */
+      final channel = GrpcWebClientChannel.xhr(Uri.parse('http://34.130.182.108:9093'));
+      final service = QuotesRetrieverClient(channel);
+      var result = await service.returnData(DataRequest());
+      print(result.message);
 
-    try {
-      /* final channel = GrpcWebClientChannel.xhr(Uri.parse('http://localhost:8081'));
-      final service = RetrieverClient(channel);
+      var res = jsonDecode(result.message);
+      final x2crmQuotes = (res as List<dynamic>).map((quote) => ModelX2MysqlQuotes.fromJson(jsonEncode(quote))).toList();
 
-      var result = (await service.returnData(DataRequest())).message;
-      print(result); */
+      if (indexSelected[0] || indexSelected[1]) {
+        for (ModelX2MysqlQuotes quote in x2crmQuotes) {
+          rows.add(
+            PlutoRow(
+              cells: {
+                'ID_Column': PlutoCell(value: quote.id),
+                'ACCOUNT_Column': PlutoCell(value: quote.account?.name ?? '-'),
+                'NAME_Column': PlutoCell(value: quote.name),
+                'TOTAL_Column': PlutoCell(value: quote.total),
+                'MARGIN_Column': PlutoCell(value: 0),
+                'VENDOR_Column': PlutoCell(value: '-'),
+                'ORDER_Column': PlutoCell(value: '-'),
+                'DESCRIPTION_Column': PlutoCell(value: quote.description!.isEmpty ? '-' : quote.description!.isEmpty),
+                'DATACENTER_Column': PlutoCell(value: '-'),
+                'PROBABILITY_Column': PlutoCell(value: quote.probability),
+                'CLOSED_Column': PlutoCell(value: quote.expectedCloseDate),
+                'ASSIGNED_Column': PlutoCell(value: quote.assignedTo),
+                'LAST_Column': PlutoCell(value: quote.lastUpdated),
+                'ID_STATUS_Column': PlutoCell(value: 1),
+                'STATUS_Column': PlutoCell(value: quote.status),
+                'ACTIONS_Column': PlutoCell(value: 0),
+                'ID_LEAD_Column': PlutoCell(value: 0),
+              },
+            ),
+          );
+        }
+      }
+
+      notifyListeners();
     } catch (e) {
       print(e);
     }

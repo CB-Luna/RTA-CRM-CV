@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
@@ -35,10 +34,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
 
     final List<String> statesNames = provider.states.map((state) => state.name).toList();
 
-    final List<String> rolesNames =
-        provider.roles.map((role) => role.roleName).toList();
-    final List<String> CompanyNames =
-        provider.companys.map((companyName) => companyName.company).toList();
+    final List<String> rolesNames = provider.roles.map((role) => role.roleName).toList();
+    final List<String> CompanyNames = provider.companys.map((companyName) => companyName.company).toList();
 
     return Dialog(
       shape: const RoundedRectangleBorder(
@@ -179,8 +176,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
               children: [
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.save_outlined,
-                      color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Save User',
                   onTap: () async {
                     if (!formKey.currentState!.validate()) {
@@ -236,8 +232,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                 ),
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.refresh_outlined,
-                      color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.refresh_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Refresh',
                 ),
               ],

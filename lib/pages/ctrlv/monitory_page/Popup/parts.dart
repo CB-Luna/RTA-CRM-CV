@@ -16,16 +16,15 @@ class PartsPopUp extends StatelessWidget {
       content: Container(
         width: 700,
         height: 650,
-        decoration: BoxDecoration(
-            gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
+        decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
-            CardHeader(text: "Measures"),
+            const CardHeader(text: "Measures"),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 20),
                   alignment: Alignment.centerLeft,
                   child: ElevatedButton(
                       onPressed: () {
@@ -38,8 +37,8 @@ class PartsPopUp extends StatelessWidget {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,9 +59,9 @@ class PartsPopUp extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: const Row(
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

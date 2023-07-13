@@ -20,8 +20,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
 
     return CustomCard(
-        title: provider.actualissuesComments!.nameIssue.capitalize
-            .replaceAll("_", " "),
+        title: provider.actualissuesComments!.nameIssue.capitalize.replaceAll("_", " "),
         width: 450,
         height: 562,
         child: Column(
@@ -42,20 +41,14 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                   width: 200,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(
-                          blurRadius: 4,
-                          color: Colors.grey,
-                          offset: Offset(10, 10))
-                    ],
+                    boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))],
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
                     children: [
                       const Text("Date: "),
                       Text(
-                        DateFormat("MMM/dd/yyyy")
-                            .format(provider.actualissuesComments!.dateAdded),
+                        DateFormat("MMM/dd/yyyy").format(provider.actualissuesComments!.dateAdded),
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],
@@ -70,24 +63,16 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: const [
-                      BoxShadow(
-                          blurRadius: 4,
-                          color: Colors.grey,
-                          offset: Offset(10, 10))
-                    ],
+                    boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))],
                   ),
-                  child: SingleChildScrollView(
-                      child:
-                          Text("${provider.actualissuesComments!.comments}.")),
+                  child: SingleChildScrollView(child: Text("${provider.actualissuesComments!.comments}.")),
                 ),
                 CarouselSlider.builder(
                   itemCount: provider.actualissuesComments?.listImages!.length,
                   itemBuilder: (context, index, realIndex) {
                     // final urlImage =
                     //     provider.actualissuesComments?.listImages![index];
-                    const urlImage =
-                        "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
+                    const urlImage = "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
                     return buildImage(urlImage, index);
                   },
                   options: CarouselOptions(height: 200),
@@ -100,7 +85,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
 }
 
 Widget buildImage(String urlImage, int Index) => Container(
-      margin: EdgeInsets.symmetric(horizontal: 12),
+      margin: const EdgeInsets.symmetric(horizontal: 12),
       color: Colors.grey,
       child: Image.network(
         urlImage,

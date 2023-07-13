@@ -22,8 +22,7 @@ class ExtraPopUp extends StatelessWidget {
       content: Container(
         width: 700,
         height: 670,
-        decoration: BoxDecoration(
-            gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
+        decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
             CardHeader(text: catalog),
@@ -33,7 +32,7 @@ class ExtraPopUp extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
                         onPressed: () {
@@ -63,8 +62,7 @@ class ExtraPopUp extends StatelessWidget {
                             // color: Colors.red,
                             child: Text(
                               provider.actualIssuesComments[index].nameIssue.capitalize.replaceAll("_", ' '),
-                              style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(
@@ -73,30 +71,24 @@ class ExtraPopUp extends StatelessWidget {
                             //alignment: Alignment.center,
                             child: Text(
                               provider.actualIssuesComments[index].status ? "Good" : "Bad",
-                              style:  TextStyle(
+                              style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: provider.actualIssuesComments[index].status ? Color.fromARGB(200, 65, 155, 23) : Color.fromARGB(200, 210, 0, 48), 
+                                color: provider.actualIssuesComments[index].status ? const Color.fromARGB(200, 65, 155, 23) : const Color.fromARGB(200, 210, 0, 48),
                               ),
                             ),
                           ),
                           InkWell(
-                          child: provider.actualIssuesComments[index].status
-                            ? Icon(Icons.check_circle,
-                                size: 30,
-                                color: Color.fromARGB(200, 65, 155, 23))
-                            : Icon(Icons.cancel,
-                              size: 30,
-                                color: Color.fromARGB(200, 210, 0, 48)),
-                          onTap: () {},
-                          
-                        ),
+                            child: provider.actualIssuesComments[index].status
+                                ? const Icon(Icons.check_circle, size: 30, color: Color.fromARGB(200, 65, 155, 23))
+                                : const Icon(Icons.cancel, size: 30, color: Color.fromARGB(200, 210, 0, 48)),
+                            onTap: () {},
+                          ),
                         ],
                       ),
                     );
                   }),
             ),
-            
           ],
         ),
       ),

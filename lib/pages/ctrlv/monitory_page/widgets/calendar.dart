@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../../../models/monitory.dart';
@@ -28,84 +27,76 @@ class Calendario extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               //TITULO O INTRO A CALENDARIO
-              Container(
-                child: const Text(
-                  'Vehicle: ',
-                  style: TextStyle(fontSize: 35),
-                ),
+              const Text(
+                'Vehicle: ',
+                style: TextStyle(fontSize: 35),
               ),
               //INFORMACION DE COLORES
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    //CRY selector
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 25, 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(52, 86, 148, 10),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  //CRY selector
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 25, 10),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(52, 86, 148, 10),
+                            borderRadius: BorderRadius.circular(50),
                           ),
-                          const Text(
-                            "CRY",
-                            style: TextStyle(fontSize: 35),
-                          )
-                        ],
-                      ),
+                        ),
+                        const Text(
+                          "CRY",
+                          style: TextStyle(fontSize: 35),
+                        )
+                      ],
                     ),
-                    //ODE selector
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 25, 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(191, 33, 53, 10),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
+                  ),
+                  //ODE selector
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 25, 10),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(191, 33, 53, 10),
+                            borderRadius: BorderRadius.circular(50),
                           ),
-                          const Text(
-                            "ODE",
-                            style: TextStyle(fontSize: 35),
-                          )
-                        ],
-                      ),
+                        ),
+                        const Text(
+                          "ODE",
+                          style: TextStyle(fontSize: 35),
+                        )
+                      ],
                     ),
-                    //SMI selector
-                    Container(
-                      //padding: EdgeInsets.fromLTRB(0, 10, 25, 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(217, 217, 217, 10),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                          ),
-                          const Text(
-                            "SMI",
-                            style: TextStyle(fontSize: 35),
-                          )
-                        ],
+                  ),
+                  //SMI selector
+                  Row(
+                    children: [
+                      Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          color: const Color.fromRGBO(217, 217, 217, 10),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
                       ),
-                    )
-                  ],
-                ),
+                      const Text(
+                        "SMI",
+                        style: TextStyle(fontSize: 35),
+                      )
+                    ],
+                  )
+                ],
               ),
               //BUSCADOR DE MES
 
               //COMPANY
-              
             ],
           ),
         ),
@@ -113,38 +104,33 @@ class Calendario extends StatelessWidget {
           child: SfCalendar(
             showWeekNumber: true,
             showDatePickerButton: true,
-            weekNumberStyle: WeekNumberStyle(
+            weekNumberStyle: const WeekNumberStyle(
               textStyle: TextStyle(
                 fontSize: 15,
                 color: Colors.black,
               ),
             ),
             view: CalendarView.workWeek,
-            timeSlotViewSettings: TimeSlotViewSettings(
-              timeIntervalHeight: 70,
-              timeTextStyle: TextStyle(fontSize: 15,
-              color: Colors.black,)
-            ),
+            timeSlotViewSettings: const TimeSlotViewSettings(
+                timeIntervalHeight: 70,
+                timeTextStyle: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black,
+                )),
             firstDayOfWeek: 1,
             dataSource: MeetingDataSource(provider.meet),
             appointmentBuilder: (BuildContext context, CalendarAppointmentDetails details) {
               final idAppointment = details.appointments.first.id;
               //busqueda en los objetos de monitory, donde el primeroque encuentre con la busqueda
               final monitory = provider.monitory.firstWhere((element) => element.idControlForm == idAppointment);
-          return CustomAppointmentView(details.appointments.first,monitory);
-
-          },
+              return CustomAppointmentView(details.appointments.first, monitory);
+            },
           ),
         ),
       ],
     );
   }
 }
-
-
-
-
-
 
 class MeetingDataSource extends CalendarDataSource {
   MeetingDataSource(List<Appointment> source) {
@@ -160,20 +146,20 @@ class CustomAppointmentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     //CEHCAR EL ULTIMO LUGAR DE LA CADENA SUBJECT Y PONER SOLO HORAS DE ENTRADA EN R y SALIDA EN D
     String tipo = appointment.subject.endsWith("R") ? "R" : "D";
     return Tooltip(
-      message:
-      tipo == "R" ? "${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${DateFormat("hh:mm").format(appointment.startTime)}"
-      : "${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${DateFormat("hh:mm").format(appointment.endTime)}",
+      message: tipo == "R"
+          ? "${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${DateFormat("hh:mm").format(appointment.startTime)}"
+          : "${monitory.employee.name} ${monitory.employee.lastName}\n${monitory.licensePlates}\n${DateFormat("hh:mm").format(appointment.endTime)}",
       textAlign: TextAlign.center,
-        
       child: Container(
         color: appointment.color,
         child: Text(appointment.subject,
-        style:TextStyle(color: monitory.company.company == "SMI" ? Colors.black : Colors.white,
-                fontWeight: FontWeight.bold,)),
+            style: TextStyle(
+              color: monitory.company.company == "SMI" ? Colors.black : Colors.white,
+              fontWeight: FontWeight.bold,
+            )),
       ),
     );
   }
