@@ -4,23 +4,25 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
 
 class User {
-  User({
-    required this.id,
-    required this.sequentialId,
-    required this.email,
-    required this.name,
-    required this.middleName,
-    required this.lastName,
-    required this.homePhone,
-    required this.mobilePhone,
-    required this.address,
-    this.image,
-    required this.birthDate,
-    required this.role,
-    required this.company,
-    required this.state,
-    required this.idtema,
-  });
+  User(
+      {required this.id,
+      required this.sequentialId,
+      required this.email,
+      required this.name,
+      required this.middleName,
+      required this.lastName,
+      required this.homePhone,
+      required this.mobilePhone,
+      required this.address,
+      this.image,
+      required this.birthDate,
+      required this.role,
+      required this.company,
+      required this.state,
+      required this.idtema,
+      required this.status,
+      required this.license,
+      required this.certification});
 
   String id;
   int sequentialId;
@@ -28,15 +30,18 @@ class User {
   String name;
   String? middleName;
   String lastName;
-  String homePhone;
+  String? homePhone;
   String mobilePhone;
   String address;
   String? image;
-  DateTime birthDate;
+  DateTime? birthDate;
   Role role;
   Company company;
   State state;
   int idtema;
+  String? status;
+  String? license;
+  String? certification;
 
   String get fullName => '$name $lastName';
 
@@ -52,7 +57,10 @@ class User {
   bool get isOpperations => role.id == 7;
 
   // CV
-  bool get isCV => currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isEmployee;
+  bool get isCV =>
+      currentUser!.isAdminCv ||
+      currentUser!.isManager ||
+      currentUser!.isEmployee;
   bool get isAdminCv => role.roleName == 'Admin CV';
   bool get isManager => role.roleName == 'Manager';
   bool get isEmployee => role.roleName == 'Employee';
@@ -61,22 +69,26 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> json) {
     User usuario = User(
-      id: json["id"],
-      sequentialId: json['sequential_id'],
-      email: json["email"],
-      name: json['name'],
-      middleName: json['middle_name'],
-      lastName: json['last_name'],
-      homePhone: json['home_phone'],
-      mobilePhone: json['mobile_phone'],
-      address: json['address'],
-      image: json['image'],
-      birthDate: DateTime.parse(json['birthdate']),
-      role: Role.fromJson(jsonEncode(json['role'])),
-      company: Company.fromJson(jsonEncode(json['company'])),
-      state: State.fromJson(jsonEncode(json['state'])),
-      idtema: json["id_tema_fk"],
-    );
+        id: json["id"],
+        sequentialId: json['sequential_id'],
+        email: json["email"],
+        name: json['name'],
+        middleName: json['middle_name'],
+        lastName: json['last_name'],
+        homePhone: json['home_phone'],
+        mobilePhone: json['mobile_phone'],
+        address: json['address'],
+        image: json['image'],
+        birthDate: json['birthdate'] == null
+            ? null
+            : DateTime.parse(json['birthdate']),
+        role: Role.fromJson(jsonEncode(json['role'])),
+        company: Company.fromJson(jsonEncode(json['company'])),
+        state: State.fromJson(jsonEncode(json['state'])),
+        idtema: json["id_tema_fk"],
+        status: json["status"],
+        license: json["license"],
+        certification: json["certification"]);
     return usuario;
   }
 }

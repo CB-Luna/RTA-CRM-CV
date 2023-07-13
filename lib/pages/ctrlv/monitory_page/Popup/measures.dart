@@ -5,6 +5,7 @@ import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../widgets/card_header.dart';
+import 'comments_images_issues.dart';
 
 class MeasuresPopUp extends StatelessWidget {
   final Monitory row;
@@ -58,6 +59,15 @@ class MeasuresPopUp extends StatelessWidget {
                     color: Color.fromARGB(200, 65, 155, 23),
                     size: 60,
                   ),
+                  ),
+                  InkWell(
+                    child: Icon( Icons.check_circle_outline_outlined,
+                    color: Color.fromARGB(200, 65, 155, 23),
+                    size: 60,),
+                    onTap: (){
+                      provider.updateViewPopup(9);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -79,6 +89,15 @@ class MeasuresPopUp extends StatelessWidget {
                     Icons.check_circle_outline_outlined,
                     color: Color.fromARGB(200, 65, 155, 23),
                     size: 60,
+                  ),
+                  ),
+                  InkWell(
+                    child: Icon( Icons.check_circle_outline_outlined,
+                    color: Color.fromARGB(200, 65, 155, 23),
+                    size: 60,),
+                    onTap: (){
+                     provider.updateViewPopup(9);
+                    },
                   ),
                 ],
               ),

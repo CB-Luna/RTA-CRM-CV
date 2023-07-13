@@ -82,8 +82,10 @@ class _CustomTextFieldFormState extends State<CustomTextFieldForm> {
             label: Text(
               widget.label,
               style: TextStyle(
-                  fontFamily: 'UniNeue',
-                  color: AppTheme.of(context).primaryColor),
+                color: AppTheme.of(context).primaryColor,
+                fontFamily: 'Bicyclette-Thin',
+                fontSize: AppTheme.of(context).contenidoTablas.fontSize,
+              ),
             ),
           ),
           cursorColor: AppTheme.of(context).primaryColor,

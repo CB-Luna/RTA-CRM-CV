@@ -52,7 +52,8 @@ class _DeletePopUpState extends State<DeletePopUp> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(" ${widget.users.name} "),
+                        child: Text(
+                            " ${widget.users.name} ${widget.users.lastName} "),
                       ),
                     ],
                   ),

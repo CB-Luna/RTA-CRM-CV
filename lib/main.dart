@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
+import 'package:rta_crm_cv/providers/ctrlv/dashboard_provider.dart';
+import 'package:rta_crm_cv/providers/ctrlv/issue_reported_provider.dart';
 import 'package:rta_crm_cv/widgets/horizontalscroll.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
@@ -98,7 +100,13 @@ void main() async {
           create: (_) => InventoryProvider(),
         ),
         ChangeNotifierProvider(
+          create: (_) => IssueReportedProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DashboardCVProvider(),
         ),
       ],
       child: const MyApp(),

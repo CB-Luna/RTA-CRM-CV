@@ -35,7 +35,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               selected: provider.indexSelected[0],
               leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
               isOpen: widget.isOpen,
-              title: 'Dashbords',
+              title: 'Dashboards',
               onTap: () async {
                 context.pushReplacement('/dashboards');
               },
@@ -65,7 +65,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (false)
               SideMenuItem(
                 selected: provider.indexSelected[2],
-                leading: provider.aRSchedulings != null ? Rive(artboard: provider.aRSchedulings!) : const CircularProgressIndicator(),
+                leading: provider.aRSchedulings != null
+                    ? Rive(artboard: provider.aRSchedulings!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Scheduling',
                 onTap: () async {
@@ -81,7 +83,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (false)
               SideMenuItem(
                 selected: provider.indexSelected[3],
-                leading: provider.aRNetworks != null ? Rive(artboard: provider.aRNetworks!) : const CircularProgressIndicator(),
+                leading: provider.aRNetworks != null
+                    ? Rive(artboard: provider.aRNetworks!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Network',
                 onTap: () async {
@@ -113,7 +117,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (currentUser!.isCRM || currentUser!.isAdminCrm)
               SideMenuItem(
                 selected: provider.indexSelected[4],
-                leading: provider.aRTickets != null ? Rive(artboard: provider.aRTickets!) : const CircularProgressIndicator(),
+                leading: provider.aRTickets != null
+                    ? Rive(artboard: provider.aRTickets!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Order',
                 onTap: () async {
@@ -127,7 +133,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 },
               ),
 
-           /*  if (currentUser!.isCRM || currentUser!.isAdminCrm)
+            /*  if (currentUser!.isCRM || currentUser!.isAdminCrm)
               SideMenuItem(
                 selected: provider.indexSelected[5],
                 leading: provider.aRInventories != null ? Rive(artboard: provider.aRInventories!) : const CircularProgressIndicator(),
@@ -146,7 +152,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (false)
               SideMenuItem(
                 selected: provider.indexSelected[6],
-                leading: provider.aRReports != null ? Rive(artboard: provider.aRReports!) : const CircularProgressIndicator(),
+                leading: provider.aRReports != null
+                    ? Rive(artboard: provider.aRReports!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Reports',
                 onTap: () async {
@@ -161,27 +169,12 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               ),
 
             // Sección CONTROL VEHICULAR
-
-            if (currentUser!.isCV)
-              SideMenuItem(
-                selected: provider.indexSelected[7],
-                leading: provider.aRInventories != null ? Rive(artboard: provider.aRInventories!) : const CircularProgressIndicator(),
-                isOpen: widget.isOpen,
-                title: 'Inventory',
-                onTap: () async {
-                  context.pushReplacement(routeInventory);
-                },
-                onEnter: (event) {
-                  provider.iHoverInventories?.change(true);
-                },
-                onExit: (event) {
-                  provider.iHoverInventories?.change(false);
-                },
-              ),
             if (currentUser!.isCV)
               SideMenuItem(
                 selected: provider.indexSelected[8],
-                leading: provider.aRMonitory != null ? Rive(artboard: provider.aRMonitory!) : const CircularProgressIndicator(),
+                leading: provider.aRMonitory != null
+                    ? Rive(artboard: provider.aRMonitory!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Vehicle Status',
                 onTap: () async {
@@ -194,10 +187,33 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverMonitory?.change(false);
                 },
               ),
+            if (currentUser!.isCV)
+              SideMenuItem(
+                selected: provider.indexSelected[7],
+                leading: provider.aRInventories != null
+                    ? Rive(artboard: provider.aRInventories!)
+                    : const CircularProgressIndicator(),
+                isOpen: widget.isOpen,
+                title: 'Inventory',
+                onTap: () async {
+                  context.pushReplacement(routeInventory);
+                },
+                onEnter: (event) {
+                  provider.iHoverInventories?.change(true);
+                },
+                onExit: (event) {
+                  provider.iHoverInventories?.change(false);
+                },
+              ),
+
+              
+
             if (currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[10],
-                leading: provider.aRUsers != null ? Rive(artboard: provider.aRUsers!) : const CircularProgressIndicator(),
+                leading: provider.aRUsers != null
+                    ? Rive(artboard: provider.aRUsers!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Users',
                 onTap: () async {
@@ -210,10 +226,27 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverUsers?.change(false);
                 },
               ),
+              if (currentUser!.isCV)
+              SideMenuItem(
+              selected: provider.indexSelected[9],
+              leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
+              isOpen: widget.isOpen,
+              title: 'Dashbords',
+              onTap: () async {
+                context.pushReplacement('/dashboards');
+              },
+              onEnter: (event) {
+                provider.iHoverDashboards?.change(true);
+              },
+              onExit: (event) {
+                provider.iHoverDashboards?.change(false);
+              },
+            ),
             if (currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[11],
-                leading: Icon(Icons.color_lens_outlined, color: Color(Colors.grey[300]!.value)),
+                leading: Icon(Icons.color_lens_outlined,
+                    color: Color(Colors.grey[300]!.value)),
                 isOpen: widget.isOpen,
                 title: 'Configurator',
                 onTap: () async {
@@ -229,7 +262,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
 
             SideMenuItem(
               selected: provider.indexSelected[12],
-              leading: const Icon(Icons.power_settings_new_outlined, color: Colors.red),
+              leading: const Icon(Icons.power_settings_new_outlined,
+                  color: Colors.red),
               isOpen: widget.isOpen,
               title: 'Logout',
               onTap: () async {

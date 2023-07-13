@@ -34,12 +34,13 @@ class UsersProvider extends ChangeNotifier {
 
   List<Role> roles = [];
   List<Company> companys = [];
+  List<String> statusy = [];
   Role? selectedRole;
   Role? selectedRoleUpdate;
   Company? selectedCompany;
   Company? selectedCompanyUpdate;
   List<State> states = [];
-
+  String? dropdownvalue = "Active";
   State? selectedState;
   State? selectedStateUpdate;
   String? imageName;
@@ -52,6 +53,9 @@ class UsersProvider extends ChangeNotifier {
   final stateController = TextEditingController();
   final roleController = TextEditingController();
   final companyCOntroller = TextEditingController();
+  final statusController = TextEditingController();
+  final licenseController = TextEditingController();
+  final certificationController = TextEditingController();
 
   // EDIT
   final nameControllerUpdate = TextEditingController();
@@ -61,15 +65,21 @@ class UsersProvider extends ChangeNotifier {
   final stateControllerUpdate = TextEditingController();
   final roleControllerUpdate = TextEditingController();
   final companyCOntrollerUpdate = TextEditingController();
+  final statusControllerUpdate = TextEditingController();
+  final licenseControllerUpdate = TextEditingController();
+  final certificationControllerUpdate = TextEditingController();
 
   void updateControllers(User users) {
     nameControllerUpdate.text = users.name;
     lastNameControllerUpdate.text = users.lastName;
     emailControllerUpdate.text = users.email;
-    phoneControllerUpdate.text = users.homePhone;
+    phoneControllerUpdate.text = users.homePhone ?? "-";
     selectedStateUpdate = selectedState;
     selectedRoleUpdate = selectedRole;
     selectedCompanyUpdate = selectedCompany;
+    statusControllerUpdate.text = users.status ?? "-";
+    licenseControllerUpdate.text = users.license ?? "-";
+    certificationControllerUpdate.text = users.certification ?? "-";
   }
 
   void clearControllers({bool notify = true}) {
@@ -80,6 +90,9 @@ class UsersProvider extends ChangeNotifier {
     stateController.clear();
     roleController.clear();
     companyCOntroller.clear();
+    statusController.clear();
+    licenseController.clear();
+    certificationController.clear();
 
     if (notify) notifyListeners();
   }
@@ -197,13 +210,71 @@ class UsersProvider extends ChangeNotifier {
     if (notify) notifyListeners();
   }
 
-  Future<void> getUsers() async {
+  // -----------------------------------------------
+  Future<void> getUsersNotActive() async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
     }
     try {
-      final res = await supabase.from('users').select().like('name', '%${searchController.text}%').order('sequential_id', ascending: true);
+      final res = await supabase
+          .from('users')
+          .select()
+          .like('name', '%${searchController.text}%')
+          .eq('status', 'Not Active')
+          .order('sequential_id', ascending: true);
+
+      if (res == null) {
+        log('Error en getUsuarios()');
+        return;
+      }
+      users = (res as List<dynamic>)
+          .map((usuario) => User.fromJson(jsonEncode(usuario)))
+          .toList();
+
+      rows.clear();
+      for (User user in users) {
+        rows.add(
+          PlutoRow(
+            cells: {
+              'ID_Column': PlutoCell(value: user.sequentialId),
+              'AVATAR_Column': PlutoCell(value: user.image),
+              'USER_Column': PlutoCell(value: user.fullName),
+              'ROLE_Column': PlutoCell(value: user.role.roleName),
+              'EMAIL_Column': PlutoCell(value: user.email),
+              'MOBILE_Column': PlutoCell(value: user.mobilePhone),
+              'STATE_Column': PlutoCell(value: user.state.name),
+              'COMPANY_Column': PlutoCell(value: user.company.company),
+              'STATUS_Column': PlutoCell(value: user.status),
+              'LICENSE_Column': PlutoCell(value: user.license),
+              'CERTIFICATION_Column': PlutoCell(value: user.certification),
+              'ACTIONS_Column': PlutoCell(value: user),
+            },
+          ),
+        );
+      }
+      if (stateManager != null) stateManager!.notifyListeners();
+    } catch (e) {
+      log('Error en getUsuarios() - $e');
+    }
+
+    notifyListeners();
+  }
+
+  // -----------------------------------------------
+  Future<void> getUsers() async {
+    if (stateManager != null) {
+      stateManager!.setShowLoading(true);
+      notifyListeners();
+    }
+    // Por el momento lo dejare que se vean los not active por que están nulos los demás gracias
+    try {
+      final res = await supabase
+          .from('users')
+          .select()
+          .like('name', '%${searchController.text}%')
+          //.not('status', 'eq', 'Not Active')
+          .order('sequential_id', ascending: true);
 
       if (res == null) {
         log('Error en getUsuarios()');
@@ -224,6 +295,9 @@ class UsersProvider extends ChangeNotifier {
               'MOBILE_Column': PlutoCell(value: user.mobilePhone),
               'STATE_Column': PlutoCell(value: user.state.name),
               'COMPANY_Column': PlutoCell(value: user.company.company),
+              'STATUS_Column': PlutoCell(value: user.status),
+              'LICENSE_Column': PlutoCell(value: user.license),
+              'CERTIFICATION_Column': PlutoCell(value: user.certification),
               'ACTIONS_Column': PlutoCell(value: user),
             },
           ),
@@ -299,6 +373,9 @@ class UsersProvider extends ChangeNotifier {
             'state_fk': selectedState!.id,
             // TODO: implementar campo de Company
             'id_company_fk': selectedCompany!.id,
+            'status': dropdownvalue,
+            'license': licenseController.text,
+            'certification': certificationController.text
           },
         );
       }
@@ -335,7 +412,12 @@ class UsersProvider extends ChangeNotifier {
         'state_fk': selectedStateUpdate?.id ?? users.state.id,
         // TODO: implementar campo de Company
         'id_company_fk': selectedCompanyUpdate?.id ?? users.company.id,
+        'status': statusControllerUpdate.text,
+        'license': licenseControllerUpdate.text,
+        'certification': certificationControllerUpdate.text
       }).eq('user_profile_id', users.id);
+
+      print("Certification: ${certificationControllerUpdate.text}");
       return true;
     } catch (e) {
       print('Error in UpdateUser() - $e');

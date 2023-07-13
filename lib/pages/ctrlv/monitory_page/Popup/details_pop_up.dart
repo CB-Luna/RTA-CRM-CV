@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/ctrlv/monitory_page/Popup/parts.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/cuadro.dart';
 
 import '../../../../models/monitory.dart';
@@ -8,6 +9,8 @@ import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../widgets/forms_answer_delivered.dart';
 import '../widgets/forms_answer_received.dart';
+import 'bucket_expanded.dart';
+import 'comments_images_issues.dart';
 import 'extra_parts.dart';
 import 'measures.dart';
 import 'package:rta_crm_cv/widgets/card_header.dart';
@@ -168,12 +171,13 @@ class DetailsPop extends StatelessWidget {
                                         DateFormat("MMM-dd-yyyy").format(vehicle.vehicle.lastTransmissionFluidChange).toString(),
                                         style: const TextStyle(color: Colors.white),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                      child: Text(
-                                        DateFormat("MMM-dd-yyyy").format(vehicle.vehicle.lastRadiatorFluidChange).toString(),
-                                        style: const TextStyle(color: Colors.white),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 0, 10),
+                                        child: Text(
+                                            " Last Radiator Fluid Change: ",
+                                            style:
+                                                TextStyle(color: Colors.white)),
                                       ),
                                     ),
                                     Padding(
@@ -183,15 +187,131 @@ class DetailsPop extends StatelessWidget {
                                         //"${vehicle.vehicle.oilChangeDue.month}-${vehicle.vehicle.oilChangeDue.day}-${vehicle.vehicle.oilChangeDue.year}",
                                         style: const TextStyle(color: Colors.white),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                      child: Text(
-                                        DateFormat("MMM-dd-yyyy").format(vehicle.dateAddedR).toString(),
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                  ]),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 0, 10),
+                                        child: Text(" Date Added: ",
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                      )
+                                    ]),
+                                Spacer(),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 80),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 10),
+                                          child: Text(
+                                            "${vehicle.employee.name} ${vehicle.employee.lastName}",
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 10),
+                                          child: Text(
+                                            "${vehicle.idVehicle}",
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 10),
+                                          child: Text(
+                                            vehicle.gasR,
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 10),
+                                          child: Text(
+                                            "${vehicle.mileageR}",
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 10),
+                                          child: Text(
+                                            vehicle.licensePlates,
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 10),
+                                          child: Text(
+                                            vehicle.vin,
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 10),
+                                          child: Text(
+                                            vehicle.vehicle
+                                                        .lastTransmissionFluidChange ==
+                                                    null
+                                                ? ""
+                                                : DateFormat("MMM/dd/yyyy")
+                                                    .format(vehicle.vehicle
+                                                        .lastTransmissionFluidChange!),
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 10),
+                                          child: Text(
+                                            vehicle.vehicle
+                                                        .lastRadiatorFluidChange ==
+                                                    null
+                                                ? ""
+                                                : DateFormat("MMM/dd/yyyy")
+                                                    .format(vehicle.vehicle
+                                                        .lastRadiatorFluidChange!),
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 10),
+                                          child: Text(
+                                            vehicle.vehicle.oilChangeDue == null
+                                                ? ""
+                                                : " ${DateFormat("MMM/dd/yyyy").format(vehicle.vehicle.oilChangeDue!)}",
+                                            //"${vehicle.vehicle.oilChangeDue.month}-${vehicle.vehicle.oilChangeDue.day}-${vehicle.vehicle.oilChangeDue.year}",
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 10),
+                                          child: Text(
+                                            DateFormat("MMM-dd-yyyy")
+                                                .format(vehicle.dateAddedR)
+                                                .toString(),
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ]),
                                 ),
                               ],
                             ),
@@ -206,7 +326,7 @@ class DetailsPop extends StatelessWidget {
                               width: 300,
                               height: 250,
                               child: Image.network(
-                                vehicle.vehicle.image,
+                                vehicle.vehicle.image!,
                                 fit: BoxFit.cover,
                                 height: 250,
                                 width: 540,
@@ -313,14 +433,18 @@ class DetailsPop extends StatelessWidget {
                       : provider.viewPopup == 4
                           ? const ExtraPopUp(catalog: "Fluid Check")
                           : provider.viewPopup == 5
-                              ? const ExtraPopUp(catalog: "Bucket Inspection")
+                              ? BucketExtraPopUp()
                               : provider.viewPopup == 6
                                   ? const ExtraPopUp(catalog: "Security")
                                   : provider.viewPopup == 7
                                       ? const ExtraPopUp(catalog: "Extra")
                                       : provider.viewPopup == 8
-                                          ? const ExtraPopUp(catalog: "Equipment")
-                                          : Container(),
+                                          ? ExtraPopUp(catalog: "Equipment")
+                                          :provider.viewPopup == 9
+                                          ? CommentsImagesIssues()
+                                          : provider.viewPopup == 10
+                                          ? BucketCommentsImagesIssues()
+                                          :Container(),
     );
   }
 }

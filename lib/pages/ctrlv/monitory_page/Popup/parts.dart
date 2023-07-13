@@ -1,12 +1,18 @@
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/providers/ctrlv/monitory_provider.dart';
 
+import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../widgets/card_header.dart';
+import 'comments_images_issues.dart';
 
-class PartsPopUp extends StatelessWidget {
-  const PartsPopUp({super.key});
+class BucketExtraPopUp extends StatelessWidget {
+  
+  const BucketExtraPopUp({
+    super.key,
+  });
+  //pedir ID de control form para conectar con als demas
 
   @override
   Widget build(BuildContext context) {
@@ -15,72 +21,85 @@ class PartsPopUp extends StatelessWidget {
       backgroundColor: Colors.transparent,
       content: Container(
         width: 700,
-        height: 650,
-        decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
+        height: 670,
+        decoration: BoxDecoration(
+            gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
-            const CardHeader(text: "Measures"),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(left: 20),
-                  alignment: Alignment.centerLeft,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        provider.updateViewPopup(0);
-                      },
-                      child: const Text(
-                        "Back",
-                        style: TextStyle(fontSize: 20),
-                      )),
-                ),
-              ],
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            CardHeader(text: "Bucket Inspection"),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Mileage",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "12345",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Icon(
-                    Icons.check_circle_outline_outlined,
-                    color: Color.fromARGB(200, 65, 155, 23),
-                    size: 60,
+                  Container(
+                    padding: EdgeInsets.only(left: 20),
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          provider.updateViewPopup(0);
+                        },
+                        child: const Text(
+                          "BACK",
+                          style: TextStyle(fontSize: 20),
+                        )),
                   ),
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Gas/Diesel %",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "60%",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Icon(
-                    Icons.error_outlined,
-                    color: Color.fromARGB(200, 210, 0, 48),
-                    size: 60,
-                  ),
-                ],
-              ),
+            SizedBox(
+              height: 550,
+              child: ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: provider.actualIssuesComments.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(
+                            width: 250,
+                            // color: Colors.red,
+                            child: Text(
+                              provider.actualIssuesComments[index].nameIssue.capitalize.replaceAll("_", ' '),
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 100,
+                            //color: Colors.yellow,
+                            //alignment: Alignment.center,
+                            child: Text(
+                              provider.actualIssuesComments[index].status ? "Yes" : "No",
+                              style:  TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: provider.actualIssuesComments[index].status ? Color.fromARGB(200, 65, 155, 23) : Color.fromARGB(200, 210, 0, 48), 
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                          child: provider.actualIssuesComments[index].status
+                            ? Icon(Icons.check_circle,
+                                size: 30,
+                                color: Color.fromARGB(200, 65, 155, 23))
+                            : Icon(Icons.cancel,
+                              size: 30,
+                                color: Color.fromARGB(200, 210, 0, 48)),
+                          onTap: () {
+                            provider.getActualDetailField(provider.actualIssuesComments[index]);
+                            provider.updateViewPopup(10);
+                          },
+                          
+                        ),
+                        ],
+                      ),
+                    );
+                  }),
             ),
+            
           ],
         ),
       ),
