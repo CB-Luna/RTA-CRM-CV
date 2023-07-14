@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../models/vehicle.dart';
+import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
-import '../widgets/trapecio.dart';
+import '../../monitory_page/widgets/cuadro.dart';
 
 class GeneralInfoPopUP extends StatefulWidget {
-  final Vehicle vehicle;
-  const GeneralInfoPopUP({super.key, required this.vehicle});
+  const GeneralInfoPopUP({
+    super.key,
+  });
 
   @override
   State<GeneralInfoPopUP> createState() => _GeneralInfoPopUPState();
@@ -17,11 +19,11 @@ class GeneralInfoPopUP extends StatefulWidget {
 class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
   @override
   Widget build(BuildContext context) {
+    InventoryProvider provider = Provider.of<InventoryProvider>(context);
+
     return Container(
-      width: 1250,
-      height: 600,
-      decoration: BoxDecoration(
-          gradient: whiteGradient, borderRadius: BorderRadius.circular(30)),
+      // width: MediaQuery.of(context).size.width - 100,
+      // height: MediaQuery.of(context).size.height,
       child: Padding(
         //padding: const EdgeInsetsDirectional.fromSTEB(20, 15, 20, 15),
         padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
@@ -29,471 +31,475 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
           children: [
             Container(
               height: (650 * 0.7586633663366337).toDouble(),
-              width: 615,
+              width: 700,
               alignment: AlignmentDirectional.centerEnd,
-              padding: const EdgeInsets.only(left: 20, right: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
               child: CustomPaint(
-                size: Size(600, (500 * 0.7586633663366337).toDouble()),
-                painter: RPSCustomPainter(),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 50, bottom: 20, left: 85, right: 10),
-                  child: Row(children: [
-                    Column(
+                size: Size(400, (450 * 0.7586633663366337).toDouble()),
+                painter: RPSCustomPainterMon(),
+                child: Row(children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.numbers_outlined,
+                                color: AppTheme.of(context).gris,
+                              ),
+                            ),
+                            Text(
+                              "Vehicle_id: ",
+                              style: TextStyle(
+                                  fontFamily: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontFamily,
+                                  fontSize: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .fontSize,
+                                  fontStyle: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontStyle,
+                                  fontWeight: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontWeight,
+                                  color: AppTheme.of(context).gris),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.dialpad_outlined,
+                                color: AppTheme.of(context).gris,
+                              ),
+                            ),
+                            Text(
+                              "VIN: ",
+                              style: TextStyle(
+                                  fontFamily: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontFamily,
+                                  fontSize: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .fontSize,
+                                  fontStyle: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontStyle,
+                                  fontWeight: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontWeight,
+                                  color: AppTheme.of(context).gris),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.credit_card_outlined,
+                                color: AppTheme.of(context).gris,
+                              ),
+                            ),
+                            Text(
+                              "License Plates: ",
+                              style: TextStyle(
+                                  fontFamily: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontFamily,
+                                  fontSize: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .fontSize,
+                                  fontStyle: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontStyle,
+                                  fontWeight: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontWeight,
+                                  color: AppTheme.of(context).gris),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.car_repair_outlined,
+                                color: AppTheme.of(context).gris,
+                              ),
+                            ),
+                            Text(
+                              "Status: ",
+                              style: TextStyle(
+                                  fontFamily: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontFamily,
+                                  fontSize: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .fontSize,
+                                  fontStyle: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontStyle,
+                                  fontWeight: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontWeight,
+                                  color: AppTheme.of(context).gris),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.warehouse_outlined,
+                                color: AppTheme.of(context).gris,
+                              ),
+                            ),
+                            Text(
+                              "Company: ",
+                              style: TextStyle(
+                                  fontFamily: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontFamily,
+                                  fontSize: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .fontSize,
+                                  fontStyle: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontStyle,
+                                  fontWeight: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontWeight,
+                                  color: AppTheme.of(context).gris),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.directions_car_outlined,
+                                color: AppTheme.of(context).gris,
+                              ),
+                            ),
+                            Text(
+                              "Motor: ",
+                              style: TextStyle(
+                                  fontFamily: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontFamily,
+                                  fontSize: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .fontSize,
+                                  fontStyle: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontStyle,
+                                  fontWeight: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontWeight,
+                                  color: AppTheme.of(context).gris),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.calendar_today_outlined,
+                                color: AppTheme.of(context).gris,
+                              ),
+                            ),
+                            Text(
+                              "Oil Change Due: ",
+                              style: TextStyle(
+                                  fontFamily: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontFamily,
+                                  fontSize: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .fontSize,
+                                  fontStyle: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontStyle,
+                                  fontWeight: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontWeight,
+                                  color: AppTheme.of(context).gris),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.calendar_view_day_outlined,
+                                color: AppTheme.of(context).gris,
+                              ),
+                            ),
+                            Text(
+                              "Last transmission fluid change: ",
+                              style: TextStyle(
+                                  fontFamily: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontFamily,
+                                  fontSize: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .fontSize,
+                                  fontStyle: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontStyle,
+                                  fontWeight: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontWeight,
+                                  color: AppTheme.of(context).gris),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 10),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.calendar_month_outlined,
+                                color: AppTheme.of(context).gris,
+                              ),
+                            ),
+                            Text(
+                              "Last radiator fluid change: ",
+                              style: TextStyle(
+                                  fontFamily: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontFamily,
+                                  fontSize: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .fontSize,
+                                  fontStyle: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontStyle,
+                                  fontWeight: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontWeight,
+                                  color: AppTheme.of(context).gris),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Icon(
-                                  Icons.numbers_outlined,
-                                  color: AppTheme.of(context).alternate,
-                                  size: AppTheme.of(context)
-                                      .contenidoTablas
-                                      .fontSize,
-                                ),
-                              ),
-                              Text(
-                                "Vehicle_id: ",
-                                style: TextStyle(
-                                    fontFamily: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontFamily,
-                                    fontSize: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .fontSize,
-                                    fontStyle: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontStyle,
-                                    fontWeight: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontWeight,
-                                    color: AppTheme.of(context).alternate),
-                              ),
-                            ],
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              10, 0, 0, 10),
+                          child: Text(
+                            "${provider.actualVehicle!.idVehicle}",
+                            style: TextStyle(
+                              color: AppTheme.of(context).gris,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                            ),
                           ),
                         ),
                         Padding(
                           padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Icon(
-                                  Icons.dialpad_outlined,
-                                  color: AppTheme.of(context).alternate,
-                                ),
-                              ),
-                              Text(
-                                "VIN: ",
-                                style: TextStyle(
-                                    fontFamily: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontFamily,
-                                    fontSize: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .fontSize,
-                                    fontStyle: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontStyle,
-                                    fontWeight: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontWeight,
-                                    color: AppTheme.of(context).alternate),
-                              ),
-                            ],
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
+                          child: Text(
+                            provider.actualVehicle!.vin,
+                            style: TextStyle(
+                              color: AppTheme.of(context).gris,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                            ),
                           ),
                         ),
                         Padding(
                           padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Icon(
-                                  Icons.credit_card_outlined,
-                                  color: AppTheme.of(context).alternate,
-                                ),
-                              ),
-                              Text(
-                                "License Plates: ",
-                                style: TextStyle(
-                                    fontFamily: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontFamily,
-                                    fontSize: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .fontSize,
-                                    fontStyle: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontStyle,
-                                    fontWeight: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontWeight,
-                                    color: AppTheme.of(context).alternate),
-                              ),
-                            ],
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
+                          child: Text(
+                            provider.actualVehicle!.licesensePlates,
+                            style: TextStyle(
+                              color: AppTheme.of(context).gris,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                            ),
                           ),
                         ),
                         Padding(
                           padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Icon(
-                                  Icons.car_repair_outlined,
-                                  color: AppTheme.of(context).alternate,
-                                ),
-                              ),
-                              Text(
-                                "Status: ",
-                                style: TextStyle(
-                                    fontFamily: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontFamily,
-                                    fontSize: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .fontSize,
-                                    fontStyle: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontStyle,
-                                    fontWeight: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontWeight,
-                                    color: AppTheme.of(context).alternate),
-                              ),
-                            ],
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
+                          child: Text(
+                            provider.actualVehicle!.status.status,
+                            style: TextStyle(
+                              color: AppTheme.of(context).gris,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                            ),
                           ),
                         ),
                         Padding(
                           padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Icon(
-                                  Icons.warehouse_outlined,
-                                  color: AppTheme.of(context).alternate,
-                                ),
-                              ),
-                              Text(
-                                "Company: ",
-                                style: TextStyle(
-                                    fontFamily: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontFamily,
-                                    fontSize: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .fontSize,
-                                    fontStyle: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontStyle,
-                                    fontWeight: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontWeight,
-                                    color: AppTheme.of(context).alternate),
-                              ),
-                            ],
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
+                          child: Text(
+                            provider.actualVehicle!.company.company,
+                            style: TextStyle(
+                              color: AppTheme.of(context).gris,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              10, 0, 0, 10),
+                          child: Text(
+                            provider.actualVehicle!.motor,
+                            style: TextStyle(
+                              color: AppTheme.of(context).gris,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                            ),
                           ),
                         ),
                         Padding(
                           padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Icon(
-                                  Icons.directions_car_outlined,
-                                  color: AppTheme.of(context).alternate,
-                                ),
-                              ),
-                              Text(
-                                "Motor: ",
-                                style: TextStyle(
-                                    fontFamily: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontFamily,
-                                    fontSize: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .fontSize,
-                                    fontStyle: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontStyle,
-                                    fontWeight: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontWeight,
-                                    color: AppTheme.of(context).alternate),
-                              ),
-                            ],
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
+                          child: Text(
+                            provider.actualVehicle!.oilChangeDue == null
+                                ? ""
+                                : " ${DateFormat("MMM/dd/yyyy").format(provider.actualVehicle!.oilChangeDue!)}",
+                            style: TextStyle(
+                              color: AppTheme.of(context).gris,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                            ),
                           ),
                         ),
                         Padding(
                           padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Icon(
-                                  Icons.calendar_today_outlined,
-                                  color: AppTheme.of(context).alternate,
-                                ),
-                              ),
-                              Text(
-                                "Oil Change Due: ",
-                                style: TextStyle(
-                                    fontFamily: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontFamily,
-                                    fontSize: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .fontSize,
-                                    fontStyle: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontStyle,
-                                    fontWeight: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontWeight,
-                                    color: AppTheme.of(context).alternate),
-                              ),
-                            ],
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
+                          child: Text(
+                            provider.actualVehicle!.lastRadiatorFluidChange ==
+                                    null
+                                ? ""
+                                : DateFormat("MMM/dd/yyyy").format(provider
+                                    .actualVehicle!.lastRadiatorFluidChange!),
+                            style: TextStyle(
+                              color: AppTheme.of(context).gris,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                            ),
                           ),
                         ),
                         Padding(
                           padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Icon(
-                                  Icons.calendar_view_day_outlined,
-                                  color: AppTheme.of(context).alternate,
-                                ),
-                              ),
-                              Text(
-                                "Last transmission fluid change: ",
-                                style: TextStyle(
-                                    fontFamily: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontFamily,
-                                    fontSize: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .fontSize,
-                                    fontStyle: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontStyle,
-                                    fontWeight: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontWeight,
-                                    color: AppTheme.of(context).alternate),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Icon(
-                                  Icons.calendar_month_outlined,
-                                  color: AppTheme.of(context).alternate,
-                                ),
-                              ),
-                              Text(
-                                "Last radiator fluid change: ",
-                                style: TextStyle(
-                                    fontFamily: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontFamily,
-                                    fontSize: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .fontSize,
-                                    fontStyle: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontStyle,
-                                    fontWeight: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontWeight,
-                                    color: AppTheme.of(context).alternate),
-                              ),
-                            ],
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
+                          child: Text(
+                            provider.actualVehicle!
+                                        .lastTransmissionFluidChange ==
+                                    null
+                                ? ""
+                                : DateFormat("MMM/dd/yyyy").format(provider
+                                    .actualVehicle!
+                                    .lastTransmissionFluidChange!),
+                            style: TextStyle(
+                              color: AppTheme.of(context).gris,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    //Container(color: Colors.red, width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                          child: Text(
-                            "${widget.vehicle.idVehicle}",
-                            style: TextStyle(
-                              color: AppTheme.of(context).gris,
-                              fontFamily: 'Bicyclette-Thin',
-                              fontSize:
-                                  AppTheme.of(context).contenidoTablas.fontSize,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
-                          child: Text(
-                            widget.vehicle.vin,
-                            style: TextStyle(
-                              color: AppTheme.of(context).gris,
-                              fontFamily: 'Bicyclette-Thin',
-                              fontSize:
-                                  AppTheme.of(context).contenidoTablas.fontSize,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
-                          child: Text(
-                            widget.vehicle.licesensePlates,
-                            style: TextStyle(
-                              color: AppTheme.of(context).gris,
-                              fontFamily: 'Bicyclette-Thin',
-                              fontSize:
-                                  AppTheme.of(context).contenidoTablas.fontSize,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
-                          child: Text(
-                            widget.vehicle.status.status,
-                            style: TextStyle(
-                              color: AppTheme.of(context).gris,
-                              fontFamily: 'Bicyclette-Thin',
-                              fontSize:
-                                  AppTheme.of(context).contenidoTablas.fontSize,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
-                          child: Text(
-                            widget.vehicle.company.company,
-                            style: TextStyle(
-                              color: AppTheme.of(context).gris,
-                              fontFamily: 'Bicyclette-Thin',
-                              fontSize:
-                                  AppTheme.of(context).contenidoTablas.fontSize,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                          child: Text(
-                            widget.vehicle.motor,
-                            style: TextStyle(
-                              color: AppTheme.of(context).gris,
-                              fontFamily: 'Bicyclette-Thin',
-                              fontSize:
-                                  AppTheme.of(context).contenidoTablas.fontSize,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
-                          child: Text(
-                            widget.vehicle.oilChangeDue == null
-                                ? ""
-                                : " ${DateFormat("MMM/dd/yyyy").format(widget.vehicle.oilChangeDue!)}",
-                            style: TextStyle(
-                              color: AppTheme.of(context).gris,
-                              fontFamily: 'Bicyclette-Thin',
-                              fontSize:
-                                  AppTheme.of(context).contenidoTablas.fontSize,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
-                          child: Text(
-                            widget.vehicle.lastRadiatorFluidChange == null
-                                ? ""
-                                : DateFormat("MMM/dd/yyyy").format(
-                                    widget.vehicle.lastRadiatorFluidChange!),
-                            style: TextStyle(
-                              color: AppTheme.of(context).gris,
-                              fontFamily: 'Bicyclette-Thin',
-                              fontSize:
-                                  AppTheme.of(context).contenidoTablas.fontSize,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
-                          child: Text(
-                            widget.vehicle.lastTransmissionFluidChange == null
-                                ? ""
-                                : DateFormat("MMM/dd/yyyy").format(widget
-                                    .vehicle.lastTransmissionFluidChange!),
-                            style: TextStyle(
-                              color: AppTheme.of(context).gris,
-                              fontFamily: 'Bicyclette-Thin',
-                              fontSize:
-                                  AppTheme.of(context).contenidoTablas.fontSize,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ]),
-                ),
+                  )
+                ]),
               ),
             ),
             Column(
               children: [
                 Container(
+                  height: 250,
+                  width: 500,
                   margin: const EdgeInsets.only(top: 50, left: 40, bottom: 10),
-                  //padding: const EdgeInsets.only(top: 30, left: 40, bottom: 10),
-                  decoration: BoxDecoration(boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 0.1,
-                      blurRadius: 2,
-                      offset: const Offset(0, 0), // changes position of shadow
-                    ),
-                  ]),
-                  //width: 550,
-                  //height: 250,
-                  //color: Colors.green,
-                  child: Image.network(
-                    widget.vehicle.image!,
-                    height: 250,
-                    width: 500,
-                    fit: BoxFit.cover,
-                  ),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color(int.parse(provider.actualVehicle!.color!)),
+                        width: 5.0,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color:
+                              Color(int.parse(provider.actualVehicle!.color!)),
+                          spreadRadius: 7,
+                          blurRadius: 10,
+                          offset: Offset(4, 4), // changes position of shadow
+                        ),
+                      ],
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(provider.actualVehicle!.image!))),
                 ),
                 Container(
+                  margin: EdgeInsets.only(top: 30),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: Colors.black, width: 2.0)),
@@ -503,7 +509,7 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        widget.vehicle.make,
+                        provider.actualVehicle!.make,
                         style: TextStyle(
                             fontFamily: AppTheme.of(context)
                                 .encabezadoTablas
@@ -518,7 +524,7 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                             color: AppTheme.of(context).primaryText),
                       ),
                       Text(
-                        widget.vehicle.model,
+                        provider.actualVehicle!.model,
                         style: TextStyle(
                             fontFamily: AppTheme.of(context)
                                 .encabezadoTablas
@@ -533,7 +539,7 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                             color: AppTheme.of(context).primaryText),
                       ),
                       Text(
-                        widget.vehicle.year,
+                        provider.actualVehicle!.year,
                         style: TextStyle(
                             fontFamily: AppTheme.of(context)
                                 .encabezadoTablas
@@ -552,7 +558,8 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                         height: 100,
                         margin: const EdgeInsets.all(20.0),
                         decoration: BoxDecoration(
-                            color: Color(int.parse(widget.vehicle.color!)),
+                            color: Color(
+                                int.parse(provider.actualVehicle!.color!)),
                             borderRadius: BorderRadius.circular(20),
                             border:
                                 Border.all(color: Colors.black, width: 2.0)),

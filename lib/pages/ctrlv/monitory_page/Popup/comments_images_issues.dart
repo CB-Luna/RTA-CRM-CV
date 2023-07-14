@@ -33,8 +33,9 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child:
-                  CardHeader(text: "${provider.actualDetailField?.nameIssue.capitalize.replaceAll("_", ' ')}"),
+              child: CardHeader(
+                  text:
+                      "${provider.actualDetailField?.nameIssue.capitalize.replaceAll("_", ' ')}"),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -106,7 +107,9 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
                 ],
               ),
               child: SingleChildScrollView(
-                  child: Text(provider.actualDetailField?.comments != "" ? "${provider.actualDetailField?.comments}" : "No Comments")),
+                  child: Text(provider.actualDetailField?.comments != ""
+                      ? "${provider.actualDetailField?.comments}"
+                      : "No Comments")),
             ),
             SizedBox(
               height: 300,
@@ -114,10 +117,12 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
               child: CarouselSlider.builder(
                 itemCount: provider.actualDetailField?.listImages?.length ?? 0,
                 itemBuilder: (context, index, realIndex) {
-                  const urlImage =
+                  // const urlImage =
+                  //     "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
+                  final urlImage = provider
+                          .actualDetailField?.listImages?[index] ??
                       "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
-                      // final urlImage =
-                      // provider.actualDetailField?.listImages?[index] ?? "";
+
                   return buildImage(urlImage, index);
                 },
                 options: CarouselOptions(height: 200),

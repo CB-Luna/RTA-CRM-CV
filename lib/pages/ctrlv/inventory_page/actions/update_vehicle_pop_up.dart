@@ -183,26 +183,39 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                         keyboardType: TextInputType.name,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      child: CustomTextFieldForm(
-                        label: '9. Color',
-                        enabled: true,
-                        controller: TextEditingController(),
-                        onTapCheck: true,
-                        width: 350,
-                        keyboardType: TextInputType.name,
-                        //designColor: int.parse(widget.vehicle.color!),
-                        onTap: () async {
-                          colors =
-                              await showColorPickerDialog(context, pickerColor);
-                          String colorString =
-                              "0x${colors.hexAlpha.toLowerCase()}";
-                          provider.updateColor(
-                              int.parse(colorString), colorString);
-                        },
-                        designColor: provider.colorController,
-                      ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          child: CustomTextFieldForm(
+                            label: '9. Color',
+                            enabled: true,
+                            controller: TextEditingController(),
+                            onTapCheck: true,
+                            width: 150,
+                            keyboardType: TextInputType.name,
+                            //designColor: int.parse(widget.vehicle.color!),
+                            onTap: () async {
+                              colors = await showColorPickerDialog(
+                                  context, pickerColor);
+                              String colorString =
+                                  "0x${colors.hexAlpha.toLowerCase()}";
+                              provider.updateColor(
+                                  int.parse(colorString), colorString);
+                            },
+                            //designColor: provider.colorController,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 70, right: 10),
+                          width: 50,
+                          height: 35,
+                          decoration: BoxDecoration(
+                            color: Color(provider.colorController),
+                            shape: BoxShape.circle,
+                          ),
+                        )
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
