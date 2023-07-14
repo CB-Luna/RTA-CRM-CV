@@ -650,9 +650,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                           .getIssuesxUsers(
                                                               rendererContext
                                                                   .cell.value);
-                                                      provider.selectVehicle(
-                                                          rendererContext
-                                                              .cell.value);
                                                       isssueReportedProvider
                                                           .selectVehicle(
                                                               rendererContext

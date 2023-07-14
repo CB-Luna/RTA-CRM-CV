@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/issues_open_close.dart';
-import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
+import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 
@@ -22,22 +22,23 @@ class ListIssuesCardD extends StatefulWidget {
 class _ListIssuesCardDState extends State<ListIssuesCardD> {
   @override
   Widget build(BuildContext context) {
-    InventoryProvider provider = Provider.of<InventoryProvider>(context);
     IssueReportedProvider isssueReportedProvider =
         Provider.of<IssueReportedProvider>(context);
     return isssueReportedProvider.cambiovistaMeasures == true
         ? Container(
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.white,
+              gradient: whiteGradient,
               borderRadius: BorderRadius.circular(20),
               boxShadow: const [
                 BoxShadow(
                     blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
               ],
+              border: Border.all(
+                  color: AppTheme.of(context).primaryColor, width: 2),
             ),
-            height: 300,
-            width: 580,
+            height: 500,
+            width: 600,
             child: Column(
               children: [
                 Container(
@@ -96,13 +97,13 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                       ],
                     )),
                 SizedBox(
-                  height: 236,
+                  height: 406,
                   width: 850,
                   child: ListView(
                     children: [
                       SizedBox(
                         //color: Colors.orange,
-                        height: 236,
+                        height: 500,
                         width: 600,
                         child: ListView.builder(
                           itemCount: widget.issuesComments.length,
@@ -200,15 +201,17 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
         : Container(
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.white,
+              gradient: whiteGradient,
               borderRadius: BorderRadius.circular(20),
               boxShadow: const [
                 BoxShadow(
                     blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
               ],
+              border: Border.all(
+                  color: AppTheme.of(context).primaryColor, width: 2),
             ),
-            height: 300,
-            width: 580,
+            height: 500,
+            width: 600,
             child: Column(
               children: [
                 Container(
@@ -267,13 +270,13 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                       ],
                     )),
                 SizedBox(
-                  height: 217,
+                  height: 406,
                   width: 850,
                   child: ListView(
                     children: [
                       SizedBox(
                         //color: Colors.orange,
-                        height: 217,
+                        height: 500,
                         width: 600,
                         child: ListView.builder(
                           itemCount: widget.issuesComments.length,

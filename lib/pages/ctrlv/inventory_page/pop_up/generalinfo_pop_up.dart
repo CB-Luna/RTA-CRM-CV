@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../providers/ctrlv/inventory_provider.dart';
-import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
 import '../../monitory_page/widgets/cuadro.dart';
 
@@ -481,14 +480,14 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                   margin: const EdgeInsets.only(top: 50, left: 40, bottom: 10),
                   decoration: BoxDecoration(
                       border: Border.all(
-                        color: Color(int.parse(provider.actualVehicle!.color!)),
+                        color: Color(int.parse(provider.actualVehicle!.color)),
                         width: 5.0,
                       ),
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
                           color:
-                              Color(int.parse(provider.actualVehicle!.color!)),
+                              Color(int.parse(provider.actualVehicle!.color)),
                           spreadRadius: 7,
                           blurRadius: 10,
                           offset: Offset(4, 4), // changes position of shadow
@@ -558,8 +557,8 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                         height: 100,
                         margin: const EdgeInsets.all(20.0),
                         decoration: BoxDecoration(
-                            color: Color(
-                                int.parse(provider.actualVehicle!.color!)),
+                            color:
+                                Color(int.parse(provider.actualVehicle!.color)),
                             borderRadius: BorderRadius.circular(20),
                             border:
                                 Border.all(color: Colors.black, width: 2.0)),

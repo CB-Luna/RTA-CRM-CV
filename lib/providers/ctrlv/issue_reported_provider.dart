@@ -310,7 +310,6 @@ class IssueReportedProvider extends ChangeNotifier {
   // Función para traer el nombre de los issues de BucketInspection
   Future<void> getIssuesBasics(IssuesXUser issuesXUser) async {
     // clearListgetIssues();
-
     try {
       final res = await supabaseCtrlV
           .from('issues_view')
@@ -419,8 +418,6 @@ class IssueReportedProvider extends ChangeNotifier {
               listImages: listImage,
               dateAdded: DateTime.parse(resHolesDrilled.first['date_added']));
         }
-
-        notifyListeners();
       }
       if (issueOpenClose.nameIssue == "Bucket Liner") {
         final res = await supabaseCtrlV
@@ -439,7 +436,6 @@ class IssueReportedProvider extends ChangeNotifier {
               listImages: listImage,
               dateAdded: DateTime.parse(resBucketLiner.first['date_added']));
         }
-        notifyListeners();
       }
       if (issueOpenClose.nameIssue == "Insulated") {
         final res = await supabaseCtrlV
@@ -458,7 +454,6 @@ class IssueReportedProvider extends ChangeNotifier {
               listImages: listImage,
               dateAdded: DateTime.parse(resInsulated.first['date_added']));
         }
-        notifyListeners();
       }
       print("Entro a getIssuesBucketInspectionComments");
     } catch (e) {
