@@ -27,6 +27,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       IssueReportedProvider provider =
           Provider.of<IssueReportedProvider>(context, listen: false);
+      //TODO: no borrar todo, actualizar
       provider.clearListgetIssues();
       if (widget.contador == 1) {
         provider.cambiovistaMeasures = true;

@@ -218,9 +218,9 @@ class InventoryProvider extends ChangeNotifier {
 
 //------------------------------------------
   // Función para seleccionar el vehiculo y no tener que heredar
-  void selectVehicle(Vehicle vehicle) {
+  void selectVehicle(Vehicle vehicle, {bool notify = true}) {
     actualVehicle = vehicle;
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   // Función para seleccionar el IssueXUser
@@ -229,7 +229,7 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future setIndex(int index) async {
+  Future<void> setIndex(int index) async {
     for (var i = 0; i < indexSelected.length; i++) {
       indexSelected[i] = false;
     }
@@ -242,7 +242,7 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future setIndexIssue(int index) async {
+  void setIndexIssue(int index) async {
     for (var i = 0; i < indexSelectedIssue.length; i++) {
       indexSelectedIssue[i] = false;
     }
@@ -981,16 +981,16 @@ class InventoryProvider extends ChangeNotifier {
         report.issuesD
       ];
       sheet.appendRow(row);
-      
+
       String colorFinal = parseColorValue(report.color);
       // String colorFinal = '#286571';
       // for (var row = 3; row < sheet.rows.length; row++) {
-        var cell = sheet.cell(CellIndex.indexByColumnRow( columnIndex: 7,rowIndex: i+3));
-        cell.cellStyle = CellStyle(
-          backgroundColorHex: colorFinal, // Cambia el color aquí
-        );
+      var cell = sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: i + 3));
+      cell.cellStyle = CellStyle(
+        backgroundColorHex: colorFinal, // Cambia el color aquí
+      );
       // }
-      
     }
 
     //Descargar
@@ -1001,7 +1001,6 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   String parseColorValue(String colorValue) {
-
     String colorMenor = colorValue.substring(4);
     colorMenor.toUpperCase();
     String hexColor = '#$colorMenor'; // Convertir a formato de cadena '#RRGGBB'

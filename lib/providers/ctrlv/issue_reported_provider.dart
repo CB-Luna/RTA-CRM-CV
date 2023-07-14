@@ -93,13 +93,13 @@ class IssueReportedProvider extends ChangeNotifier {
   }
 
   // Seleccionar el vehiculo actual para la información
-  void selectVehicle(Vehicle vehicle) {
+  void selectVehicle(Vehicle vehicle, {notify = true}) {
     actualVehicle = vehicle;
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   // Función para traer de Supabase los IssuesXUsers
-  void getIssuesxUsers(Vehicle vehicle) async {
+  Future<void> getIssuesxUsers(Vehicle vehicle, {bool notify = true}) async {
     try {
       final res = await supabaseCtrlV
           .from('issues_x_users')
@@ -111,7 +111,7 @@ class IssueReportedProvider extends ChangeNotifier {
     } catch (e) {
       print("Error en getIssuesxUsers - $e");
     }
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   // Función para traer las funciones de los nombres de los IssueComments

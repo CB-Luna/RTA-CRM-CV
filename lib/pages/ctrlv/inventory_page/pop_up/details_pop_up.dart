@@ -53,19 +53,19 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                 width: 2),
                           ),
                           child: TabBar(
-                            onTap: (value) {
+                            onTap: (value) async {
                               switch (value) {
                                 case 0:
-                                  provider.setIndex(0);
+                                  await provider.setIndex(0);
                                   break;
                                 case 1:
-                                  provider.setIndex(1);
+                                  await provider.setIndex(1);
                                   break;
                                 case 2:
-                                  provider.setIndex(2); //2-3-4
+                                  await provider.setIndex(2); //2-3-4
                                   break;
                                 case 3:
-                                  provider.setIndex(3); //12-5
+                                  await provider.setIndex(3); //12-5
                                   break;
 
                                 default:

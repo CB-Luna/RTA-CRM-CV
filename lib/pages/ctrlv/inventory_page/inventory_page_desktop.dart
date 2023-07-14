@@ -646,19 +646,26 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                     color: AppTheme.of(context)
                                                         .primaryColor,
                                                     onTap: () async {
-                                                      isssueReportedProvider
+                                                      await isssueReportedProvider
                                                           .getIssuesxUsers(
-                                                              rendererContext
-                                                                  .cell.value);
+                                                        rendererContext
+                                                            .cell.value,
+                                                        notify: false,
+                                                      );
                                                       isssueReportedProvider
                                                           .selectVehicle(
-                                                              rendererContext
-                                                                  .cell.value);
+                                                        rendererContext
+                                                            .cell.value,
+                                                        notify: false,
+                                                      );
                                                       provider.selectVehicle(
-                                                          rendererContext
-                                                              .cell.value);
-                                                      provider
+                                                        rendererContext
+                                                            .cell.value,
+                                                        notify: false,
+                                                      );
+                                                      await provider
                                                           .getServicesPage();
+                                                      if (!mounted) return;
                                                       context.pushReplacement(
                                                           routeDetailsInventory);
                                                     },
