@@ -25,15 +25,16 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
     final int cadena = isssueReportedProvider.issuesxUser.length;
 
     return isssueReportedProvider.issuesView == 0
-        ? SizedBox(
-            height: 500,
-            width: 1400,
+        ? Container(
+            width: 200,
+            height: 200,
+            color: Colors.yellow,
             child: Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: CustomTextField(
-                    width: MediaQuery.of(context).size.width,
+                    width: 400,
                     enabled: true,
                     controller: provider.searchController,
                     icon: Icons.search,
@@ -42,7 +43,7 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                   ),
                 ),
                 SizedBox(
-                  width: 1400,
+                  width: 400,
                   height: 307,
                   child: ListView.builder(
                       padding: const EdgeInsets.all(8),
@@ -61,10 +62,10 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
           )
         : isssueReportedProvider.issuesView == 1
             ? const ReportedIssues()
-            : isssueReportedProvider.issuesView == 2
-                ? const CommentsPhotosPopUp()
-                : Container(
-                    height: 500,
-                  );
+            // : isssueReportedProvider.issuesView == 2
+            //     ? const CommentsPhotosPopUp()
+            : Container(
+                height: 1200,
+              );
   }
 }

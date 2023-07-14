@@ -11,7 +11,7 @@ import '../../models/issues_x_user.dart';
 import '../../models/vehicle.dart';
 
 class IssueReportedProvider extends ChangeNotifier {
-  //---------------- Variables --------------------------
+  //---------------- Variables Para ingresar los Issues --------------------------
   List<BucketInspection> issuePart1 = [];
   List<BucketInspection> issuePartD = [];
   List<CarBodywork> issueCarBodywR = [];
@@ -28,6 +28,8 @@ class IssueReportedProvider extends ChangeNotifier {
   List<Security> issueSecurityD = [];
   List<Measure> issueMeasureR = [];
   List<Measure> issueMeasureD = [];
+
+  // --------------------- Variables Globales -----------------------------------
   IssuesComments? registroIssueComments;
   bool cambiovistaMeasures = true;
   IssuesXUser? actualIssueXUser;
@@ -35,6 +37,7 @@ class IssueReportedProvider extends ChangeNotifier {
   Uint8List? webImage;
   TextEditingController dateTimeClosedIssueController = TextEditingController();
   Vehicle? actualVehicle;
+  IssuesComments? actualissuesComments;
 
   // ---------------------- Listas R -------------------------
   List<IssuesComments> bucketInspectionR = [];
@@ -58,27 +61,44 @@ class IssueReportedProvider extends ChangeNotifier {
   List<IssueOpenclose> measureDD = [];
   List<IssueOpenclose> securityDD = [];
 
+  // Seleccionamos el IssueXUser que vamos a usar
   void selectIssuesXUser(int index) {
     actualIssueXUser = issuesxUser[index];
     notifyListeners();
   }
 
+  // Contador para mostrar toda en que sección de los issues estamos
   int contadorSeccion = 0;
   void setContador(int contador) {
     contadorSeccion = contador;
     notifyListeners();
   }
 
-//---------------------------------------------
+  // Función que hace lo de movernos entre las ventanas
+  int issuesView = 0;
+  void setIssueViewActual(int value) {
+    issuesView = value;
+    notifyListeners();
+  }
+
+  // Limpiar los registrosIssueComments cuando sales del ojito
   Future<void> clearRegistroIssueComments() async {
     registroIssueComments = null;
   }
 
+  // Seleccionar el Issue Comments
+  void selectIssuesComments(IssuesComments issueComments) {
+    actualissuesComments = issueComments;
+    notifyListeners();
+  }
+
+  // Seleccionar el vehiculo actual para la información
   void selectVehicle(Vehicle vehicle) {
     actualVehicle = vehicle;
     notifyListeners();
   }
 
+  // Función para traer de Supabase los IssuesXUsers
   void getIssuesxUsers(Vehicle vehicle) async {
     try {
       final res = await supabaseCtrlV
@@ -94,6 +114,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Función para traer las funciones de los nombres de los IssueComments
   void getIssueCommentsName(int contador, IssuesXUser? actualIssueXUser) {
     try {
       //   clearListgetIssues();
@@ -150,6 +171,7 @@ class IssueReportedProvider extends ChangeNotifier {
     }
   }
 
+  // Función para traer las funciones de los comentarios y las fotos de los IssueComments
   void getIssuePhotosComments(int contador, IssueOpenclose issuesComments) {
     try {
       if (contador == 1) {
@@ -197,7 +219,7 @@ class IssueReportedProvider extends ChangeNotifier {
     }
   }
 
-  //---------------------------------------------
+  // Función para cerrar los Issue
   Future<bool> closeIssue() async {
     // print(res);
     try {
@@ -285,7 +307,7 @@ class IssueReportedProvider extends ChangeNotifier {
     }
   }
 
-  // --------------------------------------------
+  // Función para traer el nombre de los issues de BucketInspection
   Future<void> getIssuesBasics(IssuesXUser issuesXUser) async {
     // clearListgetIssues();
 
@@ -373,7 +395,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --------------------------------------------
+  // Función para traer los comentarios de los issues de BucketInspection
   Future<void> getIssuesBucketInspectionComments(
       IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
@@ -445,7 +467,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --------------------------------------------
+  // Función para traer el nombre de los issues de CarBodyWork
   Future<void> getIssueCarBodyWorkComments(
       IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
@@ -679,7 +701,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --------------------------------------------
+  // Función para traer los comentarios de los issues de CarBodywork
   Future<void> getIssuesCarBodywork(IssuesXUser issuesXUser) async {
     try {
       // CardBodyWork_R
@@ -907,7 +929,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --------------------------------------------
+  // Función para traer los comentarios de los issues de Equipment
   Future<void> getIssuesEquipmentComments(IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
     print("Entro a  getIssuesEquipmentComments");
@@ -1038,7 +1060,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --------------------------------------------
+  // Función para traer los nombre de los issues de Equipment
   Future<void> getIssuesEquipment(IssuesXUser issuesXUser) async {
     try {
       // getIssuesEquipment_r
@@ -1158,7 +1180,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --------------------------------------------
+  // Función para traer los nombre de los issues de Extra
   Future<void> getIssuesExtra(IssuesXUser issuesXUser) async {
     try {
       // getIssuesEquipment_r
@@ -1319,7 +1341,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --------------------------------------------
+  // Función para traer los comentarios de los issues de Extra
   Future<void> getIssuesExtraComments(IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
     print("Entro a  getIssuesExtraComments");
@@ -1517,7 +1539,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --------------------------------------------
+  // Función para traer los nombre de los issues de FluidsCheck
   Future<void> getIssuesFluidCheck(IssuesXUser issuesXUser) async {
     try {
       // getIssuesFluidCheckR
@@ -1648,7 +1670,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-// --------------------------------------------
+  // Función para traer los comentarios de los issues de FluidsCheck
   Future<void> getIssuesFluidsCheckComments(
       IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
@@ -1800,7 +1822,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-// --------------------------------------------
+  // Función para traer los nombre de los issues de Lights
   Future<void> getIssuesLights(IssuesXUser issuesXUser) async {
     try {
       // getIssuesLightsR
@@ -1985,7 +2007,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --------------------------------------------
+  // Función para traer los comentarios de los issues de Lights
   Future<void> getIssuesLightsComments(IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
     print("Entro a getIssuesLightsComments");
@@ -2209,7 +2231,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --------------------------------------------
+  // Función para traer los nombre de los issues de Measures
   Future<void> getIssuesMeasure(IssuesXUser issuesXUser) async {
     try {
       // getIssuesLightsR
@@ -2284,7 +2306,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-// --------------------------------------------
+  // Función para traer los comentarios de los issues de Measures
   Future<void> getIssuesMeasuresComments(IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
     print("Entro a getIssuesMeasuresComments");
@@ -2340,7 +2362,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --------------------------------------------
+  // Función para traer los nombre de los issues de Security
   Future<void> getIssueSecurity(IssuesXUser issuesXUser) async {
     try {
       // getIssuesLightsR
@@ -2472,7 +2494,7 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --------------------------------------------
+  // Función para traer los comentarios de los issues de Security
   Future<void> getIssuesSecurityComments(IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
     print("Entro a getIssuesSecurityComments");
@@ -2625,8 +2647,8 @@ class IssueReportedProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-  //---------------------------------------------
 
+  // Limpiar las listas
   void clearListgetIssues() {
     bucketInspectionRR.clear();
     bucketInspectionDD.clear();
@@ -2646,12 +2668,5 @@ class IssueReportedProvider extends ChangeNotifier {
     measureDD.clear();
     securityRR.clear();
     securityDD.clear();
-  }
-//---------------------------------------------
-
-  int issuesView = 0;
-  void setIssueViewActual(int value) {
-    issuesView = value;
-    notifyListeners();
   }
 }

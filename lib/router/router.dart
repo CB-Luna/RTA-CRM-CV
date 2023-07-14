@@ -18,6 +18,7 @@ import 'package:rta_crm_cv/pages/crm/quotes/validate_quote.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 
 import '../pages/ctrlv/inventory_page/inventory_page.dart';
+import '../pages/ctrlv/inventory_page/pop_up/details_pop_up.dart';
 
 /// The route configuration.
 final GoRouter router = GoRouter(
@@ -231,6 +232,15 @@ final GoRouter router = GoRouter(
       },
       pageBuilder: (context, state) =>
           pageTransition(context, state, const InventoryPage()),
+    ),
+    GoRoute(
+      path: routeDetailsInventory,
+      name: 'Details_Inventory',
+      builder: (BuildContext context, GoRouterState state) {
+        return const ValidateQuotePage();
+      },
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const DetailsPopUp()),
     ),
     /////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////

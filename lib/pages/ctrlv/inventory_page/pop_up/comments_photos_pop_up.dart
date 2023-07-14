@@ -162,10 +162,13 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                       : isssueReportedProvider
                           .registroIssueComments?.listImages?.length,
                   itemBuilder: (context, index, realIndex) {
-                    // final urlImage =
-                    //     provider.actualissuesComments?.listImages![index];
-                    const urlImage = "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
-                    return buildImage(urlImage, index);
+                    final urlImage = isssueReportedProvider
+                        .actualissuesComments?.listImages![index];
+                    // const urlImage = "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
+                    return buildImage(
+                        urlImage ??
+                            "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png",
+                        index);
                   },
                   options: CarouselOptions(height: 200),
                 ),
