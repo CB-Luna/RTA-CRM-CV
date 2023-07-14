@@ -3174,10 +3174,19 @@ class InventoryProvider extends ChangeNotifier {
 
 //----------------------------------------------
   // EXCEL
-  Future<bool> excelActivityReports() async {
+  bool excelActivityReports() {
     //Crear excel
     Excel excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
+
+    sheet?.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
+    sheet?.setColWidth(4, 25);
+    sheet?.setColWidth(5, 30);
+    sheet?.setColWidth(11, 50);
+    sheet?.setColWidth(12, 50);
+    sheet?.setColWidth(13, 50);
+    sheet?.setColWidth(14, 25);
+    sheet?.setColWidth(15, 30);
 
     if (sheet == null) return false;
     CellStyle titulo = CellStyle(
@@ -3274,24 +3283,20 @@ class InventoryProvider extends ChangeNotifier {
     cell14.cellStyle = cellStyle;
 
     var cell15 = sheet.cell(CellIndex.indexByString("O3"));
-    cell15.value = "Issues Received";
+    cell15.value = "Issues Check Out";
     cell15.cellStyle = cellStyle;
 
     var cell16 = sheet.cell(CellIndex.indexByString("P3"));
-    cell16.value = "Issues Delivered";
+    cell16.value = "Issues Check In";
     cell16.cellStyle = cellStyle;
-    //Agregar headers
-    // sheet.appendRow([
-    //   'status',
-    //   'company',
-    //   'date_Added',
-    //   'oil_change_due',
-    //   'Last transmission fluid change:',
-    //   'Last radiator fluid change:'
-    // ]);
+
+    //sortear por su Id
+    vehicles.sort((a, b) => a.idVehicle.compareTo(b.idVehicle));
 
     //Agregar datos
-    for (Vehicle report in vehicles) {
+    for (int i = 0; i < vehicles.length; i++) {
+      Vehicle report = vehicles[i];
+
       final List<dynamic> row = [
         report.idVehicle,
         report.make,
@@ -3300,7 +3305,7 @@ class InventoryProvider extends ChangeNotifier {
         report.vin,
         report.licesensePlates,
         report.motor,
-        report.color,
+        '',
         report.status.status,
         report.company.company,
         DateFormat("MMM/dd/yyyy").format(report.dateAdded),
@@ -3318,6 +3323,16 @@ class InventoryProvider extends ChangeNotifier {
         report.issuesD
       ];
       sheet.appendRow(row);
+      
+      String colorFinal = parseColorValue(report.color);
+      // String colorFinal = '#286571';
+      // for (var row = 3; row < sheet.rows.length; row++) {
+        var cell = sheet.cell(CellIndex.indexByColumnRow( columnIndex: 7,rowIndex: i+3));
+        cell.cellStyle = CellStyle(
+          backgroundColorHex: colorFinal, // Cambia el color aquí
+        );
+      // }
+      
     }
 
     //Descargar
@@ -3325,6 +3340,14 @@ class InventoryProvider extends ChangeNotifier {
     if (fileBytes == null) return false;
 
     return true;
+  }
+
+  String parseColorValue(String colorValue) {
+
+    String colorMenor = colorValue.substring(4);
+    colorMenor.toUpperCase();
+    String hexColor = '#$colorMenor'; // Convertir a formato de cadena '#RRGGBB'
+    return hexColor;
   }
 //----------------------------------------------
 

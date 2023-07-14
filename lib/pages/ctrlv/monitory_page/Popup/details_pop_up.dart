@@ -120,73 +120,7 @@ class DetailsPop extends StatelessWidget {
                                   )
                                 ]),
                                 const Spacer(),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 80),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          "${vehicle.employee.name} ${vehicle.employee.lastName}",
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          "${vehicle.idVehicle}",
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          vehicle.gasR,
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          "${vehicle.mileageR}",
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          vehicle.licensePlates,
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          vehicle.vin,
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          DateFormat("MMM-dd-yyyy").format(vehicle.vehicle.lastTransmissionFluidChange!).toString(),
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          DateFormat("MMM-dd-yyyy").format(vehicle.vehicle.oilChangeDue!).toString(),
-                                          //"${vehicle.vehicle.oilChangeDue.month}-${vehicle.vehicle.oilChangeDue.day}-${vehicle.vehicle.oilChangeDue.year}",
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Spacer(),
+                               
                                 Padding(
                                   padding: EdgeInsets.only(right: 80),
                                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
