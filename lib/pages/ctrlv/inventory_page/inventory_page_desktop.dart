@@ -654,6 +654,9 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                           .selectVehicle(
                                                               rendererContext
                                                                   .cell.value);
+                                                      provider.selectVehicle(
+                                                          rendererContext
+                                                              .cell.value);
                                                       provider
                                                           .getServicesPage();
                                                       context.pushReplacement(
