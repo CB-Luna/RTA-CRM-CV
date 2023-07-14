@@ -188,7 +188,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
           )),
           Container(
             width: MediaQuery.of(context).size.width - 100,
-            height: MediaQuery.of(context).size.height - 242,
+            height: MediaQuery.of(context).size.height - 200,
             child: DefaultTabController(
               length: 8,
               initialIndex: 0,
