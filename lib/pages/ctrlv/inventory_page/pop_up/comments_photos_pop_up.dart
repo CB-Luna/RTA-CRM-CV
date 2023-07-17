@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
@@ -20,87 +19,80 @@ class CommentsPhotosPopUp extends StatefulWidget {
 class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
   @override
   Widget build(BuildContext context) {
-    InventoryProvider provider = Provider.of<InventoryProvider>(context);
     IssueReportedProvider isssueReportedProvider =
         Provider.of<IssueReportedProvider>(context);
     return Container(
+      color: Colors.white,
       child: Column(
         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             alignment: Alignment.centerLeft,
-            child: CustomTextIconButton(
-              width: 83,
-              isLoading: false,
-              icon: Icon(Icons.arrow_back_outlined,
-                  color: AppTheme.of(context).primaryBackground),
-              text: 'Back',
-              color: AppTheme.of(context).primaryColor,
-              onTap: () async {
-                isssueReportedProvider.setIssueViewActual(1);
-                isssueReportedProvider.clearRegistroIssueComments;
-              },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  children: [
+                    CustomTextIconButton(
+                      width: 60,
+                      isLoading: false,
+                      icon: Icon(Icons.arrow_back_outlined,
+                          color: AppTheme.of(context).primaryBackground),
+                      text: '',
+                      color: AppTheme.of(context).primaryColor,
+                      onTap: () async {
+                        isssueReportedProvider.setIssueViewActual(1);
+                        isssueReportedProvider.clearRegistroIssueComments;
+                      },
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(15.0),
+                      alignment: Alignment.center,
+                      width: 250,
+                      child: Text(
+                        isssueReportedProvider
+                                    .registroIssueComments?.nameIssue ==
+                                null
+                            ? "No Issue"
+                            : isssueReportedProvider
+                                .registroIssueComments!.nameIssue.capitalize
+                                .replaceAll("_", " "),
+                        style: TextStyle(
+                            color: Colors.orange,
+                            fontFamily: 'Bicyclette-Thin',
+                            fontSize:
+                                AppTheme.of(context).contenidoTablas.fontSize,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  margin: const EdgeInsets.all(10.0),
+                  alignment: Alignment.center,
+                  width: 250,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.blue[100],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    isssueReportedProvider.registroIssueComments?.dateAdded ==
+                            null
+                        ? "No Date"
+                        : DateFormat("MMM/dd/yyyy").format(
+                            isssueReportedProvider
+                                .registroIssueComments!.dateAdded),
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontFamily: 'Bicyclette-Thin',
+                        fontSize: AppTheme.of(context).contenidoTablas.fontSize,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(15.0),
-                alignment: Alignment.center,
-                width: 200,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                        blurRadius: 4,
-                        color: Colors.grey,
-                        offset: Offset(10, 10))
-                  ],
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  isssueReportedProvider.registroIssueComments?.dateAdded ==
-                          null
-                      ? "No Date"
-                      : DateFormat("MMM/dd/yyyy").format(isssueReportedProvider
-                          .registroIssueComments!.dateAdded),
-                  style: TextStyle(
-                      color: AppTheme.of(context).contenidoTablas.color,
-                      fontFamily: 'Bicyclette-Thin',
-                      fontSize: AppTheme.of(context).contenidoTablas.fontSize,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(15.0),
-                alignment: Alignment.center,
-                width: 250,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                        blurRadius: 4,
-                        color: Colors.grey,
-                        offset: Offset(10, 10))
-                  ],
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  isssueReportedProvider.registroIssueComments?.nameIssue ==
-                          null
-                      ? "No Issue"
-                      : isssueReportedProvider
-                          .registroIssueComments!.nameIssue.capitalize
-                          .replaceAll("_", " "),
-                  style: TextStyle(
-                      color: AppTheme.of(context).contenidoTablas.color,
-                      fontFamily: 'Bicyclette-Thin',
-                      fontSize: AppTheme.of(context).contenidoTablas.fontSize,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -110,9 +102,9 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                   Container(
                     margin: const EdgeInsets.all(20.0),
                     padding: const EdgeInsets.all(10.0),
-                    height: 150,
                     alignment: Alignment.center,
-                    width: 350,
+                    width: 400,
+                    height: 350,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -123,9 +115,15 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                             offset: Offset(10, 10))
                       ],
                     ),
-                    child: SingleChildScrollView(
-                        child: Text(
-                            "${isssueReportedProvider.registroIssueComments?.comments}.")),
+                    child: Column(
+                      children: [
+                        Text("NOTES"),
+                        SingleChildScrollView(
+                          child: Text(
+                              "${isssueReportedProvider.registroIssueComments?.comments}."),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 10),

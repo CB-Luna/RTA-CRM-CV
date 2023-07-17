@@ -45,6 +45,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                     color: AppTheme.of(context).primaryColor,
                     onTap: () async {
                       isssueReportedProvider.setIssueViewActual(0);
+                      isssueReportedProvider.clearListgetIssues();
                     },
                   ),
                 ),
@@ -188,7 +189,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
           )),
           Container(
             width: MediaQuery.of(context).size.width - 100,
-            height: MediaQuery.of(context).size.height - 200,
+            height: MediaQuery.of(context).size.height - 245,
             child: DefaultTabController(
               length: 8,
               initialIndex: 0,

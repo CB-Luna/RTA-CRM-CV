@@ -667,7 +667,9 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                           .getServicesPage();
                                                       if (!mounted) return;
                                                       context.pushReplacement(
-                                                          routeDetailsInventory);
+                                                          routeDetailsInventory,
+                                                          extra: rendererContext
+                                                              .cell.value);
                                                     },
                                                   ),
                                                 ),

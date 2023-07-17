@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/generalinfo_pop_up.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
+import '../../../../models/vehicle.dart';
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
@@ -11,7 +12,8 @@ import 'issues_pop_up.dart';
 import 'service_pop_up.dart';
 
 class DetailsPopUp extends StatefulWidget {
-  const DetailsPopUp({super.key});
+  final Vehicle vehicle;
+  const DetailsPopUp({super.key, required this.vehicle});
 
   @override
   State<DetailsPopUp> createState() => _DetailsPopUpState();
