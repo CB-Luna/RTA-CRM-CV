@@ -239,9 +239,9 @@ class InventoryProvider extends ChangeNotifier {
 
 //------------------------------------------
   // Función para seleccionar el vehiculo y no tener que heredar
-  void selectVehicle(Vehicle vehicle) {
+  void selectVehicle(Vehicle vehicle, {bool notify = true}) {
     actualVehicle = vehicle;
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   // Función para seleccionar el IssueXUser
@@ -250,7 +250,7 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future setIndex(int index) async {
+  Future<void> setIndex(int index) async {
     for (var i = 0; i < indexSelected.length; i++) {
       indexSelected[i] = false;
     }
@@ -263,7 +263,7 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future setIndexIssue(int index) async {
+  void setIndexIssue(int index) async {
     for (var i = 0; i < indexSelectedIssue.length; i++) {
       indexSelectedIssue[i] = false;
     }

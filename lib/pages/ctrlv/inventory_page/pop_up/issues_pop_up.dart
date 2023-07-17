@@ -28,7 +28,6 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
         ? Container(
             width: 200,
             height: 200,
-            color: Colors.yellow,
             child: Column(
               children: [
                 Padding(
@@ -49,7 +48,6 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                       padding: const EdgeInsets.all(8),
                       itemCount: cadena,
                       itemBuilder: (BuildContext context, int index) {
-                        //provider.selectIssuesXUser(index);
                         isssueReportedProvider.selectIssuesXUser(index);
                         return const Padding(
                           padding: EdgeInsets.only(bottom: 5.0),
@@ -62,10 +60,10 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
           )
         : isssueReportedProvider.issuesView == 1
             ? const ReportedIssues()
-            // : isssueReportedProvider.issuesView == 2
-            //     ? const CommentsPhotosPopUp()
-            : Container(
-                height: 1200,
-              );
+            : isssueReportedProvider.issuesView == 2
+                ? const CommentsPhotosPopUp()
+                : Container(
+                    height: 1200,
+                  );
   }
 }

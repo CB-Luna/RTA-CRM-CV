@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/models/vehicle.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/generalinfo_pop_up.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
+import '../../../../models/vehicle.dart';
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
-import '../../../../widgets/custom_text_icon_button.dart';
 import '../../../../widgets/side_menu/sidemenu.dart';
 import 'issues_pop_up.dart';
 import 'service_pop_up.dart';
 
 class DetailsPopUp extends StatefulWidget {
-  const DetailsPopUp({super.key});
+  final Vehicle vehicle;
+  const DetailsPopUp({super.key, required this.vehicle});
 
   @override
   State<DetailsPopUp> createState() => _DetailsPopUpState();
@@ -35,7 +34,7 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                 width: MediaQuery.of(context).size.width - 100,
                 height: MediaQuery.of(context).size.height,
                 child: SizedBox(
-                  height: 800,
+                  height: 648,
                   width: 1250,
                   child: DefaultTabController(
                     length: 3,
@@ -56,19 +55,19 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                 width: 2),
                           ),
                           child: TabBar(
-                            onTap: (value) {
+                            onTap: (value) async {
                               switch (value) {
                                 case 0:
-                                  provider.setIndex(0);
+                                  await provider.setIndex(0);
                                   break;
                                 case 1:
-                                  provider.setIndex(1);
+                                  await provider.setIndex(1);
                                   break;
                                 case 2:
-                                  provider.setIndex(2); //2-3-4
+                                  await provider.setIndex(2); //2-3-4
                                   break;
                                 case 3:
-                                  provider.setIndex(3); //12-5
+                                  await provider.setIndex(3); //12-5
                                   break;
 
                                 default:
@@ -111,9 +110,9 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                           ),
                         ),
                         //
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height - 200,
+                          height: 590,
                           child: const TabBarView(
                             children: [
                               GeneralInfoPopUP(),

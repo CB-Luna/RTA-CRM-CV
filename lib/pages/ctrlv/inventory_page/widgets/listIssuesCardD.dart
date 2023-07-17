@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/issues_open_close.dart';
-import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
+import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 
@@ -22,87 +22,116 @@ class ListIssuesCardD extends StatefulWidget {
 class _ListIssuesCardDState extends State<ListIssuesCardD> {
   @override
   Widget build(BuildContext context) {
-    InventoryProvider provider = Provider.of<InventoryProvider>(context);
     IssueReportedProvider isssueReportedProvider =
         Provider.of<IssueReportedProvider>(context);
     return isssueReportedProvider.cambiovistaMeasures == true
         ? Container(
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.white,
+              gradient: whiteGradient,
               borderRadius: BorderRadius.circular(20),
               boxShadow: const [
                 BoxShadow(
                     blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
               ],
+              border: Border.all(
+                  color: AppTheme.of(context).primaryColor, width: 2),
             ),
-            height: 300,
-            width: 580,
+            height: 500,
+            width: 600,
             child: Column(
               children: [
                 Container(
                     alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.all(10.0),
                     // Este issue es el nombre
-                    child: Row(
-                      children: [
-                        Row(children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(right: 40.0, left: 10),
-                            child: Text(
-                              "Name Issue",
-                              style: TextStyle(
-                                  color: AppTheme.of(context)
-                                      .contenidoTablas
-                                      .color,
-                                  fontFamily: 'Bicyclette-Thin',
-                                  fontSize: AppTheme.of(context)
-                                      .contenidoTablas
-                                      .fontSize,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                    child: Row(children: [
+                      Container(
+                        width: 150,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          gradient: whiteGradient,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(40),
+                            topRight: Radius.circular(15),
+                            bottomRight: Radius.circular(40),
+                            bottomLeft: Radius.circular(15),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 30.0),
-                            child: Text(
-                              "Issue Open",
-                              style: TextStyle(
-                                  color: AppTheme.of(context)
-                                      .contenidoTablas
-                                      .color,
-                                  fontFamily: 'Bicyclette-Thin',
-                                  fontSize: AppTheme.of(context)
-                                      .contenidoTablas
-                                      .fontSize,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                          border: Border.all(
+                              color: AppTheme.of(context).primaryColor,
+                              width: 2),
+                        ),
+                        child: Text(
+                          "Name Issue",
+                          style: TextStyle(
+                              color: AppTheme.of(context).contenidoTablas.color,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        width: 150,
+                        margin: const EdgeInsets.only(left: 30),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          gradient: whiteGradient,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(40),
+                            topRight: Radius.circular(15),
+                            bottomRight: Radius.circular(40),
+                            bottomLeft: Radius.circular(15),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 90.0),
-                            child: Text(
-                              "Issue Close",
-                              style: TextStyle(
-                                  color: AppTheme.of(context)
-                                      .contenidoTablas
-                                      .color,
-                                  fontFamily: 'Bicyclette-Thin',
-                                  fontSize: AppTheme.of(context)
-                                      .contenidoTablas
-                                      .fontSize,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        ])
-                      ],
-                    )),
+                          border: Border.all(
+                              color: AppTheme.of(context).primaryColor,
+                              width: 2),
+                        ),
+                        child: Text(
+                          "Issue Open",
+                          style: TextStyle(
+                              color: AppTheme.of(context).contenidoTablas.color,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        width: 150,
+                        margin: const EdgeInsets.only(left: 30),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          gradient: whiteGradient,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(40),
+                            topRight: Radius.circular(15),
+                            bottomRight: Radius.circular(40),
+                            bottomLeft: Radius.circular(15),
+                          ),
+                          border: Border.all(
+                              color: AppTheme.of(context).primaryColor,
+                              width: 2),
+                        ),
+                        child: Text(
+                          "Issue Close",
+                          style: TextStyle(
+                              color: AppTheme.of(context).contenidoTablas.color,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ])),
                 SizedBox(
-                  height: 236,
+                  height: 379,
                   width: 850,
                   child: ListView(
                     children: [
                       SizedBox(
                         //color: Colors.orange,
-                        height: 236,
+                        height: 500,
                         width: 600,
                         child: ListView.builder(
                           itemCount: widget.issuesComments.length,
@@ -200,26 +229,42 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
         : Container(
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.white,
+              gradient: whiteGradient,
               borderRadius: BorderRadius.circular(20),
               boxShadow: const [
                 BoxShadow(
                     blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
               ],
+              border: Border.all(
+                  color: AppTheme.of(context).primaryColor, width: 2),
             ),
-            height: 300,
-            width: 580,
+            height: 500,
+            width: 600,
             child: Column(
               children: [
                 Container(
                     alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.all(10.0),
+
                     // Este issue es el nombre
                     child: Row(
                       children: [
                         Row(children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(right: 40.0, left: 10),
+                          Container(
+                            width: 150,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              gradient: whiteGradient,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(40),
+                                topRight: Radius.circular(15),
+                                bottomRight: Radius.circular(40),
+                                bottomLeft: Radius.circular(15),
+                              ),
+                              border: Border.all(
+                                  color: AppTheme.of(context).primaryColor,
+                                  width: 2),
+                            ),
                             child: Text(
                               "Name Issue",
                               style: TextStyle(
@@ -233,8 +278,22 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 30.0),
+                          Container(
+                            width: 150,
+                            margin: const EdgeInsets.only(left: 30),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              gradient: whiteGradient,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(40),
+                                topRight: Radius.circular(15),
+                                bottomRight: Radius.circular(40),
+                                bottomLeft: Radius.circular(15),
+                              ),
+                              border: Border.all(
+                                  color: AppTheme.of(context).primaryColor,
+                                  width: 2),
+                            ),
                             child: Text(
                               "Issue Open",
                               style: TextStyle(
@@ -248,8 +307,22 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 90.0),
+                          Container(
+                            width: 150,
+                            margin: const EdgeInsets.only(left: 30),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              gradient: whiteGradient,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(40),
+                                topRight: Radius.circular(15),
+                                bottomRight: Radius.circular(40),
+                                bottomLeft: Radius.circular(15),
+                              ),
+                              border: Border.all(
+                                  color: AppTheme.of(context).primaryColor,
+                                  width: 2),
+                            ),
                             child: Text(
                               "Issue Close",
                               style: TextStyle(
@@ -262,18 +335,18 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                                       .fontSize,
                                   fontWeight: FontWeight.bold),
                             ),
-                          )
+                          ),
                         ])
                       ],
                     )),
                 SizedBox(
-                  height: 217,
+                  height: 379,
                   width: 850,
                   child: ListView(
                     children: [
                       SizedBox(
                         //color: Colors.orange,
-                        height: 217,
+                        height: 500,
                         width: 600,
                         child: ListView.builder(
                           itemCount: widget.issuesComments.length,
