@@ -768,6 +768,7 @@ class MonitoryProvider extends ChangeNotifier {
     securityInspectR = true;
     securityInspectD = true;
 
+    //Checar si existe el registro en la lista, si existe  no integrar, si no esta, integrarlo
     bucketInspectionR.clear();
     bucketInspectionD.clear();
     carBodyWorkR.clear();

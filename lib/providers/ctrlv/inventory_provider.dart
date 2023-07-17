@@ -120,7 +120,7 @@ class InventoryProvider extends ChangeNotifier {
   List<IssuesXUser> issuesxUser = [];
 //------------------------------------------
 
-  // Listas R
+  // Listas R Listas para tener color en excel
   List<IssuesComments> bucketInspectionR = [];
   List<IssueOpenclose> bucketInspectionRR = [];
   List<IssueOpenclose> carBodyWorkRR = [];
@@ -147,7 +147,7 @@ class InventoryProvider extends ChangeNotifier {
     false, // Measures
     false, // Security
   ];
-  // Listas D
+  // Listas D listas para comparar y tener color en excel
   List<IssuesComments> bucketInspectionD = [];
   List<IssueOpenclose> bucketInspectionDD = [];
   List<IssueOpenclose> carBodyWorkDD = [];
@@ -167,6 +167,27 @@ class InventoryProvider extends ChangeNotifier {
   // List<IssuesComments> securityD = [];
 
   List<IssueOpenclose> listaTotalIssues = [];
+
+//--------------------------------------------
+  //Variables para banderas de de excel
+  bool bucketInspectR = true;
+  late bool bucketInspectD;
+  late bool carBodyInspectR;
+  late bool carBodyInspectD;
+  late bool equipmentInspectR;
+  late bool equipmentInspectD;
+  late bool extraInspectR;
+  late bool extraInspectD;
+  late bool fluidCheckInspectR;
+  late bool fluidCheckInspectD;
+  late bool ligthsInspectR;
+  late bool ligthsInspectD;
+  late bool measureInspectR;
+  late bool measureInspectD;
+  late bool securityInspectR;
+  late bool securityInspectD;
+
+  Issues? issue;
 
 //------------------------------------------
   // TITULO LISTAS
@@ -837,7 +858,38 @@ class InventoryProvider extends ChangeNotifier {
     Excel excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
 
+    //TITULO
     sheet?.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
+    //Headers de la Tabla
+    sheet?.merge(CellIndex.indexByString("A3"), CellIndex.indexByString("A4"));
+    sheet?.merge(CellIndex.indexByString("B3"), CellIndex.indexByString("B4"));
+    sheet?.merge(CellIndex.indexByString("C3"), CellIndex.indexByString("C4"));
+    sheet?.merge(CellIndex.indexByString("D3"), CellIndex.indexByString("D4"));
+    sheet?.merge(CellIndex.indexByString("E3"), CellIndex.indexByString("E4"));
+    sheet?.merge(CellIndex.indexByString("F3"), CellIndex.indexByString("F4"));
+    sheet?.merge(CellIndex.indexByString("G3"), CellIndex.indexByString("G4"));
+    sheet?.merge(CellIndex.indexByString("H3"), CellIndex.indexByString("H4"));
+    sheet?.merge(CellIndex.indexByString("I3"), CellIndex.indexByString("I4"));
+    sheet?.merge(CellIndex.indexByString("J3"), CellIndex.indexByString("J4"));
+    sheet?.merge(CellIndex.indexByString("K3"), CellIndex.indexByString("K4"));
+    sheet?.merge(CellIndex.indexByString("L3"), CellIndex.indexByString("L4"));
+    sheet?.merge(CellIndex.indexByString("M3"), CellIndex.indexByString("M4"));
+    sheet?.merge(CellIndex.indexByString("N3"), CellIndex.indexByString("N4"));
+    sheet?.merge(CellIndex.indexByString("O3"), CellIndex.indexByString("O4"));
+    sheet?.merge(CellIndex.indexByString("P3"), CellIndex.indexByString("P4"));
+    //Headers para secciones
+    sheet?.merge(CellIndex.indexByString("Q3"), CellIndex.indexByString("R3"));
+    sheet?.merge(CellIndex.indexByString("S3"), CellIndex.indexByString("T3"));
+    sheet?.merge(CellIndex.indexByString("U3"), CellIndex.indexByString("V3"));
+    sheet?.merge(CellIndex.indexByString("W3"), CellIndex.indexByString("X3"));
+    sheet?.merge(CellIndex.indexByString("Y3"), CellIndex.indexByString("Z3"));
+    sheet?.merge(
+        CellIndex.indexByString("AA3"), CellIndex.indexByString("AB3"));
+    sheet?.merge(
+        CellIndex.indexByString("AC3"), CellIndex.indexByString("AD3"));
+    sheet?.merge(
+        CellIndex.indexByString("AE3"), CellIndex.indexByString("AF3"));
+
     sheet?.setColWidth(4, 25);
     sheet?.setColWidth(5, 30);
     sheet?.setColWidth(11, 50);
@@ -948,12 +1000,107 @@ class InventoryProvider extends ChangeNotifier {
     cell16.value = "Issues Check In";
     cell16.cellStyle = cellStyle;
 
+    //Seccion Measures
+    var cell17 = sheet.cell(CellIndex.indexByString("Q3"));
+    cell17.value = "Measures";
+    cell17.cellStyle = cellStyle;
+    var cell18 = sheet.cell(CellIndex.indexByString("Q4"));
+    cell18.value = "Check Out";
+    cell18.cellStyle = cellStyle;
+    var cell19 = sheet.cell(CellIndex.indexByString("R4"));
+    cell19.value = "Check In";
+    cell19.cellStyle = cellStyle;
+
+    //Seccion Lights
+    var cell20 = sheet.cell(CellIndex.indexByString("S3"));
+    cell20.value = "Lights";
+    cell20.cellStyle = cellStyle;
+    var cell21 = sheet.cell(CellIndex.indexByString("S4"));
+    cell21.value = "Check Out";
+    cell21.cellStyle = cellStyle;
+    var cell22 = sheet.cell(CellIndex.indexByString("T4"));
+    cell22.value = "Check In";
+    cell22.cellStyle = cellStyle;
+
+    //Seccion Car Bodywork
+    var cell23 = sheet.cell(CellIndex.indexByString("U3"));
+    cell23.value = "Car Bodywork";
+    cell23.cellStyle = cellStyle;
+    var cell24 = sheet.cell(CellIndex.indexByString("U4"));
+    cell24.value = "Check Out";
+    cell24.cellStyle = cellStyle;
+    var cell25 = sheet.cell(CellIndex.indexByString("V4"));
+    cell25.value = "Check In";
+    cell25.cellStyle = cellStyle;
+
+    //Seccion Fluid Check
+    var cell26 = sheet.cell(CellIndex.indexByString("W3"));
+    cell26.value = "Fluid Check";
+    cell26.cellStyle = cellStyle;
+    var cell27 = sheet.cell(CellIndex.indexByString("W4"));
+    cell27.value = "Check Out";
+    cell27.cellStyle = cellStyle;
+    var cell28 = sheet.cell(CellIndex.indexByString("X4"));
+    cell28.value = "Check In";
+    cell28.cellStyle = cellStyle;
+
+    //Seccion Bucket Inspection
+    var cell29 = sheet.cell(CellIndex.indexByString("Y3"));
+    cell29.value = "Bucket Inspection";
+    cell29.cellStyle = cellStyle;
+    var cell30 = sheet.cell(CellIndex.indexByString("Y4"));
+    cell30.value = "Check Out";
+    cell30.cellStyle = cellStyle;
+    var cell31 = sheet.cell(CellIndex.indexByString("Z4"));
+    cell31.value = "Check In";
+    cell31.cellStyle = cellStyle;
+
+    //Seccion Security
+    var cell32 = sheet.cell(CellIndex.indexByString("AA3"));
+    cell32.value = "Security";
+    cell32.cellStyle = cellStyle;
+    var cell33 = sheet.cell(CellIndex.indexByString("AA4"));
+    cell33.value = "Check Out";
+    cell33.cellStyle = cellStyle;
+    var cell34 = sheet.cell(CellIndex.indexByString("AB4"));
+    cell34.value = "Check In";
+    cell34.cellStyle = cellStyle;
+
+    //Seccion Extra
+    var cell35 = sheet.cell(CellIndex.indexByString("AC3"));
+    cell35.value = "Extra";
+    cell35.cellStyle = cellStyle;
+    var cell36 = sheet.cell(CellIndex.indexByString("AC4"));
+    cell36.value = "Check Out";
+    cell36.cellStyle = cellStyle;
+    var cell37 = sheet.cell(CellIndex.indexByString("AD4"));
+    cell37.value = "Check In";
+    cell37.cellStyle = cellStyle;
+
+    //Seccion Equipment
+    var cell38 = sheet.cell(CellIndex.indexByString("AE3"));
+    cell38.value = "Equipment";
+    cell38.cellStyle = cellStyle;
+    var cell39 = sheet.cell(CellIndex.indexByString("AE4"));
+    cell39.value = "Check Out";
+    cell39.cellStyle = cellStyle;
+    var cell40 = sheet.cell(CellIndex.indexByString("AF4"));
+    cell40.value = "Check In";
+    cell40.cellStyle = cellStyle;
+
     //sortear por su Id
     vehicles.sort((a, b) => a.idVehicle.compareTo(b.idVehicle));
 
+    CellStyle goodSec = CellStyle(
+      backgroundColorHex: "0xC7419B17",
+    );
+    CellStyle badSec = CellStyle(
+      backgroundColorHex: "0xC7D20030",
+    );
     //Agregar datos
     for (int i = 0; i < vehicles.length; i++) {
       Vehicle report = vehicles[i];
+      getIssues(report);
 
       final List<dynamic> row = [
         report.idVehicle,
@@ -978,19 +1125,34 @@ class InventoryProvider extends ChangeNotifier {
             : DateFormat("MMM/dd/yyyy")
                 .format(report.lastTransmissionFluidChange!),
         report.issuesR,
-        report.issuesD
+        report.issuesD,
+        //Secciones
+        measureInspectR,
+        measureInspectD,
+        ligthsInspectR,
+        ligthsInspectD,
+        carBodyInspectR,
+        carBodyInspectD,
+        fluidCheckInspectR,
+        fluidCheckInspectD,
+        bucketInspectR,
+        bucketInspectD,
+        securityInspectR,
+        securityInspectD,
+        extraInspectR,
+        extraInspectD,
+        equipmentInspectR,
+        equipmentInspectD,
       ];
       sheet.appendRow(row);
-      
+
       String colorFinal = parseColorValue(report.color);
-      // String colorFinal = '#286571';
-      // for (var row = 3; row < sheet.rows.length; row++) {
-        var cell = sheet.cell(CellIndex.indexByColumnRow( columnIndex: 7,rowIndex: i+3));
-        cell.cellStyle = CellStyle(
-          backgroundColorHex: colorFinal, // Cambia el color aquí
-        );
-      // }
-      
+
+      var cell = sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: i + 3));
+      cell.cellStyle = CellStyle(
+        backgroundColorHex: colorFinal, // Cambia el color aquí
+      );
     }
 
     //Descargar
@@ -1001,13 +1163,14 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   String parseColorValue(String colorValue) {
-
     String colorMenor = colorValue.substring(4);
     colorMenor.toUpperCase();
     String hexColor = '#$colorMenor'; // Convertir a formato de cadena '#RRGGBB'
     return hexColor;
   }
 //----------------------------------------------
+
+  //Funcion para la impresion de issues
 
   // Limpiar los controller
   void clearControllers() {
@@ -1036,5 +1199,208 @@ class InventoryProvider extends ChangeNotifier {
     // colorController.dispose();
 
     super.dispose();
+  }
+
+  Future<bool> getIssues(Vehicle vehicle) async {
+    // Limpiar listas
+    issue = null;
+    bucketInspectR = true;
+    bucketInspectD = true;
+    carBodyInspectR = true;
+    carBodyInspectD = true;
+    equipmentInspectR = true;
+    equipmentInspectD = true;
+    extraInspectR = true;
+    extraInspectD = true;
+    fluidCheckInspectR = true;
+    fluidCheckInspectD = true;
+    ligthsInspectR = true;
+    ligthsInspectD = true;
+    measureInspectR = true;
+    measureInspectD = true;
+    securityInspectR = true;
+    securityInspectD = true;
+
+    try {
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select()
+          .eq('id_vehicle', vehicle.idVehicle)
+          .limit(1);
+          // .order('bucket_inspection_r->>date_added, { ascending: false }')
+          // .limit(1);
+      print("El res Es: $res");
+
+      if (res != null) {
+        final listData = res as List<dynamic>;
+        issue = Issues.fromJson(jsonEncode(listData[0]));
+
+        //Repetir esto con todas las listas
+        issue!.bucketInspectionR.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            bucketInspectR = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            bucketInspectR = true;
+          }
+        });
+        //Bucket delivered llamada a su lista
+        issue!.bucketInspectionD.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            bucketInspectD = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            bucketInspectD = true;
+          }
+        });
+
+        //Car BodyWork R
+        issue!.carBodyworkR.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            carBodyInspectR = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            carBodyInspectR = true;
+          }
+        });
+
+        //Car BodyWork D
+        issue!.carBodyworkD.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            carBodyInspectD = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            carBodyInspectD = true;
+          }
+        });
+
+        // Equipment R
+        issue!.equimentR.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            equipmentInspectR = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            equipmentInspectR = true;
+          }
+        });
+
+        //Equipment R
+        issue!.equimentD.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            equipmentInspectD = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            equipmentInspectD = true;
+          }
+        });
+
+        //Extra R
+        issue!.extraR.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            extraInspectR = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            extraInspectR = true;
+          }
+        });
+
+        //Extra D
+        issue!.extraD.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            extraInspectD = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            extraInspectD = true;
+          }
+        });
+
+        //Fluid Check R
+        issue!.fluidCheckR.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            fluidCheckInspectR = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            fluidCheckInspectR = true;
+          }
+        });
+
+        //Fluid Check D
+        issue!.fluidCheckD.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            fluidCheckInspectD = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            fluidCheckInspectD = true;
+          }
+        });
+
+        //Lights R
+        issue!.lightsR.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            ligthsInspectR = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            ligthsInspectR = true;
+          }
+        });
+
+        //Lights D
+        issue!.lightsD.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            ligthsInspectD = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            ligthsInspectD = true;
+          }
+        });
+
+        //Measure R
+        issue!.measureR.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            measureInspectR = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            measureInspectR = true;
+          }
+        });
+
+        //Measure D
+        issue!.measureD.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            measureInspectD = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            measureInspectD = true;
+          }
+        });
+
+        //Security R
+        issue!.securityR.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            securityInspectR = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            securityInspectR = true;
+          }
+        });
+
+        //Security D
+        issue!.securityD.toMap().forEach((key, value) {
+          if (value == 'Bad' && !(key.contains("_comments"))) {
+            securityInspectD = false;
+          }
+          if (value == 'Good' && !(key.contains("_comments"))) {
+            securityInspectD = true;
+          }
+        });
+        notifyListeners();
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print("error ${e}");
+      return false;
+    }
   }
 }

@@ -61,7 +61,7 @@ class DetailsPop extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        height: (460 * 0.7586633663366337).toDouble(),
+                        height: MediaQuery.of(context).size.height * 0.2,
                         width: 700,
                         padding: const EdgeInsets.all(8.0),
                         child: CustomPaint(
