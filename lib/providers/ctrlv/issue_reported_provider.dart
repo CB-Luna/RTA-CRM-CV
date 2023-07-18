@@ -64,7 +64,6 @@ class IssueReportedProvider extends ChangeNotifier {
   // Seleccionamos el IssueXUser que vamos a usar
   void selectIssuesXUser(int index) {
     actualIssueXUser = issuesxUser[index];
-    notifyListeners();
   }
 
   bool validateElementAtList(List<IssueOpenclose> list, int id) {
@@ -81,14 +80,14 @@ class IssueReportedProvider extends ChangeNotifier {
   int contadorSeccion = 0;
   void setContador(int contador, {bool notify = true}) {
     contadorSeccion = contador;
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   // Función que hace lo de movernos entre las ventanas
   int issuesView = 0;
-  void setIssueViewActual(int value) {
+  void setIssueViewActual(int value, {notify = true}) {
     issuesView = value;
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   // Limpiar los registrosIssueComments cuando sales del ojito
@@ -1026,9 +1025,9 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
       }
-      print("Entro a getIssuesCarBodyworkComments");
+      print("Entro a getIssuesCarBodywork");
     } catch (e) {
-      print("Error in getIssuesCarBodyworkComments() - $e");
+      print("Error in getIssuesCarBodywork() - $e");
     }
     notifyListeners();
   }

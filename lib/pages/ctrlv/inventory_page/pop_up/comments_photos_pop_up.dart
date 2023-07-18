@@ -21,6 +21,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
   Widget build(BuildContext context) {
     IssueReportedProvider isssueReportedProvider =
         Provider.of<IssueReportedProvider>(context);
+    print("Entro a commentsPhotoPopUP");
     return Container(
       color: Colors.white,
       child: Column(

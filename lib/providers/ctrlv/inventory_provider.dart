@@ -132,8 +132,7 @@ class InventoryProvider extends ChangeNotifier {
   List<IssueOpenclose> securityRR = [];
 
   List<bool> indexSelected = [
-    true, //All
-    false, //General Information
+    true, //General Information
     false, //Issues
     false, //Service
   ];
@@ -250,16 +249,16 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setIndex(int index) async {
+  void setIndex(int index) {
     for (var i = 0; i < indexSelected.length; i++) {
       indexSelected[i] = false;
     }
     indexSelected[index] = true;
-    switch (index) {
-      case 0:
-        await getVehicle(actualVehicle!);
-        break;
-    }
+    // switch (index) {
+    //   case 0:
+    //     await getVehicle(actualVehicle!);
+    //     break;
+    // }
     notifyListeners();
   }
 
@@ -1227,8 +1226,8 @@ class InventoryProvider extends ChangeNotifier {
           .select()
           .eq('id_vehicle', vehicle.idVehicle)
           .limit(1);
-          // .order('bucket_inspection_r->>date_added, { ascending: false }')
-          // .limit(1);
+      // .order('bucket_inspection_r->>date_added, { ascending: false }')
+      // .limit(1);
       print("El res Es: $res");
 
       if (res != null) {

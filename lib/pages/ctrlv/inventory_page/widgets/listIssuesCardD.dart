@@ -125,7 +125,7 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                       ),
                     ])),
                 SizedBox(
-                  height: 379,
+                  height: 362,
                   width: 850,
                   child: ListView(
                     children: [
@@ -340,7 +340,7 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                       ],
                     )),
                 SizedBox(
-                  height: 379,
+                  height: 362,
                   width: 850,
                   child: ListView(
                     children: [
@@ -363,8 +363,13 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                                     padding: const EdgeInsets.only(left: 10.0),
                                     child: Column(
                                       children: [
+                                        // "•${"${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")} = ${widget.issuesComments[index].percentage!}"}"
                                         Text(
-                                          "•${"${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")} = ${widget.issuesComments[index].percentage!}"}",
+                                          widget.issuesComments[index]
+                                                      .percentage ==
+                                                  null
+                                              ? ""
+                                              : "•${"${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")} = ${widget.issuesComments[index].percentage!}"}",
                                           style: TextStyle(
                                             color: const Color(0XFF25A531),
                                             fontFamily: 'Bicyclette-Thin',

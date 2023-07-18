@@ -18,29 +18,32 @@ class IssuesPopUp extends StatefulWidget {
 class _IssuesPopUpState extends State<IssuesPopUp> {
   @override
   Widget build(BuildContext context) {
-    InventoryProvider provider = Provider.of<InventoryProvider>(context);
+    print("---------------------");
+    print("Se reconstruyo IssuesPopUP");
+
+    //InventoryProvider provider = Provider.of<InventoryProvider>(context);
     IssueReportedProvider isssueReportedProvider =
         Provider.of<IssueReportedProvider>(context);
 
     final int cadena = isssueReportedProvider.issuesxUser.length;
-
+    print("valor issuesView: ${isssueReportedProvider.issuesView}");
     return isssueReportedProvider.issuesView == 0
         ? Container(
             width: 200,
             height: 200,
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: CustomTextField(
-                    width: 400,
-                    enabled: true,
-                    controller: provider.searchController,
-                    icon: Icons.search,
-                    label: 'Search',
-                    keyboardType: TextInputType.text,
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(bottom: 20),
+                //   child: CustomTextField(
+                //     width: 400,
+                //     enabled: true,
+                //     controller: provider.searchController,
+                //     icon: Icons.search,
+                //     label: 'Search',
+                //     keyboardType: TextInputType.text,
+                //   ),
+                // ),
                 SizedBox(
                   width: 400,
                   height: 307,
