@@ -162,14 +162,13 @@ class _QuotesPageState extends State<QuotesPage> {
                                   labelStyle: const TextStyle(
                                     fontFamily: 'UniNeue',
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 25,
+                                    fontSize: 30,
                                   ),
                                   unselectedLabelColor: AppTheme.of(context).primaryColor,
                                   unselectedLabelStyle: const TextStyle(
                                     fontFamily: 'UniNeue',
                                     fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                    fontSize: 15,
+                                    fontSize: 20,
                                   ),
                                   tabs: const [
                                     Tab(text: 'All'),
@@ -265,14 +264,13 @@ class _QuotesPageState extends State<QuotesPage> {
                                   labelStyle: const TextStyle(
                                     fontFamily: 'UniNeue',
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 25,
+                                    fontSize: 30,
                                   ),
                                   unselectedLabelColor: AppTheme.of(context).primaryColor,
                                   unselectedLabelStyle: const TextStyle(
                                     fontFamily: 'UniNeue',
                                     fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                    fontSize: 15,
+                                    fontSize: 20,
                                   ),
                                   tabs: const [
                                     Tab(text: 'All'),
