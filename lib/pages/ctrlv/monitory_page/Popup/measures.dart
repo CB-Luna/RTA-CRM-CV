@@ -53,11 +53,7 @@ class MeasuresPopUp extends StatelessWidget {
                     row.mileageR.toString(),
                     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  const Icon(
-                    Icons.check_circle_outline_outlined,
-                    color: Color.fromARGB(200, 65, 155, 23),
-                    size: 60,
-                  ),
+                 
                   InkWell(
                     child: Icon(
                       Icons.check_circle_outline_outlined,
@@ -85,11 +81,7 @@ class MeasuresPopUp extends StatelessWidget {
                     row.gasR.toString(),
                     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  const Icon(
-                    Icons.check_circle_outline_outlined,
-                    color: Color.fromARGB(200, 65, 155, 23),
-                    size: 60,
-                  ),
+                  
                   InkWell(
                     child: Icon(
                       Icons.check_circle_outline_outlined,

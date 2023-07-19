@@ -28,7 +28,7 @@ class DetailsPop extends StatelessWidget {
       content: provider.viewPopup == 0
           ? Container(
               width: 1300,
-              height: 670,
+              height: 700,
               decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
               child: Column(
                 children: [
@@ -61,7 +61,7 @@ class DetailsPop extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.2,
+                        height: MediaQuery.of(context).size.height * 0.4,
                         width: 700,
                         padding: const EdgeInsets.all(8.0),
                         child: CustomPaint(
@@ -122,7 +122,7 @@ class DetailsPop extends StatelessWidget {
                                 const Spacer(),
                                
                                 Padding(
-                                  padding: EdgeInsets.only(right: 80),
+                                  padding: EdgeInsets.only(right: 100),
                                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
                                     Padding(
                                       padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),

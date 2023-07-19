@@ -64,7 +64,7 @@ class _UsersPageState extends State<UsersPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 30),
+                            vertical: 0, horizontal: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

@@ -43,7 +43,7 @@ class CustomAgenda extends StatelessWidget {
               )
             : Expanded(
                 child: SizedBox(
-                  height: 300,
+                  height: MediaQuery.of(context).size.height * 0.35,
                   child: Scrollbar(
                     thumbVisibility: true,
                     controller: _scrollController,
@@ -486,7 +486,7 @@ class CustomAgenda extends StatelessWidget {
                                                       ],
                                                     ),
                                                     Image.network(
-                                                      height: 150,
+                                                      height: MediaQuery.of(context).size.height * 0.03,
                                                       provider.idEventos[index]
                                                           .vehicle.image!,
                                                       fit: BoxFit.cover,

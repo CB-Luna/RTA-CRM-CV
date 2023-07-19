@@ -179,6 +179,8 @@ class MonitoryProvider extends ChangeNotifier {
           .map((monitory) => Monitory.fromJson(jsonEncode(monitory)))
           .toList();
 
+      monitory.sort((a, b) => b.dateAddedR.compareTo(a.dateAddedR));
+
       rows.clear();
 
       for (Monitory monitory in monitory) {
