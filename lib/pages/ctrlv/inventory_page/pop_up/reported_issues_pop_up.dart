@@ -24,7 +24,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
         Provider.of<IssueReportedProvider>(context);
     return Container(
       width: MediaQuery.of(context).size.width - 100,
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height + 50,
       child: Column(
         children: [
           Container(
@@ -43,7 +43,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         color: AppTheme.of(context).primaryBackground),
                     text: '',
                     color: AppTheme.of(context).primaryColor,
-                    onTap: () async {
+                    onTap: () {
                       isssueReportedProvider.setIssueViewActual(0);
                       isssueReportedProvider.clearListgetIssues();
                     },
@@ -170,10 +170,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                  left: 80,
-                  right: 30,
-                ),
+                padding: const EdgeInsets.all(10.0),
                 child: CustomTextIconButton(
                     width: 82,
                     isLoading: false,
@@ -189,7 +186,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
           )),
           Container(
             width: MediaQuery.of(context).size.width - 100,
-            height: MediaQuery.of(context).size.height - 245,
+            height: MediaQuery.of(context).size.height - 262,
             child: DefaultTabController(
               length: 8,
               initialIndex: 0,
@@ -279,13 +276,13 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                       ),
                       tabs: const [
                         Tab(text: 'Fluids Check'),
-                        Tab(text: 'Car Bodywork'),
-                        Tab(text: 'Equipment'),
-                        Tab(text: 'Extra'),
-                        Tab(text: 'Bucket Inspection'),
                         Tab(text: 'Lights'),
-                        Tab(text: 'Measure'),
+                        Tab(text: 'Car Bodywork'),
                         Tab(text: 'Security'),
+                        Tab(text: 'Extra'),
+                        Tab(text: 'Equipment'),
+                        Tab(text: 'Bucket Inspection'),
+                        Tab(text: 'Measure'),
                       ],
                     ),
                   ),
@@ -295,6 +292,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         height: 700,
                         alignment: Alignment.topCenter,
                         child: TabBarView(children: [
+                          // Fluids Check
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -313,6 +311,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       isssueReportedProvider.fluidCheckDD),
                             ],
                           ),
+                          //  Lights
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,14 +322,15 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 child: ListIssuesCard(
                                     contador: 2,
                                     issuesComments:
-                                        isssueReportedProvider.carBodyWorkRR),
+                                        isssueReportedProvider.lightsRR),
                               ),
                               ListIssuesCardD(
                                   contador: 2,
                                   issuesComments:
-                                      isssueReportedProvider.carBodyWorkDD),
+                                      isssueReportedProvider.lightsDD),
                             ],
                           ),
+                          // CarBodyWork
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,14 +341,15 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 child: ListIssuesCard(
                                     contador: 3,
                                     issuesComments:
-                                        isssueReportedProvider.equipmentRR),
+                                        isssueReportedProvider.carBodyWorkRR),
                               ),
                               ListIssuesCardD(
                                   contador: 3,
                                   issuesComments:
-                                      isssueReportedProvider.equipmentDD),
+                                      isssueReportedProvider.carBodyWorkDD),
                             ],
                           ),
+                          // Security
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -359,14 +360,15 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 child: ListIssuesCard(
                                     contador: 4,
                                     issuesComments:
-                                        isssueReportedProvider.extraRR),
+                                        isssueReportedProvider.securityRR),
                               ),
                               ListIssuesCardD(
                                   contador: 4,
                                   issuesComments:
-                                      isssueReportedProvider.extraDD),
+                                      isssueReportedProvider.securityDD),
                             ],
                           ),
+                          // Extra
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -376,15 +378,16 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                     const EdgeInsets.symmetric(vertical: 10.0),
                                 child: ListIssuesCard(
                                     contador: 5,
-                                    issuesComments: isssueReportedProvider
-                                        .bucketInspectionRR),
+                                    issuesComments:
+                                        isssueReportedProvider.extraRR),
                               ),
                               ListIssuesCardD(
                                   contador: 5,
-                                  issuesComments: isssueReportedProvider
-                                      .bucketInspectionDD),
+                                  issuesComments:
+                                      isssueReportedProvider.extraDD),
                             ],
                           ),
+                          // Equipment
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -395,14 +398,15 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 child: ListIssuesCard(
                                     contador: 6,
                                     issuesComments:
-                                        isssueReportedProvider.lightsRR),
+                                        isssueReportedProvider.equipmentRR),
                               ),
                               ListIssuesCardD(
                                   contador: 6,
                                   issuesComments:
-                                      isssueReportedProvider.lightsDD),
+                                      isssueReportedProvider.equipmentDD),
                             ],
                           ),
+                          // Bucket Inspection
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -412,15 +416,16 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                     const EdgeInsets.symmetric(vertical: 10.0),
                                 child: ListIssuesCard(
                                     contador: 7,
-                                    issuesComments:
-                                        isssueReportedProvider.measureRR),
+                                    issuesComments: isssueReportedProvider
+                                        .bucketInspectionRR),
                               ),
                               ListIssuesCardD(
                                   contador: 7,
-                                  issuesComments:
-                                      isssueReportedProvider.measureDD),
+                                  issuesComments: isssueReportedProvider
+                                      .bucketInspectionDD),
                             ],
                           ),
+                          // Measures
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -431,12 +436,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 child: ListIssuesCard(
                                     contador: 8,
                                     issuesComments:
-                                        isssueReportedProvider.securityRR),
+                                        isssueReportedProvider.measureRR),
                               ),
                               ListIssuesCardD(
                                   contador: 8,
                                   issuesComments:
-                                      isssueReportedProvider.securityDD),
+                                      isssueReportedProvider.measureDD),
                             ],
                           ),
                         ])),

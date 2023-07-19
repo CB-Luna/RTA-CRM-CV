@@ -29,8 +29,8 @@ class CryCard extends StatelessWidget {
             SizedBox(
               width: 260,
               height: 150,
-              child: Image.asset(
-                "assets/images/Cry_Car.png",
+              child: Image.network(
+                "https://supa43.rtatel.com/storage/v1/object/public/assets/car_images/CryCar.png?t=2023-07-18T15%3A59%3A46.541Z",
                 height: 300,
               ),
             ),

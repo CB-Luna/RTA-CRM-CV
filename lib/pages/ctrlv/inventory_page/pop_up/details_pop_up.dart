@@ -55,19 +55,16 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                                 width: 2),
                           ),
                           child: TabBar(
-                            onTap: (value) async {
+                            onTap: (value) {
                               switch (value) {
                                 case 0:
-                                  await provider.setIndex(0);
+                                  provider.setIndex(0);
                                   break;
                                 case 1:
-                                  await provider.setIndex(1);
+                                  provider.setIndex(1);
                                   break;
                                 case 2:
-                                  await provider.setIndex(2); //2-3-4
-                                  break;
-                                case 3:
-                                  await provider.setIndex(3); //12-5
+                                  provider.setIndex(2); //2-3-4
                                   break;
 
                                 default:
@@ -115,9 +112,9 @@ class _DetailsPopUpState extends State<DetailsPopUp> {
                           height: 590,
                           child: const TabBarView(
                             children: [
-                              GeneralInfoPopUP(),
-                              IssuesPopUp(),
-                              ServicePopUp()
+                              GeneralInfoPopUP(), //0
+                              IssuesPopUp(), // 1
+                              ServicePopUp() // 2
                             ],
                           ),
                         ),

@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/cry_card.dart';
-import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/details_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/odi_card.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/vehicle_cards/smi_card.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
@@ -663,6 +662,9 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                             .cell.value,
                                                         notify: false,
                                                       );
+                                                      isssueReportedProvider
+                                                          .setIssueViewActual(0,
+                                                              notify: false);
                                                       await provider
                                                           .getServicesPage();
                                                       if (!mounted) return;

@@ -87,7 +87,6 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                               ),
                             )),
                         // const SwitchExample(),
-
                         Switch(
                           thumbIcon: thumbIcon,
                           value: light1,

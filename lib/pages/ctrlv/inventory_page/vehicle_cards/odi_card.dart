@@ -28,8 +28,8 @@ class OdiCard extends StatelessWidget {
             SizedBox(
               width: 260,
               height: 150,
-              child: Image.asset(
-                "assets/images/Cry_Car.png",
+              child: Image.network(
+                "https://supa43.rtatel.com/storage/v1/object/public/assets/car_images/OdyCar.png?t=2023-07-18T16%3A01%3A15.906Z",
                 height: 300,
               ),
             ),

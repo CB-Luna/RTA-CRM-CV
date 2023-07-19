@@ -28,8 +28,8 @@ class SmiCard extends StatelessWidget {
             SizedBox(
               width: 260,
               height: 150,
-              child: Image.asset(
-                "assets/images/Cry_Car.png",
+              child: Image.network(
+                "https://supa43.rtatel.com/storage/v1/object/public/assets/car_images/SmiCar.png",
                 height: 300,
               ),
             ),

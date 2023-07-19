@@ -35,43 +35,38 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
       }
       if (widget.contador == 2) {
         provider.cambiovistaMeasures = true;
-
-        await provider.getIssuesCarBodywork(provider.actualIssueXUser!);
-        print("getCarbodywork");
-      }
-      if (widget.contador == 3) {
-        provider.cambiovistaMeasures = true;
-
-        await provider.getIssuesEquipment(provider.actualIssueXUser!);
-        print("getequipment");
-      }
-      if (widget.contador == 4) {
-        provider.cambiovistaMeasures = true;
-
-        await provider.getIssuesExtra(provider.actualIssueXUser!);
-        print("getextra");
-      }
-      if (widget.contador == 5) {
-        provider.cambiovistaMeasures = true;
-
-        await provider.getIssuesBasics(provider.actualIssueXUser!);
-        print("getBucketInspection");
-      }
-      if (widget.contador == 6) {
-        provider.cambiovistaMeasures = true;
-
         await provider.getIssuesLights(provider.actualIssueXUser!);
         print("getIssuesLights");
       }
-      if (widget.contador == 7) {
-        provider.cambiovistaMeasures = false;
-        await provider.getIssuesMeasure(provider.actualIssueXUser!);
-        print("getIssuesMeasure");
+      if (widget.contador == 3) {
+        provider.cambiovistaMeasures = true;
+        await provider.getIssuesCarBodywork(provider.actualIssueXUser!);
+        print("getIssuesCarBodywork");
       }
-      if (widget.contador == 8) {
+      if (widget.contador == 4) {
         provider.cambiovistaMeasures = true;
         await provider.getIssueSecurity(provider.actualIssueXUser!);
         print("getIssueSecurity");
+      }
+      if (widget.contador == 5) {
+        provider.cambiovistaMeasures = true;
+        await provider.getIssuesExtra(provider.actualIssueXUser!);
+        print("getIssuesExtra");
+      }
+      if (widget.contador == 6) {
+        provider.cambiovistaMeasures = true;
+        await provider.getIssuesEquipment(provider.actualIssueXUser!);
+        print("getIssuesEquipment");
+      }
+      if (widget.contador == 7) {
+        provider.cambiovistaMeasures = false;
+        await provider.getIssuesBasics(provider.actualIssueXUser!);
+        print("getBucketInspection");
+      }
+      if (widget.contador == 8) {
+        provider.cambiovistaMeasures = true;
+        await provider.getIssuesMeasure(provider.actualIssueXUser!);
+        print("getIssuesMeasure");
       }
     });
   }
@@ -155,7 +150,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                       ),
                     ])),
                 SizedBox(
-                  height: 379,
+                  height: 362,
                   width: 850,
                   child: ListView(
                     children: [
@@ -258,7 +253,6 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
               ],
             ))
         : Container(
-            margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               gradient: whiteGradient,
               borderRadius: BorderRadius.circular(20),
@@ -331,7 +325,7 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                       ),
                     ])),
                 SizedBox(
-                  height: 359,
+                  height: 342,
                   width: 850,
                   child: ListView(
                     children: [
@@ -355,7 +349,11 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
                                     child: Column(
                                       children: [
                                         Text(
-                                          "•${"${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")} = ${widget.issuesComments[index].percentage!}"}",
+                                          widget.issuesComments[index]
+                                                      .percentage ==
+                                                  null
+                                              ? ""
+                                              : "•${"${widget.issuesComments[index].nameIssue.capitalize.replaceAll("_", " ")} = ${widget.issuesComments[index].percentage!}"}",
                                           style: TextStyle(
                                             color: Colors.orange,
                                             fontFamily: 'Bicyclette-Thin',
