@@ -75,90 +75,47 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                     children: [
                       // Container de las tarjetas y la tabla pluto
                       SizedBox(
-                        height: 510,
+                        height: MediaQuery.of(context).size.height * 0.50,
                         width: MediaQuery.of(context).size.width,
                         child: Column(children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            height: 500,
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 // Carta de CRY
-                                Container(
-                                  margin: const EdgeInsets.all(20),
-                                  height: 425,
-                                  width: 339,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 25,
-                                      ),
-                                      CryCard(
-                                        totalVehicleCRY:
-                                            widget.provider.totalVehicleCRY,
-                                        totalAssignedCRY:
-                                            widget.provider.totalAssignedCRY,
-                                        totalRepairCRY:
-                                            widget.provider.totalRepairCRY,
-                                        totalAvailableCRY:
-                                            widget.provider.totalAvailableCRY,
-                                      ),
-                                    ],
-                                  ),
+                                CryCard(
+                                  totalVehicleCRY:
+                                      widget.provider.totalVehicleCRY,
+                                  totalAssignedCRY:
+                                      widget.provider.totalAssignedCRY,
+                                  totalRepairCRY:
+                                      widget.provider.totalRepairCRY,
+                                  totalAvailableCRY:
+                                      widget.provider.totalAvailableCRY,
                                 ),
                                 // Carta de ODE
-                                Container(
-                                  margin: const EdgeInsets.all(20),
-                                  height: 425,
-                                  width: 339,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 25,
-                                      ),
-                                      OdiCard(
-                                        totalVehicleODE:
-                                            widget.provider.totalVehicleODE,
-                                        totalRepairODE:
-                                            widget.provider.totalRepairODE,
-                                        totalAssignedODE:
-                                            widget.provider.totalAssignedODE,
-                                        totalAvailableODE:
-                                            widget.provider.totalAvailableODE,
-                                      )
-                                    ],
-                                  ),
+                                OdiCard(
+                                  totalVehicleODE:
+                                      widget.provider.totalVehicleODE,
+                                  totalRepairODE:
+                                      widget.provider.totalRepairODE,
+                                  totalAssignedODE:
+                                      widget.provider.totalAssignedODE,
+                                  totalAvailableODE:
+                                      widget.provider.totalAvailableODE,
                                 ),
                                 // Carta de SMI
-                                Container(
-                                    margin: const EdgeInsets.all(20),
-                                    height: 425,
-                                    width: 339,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: 25,
-                                        ),
-                                        SmiCard(
-                                          totalVehicleSMI:
-                                              widget.provider.totalVehicleSMI,
-                                          totalAssignedSMI:
-                                              widget.provider.totalAssignedSMI,
-                                          totalRepairSMI:
-                                              widget.provider.totalRepairSMI,
-                                          totalAvailableSMI:
-                                              widget.provider.totalAvailableSMI,
-                                        ),
-                                      ],
-                                    )),
+                                SmiCard(
+                                  totalVehicleSMI:
+                                      widget.provider.totalVehicleSMI,
+                                  totalAssignedSMI:
+                                      widget.provider.totalAssignedSMI,
+                                  totalRepairSMI:
+                                      widget.provider.totalRepairSMI,
+                                  totalAvailableSMI:
+                                      widget.provider.totalAvailableSMI,
+                                ),
                               ],
                             ),
                           ),

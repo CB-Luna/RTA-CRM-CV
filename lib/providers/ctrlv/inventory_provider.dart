@@ -704,6 +704,7 @@ class InventoryProvider extends ChangeNotifier {
             totalAvailableSMI = totalAvailableSMI + 1;
           }
         }
+        print("Total ODE: " + totalVehicleODE.toString());
         rows.add(
           PlutoRow(
             cells: {

@@ -22,7 +22,8 @@ class User {
       required this.idtema,
       required this.status,
       required this.license,
-      required this.certification});
+      required this.certification,
+      this.userID});
 
   String id;
   int sequentialId;
@@ -42,6 +43,7 @@ class User {
   String? status;
   String? license;
   String? certification;
+  int? userID;
 
   String get fullName => '$name $lastName';
 
@@ -49,7 +51,12 @@ class User {
   bool get isAdmin => currentUser!.isAdminCrm || currentUser!.isAdminCv;
 
   // CRM
-  bool get isCRM => currentUser!.isAdminCrm || currentUser!.isSales || currentUser!.isSenExec || currentUser!.isFinance || currentUser!.isOpperations;
+  bool get isCRM =>
+      currentUser!.isAdminCrm ||
+      currentUser!.isSales ||
+      currentUser!.isSenExec ||
+      currentUser!.isFinance ||
+      currentUser!.isOpperations;
   bool get isAdminCrm => role.id == 4;
   bool get isSales => role.id == 6;
   bool get isSenExec => role.id == 9;
@@ -88,7 +95,8 @@ class User {
         idtema: json["id_tema_fk"],
         status: json["status"],
         license: json["license"],
-        certification: json["certification"]);
+        certification: json["certification"],
+        userID: json["id_user"]);
     return usuario;
   }
 }

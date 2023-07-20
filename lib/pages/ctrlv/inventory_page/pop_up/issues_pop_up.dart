@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
-import '../../../../public/colors.dart';
+import '../../../../theme/theme.dart';
 import '../../../../widgets/captura/custom_text_field.dart';
 import '../widgets/employeeIssuesCard.dart';
 import '../widgets/infovehicleCard.dart';
@@ -41,38 +41,68 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                       gradient: whiteGradient),
                   child: const InfoVehicleCard(),
                 ),
-                Container(
-                  color: Colors.yellow,
-                  height: MediaQuery.of(context).size.height - 367,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: CustomTextField(
-                          width: 400,
-                          enabled: true,
-                          controller: isssueReportedProvider.searchController,
-                          icon: Icons.search,
-                          label: 'Search',
-                          keyboardType: TextInputType.text,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        width: 300,
+                        height: 31,
+                        padding: const EdgeInsets.only(left: 10.0),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: AppTheme.of(context).primaryBackground,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 0.1,
+                                blurRadius: 3,
+                                offset: const Offset(
+                                    0, 0), // changes position of shadow
+                              ),
+                            ]),
+                        child:
+                            const Text("List of the Employees of the Vehicle")),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10, right: 20.0),
+                      child: CustomTextField(
+                        width: 200,
+                        enabled: true,
+                        controller: isssueReportedProvider.searchController,
+                        icon: Icons.search,
+                        label: 'Search',
+                        keyboardType: TextInputType.text,
+                      ),
+                    ),
+                  ],
+                ),
+                SingleChildScrollView(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height - 383,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: AppTheme.of(context).primaryColor, width: 2),
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: whiteGradient),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 290,
+                          child: ListView.builder(
+                              padding: const EdgeInsets.all(8),
+                              itemCount: cadena,
+                              itemBuilder: (BuildContext context, int index) {
+                                isssueReportedProvider.selectIssuesXUser(index);
+                                return const Padding(
+                                  padding: EdgeInsets.only(bottom: 20.0),
+                                  child: EmployeeIssuesCard(),
+                                );
+                              }),
                         ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 307,
-                        child: ListView.builder(
-                            padding: const EdgeInsets.all(8),
-                            itemCount: cadena,
-                            itemBuilder: (BuildContext context, int index) {
-                              isssueReportedProvider.selectIssuesXUser(index);
-                              return const Padding(
-                                padding: EdgeInsets.only(bottom: 5.0),
-                                child: EmployeeIssuesCard(),
-                              );
-                            }),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
