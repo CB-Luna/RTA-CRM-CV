@@ -36,6 +36,8 @@ class IssueReportedProvider extends ChangeNotifier {
   List<IssuesXUser> issuesxUser = [];
   Uint8List? webImage;
   TextEditingController dateTimeClosedIssueController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
+
   Vehicle? actualVehicle;
   IssuesComments? actualissuesComments;
 
@@ -238,7 +240,7 @@ class IssueReportedProvider extends ChangeNotifier {
           print(contadorSeccion);
           await supabaseCtrlV.from('fluids_check').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
-                "Good",
+                "Closed",
             "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
           }).eq("id_fluids_check", registroIssueComments!.idIssue);
@@ -248,7 +250,7 @@ class IssueReportedProvider extends ChangeNotifier {
           print(contadorSeccion);
           await supabaseCtrlV.from('car_bodywork').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
-                "Good",
+                "Closed",
             "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
           }).eq("id_carbodywork", registroIssueComments!.idIssue);
@@ -257,7 +259,7 @@ class IssueReportedProvider extends ChangeNotifier {
           print(contadorSeccion);
           await supabaseCtrlV.from('equipment').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
-                "Good",
+                "Closed",
             "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
           }).eq("id_equipment", registroIssueComments!.idIssue);
@@ -266,7 +268,7 @@ class IssueReportedProvider extends ChangeNotifier {
           print(contadorSeccion);
           await supabaseCtrlV.from('extra').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
-                "Good",
+                "Closed",
             "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
           }).eq("id_extra", registroIssueComments!.idIssue);
@@ -275,7 +277,7 @@ class IssueReportedProvider extends ChangeNotifier {
           print(contadorSeccion);
           await supabaseCtrlV.from('bucket_inspection').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
-                "Good",
+                "Closed",
             "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
           }).eq("id_bucket_inspection", registroIssueComments!.idIssue);
@@ -284,7 +286,7 @@ class IssueReportedProvider extends ChangeNotifier {
           print(contadorSeccion);
           await supabaseCtrlV.from('lights').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
-                "Good",
+                "Closed",
             "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
           }).eq("id_lights", registroIssueComments!.idIssue);
@@ -293,7 +295,7 @@ class IssueReportedProvider extends ChangeNotifier {
           print(contadorSeccion);
           await supabaseCtrlV.from('measures').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
-                "Good",
+                "Closed",
             "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
           }).eq("id_measure", registroIssueComments!.idIssue);
@@ -302,7 +304,7 @@ class IssueReportedProvider extends ChangeNotifier {
           print(contadorSeccion);
           await supabaseCtrlV.from('security').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
-                "Good",
+                "Closed",
             "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
           }).eq("id_security", registroIssueComments!.idIssue);

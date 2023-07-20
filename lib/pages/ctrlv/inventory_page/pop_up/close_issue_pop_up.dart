@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
-import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../services/api_error_handler.dart';
 import '../../../../theme/theme.dart';
