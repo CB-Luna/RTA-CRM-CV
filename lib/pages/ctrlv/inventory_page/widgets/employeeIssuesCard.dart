@@ -28,77 +28,34 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
           ],
           borderRadius: BorderRadius.all(Radius.circular(20))),
       width: MediaQuery.of(context).size.width + 200,
-      height: 120,
+      height: MediaQuery.of(context).size.height * 0.10,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Container(
-            width: 170,
-            height: 100,
+            width: 150,
+            height: 80,
             padding: const EdgeInsets.all(10.0),
             margin: const EdgeInsets.all(10.0),
+            alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                   color: AppTheme.of(context).primaryColor, width: 2),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    Text("Company: ",
-                        style: TextStyle(
-                            fontFamily: AppTheme.of(context)
-                                .encabezadoTablas
-                                .fontFamily,
-                            fontSize:
-                                AppTheme.of(context).contenidoTablas.fontSize,
-                            fontStyle:
-                                AppTheme.of(context).encabezadoTablas.fontStyle,
-                            color: AppTheme.of(context).primaryText)),
-                    Text(
-                      isssueReportedProvider.actualVehicle!.company.company,
-                      style: TextStyle(
-                        color: AppTheme.of(context).contenidoTablas.color,
-                        fontFamily: 'Bicyclette-Thin',
-                        fontWeight:
-                            AppTheme.of(context).encabezadoTablas.fontWeight,
-                        fontSize: AppTheme.of(context).contenidoTablas.fontSize,
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text("Status: ",
-                        style: TextStyle(
-                            fontFamily: AppTheme.of(context)
-                                .encabezadoTablas
-                                .fontFamily,
-                            fontSize:
-                                AppTheme.of(context).contenidoTablas.fontSize,
-                            fontStyle:
-                                AppTheme.of(context).encabezadoTablas.fontStyle,
-                            color: AppTheme.of(context).primaryText)),
-                    Text(
-                      isssueReportedProvider.actualVehicle!.status.status,
-                      style: TextStyle(
-                        color: AppTheme.of(context).contenidoTablas.color,
-                        fontFamily: 'Bicyclette-Thin',
-                        fontWeight:
-                            AppTheme.of(context).encabezadoTablas.fontWeight,
-                        fontSize: AppTheme.of(context).contenidoTablas.fontSize,
-                      ),
-                    )
-                  ],
-                ),
-              ],
+            child: Text(
+              isssueReportedProvider.actualVehicle!.company.company,
+              style: TextStyle(
+                color: AppTheme.of(context).contenidoTablas.color,
+                fontFamily: 'Bicyclette-Thin',
+                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                fontSize: AppTheme.of(context).contenidoTablas.fontSize,
+              ),
             ),
           ),
           Container(
-            width: 160,
-            height: 100,
+            width: 120,
+            height: 80,
             clipBehavior: Clip.antiAlias,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
@@ -106,64 +63,37 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
             child: getUserImage(isssueReportedProvider.webImage),
           ),
           Container(
-            width: 180,
-            height: 120,
-            padding: const EdgeInsets.all(10.0),
-            margin: const EdgeInsets.all(10.0),
+            width: 190,
+            height: MediaQuery.of(context).size.height * 0.20,
+            padding: const EdgeInsets.all(5.0),
+            margin: const EdgeInsets.all(5.0),
             decoration: BoxDecoration(
                 border: Border.all(
                     color: AppTheme.of(context).primaryColor, width: 2),
                 borderRadius: BorderRadius.circular(20)),
             alignment: Alignment.center,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Row(
-                  children: [
-                    Text("Name: ",
-                        style: TextStyle(
-                            fontFamily: AppTheme.of(context)
-                                .encabezadoTablas
-                                .fontFamily,
-                            fontSize:
-                                AppTheme.of(context).contenidoTablas.fontSize,
-                            fontStyle:
-                                AppTheme.of(context).encabezadoTablas.fontStyle,
-                            color: AppTheme.of(context).primaryText)),
-                    Text(
-                      "${isssueReportedProvider.actualIssueXUser!.name} \n ${isssueReportedProvider.actualIssueXUser!.lastName}",
-                      style: TextStyle(
-                        color: AppTheme.of(context).contenidoTablas.color,
-                        fontFamily: 'Bicyclette-Thin',
-                        fontWeight:
-                            AppTheme.of(context).encabezadoTablas.fontWeight,
-                        fontSize: AppTheme.of(context).contenidoTablas.fontSize,
-                      ),
-                    )
-                  ],
+                Text(
+                  "${isssueReportedProvider.actualIssueXUser!.userID}",
+                  style: TextStyle(
+                    color: AppTheme.of(context).contenidoTablas.color,
+                    fontFamily: 'Bicyclette-Thin',
+                    fontWeight:
+                        AppTheme.of(context).encabezadoTablas.fontWeight,
+                    fontSize: AppTheme.of(context).contenidoTablas.fontSize,
+                  ),
                 ),
-                Row(
-                  children: [
-                    Text("Id User: ",
-                        style: TextStyle(
-                            fontFamily: AppTheme.of(context)
-                                .encabezadoTablas
-                                .fontFamily,
-                            fontSize:
-                                AppTheme.of(context).contenidoTablas.fontSize,
-                            fontStyle:
-                                AppTheme.of(context).encabezadoTablas.fontStyle,
-                            color: AppTheme.of(context).primaryText)),
-                    Text(
-                      "${isssueReportedProvider.actualIssueXUser!.sequentialId}",
-                      style: TextStyle(
-                        color: AppTheme.of(context).contenidoTablas.color,
-                        fontFamily: 'Bicyclette-Thin',
-                        fontWeight:
-                            AppTheme.of(context).encabezadoTablas.fontWeight,
-                        fontSize: AppTheme.of(context).contenidoTablas.fontSize,
-                      ),
-                    )
-                  ],
+                Text(
+                  "${isssueReportedProvider.actualIssueXUser!.name} ${isssueReportedProvider.actualIssueXUser!.lastName}",
+                  style: TextStyle(
+                    color: AppTheme.of(context).contenidoTablas.color,
+                    fontFamily: 'Bicyclette-Thin',
+                    fontWeight:
+                        AppTheme.of(context).encabezadoTablas.fontWeight,
+                    fontSize: AppTheme.of(context).contenidoTablas.fontSize,
+                  ),
                 ),
               ],
             ),
