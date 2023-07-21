@@ -49,14 +49,15 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             child: CustomTextIconButton(
               width: 131,
               isLoading: false,
-              icon: Icon(Icons.add_box_outlined, color: AppTheme.of(context).primaryBackground),
+              icon: Icon(Icons.add_box_outlined,
+                  color: AppTheme.of(context).primaryBackground),
               text: 'Add Vehicle',
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
-                provider.clearControllers();
+                provider.clearControllers(notify: false);
                 await provider.getCompanies(notify: false);
                 await provider.getStatus(notify: false);
-                // ignore: use_build_context_synchronously
+                if (!mounted) return;
                 await showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -78,7 +79,8 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   color: AppTheme.of(context).primaryBackground),
               text: 'Filter',
               color: AppTheme.of(context).primaryColor,
-              onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+              onTap: () => provider.stateManager!.setShowColumnFilter(
+                  !provider.stateManager!.showColumnFilter),
             ),
           ),
           const SizedBox(

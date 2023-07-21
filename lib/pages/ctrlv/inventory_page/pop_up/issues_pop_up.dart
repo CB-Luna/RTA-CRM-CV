@@ -78,8 +78,10 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                 ),
                 SingleChildScrollView(
                   child: Container(
-                    height: MediaQuery.of(context).size.height - 383,
+                    height: MediaQuery.of(context).size.height - 403,
                     width: MediaQuery.of(context).size.width * 0.5,
+                    margin: const EdgeInsets.only(
+                        top: 10.0, left: 10.0, right: 50.0, bottom: 10.0),
                     decoration: BoxDecoration(
                         border: Border.all(
                             color: AppTheme.of(context).primaryColor, width: 2),

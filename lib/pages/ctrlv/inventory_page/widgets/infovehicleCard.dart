@@ -35,7 +35,7 @@ class _InfoVehicleCardState extends State<InfoVehicleCard> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                      blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
+                      blurRadius: 4, color: Colors.grey, offset: Offset(5, 5))
                 ],
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
@@ -96,7 +96,7 @@ class _InfoVehicleCardState extends State<InfoVehicleCard> {
             height: 200,
             width: 200,
             alignment: Alignment.center,
-            margin: const EdgeInsets.only(left: 40),
+            margin: const EdgeInsets.only(left: 80),
             decoration: BoxDecoration(
                 border: Border.all(
                   color: Color(
@@ -108,8 +108,8 @@ class _InfoVehicleCardState extends State<InfoVehicleCard> {
                   BoxShadow(
                     color: Color(
                         int.parse(isssueReportedProvider.actualVehicle!.color)),
-                    spreadRadius: 7,
-                    blurRadius: 10,
+                    spreadRadius: 3,
+                    blurRadius: 3,
                     offset: const Offset(4, 4), // changes position of shadow
                   ),
                 ],

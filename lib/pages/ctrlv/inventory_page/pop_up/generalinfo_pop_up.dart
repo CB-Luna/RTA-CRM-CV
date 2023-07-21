@@ -54,7 +54,7 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                               ),
                             ),
                             Text(
-                              "Vehicle_id: ",
+                              "Vehicle_id:",
                               style: TextStyle(
                                   fontFamily: AppTheme.of(context)
                                       .encabezadoTablas
@@ -338,8 +338,8 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              10, 0, 0, 10),
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
                           child: Text(
                             "${provider.actualVehicle!.idVehicle}",
                             style: TextStyle(
@@ -403,8 +403,8 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              10, 0, 0, 10),
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
                           child: Text(
                             provider.actualVehicle!.motor,
                             style: TextStyle(
@@ -420,7 +420,7 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                               const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 15),
                           child: Text(
                             provider.actualVehicle!.oilChangeDue == null
-                                ? ""
+                                ? "No register"
                                 : " ${DateFormat("MMM/dd/yyyy").format(provider.actualVehicle!.oilChangeDue!)}",
                             style: TextStyle(
                               color: AppTheme.of(context).gris,
@@ -436,7 +436,7 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                           child: Text(
                             provider.actualVehicle!.lastRadiatorFluidChange ==
                                     null
-                                ? ""
+                                ? "No register"
                                 : DateFormat("MMM/dd/yyyy").format(provider
                                     .actualVehicle!.lastRadiatorFluidChange!),
                             style: TextStyle(
@@ -454,7 +454,7 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                             provider.actualVehicle!
                                         .lastTransmissionFluidChange ==
                                     null
-                                ? ""
+                                ? "No register"
                                 : DateFormat("MMM/dd/yyyy").format(provider
                                     .actualVehicle!
                                     .lastTransmissionFluidChange!),
