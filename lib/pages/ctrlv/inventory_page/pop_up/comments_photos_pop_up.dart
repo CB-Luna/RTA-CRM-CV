@@ -21,7 +21,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
   Widget build(BuildContext context) {
     IssueReportedProvider isssueReportedProvider =
         Provider.of<IssueReportedProvider>(context);
-    print("Entro a commentsPhotoPopUP");
+
     return Container(
       color: Colors.white,
       child: Column(
@@ -41,9 +41,10 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                           color: AppTheme.of(context).primaryBackground),
                       text: '',
                       color: AppTheme.of(context).primaryColor,
-                      onTap: () async {
+                      onTap: () {
                         isssueReportedProvider.setIssueViewActual(1);
-                        isssueReportedProvider.clearRegistroIssueComments;
+                        isssueReportedProvider.clearRegistroIssueComments(
+                            notify: false);
                       },
                     ),
                     Container(
@@ -120,8 +121,11 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                       children: [
                         Text("NOTES"),
                         SingleChildScrollView(
-                          child: Text(
-                              "${isssueReportedProvider.registroIssueComments?.comments}."),
+                          child: Text(isssueReportedProvider
+                                      .registroIssueComments?.comments ==
+                                  null
+                              ? "No Comments"
+                              : "${isssueReportedProvider.registroIssueComments?.comments}."),
                         ),
                       ],
                     ),

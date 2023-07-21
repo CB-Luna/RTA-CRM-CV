@@ -19,7 +19,7 @@ class _InfoVehicleCardState extends State<InfoVehicleCard> {
     return Container(
       padding: const EdgeInsets.all(10.0),
       width: 400,
-      height: 400,
+      height: MediaQuery.of(context).size.height * 0.4,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: AppTheme.of(context).primaryColor, width: 2),

@@ -617,6 +617,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               color: AppTheme.of(context)
                                                   .primaryColor,
                                               onTap: () async {
+                                                isssueReportedProvider
+                                                    .clearListgetIssues();
                                                 await isssueReportedProvider
                                                     .getIssuesxUsers(
                                                   rendererContext.cell.value,

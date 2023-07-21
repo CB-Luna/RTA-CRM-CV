@@ -26,7 +26,7 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
     final int cadena = isssueReportedProvider.issuesxUser.length;
     print("valor issuesView: ${isssueReportedProvider.issuesView}");
     return isssueReportedProvider.issuesView == 0
-        ? Container(
+        ? SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Column(
@@ -34,7 +34,7 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                 Container(
                   margin: const EdgeInsets.only(
                       top: 10.0, left: 10.0, right: 50.0, bottom: 10.0),
-                  height: MediaQuery.of(context).size.height - 600,
+                  height: MediaQuery.of(context).size.height * 0.2,
                   width: MediaQuery.of(context).size.width * 0.5,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -45,9 +45,10 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                        width: 300,
-                        height: 31,
-                        padding: const EdgeInsets.only(left: 10.0),
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        height: 35,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
@@ -61,10 +62,24 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                                     0, 0), // changes position of shadow
                               ),
                             ]),
-                        child:
-                            const Text("List of the Employees of the Vehicle")),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10, right: 20.0),
+                        child: Text(
+                          "List of the Employees",
+                          style: TextStyle(
+                              fontFamily: AppTheme.of(context)
+                                  .encabezadoTablas
+                                  .fontFamily,
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                              fontStyle: AppTheme.of(context)
+                                  .encabezadoTablas
+                                  .fontStyle,
+                              fontWeight: AppTheme.of(context)
+                                  .encabezadoTablas
+                                  .fontWeight,
+                              color: AppTheme.of(context).primaryText),
+                        )),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: CustomTextField(
                         width: 200,
                         enabled: true,
@@ -76,37 +91,27 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                     ),
                   ],
                 ),
-                SingleChildScrollView(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height - 403,
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    margin: const EdgeInsets.only(
-                        top: 10.0, left: 10.0, right: 50.0, bottom: 10.0),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: AppTheme.of(context).primaryColor, width: 2),
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: whiteGradient),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 290,
-                          child: ListView.builder(
-                              padding: const EdgeInsets.all(8),
-                              itemCount: cadena,
-                              itemBuilder: (BuildContext context, int index) {
-                                isssueReportedProvider.selectIssuesXUser(index);
-                                return const Padding(
-                                  padding: EdgeInsets.only(bottom: 20.0),
-                                  child: EmployeeIssuesCard(),
-                                );
-                              }),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  margin: const EdgeInsets.only(
+                      top: 10.0, left: 10.0, right: 50.0, bottom: 10.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: AppTheme.of(context).primaryColor, width: 2),
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: whiteGradient),
+                  child: ListView.builder(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: cadena,
+                      itemBuilder: (BuildContext context, int index) {
+                        isssueReportedProvider.selectIssuesXUser(index);
+                        return const Padding(
+                          padding: EdgeInsets.only(bottom: 20.0),
+                          child: EmployeeIssuesCard(),
+                        );
+                      }),
+                )
               ],
             ),
           )

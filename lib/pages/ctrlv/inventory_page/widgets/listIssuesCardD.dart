@@ -203,7 +203,7 @@ class _ListIssuesCardDState extends State<ListIssuesCardD> {
                                               .primaryBackground),
                                       text: '',
                                       color: AppTheme.of(context).primaryColor,
-                                      onTap: () async {
+                                      onTap: () {
                                         isssueReportedProvider
                                             .getIssuePhotosComments(
                                                 widget.contador,

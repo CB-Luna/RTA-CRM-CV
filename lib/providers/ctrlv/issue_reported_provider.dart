@@ -93,8 +93,10 @@ class IssueReportedProvider extends ChangeNotifier {
   }
 
   // Limpiar los registrosIssueComments cuando sales del ojito
-  Future<void> clearRegistroIssueComments() async {
+  void clearRegistroIssueComments({notify = true}) {
+    print("ClearRegitroIssueComments");
     registroIssueComments = null;
+    if (notify) notifyListeners();
   }
 
   // Seleccionar el Issue Comments
@@ -193,38 +195,38 @@ class IssueReportedProvider extends ChangeNotifier {
       }
       if (contador == 2) {
         cambiovistaMeasures = true;
-        getIssueCarBodyWorkComments(issuesComments);
-        print("getCarbodyworkComments");
+        getIssuesLightsComments(issuesComments);
+        print("getIssuesLightsComments");
       }
       if (contador == 3) {
         cambiovistaMeasures = true;
-        getIssuesEquipmentComments(issuesComments);
-        print("getequipmentComments");
+        getIssueCarBodyWorkComments(issuesComments);
+        print("getCarbodyworkComments");
       }
       if (contador == 4) {
+        cambiovistaMeasures = true;
+        getIssuesSecurityComments(issuesComments);
+        print("getIssuesSecurityComments");
+      }
+      if (contador == 5) {
         cambiovistaMeasures = true;
         getIssuesExtraComments(issuesComments);
         print("getextraComments");
       }
-      if (contador == 5) {
-        cambiovistaMeasures = true;
-        getIssuesBucketInspectionComments(issuesComments);
-        print("getBucketInspectionComments");
-      }
       if (contador == 6) {
         cambiovistaMeasures = true;
-        getIssuesLightsComments(issuesComments);
-        print("getIssuesLightsComments");
+        getIssuesEquipmentComments(issuesComments);
+        print("getequipmentComments");
       }
       if (contador == 7) {
         cambiovistaMeasures = false;
-        getIssuesMeasuresComments(issuesComments);
-        print("getIssuesMeasureComments");
+        getIssuesBucketInspectionComments(issuesComments);
+        print("getBucketInspectionComments");
       }
       if (contador == 8) {
         cambiovistaMeasures = true;
-        getIssuesSecurityComments(issuesComments);
-        print("getIssuesSecurityComments");
+        getIssuesMeasuresComments(issuesComments);
+        print("getIssuesMeasureComments");
       }
     } catch (e) {
       print("error in get IssuseComments() $e");
@@ -2825,7 +2827,7 @@ class IssueReportedProvider extends ChangeNotifier {
       if (issueOpenClose.nameIssue == "RTA Magnet") {
         final res = await supabaseCtrlV
             .from('security')
-            .select('rta_magnet_commnets, rta_magnet_image, date_added')
+            .select('rta_magnet_comments, rta_magnet_image, date_added')
             .eq('id_security', issueOpenClose.idIssue);
         final resRTAM = res as List<dynamic>;
         if (resRTAM.isNotEmpty) {

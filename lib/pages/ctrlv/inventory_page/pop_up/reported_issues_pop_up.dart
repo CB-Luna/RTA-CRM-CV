@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/history_issues_pop_up.dart';
 
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
@@ -180,6 +181,26 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                     color: AppTheme.of(context).primaryColor,
                     onTap: () {
                       provider.filtrarPorMes(12);
+                    }),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: CustomTextIconButton(
+                    width: MediaQuery.of(context).size.width * 0.10,
+                    isLoading: false,
+                    icon: Icon(Icons.calendar_today_outlined,
+                        color: AppTheme.of(context).primaryBackground),
+                    text: 'History of issues',
+                    color: AppTheme.of(context).primaryColor,
+                    onTap: () async {
+                      await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(
+                                builder: (context, setState) {
+                              return const HistoryIssuePopUp();
+                            });
+                          });
                     }),
               ),
             ],
