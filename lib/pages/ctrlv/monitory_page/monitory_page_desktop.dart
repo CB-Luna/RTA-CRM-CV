@@ -18,7 +18,6 @@ import '../../../providers/side_menu_provider.dart';
 import '../../../public/colors.dart';
 import '../../../widgets/side_menu/sidemenu.dart';
 import 'Popup/details_pop_up.dart';
-import 'Popup/license_plates_pop_up.dart';
 
 class MonitoryPageDesktop extends StatefulWidget {
   const MonitoryPageDesktop({Key? key, required this.drawerController, required this.scaffoldKey, required this.provider}) : super(key: key);
@@ -105,7 +104,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                     padding: const EdgeInsets.all(10.0),
                                     child: Container(
                                         padding: const EdgeInsets.only(bottom: 40),
-                                        height: 400,
+                                        height: 800,
                                         child: Material(
                                           shadowColor: const Color(0xff9ABEFF),
                                           borderRadius:

@@ -32,10 +32,9 @@ class MeasuresPopUp extends StatelessWidget {
                       onPressed: () {
                         provider.updateViewPopup(0);
                       },
-                      child: const Text(
-                        "BACK",
-                        style: TextStyle(fontSize: 20),
-                      )),
+                      child: Icon(
+                                Icons.arrow_back
+                              ),),
                 ),
               ],
             ),

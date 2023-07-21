@@ -43,16 +43,13 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.all(20),
-                  child: CustomTextIconButton(
-                    width: 83,
-                    isLoading: false,
-                    icon: Icon(Icons.arrow_back_outlined,
-                        color: AppTheme.of(context).primaryBackground),
-                    text: 'Back',
-                    color: AppTheme.of(context).primaryColor,
-                    onTap: () async {
-                      provider.updateViewPopup(0);
-                    },
+                  child: ElevatedButton(
+                     onPressed: () {
+                          provider.updateViewPopup(0);
+                        },
+                        child: Icon(
+                                Icons.arrow_back
+                              ),
                   ),
                 ),
                 SizedBox(

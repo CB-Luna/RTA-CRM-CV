@@ -8,9 +8,9 @@ import '../../../../widgets/card_header.dart';
 import 'comments_images_issues.dart';
 
 class BucketExtraPopUp extends StatelessWidget {
-  
+  final int popUp;
   const BucketExtraPopUp({
-    super.key,
+    super.key, required this.popUp,
   });
   //pedir ID de control form para conectar con als demas
 
@@ -37,12 +37,11 @@ class BucketExtraPopUp extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
                         onPressed: () {
-                          provider.updateViewPopup(0);
+                          provider.updateViewPopup(popUp);
                         },
-                        child: const Text(
-                          "BACK",
-                          style: TextStyle(fontSize: 20),
-                        )),
+                        child: Icon(
+                                Icons.arrow_back
+                              ),),
                   ),
                 ],
               ),
