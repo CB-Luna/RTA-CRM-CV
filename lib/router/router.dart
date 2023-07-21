@@ -6,6 +6,7 @@ import 'package:rta_crm_cv/pages/crm/reports_page.dart';
 import 'package:rta_crm_cv/pages/crm/schedulings_page.dart';
 import 'package:rta_crm_cv/pages/crm/tickets_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/dashboards_page.dart';
+import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
@@ -229,16 +230,16 @@ final GoRouter router = GoRouter(
       path: '/inventory',
       name: 'Inventory',
       builder: (BuildContext context, GoRouterState state) {
-        return const InventoryPage();
+        return const InventoryPageDesktop();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const InventoryPage()),
+          pageTransition(context, state, const InventoryPageDesktop()),
     ),
     GoRoute(
       path: routeDetailsInventory,
       name: 'Details_Inventory',
       builder: (BuildContext context, GoRouterState state) {
-        if (state.extra == null) return const InventoryPage();
+        if (state.extra == null) return const InventoryPageDesktop();
         return DetailsPopUp(vehicle: state.extra as Vehicle);
       },
       // (context, state, const DetailsPopUp()),

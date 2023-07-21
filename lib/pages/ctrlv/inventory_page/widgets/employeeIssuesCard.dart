@@ -24,7 +24,7 @@ class _EmployeeIssuesCardState extends State<EmployeeIssuesCard> {
       decoration: const BoxDecoration(
           color: Colors.white,
           boxShadow: [
-            BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
+            BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(5, 5))
           ],
           borderRadius: BorderRadius.all(Radius.circular(20))),
       width: MediaQuery.of(context).size.width + 200,

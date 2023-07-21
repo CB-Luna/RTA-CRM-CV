@@ -79,7 +79,7 @@ class InventoryProvider extends ChangeNotifier {
   int idvehicle = 16;
   Uuid uuid = const Uuid();
   String? colorString = "0xffffffff";
-  int pageRowCount = 8;
+  int pageRowCount = 9;
   int page = 1;
 
 // ------------ Variables de los Modelos ---------------
@@ -328,10 +328,10 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Inventory Provider
-  InventoryProvider() {
-    getInventory();
-  }
+  // // Inventory Provider
+  // InventoryProvider() {
+  //   getInventory();
+  // }
 
   // Función para hacerle Update a los controladores
   void updateInventoryControllers(Vehicle vehicle) {
@@ -748,7 +748,6 @@ class InventoryProvider extends ChangeNotifier {
             totalAvailableSMI = totalAvailableSMI + 1;
           }
         }
-        print("Total ODE: " + totalVehicleODE.toString());
         rows.add(
           PlutoRow(
             cells: {
@@ -1217,13 +1216,14 @@ class InventoryProvider extends ChangeNotifier {
   //Funcion para la impresion de issues
 
   // Limpiar los controller
-  void clearControllers() {
+  void clearControllers({bool notify = true}) {
     brandController.clear();
     modelController.clear();
     vinController.clear();
     plateNumberController.clear();
     motorController.clear();
     colorController = 0xffffffff;
+    if (notify) notifyListeners();
   }
 
   // Limpiar la imagen
