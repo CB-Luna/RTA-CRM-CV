@@ -27,115 +27,118 @@ class OdiCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(30),
         ),
       ),
-      child: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              width: 97,
-              height: 28,
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: ShapeDecoration(
-                color: Color.fromARGB(255, 235, 154, 173),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Opacity(
-                    opacity: 0.65,
-                    child: Text(
-                      '● VEHICLES',
-                      style: TextStyle(
-                        color: Color(0xFFD20030),
-                        fontSize: 12,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
-                      ),
+      child: Stack(
+        children: [
+          Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  width: 97,
+                  height: 28,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: ShapeDecoration(
+                    color: Color.fromARGB(255, 235, 154, 173),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
                     ),
                   ),
-                ],
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Opacity(
+                        opacity: 0.65,
+                        child: Text(
+                          '● VEHICLES',
+                          style: TextStyle(
+                            color: Color(0xFFD20030),
+                            fontSize: 12,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.08,
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Total: $totalVehicleODE",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Color(0xFFD20030),
+                          fontSize: 16,
+                          fontFamily: 'Plus Jakarta Sans',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              width: 235,
+              child: Text(
+                'ODE',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFFD20030),
+                  fontSize: 22,
+                  fontFamily: 'Plus Jakarta Sans',
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
             Container(
-              width: MediaQuery.of(context).size.width * 0.08,
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.13,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Total: $totalVehicleODE",
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color(0xFFD20030),
-                      fontSize: 16,
-                      fontFamily: 'Plus Jakarta Sans',
-                      fontWeight: FontWeight.w400,
+                    "Assigned: $totalAssignedODE",
+                    style: TextStyle(
+                      color: AppTheme.of(context).secondaryColor,
+                      fontFamily: 'Bicyclette-Thin',
+                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                    ),
+                  ),
+                  Text(
+                    "Repair: $totalRepairODE",
+                    style: TextStyle(
+                      color: AppTheme.of(context).secondaryColor,
+                      fontFamily: 'Bicyclette-Thin',
+                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                    ),
+                  ),
+                  Text(
+                    "Available: $totalAvailableODE ",
+                    style: TextStyle(
+                      color: AppTheme.of(context).secondaryColor,
+                      fontFamily: 'Bicyclette-Thin',
+                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                     ),
                   ),
                 ],
               ),
-            )
-          ],
-        ),
-        const SizedBox(
-          width: 235,
-          child: Text(
-            'ODE',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Color(0xFFD20030),
-              fontSize: 22,
-              fontFamily: 'Plus Jakarta Sans',
-              fontWeight: FontWeight.w800,
             ),
-          ),
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.15,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Assigned: $totalAssignedODE",
-                style: TextStyle(
-                  color: AppTheme.of(context).secondaryColor,
-                  fontFamily: 'Bicyclette-Thin',
-                  fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                ),
-              ),
-              Text(
-                "Repair: $totalRepairODE",
-                style: TextStyle(
-                  color: AppTheme.of(context).secondaryColor,
-                  fontFamily: 'Bicyclette-Thin',
-                  fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                ),
-              ),
-              Text(
-                "Available: $totalAvailableODE ",
-                style: TextStyle(
-                  color: AppTheme.of(context).secondaryColor,
-                  fontFamily: 'Bicyclette-Thin',
-                  fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Spacer(),
-        Stack(children: [
-          Container(
-            width: 304,
-            height: 79,
-            decoration: BoxDecoration(color: Color(0xFFD20030)),
-          ),
+            Spacer(),
+            Container(
+              width: 304,
+              height: 79,
+              decoration: BoxDecoration(color: Color(0xFFD20030)),
+            ),
+          ]),
           Positioned(
-            top: -50,
+            top: 150,
             right: 60,
             child: Container(
               width: 173,
@@ -144,7 +147,8 @@ class OdiCard extends StatelessWidget {
               decoration: ShapeDecoration(
                 image: const DecorationImage(
                   image: NetworkImage(
-                      "https://supa43.rtatel.com/storage/v1/object/public/assets/car_images/OdyCar.png?t=2023-07-18T15%3A59%3A46.541Z"),
+                      "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/2629483.jpg"),
+                  fit: BoxFit.cover,
                 ),
                 shape: RoundedRectangleBorder(
                   side: const BorderSide(width: 2.50, color: Colors.white),
@@ -153,8 +157,8 @@ class OdiCard extends StatelessWidget {
               ),
             ),
           ),
-        ]),
-      ]),
+        ],
+      ),
     );
   }
 }

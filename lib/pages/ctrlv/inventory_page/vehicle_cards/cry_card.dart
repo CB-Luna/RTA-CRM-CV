@@ -151,7 +151,7 @@ class CryCard extends StatelessWidget {
                 decoration: ShapeDecoration(
                   image: const DecorationImage(
                     image: NetworkImage(
-                        "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/2629483.jpg"),
+                        "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/JLZ7391.jpg"),
                     fit: BoxFit.cover,
                   ),
                   shape: RoundedRectangleBorder(

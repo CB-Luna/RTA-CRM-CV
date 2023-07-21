@@ -79,6 +79,8 @@ class InventoryProvider extends ChangeNotifier {
   int idvehicle = 16;
   Uuid uuid = const Uuid();
   String? colorString = "0xffffffff";
+  int pageRowCount = 8;
+  int page = 1;
 
 // ------------ Variables de los Modelos ---------------
 
@@ -260,6 +262,46 @@ class InventoryProvider extends ChangeNotifier {
     //     break;
     // }
     notifyListeners();
+  }
+
+  void setPageSize(String x) {
+    switch (x) {
+      case 'more':
+        if (pageRowCount < rows.length) pageRowCount++;
+        break;
+      case 'less':
+        if (pageRowCount > 1) pageRowCount--;
+        break;
+      default:
+        return;
+    }
+    stateManager!.createFooter;
+    notifyListeners();
+  }
+
+  void setPage(String x) {
+    switch (x) {
+      case 'next':
+        if (page < stateManager!.totalPage) page++;
+        break;
+      case 'previous':
+        if (page > 1) page--;
+        break;
+      case 'start':
+        page = 1;
+        break;
+      case 'end':
+        page = stateManager!.totalPage;
+        break;
+      default:
+        return;
+    }
+    stateManager!.setPage(page);
+    notifyListeners();
+  }
+
+  void load() {
+    stateManager!.setShowLoading(true);
   }
 
   void setIndexIssue(int index) async {
@@ -667,6 +709,8 @@ class InventoryProvider extends ChangeNotifier {
       totalAvailableODE = 0;
       totalAvailableCRY = 0;
       totalAvailableSMI = 0;
+      rows.clear();
+
       for (Vehicle vehicle in vehicles) {
         if (vehicle.company.company == "ODE") {
           totalVehicleODE = totalVehicleODE + 1;
