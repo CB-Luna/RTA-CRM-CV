@@ -9,9 +9,10 @@ import 'comments_images_issues.dart';
 
 class ExtraPopUp extends StatelessWidget {
   final String catalog;
+  final int popUp;
   const ExtraPopUp({
     super.key,
-    required this.catalog,
+    required this.catalog, required this.popUp,
   });
   //pedir ID de control form para conectar con als demas
 
@@ -37,12 +38,11 @@ class ExtraPopUp extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
                         onPressed: () {
-                          provider.updateViewPopup(0);
+                          provider.updateViewPopup(popUp);
                         },
-                        child: const Text(
-                          "BACK",
-                          style: TextStyle(fontSize: 20),
-                        )),
+                        child:Icon(
+                                Icons.arrow_back
+                              ),),
                   ),
                 ],
               ),
