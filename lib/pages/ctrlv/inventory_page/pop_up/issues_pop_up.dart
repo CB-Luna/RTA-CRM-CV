@@ -24,16 +24,14 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
         Provider.of<IssueReportedProvider>(context);
 
     final int cadena = isssueReportedProvider.issuesxUser.length;
-    print("valor issuesView: ${isssueReportedProvider.issuesView}");
     return isssueReportedProvider.issuesView == 0
-        ? SizedBox(
+        ? Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(
-                      top: 10.0, left: 10.0, right: 50.0, bottom: 10.0),
+                  margin: const EdgeInsets.only(top: 5.0),
                   height: MediaQuery.of(context).size.height * 0.2,
                   width: MediaQuery.of(context).size.width * 0.5,
                   decoration: BoxDecoration(
@@ -92,7 +90,7 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                   ],
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   width: MediaQuery.of(context).size.width * 0.5,
                   margin: const EdgeInsets.only(
                       top: 10.0, left: 10.0, right: 50.0, bottom: 10.0),
@@ -100,7 +98,8 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                       border: Border.all(
                           color: AppTheme.of(context).primaryColor, width: 2),
                       borderRadius: BorderRadius.circular(20),
-                      gradient: whiteGradient),
+                      // gradient: whiteGradient),
+                      color: Colors.black),
                   child: ListView.builder(
                       padding: const EdgeInsets.all(8),
                       itemCount: cadena,
@@ -120,7 +119,8 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
             : isssueReportedProvider.issuesView == 2
                 ? const CommentsPhotosPopUp()
                 : Container(
-                    height: 1200,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
                   );
   }
 }

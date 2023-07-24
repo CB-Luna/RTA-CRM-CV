@@ -23,9 +23,9 @@ class _ReportedIssuesState extends State<ReportedIssues> {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
     IssueReportedProvider isssueReportedProvider =
         Provider.of<IssueReportedProvider>(context);
-    return Container(
-      width: MediaQuery.of(context).size.width - 100,
-      height: MediaQuery.of(context).size.height + 50,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       child: Column(
         children: [
           Container(
@@ -190,9 +190,13 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                     isLoading: false,
                     icon: Icon(Icons.calendar_today_outlined,
                         color: AppTheme.of(context).primaryBackground),
-                    text: 'History of issues',
+                    text: 'Issues Closed',
                     color: AppTheme.of(context).primaryColor,
                     onTap: () async {
+                      await isssueReportedProvider
+                          .getIssueBucketInspectionClosed(
+                              provider.actualIssueXUser!);
+                      // ignore: use_build_context_synchronously
                       await showDialog(
                           context: context,
                           builder: (BuildContext context) {

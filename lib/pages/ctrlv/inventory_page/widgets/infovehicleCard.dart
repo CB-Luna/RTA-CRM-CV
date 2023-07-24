@@ -18,14 +18,15 @@ class _InfoVehicleCardState extends State<InfoVehicleCard> {
         Provider.of<IssueReportedProvider>(context);
     return Container(
       padding: const EdgeInsets.all(10.0),
-      width: 400,
-      height: MediaQuery.of(context).size.height * 0.4,
+      width: MediaQuery.of(context).size.width * 0.4,
+      height: MediaQuery.of(context).size.height * 0.3,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: AppTheme.of(context).primaryColor, width: 2),
       ),
       //ID, MAKE, LICENSEPLATES,YEAR, company
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
               width: 400,

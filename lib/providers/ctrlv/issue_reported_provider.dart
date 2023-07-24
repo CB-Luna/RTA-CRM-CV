@@ -28,6 +28,24 @@ class IssueReportedProvider extends ChangeNotifier {
   List<Security> issueSecurityD = [];
   List<Measure> issueMeasureR = [];
   List<Measure> issueMeasureD = [];
+  //---------------- Variables Para ingresar los Issues CLOSED --------------------------\
+
+  List<BucketInspection> issuePart1Closed = [];
+  List<BucketInspection> issuePartDClosed = [];
+  List<CarBodywork> issueCarBodywRClosed = [];
+  List<CarBodywork> issueCarBodyWDClosed = [];
+  List<Equiment> issueEquipmentRClosed = [];
+  List<Equiment> issueEquipmentDClosed = [];
+  List<Extra> issueExtraRClosed = [];
+  List<Extra> issueExtradDClosed = [];
+  List<FluidCheck> issueFluidCheckRClosed = [];
+  List<FluidCheck> issueFluidCheckDClosed = [];
+  List<Lights> issueLightsRClosed = [];
+  List<Lights> issueLightsDClosed = [];
+  List<Security> issueSecurityRClosed = [];
+  List<Security> issueSecurityDClosed = [];
+  List<Measure> issueMeasureRClosed = [];
+  List<Measure> issueMeasureDClosed = [];
 
   // --------------------- Variables Globales -----------------------------------
   IssuesComments? registroIssueComments;
@@ -44,6 +62,8 @@ class IssueReportedProvider extends ChangeNotifier {
   // ---------------------- Listas R -------------------------
   List<IssuesComments> bucketInspectionR = [];
   List<IssueOpenclose> bucketInspectionRR = [];
+  List<IssueOpenclose> listTotalClosedIssue = [];
+
   List<IssueOpenclose> carBodyWorkRR = [];
   List<IssueOpenclose> equipmentRR = [];
   List<IssueOpenclose> extraRR = [];
@@ -53,6 +73,7 @@ class IssueReportedProvider extends ChangeNotifier {
   List<IssueOpenclose> securityRR = [];
 
   // ---------------------- Listas D -------------------------
+
   List<IssuesComments> bucketInspectionD = [];
   List<IssueOpenclose> bucketInspectionDD = [];
   List<IssueOpenclose> carBodyWorkDD = [];
@@ -250,23 +271,33 @@ class IssueReportedProvider extends ChangeNotifier {
           return true;
         case 2:
           print(contadorSeccion);
+          await supabaseCtrlV.from('lights').update({
+            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
+                "Closed",
+            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
+                "Issue Closed update at ${dateTimeClosedIssueController.text}"
+          }).eq("id_lights", registroIssueComments!.idIssue);
+          return true;
+        case 3:
+          print(contadorSeccion);
           await supabaseCtrlV.from('car_bodywork').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
             "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
-          }).eq("id_carbodywork", registroIssueComments!.idIssue);
+          }).eq("car_bodywork.id_car_bodywork", registroIssueComments!.idIssue);
           return true;
-        case 3:
+        case 4:
           print(contadorSeccion);
-          await supabaseCtrlV.from('equipment').update({
+          await supabaseCtrlV.from('security').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
             "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
-          }).eq("id_equipment", registroIssueComments!.idIssue);
+          }).eq("id_security", registroIssueComments!.idIssue);
           return true;
-        case 4:
+
+        case 5:
           print(contadorSeccion);
           await supabaseCtrlV.from('extra').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
@@ -275,7 +306,17 @@ class IssueReportedProvider extends ChangeNotifier {
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
           }).eq("id_extra", registroIssueComments!.idIssue);
           return true;
-        case 5:
+        case 6:
+          print(contadorSeccion);
+          await supabaseCtrlV.from('equipment').update({
+            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
+                "Closed",
+            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
+                "Issue Closed update at ${dateTimeClosedIssueController.text}"
+          }).eq("id_equipment", registroIssueComments!.idIssue);
+          return true;
+
+        case 7:
           print(contadorSeccion);
           await supabaseCtrlV.from('bucket_inspection').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
@@ -284,16 +325,8 @@ class IssueReportedProvider extends ChangeNotifier {
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
           }).eq("id_bucket_inspection", registroIssueComments!.idIssue);
           return true;
-        case 6:
-          print(contadorSeccion);
-          await supabaseCtrlV.from('lights').update({
-            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
-                "Closed",
-            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
-                "Issue Closed update at ${dateTimeClosedIssueController.text}"
-          }).eq("id_lights", registroIssueComments!.idIssue);
-          return true;
-        case 7:
+
+        case 8:
           print(contadorSeccion);
           await supabaseCtrlV.from('measures').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
@@ -301,15 +334,6 @@ class IssueReportedProvider extends ChangeNotifier {
             "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
                 "Issue Closed update at ${dateTimeClosedIssueController.text}"
           }).eq("id_measure", registroIssueComments!.idIssue);
-          return true;
-        case 8:
-          print(contadorSeccion);
-          await supabaseCtrlV.from('security').update({
-            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
-                "Closed",
-            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
-                "Issue Closed update at ${dateTimeClosedIssueController.text}"
-          }).eq("id_security", registroIssueComments!.idIssue);
           return true;
 
         default:
@@ -426,6 +450,118 @@ class IssueReportedProvider extends ChangeNotifier {
       print("Entro a getIssuesBasics");
     } catch (e) {
       print("Error in getIssuesBasics() - $e");
+    }
+    notifyListeners();
+  }
+
+  // Función para traer el nombre de los issues de BucketInspection closed
+  Future<void> getIssueBucketInspectionClosed(
+    IssuesXUser issuesXUser,
+  ) async {
+    print("actualissuexUSER: $issuesXUser");
+    print("Entro a getIssueBucketInspectionClosed");
+    try {
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'id_vehicle, bucket_inspection_r ->id_bucket_inspection, bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner, bucket_inspection_r ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'bucket_inspection_d ->id_bucket_inspection, bucket_inspection_d ->holes_drilled,bucket_inspection_d ->insulated, bucket_inspection_d ->bucket_liner, bucket_inspection_d ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      issuePart1Closed = (res as List<dynamic>)
+          .map(
+              (issuePart1) => BucketInspection.fromJson(jsonEncode(issuePart1)))
+          .toList();
+      issuePartDClosed = (resD as List<dynamic>)
+          .map(
+              (issuePartD) => BucketInspection.fromJson(jsonEncode(issuePartD)))
+          .toList();
+
+      // BucketInspectionR
+      for (BucketInspection issue in issuePart1Closed) {
+        if (issue.holesDrilled == "Closed") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idBucketInspection!,
+              nameIssue: "Holes Drilled",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(
+              listTotalClosedIssue, issue.idBucketInspection!)) {
+            print("Nuevo elemento Agregado bucketInspectionRR");
+            listTotalClosedIssue.add(newIssueComments);
+          }
+        }
+        if (issue.bucketLiner == "Closed") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idBucketInspection!,
+              nameIssue: "Bucket Liner",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(
+              listTotalClosedIssue, issue.idBucketInspection!)) {
+            print("Nuevo elemento Agregado bucketInspectionRR");
+            listTotalClosedIssue.add(newIssueComments);
+          }
+        }
+        if (issue.insulated == "Closed") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idBucketInspection!,
+              nameIssue: "Insulated",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(
+              listTotalClosedIssue, issue.idBucketInspection!)) {
+            print("Nuevo elemento Agregado bucketInspectionRR");
+            listTotalClosedIssue.add(newIssueComments);
+          }
+        }
+      }
+
+      // BucketInspectionD
+      for (BucketInspection issue in issuePartDClosed) {
+        if (issue.holesDrilled == "Closed") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idBucketInspection!,
+              nameIssue: "Holes Drilled",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(
+              listTotalClosedIssue, issue.idBucketInspection!)) {
+            print("Nuevo elemento Agregado bucketInspectionDD");
+            listTotalClosedIssue.add(newIssueComments);
+          }
+        }
+        if (issue.bucketLiner == "Closed") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idBucketInspection!,
+              nameIssue: "Bucket Liner",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(
+              listTotalClosedIssue, issue.idBucketInspection!)) {
+            print("Nuevo elemento Agregado bucketInspectionDD");
+            listTotalClosedIssue.add(newIssueComments);
+          }
+        }
+        if (issue.insulated == "Closed") {
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idBucketInspection!,
+              nameIssue: "Insulated",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(
+              listTotalClosedIssue, issue.idBucketInspection!)) {
+            print("Nuevo elemento Agregado bucketInspectionDD");
+            listTotalClosedIssue.add(newIssueComments);
+          }
+        }
+      }
+      print("Entro a getIssueBucketInspectionClosed");
+    } catch (e) {
+      print("Error in getIssueBucketInspectionClosed() - $e");
     }
     notifyListeners();
   }

@@ -1,4 +1,3 @@
-import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
@@ -93,11 +92,12 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                           ),
                           // Carta de ODE
                           OdiCard(
-                            totalVehicleODE: provider.totalVehicleODE,
-                            totalRepairODE: provider.totalRepairODE,
-                            totalAssignedODE: provider.totalAssignedODE,
-                            totalAvailableODE: provider.totalAvailableODE,
+                            totalVehicle: provider.totalVehicleODE,
+                            totalRepair: provider.totalRepairODE,
+                            totalAssigned: provider.totalAssignedODE,
+                            totalAvailable: provider.totalAvailableODE,
                           ),
+
                           // Carta de SMI
                           SmiCard(
                             totalVehicleSMI: provider.totalVehicleSMI,

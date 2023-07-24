@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rta_crm_cv/pages/ctrlv/inventory_page/widgets/trapecio.dart';
 
 import '../../../../theme/theme.dart';
 
@@ -19,8 +18,8 @@ class CryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 304,
-        height: 269,
+        width: MediaQuery.of(context).size.width * 0.2,
+        height: MediaQuery.of(context).size.height * 0.37,
         clipBehavior: Clip.antiAlias,
         decoration: ShapeDecoration(
           color: Colors.white,
@@ -30,13 +29,25 @@ class CryCard extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Column(children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  decoration: const BoxDecoration(color: Color(0xFF2E5899)),
+                ),
+              ],
+            ),
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              // Header
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
-                    width: 97,
-                    height: 28,
+                    width: MediaQuery.of(context).size.width * 0.06,
+                    height: MediaQuery.of(context).size.height * 0.04,
+                    alignment: Alignment.center,
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: ShapeDecoration(
@@ -45,28 +56,20 @@ class CryCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                       ),
                     ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Opacity(
-                          opacity: 0.65,
-                          child: Text(
-                            '● VEHICLES',
-                            style: TextStyle(
-                              color: Color(0xFF2E5899),
-                              fontSize: 12,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
+                    child: const Opacity(
+                      opacity: 0.65,
+                      child: Text(
+                        '● VEHICLES',
+                        style: TextStyle(
+                          color: Color(0xFF2E5899),
+                          fontSize: 12,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.08,
+                  Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Row(
                       children: [
@@ -85,82 +88,69 @@ class CryCard extends StatelessWidget {
                   )
                 ],
               ),
-              const SizedBox(
-                width: 235,
-                child: Text(
-                  'CRY',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFF2E5899),
-                    fontSize: 22,
-                    fontFamily: 'Plus Jakarta Sans',
-                    fontWeight: FontWeight.w800,
+              // Body
+              Column(
+                children: [
+                  const Text(
+                    'CRY',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF2E5899),
+                      fontSize: 22,
+                      fontFamily: 'Plus Jakarta Sans',
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
+                  Text(
+                    "Assigned: $totalAssignedCRY",
+                    style: TextStyle(
+                      color: AppTheme.of(context).primaryColor,
+                      fontFamily: 'Bicyclette-Thin',
+                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                    ),
+                  ),
+                  Text(
+                    "Repair: $totalRepairCRY",
+                    style: TextStyle(
+                      color: AppTheme.of(context).primaryColor,
+                      fontFamily: 'Bicyclette-Thin',
+                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                    ),
+                  ),
+                  Text(
+                    "Available: $totalAvailableCRY ",
+                    style: TextStyle(
+                      color: AppTheme.of(context).primaryColor,
+                      fontFamily: 'Bicyclette-Thin',
+                      fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                    ),
+                  ),
+                ],
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.13,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Assigned: $totalAssignedCRY",
-                      style: TextStyle(
-                        color: AppTheme.of(context).primaryColor,
-                        fontFamily: 'Bicyclette-Thin',
-                        fontSize:
-                            AppTheme.of(context).encabezadoTablas.fontSize,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.12,
+                    height: MediaQuery.of(context).size.height * 0.13,
+                    alignment: Alignment.center,
+                    decoration: ShapeDecoration(
+                      image: const DecorationImage(
+                        image: NetworkImage(
+                            "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/JLZ7391.jpg"),
+                        fit: BoxFit.cover,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        side:
+                            const BorderSide(width: 2.50, color: Colors.white),
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    Text(
-                      "Repair: $totalRepairCRY",
-                      style: TextStyle(
-                        color: AppTheme.of(context).primaryColor,
-                        fontFamily: 'Bicyclette-Thin',
-                        fontSize:
-                            AppTheme.of(context).encabezadoTablas.fontSize,
-                      ),
-                    ),
-                    Text(
-                      "Available: $totalAvailableCRY ",
-                      style: TextStyle(
-                        color: AppTheme.of(context).primaryColor,
-                        fontFamily: 'Bicyclette-Thin',
-                        fontSize:
-                            AppTheme.of(context).encabezadoTablas.fontSize,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const Spacer(),
-              Container(
-                width: 304,
-                height: 79,
-                decoration: const BoxDecoration(color: Color(0xFF2E5899)),
-              ),
+              // Imagen
             ]),
-            Positioned(
-              top: 150,
-              right: 60,
-              child: Container(
-                width: 173,
-                height: 86,
-                alignment: Alignment.center,
-                decoration: ShapeDecoration(
-                  image: const DecorationImage(
-                    image: NetworkImage(
-                        "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/JLZ7391.jpg"),
-                    fit: BoxFit.cover,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(width: 2.50, color: Colors.white),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-            ),
           ],
         ));
   }

@@ -184,7 +184,6 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                           if (val == null) return;
                           provider.dropdownvalue = val;
                           print(val);
-                          provider.notifyListeners();
                         },
                       ),
                     ),
@@ -219,7 +218,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
               children: [
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.save_outlined,
+                      color: AppTheme.of(context).primaryBackground),
                   text: 'Save User',
                   onTap: () async {
                     if (!formKey.currentState!.validate()) {

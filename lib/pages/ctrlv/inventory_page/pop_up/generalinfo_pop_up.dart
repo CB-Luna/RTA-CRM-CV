@@ -21,8 +21,8 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
 
     return Container(
-      // width: MediaQuery.of(context).size.width - 100,
-      // height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width - 100,
+      height: MediaQuery.of(context).size.height,
       child: Padding(
         //padding: const EdgeInsetsDirectional.fromSTEB(20, 15, 20, 15),
         padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
@@ -31,7 +31,8 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
             Container(
               height: (650 * 0.7586633663366337).toDouble(),
               width: 700,
-              alignment: AlignmentDirectional.centerEnd,
+              color: Colors.green,
+              alignment: AlignmentDirectional.topStart,
               padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
               child: CustomPaint(
                 size: Size(400, (450 * 0.7586633663366337).toDouble()),
