@@ -29,11 +29,10 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
         child: Row(
           children: [
             Container(
-              height: (650 * 0.7586633663366337).toDouble(),
-              width: 700,
-              color: Colors.green,
+              height: MediaQuery.of(context).size.height * 0.6,
+              width: MediaQuery.of(context).size.width * 0.45,
               alignment: AlignmentDirectional.topStart,
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+              padding: const EdgeInsets.all(20),
               child: CustomPaint(
                 size: Size(400, (450 * 0.7586633663366337).toDouble()),
                 painter: RPSCustomPainterMon(),
@@ -476,8 +475,8 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
             Column(
               children: [
                 Container(
-                  height: 250,
-                  width: 500,
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.4,
                   margin: const EdgeInsets.only(top: 50, left: 40, bottom: 10),
                   decoration: BoxDecoration(
                       border: Border.all(
@@ -499,12 +498,12 @@ class _GeneralInfoPopUPState extends State<GeneralInfoPopUP> {
                           image: NetworkImage(provider.actualVehicle!.image!))),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 30),
+                  margin: const EdgeInsets.only(top: 30),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: Colors.black, width: 2.0)),
-                  width: 400,
-                  height: 80,
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.1,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

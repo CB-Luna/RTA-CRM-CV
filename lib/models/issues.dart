@@ -184,6 +184,7 @@ class BucketInspection {
   final String? holesDrilledImage;
   final String? bucketLiner;
   final String? bucketLinerComments;
+  final DateTime? bucketLinerClosed;
   final String? bucketLinerImage;
   final DateTime? dateAdded;
 
@@ -197,6 +198,7 @@ class BucketInspection {
     this.holesDrilledImage,
     this.bucketLiner,
     this.bucketLinerComments,
+    this.bucketLinerClosed,
     this.bucketLinerImage,
     this.dateAdded,
   });
@@ -218,6 +220,9 @@ class BucketInspection {
         bucketLiner: json["bucket_liner"],
         bucketLinerComments: json["bucket_liner_comments"],
         bucketLinerImage: json["bucket_liner_image"],
+        bucketLinerClosed: json["bucket_liner_DateClosed"] == null
+            ? null
+            : DateTime.parse(json["date_added"]),
         dateAdded: json["date_added"] == null
             ? null
             : DateTime.parse(json["date_added"]),
@@ -235,6 +240,7 @@ class BucketInspection {
         "bucket_liner_comments": bucketLinerComments,
         "bucket_liner_image": bucketLinerImage,
         "date_added": dateAdded?.toIso8601String(),
+        "bucket_liner_DateClosed": bucketLinerClosed?.toIso8601String(),
       };
 }
 
