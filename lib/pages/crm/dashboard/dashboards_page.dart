@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:rta_crm_cv/pages/crm/dashboard/widgets/Tabla_meses.dart';
 import 'package:rta_crm_cv/pages/crm/dashboard/widgets/marcadores_dashboard.dart';
-import 'package:rta_crm_cv/pages/crm/dashboard/widgets/Transaction_history.dart';
 import 'package:rta_crm_cv/pages/crm/dashboard/widgets/grafica_dashboard.dart';
 import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
@@ -52,6 +51,8 @@ class _DashboardsCRMPageState extends State<DashboardsCRMPage> {
                 child: CustomScrollBar(
                   scrollDirection: Axis.vertical,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       //Titulo
                       Padding(
@@ -64,7 +65,9 @@ class _DashboardsCRMPageState extends State<DashboardsCRMPage> {
                                 child: SizedBox(
                                   height: 40,
                                   width: 40,
-                                  child: sideM.aRAccounts != null ? Rive(artboard: sideM.aRDashboards!) : const CircularProgressIndicator(),
+                                  child: sideM.aRAccounts != null
+                                      ? Rive(artboard: sideM.aRDashboards!)
+                                      : const CircularProgressIndicator(),
                                 )),
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
@@ -84,28 +87,19 @@ class _DashboardsCRMPageState extends State<DashboardsCRMPage> {
                           child: MarcadoresDashboard(),
                         ),
                       ),
-                      const CustomScrollBar(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: GraficaDashboard(),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: TablaMeses(),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //Transaction history
                       const Padding(
                         padding: EdgeInsets.all(10),
+                        child: GraficaDashboard(),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(10),
+                        child: TablaMeses(),
+                      ),
+                      //Transaction history
+                      /* const Padding(
+                        padding: EdgeInsets.all(10),
                         child: TransactionHistory(),
-                      )
+                      ) */
                     ],
                   ),
                 ),
