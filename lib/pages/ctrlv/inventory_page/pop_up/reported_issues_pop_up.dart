@@ -193,9 +193,8 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                     text: 'Issues Closed',
                     color: AppTheme.of(context).primaryColor,
                     onTap: () async {
-                      await isssueReportedProvider
-                          .getIssueBucketInspectionClosed(
-                              provider.actualIssueXUser!);
+                      print(provider.actualIssueXUser);
+
                       // ignore: use_build_context_synchronously
                       await showDialog(
                           context: context,

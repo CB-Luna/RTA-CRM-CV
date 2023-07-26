@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/issue_reported_provider.dart';
@@ -6,6 +7,7 @@ import 'package:rta_crm_cv/providers/ctrlv/issue_reported_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
+import '../../../../widgets/success_toast.dart';
 
 class WarningIssueClosePopUp extends StatefulWidget {
   const WarningIssueClosePopUp({super.key});
@@ -15,6 +17,8 @@ class WarningIssueClosePopUp extends StatefulWidget {
 }
 
 class _WarningIssueClosePopUpState extends State<WarningIssueClosePopUp> {
+  FToast fToast = FToast();
+
   @override
   Widget build(BuildContext context) {
     IssueReportedProvider provider =
@@ -92,6 +96,15 @@ class _WarningIssueClosePopUpState extends State<WarningIssueClosePopUp> {
               color: AppTheme.of(context).secondaryColor,
               onTap: () async {
                 provider.closeIssue();
+                if (!mounted) return;
+                fToast.showToast(
+                  child: const SuccessToast(
+                    message: 'Issue Closed Succesfuly',
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                  toastDuration: const Duration(seconds: 2),
+                );
+                if (context.canPop()) context.pop();
                 context.pop();
               },
             ),

@@ -98,8 +98,7 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
                       border: Border.all(
                           color: AppTheme.of(context).primaryColor, width: 2),
                       borderRadius: BorderRadius.circular(20),
-                      // gradient: whiteGradient),
-                      color: Colors.black),
+                      gradient: whiteGradient),
                   child: ListView.builder(
                       padding: const EdgeInsets.all(8),
                       itemCount: cadena,

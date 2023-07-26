@@ -101,18 +101,6 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                               return WarningIssueClosePopUp();
                             });
                           });
-
-                      if (!mounted) return;
-                      fToast.showToast(
-                        child: const SuccessToast(
-                          message: 'Issue Closed Succesfuly',
-                        ),
-                        gravity: ToastGravity.BOTTOM,
-                        toastDuration: const Duration(seconds: 2),
-                      );
-
-                      if (context.canPop()) context.pop();
-                      context.pop();
                     }),
                 CustomTextIconButton(
                   isLoading: false,

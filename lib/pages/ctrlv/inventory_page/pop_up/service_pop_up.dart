@@ -19,18 +19,37 @@ class _ServicePopUpState extends State<ServicePopUp> {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: 600,
-            height: 300,
-            color: Colors.red,
+            height: MediaQuery.of(context).size.height * 0.4,
+            width: MediaQuery.of(context).size.width * 0.4,
+            margin: const EdgeInsets.only(top: 50, left: 40, bottom: 10),
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: Color(int.parse(provider.actualVehicle!.color)),
+                  width: 5.0,
+                ),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(int.parse(provider.actualVehicle!.color)),
+                    spreadRadius: 7,
+                    blurRadius: 10,
+                    offset: Offset(4, 4), // changes position of shadow
+                  ),
+                ],
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(provider.actualVehicle!.image!))),
           ),
-          const Spacer(),
-          SizedBox(
-            width: 415,
-            height: 600,
+          Container(
+            width: MediaQuery.of(context).size.width * 0.35,
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.only(left: 50.0),
+            margin: const EdgeInsets.only(left: 10.0),
             child: ListView.builder(
                 padding: const EdgeInsets.all(8),
                 itemCount: provider.services.length,
@@ -39,7 +58,8 @@ class _ServicePopUpState extends State<ServicePopUp> {
                       padding: const EdgeInsets.only(bottom: 10.0),
                       child: Expanded(
                         child: Container(
-                          height: 100,
+                          height: MediaQuery.of(context).size.height * 0.15,
+                          width: MediaQuery.of(context).size.width * 0.2,
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
                           decoration: BoxDecoration(
                             color: Colors.white,
