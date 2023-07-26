@@ -37,7 +37,7 @@ class BucketExtraPopUp extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
                         onPressed: () {
-                          provider.updateViewPopup(popUp);
+                          provider.updateViewPopup(0);
                         },
                         child: Icon(
                                 Icons.arrow_back
@@ -81,10 +81,10 @@ class BucketExtraPopUp extends StatelessWidget {
                           ),
                           InkWell(
                           child: provider.actualIssuesComments[index].status
-                            ? Icon(Icons.check_circle,
+                            ? Icon(Icons.remove_red_eye,
                                 size: 30,
                                 color: Color.fromARGB(200, 65, 155, 23))
-                            : Icon(Icons.cancel,
+                            : Icon(Icons.remove_red_eye,
                               size: 30,
                                 color: Color.fromARGB(200, 210, 0, 48)),
                           onTap: () {

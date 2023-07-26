@@ -73,216 +73,41 @@ class CustomAgenda extends StatelessWidget {
                                                 BorderRadius.circular(30),
                                           ),
                                         ),
-                                        child: Column(children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.08,
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: Row(
-                                                  children: [
-                                                    Text(
-                                                      '${provider.idEventos[index].vehicle.licesensePlates}',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: const TextStyle(
-                                                        color:
-                                                            Color(0xFFD20030),
-                                                        fontSize: 16,
-                                                        fontFamily:
-                                                            'Plus Jakarta Sans',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 97,
-                                                height: 28,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 5),
-                                                decoration: ShapeDecoration(
-                                                  color: AppTheme
-                                                      .lightTheme.tertiaryColor
-                                                      .withOpacity(0.5),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100),
-                                                  ),
-                                                ),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Opacity(
-                                                      opacity: 0.65,
-                                                      child: Text(
-                                                        '● Check Out',
-                                                        style: TextStyle(
-                                                          color: AppTheme
-                                                              .lightTheme
-                                                              .tertiaryColor,
-                                                          fontSize: 12,
-                                                          fontFamily: 'Poppins',
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.15,
-                                            child: Column(
+                                        child: Stack(
+                                          children: [
+                                            Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                  MainAxisAlignment.end,
                                               children: [
-                                                Text(
-                                                  '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
-                                                  style: TextStyle(
-                                                    color: AppTheme.of(context)
-                                                        .secondaryColor,
-                                                    fontFamily:
-                                                        'Bicyclette-Thin',
-                                                    fontSize:
-                                                        AppTheme.of(context)
-                                                            .encabezadoTablas
-                                                            .fontSize,
-                                                  ),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      'Check Out: ',
-                                                      style: TextStyle(
-                                                        color:
-                                                            Colors.blueAccent,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      DateFormat('hh:mm:ss a')
-                                                          .format(provider
-                                                              .idEventos[index]
-                                                              .dateAddedR),
-                                                      style: TextStyle(
-                                                        color:
-                                                            Colors.blueAccent,
-                                                      ),
-                                                    ),
-                                                  ],
+                                                Container(
+                                                  width: 400,
+                                                  height: 79,
+                                                  decoration: BoxDecoration(
+                                                      color: Color(0xFFD20030)),
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                          // Spacer(),
-                                          Container(
-                                            width: 400,
-                                            height: 79,
-                                            decoration: BoxDecoration(
-                                                color: Color(0xFFD20030)),
-                                          ),
-                                          Positioned(
-                                            top: -50,
-                                            right: 100,
-                                            child: Container(
-                                              width: 173,
-                                              height: 86,
-                                              alignment: Alignment.center,
-                                              decoration: ShapeDecoration(
-                                                shape: RoundedRectangleBorder(
-                                                  side: const BorderSide(
-                                                      width: 2.50,
-                                                      color: Colors.white),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20),
-                                                ),
-                                              ),
-                                              child: Image.network(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.15,
-                                                provider.idEventos[index]
-                                                    .vehicle.image!,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                        ]),
-                                      )
-                                    : provider.idEventos[index].company
-                                                .company ==
-                                            "CRY"
-                                        ? Container(
-                                            width: 400,
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: ShapeDecoration(
-                                              color: Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                              ),
-                                            ),
-                                            child: Column(children: [
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceAround,
                                                 children: [
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.08,
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            10.0),
-                                                    child: Row(
-                                                      children: [
-                                                        Text(
-                                                          '${provider.idEventos[index].vehicle.licesensePlates}',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color: AppTheme.of(
-                                                                    context)
-                                                                .primaryColor,
-                                                            fontSize: 16,
-                                                            fontFamily:
-                                                                'Plus Jakarta Sans',
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                  Text(
+                                                    '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                    textAlign:
+                                                        TextAlign.center,
+                                                    style:
+                                                        const TextStyle(
+                                                      color: Color(
+                                                          0xFFD20030),
+                                                      fontSize: 16,
+                                                      fontFamily:
+                                                          'Plus Jakarta Sans',
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                     ),
                                                   ),
                                                   Container(
@@ -335,79 +160,80 @@ class CustomAgenda extends StatelessWidget {
                                                   ),
                                                 ],
                                               ),
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.15,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
-                                                      style: TextStyle(
-                                                        color:
-                                                            AppTheme.of(context)
-                                                                .primaryColor,
-                                                        fontFamily:
-                                                            'Bicyclette-Thin',
-                                                        fontSize: AppTheme.of(
-                                                                context)
-                                                            .encabezadoTablas
-                                                            .fontSize,
-                                                      ),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          'Check Out: ',
-                                                          style: TextStyle(
-                                                            color: Colors
-                                                                .blueAccent,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          DateFormat(
-                                                                  'hh:mm:ss a')
-                                                              .format(provider
-                                                                  .idEventos[
-                                                                      index]
-                                                                  .dateAddedR),
-                                                          style: TextStyle(
-                                                            color: Colors
-                                                                .blueAccent,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Spacer(),
-                                              Stack(children: [
-                                                Container(
-                                                  width: 400,
-                                                  height: 79,
-                                                  decoration: BoxDecoration(
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                                    style: TextStyle(
                                                       color:
                                                           AppTheme.of(context)
-                                                              .primaryColor),
-                                                ),
-                                                Positioned(
-                                                  top: -50,
-                                                  right: 100,
-                                                  child: Container(
-                                                    width: 173,
-                                                    height: 86,
-                                                    alignment: Alignment.center,
+                                                              .secondaryColor,
+                                                      fontFamily:
+                                                          'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(
+                                                              context)
+                                                          .encabezadoTablas
+                                                          .fontSize,
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        'Check Out: ',
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .blueAccent,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        DateFormat(
+                                                                'hh:mm:ss a')
+                                                            .format(provider
+                                                                .idEventos[
+                                                                    index]
+                                                                .dateAddedR),
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .blueAccent,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              // Spacer(),
+
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.12,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.13,
+                                                    alignment: Alignment.topCenter,
                                                     decoration: ShapeDecoration(
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          provider.idEventos[
+                                                                  index]
+                                                              .vehicle
+                                                              .image!,
+                                                        ),
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                       shape:
                                                           RoundedRectangleBorder(
                                                         side: const BorderSide(
@@ -419,238 +245,19 @@ class CustomAgenda extends StatelessWidget {
                                                                 .circular(20),
                                                       ),
                                                     ),
-                                                    child: Image.network(
-                                                      height: 150,
-                                                      provider.idEventos[index]
-                                                          .vehicle.image!,
-                                                      fit: BoxFit.cover,
-                                                    ),
+                                                    
                                                   ),
-                                                ),
-                                              ]),
+                                                  //
+                                                ],
+                                              ),
                                             ]),
-                                          )
-                                        : provider.idEventos[index].company
-                                                    .company ==
-                                                "SMI"
-                                            ? Container(
-                                                width: 400,
-                                                clipBehavior: Clip.antiAlias,
-                                                decoration: ShapeDecoration(
-                                                  color: Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
-                                                  ),
-                                                ),
-                                                child: Column(children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.08,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(10.0),
-                                                        child: Row(
-                                                          children: [
-                                                            Text(
-                                                              '${provider.idEventos[index].vehicle.licesensePlates}',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        255,
-                                                                        138,
-                                                                        0,
-                                                                        1),
-                                                                fontSize: 16,
-                                                                fontFamily:
-                                                                    'Plus Jakarta Sans',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: 97,
-                                                        height: 28,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal: 10,
-                                                                vertical: 5),
-                                                        decoration:
-                                                            ShapeDecoration(
-                                                          color: AppTheme
-                                                              .lightTheme
-                                                              .tertiaryColor
-                                                              .withOpacity(0.5),
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        100),
-                                                          ),
-                                                        ),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Opacity(
-                                                              opacity: 0.65,
-                                                              child: Text(
-                                                                '● Check Out',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: AppTheme
-                                                                      .lightTheme
-                                                                      .tertiaryColor,
-                                                                  fontSize: 12,
-                                                                  fontFamily:
-                                                                      'Poppins',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.15,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
-                                                          style: TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    255,
-                                                                    138,
-                                                                    0,
-                                                                    1),
-                                                            fontFamily:
-                                                                'Bicyclette-Thin',
-                                                            fontSize: AppTheme
-                                                                    .of(context)
-                                                                .encabezadoTablas
-                                                                .fontSize,
-                                                          ),
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                              'Check Out: ',
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .blueAccent,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              DateFormat(
-                                                                      'hh:mm:ss a')
-                                                                  .format(provider
-                                                                      .idEventos[
-                                                                          index]
-                                                                      .dateAddedR),
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .blueAccent,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Spacer(),
-                                                  Stack(children: [
-                                                    Container(
-                                                      width: 400,
-                                                      height: 79,
-                                                      decoration: BoxDecoration(
-                                                          color: Color.fromRGBO(
-                                                              255, 138, 0, 1)),
-                                                    ),
-                                                    Positioned(
-                                                      top: -50,
-                                                      right: 100,
-                                                      child: Container(
-                                                        width: 173,
-                                                        height: 86,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        decoration:
-                                                            ShapeDecoration(
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            side:
-                                                                const BorderSide(
-                                                                    width: 2.50,
-                                                                    color: Colors
-                                                                        .white),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20),
-                                                          ),
-                                                        ),
-                                                        child: Image.network(
-                                                          height: 150,
-                                                          provider
-                                                              .idEventos[index]
-                                                              .vehicle
-                                                              .image!,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ]),
-                                                ]),
-                                              )
-                                            : Container()
-                                :
-                                //Cuando tiene Fecha de Check In
-                                provider.idEventos[index].company.company ==
-                                        "ODE"
-                                    ? Container(
+                                          ],
+                                        ),
+                                      )
+                                    : provider.idEventos[index].company
+                                                .company ==
+                                            "CRY"
+                                        ? Container(
                                         width: 400,
                                         clipBehavior: Clip.antiAlias,
                                         decoration: ShapeDecoration(
@@ -660,236 +267,42 @@ class CustomAgenda extends StatelessWidget {
                                                 BorderRadius.circular(30),
                                           ),
                                         ),
-                                        child: Column(children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.08,
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: Row(
-                                                  children: [
-                                                    Text(
-                                                      '${provider.idEventos[index].vehicle.licesensePlates}',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: const TextStyle(
-                                                        color:
-                                                            Color(0xFFD20030),
-                                                        fontSize: 16,
-                                                        fontFamily:
-                                                            'Plus Jakarta Sans',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 97,
-                                                height: 28,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 5),
-                                                decoration: ShapeDecoration(
-                                                  color: Color.fromRGBO(
-                                                      195, 155, 211, 1),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100),
-                                                  ),
-                                                ),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Opacity(
-                                                      opacity: 0.65,
-                                                      child: Text(
-                                                        '● Check In',
-                                                        style: TextStyle(
-                                                          color: Color.fromRGBO(
-                                                              245, 6, 213, 1),
-                                                          fontSize: 12,
-                                                          fontFamily: 'Poppins',
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.15,
-                                            child: Column(
+                                        child: Stack(
+                                          children: [
+                                            Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                  MainAxisAlignment.end,
                                               children: [
-                                                Text(
-                                                  '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
-                                                  style: TextStyle(
-                                                    color: AppTheme.of(context)
-                                                        .secondaryColor,
-                                                    fontFamily:
-                                                        'Bicyclette-Thin',
-                                                    fontSize:
-                                                        AppTheme.of(context)
-                                                            .encabezadoTablas
-                                                            .fontSize,
-                                                  ),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      'Check Out: ',
-                                                      style: TextStyle(
-                                                        color:
-                                                            Colors.blueAccent,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      DateFormat('hh:mm:ss a')
-                                                          .format(provider
-                                                              .idEventos[index]
-                                                              .dateAddedR),
-                                                      style: TextStyle(
-                                                        color:
-                                                            Colors.blueAccent,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      'Check In: ',
-                                                      style: TextStyle(
-                                                        color:
-                                                            Colors.blueAccent,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      DateFormat('hh:mm:ss a')
-                                                          .format(provider
-                                                              .idEventos[index]
-                                                              .dateAddedD!),
-                                                      style: TextStyle(
-                                                        color:
-                                                            Colors.blueAccent,
-                                                      ),
-                                                    ),
-                                                  ],
+                                                Container(
+                                                  width: 400,
+                                                  height: 79,
+                                                  decoration: BoxDecoration(
+                                                      color: Color(0xFFD20030)),
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                          // Spacer(),
-                                          Stack(children: [
-                                            Container(
-                                              width: 400,
-                                              height: 79,
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xFFD20030)),
-                                            ),
-                                            Positioned(
-                                              top: -50,
-                                              right: 100,
-                                              child: Container(
-                                                width: 173,
-                                                height: 86,
-                                                alignment: Alignment.center,
-                                                decoration: ShapeDecoration(
-                                                  shape: RoundedRectangleBorder(
-                                                    side: const BorderSide(
-                                                        width: 2.50,
-                                                        color: Colors.white),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  ),
-                                                ),
-                                                child: Image.network(
-                                                  height: 150,
-                                                  provider.idEventos[index]
-                                                      .vehicle.image!,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                          ]),
-                                        ]),
-                                      )
-                                    : provider.idEventos[index].company
-                                                .company ==
-                                            "CRY"
-                                        ? Container(
-                                            width: 400,
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: ShapeDecoration(
-                                              color: Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                              ),
-                                            ),
-                                            child: Column(children: [
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceAround,
                                                 children: [
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.08,
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            10.0),
-                                                    child: Row(
-                                                      children: [
-                                                        Text(
-                                                          '${provider.idEventos[index].vehicle.licesensePlates}',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color: AppTheme.of(
-                                                                    context)
-                                                                .primaryColor,
-                                                            fontSize: 16,
-                                                            fontFamily:
-                                                                'Plus Jakarta Sans',
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                  Text(
+                                                    '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                    textAlign:
+                                                        TextAlign.center,
+                                                    style:
+                                                         TextStyle(
+                                                      color: AppTheme.of(
+                                                                        context)
+                                                                    .primaryColor,
+                                                      fontSize: 16,
+                                                      fontFamily:
+                                                          'Plus Jakarta Sans',
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                     ),
                                                   ),
                                                   Container(
@@ -900,8 +313,10 @@ class CustomAgenda extends StatelessWidget {
                                                         horizontal: 10,
                                                         vertical: 5),
                                                     decoration: ShapeDecoration(
-                                                      color: Color.fromRGBO(
-                                                          195, 155, 211, 1),
+                                                      color: AppTheme.lightTheme
+                                                          .tertiaryColor
+                                                          .withOpacity(0.5)
+                                                          ,
                                                       shape:
                                                           RoundedRectangleBorder(
                                                         borderRadius:
@@ -922,14 +337,11 @@ class CustomAgenda extends StatelessWidget {
                                                         Opacity(
                                                           opacity: 0.65,
                                                           child: Text(
-                                                            '● Check In',
+                                                            '● Check Out',
                                                             style: TextStyle(
-                                                              color: Color
-                                                                  .fromRGBO(
-                                                                      245,
-                                                                      6,
-                                                                      213,
-                                                                      1),
+                                                              color: AppTheme
+                                                                  .lightTheme
+                                                                  .tertiaryColor,
                                                               fontSize: 12,
                                                               fontFamily:
                                                                   'Poppins',
@@ -944,59 +356,459 @@ class CustomAgenda extends StatelessWidget {
                                                   ),
                                                 ],
                                               ),
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.15,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
-                                                      style: TextStyle(
-                                                        color:
-                                                            AppTheme.of(context)
-                                                                .primaryColor,
-                                                        fontFamily:
-                                                            'Bicyclette-Thin',
-                                                        fontSize: AppTheme.of(
-                                                                context)
-                                                            .encabezadoTablas
-                                                            .fontSize,
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                                    style: TextStyle(
+                                                      color:
+                                                          AppTheme.of(
+                                                                        context)
+                                                                    .primaryColor,
+                                                      fontFamily:
+                                                          'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(
+                                                              context)
+                                                          .encabezadoTablas
+                                                          .fontSize,
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        'Check Out: ',
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .blueAccent,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        DateFormat(
+                                                                'hh:mm:ss a')
+                                                            .format(provider
+                                                                .idEventos[
+                                                                    index]
+                                                                .dateAddedR),
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .blueAccent,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              // Spacer(),
+
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.12,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.13,
+                                                    alignment: Alignment.topCenter,
+                                                    decoration: ShapeDecoration(
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          provider.idEventos[
+                                                                  index]
+                                                              .vehicle
+                                                              .image!,
+                                                        ),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        side: const BorderSide(
+                                                            width: 2.50,
+                                                            color:
+                                                                Colors.white),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
                                                       ),
                                                     ),
-                                                    Row(
+                                                    
+                                                  ),
+                                                  //
+                                                ],
+                                              ),
+                                            ]),
+                                          ],
+                                        ),
+                                      ) 
+                                        : provider.idEventos[index].company
+                                                    .company ==
+                                                "SMI"
+                                            ?Container(
+                                        width: 400,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: ShapeDecoration(
+                                          color: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                          ),
+                                        ),
+                                        child: Stack(
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Container(
+                                                  width: 400,
+                                                  height: 79,
+                                                  decoration: BoxDecoration(
+                                                      color: Color
+                                                                        .fromRGBO(
+                                                                            255,
+                                                                            138,
+                                                                            0,
+                                                                            1)),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  Text(
+                                                    '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                    textAlign:
+                                                        TextAlign.center,
+                                                    style:
+                                                         TextStyle(
+                                                      color: Color
+                                                                        .fromRGBO(
+                                                                            255,
+                                                                            138,
+                                                                            0,
+                                                                            1),
+                                                      fontSize: 16,
+                                                      fontFamily:
+                                                          'Plus Jakarta Sans',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 97,
+                                                    height: 28,
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 5),
+                                                    decoration: ShapeDecoration(
+                                                      color: AppTheme
+                                                                  .lightTheme
+                                                                  .tertiaryColor
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(100),
+                                                      ),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
                                                       children: [
-                                                        Text(
-                                                          'Check Out: ',
-                                                          style: TextStyle(
-                                                            color: Colors
-                                                                .blueAccent,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          DateFormat(
-                                                                  'hh:mm:ss a')
-                                                              .format(provider
-                                                                  .idEventos[
-                                                                      index]
-                                                                  .dateAddedR),
-                                                          style: TextStyle(
-                                                            color: Colors
-                                                                .blueAccent,
+                                                        Opacity(
+                                                          opacity: 0.65,
+                                                          child: Text(
+                                                            '● Check Out',
+                                                            style: TextStyle(
+                                                              color: AppTheme
+                                                                  .lightTheme
+                                                                  .tertiaryColor,
+                                                              fontSize: 12,
+                                                              fontFamily:
+                                                                  'Poppins',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
                                                           ),
                                                         ),
                                                       ],
                                                     ),
-                                                    Row(
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                                    style: TextStyle(
+                                                      color:
+                                                          Color
+                                                                        .fromRGBO(
+                                                                            255,
+                                                                            138,
+                                                                            0,
+                                                                            1),
+                                                      fontFamily:
+                                                          'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(
+                                                              context)
+                                                          .encabezadoTablas
+                                                          .fontSize,
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        'Check Out: ',
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .blueAccent,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        DateFormat(
+                                                                'hh:mm:ss a')
+                                                            .format(provider
+                                                                .idEventos[
+                                                                    index]
+                                                                .dateAddedR),
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .blueAccent,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              // Spacer(),
+
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.12,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.13,
+                                                    alignment: Alignment.topCenter,
+                                                    decoration: ShapeDecoration(
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          provider.idEventos[
+                                                                  index]
+                                                              .vehicle
+                                                              .image!,
+                                                        ),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        side: const BorderSide(
+                                                            width: 2.50,
+                                                            color:
+                                                                Colors.white),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                      ),
+                                                    ),
+                                                    
+                                                  ),
+                                                  //
+                                                ],
+                                              ),
+                                            ]),
+                                          ],
+                                        ),
+                                      ) 
+                                            : Container()
+                                :
+                                //Cuando tiene Fecha de Check In
+                                provider.idEventos[index].company.company ==
+                                        "ODE"
+                                    ?Container(
+                                        width: 400,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: ShapeDecoration(
+                                          color: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                          ),
+                                        ),
+                                        child: Stack(
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Container(
+                                                  width: 400,
+                                                  height: 79,
+                                                  decoration: BoxDecoration(
+                                                      color: Color(0xFFD20030)),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  Text(
+                                                    '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                    textAlign:
+                                                        TextAlign.center,
+                                                    style:
+                                                        const TextStyle(
+                                                      color: Color(
+                                                          0xFFD20030),
+                                                      fontSize: 16,
+                                                      fontFamily:
+                                                          'Plus Jakarta Sans',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 97,
+                                                    height: 28,
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 5),
+                                                    decoration: ShapeDecoration(
+                                                      color: Color.fromRGBO(
+                                                               195, 155, 211, 1),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(100),
+                                                      ),
+                                                    ),
+                                                    child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Opacity(
+                                                        opacity: 0.65,
+                                                        child: Text(
+                                                          '● Check In',
+                                                          style: TextStyle(
+                                                            color: Color
+                                                                .fromRGBO(
+                                                                    245,
+                                                                    6,
+                                                                    213,
+                                                                    1),
+                                                            fontSize: 12,
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                                    style: TextStyle(
+                                                      color:
+                                                          AppTheme.of(context)
+                                                              .secondaryColor,
+                                                      fontFamily:
+                                                          'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(
+                                                              context)
+                                                          .encabezadoTablas
+                                                          .fontSize,
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        'Check Out: ',
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .blueAccent,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        DateFormat(
+                                                                'hh:mm:ss a')
+                                                            .format(provider
+                                                                .idEventos[
+                                                                    index]
+                                                                .dateAddedR),
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .blueAccent,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .center,
@@ -1022,27 +834,36 @@ class CustomAgenda extends StatelessWidget {
                                                         ),
                                                       ],
                                                     ),
-                                                  ],
-                                                ),
+                                                ],
                                               ),
-                                              Spacer(),
-                                              Stack(children: [
-                                                Container(
-                                                  width: 400,
-                                                  height: 79,
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          AppTheme.of(context)
-                                                              .primaryColor),
-                                                ),
-                                                Positioned(
-                                                  top: -50,
-                                                  right: 100,
-                                                  child: Container(
-                                                    width: 173,
-                                                    height: 86,
-                                                    alignment: Alignment.center,
+                                              // Spacer(),
+
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.12,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.13,
+                                                    alignment: Alignment.topCenter,
                                                     decoration: ShapeDecoration(
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          provider.idEventos[
+                                                                  index]
+                                                              .vehicle
+                                                              .image!,
+                                                        ),
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                       shape:
                                                           RoundedRectangleBorder(
                                                         side: const BorderSide(
@@ -1054,72 +875,67 @@ class CustomAgenda extends StatelessWidget {
                                                                 .circular(20),
                                                       ),
                                                     ),
-                                                    child: Image.network(
-                                                      height: 150,
-                                                      provider.idEventos[index]
-                                                          .vehicle.image!,
-                                                      fit: BoxFit.cover,
+                                                    
+                                                  ),
+                                                  //
+                                                ],
+                                              ),
+                                            ]),
+                                          ],
+                                        ),
+                                      ) 
+                                    // 
+                                    : provider.idEventos[index].company
+                                                .company ==
+                                            "CRY"
+                                        ? Container(
+                                        width: 400,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: ShapeDecoration(
+                                          color: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                          ),
+                                        ),
+                                        child: Stack(
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Container(
+                                                  width: 400,
+                                                  height: 79,
+                                                  decoration: BoxDecoration(
+                                                      color: Color(0xFFD20030)),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  Text(
+                                                    '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                    textAlign:
+                                                        TextAlign.center,
+                                                    style:
+                                                         TextStyle(
+                                                      color: Color.fromRGBO(
+                                                               195, 155, 211, 1),
+                                                      fontSize: 16,
+                                                      fontFamily:
+                                                          'Plus Jakarta Sans',
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                     ),
                                                   ),
-                                                ),
-                                              ]),
-                                            ]),
-                                          )
-                                        : provider.idEventos[index].company
-                                                    .company ==
-                                                "SMI"
-                                            ? Container(
-                                                width: 400,
-                                                clipBehavior: Clip.antiAlias,
-                                                decoration: ShapeDecoration(
-                                                  color: Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
-                                                  ),
-                                                ),
-                                                child: Column(children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.08,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(10.0),
-                                                        child: Row(
-                                                          children: [
-                                                            Text(
-                                                              '${provider.idEventos[index].vehicle.licesensePlates}',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        255,
-                                                                        138,
-                                                                        0,
-                                                                        1),
-                                                                fontSize: 16,
-                                                                fontFamily:
-                                                                    'Plus Jakarta Sans',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
+                                                  Container(
                                                         width: 97,
                                                         height: 28,
                                                         padding:
@@ -1173,67 +989,54 @@ class CustomAgenda extends StatelessWidget {
                                                           ],
                                                         ),
                                                       ),
+                                                ],
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                                    style: TextStyle(
+                                                      color:
+                                                          AppTheme.of(
+                                                                        context)
+                                                                    .primaryColor,
+                                                      fontFamily:
+                                                          'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(
+                                                              context)
+                                                          .encabezadoTablas
+                                                          .fontSize,
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        'Check Out: ',
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .blueAccent,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        DateFormat(
+                                                                'hh:mm:ss a')
+                                                            .format(provider
+                                                                .idEventos[
+                                                                    index]
+                                                                .dateAddedR),
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .blueAccent,
+                                                        ),
+                                                      ),
                                                     ],
                                                   ),
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.15,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
-                                                          style: TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    255,
-                                                                    138,
-                                                                    0,
-                                                                    1),
-                                                            fontFamily:
-                                                                'Bicyclette-Thin',
-                                                            fontSize: AppTheme
-                                                                    .of(context)
-                                                                .encabezadoTablas
-                                                                .fontSize,
-                                                          ),
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                              'Check Out: ',
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .blueAccent,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              DateFormat(
-                                                                      'hh:mm:ss a')
-                                                                  .format(provider
-                                                                      .idEventos[
-                                                                          index]
-                                                                      .dateAddedR),
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .blueAccent,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Row(
+                                                  Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .center,
@@ -1259,142 +1062,298 @@ class CustomAgenda extends StatelessWidget {
                                                             ),
                                                           ],
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Spacer(),
-                                                  Stack(children: [
-                                                    Container(
-                                                      width: 400,
-                                                      height: 79,
-                                                      decoration: BoxDecoration(
-                                                          color: Color.fromRGBO(
-                                                              255, 138, 0, 1)),
-                                                    ),
-                                                    Positioned(
-                                                      top: -50,
-                                                      right: 100,
-                                                      child: Container(
-                                                        width: 173,
-                                                        height: 86,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        decoration:
-                                                            ShapeDecoration(
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            side:
-                                                                const BorderSide(
-                                                                    width: 2.50,
-                                                                    color: Colors
-                                                                        .white),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20),
-                                                          ),
-                                                        ),
-                                                        child: Image.network(
-                                                          height: 150,
-                                                          provider
-                                                              .idEventos[index]
+                                                ],
+                                              ),
+                                              // Spacer(),
+
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.12,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.13,
+                                                    alignment: Alignment.topCenter,
+                                                    decoration: ShapeDecoration(
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          provider.idEventos[
+                                                                  index]
                                                               .vehicle
                                                               .image!,
-                                                          fit: BoxFit.cover,
                                                         ),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        side: const BorderSide(
+                                                            width: 2.50,
+                                                            color:
+                                                                Colors.white),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
                                                       ),
                                                     ),
-                                                  ]),
-                                                ]),
-                                              )
-                                            // Container(
-                                            //     width: 400,
-                                            //     decoration: BoxDecoration(
-                                            //       color: Color.fromRGBO(
-                                            //           255, 138, 0, 1),
-                                            //       borderRadius:
-                                            //           BorderRadius.circular(
-                                            //               8.0),
-                                            //       border: Border.all(
-                                            //         color: Color.fromRGBO(
-                                            //             245, 6, 213, 1),
-                                            //         width: 5,
-                                            //       ),
-                                            //     ),
-                                            //     padding: EdgeInsets.all(10),
-                                            //     child: Column(
-                                            //       mainAxisAlignment:
-                                            //           MainAxisAlignment.center,
-                                            //       children: [
-                                            //         Text(
-                                            //           '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
-                                            //           style: TextStyle(
-                                            //             color: color,
-                                            //           ),
-                                            //         ),
-                                            //         Text(
-                                            //           '${provider.idEventos[index].vehicle.licesensePlates}',
-                                            //           style: TextStyle(
-                                            //             color: color,
-                                            //           ),
-                                            //         ),
-                                            //         Row(
-                                            //           mainAxisAlignment:
-                                            //               MainAxisAlignment
-                                            //                   .center,
-                                            //           children: [
-                                            //             Text(
-                                            //               'Check Out: ',
-                                            //               style: TextStyle(
-                                            //                 color: Colors.black,
-                                            //               ),
-                                            //             ),
-                                            //             Text(
-                                            //               DateFormat(
-                                            //                       'hh:mm:ss a')
-                                            //                   .format(provider
-                                            //                       .idEventos[
-                                            //                           index]
-                                            //                       .dateAddedR),
-                                            //               style: TextStyle(
-                                            //                 color: color,
-                                            //               ),
-                                            //             ),
-                                            //           ],
-                                            //         ),
-                                            //         Row(
-                                            //           mainAxisAlignment:
-                                            //               MainAxisAlignment
-                                            //                   .center,
-                                            //           children: [
-                                            //             Text(
-                                            //               'Check In: ',
-                                            //               style: TextStyle(
-                                            //                 color: Colors.black,
-                                            //               ),
-                                            //             ),
-                                            //             Text(
-                                            //               DateFormat(
-                                            //                       'hh:mm:ss a')
-                                            //                   .format(checkIn),
-                                            //               style: TextStyle(
-                                            //                 color: color,
-                                            //               ),
-                                            //             ),
-                                            //           ],
-                                            //         ),
-                                            //         Image.network(
-                                            //           height:
-                                            //               MediaQuery.of(context)
-                                            //                       .size
-                                            //                       .height *
-                                            //                   0.03,
-                                            //           provider.idEventos[index]
-                                            //               .vehicle.image!,
-                                            //           fit: BoxFit.cover,
-                                            //         ),
-                                            //       ],
-                                            //     ))
+                                                    
+                                                  ),
+                                                  //
+                                                ],
+                                              ),
+                                            ]),
+                                          ],
+                                        ),
+                                      ) 
+                                        
+                                        : provider.idEventos[index].company
+                                                    .company ==
+                                                "SMI"
+                                            ? Container(
+                                        width: 400,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: ShapeDecoration(
+                                          color: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                          ),
+                                        ),
+                                        child: Stack(
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Container(
+                                                  width: 400,
+                                                  height: 79,
+                                                  decoration: BoxDecoration(
+                                                      color: Color
+                                                                        .fromRGBO(
+                                                                            255,
+                                                                            138,
+                                                                            0,
+                                                                            1)),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  Text(
+                                                    '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                    textAlign:
+                                                        TextAlign.center,
+                                                    style:
+                                                         TextStyle(
+                                                      color: Color
+                                                                        .fromRGBO(
+                                                                            255,
+                                                                            138,
+                                                                            0,
+                                                                            1),
+                                                      fontSize: 16,
+                                                      fontFamily:
+                                                          'Plus Jakarta Sans',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 97,
+                                                    height: 28,
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 5),
+                                                    decoration: ShapeDecoration(
+                                                      color: Color.fromRGBO(
+                                                              195, 155, 211, 1),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(100),
+                                                      ),
+                                                    ),
+                                                    child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Opacity(
+                                                                  opacity: 0.65,
+                                                                  child: Text(
+                                                                    '● Check In',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Color
+                                                                          .fromRGBO(
+                                                                              245,
+                                                                              6,
+                                                                              213,
+                                                                              1),
+                                                                      fontSize:
+                                                                          12,
+                                                                      fontFamily:
+                                                                          'Poppins',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                                    style: TextStyle(
+                                                      color:
+                                                          Color
+                                                                        .fromRGBO(
+                                                                            255,
+                                                                            138,
+                                                                            0,
+                                                                            1),
+                                                      fontFamily:
+                                                          'Bicyclette-Thin',
+                                                      fontSize: AppTheme.of(
+                                                              context)
+                                                          .encabezadoTablas
+                                                          .fontSize,
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        'Check Out: ',
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .blueAccent,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        DateFormat(
+                                                                'hh:mm:ss a')
+                                                            .format(provider
+                                                                .idEventos[
+                                                                    index]
+                                                                .dateAddedR),
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .blueAccent,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Text(
+                                                                  'Check In: ',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .blueAccent,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  DateFormat(
+                                                                          'hh:mm:ss a')
+                                                                      .format(provider
+                                                                          .idEventos[
+                                                                              index]
+                                                                          .dateAddedD!),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .blueAccent,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                ],
+                                              ),
+                                              // Spacer(),
+
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.12,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.13,
+                                                    alignment: Alignment.topCenter,
+                                                    decoration: ShapeDecoration(
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          provider.idEventos[
+                                                                  index]
+                                                              .vehicle
+                                                              .image!,
+                                                        ),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        side: const BorderSide(
+                                                            width: 2.50,
+                                                            color:
+                                                                Colors.white),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                      ),
+                                                    ),
+                                                    
+                                                  ),
+                                                  //
+                                                ],
+                                              ),
+                                            ]),
+                                          ],
+                                        ),
+                                      ) 
+                                            
                                             : Container(),
                           );
                         }),

@@ -109,6 +109,7 @@ class MonitoryProvider extends ChangeNotifier {
   //IssuesCommentsActual
   List<IssuesComments> actualIssuesComments = [];
   IssuesComments? actualDetailField;
+  late int popUpExtra;
 
   //List<RolApi> rolesSeleccionados = [];
   List<String> areaNames = [];
@@ -750,6 +751,11 @@ class MonitoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updatePopUpExtra(int value) {
+    popUpExtra = value;
+    notifyListeners();
+  }
+
   Future<bool> getIssues(Monitory monitory) async {
     // Limpiar listas
     issue = null;
@@ -1371,9 +1377,10 @@ class MonitoryProvider extends ChangeNotifier {
             String nameIssue = key;
             String? comments = issue!.lightsR.toMap()["${nameIssue}_comments"];
             List<String> listImage = issue!.lightsR
-                .toMap()["${nameIssue}_image"]
+                .toMap()["${nameIssue}_image"] 
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.lightsR.toMap()["date_added"]);

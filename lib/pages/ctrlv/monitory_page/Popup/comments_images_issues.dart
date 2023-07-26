@@ -45,7 +45,8 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
                   padding: const EdgeInsets.all(20),
                   child: ElevatedButton(
                      onPressed: () {
-                          provider.updateViewPopup(0);
+                      provider.updatePopUpExtra(provider.viewPopup);
+                          //provider.updateViewPopup(provider.popUpExtra);
                         },
                         child: Icon(
                                 Icons.arrow_back
