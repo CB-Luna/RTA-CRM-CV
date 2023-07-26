@@ -19,6 +19,8 @@ import '../../../theme/theme.dart';
 import '../../../widgets/custom_card.dart';
 import '../../../widgets/custom_icon_button.dart';
 import '../../../widgets/custom_text_icon_button.dart';
+import '../../../widgets/pluto_grid_cells/pluto_grid_company_cell.dart';
+import '../../../widgets/pluto_grid_cells/pluto_grid_status_cellCV.dart';
 import 'actions/add_services_pop_up.dart';
 
 import 'pop_up/verify_to_eliminate_pop_up.dart';
@@ -175,12 +177,12 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                     const WidgetSpan(
                                         child: SizedBox(width: 10)),
                                     TextSpan(
-                                        text: 'License Plates',
+                                        text: 'L. Plates',
                                         style: AppTheme.of(context)
                                             .encabezadoTablas)
                                   ]),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.12,
+                                      MediaQuery.of(context).size.width * 0.10,
                                   cellPadding: EdgeInsets.zero,
                                   titleTextAlign: PlutoColumnTextAlign.center,
                                   textAlign: PlutoColumnTextAlign.center,
@@ -260,7 +262,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             .encabezadoTablas)
                                   ]),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.12,
+                                      MediaQuery.of(context).size.width * 0.13,
                                   cellPadding: EdgeInsets.zero,
                                   titleTextAlign: PlutoColumnTextAlign.center,
                                   textAlign: PlutoColumnTextAlign.center,
@@ -344,6 +346,35 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                       ),
                                     );
                                     //PlutoPagination(context.stateManager);
+                                  },
+                                ),
+                                PlutoColumn(
+                                  title: 'Status',
+                                  field: 'status',
+                                  backgroundColor: const Color(0XFF6491F7),
+                                  titleSpan: TextSpan(children: [
+                                    WidgetSpan(
+                                        child: Icon(Icons.car_repair_outlined,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground)),
+                                    const WidgetSpan(
+                                        child: SizedBox(width: 10)),
+                                    TextSpan(
+                                        text: 'Status',
+                                        style: AppTheme.of(context)
+                                            .encabezadoTablas)
+                                  ]),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.11,
+                                  cellPadding: EdgeInsets.zero,
+                                  titleTextAlign: PlutoColumnTextAlign.center,
+                                  textAlign: PlutoColumnTextAlign.center,
+                                  type: PlutoColumnType.text(),
+                                  enableEditingMode: false,
+                                  renderer: (rendererContext) {
+                                    return PlutoGridStatusCellCV(
+                                      text: rendererContext.cell.value,
+                                    );
                                   },
                                 ),
                                 PlutoColumn(
@@ -435,50 +466,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                   },
                                 ),
                                 PlutoColumn(
-                                  title: 'Status',
-                                  field: 'status',
-                                  backgroundColor: const Color(0XFF6491F7),
-                                  titleSpan: TextSpan(children: [
-                                    WidgetSpan(
-                                        child: Icon(Icons.car_repair_outlined,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground)),
-                                    const WidgetSpan(
-                                        child: SizedBox(width: 10)),
-                                    TextSpan(
-                                        text: 'Status',
-                                        style: AppTheme.of(context)
-                                            .encabezadoTablas)
-                                  ]),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.11,
-                                  cellPadding: EdgeInsets.zero,
-                                  titleTextAlign: PlutoColumnTextAlign.center,
-                                  textAlign: PlutoColumnTextAlign.center,
-                                  type: PlutoColumnType.text(),
-                                  enableEditingMode: false,
-                                  renderer: (rendererContext) {
-                                    return Container(
-                                      height: rowHeight,
-                                      // width: rendererContext
-                                      //.cell.column.width,.cell.column.width,
-                                      decoration: BoxDecoration(
-                                          gradient: whiteGradient),
-                                      child: Center(
-                                          child: Text(
-                                        rendererContext.cell.value,
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false,
-                                                color: AppTheme.of(context)
-                                                    .primaryColor),
-                                      )),
-                                    );
-                                  },
-                                ),
-                                PlutoColumn(
                                   title: 'Company',
                                   field: 'company',
                                   backgroundColor: const Color(0XFF6491F7),
@@ -502,23 +489,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                   type: PlutoColumnType.text(),
                                   enableEditingMode: false,
                                   renderer: (rendererContext) {
-                                    return Container(
-                                      height: rowHeight,
-                                      // width: rendererContext
-                                      //.cell.column.width,                                                    .cell.column.width,
-                                      decoration: BoxDecoration(
-                                          gradient: whiteGradient),
-                                      child: Center(
-                                          child: Text(
-                                        rendererContext.cell.value,
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false,
-                                                color: AppTheme.of(context)
-                                                    .primaryColor),
-                                      )),
+                                    return PlutoGridCompanyCellCV(
+                                      text: rendererContext.cell.value,
                                     );
                                   },
                                 ),
