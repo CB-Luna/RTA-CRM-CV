@@ -19,7 +19,8 @@ class MeasuresPopUp extends StatelessWidget {
         width: 700,
         height: 650,
         decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
-        child: Column(
+        child: 
+        Column(
           children: [
             const CardHeader(text: "Measures"),
             Row(
@@ -83,7 +84,7 @@ class MeasuresPopUp extends StatelessWidget {
                   
                   InkWell(
                     child: Icon(
-                      Icons.check_circle_outline_outlined,
+                      Icons.remove_red_eye,
                       color: Color.fromARGB(200, 65, 155, 23),
                       size: 60,
                     ),

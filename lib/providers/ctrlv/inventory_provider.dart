@@ -921,17 +921,8 @@ class InventoryProvider extends ChangeNotifier {
     sheet?.merge(CellIndex.indexByString("O3"), CellIndex.indexByString("O4"));
     sheet?.merge(CellIndex.indexByString("P3"), CellIndex.indexByString("P4"));
     //Headers para secciones
-    sheet?.merge(CellIndex.indexByString("Q3"), CellIndex.indexByString("R3"));
-    sheet?.merge(CellIndex.indexByString("S3"), CellIndex.indexByString("T3"));
-    sheet?.merge(CellIndex.indexByString("U3"), CellIndex.indexByString("V3"));
-    sheet?.merge(CellIndex.indexByString("W3"), CellIndex.indexByString("X3"));
-    sheet?.merge(CellIndex.indexByString("Y3"), CellIndex.indexByString("Z3"));
-    sheet?.merge(
-        CellIndex.indexByString("AA3"), CellIndex.indexByString("AB3"));
-    sheet?.merge(
-        CellIndex.indexByString("AC3"), CellIndex.indexByString("AD3"));
-    sheet?.merge(
-        CellIndex.indexByString("AE3"), CellIndex.indexByString("AF3"));
+    sheet?.merge(CellIndex.indexByString("Q3"), CellIndex.indexByString("X3"));
+    sheet?.merge(CellIndex.indexByString("Y3"), CellIndex.indexByString("AF3"));
 
     sheet?.setColWidth(4, 25);
     sheet?.setColWidth(5, 30);
@@ -1043,93 +1034,69 @@ class InventoryProvider extends ChangeNotifier {
     cell16.value = "Issues Check In";
     cell16.cellStyle = cellStyle;
 
-    //Seccion Measures
+    //Seccion Titulos
     var cell17 = sheet.cell(CellIndex.indexByString("Q3"));
-    cell17.value = "Measures";
+    cell17.value = "Check Out";
     cell17.cellStyle = cellStyle;
-    var cell18 = sheet.cell(CellIndex.indexByString("Q4"));
-    cell18.value = "Check Out";
-    cell18.cellStyle = cellStyle;
-    var cell19 = sheet.cell(CellIndex.indexByString("R4"));
+
+    var cell19 = sheet.cell(CellIndex.indexByString("Y3"));
     cell19.value = "Check In";
     cell19.cellStyle = cellStyle;
 
-    //Seccion Lights
-    var cell20 = sheet.cell(CellIndex.indexByString("S3"));
-    cell20.value = "Lights";
+    //Secciones Check Out
+    var cell20 = sheet.cell(CellIndex.indexByString("Q4"));
+    cell20.value = "Measures";
     cell20.cellStyle = cellStyle;
-    var cell21 = sheet.cell(CellIndex.indexByString("S4"));
-    cell21.value = "Check Out";
+    var cell21 = sheet.cell(CellIndex.indexByString("R4"));
+    cell21.value = "Lights";
     cell21.cellStyle = cellStyle;
-    var cell22 = sheet.cell(CellIndex.indexByString("T4"));
-    cell22.value = "Check In";
+    var cell22 = sheet.cell(CellIndex.indexByString("S4"));
+    cell22.value = "Car Bodywork";
     cell22.cellStyle = cellStyle;
-
-    //Seccion Car Bodywork
-    var cell23 = sheet.cell(CellIndex.indexByString("U3"));
-    cell23.value = "Car Bodywork";
+    var cell23 = sheet.cell(CellIndex.indexByString("T4"));
+    cell23.value = "Fluid Check";
     cell23.cellStyle = cellStyle;
     var cell24 = sheet.cell(CellIndex.indexByString("U4"));
-    cell24.value = "Check Out";
+    cell24.value = "Bucket Inspection";
     cell24.cellStyle = cellStyle;
     var cell25 = sheet.cell(CellIndex.indexByString("V4"));
-    cell25.value = "Check In";
+    cell25.value = "Security";
     cell25.cellStyle = cellStyle;
-
-    //Seccion Fluid Check
-    var cell26 = sheet.cell(CellIndex.indexByString("W3"));
-    cell26.value = "Fluid Check";
+    var cell26 = sheet.cell(CellIndex.indexByString("W4"));
+    cell26.value = "Extra";
     cell26.cellStyle = cellStyle;
-    var cell27 = sheet.cell(CellIndex.indexByString("W4"));
-    cell27.value = "Check Out";
+    var cell27 = sheet.cell(CellIndex.indexByString("x4"));
+    cell27.value = "Equipment";
+
+
+
+    //Secciones Check In
     cell27.cellStyle = cellStyle;
-    var cell28 = sheet.cell(CellIndex.indexByString("X4"));
-    cell28.value = "Check In";
+    var cell28 = sheet.cell(CellIndex.indexByString("Y4"));
+    cell28.value = "Measures";
     cell28.cellStyle = cellStyle;
-
-    //Seccion Bucket Inspection
-    var cell29 = sheet.cell(CellIndex.indexByString("Y3"));
-    cell29.value = "Bucket Inspection";
+    var cell29 = sheet.cell(CellIndex.indexByString("Z4"));
+    cell29.value = "Lights";
     cell29.cellStyle = cellStyle;
-    var cell30 = sheet.cell(CellIndex.indexByString("Y4"));
-    cell30.value = "Check Out";
+    var cell30 = sheet.cell(CellIndex.indexByString("AA4"));
+    cell30.value = "Car Bodywork";
     cell30.cellStyle = cellStyle;
-    var cell31 = sheet.cell(CellIndex.indexByString("Z4"));
-    cell31.value = "Check In";
+    var cell31 = sheet.cell(CellIndex.indexByString("AB4"));
+    cell31.value = "Fluid Check";
     cell31.cellStyle = cellStyle;
-
-    //Seccion Security
-    var cell32 = sheet.cell(CellIndex.indexByString("AA3"));
-    cell32.value = "Security";
+    var cell32 = sheet.cell(CellIndex.indexByString("AC4"));
+    cell32.value = "Bucket Inspection";
     cell32.cellStyle = cellStyle;
-    var cell33 = sheet.cell(CellIndex.indexByString("AA4"));
-    cell33.value = "Check Out";
+    var cell33 = sheet.cell(CellIndex.indexByString("AD4"));
+    cell33.value = "Security";
     cell33.cellStyle = cellStyle;
-    var cell34 = sheet.cell(CellIndex.indexByString("AB4"));
-    cell34.value = "Check In";
+    var cell34 = sheet.cell(CellIndex.indexByString("AE4"));
+    cell34.value = "Extra";
     cell34.cellStyle = cellStyle;
-
-    //Seccion Extra
-    var cell35 = sheet.cell(CellIndex.indexByString("AC3"));
-    cell35.value = "Extra";
+    var cell35 = sheet.cell(CellIndex.indexByString("AF4"));
+    cell35.value = "Equipment";
     cell35.cellStyle = cellStyle;
-    var cell36 = sheet.cell(CellIndex.indexByString("AC4"));
-    cell36.value = "Check Out";
-    cell36.cellStyle = cellStyle;
-    var cell37 = sheet.cell(CellIndex.indexByString("AD4"));
-    cell37.value = "Check In";
-    cell37.cellStyle = cellStyle;
-
-    //Seccion Equipment
-    var cell38 = sheet.cell(CellIndex.indexByString("AE3"));
-    cell38.value = "Equipment";
-    cell38.cellStyle = cellStyle;
-    var cell39 = sheet.cell(CellIndex.indexByString("AE4"));
-    cell39.value = "Check Out";
-    cell39.cellStyle = cellStyle;
-    var cell40 = sheet.cell(CellIndex.indexByString("AF4"));
-    cell40.value = "Check In";
-    cell40.cellStyle = cellStyle;
+    
 
     //sortear por su Id
     vehicles.sort((a, b) => a.idVehicle.compareTo(b.idVehicle));
@@ -1142,8 +1109,21 @@ class InventoryProvider extends ChangeNotifier {
     );
     //Agregar datos
     for (int i = 0; i < vehicles.length; i++) {
+      String measureCheckOut;
+      String lightsCheckOut;
       Vehicle report = vehicles[i];
       getIssues(report);
+
+      if(measureInspectR == true){
+         measureCheckOut = "✅";
+      }else{
+        measureCheckOut = "❌";
+      }
+      if(ligthsInspectR == true){
+         lightsCheckOut = "✅";
+      }else{
+        lightsCheckOut = "❌";
+      }
 
       final List<dynamic> row = [
         report.idVehicle,
@@ -1153,7 +1133,7 @@ class InventoryProvider extends ChangeNotifier {
         report.vin,
         report.licesensePlates,
         report.motor,
-        '',
+        '', //Color
         report.status.status,
         report.company.company,
         DateFormat("MMM/dd/yyyy").format(report.dateAdded),
@@ -1170,22 +1150,24 @@ class InventoryProvider extends ChangeNotifier {
         report.issuesR,
         report.issuesD,
         //Secciones
-        measureInspectR,
-        measureInspectD,
-        ligthsInspectR,
-        ligthsInspectD,
-        carBodyInspectR,
-        carBodyInspectD,
-        fluidCheckInspectR,
-        fluidCheckInspectD,
-        bucketInspectR,
-        bucketInspectD,
-        securityInspectR,
-        securityInspectD,
-        extraInspectR,
-        extraInspectD,
-        equipmentInspectR,
-        equipmentInspectD,
+        measureCheckOut,
+        lightsCheckOut,
+        // measureInspectR,
+        // measureInspectD,
+        // ligthsInspectR,
+        // ligthsInspectD,
+        // carBodyInspectR,
+        // carBodyInspectD,
+        // fluidCheckInspectR,
+        // fluidCheckInspectD,
+        // bucketInspectR,
+        // bucketInspectD,
+        // securityInspectR,
+        // securityInspectD,
+        // extraInspectR,
+        // extraInspectD,
+        // equipmentInspectR,
+        // equipmentInspectD,
       ];
       sheet.appendRow(row);
 

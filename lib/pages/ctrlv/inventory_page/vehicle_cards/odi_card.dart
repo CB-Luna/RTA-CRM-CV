@@ -38,7 +38,9 @@ class OdiCard extends StatelessWidget {
               ),
             ],
           ),
-          Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
             // Header
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
