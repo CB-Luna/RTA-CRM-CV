@@ -5,6 +5,7 @@ import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../widgets/card_header.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 
 class MeasuresPopUp extends StatelessWidget {
   final Monitory row;
@@ -29,13 +30,14 @@ class MeasuresPopUp extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(left: 20),
                   alignment: Alignment.centerLeft,
-                  child: ElevatedButton(
-                      onPressed: () {
+                  child: CustomTextIconButton(
+                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      text: "",
+                      isLoading: false,
+                      onTap: () {
                         provider.updateViewPopup(0);
                       },
-                      child: Icon(
-                                Icons.arrow_back
-                              ),),
+                    ),
                 ),
               ],
             ),
@@ -56,9 +58,9 @@ class MeasuresPopUp extends StatelessWidget {
                  
                   InkWell(
                     child: Icon(
-                      Icons.check_circle_outline_outlined,
+                      Icons.remove_red_eye,
                       color: Color.fromARGB(200, 65, 155, 23),
-                      size: 60,
+                      size: 40,
                     ),
                     onTap: () {
                       provider.updateViewPopup(9);
@@ -86,7 +88,7 @@ class MeasuresPopUp extends StatelessWidget {
                     child: Icon(
                       Icons.remove_red_eye,
                       color: Color.fromARGB(200, 65, 155, 23),
-                      size: 60,
+                      size: 40,
                     ),
                     onTap: () {
                       provider.updateViewPopup(9);

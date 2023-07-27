@@ -36,9 +36,14 @@ class MonitoryProvider extends ChangeNotifier {
   String headerText = 'Nuevo usuario';
   String? imageName;
   Uint8List? webImage;
+  int pageRowCount = 9;
+  int page = 1;
 
   //int para popUp
   int viewPopup = 0;
+
+  //Lista para color en placas
+  List<Monitory> lista = [];
 
   //List<RolApi> roles = [];
   List<String> dropdownMenuItems = [];
@@ -158,6 +163,12 @@ class MonitoryProvider extends ChangeNotifier {
     filasController = TextEditingController(text: countF.toString());
   }
 
+  //-----------------------------------------------
+   Future<void> updateState() async {
+    rows.clear();
+    await getMonitory();
+  }
+
 //---------------------------------------------
   Future<void> setSeccionActual(int value) async {
     seccionActual = value;
@@ -171,6 +182,41 @@ class MonitoryProvider extends ChangeNotifier {
     clearControllers();
     return;
   }
+  void setPageSize(String x) {
+    switch (x) {
+      case 'more':
+        if (pageRowCount < rows.length) pageRowCount++;
+        break;
+      case 'less':
+        if (pageRowCount > 1) pageRowCount--;
+        break;
+      default:
+        return;
+    }
+    stateManager!.createFooter;
+    notifyListeners();
+  }
+
+  // void setPage(String x) {
+  //   switch (x) {
+  //     case 'next':
+  //       if (page < stateManager!.totalPage) page++;
+  //       break;
+  //     case 'previous':
+  //       if (page > 1) page--;
+  //       break;
+  //     case 'start':
+  //       page = 1;
+  //       break;
+  //     case 'end':
+  //       page = stateManager!.totalPage;
+  //       break;
+  //     default:
+  //       return;
+  //   }
+  //   stateManager!.setPage(page);
+  //   notifyListeners();
+  // }
 
   Future<void> getMonitory() async {
     try {
@@ -185,6 +231,7 @@ class MonitoryProvider extends ChangeNotifier {
       rows.clear();
 
       for (Monitory monitory in monitory) {
+        lista.add(monitory);
         rows.add(
           PlutoRow(
             cells: {
@@ -814,6 +861,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.bucketInspectionR.toMap()["date_added"]);
@@ -835,6 +883,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded = DateTime.parse(
                   issue!.bucketInspectionR.toMap()["date_added"]);
@@ -871,6 +920,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.bucketInspectionD.toMap()["date_added"]);
@@ -892,6 +942,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded = DateTime.parse(
                   issue!.bucketInspectionD.toMap()["date_added"]);
@@ -929,6 +980,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.carBodyworkR.toMap()["date_added"]);
@@ -949,6 +1001,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.carBodyworkR.toMap()["date_added"]);
@@ -986,6 +1039,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.carBodyworkD.toMap()["date_added"]);
@@ -1006,6 +1060,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.carBodyworkD.toMap()["date_added"]);
@@ -1043,6 +1098,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.equimentR.toMap()["date_added"]);
@@ -1063,6 +1119,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.equimentR.toMap()["date_added"]);
@@ -1100,6 +1157,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.equimentD.toMap()["date_added"]);
@@ -1120,6 +1178,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.equimentD.toMap()["date_added"]);
@@ -1156,6 +1215,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.extraR.toMap()["date_added"]);
@@ -1175,6 +1235,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.extraR.toMap()["date_added"]);
@@ -1211,6 +1272,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.extraD.toMap()["date_added"]);
@@ -1230,6 +1292,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.extraD.toMap()["date_added"]);
@@ -1267,6 +1330,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.fluidCheckR.toMap()["date_added"]);
@@ -1287,6 +1351,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.fluidCheckR.toMap()["date_added"]);
@@ -1324,6 +1389,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.fluidCheckD.toMap()["date_added"]);
@@ -1344,6 +1410,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.fluidCheckD.toMap()["date_added"]);
@@ -1400,6 +1467,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.lightsR.toMap()["date_added"]);
@@ -1436,6 +1504,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.lightsD.toMap()["date_added"]);
@@ -1455,6 +1524,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.lightsD.toMap()["date_added"]);
@@ -1491,6 +1561,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.measureR.toMap()["date_added"]);
@@ -1510,6 +1581,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.measureR.toMap()["date_added"]);
@@ -1546,6 +1618,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.measureD.toMap()["date_added"]);
@@ -1565,6 +1638,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.measureD.toMap()["date_added"]);
@@ -1602,6 +1676,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.securityR.toMap()["date_added"]);
@@ -1622,6 +1697,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.securityR.toMap()["date_added"]);
@@ -1659,6 +1735,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+                listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.securityD.toMap()["date_added"]);
@@ -1679,6 +1756,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+                  listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.securityD.toMap()["date_added"]);

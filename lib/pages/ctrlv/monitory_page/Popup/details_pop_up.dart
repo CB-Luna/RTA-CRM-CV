@@ -8,6 +8,7 @@ import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 import '../widgets/forms_answer_delivered.dart';
 import '../widgets/forms_answer_received.dart';
 import 'bucket_expanded.dart';
@@ -47,14 +48,17 @@ class DetailsPop extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.only(left: 20),
                           alignment: Alignment.centerLeft,
-                          child: ElevatedButton(
-                              onPressed: () {
+                          child: CustomTextIconButton(
+                            icon:Icon(
+                                Icons.arrow_back,
+                                color:Colors.white,
+                              ),
+                            text:"",
+                            isLoading:false, 
+                            onTap: () {
                                 Navigator.pop(context);
                               },
-                              child:Icon(
-                                Icons.arrow_back
-                              ), 
-                              ),
+                          )
                         ),
                       ],
                     ),
@@ -580,7 +584,7 @@ class DetailsPop extends StatelessWidget {
           //cambio de PopUp
           //Id enviarle el de control form para tomar todos los datos de las diferntes tablas.
           provider.viewPopup == 1
-              ? MeasuresPopUp(row: vehicle)
+              ? MeasuresPopUp(row: vehicle,)
               : provider.viewPopup == 2
                   ? const ExtraPopUp(catalog: "Lights", popUp: 2)
                   : provider.viewPopup == 3

@@ -5,12 +5,14 @@ import 'package:provider/provider.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../widgets/card_header.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 import 'comments_images_issues.dart';
 
 class BucketExtraPopUp extends StatelessWidget {
   final int popUp;
   const BucketExtraPopUp({
-    super.key, required this.popUp,
+    super.key,
+    required this.popUp,
   });
   //pedir ID de control form para conectar con als demas
 
@@ -35,13 +37,14 @@ class BucketExtraPopUp extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          provider.updateViewPopup(0);
-                        },
-                        child: Icon(
-                                Icons.arrow_back
-                              ),),
+                    child: CustomTextIconButton(
+                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      text: "",
+                      isLoading: false,
+                      onTap: () {
+                        provider.updateViewPopup(0);
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -61,7 +64,9 @@ class BucketExtraPopUp extends StatelessWidget {
                             width: 250,
                             // color: Colors.red,
                             child: Text(
-                              provider.actualIssuesComments[index].nameIssue.capitalize.replaceAll("_", ' '),
+                              provider.actualIssuesComments[index].nameIssue
+                                  .capitalize
+                                  .replaceAll("_", ' '),
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
@@ -71,34 +76,38 @@ class BucketExtraPopUp extends StatelessWidget {
                             //color: Colors.yellow,
                             //alignment: Alignment.center,
                             child: Text(
-                              provider.actualIssuesComments[index].status ? "Yes" : "No",
-                              style:  TextStyle(
+                              provider.actualIssuesComments[index].status
+                                  ? "Yes"
+                                  : "No",
+                              style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: provider.actualIssuesComments[index].status ? Color.fromARGB(200, 65, 155, 23) : Color.fromARGB(200, 210, 0, 48), 
+                                color:
+                                    provider.actualIssuesComments[index].status
+                                        ? Color.fromARGB(200, 65, 155, 23)
+                                        : Color.fromARGB(200, 210, 0, 48),
                               ),
                             ),
                           ),
                           InkWell(
-                          child: provider.actualIssuesComments[index].status
-                            ? Icon(Icons.remove_red_eye,
-                                size: 30,
-                                color: Color.fromARGB(200, 65, 155, 23))
-                            : Icon(Icons.remove_red_eye,
-                              size: 30,
-                                color: Color.fromARGB(200, 210, 0, 48)),
-                          onTap: () {
-                            provider.getActualDetailField(provider.actualIssuesComments[index]);
-                            provider.updateViewPopup(10);
-                          },
-                          
-                        ),
+                            child: provider.actualIssuesComments[index].status
+                                ? Icon(Icons.remove_red_eye,
+                                    size: 30,
+                                    color: Color.fromARGB(200, 65, 155, 23))
+                                : Icon(Icons.remove_red_eye,
+                                    size: 30,
+                                    color: Color.fromARGB(200, 210, 0, 48)),
+                            onTap: () {
+                              provider.getActualDetailField(
+                                  provider.actualIssuesComments[index]);
+                              provider.updateViewPopup(10);
+                            },
+                          ),
                         ],
                       ),
                     );
                   }),
             ),
-            
           ],
         ),
       ),

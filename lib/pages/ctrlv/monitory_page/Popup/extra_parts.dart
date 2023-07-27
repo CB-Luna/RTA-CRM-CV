@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../widgets/card_header.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 import 'comments_images_issues.dart';
 
 class ExtraPopUp extends StatelessWidget {
@@ -36,13 +37,13 @@ class ExtraPopUp extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          provider.updateViewPopup(0);
-                        },
-                        child:Icon(
-                                Icons.arrow_back
-                              ),),
+                    child: CustomTextIconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                      text: "",
+                      isLoading: false,
+                      onTap: () {
+                        provider.updateViewPopup(0);
+                      },),
                   ),
                 ],
               ),

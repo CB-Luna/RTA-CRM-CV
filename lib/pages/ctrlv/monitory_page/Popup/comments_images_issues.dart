@@ -43,15 +43,15 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.all(20),
-                  child: ElevatedButton(
-                     onPressed: () {
-                      provider.updatePopUpExtra(provider.viewPopup);
-                          //provider.updateViewPopup(provider.popUpExtra);
-                        },
-                        child: Icon(
-                                Icons.arrow_back
-                              ),
-                  ),
+                  child:
+                  CustomTextIconButton(
+                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      text: "",
+                      isLoading: false,
+                      onTap: () {
+                         provider.updatePopUpExtra(provider.viewPopup);
+                      },
+                    ), 
                 ),
                 SizedBox(
                   width: 200,
