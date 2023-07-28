@@ -10,7 +10,6 @@ import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_fieldForm.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
-import '../../../../widgets/success_toast.dart';
 
 class CloseIssuePopUp extends StatefulWidget {
   const CloseIssuePopUp({super.key});

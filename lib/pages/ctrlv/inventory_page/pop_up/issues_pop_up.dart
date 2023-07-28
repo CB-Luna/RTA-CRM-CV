@@ -23,7 +23,7 @@ class _IssuesPopUpState extends State<IssuesPopUp> {
     IssueReportedProvider isssueReportedProvider =
         Provider.of<IssueReportedProvider>(context);
 
-    final int cadena = isssueReportedProvider.issuesxUser.length;
+    final int cadena = isssueReportedProvider.issuesxUser.length + 1;
     return isssueReportedProvider.issuesView == 0
         ? Container(
             width: MediaQuery.of(context).size.width,

@@ -394,7 +394,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             .encabezadoTablas)
                                   ]),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.10,
+                                      MediaQuery.of(context).size.width * 0.08,
                                   backgroundColor: const Color(0XFF6491F7),
                                   cellPadding: EdgeInsets.zero,
                                   titleTextAlign: PlutoColumnTextAlign.center,
@@ -511,7 +511,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             .encabezadoTablas)
                                   ]),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.11,
+                                      MediaQuery.of(context).size.width * 0.09,
                                   cellPadding: EdgeInsets.zero,
                                   titleTextAlign: PlutoColumnTextAlign.center,
                                   textAlign: PlutoColumnTextAlign.center,
@@ -585,17 +585,19 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   Icons.remove_red_eye_outlined,
                                                   color: AppTheme.of(context)
                                                       .primaryBackground),
-                                              text: 'Details',
+                                              text: 'Issue',
                                               color: AppTheme.of(context)
                                                   .primaryColor,
                                               onTap: () async {
                                                 isssueReportedProvider
                                                     .clearListgetIssues();
+
                                                 await isssueReportedProvider
                                                     .getIssuesxUsers(
                                                   rendererContext.cell.value,
                                                   notify: false,
                                                 );
+
                                                 isssueReportedProvider
                                                     .selectVehicle(
                                                   rendererContext.cell.value,
@@ -608,8 +610,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 isssueReportedProvider
                                                     .setIssueViewActual(0,
                                                         notify: false);
-                                                await provider
-                                                    .getServicesPage();
+
                                                 if (!mounted) return;
                                                 context.pushReplacement(
                                                     routeDetailsInventory,
