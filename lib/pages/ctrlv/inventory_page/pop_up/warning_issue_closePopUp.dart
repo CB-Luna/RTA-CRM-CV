@@ -92,7 +92,7 @@ class _WarningIssueClosePopUpState extends State<WarningIssueClosePopUp> {
               isLoading: false,
               icon: Icon(Icons.dangerous_outlined,
                   color: AppTheme.of(context).primaryBackground),
-              text: 'Delete',
+              text: 'Close',
               color: AppTheme.of(context).secondaryColor,
               onTap: () async {
                 provider.closeIssue();
@@ -105,6 +105,7 @@ class _WarningIssueClosePopUpState extends State<WarningIssueClosePopUp> {
                   toastDuration: const Duration(seconds: 2),
                 );
                 if (context.canPop()) context.pop();
+                context.pop();
                 context.pop();
               },
             ),

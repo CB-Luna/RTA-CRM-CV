@@ -19,7 +19,7 @@ class PlutoGridCompanyCellCV extends StatelessWidget {
       decoration: BoxDecoration(gradient: whiteGradient),
       child: Center(
         child: Container(
-          width: 150,
+          width: 120,
           decoration: BoxDecoration(
             color: statusColor(text),
             borderRadius: BorderRadius.circular(10),

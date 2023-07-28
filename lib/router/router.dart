@@ -21,6 +21,7 @@ import 'package:rta_crm_cv/services/navigation_service.dart';
 import '../models/vehicle.dart';
 import '../pages/ctrlv/inventory_page/inventory_page.dart';
 import '../pages/ctrlv/inventory_page/pop_up/details_pop_up.dart';
+import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 
 /// The route configuration.
 final GoRouter router = GoRouter(
@@ -240,7 +241,8 @@ final GoRouter router = GoRouter(
       name: 'Details_Inventory',
       builder: (BuildContext context, GoRouterState state) {
         if (state.extra == null) return const InventoryPageDesktop();
-        return DetailsPopUp(vehicle: state.extra as Vehicle);
+        // return ReportedIssues(vehicle: state.extra as Vehicle);
+        return ReportedIssues();
       },
       // (context, state, const DetailsPopUp()),
     ),

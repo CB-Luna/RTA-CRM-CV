@@ -21,7 +21,7 @@ class Issues {
   final Equiment equimentR;
   final int? idEquipmentDFk;
   final Equiment equimentD;
-  final String idUserFk;
+  final String? idUserFk;
   final UserProfile userProfile;
   final int idExtraRFk;
   final Extra extraR;
@@ -61,7 +61,7 @@ class Issues {
     required this.equimentR,
     this.idEquipmentDFk,
     required this.equimentD,
-    required this.idUserFk,
+    this.idUserFk,
     required this.userProfile,
     required this.idExtraRFk,
     required this.extraR,
@@ -433,6 +433,7 @@ class Equiment {
   final String? bucketLiftOperatorManualComments;
   final String? bucketLiftOperatorManualImage;
   final DateTime? dateAdded;
+  bool? state;
 
   Equiment({
     this.idEquipment,
@@ -451,6 +452,7 @@ class Equiment {
     this.bucketLiftOperatorManual,
     this.bucketLiftOperatorManualComments,
     this.bucketLiftOperatorManualImage,
+    this.state,
     this.dateAdded,
   });
 
@@ -1023,28 +1025,28 @@ class Security {
 }
 
 class UserProfile {
-  final String idUserFk;
-  final String name;
-  final String lastName;
-  final String homePhone;
-  final String mobilePhone;
-  final String address;
-  final DateTime birthdate;
+  final String? idUserFk;
+  final String? name;
+  final String? lastName;
+  final String? homePhone;
+  final String? mobilePhone;
+  final String? address;
+  final DateTime? birthdate;
   final String? middleName;
   final String? image;
-  final int sequentialId;
+  final int? sequentialId;
 
   UserProfile({
-    required this.idUserFk,
-    required this.name,
-    required this.lastName,
-    required this.homePhone,
-    required this.mobilePhone,
-    required this.address,
-    required this.birthdate,
+    this.idUserFk,
+    this.name,
+    this.lastName,
+    this.homePhone,
+    this.mobilePhone,
+    this.address,
+    this.birthdate,
     this.middleName,
     this.image,
-    required this.sequentialId,
+    this.sequentialId,
   });
 
   factory UserProfile.fromJson(String str) =>
@@ -1073,7 +1075,7 @@ class UserProfile {
         "mobile_phone": mobilePhone,
         "address": address,
         "birthdate":
-            "${birthdate.year.toString().padLeft(4, '0')}-${birthdate.month.toString().padLeft(2, '0')}-${birthdate.day.toString().padLeft(2, '0')}",
+            "${birthdate?.year.toString().padLeft(4, '0')}-${birthdate?.month.toString().padLeft(2, '0')}-${birthdate?.day.toString().padLeft(2, '0')}",
         "middle_name": middleName,
         "image": image,
         "sequential_id": sequentialId,
