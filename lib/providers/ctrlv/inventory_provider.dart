@@ -590,11 +590,16 @@ class InventoryProvider extends ChangeNotifier {
           .from('service_view')
           .select()
           .match({"id_vehicle_fk": actualVehicle!.idVehicle});
-      // print(res);
+      print(res);
 
       services = (res as List<dynamic>)
           .map((services) => ServicesApi.fromJson(jsonEncode(services)))
           .toList();
+      // final serviceList = res as List<dynamic>;
+
+      rows.clear();
+
+      print("Entro a getServicesPage()");
       return true;
     } catch (e) {
       print("Error in getServicesPage() - $e");
@@ -1068,8 +1073,6 @@ class InventoryProvider extends ChangeNotifier {
     var cell27 = sheet.cell(CellIndex.indexByString("x4"));
     cell27.value = "Equipment";
 
-
-
     //Secciones Check In
     cell27.cellStyle = cellStyle;
     var cell28 = sheet.cell(CellIndex.indexByString("Y4"));
@@ -1096,7 +1099,6 @@ class InventoryProvider extends ChangeNotifier {
     var cell35 = sheet.cell(CellIndex.indexByString("AF4"));
     cell35.value = "Equipment";
     cell35.cellStyle = cellStyle;
-    
 
     //sortear por su Id
     vehicles.sort((a, b) => a.idVehicle.compareTo(b.idVehicle));
@@ -1114,14 +1116,14 @@ class InventoryProvider extends ChangeNotifier {
       Vehicle report = vehicles[i];
       getIssues(report);
 
-      if(measureInspectR == true){
-         measureCheckOut = "✅";
-      }else{
+      if (measureInspectR == true) {
+        measureCheckOut = "✅";
+      } else {
         measureCheckOut = "❌";
       }
-      if(ligthsInspectR == true){
-         lightsCheckOut = "✅";
-      }else{
+      if (ligthsInspectR == true) {
+        lightsCheckOut = "✅";
+      } else {
         lightsCheckOut = "❌";
       }
 

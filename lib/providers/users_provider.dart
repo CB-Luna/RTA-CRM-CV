@@ -13,14 +13,17 @@ import 'package:path/path.dart' as p;
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
+import 'package:rta_crm_cv/public/colors.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 import 'package:uuid/uuid.dart';
+
+import '../models/vehicle.dart';
 
 class UsersProvider extends ChangeNotifier {
   bool isOpen = true;
   bool forcedOpen = true;
   List<User> users = [];
-
+  List<Vehicle> vehicles = [];
   final searchController = TextEditingController();
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
@@ -43,8 +46,11 @@ class UsersProvider extends ChangeNotifier {
   String? dropdownvalue = "Active";
   State? selectedState;
   State? selectedStateUpdate;
+  Vehicle? selectedVehicle;
+  Vehicle? selectedVehicleUpdate;
   String? imageName;
   Uint8List? webImage;
+  Vehicle? actualVehicle;
 
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -89,6 +95,10 @@ class UsersProvider extends ChangeNotifier {
     phoneController.clear();
     stateController.clear();
     roleController.clear();
+    selectedCompany = null;
+    selectedState = null;
+    selectedRole = null;
+    selectedVehicle = null;
     companyCOntroller.clear();
     statusController.clear();
     licenseController.clear();
@@ -104,7 +114,14 @@ class UsersProvider extends ChangeNotifier {
   }
 
   void selectCompany(String companyName) {
-    selectedCompany = companys.firstWhere((elem) => elem.company == companyName);
+    selectedCompany =
+        companys.firstWhere((elem) => elem.company == companyName);
+    notifyListeners();
+  }
+
+  void selectedVehiclee(String vehicle) {
+    selectedVehicle =
+        vehicles.firstWhere((element) => element.licesensePlates == vehicle);
     notifyListeners();
   }
 
@@ -120,13 +137,43 @@ class UsersProvider extends ChangeNotifier {
   }
 
   void selectCompanyUpdate(String companyName) {
-    selectedCompanyUpdate = companys.firstWhere((elem) => elem.company == companyName);
+    selectedCompanyUpdate =
+        companys.firstWhere((elem) => elem.company == companyName);
     notifyListeners();
+  }
+
+  void selectVehicleUpdates(String vehicle) {
+    selectedVehicleUpdate =
+        vehicles.firstWhere((element) => element.licesensePlates == vehicle);
   }
 
   void selectStateUpdate(String state) {
     selectedStateUpdate = states.firstWhere((elem) => elem.name == state);
     notifyListeners();
+  }
+
+  void getActualVehicle(User users) async {
+    try {
+      final res = await supabaseCtrlV
+          .from('vehicle')
+          .select()
+          .eq('id_vehicle', users.idVehicle);
+
+      vehicles = (res as List<dynamic>)
+          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
+          .toList();
+
+      print("entro a getActualVehicle: $res");
+    } catch (e) {
+      print("Error in getActualVehicle() $e");
+    }
+  }
+
+  void selectVehicleActual(User users, {bool notify = true}) {
+    actualVehicle =
+        vehicles.firstWhere((element) => element.idVehicle == users.idVehicle);
+    print('ActualVehicle: ${actualVehicle?.licesensePlates}');
+    if (notify) notifyListeners();
   }
 
   void setPageSize(String x) {
@@ -169,6 +216,16 @@ class UsersProvider extends ChangeNotifier {
     stateManager!.setShowLoading(true);
   }
 
+  void updateVehiclestatus() async {
+    try {
+      final res = await supabaseCtrlV.from('vehicle').update(
+          {'id_status_fk': 1}).eq('id_vehicle', selectedVehicle?.idVehicle);
+      print("entro a updateVehicle: $res");
+    } catch (e) {
+      print("Error in updateVehiclestatus $e");
+    }
+  }
+
   Future<void> getStates({bool notify = true}) async {
     try {
       final res = await supabase.from('state').select().order(
@@ -176,7 +233,9 @@ class UsersProvider extends ChangeNotifier {
             ascending: true,
           );
 
-      states = (res as List<dynamic>).map((pais) => State.fromJson(jsonEncode(pais))).toList();
+      states = (res as List<dynamic>)
+          .map((pais) => State.fromJson(jsonEncode(pais)))
+          .toList();
 
       if (notify) notifyListeners();
     } catch (e) {
@@ -191,7 +250,9 @@ class UsersProvider extends ChangeNotifier {
             ascending: true,
           );
 
-      companys = (res as List<dynamic>).map((compani) => Company.fromJson(jsonEncode(compani))).toList();
+      companys = (res as List<dynamic>)
+          .map((compani) => Company.fromJson(jsonEncode(compani)))
+          .toList();
 
       if (notify) notifyListeners();
     } catch (e) {
@@ -205,8 +266,33 @@ class UsersProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    roles = (res as List<dynamic>).map((rol) => Role.fromJson(jsonEncode(rol))).toList();
+    roles = (res as List<dynamic>)
+        .map((rol) => Role.fromJson(jsonEncode(rol)))
+        .toList();
 
+    if (notify) notifyListeners();
+  }
+
+  // -----------------------------------------------
+  Future<void> getVehicleActive(String val, {bool notify = true}) async {
+    try {
+      final resC = await supabase.from('company').select().eq('company', val);
+
+      final company = (resC as List<dynamic>);
+
+      final res = await supabaseCtrlV
+          .from('inventory_view')
+          .select()
+          .eq('status ->id_status', 3)
+          .eq('company ->id_company', company.first["id_company"]);
+
+      vehicles = (res as List<dynamic>)
+          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
+          .toList();
+      print("Entro a getVehicles");
+    } catch (e) {
+      print("getVehicleActive $e");
+    }
     if (notify) notifyListeners();
   }
 
@@ -280,7 +366,9 @@ class UsersProvider extends ChangeNotifier {
         log('Error en getUsuarios()');
         return;
       }
-      users = (res as List<dynamic>).map((usuario) => User.fromJson(jsonEncode(usuario))).toList();
+      users = (res as List<dynamic>)
+          .map((usuario) => User.fromJson(jsonEncode(usuario)))
+          .toList();
 
       rows.clear();
       for (User user in users) {
@@ -371,8 +459,8 @@ class UsersProvider extends ChangeNotifier {
             'birthdate': DateTime.now().toIso8601String(),
             'id_role_fk': selectedRole!.id,
             'state_fk': selectedState!.id,
-            // TODO: implementar campo de Company
             'id_company_fk': selectedCompany!.id,
+            'id_vehicle_fk': selectedVehicle?.idVehicle,
             'status': dropdownvalue,
             'license': licenseController.text,
             'certification': certificationController.text
@@ -388,7 +476,10 @@ class UsersProvider extends ChangeNotifier {
 
   Future<bool> deleteUser(User users) async {
     try {
-      await supabase.from('user_profile').delete().match({'user_profile_id': users.id});
+      await supabase
+          .from('user_profile')
+          .delete()
+          .match({'user_profile_id': users.id});
 
       return true;
     } catch (e) {
@@ -497,13 +588,15 @@ class UsersProvider extends ChangeNotifier {
   SMIInput<bool>? iHoverDashboards;
   SMIInput<bool>? iSelectedDashboards;
   Future<void> dashboardsIconRive() async {
-    final ByteData data = await rootBundle.load('assets/rive/dashboards_icon.riv');
+    final ByteData data =
+        await rootBundle.load('assets/rive/dashboards_icon.riv');
 
     final file = RiveFile.import(data);
 
     final artboard = file.mainArtboard;
 
-    sMCDashboards = StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCDashboards =
+        StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCDashboards != null) {
       artboard.addController(sMCDashboards!);

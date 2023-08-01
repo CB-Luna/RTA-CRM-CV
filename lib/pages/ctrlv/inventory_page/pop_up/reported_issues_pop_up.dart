@@ -197,6 +197,8 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         enableEditingMode: false,
                         renderer: (rendererContext) {
                           bool state = issueReportedProvider.fluidCheckInspectR;
+                          FluidCheck fluidCheckState =
+                              rendererContext.cell.value;
 
                           return Container(
                             height: rowHeight,
@@ -207,12 +209,27 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                     builder: (BuildContext context) {
                                       return StatefulBuilder(
                                           builder: (context, setState) {
-                                        return IssuesPopUpTotal(
-                                          text: "Fluids Check",
-                                          contador: 1,
-                                          issueComments:
-                                              issueReportedProvider.fluidCheckR,
-                                        );
+                                        if (state) {
+                                          return Text("");
+                                        } else {
+                                          if (fluidCheckState.state!) {
+                                            return IssuesPopUpTotal(
+                                              text: "FluidsCheck",
+                                              contador: 1,
+                                              issueComments:
+                                                  issueReportedProvider
+                                                      .fluidCheckR,
+                                            );
+                                          } else {
+                                            return IssuesPopUpTotal(
+                                              text: "FluidsCheck",
+                                              contador: 1,
+                                              issueComments:
+                                                  issueReportedProvider
+                                                      .fluidCheckD,
+                                            );
+                                          }
+                                        }
                                       });
                                     }),
                                 child: state
@@ -280,205 +297,274 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         },
                       ),
                       PlutoColumn(
-                        title: 'Lights',
-                        field: 'Lights',
-                        titleSpan: TextSpan(children: [
-                          WidgetSpan(
-                              child: Icon(Icons.label_important_outline,
-                                  color:
-                                      AppTheme.of(context).primaryBackground)),
-                          const WidgetSpan(child: SizedBox(width: 10)),
-                          TextSpan(
-                              text: 'Lights',
-                              style: AppTheme.of(context).encabezadoTablas)
-                        ]),
-                        width: MediaQuery.of(context).size.width * 0.08,
-                        backgroundColor: const Color(0XFF6491F7),
-                        cellPadding: EdgeInsets.zero,
-                        titleTextAlign: PlutoColumnTextAlign.center,
-                        textAlign: PlutoColumnTextAlign.center,
-                        type: PlutoColumnType.text(),
-                        enableEditingMode: false,
-                        renderer: (rendererContext) {
-                          bool state = issueReportedProvider.ligthsInspectR;
+                          title: 'Lights',
+                          field: 'Lights',
+                          titleSpan: TextSpan(children: [
+                            WidgetSpan(
+                                child: Icon(Icons.label_important_outline,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground)),
+                            const WidgetSpan(child: SizedBox(width: 10)),
+                            TextSpan(
+                                text: 'Lights',
+                                style: AppTheme.of(context).encabezadoTablas)
+                          ]),
+                          width: MediaQuery.of(context).size.width * 0.08,
+                          backgroundColor: const Color(0XFF6491F7),
+                          cellPadding: EdgeInsets.zero,
+                          titleTextAlign: PlutoColumnTextAlign.center,
+                          textAlign: PlutoColumnTextAlign.center,
+                          type: PlutoColumnType.text(),
+                          enableEditingMode: false,
+                          renderer: (rendererContext) {
+                            bool state = issueReportedProvider.ligthsInspectR;
+                            Lights lightsState = rendererContext.cell.value;
 
-                          return Container(
-                            height: rowHeight,
-                            decoration: BoxDecoration(gradient: whiteGradient),
-                            child: InkWell(
-                                onTap: () => showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                          builder: (context, setState) {
-                                        return IssuesPopUpTotal(
-                                          text: "Lights",
-                                          contador: 2,
-                                          issueComments:
-                                              issueReportedProvider.lightsR,
-                                        );
-                                      });
-                                    }),
-                                child: state
-                                    ? const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color: Color.fromARGB(200, 65, 155, 23))
-                                    : const Icon(Icons.cancel_outlined,
-                                        color:
-                                            Color.fromARGB(200, 210, 0, 48))),
-                          );
-                        },
-                      ),
+                            return Container(
+                              height: rowHeight,
+                              decoration:
+                                  BoxDecoration(gradient: whiteGradient),
+                              child: InkWell(
+                                  onTap: () => showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return StatefulBuilder(
+                                            builder: (context, setState) {
+                                          if (state) {
+                                            return Text("");
+                                          } else {
+                                            if (lightsState.state!) {
+                                              return IssuesPopUpTotal(
+                                                text: "Lights",
+                                                contador: 2,
+                                                issueComments:
+                                                    issueReportedProvider
+                                                        .lightsR,
+                                              );
+                                            } else {
+                                              return IssuesPopUpTotal(
+                                                text: "Lights",
+                                                contador: 2,
+                                                issueComments:
+                                                    issueReportedProvider
+                                                        .lightsD,
+                                              );
+                                            }
+                                          }
+                                        });
+                                      }),
+                                  child: state
+                                      ? const Icon(
+                                          Icons.check_circle_outline_outlined,
+                                          color:
+                                              Color.fromARGB(200, 65, 155, 23))
+                                      : const Icon(Icons.cancel_outlined,
+                                          color:
+                                              Color.fromARGB(200, 210, 0, 48))),
+                            );
+                          }),
                       PlutoColumn(
-                        title: 'CarBodyWork',
-                        field: 'CarBodyWork',
-                        backgroundColor: const Color(0XFF6491F7),
-                        titleSpan: TextSpan(children: [
-                          WidgetSpan(
-                              child: Icon(Icons.local_shipping_outlined,
-                                  color:
-                                      AppTheme.of(context).primaryBackground)),
-                          const WidgetSpan(child: SizedBox(width: 10)),
-                          TextSpan(
-                              text: 'CarBodyWork',
-                              style: AppTheme.of(context).encabezadoTablas)
-                        ]),
-                        width: MediaQuery.of(context).size.width * 0.10,
-                        cellPadding: EdgeInsets.zero,
-                        titleTextAlign: PlutoColumnTextAlign.center,
-                        textAlign: PlutoColumnTextAlign.center,
-                        type: PlutoColumnType.text(),
-                        enableEditingMode: false,
-                        renderer: (rendererContext) {
-                          bool state = issueReportedProvider.carBodyInspectR;
+                          title: 'CarBodyWork',
+                          field: 'CarBodyWork',
+                          backgroundColor: const Color(0XFF6491F7),
+                          titleSpan: TextSpan(children: [
+                            WidgetSpan(
+                                child: Icon(Icons.local_shipping_outlined,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground)),
+                            const WidgetSpan(child: SizedBox(width: 10)),
+                            TextSpan(
+                                text: 'CarBodyWork',
+                                style: AppTheme.of(context).encabezadoTablas)
+                          ]),
+                          width: MediaQuery.of(context).size.width * 0.10,
+                          cellPadding: EdgeInsets.zero,
+                          titleTextAlign: PlutoColumnTextAlign.center,
+                          textAlign: PlutoColumnTextAlign.center,
+                          type: PlutoColumnType.text(),
+                          enableEditingMode: false,
+                          renderer: (rendererContext) {
+                            bool state = issueReportedProvider.carBodyInspectR;
+                            CarBodywork carBodyWorkState =
+                                rendererContext.cell.value;
 
-                          return Container(
-                            height: rowHeight,
-                            decoration: BoxDecoration(gradient: whiteGradient),
-                            child: InkWell(
-                                onTap: () => showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                          builder: (context, setState) {
-                                        return IssuesPopUpTotal(
-                                          text: "CarBodyWork",
-                                          contador: 3,
-                                          issueComments: issueReportedProvider
-                                              .carBodyWorkR,
-                                        );
-                                      });
-                                    }),
-                                child: state
-                                    ? const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color: Color.fromARGB(200, 65, 155, 23))
-                                    : const Icon(Icons.cancel_outlined,
-                                        color:
-                                            Color.fromARGB(200, 210, 0, 48))),
-                          );
-                        },
-                      ),
+                            return Container(
+                              height: rowHeight,
+                              decoration:
+                                  BoxDecoration(gradient: whiteGradient),
+                              child: InkWell(
+                                  onTap: () => showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return StatefulBuilder(
+                                            builder: (context, setState) {
+                                          if (state) {
+                                            return Text("");
+                                          } else {
+                                            if (carBodyWorkState.state!) {
+                                              return IssuesPopUpTotal(
+                                                text: "CarBodyWork",
+                                                contador: 3,
+                                                issueComments:
+                                                    issueReportedProvider
+                                                        .carBodyWorkR,
+                                              );
+                                            } else {
+                                              return IssuesPopUpTotal(
+                                                text: "CarBodyWork",
+                                                contador: 3,
+                                                issueComments:
+                                                    issueReportedProvider
+                                                        .carBodyWorkD,
+                                              );
+                                            }
+                                          }
+                                        });
+                                      }),
+                                  child: state
+                                      ? const Icon(
+                                          Icons.check_circle_outline_outlined,
+                                          color:
+                                              Color.fromARGB(200, 65, 155, 23))
+                                      : const Icon(Icons.cancel_outlined,
+                                          color:
+                                              Color.fromARGB(200, 210, 0, 48))),
+                            );
+                          }),
                       PlutoColumn(
-                        title: 'Security',
-                        field: 'Security',
-                        backgroundColor: const Color(0XFF6491F7),
-                        titleSpan: TextSpan(children: [
-                          WidgetSpan(
-                              child: Icon(Icons.warehouse_outlined,
-                                  color:
-                                      AppTheme.of(context).primaryBackground)),
-                          const WidgetSpan(child: SizedBox(width: 10)),
-                          TextSpan(
-                              text: 'Security',
-                              style: AppTheme.of(context).encabezadoTablas)
-                        ]),
-                        width: MediaQuery.of(context).size.width * 0.10,
-                        cellPadding: EdgeInsets.zero,
-                        titleTextAlign: PlutoColumnTextAlign.center,
-                        textAlign: PlutoColumnTextAlign.center,
-                        type: PlutoColumnType.text(),
-                        enableEditingMode: false,
-                        renderer: (rendererContext) {
-                          bool state = issueReportedProvider.securityInspectR;
+                          title: 'Security',
+                          field: 'Security',
+                          backgroundColor: const Color(0XFF6491F7),
+                          titleSpan: TextSpan(children: [
+                            WidgetSpan(
+                                child: Icon(Icons.warehouse_outlined,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground)),
+                            const WidgetSpan(child: SizedBox(width: 10)),
+                            TextSpan(
+                                text: 'Security',
+                                style: AppTheme.of(context).encabezadoTablas)
+                          ]),
+                          width: MediaQuery.of(context).size.width * 0.10,
+                          cellPadding: EdgeInsets.zero,
+                          titleTextAlign: PlutoColumnTextAlign.center,
+                          textAlign: PlutoColumnTextAlign.center,
+                          type: PlutoColumnType.text(),
+                          enableEditingMode: false,
+                          renderer: (rendererContext) {
+                            bool state = issueReportedProvider.securityInspectR;
+                            Security securityState = rendererContext.cell.value;
 
-                          return Container(
-                            height: rowHeight,
-                            decoration: BoxDecoration(gradient: whiteGradient),
-                            child: InkWell(
-                                onTap: () => showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                          builder: (context, setState) {
-                                        return IssuesPopUpTotal(
-                                          text: "Security",
-                                          issueComments:
-                                              issueReportedProvider.securityR,
-                                          contador: 4,
-                                        );
-                                      });
-                                    }),
-                                child: state
-                                    ? const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color: Color.fromARGB(200, 65, 155, 23))
-                                    : const Icon(Icons.cancel_outlined,
-                                        color:
-                                            Color.fromARGB(200, 210, 0, 48))),
-                          );
-                        },
-                      ),
+                            return Container(
+                              height: rowHeight,
+                              decoration:
+                                  BoxDecoration(gradient: whiteGradient),
+                              child: InkWell(
+                                  onTap: () => showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return StatefulBuilder(
+                                            builder: (context, setState) {
+                                          if (state) {
+                                            return Text("");
+                                          } else {
+                                            if (securityState.state!) {
+                                              return IssuesPopUpTotal(
+                                                text: "Security",
+                                                contador: 4,
+                                                issueComments:
+                                                    issueReportedProvider
+                                                        .securityR,
+                                              );
+                                            } else {
+                                              return IssuesPopUpTotal(
+                                                text: "Security",
+                                                contador: 4,
+                                                issueComments:
+                                                    issueReportedProvider
+                                                        .securityD,
+                                              );
+                                            }
+                                          }
+                                        });
+                                      }),
+                                  child: state
+                                      ? const Icon(
+                                          Icons.check_circle_outline_outlined,
+                                          color:
+                                              Color.fromARGB(200, 65, 155, 23))
+                                      : const Icon(Icons.cancel_outlined,
+                                          color:
+                                              Color.fromARGB(200, 210, 0, 48))),
+                            );
+                          }),
                       PlutoColumn(
-                        title: 'Extra',
-                        field: 'Extra',
-                        backgroundColor: const Color(0XFF6491F7),
-                        titleSpan: TextSpan(children: [
-                          WidgetSpan(
-                              child: Icon(Icons.warehouse_outlined,
-                                  color:
-                                      AppTheme.of(context).primaryBackground)),
-                          const WidgetSpan(child: SizedBox(width: 10)),
-                          TextSpan(
-                              text: 'Extra',
-                              style: AppTheme.of(context).encabezadoTablas)
-                        ]),
-                        width: MediaQuery.of(context).size.width * 0.09,
-                        cellPadding: EdgeInsets.zero,
-                        titleTextAlign: PlutoColumnTextAlign.center,
-                        textAlign: PlutoColumnTextAlign.center,
-                        type: PlutoColumnType.text(),
-                        enableEditingMode: false,
-                        renderer: (rendererContext) {
-                          bool state = issueReportedProvider.extraInspectR;
+                          title: 'Extra',
+                          field: 'Extra',
+                          backgroundColor: const Color(0XFF6491F7),
+                          titleSpan: TextSpan(children: [
+                            WidgetSpan(
+                                child: Icon(Icons.warehouse_outlined,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground)),
+                            const WidgetSpan(child: SizedBox(width: 10)),
+                            TextSpan(
+                                text: 'Extra',
+                                style: AppTheme.of(context).encabezadoTablas)
+                          ]),
+                          width: MediaQuery.of(context).size.width * 0.09,
+                          cellPadding: EdgeInsets.zero,
+                          titleTextAlign: PlutoColumnTextAlign.center,
+                          textAlign: PlutoColumnTextAlign.center,
+                          type: PlutoColumnType.text(),
+                          enableEditingMode: false,
+                          renderer: (rendererContext) {
+                            bool state = issueReportedProvider.extraInspectR;
+                            Extra extraState = rendererContext.cell.value;
 
-                          return Container(
-                            height: rowHeight,
-                            decoration: BoxDecoration(gradient: whiteGradient),
-                            child: InkWell(
-                                onTap: () => showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                          builder: (context, setState) {
-                                        return IssuesPopUpTotal(
-                                          text: "Extra",
-                                          contador: 5,
-                                          issueComments:
-                                              issueReportedProvider.extraR,
-                                        );
-                                      });
-                                    }),
-                                child: state
-                                    ? const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color: Color.fromARGB(200, 65, 155, 23))
-                                    : const Icon(Icons.cancel_outlined,
-                                        color:
-                                            Color.fromARGB(200, 210, 0, 48))),
-                          );
-                        },
-                      ),
+                            return Container(
+                              height: rowHeight,
+                              decoration:
+                                  BoxDecoration(gradient: whiteGradient),
+                              child: InkWell(
+                                  onTap: () => showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return StatefulBuilder(
+                                            builder: (context, setState) {
+                                          if (state) {
+                                            return Text("");
+                                          } else {
+                                            if (extraState.state!) {
+                                              return IssuesPopUpTotal(
+                                                text: "Extra",
+                                                contador: 5,
+                                                issueComments:
+                                                    issueReportedProvider
+                                                        .extraR,
+                                              );
+                                            } else {
+                                              return IssuesPopUpTotal(
+                                                text: "Extra",
+                                                contador: 5,
+                                                issueComments:
+                                                    issueReportedProvider
+                                                        .extraD,
+                                              );
+                                            }
+                                          }
+                                        });
+                                      }),
+                                  child: state
+                                      ? const Icon(
+                                          Icons.check_circle_outline_outlined,
+                                          color:
+                                              Color.fromARGB(200, 65, 155, 23))
+                                      : const Icon(Icons.cancel_outlined,
+                                          color:
+                                              Color.fromARGB(200, 210, 0, 48))),
+                            );
+                          }),
                       PlutoColumn(
                         title: 'Equipment',
                         field: 'Equipment',
@@ -512,15 +598,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       return StatefulBuilder(
                                           builder: (context, setState) {
                                         if (state) {
-                                          // fToast.showToast(
-                                          //   child: const SuccessToast(
-                                          //     message:
-                                          //         'Issue Closed Succesfuly',
-                                          //   ),
-                                          //   gravity: ToastGravity.BOTTOM,
-                                          //   toastDuration:
-                                          //       const Duration(seconds: 2),
-                                          // );
                                           return Text("");
                                         } else {
                                           if (equipmentState.state!) {
@@ -554,105 +631,141 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         },
                       ),
                       PlutoColumn(
-                        title: 'BucketInspection',
-                        field: 'BucketInspection',
-                        backgroundColor: const Color(0XFF6491F7),
-                        titleSpan: TextSpan(children: [
-                          WidgetSpan(
-                              child: Icon(Icons.call_to_action_outlined,
-                                  color:
-                                      AppTheme.of(context).primaryBackground)),
-                          const WidgetSpan(child: SizedBox(width: 10)),
-                          TextSpan(
-                              text: 'BucketInspection',
-                              style: AppTheme.of(context).encabezadoTablas)
-                        ]),
-                        width: MediaQuery.of(context).size.width * 0.10,
-                        cellPadding: EdgeInsets.zero,
-                        titleTextAlign: PlutoColumnTextAlign.center,
-                        textAlign: PlutoColumnTextAlign.center,
-                        type: PlutoColumnType.text(),
-                        enableEditingMode: false,
-                        renderer: (rendererContext) {
-                          bool state = issueReportedProvider.bucketInspectR;
+                          title: 'BucketInspection',
+                          field: 'BucketInspection',
+                          backgroundColor: const Color(0XFF6491F7),
+                          titleSpan: TextSpan(children: [
+                            WidgetSpan(
+                                child: Icon(Icons.call_to_action_outlined,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground)),
+                            const WidgetSpan(child: SizedBox(width: 10)),
+                            TextSpan(
+                                text: 'BucketInspection',
+                                style: AppTheme.of(context).encabezadoTablas)
+                          ]),
+                          width: MediaQuery.of(context).size.width * 0.10,
+                          cellPadding: EdgeInsets.zero,
+                          titleTextAlign: PlutoColumnTextAlign.center,
+                          textAlign: PlutoColumnTextAlign.center,
+                          type: PlutoColumnType.text(),
+                          enableEditingMode: false,
+                          renderer: (rendererContext) {
+                            bool state = issueReportedProvider.bucketInspectR;
+                            BucketInspection bucketInspectionstate =
+                                rendererContext.cell.value;
 
-                          return Container(
-                            height: rowHeight,
-                            decoration: BoxDecoration(gradient: whiteGradient),
-                            child: InkWell(
-                                onTap: () => showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                          builder: (context, setState) {
-                                        return IssuesPopUpTotal(
-                                          text: "Bucket Inspection",
-                                          contador: 7,
-                                          issueComments: issueReportedProvider
-                                              .bucketInspectionR,
-                                        );
-                                      });
-                                    }),
-                                child: state
-                                    ? const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color: Color.fromARGB(200, 65, 155, 23))
-                                    : const Icon(Icons.cancel_outlined,
-                                        color:
-                                            Color.fromARGB(200, 210, 0, 48))),
-                          );
-                        },
-                      ),
+                            return Container(
+                              height: rowHeight,
+                              decoration:
+                                  BoxDecoration(gradient: whiteGradient),
+                              child: InkWell(
+                                  onTap: () => showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return StatefulBuilder(
+                                            builder: (context, setState) {
+                                          if (state) {
+                                            return Text("");
+                                          } else {
+                                            if (bucketInspectionstate.state!) {
+                                              return IssuesPopUpTotal(
+                                                text: "BucketInspection",
+                                                contador: 7,
+                                                issueComments:
+                                                    issueReportedProvider
+                                                        .bucketInspectionR,
+                                              );
+                                            } else {
+                                              return IssuesPopUpTotal(
+                                                text: "BucketInspection",
+                                                contador: 7,
+                                                issueComments:
+                                                    issueReportedProvider
+                                                        .bucketInspectionD,
+                                              );
+                                            }
+                                          }
+                                        });
+                                      }),
+                                  child: state
+                                      ? const Icon(
+                                          Icons.check_circle_outline_outlined,
+                                          color:
+                                              Color.fromARGB(200, 65, 155, 23))
+                                      : const Icon(Icons.cancel_outlined,
+                                          color:
+                                              Color.fromARGB(200, 210, 0, 48))),
+                            );
+                          }),
                       PlutoColumn(
-                        title: 'Measures',
-                        field: 'Measures',
-                        backgroundColor: const Color(0XFF6491F7),
-                        titleSpan: TextSpan(children: [
-                          WidgetSpan(
-                              child: Icon(Icons.call_to_action_outlined,
-                                  color:
-                                      AppTheme.of(context).primaryBackground)),
-                          const WidgetSpan(child: SizedBox(width: 10)),
-                          TextSpan(
-                              text: 'Measures',
-                              style: AppTheme.of(context).encabezadoTablas)
-                        ]),
-                        width: MediaQuery.of(context).size.width * 0.10,
-                        cellPadding: EdgeInsets.zero,
-                        titleTextAlign: PlutoColumnTextAlign.center,
-                        textAlign: PlutoColumnTextAlign.center,
-                        type: PlutoColumnType.text(),
-                        enableEditingMode: false,
-                        renderer: (rendererContext) {
-                          bool state = issueReportedProvider.measureInspectR;
+                          title: 'Measures',
+                          field: 'Measures',
+                          backgroundColor: const Color(0XFF6491F7),
+                          titleSpan: TextSpan(children: [
+                            WidgetSpan(
+                                child: Icon(Icons.call_to_action_outlined,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground)),
+                            const WidgetSpan(child: SizedBox(width: 10)),
+                            TextSpan(
+                                text: 'Measures',
+                                style: AppTheme.of(context).encabezadoTablas)
+                          ]),
+                          width: MediaQuery.of(context).size.width * 0.10,
+                          cellPadding: EdgeInsets.zero,
+                          titleTextAlign: PlutoColumnTextAlign.center,
+                          textAlign: PlutoColumnTextAlign.center,
+                          type: PlutoColumnType.text(),
+                          enableEditingMode: false,
+                          renderer: (rendererContext) {
+                            bool state = issueReportedProvider.measureInspectR;
 
-                          return Container(
-                            height: rowHeight,
-                            decoration: BoxDecoration(gradient: whiteGradient),
-                            child: InkWell(
-                                onTap: () => showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                          builder: (context, setState) {
-                                        return IssuesPopUpTotal(
-                                          text: "Measures",
-                                          issueComments:
-                                              issueReportedProvider.measureR,
-                                          contador: 8,
-                                        );
-                                      });
-                                    }),
-                                child: state
-                                    ? const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color: Color.fromARGB(200, 65, 155, 23))
-                                    : const Icon(Icons.cancel_outlined,
-                                        color:
-                                            Color.fromARGB(200, 210, 0, 48))),
-                          );
-                        },
-                      ),
+                            Measure measureState = rendererContext.cell.value;
+
+                            return Container(
+                              height: rowHeight,
+                              decoration:
+                                  BoxDecoration(gradient: whiteGradient),
+                              child: InkWell(
+                                  onTap: () => showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return StatefulBuilder(
+                                            builder: (context, setState) {
+                                          if (state) {
+                                            return Text("");
+                                          } else {
+                                            if (measureState.state!) {
+                                              return IssuesPopUpTotal(
+                                                text: "Measures",
+                                                contador: 8,
+                                                issueComments:
+                                                    issueReportedProvider
+                                                        .measureR,
+                                              );
+                                            } else {
+                                              return IssuesPopUpTotal(
+                                                text: "Measures",
+                                                contador: 8,
+                                                issueComments:
+                                                    issueReportedProvider
+                                                        .measureD,
+                                              );
+                                            }
+                                          }
+                                        });
+                                      }),
+                                  child: state
+                                      ? const Icon(
+                                          Icons.check_circle_outline_outlined,
+                                          color:
+                                              Color.fromARGB(200, 65, 155, 23))
+                                      : const Icon(Icons.cancel_outlined,
+                                          color:
+                                              Color.fromARGB(200, 210, 0, 48))),
+                            );
+                          }),
                     ],
                     rows: issueReportedProvider.rows,
                     onLoaded: (event) async {

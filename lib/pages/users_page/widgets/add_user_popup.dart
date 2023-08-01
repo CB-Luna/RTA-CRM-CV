@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
@@ -38,8 +40,11 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
     final List<String> rolesNames =
         provider.roles.map((role) => role.roleName).toList();
     final List<String> statusName = ["Not Active", "Active"];
-    final List<String> CompanyNames =
+    final List<String> companyNames =
         provider.companys.map((companyName) => companyName.company).toList();
+    final List<String> vehicleNames = provider.vehicles
+        .map((vehicleNames) => vehicleNames.licesensePlates)
+        .toList();
 
     return Dialog(
       shape: const RoundedRectangleBorder(
@@ -163,11 +168,15 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                           label: 'Company',
                           icon: Icons.warehouse_outlined,
                           width: 350,
-                          list: CompanyNames,
+                          list: companyNames,
                           dropdownValue: provider.selectedCompany?.company,
-                          onChanged: (val) {
+                          onChanged: (val) async {
                             if (val == null) return;
                             provider.selectCompany(val);
+                            if (val != "RTA") {
+                              await provider.getVehicleActive(val,
+                                  notify: true);
+                            }
                           },
                         ),
                       ),
@@ -184,6 +193,23 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                           if (val == null) return;
                           provider.dropdownvalue = val;
                           print(val);
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomDDownMenu(
+                        hint: 'Choose a Vehicle',
+                        label: 'Vehicle',
+                        icon: Icons.car_repair_outlined,
+                        width: 350,
+                        list: vehicleNames,
+                        dropdownValue:
+                            provider.selectedVehicle?.licesensePlates,
+                        onChanged: (val) {
+                          if (val == null) return;
+                          print(val);
+                          provider.selectedVehiclee(val);
                         },
                       ),
                     ),
@@ -266,11 +292,12 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     if (!mounted) return;
                     fToast.showToast(
                       child: const SuccessToast(
-                        message: 'Usuario creado',
+                        message: 'User Created',
                       ),
                       gravity: ToastGravity.BOTTOM,
                       toastDuration: const Duration(seconds: 2),
                     );
+                    provider.updateVehiclestatus();
 
                     if (context.canPop()) context.pop();
                   },

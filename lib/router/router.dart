@@ -7,6 +7,7 @@ import 'package:rta_crm_cv/pages/crm/schedulings_page.dart';
 import 'package:rta_crm_cv/pages/crm/tickets_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/dashboards_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
+import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
@@ -243,6 +244,16 @@ final GoRouter router = GoRouter(
         if (state.extra == null) return const InventoryPageDesktop();
         // return ReportedIssues(vehicle: state.extra as Vehicle);
         return ReportedIssues();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeService,
+      name: 'Services',
+      builder: (BuildContext context, GoRouterState state) {
+        if (state.extra == null) return const InventoryPageDesktop();
+        // return ReportedIssues(vehicle: state.extra as Vehicle);
+        return const ServicePopUp();
       },
       // (context, state, const DetailsPopUp()),
     ),

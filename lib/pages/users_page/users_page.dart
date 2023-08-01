@@ -129,7 +129,6 @@ class _UsersPageState extends State<UsersPage> {
                                   await provider.getRoles(notify: false);
                                   await provider.getCompany(notify: false);
                                   await provider.getStates(notify: false);
-
                                   if (!mounted) return;
                                   await showDialog(
                                     context: context,
@@ -744,6 +743,11 @@ class _UsersPageState extends State<UsersPage> {
                                                 notify: false);
                                             provider.updateControllers(
                                                 rendererContext.cell.value);
+                                            // provider.getActualVehicle(
+                                            //     rendererContext.cell.value);
+                                            // provider.selectVehicleActual(
+                                            //     rendererContext.cell.value,
+                                            //     notify: true);
                                             // ignore: use_build_context_synchronously
                                             await showDialog(
                                                 context: context,

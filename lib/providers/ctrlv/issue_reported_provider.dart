@@ -324,6 +324,7 @@ class IssueReportedProvider extends ChangeNotifier {
     }
   }
 
+
   // Función para traer las funciones de los comentarios y las fotos de los IssueComments
   void getIssuePhotosComments(int contador, IssueOpenclose issuesComments,
       {bool notify = true}) {
@@ -782,11 +783,19 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         });
         if (issue.issuesD == null) {
+          issue.fluidCheckR.state = true;
+          issue.lightsR.state = true;
+          issue.carBodyworkR.state = true;
+          issue.securityR.state = true;
+          issue.extraR.state = true;
+          issue.bucketInspectionR.state = true;
+          issue.equimentR.state = true;
+          issue.measureR.state = true;
           rows.add(
             PlutoRow(
               cells: {
                 "Status": PlutoCell(value: "Check Out"),
-                "FluidsCheck": PlutoCell(value: issue.fluidCheckR.toString()),
+                "FluidsCheck": PlutoCell(value: issue.fluidCheckR),
                 "Lights": PlutoCell(value: issue.lightsR),
                 "CarBodyWork": PlutoCell(value: issue.carBodyworkR),
                 "Security": PlutoCell(value: issue.securityR),
@@ -798,6 +807,14 @@ class IssueReportedProvider extends ChangeNotifier {
             ),
           );
         } else {
+          issue.fluidCheckD.state = true;
+          issue.lightsD.state = true;
+          issue.carBodyworkD.state = true;
+          issue.securityD.state = true;
+          issue.extraD.state = true;
+          issue.bucketInspectionD.state = true;
+          issue.equimentD.state = true;
+          issue.measureD.state = true;
           rows.add(
             PlutoRow(
               cells: {
@@ -813,6 +830,14 @@ class IssueReportedProvider extends ChangeNotifier {
               },
             ),
           );
+          issue.fluidCheckR.state = true;
+          issue.lightsR.state = true;
+          issue.carBodyworkR.state = true;
+          issue.securityR.state = true;
+          issue.extraR.state = true;
+          issue.bucketInspectionR.state = true;
+          issue.equimentR.state = true;
+          issue.measureR.state = true;
           rows.add(
             PlutoRow(
               cells: {
@@ -1249,12 +1274,20 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         });
         if (issue.issuesD == null) {
+          issue.fluidCheckR.state = true;
+          issue.lightsR.state = true;
+          issue.carBodyworkR.state = true;
+          issue.securityR.state = true;
+          issue.extraR.state = true;
+          issue.bucketInspectionR.state = true;
           issue.equimentR.state = true;
+          issue.measureR.state = true;
+
           rows.add(
             PlutoRow(
               cells: {
                 "Status": PlutoCell(value: "Check Out"),
-                "FluidsCheck": PlutoCell(value: issue.fluidCheckR.toString()),
+                "FluidsCheck": PlutoCell(value: issue.fluidCheckR),
                 "Lights": PlutoCell(value: issue.lightsR),
                 "CarBodyWork": PlutoCell(value: issue.carBodyworkR),
                 "Security": PlutoCell(value: issue.securityR),
@@ -1266,7 +1299,14 @@ class IssueReportedProvider extends ChangeNotifier {
             ),
           );
         } else {
-          issue.equimentR.state = false;
+          issue.fluidCheckD.state = false;
+          issue.lightsD.state = false;
+          issue.carBodyworkD.state = false;
+          issue.securityD.state = false;
+          issue.extraD.state = false;
+          issue.bucketInspectionD.state = false;
+          issue.equimentD.state = false;
+          issue.measureD.state = false;
           rows.add(
             PlutoRow(
               cells: {

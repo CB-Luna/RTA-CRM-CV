@@ -697,18 +697,33 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             color: AppTheme.of(context)
                                                 .primaryColor,
                                             onTap: () async {
+                                              isssueReportedProvider
+                                                  .selectVehicle(
+                                                rendererContext.cell.value,
+                                                notify: false,
+                                              );
+                                              provider.selectVehicle(
+                                                rendererContext.cell.value,
+                                                notify: false,
+                                              );
                                               await provider.getServices(
                                                   notify: false);
                                               provider.selectVehicle(
                                                   rendererContext.cell.value);
 
-                                              // ignore: use_build_context_synchronously
-                                              showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return const AddServicePopUp();
-                                                  });
+                                              await provider.getServicesPage();
+                                              // // ignore: use_build_context_synchronously
+                                              // showDialog(
+                                              //     context: context,
+                                              //     builder:
+                                              //         (BuildContext context) {
+                                              //       return const AddServicePopUp();
+                                              //     });
+                                              if (!mounted) return;
+                                              context.pushReplacement(
+                                                  routeService,
+                                                  extra: rendererContext
+                                                      .cell.value);
                                             },
                                           ),
                                         ],

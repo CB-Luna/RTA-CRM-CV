@@ -1,20 +1,22 @@
 import 'dart:convert';
 
 import 'package:rta_crm_cv/models/services.dart';
+import 'package:rta_crm_cv/models/vehicle_api.dart';
 
 class ServicesApi {
   ServicesApi({
     required this.idVehicle,
     required this.idService,
-    required this.serviceDate,
+    this.serviceDate,
     required this.servicex,
-    //this.vehicle,
+    required this.vehicle,
   });
 
   int idService;
-  int? idVehicle;
-  DateTime serviceDate;
+  int idVehicle;
+  DateTime? serviceDate;
   Services servicex;
+  VehicleApi vehicle;
 
   factory ServicesApi.fromJson(String str) =>
       ServicesApi.fromMap(json.decode(str));
@@ -24,14 +26,18 @@ class ServicesApi {
   factory ServicesApi.fromMap(Map<String, dynamic> json) => ServicesApi(
         idVehicle: json["id_vehicle_fk"],
         idService: json["id_vehicle_services"],
-        serviceDate: DateTime.parse(json["service_date"]),
+        serviceDate: json["service_date"] == null
+            ? null
+            : DateTime.parse(json["service_date"]),
+        vehicle: VehicleApi.fromJson(jsonEncode(json['vehicle'])),
         servicex: Services.fromJson(jsonEncode(json['service'])),
       );
 
   Map<String, dynamic> toMap() => {
         "service": servicex.toMap(),
-        "service_date": serviceDate.toIso8601String(),
+        "service_date": serviceDate?.toIso8601String(),
         "id_vehicle_services": idService,
         "id_vehicle_fk": idVehicle,
+        "vehicle": vehicle.toMap(),
       };
 }

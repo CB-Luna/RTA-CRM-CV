@@ -36,11 +36,16 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
     UsersProvider provider = Provider.of<UsersProvider>(context);
     final formKey = GlobalKey<FormState>();
 
-    final List<String> statesNames = provider.states.map((state) => state.name).toList();
+    final List<String> statesNames =
+        provider.states.map((state) => state.name).toList();
 
-    final List<String> rolesNames = provider.roles.map((role) => role.roleName).toList();
-    final List<String> CompanyNames = provider.companys.map((companyName) => companyName.company).toList();
-
+    final List<String> rolesNames =
+        provider.roles.map((role) => role.roleName).toList();
+    final List<String> companyNames =
+        provider.companys.map((companyName) => companyName.company).toList();
+    final List<String> vehicleNames = provider.vehicles
+        .map((vehicleNames) => vehicleNames.licesensePlates)
+        .toList();
     return Dialog(
       shape: const RoundedRectangleBorder(
         side: BorderSide.none,
@@ -158,18 +163,40 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: CustomDDownMenu(
-                          hint: 'Choose a Company [${widget.users.company.company}]',
+                          hint:
+                              'Choose a Company [${widget.users.company.company}]',
                           label: 'Company',
                           icon: Icons.warehouse_outlined,
                           width: 350,
-                          list: CompanyNames,
-                          dropdownValue: provider.selectedCompanyUpdate?.company,
-                          onChanged: (val) {
+                          list: companyNames,
+                          dropdownValue:
+                              provider.selectedCompanyUpdate?.company,
+                          onChanged: (val) async {
                             if (val == null) return;
                             provider.selectCompanyUpdate(val);
+                            if (val != "RTA") {
+                              await provider.getVehicleActive(val,
+                                  notify: true);
+                            }
                           },
                         ),
                       ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomDDownMenu(
+                        hint: 'Choose a Vehicle [${widget.users.idVehicle}]',
+                        label: 'Vehicle',
+                        icon: Icons.warehouse_outlined,
+                        width: 350,
+                        list: vehicleNames,
+                        dropdownValue:
+                            provider.selectedVehicleUpdate?.licesensePlates,
+                        onChanged: (val) {
+                          if (val == null) return;
+                          provider.selectVehicleUpdates(val);
+                        },
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
@@ -212,7 +239,8 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
               children: [
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.save_outlined,
+                      color: AppTheme.of(context).primaryBackground),
                   text: 'Save User',
                   onTap: () async {
                     if (!formKey.currentState!.validate()) {
@@ -230,7 +258,8 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                     bool res = await provider.updateUser(widget.users);
 
                     if (!res) {
-                      await ApiErrorHandler.callToast('Error Updating user profile');
+                      await ApiErrorHandler.callToast(
+                          'Error Updating user profile');
                       return;
                     }
 
