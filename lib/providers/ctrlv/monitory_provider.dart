@@ -1089,7 +1089,7 @@ class MonitoryProvider extends ChangeNotifier {
 
         // Equipment R
         issue!.equimentR.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
+          if (value == 'No' && !(key.contains("_comments"))) {
             equipmentInspectR = false;
             String nameIssue = key;
             String? comments =
@@ -1110,7 +1110,7 @@ class MonitoryProvider extends ChangeNotifier {
                 dateAdded: dateAdded);
             equipmentR.add(newIssuesComments);
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
+          if (value == 'Yes' && !(key.contains("_comments"))) {
             String nameIssue = key;
             String? comments =
                 issue!.equimentR.toMap()["${nameIssue}_comments"];
@@ -1148,7 +1148,7 @@ class MonitoryProvider extends ChangeNotifier {
 
         //Equipment R
         issue!.equimentD.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
+          if (value == 'No' && !(key.contains("_comments"))) {
             equipmentInspectD = false;
             String nameIssue = key;
             String? comments =
@@ -1169,7 +1169,7 @@ class MonitoryProvider extends ChangeNotifier {
                 dateAdded: dateAdded);
             equipmentD.add(newIssuesComments);
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
+          if (value == 'Yes' && !(key.contains("_comments"))) {
             String nameIssue = key;
             String? comments =
                 issue!.equimentD.toMap()["${nameIssue}_comments"];
@@ -1553,27 +1553,7 @@ class MonitoryProvider extends ChangeNotifier {
 
         //Measure R
         issue!.measureR.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            measureInspectR = false;
-            String nameIssue = key;
-            String? comments = issue!.measureR.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue!.measureR
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-                listImage.removeLast();
-
-            DateTime dateAdded =
-                DateTime.parse(issue!.measureR.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: 0,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            measureR.add(newIssuesComments);
-          }
-          if (value == 'Good' && !(key.contains("_comments"))) {
+          
             String nameIssue = key;
             String? comments = issue!.measureR.toMap()["${nameIssue}_comments"];
             if (issue!.measureR.toMap()["${nameIssue}_image"] != null) {
@@ -1605,32 +1585,12 @@ class MonitoryProvider extends ChangeNotifier {
                   status: true);
               measureR.add(newIssuesComments);
             }
-          }
+          
         });
 
         //Measure D
         issue!.measureD.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            measureInspectD = false;
-            String nameIssue = key;
-            String? comments = issue!.measureD.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue!.measureD
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-                listImage.removeLast();
-
-            DateTime dateAdded =
-                DateTime.parse(issue!.measureD.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: 0,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            measureD.add(newIssuesComments);
-          }
-          if (value == 'Good' && !(key.contains("_comments"))) {
+          
             String nameIssue = key;
             String? comments = issue!.measureD.toMap()["${nameIssue}_comments"];
             if (issue!.measureD.toMap()["${nameIssue}_image"] != null) {
@@ -1663,7 +1623,7 @@ class MonitoryProvider extends ChangeNotifier {
               measureD.add(newIssuesComments);
             }
           }
-        });
+        );
 
         //Security R
         issue!.securityR.toMap().forEach((key, value) {

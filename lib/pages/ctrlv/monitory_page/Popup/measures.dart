@@ -28,7 +28,7 @@ class MeasuresPopUp extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 20,top:20),
                   alignment: Alignment.centerLeft,
                   child: CustomTextIconButton(
                       icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -63,7 +63,8 @@ class MeasuresPopUp extends StatelessWidget {
                       size: 40,
                     ),
                     onTap: () {
-                      provider.updateViewPopup(9);
+                      provider.getActualDetailField(provider.measureR[0]);
+                      provider.updateViewPopup(11);
                     },
                   ),
                 ],
@@ -91,7 +92,8 @@ class MeasuresPopUp extends StatelessWidget {
                       size: 40,
                     ),
                     onTap: () {
-                      provider.updateViewPopup(9);
+                      //provider.getActualDetailField(provider.actualIssuesComments[0]);
+                      provider.updateViewPopup(11);
                     },
                   ),
                 ],
