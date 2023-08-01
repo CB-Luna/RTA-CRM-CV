@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
+import 'package:rta_crm_cv/models/vehicle.dart';
 
 class User {
   User(
@@ -23,6 +24,7 @@ class User {
       required this.status,
       required this.license,
       required this.certification,
+      this.idVehicle,
       this.userID});
 
   String id;
@@ -44,6 +46,7 @@ class User {
   String? license;
   String? certification;
   int? userID;
+  int? idVehicle;
 
   String get fullName => '$name $lastName';
 
@@ -96,7 +99,9 @@ class User {
         status: json["status"],
         license: json["license"],
         certification: json["certification"],
+        idVehicle: json["id_vehicle_fk"],
         userID: json["id_user"]);
+
     return usuario;
   }
 }

@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
+import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
+import '../../../../functions/sizes.dart';
+import '../../../../helpers/constants.dart';
+import '../../../../providers/ctrlv/issue_reported_provider.dart';
+import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
+import '../../../../widgets/custom_card.dart';
+import '../../../../widgets/custom_icon_button.dart';
+import '../vehicle_cards/generalinformation_card.dart';
 
 class ServicePopUp extends StatefulWidget {
   const ServicePopUp({super.key});
@@ -14,187 +23,280 @@ class ServicePopUp extends StatefulWidget {
 
 class _ServicePopUpState extends State<ServicePopUp> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final IssueReportedProvider provider = Provider.of<IssueReportedProvider>(
+        context,
+        listen: false,
+      );
+      await provider.updateState();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
+    IssueReportedProvider issueReportedProvider =
+        Provider.of<IssueReportedProvider>(context);
+    return Material(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.4,
-            width: MediaQuery.of(context).size.width * 0.4,
-            margin: const EdgeInsets.only(top: 50, left: 40, bottom: 10),
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: Color(int.parse(provider.actualVehicle!.color)),
-                  width: 5.0,
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(int.parse(provider.actualVehicle!.color)),
-                    spreadRadius: 7,
-                    blurRadius: 10,
-                    offset: Offset(4, 4), // changes position of shadow
-                  ),
-                ],
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(provider.actualVehicle!.image!))),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.35,
-            height: MediaQuery.of(context).size.height,
-            padding: const EdgeInsets.only(left: 50.0),
-            margin: const EdgeInsets.only(left: 10.0),
-            child: ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: provider.services.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Expanded(
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.15,
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: const [
-                              BoxShadow(
-                                  blurRadius: 4,
-                                  color: Colors.grey,
-                                  offset: Offset(10, 10))
-                            ],
+          const SideMenu(),
+          CustomCard(
+              title: 'Service',
+              width: MediaQuery.of(context).size.width * 0.93,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  const GeneralInformationCard(),
+                  Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: SizedBox(
+                        height: getHeight(850, context),
+                        width: getWidth(2450, context),
+                        child: PlutoGrid(
+                          key: UniqueKey(),
+                          configuration: PlutoGridConfiguration(
+                            scrollbar: plutoGridScrollbarConfig(context),
+                            style: plutoGridStyleConfig(context),
+                            columnFilter: PlutoGridColumnFilterConfig(
+                              filters: const [
+                                ...FilterHelper.defaultFilters,
+                              ],
+                              resolveDefaultColumnFilter: (column, resolver) {
+                                if (column.field == 'Status') {
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
+                                } else if (column.field == 'FluidsCheck') {
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
+                                } else if (column.field == 'Lights') {
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
+                                }
+                                return resolver<PlutoFilterTypeContains>()
+                                    as PlutoFilterType;
+                              },
+                            ),
                           ),
-                          child: Column(children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                          columns: [
+                            PlutoColumn(
+                              title: 'LicensePlates',
+                              field: 'LicensePlates',
+                              backgroundColor: const Color(0XFF6491F7),
+                              titleSpan: TextSpan(children: [
+                                WidgetSpan(
+                                    child: Icon(Icons.dialpad_outlined,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground)),
+                                const WidgetSpan(child: SizedBox(width: 10)),
+                                TextSpan(
+                                    text: 'LicensePlates',
+                                    style:
+                                        AppTheme.of(context).encabezadoTablas)
+                              ]),
+                              width: MediaQuery.of(context).size.width * 0.13,
+                              cellPadding: EdgeInsets.zero,
+                              titleTextAlign: PlutoColumnTextAlign.center,
+                              textAlign: PlutoColumnTextAlign.center,
+                              type: PlutoColumnType.text(),
+                              enableEditingMode: false,
+                              renderer: (rendererContext) {
+                                return Container(
+                                  height: rowHeight,
+                                  // width: rendererContext
+                                  //.cell.column.width,                                                    .cell.column.width,
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(
+                                    rendererContext.cell.value ?? '-',
+                                    style: AppTheme.of(context)
+                                        .contenidoTablas
+                                        .override(
+                                            fontFamily: 'Gotham-Regular',
+                                            useGoogleFonts: false,
+                                            color: AppTheme.of(context)
+                                                .primaryColor),
+                                  )),
+                                );
+                              },
+                              footerRenderer: (context) {
+                                return SizedBox(
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text("Service: ",
-                                          style: TextStyle(
-                                              fontFamily: AppTheme.of(context)
-                                                  .encabezadoTablas
-                                                  .fontFamily,
-                                              fontSize: AppTheme.of(context)
-                                                  .contenidoTablas
-                                                  .fontSize,
-                                              fontStyle: AppTheme.of(context)
-                                                  .encabezadoTablas
-                                                  .fontStyle,
-                                              color: AppTheme.of(context)
-                                                  .primaryText)),
+                                      CustomIconButton(
+                                        icon:
+                                            Icons.keyboard_arrow_down_outlined,
+                                        toolTip: 'less',
+                                        onTap: () {
+                                          provider.setPageSize('less');
+                                        },
+                                      ),
+                                      const SizedBox(width: 10),
                                       Text(
-                                        provider
-                                            .services[index].servicex.service,
-                                        style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .contenidoTablas
-                                              .color,
-                                          fontFamily: 'Bicyclette-Thin',
-                                          fontWeight: AppTheme.of(context)
-                                              .encabezadoTablas
-                                              .fontWeight,
-                                          fontSize: AppTheme.of(context)
-                                              .contenidoTablas
-                                              .fontSize,
-                                        ),
-                                      )
+                                        provider.pageRowCount.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      CustomIconButton(
+                                        icon: Icons.keyboard_arrow_up_outlined,
+                                        toolTip: 'more',
+                                        onTap: () {
+                                          provider.setPageSize('more');
+                                        },
+                                      ),
+                                      const SizedBox(width: 10),
                                     ],
                                   ),
-                                ),
-                                Row(
-                                  children: [
-                                    Text("License Plates: ",
-                                        style: TextStyle(
-                                            fontFamily: AppTheme.of(context)
-                                                .encabezadoTablas
-                                                .fontFamily,
-                                            fontSize: AppTheme.of(context)
-                                                .contenidoTablas
-                                                .fontSize,
-                                            fontStyle: AppTheme.of(context)
-                                                .encabezadoTablas
-                                                .fontStyle,
-                                            color: AppTheme.of(context)
-                                                .primaryText)),
-                                    Text(
-                                      provider.actualVehicle!.licesensePlates,
-                                      style: TextStyle(
-                                        color: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .color,
-                                        fontFamily: 'Bicyclette-Thin',
-                                        fontWeight: AppTheme.of(context)
-                                            .encabezadoTablas
-                                            .fontWeight,
-                                        fontSize: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .fontSize,
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
+                                );
+                              },
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("Service Date: ",
-                                          style: TextStyle(
-                                              fontFamily: AppTheme.of(context)
-                                                  .encabezadoTablas
-                                                  .fontFamily,
-                                              fontSize: AppTheme.of(context)
-                                                  .contenidoTablas
-                                                  .fontSize,
-                                              fontStyle: AppTheme.of(context)
-                                                  .encabezadoTablas
-                                                  .fontStyle,
-                                              color: AppTheme.of(context)
-                                                  .primaryText)),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        DateFormat("MMM/dd/yyyy hh:mm:ss")
-                                            .format(provider
-                                                .services[index].serviceDate),
-                                        style: TextStyle(
-                                          color: AppTheme.of(context)
-                                              .contenidoTablas
-                                              .color,
-                                          fontFamily: 'Bicyclette-Thin',
-                                          fontWeight: AppTheme.of(context)
-                                              .encabezadoTablas
-                                              .fontWeight,
-                                          fontSize: AppTheme.of(context)
-                                              .contenidoTablas
-                                              .fontSize,
+                            PlutoColumn(
+                              title: 'service',
+                              field: 'service',
+                              backgroundColor: const Color(0XFF6491F7),
+                              titleSpan: TextSpan(children: [
+                                WidgetSpan(
+                                    child: Icon(Icons.car_repair_outlined,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground)),
+                                const WidgetSpan(child: SizedBox(width: 10)),
+                                TextSpan(
+                                    text: 'service',
+                                    style:
+                                        AppTheme.of(context).encabezadoTablas)
+                              ]),
+                              width: MediaQuery.of(context).size.width * 0.15,
+                              cellPadding: EdgeInsets.zero,
+                              titleTextAlign: PlutoColumnTextAlign.center,
+                              textAlign: PlutoColumnTextAlign.center,
+                              type: PlutoColumnType.text(),
+                              enableEditingMode: false,
+                              renderer: (rendererContext) {
+                                return Container(
+                                  height: rowHeight,
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                );
+                              },
+                              footerRenderer: (context) {
+                                return SizedBox(
+                                  height: 50,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CustomIconButton(
+                                        icon: Icons.keyboard_double_arrow_left,
+                                        toolTip: 'start',
+                                        onTap: () {
+                                          provider.setPage('start');
+                                        },
+                                      ),
+                                      const SizedBox(width: 2),
+                                      CustomIconButton(
+                                        icon:
+                                            Icons.keyboard_arrow_left_outlined,
+                                        toolTip: 'previous',
+                                        onTap: () {
+                                          provider.setPage('previous');
+                                        },
+                                      ),
+                                      const SizedBox(width: 5),
+                                      SizedBox(
+                                        width: 30,
+                                        child: Center(
+                                          child: Text(
+                                            provider.page.toString(),
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            )
-                          ]),
+                                      const SizedBox(width: 5),
+                                      CustomIconButton(
+                                        icon:
+                                            Icons.keyboard_arrow_right_outlined,
+                                        toolTip: 'next',
+                                        onTap: () {
+                                          provider.setPage('next');
+                                        },
+                                      ),
+                                      const SizedBox(width: 2),
+                                      CustomIconButton(
+                                        icon: Icons.keyboard_double_arrow_right,
+                                        toolTip: 'end',
+                                        onTap: () {
+                                          provider.setPage('end');
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                                //PlutoPagination(context.stateManager);
+                              },
+                            ),
+                            PlutoColumn(
+                              title: 'serviceDate',
+                              field: 'serviceDate',
+                              backgroundColor: const Color(0XFF6491F7),
+                              titleSpan: TextSpan(children: [
+                                WidgetSpan(
+                                    child: Icon(Icons.dialpad_outlined,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground)),
+                                const WidgetSpan(child: SizedBox(width: 10)),
+                                TextSpan(
+                                    text: 'serviceDate',
+                                    style:
+                                        AppTheme.of(context).encabezadoTablas)
+                              ]),
+                              width: MediaQuery.of(context).size.width * 0.13,
+                              cellPadding: EdgeInsets.zero,
+                              titleTextAlign: PlutoColumnTextAlign.center,
+                              textAlign: PlutoColumnTextAlign.center,
+                              type: PlutoColumnType.text(),
+                              enableEditingMode: false,
+                              renderer: (rendererContext) {
+                                return Container(
+                                  height: rowHeight,
+                                  // width: rendererContext
+                                  //.cell.column.width,                                                    .cell.column.width,
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(
+                                    rendererContext.cell.value ?? '-',
+                                    style: AppTheme.of(context)
+                                        .contenidoTablas
+                                        .override(
+                                            fontFamily: 'Gotham-Regular',
+                                            useGoogleFonts: false,
+                                            color: AppTheme.of(context)
+                                                .primaryColor),
+                                  )),
+                                );
+                              },
+                            ),
+                          ],
+                          rows: issueReportedProvider.rows,
+                          onLoaded: (event) async {
+                            provider.stateManager = event.stateManager;
+                          },
+                          createFooter: (stateManager) {
+                            stateManager.setPageSize(provider.pageRowCount);
+                            stateManager.setPage(provider.page);
+                            return const SizedBox(height: 0, width: 0);
+                          },
                         ),
-                      ));
-                }),
-          ),
+                      ))
+                ],
+              )),
         ],
       ),
     );

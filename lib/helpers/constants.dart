@@ -88,6 +88,7 @@ const String routeQuoteCreation = '/order_creation';
 const String routeQuoteDetail = '/order_detail';
 const String routeQuoteValidation = '/order_validation';
 const String routeDetailsInventory = '/details_inventory';
+const String routeService = '/service';
 const String routeQuotes = '/order';
 const String routeCampaigns = '/campaigns';
 

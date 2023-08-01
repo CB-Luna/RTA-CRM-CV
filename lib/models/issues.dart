@@ -187,6 +187,7 @@ class BucketInspection {
   final DateTime? bucketLinerClosed;
   final String? bucketLinerImage;
   final DateTime? dateAdded;
+  bool? state;
 
   BucketInspection({
     this.idBucketInspection,
@@ -201,6 +202,7 @@ class BucketInspection {
     this.bucketLinerClosed,
     this.bucketLinerImage,
     this.dateAdded,
+    this.state,
   });
 
   factory BucketInspection.fromJson(String str) =>
@@ -283,6 +285,7 @@ class CarBodywork {
   final String? hornImage;
   final DateTime? dateAdded;
   final int? idCarBodywork;
+  bool? state;
 
   CarBodywork({
     this.idCarBodyworkD,
@@ -323,6 +326,7 @@ class CarBodywork {
     this.hornImage,
     this.dateAdded,
     this.idCarBodywork,
+    this.state,
   });
 
   factory CarBodywork.fromJson(String str) =>
@@ -534,6 +538,7 @@ class Extra {
   final String? lanyardSafetyHarnessComments;
   final String? lanyardSafetyHarnessImage;
   final DateTime? dateAdded;
+  bool? state;
 
   Extra({
     this.idExtra,
@@ -561,6 +566,7 @@ class Extra {
     this.lanyardSafetyHarness,
     this.lanyardSafetyHarnessComments,
     this.lanyardSafetyHarnessImage,
+    this.state,
     this.dateAdded,
   });
 
@@ -651,6 +657,7 @@ class FluidCheck {
   final String? windshieldWasherFluidComments;
   final String? windshieldWasherFluidImage;
   final DateTime? dateAdded;
+  bool? state;
 
   FluidCheck({
     this.idFluidsCheck,
@@ -673,6 +680,7 @@ class FluidCheck {
     this.windshieldWasherFluidComments,
     this.windshieldWasherFluidImage,
     this.dateAdded,
+    this.state,
   });
 
   factory FluidCheck.fromJson(String str) =>
@@ -762,6 +770,7 @@ class Lights {
   final String? clearanceLightsComments;
   final String? clearanceLightsImage;
   final DateTime? dateAdded;
+  bool? state;
 
   Lights({
     this.idLights,
@@ -795,6 +804,7 @@ class Lights {
     this.clearanceLights,
     this.clearanceLightsComments,
     this.clearanceLightsImage,
+    this.state,
     this.dateAdded,
   });
 
@@ -884,6 +894,7 @@ class Measure {
   final String? mileageComments;
   final String? mileageImage;
   final DateTime? dateAdded;
+  bool? state;
 
   Measure({
     this.idMeasure,
@@ -894,6 +905,7 @@ class Measure {
     this.mileageComments,
     this.mileageImage,
     this.dateAdded,
+    this.state,
   });
 
   factory Measure.fromJson(String str) => Measure.fromMap(json.decode(str));
@@ -946,6 +958,7 @@ class Security {
   final String? backUpAlarmComments;
   final String? backUpAlarmImage;
   final DateTime? dateAdded;
+  bool? state;
 
   Security({
     this.idSecurity,
@@ -968,6 +981,7 @@ class Security {
     this.backUpAlarmComments,
     this.backUpAlarmImage,
     this.dateAdded,
+    this.state,
   });
 
   factory Security.fromJson(String str) => Security.fromMap(json.decode(str));
