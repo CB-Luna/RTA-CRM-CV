@@ -266,11 +266,12 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                     if (!mounted) return;
                     fToast.showToast(
                       child: const SuccessToast(
-                        message: 'Usuario Actualizado',
+                        message: 'User Updated',
                       ),
                       gravity: ToastGravity.BOTTOM,
                       toastDuration: const Duration(seconds: 2),
                     );
+                    provider.updateVehiclestatusUpdate(widget.users);
 
                     if (context.canPop()) context.pop();
                   },

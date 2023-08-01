@@ -144,6 +144,16 @@ class IssueReportedProvider extends ChangeNotifier {
     });
   }
 
+  bool validateElementAtListIC(List<IssuesComments> list, int id) {
+    return list.any((element) {
+      if (element.idIssue == id) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+
   void setIndex(int index) {
     for (var i = 0; i < indexSelected.length; i++) {
       indexSelected[i] = false;
@@ -324,7 +334,6 @@ class IssueReportedProvider extends ChangeNotifier {
     }
   }
 
-
   // Función para traer las funciones de los comentarios y las fotos de los IssueComments
   void getIssuePhotosComments(int contador, IssueOpenclose issuesComments,
       {bool notify = true}) {
@@ -420,16 +429,17 @@ class IssueReportedProvider extends ChangeNotifier {
             DateTime dateAdded =
                 DateTime.parse(issue.bucketInspectionR.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
-                idIssue: 0,
+                idIssue: issue.idBucketInspectionRFk,
                 nameIssue: nameIssue,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
-            //           if (!validateElementAtList(measureRR, issue.idMeasure!)) {
-            //   print("Nuevo elemento Agregado measureRR");
-            //   measureRR.add(newIssueComments);
-            // }
-            bucketInspectionR.add(newIssuesComments);
+            if (!validateElementAtListIC(
+                bucketInspectionR, issue.idBucketInspectionRFk)) {
+              print("Nuevo elemento Agregado bucketInspectionR");
+              bucketInspectionR.add(newIssuesComments);
+            }
+            // bucketInspectionR.add(newIssuesComments);
           }
         });
         //Bucket delivered llamada a su lista
@@ -448,7 +458,7 @@ class IssueReportedProvider extends ChangeNotifier {
                 DateTime.parse(issue.bucketInspectionD.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
-                idIssue: 0,
+                idIssue: issue.idBucketInspectionDFk ?? 1,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);

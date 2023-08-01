@@ -21,7 +21,6 @@ import '../../../widgets/custom_icon_button.dart';
 import '../../../widgets/custom_text_icon_button.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_company_cell.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_status_cellCV.dart';
-import 'actions/add_services_pop_up.dart';
 
 import 'pop_up/verify_to_eliminate_pop_up.dart';
 import 'widgets/header_inventory.dart';
@@ -421,6 +420,51 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                   },
                                 ),
                                 PlutoColumn(
+                                  title: 'Year',
+                                  field: 'year',
+                                  backgroundColor: const Color(0XFF6491F7),
+                                  titleSpan: TextSpan(children: [
+                                    WidgetSpan(
+                                        child: Icon(
+                                            Icons.local_shipping_outlined,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground)),
+                                    const WidgetSpan(
+                                        child: SizedBox(width: 10)),
+                                    TextSpan(
+                                        text: 'Year',
+                                        style: AppTheme.of(context)
+                                            .encabezadoTablas)
+                                  ]),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.08,
+                                  cellPadding: EdgeInsets.zero,
+                                  titleTextAlign: PlutoColumnTextAlign.center,
+                                  textAlign: PlutoColumnTextAlign.center,
+                                  type: PlutoColumnType.text(),
+                                  enableEditingMode: false,
+                                  renderer: (rendererContext) {
+                                    return Container(
+                                      height: rowHeight,
+                                      // width: rendererContext
+                                      //.cell.column.width,                                                    .cell.column.width,
+                                      decoration: BoxDecoration(
+                                          gradient: whiteGradient),
+                                      child: Center(
+                                          child: Text(
+                                        rendererContext.cell.value,
+                                        style: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false,
+                                                color: AppTheme.of(context)
+                                                    .primaryColor),
+                                      )),
+                                    );
+                                  },
+                                ),
+                                PlutoColumn(
                                   title: 'Model',
                                   field: 'model',
                                   backgroundColor: const Color(0XFF6491F7),
@@ -556,7 +600,7 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             .encabezadoTablas)
                                   ]),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.30,
+                                      MediaQuery.of(context).size.width * 0.35,
                                   cellPadding: EdgeInsets.zero,
                                   titleTextAlign: PlutoColumnTextAlign.center,
                                   textAlign: PlutoColumnTextAlign.center,
@@ -579,13 +623,25 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             child: CustomTextIconButton(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
-                                              width: 92,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.08,
                                               isLoading: false,
                                               icon: Icon(
                                                   Icons.remove_red_eye_outlined,
                                                   color: AppTheme.of(context)
                                                       .primaryBackground),
                                               text: 'Issue',
+                                              style: AppTheme.of(context)
+                                                  .contenidoTablas
+                                                  .override(
+                                                    fontFamily:
+                                                        'Gotham-Regular',
+                                                    useGoogleFonts: false,
+                                                    color: AppTheme.of(context)
+                                                        .primaryBackground,
+                                                  ),
                                               color: AppTheme.of(context)
                                                   .primaryColor,
                                               onTap: () async {
@@ -620,6 +676,10 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             ),
                                           ),
                                           CustomTextIconButton(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.06,
                                             isLoading: false,
                                             icon: Icon(
                                               Icons.fact_check_outlined,
@@ -627,6 +687,14 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   .primaryBackground,
                                             ),
                                             text: 'Edit',
+                                            style: AppTheme.of(context)
+                                                .contenidoTablas
+                                                .override(
+                                                  fontFamily: 'Gotham-Regular',
+                                                  useGoogleFonts: false,
+                                                  color: AppTheme.of(context)
+                                                      .primaryBackground,
+                                                ),
                                             onTap: () async {
                                               //provider.clearControllers();
                                               await provider.getCompanies(
@@ -660,6 +728,10 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             },
                                           ),
                                           CustomTextIconButton(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.07,
                                             isLoading: false,
                                             icon: Icon(
                                               Icons.shopping_basket_outlined,
@@ -668,6 +740,14 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             ),
                                             color: secondaryColor,
                                             text: 'Delete',
+                                            style: AppTheme.of(context)
+                                                .contenidoTablas
+                                                .override(
+                                                  fontFamily: 'Gotham-Regular',
+                                                  useGoogleFonts: false,
+                                                  color: AppTheme.of(context)
+                                                      .primaryBackground,
+                                                ),
                                             onTap: () async {
                                               await showDialog(
                                                   context: context,
@@ -688,12 +768,23 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                           CustomTextIconButton(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
-                                            width: 120,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.08,
                                             isLoading: false,
                                             icon: Icon(Icons.list_alt_outlined,
                                                 color: AppTheme.of(context)
                                                     .primaryBackground),
                                             text: 'Services',
+                                            style: AppTheme.of(context)
+                                                .contenidoTablas
+                                                .override(
+                                                  fontFamily: 'Gotham-Regular',
+                                                  useGoogleFonts: false,
+                                                  color: AppTheme.of(context)
+                                                      .primaryBackground,
+                                                ),
                                             color: AppTheme.of(context)
                                                 .primaryColor,
                                             onTap: () async {
@@ -702,10 +793,10 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 rendererContext.cell.value,
                                                 notify: false,
                                               );
-                                              provider.selectVehicle(
-                                                rendererContext.cell.value,
-                                                notify: false,
-                                              );
+                                              // provider.selectVehicle(
+                                              //   rendererContext.cell.value,
+                                              //   notify: false,
+                                              // );
                                               await provider.getServices(
                                                   notify: false);
                                               provider.selectVehicle(

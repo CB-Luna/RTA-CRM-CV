@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
-import '../../../../functions/sizes.dart';
 import '../../../../helpers/constants.dart';
-import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_card.dart';
 import '../../../../widgets/custom_icon_button.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
+import '../actions/add_services_pop_up.dart';
 import '../vehicle_cards/generalinformation_card.dart';
 
 class ServicePopUp extends StatefulWidget {
@@ -27,19 +26,18 @@ class _ServicePopUpState extends State<ServicePopUp> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final IssueReportedProvider provider = Provider.of<IssueReportedProvider>(
+      final InventoryProvider provider = Provider.of<InventoryProvider>(
         context,
         listen: false,
       );
-      await provider.updateState();
+      await provider.updateStateService();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
-    IssueReportedProvider issueReportedProvider =
-        Provider.of<IssueReportedProvider>(context);
+
     return Material(
       child: Row(
         children: [
@@ -52,10 +50,35 @@ class _ServicePopUpState extends State<ServicePopUp> {
                 children: [
                   const GeneralInformationCard(),
                   Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: CustomTextIconButton(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      width: MediaQuery.of(context).size.width * 0.08,
+                      isLoading: false,
+                      icon: Icon(Icons.list_alt_outlined,
+                          color: AppTheme.of(context).primaryBackground),
+                      text: 'Services',
+                      style: AppTheme.of(context).contenidoTablas.override(
+                            fontFamily: 'Gotham-Regular',
+                            useGoogleFonts: false,
+                            color: AppTheme.of(context).primaryBackground,
+                          ),
+                      color: AppTheme.of(context).primaryColor,
+                      onTap: () async {
+                        // // ignore: use_build_context_synchronously
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const AddServicePopUp();
+                            });
+                      },
+                    ),
+                  ),
+                  Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: SizedBox(
-                        height: getHeight(850, context),
-                        width: getWidth(2450, context),
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        height: MediaQuery.of(context).size.height * 0.55,
                         child: PlutoGrid(
                           key: UniqueKey(),
                           configuration: PlutoGridConfiguration(
@@ -66,13 +89,13 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                 ...FilterHelper.defaultFilters,
                               ],
                               resolveDefaultColumnFilter: (column, resolver) {
-                                if (column.field == 'Status') {
+                                if (column.field == 'LicensePlates') {
                                   return resolver<PlutoFilterTypeContains>()
                                       as PlutoFilterType;
-                                } else if (column.field == 'FluidsCheck') {
+                                } else if (column.field == 'service') {
                                   return resolver<PlutoFilterTypeContains>()
                                       as PlutoFilterType;
-                                } else if (column.field == 'Lights') {
+                                } else if (column.field == 'serviceDate') {
                                   return resolver<PlutoFilterTypeContains>()
                                       as PlutoFilterType;
                                 }
@@ -97,7 +120,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                     style:
                                         AppTheme.of(context).encabezadoTablas)
                               ]),
-                              width: MediaQuery.of(context).size.width * 0.13,
+                              width: MediaQuery.of(context).size.width * 0.15,
                               cellPadding: EdgeInsets.zero,
                               titleTextAlign: PlutoColumnTextAlign.center,
                               textAlign: PlutoColumnTextAlign.center,
@@ -180,8 +203,21 @@ class _ServicePopUpState extends State<ServicePopUp> {
                               renderer: (rendererContext) {
                                 return Container(
                                   height: rowHeight,
+                                  // width: rendererContext
+                                  //.cell.column.width,                                                    .cell.column.width,
                                   decoration:
                                       BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(
+                                    rendererContext.cell.value ?? '-',
+                                    style: AppTheme.of(context)
+                                        .contenidoTablas
+                                        .override(
+                                            fontFamily: 'Gotham-Regular',
+                                            useGoogleFonts: false,
+                                            color: AppTheme.of(context)
+                                                .primaryColor),
+                                  )),
                                 );
                               },
                               footerRenderer: (context) {
@@ -256,7 +292,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                     style:
                                         AppTheme.of(context).encabezadoTablas)
                               ]),
-                              width: MediaQuery.of(context).size.width * 0.13,
+                              width: MediaQuery.of(context).size.width * 0.15,
                               cellPadding: EdgeInsets.zero,
                               titleTextAlign: PlutoColumnTextAlign.center,
                               textAlign: PlutoColumnTextAlign.center,
@@ -284,7 +320,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
                               },
                             ),
                           ],
-                          rows: issueReportedProvider.rows,
+                          rows: provider.rowsService,
                           onLoaded: (event) async {
                             provider.stateManager = event.stateManager;
                           },

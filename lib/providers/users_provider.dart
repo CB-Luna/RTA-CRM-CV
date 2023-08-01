@@ -145,6 +145,7 @@ class UsersProvider extends ChangeNotifier {
   void selectVehicleUpdates(String vehicle) {
     selectedVehicleUpdate =
         vehicles.firstWhere((element) => element.licesensePlates == vehicle);
+    notifyListeners();
   }
 
   void selectStateUpdate(String state) {
@@ -223,6 +224,24 @@ class UsersProvider extends ChangeNotifier {
       print("entro a updateVehicle: $res");
     } catch (e) {
       print("Error in updateVehiclestatus $e");
+    }
+  }
+
+  void updateVehiclestatusUpdate(User users) async {
+    try {
+      final res = await supabaseCtrlV
+          .from('vehicle')
+          .update({'id_status_fk': 1}).eq(
+              'id_vehicle', selectedVehicleUpdate?.idVehicle);
+
+      final res2 = await supabaseCtrlV
+          .from('vehicle')
+          .update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
+
+      print("entro a updateVehiclestatusUpdate: $res");
+      print("Entro en el cambio del vehiculo viejo $res2");
+    } catch (e) {
+      print("Error in updateVehiclestatusUpdate $e");
     }
   }
 

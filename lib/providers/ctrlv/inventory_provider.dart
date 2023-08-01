@@ -26,6 +26,7 @@ import '../../models/vehicle_dashboard.dart';
 class InventoryProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
   List<PlutoRow> rows = [];
+  List<PlutoRow> rowsService = [];
 
   //------------------------------------------
   // Controllers para Alta Inventario
@@ -66,6 +67,11 @@ class InventoryProvider extends ChangeNotifier {
     await getInventory();
   }
 
+  Future<void> updateStateService() async {
+    rowsService.clear();
+    await getServicesPage();
+  }
+
   // Variables Individuales
   String? imageName;
   String? imageUrl;
@@ -91,6 +97,7 @@ class InventoryProvider extends ChangeNotifier {
   StatusApi? statusSelectedUpdate;
   CompanyApi? companySelectedUpdate;
   IssuesComments? registroIssueComments;
+  ServicesApi? servicesApi;
 
 //------------------------------------------
 
@@ -158,14 +165,6 @@ class InventoryProvider extends ChangeNotifier {
   List<IssueOpenclose> lightsDD = [];
   List<IssueOpenclose> measureDD = [];
   List<IssueOpenclose> securityDD = [];
-
-  // List<IssuesComments> carBodyWorkD = [];
-  // List<IssuesComments> equipmentD = [];
-  // List<IssuesComments> extraD = [];
-  // List<IssuesComments> fluidCheckD = [];
-  // List<IssuesComments> lightsD = [];
-  // List<IssuesComments> measureD = [];
-  // List<IssuesComments> securityD = [];
 
   List<IssueOpenclose> listaTotalIssues = [];
 
@@ -575,6 +574,8 @@ class InventoryProvider extends ChangeNotifier {
         'id_service_fk': serviceSelected?.idService,
         'service_date': serviceDateController.text,
       });
+      notifyListeners();
+
       return true;
     } catch (e) {
       print("Error in createVehicleService() - $e");
@@ -596,8 +597,28 @@ class InventoryProvider extends ChangeNotifier {
           .map((services) => ServicesApi.fromJson(jsonEncode(services)))
           .toList();
       // final serviceList = res as List<dynamic>;
-
-      rows.clear();
+      rowsService.clear();
+      for (ServicesApi service in services) {
+        print(service.servicex.service);
+        print("-------------");
+        rowsService.add(
+          PlutoRow(
+            cells: {
+              "LicensePlates": PlutoCell(value: service.vehicle.licensePlates),
+              "service": PlutoCell(value: service.servicex.service.toString()),
+              "serviceDate": PlutoCell(
+                  value: service.serviceDate == null
+                      ? " No Date "
+                      : DateFormat("MMM/dd/yyyy")
+                          .format(service.serviceDate!)
+                          .toString())
+            },
+          ),
+        );
+      }
+      // vehicle.oilChangeDue == null
+      //   ? ""
+      //   : DateFormat("MMM/dd/yyyy").format(vehicle.oilChangeDue!);
 
       print("Entro a getServicesPage()");
       return true;
@@ -757,7 +778,7 @@ class InventoryProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               "make": PlutoCell(value: vehicle.make),
-              "model": PlutoCell(value: vehicle.fullName),
+              "model": PlutoCell(value: vehicle.model),
               "year": PlutoCell(value: vehicle.year),
               "vin": PlutoCell(value: vehicle.vin),
               "license_plates": PlutoCell(value: vehicle.licesensePlates),
@@ -779,7 +800,7 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   // Función para mostrar los vehiculos con estatus NO ACTIVO
-  Future<void> UpdateStatusVehicle() async {
+  Future<void> updateStatusVehicle() async {
     bandera1 = false;
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
