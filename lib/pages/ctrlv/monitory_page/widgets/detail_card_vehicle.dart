@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../theme/theme.dart';
 
-class GeneralInformationCard extends StatelessWidget {
-  const GeneralInformationCard({
-    super.key,
+class DetailVehicleCard extends StatelessWidget {
+  final Monitory vehicle;
+  const DetailVehicleCard({
+    super.key, required this.vehicle,
   });
 
   @override
@@ -16,7 +18,7 @@ class GeneralInformationCard extends StatelessWidget {
         Provider.of<IssueReportedProvider>(context);
     return Container(
         width: MediaQuery.of(context).size.width * 0.6,
-        height: MediaQuery.of(context).size.height * 0.35,
+        height: MediaQuery.of(context).size.height * 0.3,
         clipBehavior: Clip.antiAlias,
         decoration: ShapeDecoration(
           color: Colors.white,
@@ -33,7 +35,7 @@ class GeneralInformationCard extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.1,
                 decoration: BoxDecoration(
                     color: companyColor(
-                        issueReportedProvider.actualVehicle!.company.company)),
+                        vehicle.company.company)),
               ),
             ],
           ),
@@ -42,7 +44,7 @@ class GeneralInformationCard extends StatelessWidget {
             children: [
               // Header
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width * 0.06,
@@ -52,13 +54,13 @@ class GeneralInformationCard extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: ShapeDecoration(
                       color: companyColor(
-                          issueReportedProvider.actualVehicle!.company.company),
+                          vehicle.company.company),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
                       ),
                     ),
                     child: Text(
-                      '● ${issueReportedProvider.actualVehicle?.company.company}',
+                      '● ${vehicle.company.company}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -91,7 +93,7 @@ class GeneralInformationCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "${issueReportedProvider.actualVehicle!.idVehicle}",
+                              "${vehicle.idVehicle}",
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -115,7 +117,7 @@ class GeneralInformationCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              issueReportedProvider.actualVehicle!.vin,
+                              vehicle.vin,
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -141,8 +143,7 @@ class GeneralInformationCard extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  issueReportedProvider
-                                      .actualVehicle!.licesensePlates,
+                                  vehicle.vehicle.licesensePlates,
                                   style: TextStyle(
                                     color: AppTheme.of(context).primaryText,
                                     fontFamily: 'Bicyclette-Thin',
@@ -162,7 +163,7 @@ class GeneralInformationCard extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              "status: ",
+                              "Gas: ",
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -172,8 +173,7 @@ class GeneralInformationCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              issueReportedProvider
-                                  .actualVehicle!.status.status,
+                              vehicle.gasD == "" ? vehicle.gasR : "${vehicle.gasD}",
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -187,7 +187,7 @@ class GeneralInformationCard extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              "Motor: ",
+                              "Mileage: ",
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -197,7 +197,7 @@ class GeneralInformationCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              issueReportedProvider.actualVehicle!.motor,
+                              vehicle.mileageD == "" ? "${vehicle.mileageR}" : "${vehicle.mileageD}",
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -225,11 +225,9 @@ class GeneralInformationCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              issueReportedProvider
-                                          .actualVehicle!.oilChangeDue ==
-                                      null
-                                  ? "No register"
-                                  : " ${DateFormat("MMM/dd/yyyy").format(issueReportedProvider.actualVehicle!.oilChangeDue!)}",
+                              vehicle.vehicle.oilChangeDue == null
+                                              ? "Not Registered"
+                                              : " ${DateFormat("MMM/dd/yyyy").format(vehicle.vehicle.oilChangeDue!)}",
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -253,11 +251,13 @@ class GeneralInformationCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              issueReportedProvider.actualVehicle!
-                                          .lastTransmissionFluidChange ==
-                                      null
-                                  ? "No register"
-                                  : " ${DateFormat("MMM/dd/yyyy").format(issueReportedProvider.actualVehicle!.lastTransmissionFluidChange!)}",
+                               vehicle.vehicle
+                                                      .lastTransmissionFluidChange ==
+                                                  null
+                                              ? "Not Registered"
+                                              : DateFormat("MMM/dd/yyyy")
+                                                  .format(vehicle.vehicle
+                                                      .lastTransmissionFluidChange!),
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -281,11 +281,13 @@ class GeneralInformationCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              issueReportedProvider.actualVehicle!
-                                          .lastRadiatorFluidChange ==
-                                      null
-                                  ? "No register"
-                                  : " ${DateFormat("MMM/dd/yyyy").format(issueReportedProvider.actualVehicle!.lastRadiatorFluidChange!)}",
+                              vehicle.vehicle
+                                                      .lastRadiatorFluidChange ==
+                                                  null
+                                              ? "Not Registered"
+                                              : DateFormat("MMM/dd/yyyy")
+                                                  .format(vehicle.vehicle
+                                                      .lastRadiatorFluidChange!),
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -311,7 +313,7 @@ class GeneralInformationCard extends StatelessWidget {
                     image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                            issueReportedProvider.actualVehicle!.image!)),
+                            vehicle.vehicle.image ?? "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png")),
                     shape: RoundedRectangleBorder(
                       side: const BorderSide(width: 2.50, color: Colors.white),
                       borderRadius: BorderRadius.circular(20),
@@ -329,7 +331,7 @@ class GeneralInformationCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          issueReportedProvider.actualVehicle!.make,
+                          vehicle.vehicle.make,
                           style: TextStyle(
                               fontFamily: AppTheme.of(context)
                                   .encabezadoTablas
@@ -346,7 +348,7 @@ class GeneralInformationCard extends StatelessWidget {
                               color: AppTheme.of(context).gris),
                         ),
                         Text(
-                          issueReportedProvider.actualVehicle!.model,
+                          vehicle.vehicle.model,
                           style: TextStyle(
                               fontFamily: AppTheme.of(context)
                                   .encabezadoTablas
@@ -363,7 +365,7 @@ class GeneralInformationCard extends StatelessWidget {
                               color: AppTheme.of(context).gris),
                         ),
                         Text(
-                          issueReportedProvider.actualVehicle!.year,
+                          vehicle.vehicle.year,
                           style: TextStyle(
                               fontFamily: AppTheme.of(context)
                                   .encabezadoTablas
@@ -385,7 +387,7 @@ class GeneralInformationCard extends StatelessWidget {
                           margin: const EdgeInsets.all(20.0),
                           decoration: BoxDecoration(
                               color: Color(int.parse(
-                                  issueReportedProvider.actualVehicle!.color)),
+                                  vehicle.vehicle.color)),
                               borderRadius: BorderRadius.circular(20),
                               border:
                                   Border.all(color: Colors.black, width: 2.0)),
