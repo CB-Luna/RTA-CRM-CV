@@ -95,8 +95,8 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   color: AppTheme.of(context).primaryBackground),
               text: 'Export Data',
               color: AppTheme.of(context).primaryColor,
-              onTap: () {
-                provider.excelActivityReports();
+              onTap: () async {
+                 await provider.excelActivityReports() == false ? Container() : Container();
               },
             ),
           ),

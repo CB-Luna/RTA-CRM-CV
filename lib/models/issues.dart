@@ -8,6 +8,8 @@ class Issues {
   final int idVehicle;
   final int issuesR;
   final int idControlForm;
+  final DateTime dateAddedR;
+  final DateTime? dateAddedD;
   final int? issuesD;
   final int idBucketInspectionRFk;
   final int? idBucketInspectionDFk;
@@ -44,7 +46,10 @@ class Issues {
   final int? idSecurityDFk;
   final Security securityD;
 
-  Issues({
+  Issues(
+  {
+    required this.dateAddedR, 
+    this.dateAddedD, 
     required this.idVehicle,
     required this.issuesR,
     this.issuesD,
@@ -93,6 +98,8 @@ class Issues {
         idVehicle: json["id_vehicle"],
         issuesR: json["issues_r"],
         idControlForm: json["id_control_form"],
+        dateAddedR: DateTime.parse(json["date_added_r"]),
+        dateAddedD: json["date_added_d"] == null ? null: DateTime.parse(json["date_added_d"]),
         issuesD: json["issues_d"],
         idBucketInspectionRFk: json["id_bucket_inspection_r_fk"],
         idBucketInspectionDFk: json["id_bucket_inspection_d_fk"],
@@ -137,6 +144,8 @@ class Issues {
         "issues_r": issuesR,
         "issues_d": issuesD,
         "id_control_form": idControlForm,
+        "date_added_r": dateAddedR.toIso8601String(), //check out
+        "date_added_d": dateAddedD?.toIso8601String(), //cehck in
         "id_bucket_inspection_r_fk": idBucketInspectionRFk,
         "id_bucket_inspection_d_fk": idBucketInspectionDFk,
         "bucket_inspection_r": bucketInspectionR.toMap(),
