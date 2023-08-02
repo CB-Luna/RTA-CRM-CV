@@ -68,6 +68,7 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   Future<void> updateStateService() async {
+    print("Se hizo el updateStateService");
     rowsService.clear();
     await getServicesPage();
   }
@@ -87,6 +88,8 @@ class InventoryProvider extends ChangeNotifier {
   String? colorString = "0xffffffff";
   int pageRowCount = 9;
   int page = 1;
+  int pageRowCountService = 9;
+  int pageService = 1;
 
 // ------------ Variables de los Modelos ---------------
 
@@ -300,6 +303,47 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   void load() {
+    stateManager!.setShowLoading(true);
+  }
+  // ------------------------ service ---------------------------------
+
+  void setPageSizeService(String x) {
+    switch (x) {
+      case 'more':
+        if (pageRowCountService < rowsService.length) pageRowCountService++;
+        break;
+      case 'less':
+        if (pageRowCountService > 1) pageRowCountService--;
+        break;
+      default:
+        return;
+    }
+    stateManager!.createFooter;
+    notifyListeners();
+  }
+
+  void setPageService(String x) {
+    switch (x) {
+      case 'next':
+        if (pageService < stateManager!.totalPage) pageService++;
+        break;
+      case 'previous':
+        if (pageService > 1) pageService--;
+        break;
+      case 'start':
+        pageService = 1;
+        break;
+      case 'end':
+        pageService = stateManager!.totalPage;
+        break;
+      default:
+        return;
+    }
+    stateManager!.setPage(page);
+    notifyListeners();
+  }
+
+  void loadService() {
     stateManager!.setShowLoading(true);
   }
 
@@ -611,7 +655,8 @@ class InventoryProvider extends ChangeNotifier {
                       ? " No Date "
                       : DateFormat("MMM/dd/yyyy")
                           .format(service.serviceDate!)
-                          .toString())
+                          .toString()),
+              "completed": PlutoCell(value: service.completed.toString()),
             },
           ),
         );

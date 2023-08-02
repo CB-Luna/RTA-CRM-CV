@@ -45,7 +45,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
           CustomCard(
               title: 'Service',
               width: MediaQuery.of(context).size.width * 0.93,
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height * 1,
               child: Column(
                 children: [
                   const GeneralInformationCard(),
@@ -75,10 +75,10 @@ class _ServicePopUpState extends State<ServicePopUp> {
                     ),
                   ),
                   Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.45,
-                        height: MediaQuery.of(context).size.height * 0.55,
+                        width: MediaQuery.of(context).size.width * 0.58,
+                        height: MediaQuery.of(context).size.height * 0.45,
                         child: PlutoGrid(
                           key: UniqueKey(),
                           configuration: PlutoGridConfiguration(
@@ -111,7 +111,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
                               backgroundColor: const Color(0XFF6491F7),
                               titleSpan: TextSpan(children: [
                                 WidgetSpan(
-                                    child: Icon(Icons.dialpad_outlined,
+                                    child: Icon(Icons.credit_card_outlined,
                                         color: AppTheme.of(context)
                                             .primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
@@ -129,8 +129,6 @@ class _ServicePopUpState extends State<ServicePopUp> {
                               renderer: (rendererContext) {
                                 return Container(
                                   height: rowHeight,
-                                  // width: rendererContext
-                                  //.cell.column.width,                                                    .cell.column.width,
                                   decoration:
                                       BoxDecoration(gradient: whiteGradient),
                                   child: Center(
@@ -156,12 +154,12 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                             Icons.keyboard_arrow_down_outlined,
                                         toolTip: 'less',
                                         onTap: () {
-                                          provider.setPageSize('less');
+                                          provider.setPageSizeService('less');
                                         },
                                       ),
                                       const SizedBox(width: 10),
                                       Text(
-                                        provider.pageRowCount.toString(),
+                                        provider.pageRowCountService.toString(),
                                         style: const TextStyle(
                                             color: Colors.white),
                                       ),
@@ -170,7 +168,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                         icon: Icons.keyboard_arrow_up_outlined,
                                         toolTip: 'more',
                                         onTap: () {
-                                          provider.setPageSize('more');
+                                          provider.setPageSizeService('more');
                                         },
                                       ),
                                       const SizedBox(width: 10),
@@ -185,12 +183,12 @@ class _ServicePopUpState extends State<ServicePopUp> {
                               backgroundColor: const Color(0XFF6491F7),
                               titleSpan: TextSpan(children: [
                                 WidgetSpan(
-                                    child: Icon(Icons.car_repair_outlined,
+                                    child: Icon(Icons.list_alt_outlined,
                                         color: AppTheme.of(context)
                                             .primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
                                 TextSpan(
-                                    text: 'service',
+                                    text: 'Service',
                                     style:
                                         AppTheme.of(context).encabezadoTablas)
                               ]),
@@ -230,7 +228,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                         icon: Icons.keyboard_double_arrow_left,
                                         toolTip: 'start',
                                         onTap: () {
-                                          provider.setPage('start');
+                                          provider.setPageService('start');
                                         },
                                       ),
                                       const SizedBox(width: 2),
@@ -239,7 +237,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                             Icons.keyboard_arrow_left_outlined,
                                         toolTip: 'previous',
                                         onTap: () {
-                                          provider.setPage('previous');
+                                          provider.setPageService('previous');
                                         },
                                       ),
                                       const SizedBox(width: 5),
@@ -247,7 +245,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                         width: 30,
                                         child: Center(
                                           child: Text(
-                                            provider.page.toString(),
+                                            provider.pageService.toString(),
                                             style: const TextStyle(
                                               color: Colors.white,
                                             ),
@@ -260,7 +258,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                             Icons.keyboard_arrow_right_outlined,
                                         toolTip: 'next',
                                         onTap: () {
-                                          provider.setPage('next');
+                                          provider.setPageService('next');
                                         },
                                       ),
                                       const SizedBox(width: 2),
@@ -268,7 +266,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                         icon: Icons.keyboard_double_arrow_right,
                                         toolTip: 'end',
                                         onTap: () {
-                                          provider.setPage('end');
+                                          provider.setPageService('end');
                                         },
                                       ),
                                     ],
@@ -278,17 +276,60 @@ class _ServicePopUpState extends State<ServicePopUp> {
                               },
                             ),
                             PlutoColumn(
+                              title: 'completed',
+                              field: 'completed',
+                              backgroundColor: const Color(0XFF6491F7),
+                              titleSpan: TextSpan(children: [
+                                WidgetSpan(
+                                    child: Icon(
+                                        Icons.check_box_outline_blank_outlined,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground)),
+                                const WidgetSpan(child: SizedBox(width: 10)),
+                                TextSpan(
+                                    text: 'Completed',
+                                    style:
+                                        AppTheme.of(context).encabezadoTablas)
+                              ]),
+                              width: MediaQuery.of(context).size.width * 0.12,
+                              cellPadding: EdgeInsets.zero,
+                              titleTextAlign: PlutoColumnTextAlign.center,
+                              textAlign: PlutoColumnTextAlign.center,
+                              type: PlutoColumnType.text(),
+                              enableEditingMode: false,
+                              renderer: (rendererContext) {
+                                return Container(
+                                  height: rowHeight,
+                                  // width: rendererContext
+                                  //.cell.column.width,                                                    .cell.column.width,
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(
+                                    rendererContext.cell.value ?? '-',
+                                    style: AppTheme.of(context)
+                                        .contenidoTablas
+                                        .override(
+                                            fontFamily: 'Gotham-Regular',
+                                            useGoogleFonts: false,
+                                            color: AppTheme.of(context)
+                                                .primaryColor),
+                                  )),
+                                );
+                              },
+                            ),
+                            PlutoColumn(
                               title: 'serviceDate',
                               field: 'serviceDate',
                               backgroundColor: const Color(0XFF6491F7),
                               titleSpan: TextSpan(children: [
                                 WidgetSpan(
-                                    child: Icon(Icons.dialpad_outlined,
+                                    child: Icon(Icons.calendar_today_outlined,
                                         color: AppTheme.of(context)
                                             .primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
                                 TextSpan(
-                                    text: 'serviceDate',
+                                    text: 'Service Date',
                                     style:
                                         AppTheme.of(context).encabezadoTablas)
                               ]),
@@ -325,8 +366,9 @@ class _ServicePopUpState extends State<ServicePopUp> {
                             provider.stateManager = event.stateManager;
                           },
                           createFooter: (stateManager) {
-                            stateManager.setPageSize(provider.pageRowCount);
-                            stateManager.setPage(provider.page);
+                            stateManager
+                                .setPageSize(provider.pageRowCountService);
+                            stateManager.setPage(provider.pageService);
                             return const SizedBox(height: 0, width: 0);
                           },
                         ),

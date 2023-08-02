@@ -106,6 +106,44 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                     ),
                     columns: [
                       PlutoColumn(
+                          title: 'idIssues',
+                          field: 'idIssues',
+                          titleSpan: TextSpan(children: [
+                            WidgetSpan(
+                                child: Icon(Icons.label_important_outline,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground)),
+                            const WidgetSpan(child: SizedBox(width: 10)),
+                            TextSpan(
+                                text: 'idIssues',
+                                style: AppTheme.of(context).encabezadoTablas)
+                          ]),
+                          width: MediaQuery.of(context).size.width * 0.08,
+                          backgroundColor: const Color(0XFF6491F7),
+                          cellPadding: EdgeInsets.zero,
+                          titleTextAlign: PlutoColumnTextAlign.center,
+                          textAlign: PlutoColumnTextAlign.center,
+                          type: PlutoColumnType.text(),
+                          enableEditingMode: false,
+                          renderer: (rendererContext) {
+                            return Container(
+                              height: rowHeight,
+                              decoration:
+                                  BoxDecoration(gradient: whiteGradient),
+                              child: Center(
+                                  child: Text(
+                                rendererContext.cell.value ?? '-',
+                                style: AppTheme.of(context)
+                                    .contenidoTablas
+                                    .override(
+                                        fontFamily: 'Gotham-Regular',
+                                        useGoogleFonts: false,
+                                        color:
+                                            AppTheme.of(context).primaryColor),
+                              )),
+                            );
+                          }),
+                      PlutoColumn(
                         title: 'Status',
                         field: 'Status',
                         backgroundColor: const Color(0XFF6491F7),
@@ -128,8 +166,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         renderer: (rendererContext) {
                           return Container(
                             height: rowHeight,
-                            // width: rendererContext
-                            //.cell.column.width,                                                    .cell.column.width,
                             decoration: BoxDecoration(gradient: whiteGradient),
                             child: Center(
                                 child: Text(

@@ -42,8 +42,10 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
       if (widget.contador == 2) {
         provider.cambiovistaMeasures = true;
         await provider.getIssuesLights(provider.actualIssueXUser!);
-        print("${provider.lightsRR}");
+        print("${provider.lightsRR.length}");
         print("--------------");
+        print("${provider.lightsDD.length}");
+
         print("getIssuesLights");
       }
       if (widget.contador == 3) {

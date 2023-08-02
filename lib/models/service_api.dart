@@ -8,6 +8,7 @@ class ServicesApi {
     required this.idVehicle,
     required this.idService,
     this.serviceDate,
+    required this.completed,
     required this.servicex,
     required this.vehicle,
   });
@@ -15,6 +16,7 @@ class ServicesApi {
   int idService;
   int idVehicle;
   DateTime? serviceDate;
+  bool completed;
   Services servicex;
   VehicleApi vehicle;
 
@@ -29,6 +31,7 @@ class ServicesApi {
         serviceDate: json["service_date"] == null
             ? null
             : DateTime.parse(json["service_date"]),
+        completed: json["completed"],
         vehicle: VehicleApi.fromJson(jsonEncode(json['vehicle'])),
         servicex: Services.fromJson(jsonEncode(json['service'])),
       );
@@ -38,6 +41,7 @@ class ServicesApi {
         "service_date": serviceDate?.toIso8601String(),
         "id_vehicle_services": idService,
         "id_vehicle_fk": idVehicle,
+        "completed": completed,
         "vehicle": vehicle.toMap(),
       };
 }

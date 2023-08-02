@@ -804,7 +804,8 @@ class IssueReportedProvider extends ChangeNotifier {
           rows.add(
             PlutoRow(
               cells: {
-                "Status": PlutoCell(value: "Check Out"),
+                "idIssues": PlutoCell(value: issue.issuesR.toString()),
+                "Status": PlutoCell(value: "Check Out ${issue.issuesR}"),
                 "FluidsCheck": PlutoCell(value: issue.fluidCheckR),
                 "Lights": PlutoCell(value: issue.lightsR),
                 "CarBodyWork": PlutoCell(value: issue.carBodyworkR),
@@ -828,7 +829,8 @@ class IssueReportedProvider extends ChangeNotifier {
           rows.add(
             PlutoRow(
               cells: {
-                "Status": PlutoCell(value: "Check In"),
+                "idIssues": PlutoCell(value: issue.issuesD.toString()),
+                "Status": PlutoCell(value: "Check In ${issue.issuesD}"),
                 "FluidsCheck": PlutoCell(value: issue.fluidCheckD),
                 "Lights": PlutoCell(value: issue.lightsD),
                 "CarBodyWork": PlutoCell(value: issue.carBodyworkD),
@@ -851,7 +853,8 @@ class IssueReportedProvider extends ChangeNotifier {
           rows.add(
             PlutoRow(
               cells: {
-                "Status": PlutoCell(value: "Check Out"),
+                "idIssues": PlutoCell(value: issue.issuesR.toString()),
+                "Status": PlutoCell(value: "Check Out ${issue.issuesR}"),
                 "FluidsCheck": PlutoCell(value: issue.fluidCheckR),
                 "Lights": PlutoCell(value: issue.lightsR),
                 "CarBodyWork": PlutoCell(value: issue.carBodyworkR),
@@ -1296,7 +1299,8 @@ class IssueReportedProvider extends ChangeNotifier {
           rows.add(
             PlutoRow(
               cells: {
-                "Status": PlutoCell(value: "Check Out"),
+                "idIssues": PlutoCell(value: issue.issuesR.toString()),
+                "Status": PlutoCell(value: "Check Out ${issue.issuesR}"),
                 "FluidsCheck": PlutoCell(value: issue.fluidCheckR),
                 "Lights": PlutoCell(value: issue.lightsR),
                 "CarBodyWork": PlutoCell(value: issue.carBodyworkR),
@@ -1320,7 +1324,8 @@ class IssueReportedProvider extends ChangeNotifier {
           rows.add(
             PlutoRow(
               cells: {
-                "Status": PlutoCell(value: "Check In"),
+                "idIssues": PlutoCell(value: issue.issuesD.toString()),
+                "Status": PlutoCell(value: "Check In ${issue.issuesD}"),
                 "FluidsCheck": PlutoCell(value: issue.fluidCheckD),
                 "Lights": PlutoCell(value: issue.lightsD),
                 "CarBodyWork": PlutoCell(value: issue.carBodyworkD),
@@ -1361,7 +1366,7 @@ class IssueReportedProvider extends ChangeNotifier {
 
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
-      print('Error en getIssueALL() - $e');
+      print('Error en getIssueAll() - $e');
     }
     notifyListeners();
   }
