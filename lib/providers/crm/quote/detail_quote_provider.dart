@@ -7,9 +7,15 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/accounts/leads_model.dart';
-import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
-import 'package:rta_crm_cv/models/quotes/vendor_model.dart';
+import 'package:rta_crm_cv/models/crm/accounts/leads_model.dart';
+import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_bgp_peering.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_data_centers.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_order_info_types.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_cat_circuit_types.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_cat_order_types.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_cat_vendor_model.dart';
+import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/models/orders.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -20,6 +26,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   }
 
   int id = 0;
+  late ModelX2QuotesView quote;
 
   clearAll() {
     subtotal = 0;
@@ -34,16 +41,18 @@ class DetailQuoteProvider extends ChangeNotifier {
     newDataCenterController.clear();
     existingEVCController.clear();
 
-    orderTypesSelectedValue = orderTypesList.first;
-    typesSelectedValue = typesList.first;
-    dataCenterSelectedValue = dataCentersList.first;
-    circuitTypeSelectedValue = circuitInfosList.first;
+    orderTypesSelectedValue = orderTypesList.first.name!;
+    typesSelectedValue = typesList.first.name!;
+    dataCenterSelectedValue = dataCentersList.first.name!;
+    circuitTypeSelectedValue = circuitTypeList.first.name!;
     evcodSelectedValue = evcodList.first;
     ddosSelectedValue = ddosList.first;
-    bgpSelectedValue = bgpList.first;
+    bgpSelectedValue = bgpList.first.name!;
     ipAdressSelectedValue = ipAdressList.first;
     ipInterfaceSelectedValue = ipInterfaceList.first;
     subnetSelectedValue = subnetList.first;
+    cirSelectedValue = cirList.first;
+    portSizeSelectedValue = portSizeList.first;
 
     lineItemCenterController.clear();
     unitPriceController.clear();
@@ -84,7 +93,8 @@ class DetailQuoteProvider extends ChangeNotifier {
         commentsList.add(item);
       }
 
-      await supabaseCRM.from('quotes').update({'comments': commentsList}).eq('id', id);
+      //await supabaseCRM.from('quotes').update({'comments': commentsList}).eq('id', id);
+      await supabaseCRM.from('orders_info').update({'comments': commentsList}).eq('id', quote.idOrders);
 
       notifyListeners();
     }
@@ -110,37 +120,22 @@ class DetailQuoteProvider extends ChangeNotifier {
   final newCircuitIDController = TextEditingController();
   final newDataCenterController = TextEditingController();
   final existingEVCController = TextEditingController();
-  List<String> orderTypesList = ['Internal Circuit', 'External Customer'];
+  List<CatOrderTypes> orderTypesList = [CatOrderTypes(name: 'Internal Circuit')];
   late String orderTypesSelectedValue;
-  List<String> typesList = ['New', 'Disconnect', 'Upgrade'];
+  List<CatOrderInfoTypes> typesList = [CatOrderInfoTypes(name: 'New')];
   late String typesSelectedValue;
-  List<String> dataCentersList = [
-    'Austin - Logix',
-    'Austin – Data Foundry',
-    'Chicago - Equinix',
-    'Chicago - Naperville',
-    'Dallas',
-    'Denver',
-    'Helena',
-    'Houston - Logix',
-    'Houston – Data Foundry',
-    'Salt Lake',
-    'San Antonio',
-    'Seattle',
-    'St. Louis',
-    'New'
-  ];
+  List<CatDataCenters> dataCentersList = [CatDataCenters(name: 'New')];
   late String dataCenterSelectedValue;
 
-  List<String> vendorsList = [''];
+  List<Vendor> vendorsList = [Vendor(vendorName: 'ATT')];
   String vendorSelectedValue = '';
-  List<String> circuitInfosList = ['NNI', 'DIA', 'CIR', 'Port Size', 'Multicast Required', 'Cross-Connect', 'EVCoD'];
+  List<CatCircuitTypes> circuitTypeList = [CatCircuitTypes(name: 'NNI')];
   late String circuitTypeSelectedValue;
   List<String> ddosList = ['Yes', 'No'];
   late String ddosSelectedValue;
   List<String> evcodList = ['No', 'New', 'Existing EVC'];
   late String evcodSelectedValue;
-  List<String> bgpList = ['No', 'IPv4', 'IPv6', 'Current ASN(s)'];
+  List<CatBgpPeering> bgpList = [CatBgpPeering(name: 'No')];
   late String bgpSelectedValue;
   List<String> ipAdressList = ['Interface', 'IP Subnet'];
   late String ipAdressSelectedValue;
@@ -148,6 +143,10 @@ class DetailQuoteProvider extends ChangeNotifier {
   late String ipInterfaceSelectedValue;
   List<String> subnetList = ['No', 'IPv4', 'IPv6'];
   late String subnetSelectedValue;
+  List<String> cirList = ['No', 'Yes'];
+  late String cirSelectedValue;
+  List<String> portSizeList = ['No', 'Yes'];
+  late String portSizeSelectedValue;
 
   final lineItemCenterController = TextEditingController();
   final unitPriceController = TextEditingController();
@@ -162,7 +161,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
 
-  Future<void> getData() async {
+/*   Future<void> getData() async {
     if (id != 0) {
       var responseQuote = await supabaseCRM.from('quotes_view').select().eq('id', id);
 
@@ -259,7 +258,7 @@ class DetailQuoteProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
+ */
   final myChannel = supabaseCRM.channel('quotes');
 
   Future<void> realTimeSuscription() async {
@@ -268,13 +267,13 @@ class DetailQuoteProvider extends ChangeNotifier {
         ChannelFilter(
           event: 'UPDATE',
           schema: 'crm',
-          table: 'quotes',
+          table: 'orders_info',
         ), (payload, [ref]) async {
-      await getData();
+      await getDataV2(id);
     }).subscribe();
   }
 
-  Future<void> getVendors() async {
+  /* Future<void> getVendors() async {
     var response = await supabaseCRM.from('vendors').select();
 
     List<Vendor> vendors = (response as List<dynamic>).map((vendor) => Vendor.fromJson(jsonEncode(vendor))).toList();
@@ -284,7 +283,7 @@ class DetailQuoteProvider extends ChangeNotifier {
       vendorsList.add(vendor.vendorName);
     }
     notifyListeners();
-  }
+  } */
 
 /*   void selectOT(String selected) {
     orderTypesSelectedValue = selected;
@@ -556,4 +555,151 @@ class DetailQuoteProvider extends ChangeNotifier {
 
     notifyListeners();
   } */
+
+  Future<bool> getCatalogData() async {
+    try {
+      dynamic response = await supabaseCRM.from('cat_order_types').select().eq('visible', true);
+      orderTypesList.clear();
+      orderTypesList = (response as List<dynamic>).map((type) => CatOrderTypes.fromRawJson(jsonEncode(type))).toList();
+      orderTypesSelectedValue = orderTypesList.first.name!;
+
+      response = await supabaseCRM.from('cat_order_info_types').select().eq('visible', true);
+      typesList.clear();
+      typesList = (response as List<dynamic>).map((type) => CatOrderInfoTypes.fromRawJson(jsonEncode(type))).toList();
+      typesSelectedValue = typesList.first.name!;
+
+      response = await supabaseCRM.from('cat_data_centers').select().eq('visible', true);
+      dataCentersList.clear();
+      dataCentersList = (response as List<dynamic>).map((dataCenter) => CatDataCenters.fromRawJson(jsonEncode(dataCenter))).toList();
+      dataCenterSelectedValue = dataCentersList.first.name!;
+
+      response = await supabaseCRM.from('cat_vendors').select().eq('visible', true);
+      vendorsList.clear();
+      vendorsList = (response as List<dynamic>).map((vendor) => Vendor.fromJson(jsonEncode(vendor))).toList();
+      vendorSelectedValue = vendorsList.first.vendorName!;
+
+      response = await supabaseCRM.from('cat_circuit_types').select().eq('visible', true);
+      circuitTypeList.clear();
+      circuitTypeList = (response as List<dynamic>).map((type) => CatCircuitTypes.fromRawJson(jsonEncode(type))).toList();
+      circuitTypeSelectedValue = circuitTypeList.first.name!;
+
+      response = await supabaseCRM.from('cat_bgp_peering').select().eq('visible', true);
+      bgpList.clear();
+      bgpList = (response as List<dynamic>).map((type) => CatBgpPeering.fromRawJson(jsonEncode(type))).toList();
+      bgpSelectedValue = bgpList.first.name!;
+
+      notifyListeners();
+      return true;
+    } catch (e) {
+      log('Error getCatalogData() : e');
+      return false;
+    }
+  }
+
+  Future<bool> getDataV2(int idQuote) async {
+    try {
+      await clearAll();
+
+      await getCatalogData();
+
+      id = idQuote;
+
+      var response = await supabaseCRM.from('x2_quotes_view').select().eq('quoteid', id);
+
+      quote = ModelX2QuotesView.fromJson(jsonEncode(response[0]));
+
+      dynamic parameter = (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
+      parameter = CatOrderInfoTypes.fromRawJson(jsonEncode(parameter)); // TODO: este mantenimiento para los demás
+
+      orderTypesSelectedValue = quote.orderInfo!.orderType;
+      typesSelectedValue = quote.orderInfo!.type;
+      if (parameter.parameters.newCircuitId) {
+        newCircuitIDController.text = quote.orderInfo!.newCircuitId!;
+      }
+      if (parameter.parameters.existingCircuitId) {
+        existingCircuitIDController.text = quote.orderInfo!.existingCircuitId!;
+      }
+
+      if (quote.orderInfo!.dataCenterType == 'New') {
+        dataCenterSelectedValue = 'New';
+        newDataCenterController.text = quote.orderInfo!.dataCenterLocation;
+      } else {
+        dataCenterSelectedValue = quote.orderInfo!.dataCenterLocation;
+      }
+
+      vendorSelectedValue = quote.vendor!;
+
+      parameter = (await supabaseCRM.from('cat_circuit_types').select().eq('name', quote.circuitInfo!.circuitType!))[0];
+      parameter = CatCircuitTypes.fromRawJson(jsonEncode(parameter));
+
+      circuitTypeSelectedValue = quote.circuitInfo!.circuitType!;
+      if (quote.circuitInfo!.circuitType == 'EVCoD') {
+        evcodSelectedValue = quote.circuitInfo!.evcodType!;
+        if (quote.circuitInfo!.evcodType == 'Existing EVC') {
+          existingEVCController.text = quote.circuitInfo!.evcCircuitId!;
+        }
+      }
+
+      if (parameter.parameters.cir) {
+        cirSelectedValue = quote.circuitInfo!.cir!;
+      }
+      if (parameter.parameters.portSize) {
+        portSizeSelectedValue = quote.circuitInfo!.portSize!;
+      }
+
+      ddosSelectedValue = quote.circuitInfo!.ddosType!;
+      bgpSelectedValue = quote.circuitInfo!.bgpType!;
+
+      ipAdressSelectedValue = quote.circuitInfo!.ipType!;
+      if (quote.circuitInfo!.ipType == 'Interface') {
+        ipInterfaceSelectedValue = quote.circuitInfo!.interfaceType!;
+      } else {
+        subnetSelectedValue = quote.circuitInfo!.subnetType!;
+      }
+
+      companyController.text = quote.account!;
+      nameController.text = quote.contactfirstname!;
+      lastNameController.text = quote.contactlastname!;
+      emailController.text = quote.contactemail!;
+      phoneController.text = quote.contactphone!;
+
+      subtotal = quote.subtotal!;
+      cost = quote.totals!.cost;
+      total = quote.totals!.total;
+      tax = quote.totals!.tax;
+      totalPlusTax = quote.totals!.totalTax;
+      margin = quote.totals!.margin;
+
+      //TODO : No se visualizan los items
+      for (var item in quote.items!) {
+        globalRows.add(
+          PlutoRow(
+            cells: {
+              'LINE_ITEM_Column': PlutoCell(value: item.lineItem),
+              'UNIT_PRICE_Column': PlutoCell(value: item.unitPrice),
+              'UNIT_COST_Column': PlutoCell(value: item.unitCost),
+              'QUANTITY_Column': PlutoCell(value: item.quantity),
+              'ACTIONS_Column': PlutoCell(value: ''),
+            },
+          ),
+        );
+      }
+
+      for (var comment in quote.comments!) {
+        comments.add(
+          Comment(
+            role: comment.role,
+            name: comment.name,
+            comment: comment.comment,
+            sended: comment.sended,
+          ),
+        );
+      }
+      notifyListeners();
+      return true;
+    } catch (e) {
+      log('getDataV2() Error - $e');
+      return false;
+    }
+  }
 }

@@ -8,13 +8,12 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
-import 'package:rta_crm_cv/models/grpc/model_x2_mysql_quotes.dart';
-import 'package:rta_crm_cv/models/x2crm/x2crm_quote_model.dart';
+import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
+import 'package:rta_crm_cv/models/crm/x2crm/model_pc_customers.dart';
+import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
+import 'package:rta_crm_cv/models/crm/x2crm/x2crm_quote_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import 'package:grpc/grpc_web.dart';
-import 'package:rta_crm_cv/src/generated/x2_mysql_quotes.pbgrpc.dart';
+import 'package:http/http.dart' as http;
 
 class QuotesProvider extends ChangeNotifier {
   final searchController = TextEditingController();
@@ -103,7 +102,7 @@ class QuotesProvider extends ChangeNotifier {
     }
     indexSelected[index] = true;
 
-    switch (index) {
+    /* switch (index) {
       case 0:
         await getQuotes(null);
         break;
@@ -151,6 +150,57 @@ class QuotesProvider extends ChangeNotifier {
         break;
       case 15:
         await getQuotes(15); //9-10
+        break;
+    } */
+
+    switch (index) {
+      case 0:
+        await getX2Quotes(null);
+        break;
+      case 1:
+        await getX2Quotes(1);
+        break;
+      case 2:
+        await getX2Quotes(2);
+        break;
+      case 3:
+        await getX2Quotes(3);
+        break;
+      case 4:
+        await getX2Quotes(4);
+        break;
+      case 5:
+        await getX2Quotes(5);
+        break;
+      case 6:
+        await getX2Quotes(6);
+        break;
+      case 7:
+        await getX2Quotes(7);
+        break;
+      case 8:
+        await getX2Quotes(8);
+        break;
+      case 9:
+        await getX2Quotes(9);
+        break;
+      case 10:
+        await getX2Quotes(10);
+        break;
+      case 11:
+        await getX2Quotes(11);
+        break;
+      case 12:
+        await getX2Quotes(12);
+        break;
+      case 13:
+        await getX2Quotes(13); //2-3-4
+        break;
+      case 14:
+        await getX2Quotes(14); //12-5
+        break;
+      case 15:
+        await getX2Quotes(15); //9-10
         break;
     }
 
@@ -228,8 +278,8 @@ class QuotesProvider extends ChangeNotifier {
       }
       quotes = (res as List<dynamic>).map((quote) => Quotes.fromJson(jsonEncode(quote))).toList();
 
-      rows.clear();
-      for (Quotes quote in quotes) {
+      /* rows.clear();
+       for (Quotes quote in quotes) {
         rows.add(
           PlutoRow(
             cells: {
@@ -253,7 +303,7 @@ class QuotesProvider extends ChangeNotifier {
             },
           ),
         );
-      }
+      } */
 
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
@@ -262,7 +312,153 @@ class QuotesProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    await x2MySQL();
+    await getX2Quotes(null);
+  }
+
+  Future<void> getX2Quotes(int? status) async {
+    try {
+      dynamic res;
+      if (status != null) {
+        if (currentUser!.isSales && status == 13) {
+          res = await supabaseCRM.from('x2_quotes_view').select().or(
+                'id_status.eq.4,id_status.eq.2,id_status.eq.3',
+              );
+        } else if (currentUser!.isSales && status == 14) {
+          res = await supabaseCRM.from('x2_quotes_view').select().or(
+                'id_status.eq.5,id_status.eq.12',
+              );
+        } else if (currentUser!.isSales && status == 15) {
+          res = await supabaseCRM.from('x2_quotes_view').select().or(
+                'id_status.eq.9,id_status.eq.10',
+              );
+        } else if (currentUser!.isOpperations && status == 15) {
+          res = await supabaseCRM.from('x2_quotes_view').select().or(
+                'id_status.eq.9,id_status.eq.10',
+              );
+        } else {
+          res = await supabaseCRM.from('x2_quotes_view').select().eq('id_status', status);
+        }
+      } else {
+        if (currentUser!.isSales) {
+          res = await supabaseCRM.from('x2_quotes_view').select();
+        } else if (currentUser!.isSenExec) {
+          res = await supabaseCRM.from('x2_quotes_view').select().eq('id_status', 2); //Sen. Exec. Validate
+        } else if (currentUser!.isFinance) {
+          res = await supabaseCRM.from('x2_quotes_view').select().eq('id_status', 3); //Finance Validate
+        } else if (currentUser!.isOpperations) {
+          res = await supabaseCRM.from('x2_quotes_view').select().or(
+                'id_status.eq.4,id_status.eq.7,id_status.eq.9,id_status.eq.10,id_status.eq.11',
+              ); //Engineer Validate, Approved, Network Cross-Connect, Network Issues, id_status.eq.Ticket Closed,
+        }
+      }
+
+      List<ModelX2QuotesView> listQuotes = (res as List<dynamic>).map((quote) => ModelX2QuotesView.fromJson(jsonEncode(quote))).toList();
+
+      rows.clear();
+      for (ModelX2QuotesView quote in listQuotes) {
+        rows.add(
+          PlutoRow(
+            cells: {
+              'ID_Column': PlutoCell(value: quote.quoteid),
+              'ACCOUNT_Column': PlutoCell(value: quote.account),
+              'NAME_Column': PlutoCell(value: quote.quote),
+              'TOTAL_Column': PlutoCell(value: quote.total),
+              'MARGIN_Column': PlutoCell(value: quote.margin),
+              'VENDOR_Column': PlutoCell(value: quote.vendor),
+              'ORDER_Column': PlutoCell(value: quote.order),
+              'DESCRIPTION_Column': PlutoCell(value: quote.description),
+              'DATACENTER_Column': PlutoCell(value: quote.dataCenter),
+              'PROBABILITY_Column': PlutoCell(value: quote.probability),
+              'CLOSED_Column': PlutoCell(value: quote.expectedclosedate),
+              'ASSIGNED_Column': PlutoCell(value: quote.assignedTo),
+              'LAST_Column': PlutoCell(value: quote.lastupdated),
+              'ID_STATUS_Column': PlutoCell(value: quote.idStatus),
+              'STATUS_Column': PlutoCell(value: quote.status),
+              'ACTIONS_Column': PlutoCell(value: null),
+              'ID_LEAD_Column': PlutoCell(value: null),
+            },
+          ),
+        );
+      }
+
+      if (stateManager != null) stateManager!.notifyListeners();
+      notifyListeners();
+    } catch (e) {
+      log('Error en getX2Quotes() - $e');
+    }
+  }
+
+  Future<bool> insertPowerCode(int id) async {
+    try {
+      var responseQuote = await supabaseCRM.from('x2_quotes_view').select().eq('quoteid', id);
+      var quote = ModelX2QuotesView.fromJson(jsonEncode(responseQuote[0]));
+
+      bool existInPowerCode = false;
+      PcCustomer? pcCustomer;
+      var responseFilter = await supabaseCRM.from('customers').select().eq('customer_name_x2', quote.account);
+      if (responseFilter.isNotEmpty) {
+        existInPowerCode = true;
+        pcCustomer = PcCustomer.fromJson(jsonEncode(responseFilter[0]));
+      }
+
+      List<dynamic> servicesList = [];
+      for (var item in quote.items!) {
+        servicesList.add(
+          {
+            "id": item.id, //LineItem ID
+            "name": item.lineItem, //LineItem Name
+            "price": item.unitPrice, //LineItem Price
+            "quantity": item.quantity, //LineItem Quantiy
+          },
+        );
+      }
+
+      var json = {
+        "apiKey": "3cBEFVR4qQleIRO2yWu0FcOCDdyZbuaU", //Fijo
+        "action": "createLead", //Fijo
+        "customerId": pcCustomer?.customerId,
+        "existingCustomer": existInPowerCode,
+        "customerType": "Wholesale", //Fijo
+        "locationGroup": "SAN", //Fijo
+        "customer": {
+          "firstName": quote.contactfirstname, //Contact Name
+          "lastName": quote.contactlastname, //Contact LastName
+          "emailAddress": quote.contactemail, //Contact Email
+          "phone": [
+            {
+              "Type": "Work", //Fijo
+              "Number": quote.contactphone, //Contact Phone
+            }
+          ],
+          "companyName": quote.account, //Account Name
+          "customerNotes": quote.accountdescription, //Account Description
+          "physicalStreet": quote.accountaddress, //Account Adress
+          "physicalCity": quote.accountcity, //Account City
+          "physicalState": quote.accountstate, //Account State
+          "physicalZip": quote.accountzipcode, //Account Postal Code
+        },
+        "services": servicesList
+      };
+
+      print(json);
+
+      var request = http.Request('POST', Uri.parse("https://supa43.rtatel.com/planbuilder/wop/api"));
+      var headers = {'Content-Type': 'application/json'};
+      request.headers.addAll(headers);
+      request.body = jsonEncode(json);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        dynamic resp = await response.stream.bytesToString();
+        print(resp);
+      }
+
+      return true;
+    } catch (e) {
+      log('Error insertPowerCode() - $e');
+      return false;
+    }
   }
 
   ////////////////////////////////////////////////////////
@@ -376,15 +572,13 @@ class QuotesProvider extends ChangeNotifier {
   ////////////////////////RealTime////////////////////////
   ////////////////////////////////////////////////////////
 
-  final myChannel = supabaseCRM.channel('quotes');
-
   Future<void> realTimeSuscription() async {
-    myChannel.on(
+    supabaseCRM.channel('x2_quotes').on(
         RealtimeListenTypes.postgresChanges,
         ChannelFilter(
           event: 'UPDATE',
           schema: 'crm',
-          table: 'quotes',
+          table: 'x2_quotes',
         ), (payload, [ref]) async {
       await updateState();
     }).subscribe();
@@ -394,7 +588,7 @@ class QuotesProvider extends ChangeNotifier {
   //////////////////////////GRPC//////////////////////////
   ////////////////////////////////////////////////////////
 
-  Future<void> x2MySQL() async {
+  /* Future<void> x2MySQL() async {
     try {
       final channel = GrpcWebClientChannel.xhr(Uri.parse('http://34.130.182.108:9093'));
       final service = QuotesRetrieverClient(channel);
@@ -436,7 +630,7 @@ class QuotesProvider extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
-  }
+  } */
 
   ////////////////////////////////////////////////////////
   //////////////////////////RIVE//////////////////////////

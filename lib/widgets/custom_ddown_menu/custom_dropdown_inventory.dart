@@ -20,8 +20,7 @@ class CustomDropDownInventory extends StatefulWidget {
   final String? hint;
 
   @override
-  State<CustomDropDownInventory> createState() =>
-      _CustomDropDownInventoryState();
+  State<CustomDropDownInventory> createState() => _CustomDropDownInventoryState();
 }
 
 class _CustomDropDownInventoryState extends State<CustomDropDownInventory> {
@@ -45,11 +44,7 @@ class _CustomDropDownInventoryState extends State<CustomDropDownInventory> {
             borderRadius: BorderRadius.circular(5),
             color: AppTheme.of(context).primaryBackground,
             boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 0.1,
-                  blurRadius: 3,
-                  offset: const Offset(0, 0) // changes position of shadow
+              BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 0.1, blurRadius: 3, offset: const Offset(0, 0) // changes position of shadow
                   )
             ],
           ),
@@ -84,8 +79,7 @@ class _CustomDropDownInventoryState extends State<CustomDropDownInventory> {
                   underline: const SizedBox.shrink(),
                   onChanged: widget.onChanged,
                   value: widget.dropdownValue,
-                  items:
-                      widget.list.map<DropdownMenuItem<String>>((String value) {
+                  items: widget.list.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(
@@ -93,41 +87,11 @@ class _CustomDropDownInventoryState extends State<CustomDropDownInventory> {
                         style: TextStyle(
                           color: AppTheme.of(context).primaryColor,
                           fontFamily: 'Bicyclette-Thin',
-                          fontSize:
-                              AppTheme.of(context).contenidoTablas.fontSize,
+                          fontSize: AppTheme.of(context).contenidoTablas.fontSize,
                         ),
                       ),
                     );
                   }).toList(),
-
-                  /*  items: widget.list
-                      .map<DropdownMenuItem<DDownSelected>>((DDownSelected item) => DropdownMenuItem<DDownSelected>(
-                            value: item,
-                            child: Container(
-                              color: item.selected ? primaryColor : AppTheme.of(context).primaryBackground,
-                              child: Text(item.name, style: TextStyle(color: item.selected ? AppTheme.of(context).primaryBackground : primaryColor)),
-                            ),
-                          ))
-                      .toList(),  */
-
-                  /* selectedItemBuilder: (BuildContext context) {
-                    return widget.list.map<Widget>((String item) {
-                      // This is the widget that will be shown when you select an item.
-                      // Here custom text style, alignment and layout size can be applied
-                      // to selected item string.
-                      return Container(
-                        alignment: Alignment.centerLeft,
-                        constraints: const BoxConstraints(minWidth: 100),
-                        color: item == widget.dropdownValue ? primaryColor : AppTheme.of(context).primaryBackground,
-                        child: Text(
-                          item,
-                          style: TextStyle(
-                            color: item == widget.dropdownValue ? AppTheme.of(context).primaryBackground :: AppTheme.of(context).primaryColor
-                          ),
-                        ),
-                      );
-                    }).toList();
-                  }, */
                 ),
               ),
             ],

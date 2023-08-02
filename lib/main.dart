@@ -22,7 +22,7 @@ import 'providers/crm/accounts/tabs/billing_provider.dart';
 import 'providers/crm/accounts/tabs/campaigns_provider.dart';
 import 'providers/crm/accounts/tabs/leads_provider.dart';
 import 'providers/crm/accounts/tabs/opportunity_provider.dart';
-import 'providers/crm/accounts/tabs/quotes_provider.dart';
+import 'providers/crm/quote/quotes_provider.dart';
 import 'providers/crm/quote/create_quote_provider.dart';
 import 'providers/crm/quote/detail_quote_provider.dart';
 import 'providers/crm/quote/validate_quote_provider.dart';
@@ -121,8 +121,7 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 
-  static _MyAppState of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>()!;
+  static _MyAppState of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>()!;
 }
 
 class _MyAppState extends State<MyApp> {

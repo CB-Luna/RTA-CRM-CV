@@ -7,8 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 import 'package:rta_crm_cv/models/models.dart';
 
-final GlobalKey<ScaffoldMessengerState> snackbarKey =
-    GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
 
 const storage = FlutterSecureStorage();
 
@@ -28,6 +27,9 @@ late final SharedPreferences prefs;
 late final Assets assets;
 
 User? currentUser;
+
+String apiGatewayURL = "http://10.5.24.43:8082/x2/api"; //DEV
+//String apiGatewayURL = "http://10.5.24.41:8082/x2/api"; //PROD
 
 Future<void> initGlobals() async {
   prefs = await SharedPreferences.getInstance();

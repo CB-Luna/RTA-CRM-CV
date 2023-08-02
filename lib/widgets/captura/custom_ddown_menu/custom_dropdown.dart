@@ -31,7 +31,7 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 55,
+      //height: 55,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -65,7 +65,7 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
                 Icon(widget.icon, color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
                 const SizedBox(width: 10),
                 SizedBox(
-                  width: widget.width - 50,
+                  width: widget.width - 60,
                   child: DropdownButton<String>(
                     hint: Text(
                       widget.hint ?? '',

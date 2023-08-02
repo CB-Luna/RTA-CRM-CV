@@ -6,13 +6,13 @@ import 'package:flutter/material.dart' hide State;
 import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/dashboard_crm/totals.dart';
-import 'package:rta_crm_cv/models/dashboard_crm/x2_quotes.dart';
+import 'package:rta_crm_cv/models/crm/dashboard_crm/totals.dart';
+import 'package:rta_crm_cv/models/crm/dashboard_crm/x2_quotes.dart';
 import 'package:rta_crm_cv/models/leads_history.dart';
 
 import 'package:http/http.dart' as http;
 
-import 'package:rta_crm_cv/models/x2crm/x2crm_quote_model.dart';
+import 'package:rta_crm_cv/models/crm/x2crm/x2crm_quote_model.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/dateranges.dart';
 
@@ -23,14 +23,7 @@ class DashboardCRMProvider extends ChangeNotifier {
   List<Totales> totalss = [];
   List<X2CrmQuote> x2crmQuotes = [];
   List<double> totalList = [], orderList = [], quotesList = [], canceledList = [];
-  double mtotal = 0,
-      mOrder = 0,
-      mQuote = 0,
-      mCancel = 0,
-      ctotal = 0,
-      cOrder = 0,
-      cQuote = 0,
-      cCancel = 0;
+  double mtotal = 0, mOrder = 0, mQuote = 0, mCancel = 0, ctotal = 0, cOrder = 0, cQuote = 0, cCancel = 0;
   List<String> weekList = [];
   PlutoGridStateManager? stateManager;
   bool editmode = false;
@@ -45,12 +38,9 @@ class DashboardCRMProvider extends ChangeNotifier {
   late double touchedValue;
   DateTime now = DateTime.now();
   DateRange range = DateRange(DateTime.now().subtract(const Duration(days: 28)), DateTime.now());
-  DateTimeRange dateRange =
-      DateTimeRange(start: DateTime.now().subtract(const Duration(days: 28)), end: DateTime.now());
+  DateTimeRange dateRange = DateTimeRange(start: DateTime.now().subtract(const Duration(days: 28)), end: DateTime.now());
 
-  Color verde = const Color(0xFF2FDC40),
-      amarillo = Colors.orangeAccent,
-      rojo = const Color(0xFFB2333A);
+  Color verde = const Color(0xFF2FDC40), amarillo = Colors.orangeAccent, rojo = const Color(0xFFB2333A);
   ////////////////////////////////////////////////////////////////////////////
   DashboardCRMProvider() {
     touchedValue = -1;
@@ -94,9 +84,7 @@ class DashboardCRMProvider extends ChangeNotifier {
   }
 
 //Calendario
-  Widget datePickerBuilder(BuildContext context, dynamic Function(DateRange?) onDateRangeChanged,
-          [bool doubleMonth = true]) =>
-      DateRangePickerWidget(
+  Widget datePickerBuilder(BuildContext context, dynamic Function(DateRange?) onDateRangeChanged, [bool doubleMonth = true]) => DateRangePickerWidget(
         doubleMonth: doubleMonth,
         quickDateRanges: [
           QuickDateRange(
@@ -166,20 +154,17 @@ class DashboardCRMProvider extends ChangeNotifier {
           notifyListeners();
         },
         theme: CalendarTheme(
-          selectedColor: AppTheme.of(context).primaryColor,
-          dayNameTextStyle:
-              TextStyle(color: AppTheme.of(context).primaryText, fontSize: 10), //texto dias
-          inRangeColor:
-              AppTheme.of(context).primaryColor.withOpacity(.2), //color rango seleccionado
-          inRangeTextStyle: TextStyle(color: AppTheme.of(context).primaryColor),
-          selectedTextStyle: TextStyle(color: AppTheme.of(context).primaryBackground),
-          todayTextStyle: const TextStyle(fontWeight: FontWeight.bold),
-          defaultTextStyle: TextStyle(color: AppTheme.of(context).primaryText, fontSize: 12),
-          radius: 10,
-          tileSize: 40,
-          disabledTextStyle: const TextStyle(color: Colors.grey),
-          selectedQuickDateRangeColor: AppTheme.of(context).primaryColor
-        ),
+            selectedColor: AppTheme.of(context).primaryColor,
+            dayNameTextStyle: TextStyle(color: AppTheme.of(context).primaryText, fontSize: 10), //texto dias
+            inRangeColor: AppTheme.of(context).primaryColor.withOpacity(.2), //color rango seleccionado
+            inRangeTextStyle: TextStyle(color: AppTheme.of(context).primaryColor),
+            selectedTextStyle: TextStyle(color: AppTheme.of(context).primaryBackground),
+            todayTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+            defaultTextStyle: TextStyle(color: AppTheme.of(context).primaryText, fontSize: 12),
+            radius: 10,
+            tileSize: 40,
+            disabledTextStyle: const TextStyle(color: Colors.grey),
+            selectedQuickDateRangeColor: AppTheme.of(context).primaryColor),
       );
 
 //Tabla History Leads
@@ -194,8 +179,7 @@ class DashboardCRMProvider extends ChangeNotifier {
         log('Error en getHistory()');
         return;
       }
-      List<LeadsHistory> leads =
-          (res as List<dynamic>).map((lead) => LeadsHistory.fromJson(jsonEncode(lead))).toList();
+      List<LeadsHistory> leads = (res as List<dynamic>).map((lead) => LeadsHistory.fromJson(jsonEncode(lead))).toList();
 
       rows.clear();
       for (LeadsHistory lead in leads) {
@@ -229,8 +213,7 @@ class DashboardCRMProvider extends ChangeNotifier {
       'Authorization': 'Basic YWxleGM6NW1saDM5UjhQUVc4WnI3TzhDcGlPSDJvZE1xaGtFOE8=',
       //'Cookie': 'PHPSESSID=u3lgismtbbamh7g3k6b8dqteuk; YII_CSRF_TOKEN=Z2VybTVsZERNcV9faDVSUlE1VFRZeHk3WmNUWmRiSEMSMv7x7artFlmFwAp6GLyf7Qsi4oYOGXtsrcYz02xGJg%3D%3D'
     };
-    var request = http.Request(
-        'GET', Uri.parse('http://34.130.182.108/X2CRM-master/x2engine/index.php/api2/Quotes'));
+    var request = http.Request('GET', Uri.parse('http://34.130.182.108/X2CRM-master/x2engine/index.php/api2/Quotes'));
 
     request.headers.addAll(headers);
 
@@ -241,8 +224,7 @@ class DashboardCRMProvider extends ChangeNotifier {
 
       var res = jsonDecode(await response.stream.bytesToString());
 
-      x2crmQuotes =
-          (res as List<dynamic>).map((quote) => X2CrmQuote.fromJson(jsonEncode(quote))).toList();
+      x2crmQuotes = (res as List<dynamic>).map((quote) => X2CrmQuote.fromJson(jsonEncode(quote))).toList();
     } else {
       log(response.reasonPhrase.toString());
     }
@@ -306,16 +288,9 @@ class DashboardCRMProvider extends ChangeNotifier {
         } else if (currentUser!.isSenExec) {
           res = await supabaseCRM.from('x2_quotes_view').select().eq('status', 'Opened');
         } else if (currentUser!.isFinance) {
-          res = await supabaseCRM
-              .from('x2_quotes_view')
-              .select()
-              .or('status.eq.Sen. Exec. Validate,status.eq.Margin Positive');
+          res = await supabaseCRM.from('x2_quotes_view').select().or('status.eq.Sen. Exec. Validate,status.eq.Margin Positive');
         } else if (currentUser!.isOpperations) {
-          res = await supabaseCRM
-              .from('x2_quotes_view')
-              .select()
-              .eq('status', 'Finance Validate')
-              .or('status.eq.Accepted');
+          res = await supabaseCRM.from('x2_quotes_view').select().eq('status', 'Finance Validate').or('status.eq.Accepted');
         }
       }
 
@@ -360,6 +335,7 @@ class DashboardCRMProvider extends ChangeNotifier {
     }
     return flspots;
   }
+
   //Graficas
   //totales
   BarChartGroupData puntos(int x, double y, Color color /* Gradient gradient */) {
@@ -368,8 +344,7 @@ class DashboardCRMProvider extends ChangeNotifier {
       groupVertically: true,
       barsSpace: 20,
       barRods: [
-        BarChartRodData(
-            fromY: 0, toY: y, width: 30, borderRadius: const BorderRadius.all(Radius.zero), color: color
+        BarChartRodData(fromY: 0, toY: y, width: 30, borderRadius: const BorderRadius.all(Radius.zero), color: color
             //gradient: gradient,
             ),
       ],
@@ -462,15 +437,9 @@ class DashboardCRMProvider extends ChangeNotifier {
 
   //pie chart
   List<PieChartSectionData> showingSections() {
-    double porder = (mOrder / (mOrder + mQuote + mCancel)) * 100,
-        pquote = (mQuote / (mOrder + mQuote + mCancel)) * 100,
-        pcancel = (mCancel / (mOrder + mQuote + mCancel)) * 100;
-    String rorder = porder.toStringAsFixed(2),
-        rquote = pquote.toStringAsFixed(2),
-        rcancel = pcancel.toStringAsFixed(2);
-    double dorder = double.parse(rorder),
-        dquote = double.parse(rquote),
-        dcancel = double.parse(rcancel);
+    double porder = (mOrder / (mOrder + mQuote + mCancel)) * 100, pquote = (mQuote / (mOrder + mQuote + mCancel)) * 100, pcancel = (mCancel / (mOrder + mQuote + mCancel)) * 100;
+    String rorder = porder.toStringAsFixed(2), rquote = pquote.toStringAsFixed(2), rcancel = pcancel.toStringAsFixed(2);
+    double dorder = double.parse(rorder), dquote = double.parse(rquote), dcancel = double.parse(rcancel);
     return List.generate(3, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 15.0;
@@ -482,11 +451,7 @@ class DashboardCRMProvider extends ChangeNotifier {
             value: dorder,
             title: '\$$mOrder\n$dorder%',
             radius: radius,
-            titleStyle: TextStyle(
-                fontFamily: 'UniNeue',
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+            titleStyle: TextStyle(fontFamily: 'UniNeue', fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
         case 1:
           return PieChartSectionData(
@@ -494,11 +459,7 @@ class DashboardCRMProvider extends ChangeNotifier {
             value: dquote,
             title: '\$$mQuote\n$dquote%',
             radius: radius,
-            titleStyle: TextStyle(
-                fontFamily: 'UniNeue',
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+            titleStyle: TextStyle(fontFamily: 'UniNeue', fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
         case 2:
           return PieChartSectionData(
@@ -506,11 +467,7 @@ class DashboardCRMProvider extends ChangeNotifier {
             value: dcancel,
             title: '\$$mCancel\n$dcancel%',
             radius: radius,
-            titleStyle: TextStyle(
-                fontFamily: 'UniNeue',
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
+            titleStyle: TextStyle(fontFamily: 'UniNeue', fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
 
         default:

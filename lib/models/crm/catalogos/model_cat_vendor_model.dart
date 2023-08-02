@@ -1,20 +1,20 @@
 import 'dart:convert';
 
 class Vendor {
-  int id;
-  DateTime createdAt;
-  String createdBy;
-  DateTime updatedAt;
-  String updatedBy;
-  String vendorName;
+  int? id;
+  DateTime? createdAt;
+  String? createdBy;
+  DateTime? updatedAt;
+  String? updatedBy;
+  String? vendorName;
 
   Vendor({
-    required this.id,
-    required this.createdAt,
-    required this.createdBy,
-    required this.updatedAt,
-    required this.updatedBy,
-    required this.vendorName,
+    this.id,
+    this.createdAt,
+    this.createdBy,
+    this.updatedAt,
+    this.updatedBy,
+    this.vendorName,
   });
 
   factory Vendor.fromJson(String str) => Vendor.fromMap(json.decode(str));
@@ -32,9 +32,9 @@ class Vendor {
 
   Map<String, dynamic> toMap() => {
         "id": id,
-        "created_at": createdAt.toIso8601String(),
+        "created_at": createdAt?.toIso8601String(),
         "created_by": createdBy,
-        "updated_at": updatedAt.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
         "updated_by": updatedBy,
         "vendor_name": vendorName,
       };

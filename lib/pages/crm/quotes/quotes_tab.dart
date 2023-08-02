@@ -7,7 +7,7 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/providers/crm/accounts/tabs/quotes_provider.dart';
+import 'package:rta_crm_cv/providers/crm/quote/quotes_provider.dart';
 import 'package:rta_crm_cv/providers/crm/quote/create_quote_provider.dart';
 import 'package:rta_crm_cv/providers/crm/quote/detail_quote_provider.dart';
 import 'package:rta_crm_cv/providers/crm/quote/validate_quote_provider.dart';
@@ -454,9 +454,7 @@ class _QuotesTabState extends State<QuotesTab> {
                               text: 'Fill Form',
                               color: AppTheme.of(context).tertiaryColor,
                               onTap: () async {
-                                await providerCreate.clearAll();
-                                await providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
-                                await providerCreate.getLead(rendererContext.row.cells["ID_LEAD_Column"]!.value, null);
+                                await providerCreate.getRowData(rendererContext.row.cells["ID_Column"]!.value);
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteCreation);
                               },
@@ -470,13 +468,12 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Details',
                               onTap: () async {
-                                detailProvider.id = rendererContext.row.cells['ID_Column']!.value;
-                                await detailProvider.getData();
+                                await detailProvider.getDataV2(rendererContext.row.cells['ID_Column']!.value);
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteDetail);
                               },
                             ),
-                          if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 5) //Rejected
+                          /*  if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 5) //Rejected
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -487,12 +484,12 @@ class _QuotesTabState extends State<QuotesTab> {
                               text: 'Create New',
                               onTap: () async {
                                 await providerCreate.clearAll();
-                                await providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
-                                await providerCreate.getLead(rendererContext.row.cells["ID_LEAD_Column"]!.value, null);
+                                //await providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
+                                //await providerCreate.getLead(rendererContext.row.cells["ID_LEAD_Column"]!.value, null);
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteCreation);
                               },
-                            ),
+                            ), */
                           if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 7) //Approved
                             CustomTextIconButton(
                               isLoading: false,
@@ -503,11 +500,12 @@ class _QuotesTabState extends State<QuotesTab> {
                               color: AppTheme.of(context).tertiaryColor,
                               text: 'Create Order',
                               onTap: () async {
-                                await supabaseCRM.rpc(
+                                /* await supabaseCRM.rpc(
                                   'update_quote_status',
                                   params: {"id_status": 8, "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id}, //Order Created
-                                );
-                                await provider.getQuotes(null);
+                                );*/
+                                //await provider.getQuotes(null);
+                                await provider.insertPowerCode(rendererContext.row.cells["ID_Column"]!.value);
                               },
                             ),
                           if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 8) //Order Created
@@ -537,9 +535,7 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Validate',
                               onTap: () async {
-                                await providerValidate.clearAll();
-                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
-                                await providerValidate.getData();
+                                await providerValidate.getDataV2(rendererContext.row.cells['ID_Column']!.value);
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteValidation);
                               },
@@ -553,9 +549,7 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Validate',
                               onTap: () async {
-                                await providerValidate.clearAll();
-                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
-                                await providerValidate.getData();
+                                await providerValidate.getDataV2(rendererContext.row.cells['ID_Column']!.value);
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteValidation);
                               },
@@ -569,9 +563,7 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Validate',
                               onTap: () async {
-                                await providerValidate.clearAll();
-                                providerValidate.id = rendererContext.row.cells['ID_Column']!.value;
-                                await providerValidate.getData();
+                                await providerValidate.getDataV2(rendererContext.row.cells['ID_Column']!.value);
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteValidation);
                               },
@@ -672,7 +664,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: CustomTextCell(
-                        text: rendererContext.cell.value ?? '-',
+                        text: rendererContext.cell.value,
                         textAlign: TextAlign.start,
                       ),
                     );
@@ -699,7 +691,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: CustomTextCell(
-                        text: rendererContext.cell.value ?? '-',
+                        text: rendererContext.cell.value,
                         textAlign: TextAlign.start,
                       ),
                     );
@@ -753,7 +745,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: CustomTextCell(
-                        text: '${moneyFormat(rendererContext.cell.value)}%',
+                        text: rendererContext.cell.value != null ? '${moneyFormat(rendererContext.cell.value)}%' : '-',
                         textAlign: TextAlign.end,
                       ),
                     );
@@ -780,7 +772,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: CustomTextCell(
-                        text: rendererContext.cell.value ?? '-',
+                        text: rendererContext.cell.value,
                         textAlign: TextAlign.start,
                       ),
                     );
@@ -807,7 +799,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: CustomTextCell(
-                        text: rendererContext.cell.value ?? '-',
+                        text: rendererContext.cell.value,
                         textAlign: TextAlign.start,
                       ),
                     );
@@ -834,7 +826,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: CustomTextCell(
-                        text: rendererContext.cell.value ?? '-',
+                        text: rendererContext.cell.value,
                         textAlign: TextAlign.start,
                       ),
                     );
@@ -861,7 +853,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: CustomTextCell(
-                        text: rendererContext.cell.value ?? '-',
+                        text: rendererContext.cell.value,
                         textAlign: TextAlign.start,
                       ),
                     );
@@ -915,7 +907,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: CustomTextCell(
-                        text: rendererContext.cell.value ?? '-',
+                        text: rendererContext.cell.value,
                         textAlign: TextAlign.start,
                       ),
                     );
@@ -942,7 +934,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: CustomTextCell(
-                        text: rendererContext.cell.value ?? '-',
+                        text: rendererContext.cell.value,
                         textAlign: TextAlign.start,
                       ),
                     );
@@ -969,7 +961,7 @@ class _QuotesTabState extends State<QuotesTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: CustomTextCell(
-                        text: rendererContext.cell.value ?? '-',
+                        text: rendererContext.cell.value,
                         textAlign: TextAlign.start,
                       ),
                     );

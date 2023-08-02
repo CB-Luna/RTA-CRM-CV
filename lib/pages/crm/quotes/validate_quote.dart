@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
@@ -35,7 +37,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
     double cardHeight = 2.5;
 
     ValidateQuoteProvider provider = Provider.of<ValidateQuoteProvider>(context);
-    if (provider.globalRows.isEmpty || provider.id == null) {
+    if (provider.id == 0) {
       context.pushReplacement(routeQuotes);
     }
     double totalTitleWidth = 135;
@@ -81,7 +83,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                         padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomDDownMenu(
                                           enabled: false,
-                                          list: provider.orderTypesList,
+                                          list: provider.orderTypesList.map((type) => type.name!).toList(),
                                           label: 'Order Type',
                                           onChanged: (p0) {
                                             // if (p0 != null) provider.selectOT(p0);
@@ -95,7 +97,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                         padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomDDownMenu(
                                           enabled: false,
-                                          list: provider.typesList,
+                                          list: provider.typesList.map((type) => type.name!).toList(),
                                           dropdownValue: provider.typesSelectedValue,
                                           onChanged: (p0) {
                                             // if (p0 != null) provider.selectType(p0);
@@ -105,7 +107,8 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                           width: txfFieldWidth,
                                         ),
                                       ),
-                                      if (provider.typesSelectedValue == 'Disconnect' || provider.typesSelectedValue == 'Upgrade')
+                                      if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))].parameters!
+                                          .existingCircuitId!)
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
@@ -117,7 +120,8 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                             keyboardType: TextInputType.text,
                                           ),
                                         ),
-                                      if (provider.typesSelectedValue == 'Upgrade' || provider.typesSelectedValue == 'New')
+                                      if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))].parameters!
+                                          .newCircuitId!)
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
@@ -133,7 +137,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                         padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomDDownMenu(
                                           enabled: false,
-                                          list: provider.dataCentersList,
+                                          list: provider.dataCentersList.map((dataCenter) => dataCenter.name!).toList(),
                                           dropdownValue: provider.dataCenterSelectedValue,
                                           onChanged: (p0) {
                                             // if (p0 != null) provider.selectDataCenter(p0);
@@ -172,7 +176,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomDDownMenu(
                                             enabled: false,
-                                            list: provider.vendorsList,
+                                            list: provider.vendorsList.map((vendor) => vendor.vendorName!).toList(),
                                             dropdownValue: provider.vendorSelectedValue,
                                             onChanged: (p0) {
                                               /* if (provider.idVendor == null) {
@@ -188,7 +192,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomDDownMenu(
                                             enabled: false,
-                                            list: provider.circuitInfosList,
+                                            list: provider.circuitTypeList.map((type) => type.name!).toList(),
                                             dropdownValue: provider.circuitTypeSelectedValue,
                                             onChanged: (p0) {
                                               // if (p0 != null) provider.selectCircuitInfo(p0);
@@ -243,14 +247,14 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 padding: const EdgeInsets.only(left: 10),
                                                 child: CustomDDownMenu(
                                                   enabled: false,
-                                                  list: provider.bgpList,
+                                                  list: provider.bgpList.map((type) => type.name!).toList(),
                                                   dropdownValue: provider.bgpSelectedValue,
                                                   onChanged: (p0) {
                                                     // if (p0 != null) provider.selectBGP(p0);
                                                   },
                                                   icon: Icons.bug_report_outlined,
                                                   label: 'BGP Peering',
-                                                  width: txfFieldWidth / 1.6,
+                                                  width: txfFieldWidth / 1.6 + 5,
                                                 ),
                                               ),
                                             ],
@@ -294,12 +298,55 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     },
                                                     icon: Icons.signal_cellular_alt,
                                                     label: 'IP Subnet',
-                                                    width: txfFieldWidth / 1.6,
+                                                    width: txfFieldWidth / 1.6 + 5,
                                                   ),
                                                 ),
                                             ],
                                           ),
                                         ),
+                                        if (provider.circuitTypeSelectedValue == 'PTP' || provider.circuitTypeSelectedValue == 'ASEoD')
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
+                                            child: Row(
+                                              children: [
+                                                if (provider
+                                                    .circuitTypeList[
+                                                        provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                    .parameters!
+                                                    .cir!)
+                                                  CustomDDownMenu(
+                                                    enabled: false,
+                                                    list: provider.cirList,
+                                                    dropdownValue: provider.cirSelectedValue,
+                                                    onChanged: (p0) {
+                                                      //if (p0 != null) provider.selectCIR(p0);
+                                                    },
+                                                    icon: Icons.send_outlined,
+                                                    label: 'CIR',
+                                                    width: txfFieldWidth / 1.8,
+                                                  ),
+                                                if (provider
+                                                    .circuitTypeList[
+                                                        provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                    .parameters!
+                                                    .portSize!)
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 20),
+                                                    child: CustomDDownMenu(
+                                                      enabled: false,
+                                                      list: provider.portSizeList,
+                                                      dropdownValue: provider.portSizeSelectedValue,
+                                                      onChanged: (p0) {
+                                                        //if (p0 != null) provider.selectPortSize(p0);
+                                                      },
+                                                      icon: Icons.lan_outlined,
+                                                      label: 'Port Size',
+                                                      width: txfFieldWidth / 1.6 + 5,
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
                                       ],
                                     ),
                                   ),
@@ -396,8 +443,9 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   text: 'Accept',
                                                   color: AppTheme.of(context).tertiaryColor,
                                                   onTap: () async {
-                                                    context.pushReplacement(routeQuotes);
-                                                    await provider.validate(true);
+                                                    if (await provider.validateV2(true)) {
+                                                      context.pushReplacement(routeQuotes);
+                                                    }
                                                   },
                                                 ),
                                                 CustomTextIconButton(
@@ -407,8 +455,9 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   color: secondaryColor,
                                                   text: 'Reject',
                                                   onTap: () async {
-                                                    context.pushReplacement(routeQuotes);
-                                                    await provider.validate(false);
+                                                    if (await provider.validateV2(false)) {
+                                                      context.pushReplacement(routeQuotes);
+                                                    }
                                                   },
                                                 ),
                                               ],
@@ -904,7 +953,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                               ),
                               const Padding(
                                 padding: EdgeInsets.only(left: 20),
-                                child: DetailQuoteComments(),
+                                child: CommentsSection(),
                               )
                             ],
                           ),
@@ -922,14 +971,14 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
   }
 }
 
-class DetailQuoteComments extends StatefulWidget {
-  const DetailQuoteComments({super.key});
+class CommentsSection extends StatefulWidget {
+  const CommentsSection({super.key});
 
   @override
-  State<DetailQuoteComments> createState() => _DetailQuoteCommentsState();
+  State<CommentsSection> createState() => _CommentsSectionState();
 }
 
-class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
+class _CommentsSectionState extends State<CommentsSection> {
   @override
   Widget build(BuildContext context) {
     ValidateQuoteProvider provider = Provider.of<ValidateQuoteProvider>(context);
@@ -942,14 +991,18 @@ class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height / 2.25 - 150,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppTheme.of(context).primaryBackground, boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 0.1,
-                blurRadius: 3,
-                offset: const Offset(0, 0), // changes position of shadow
-              ),
-            ]),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: AppTheme.of(context).primaryBackground,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 0.1,
+                  blurRadius: 3,
+                  offset: const Offset(0, 0), // changes position of shadow
+                ),
+              ],
+            ),
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
@@ -1085,7 +1138,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
   Widget build(BuildContext context) {
     // double txfFieldPadding = 10;
 
-    DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
+    ValidateQuoteProvider provider = Provider.of<ValidateQuoteProvider>(context);
     return Column(
       children: [
         Row(
@@ -1487,7 +1540,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
   Widget build(BuildContext context) {
     // double txfFieldPadding = 10;
 
-    DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
+    ValidateQuoteProvider provider = Provider.of<ValidateQuoteProvider>(context);
     return PlutoGrid(
       key: UniqueKey(),
       configuration: PlutoGridConfiguration(

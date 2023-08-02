@@ -27,19 +27,6 @@ class DetailQuotePage extends StatefulWidget {
 
 class _DetailQuotePageState extends State<DetailQuotePage> {
   @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(
-        context,
-        listen: false,
-      );
-      await provider.getData();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     double txfFieldWidth = (MediaQuery.of(context).size.width / 7);
     // double txfFieldPadding = 10;
@@ -50,7 +37,6 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
     DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
     //print('id = ${provider.id} / rows = ${provider.globalRows.length}');
     if (provider.id == 0) {
-      //print('returning');
       context.pushReplacement(routeQuotes);
     }
 
@@ -95,7 +81,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                         padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomDDownMenu(
                                           enabled: false,
-                                          list: provider.orderTypesList,
+                                          list: provider.orderTypesList.map((type) => type.name!).toList(),
                                           label: 'Order Type',
                                           onChanged: (p0) {
                                             // if (p0 != null) provider.selectOT(p0);
@@ -109,7 +95,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                         padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomDDownMenu(
                                           enabled: false,
-                                          list: provider.typesList,
+                                          list: provider.typesList.map((type) => type.name!).toList(),
                                           dropdownValue: provider.typesSelectedValue,
                                           onChanged: (p0) {
                                             // if (p0 != null) provider.selectType(p0);
@@ -119,7 +105,8 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                           width: txfFieldWidth,
                                         ),
                                       ),
-                                      if (provider.typesSelectedValue == 'Disconnect' || provider.typesSelectedValue == 'Upgrade')
+                                      if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))].parameters!
+                                          .existingCircuitId!)
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
@@ -131,7 +118,8 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             keyboardType: TextInputType.text,
                                           ),
                                         ),
-                                      if (provider.typesSelectedValue == 'Upgrade' || provider.typesSelectedValue == 'New')
+                                      if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))].parameters!
+                                          .newCircuitId!)
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
@@ -147,7 +135,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                         padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomDDownMenu(
                                           enabled: false,
-                                          list: provider.dataCentersList,
+                                          list: provider.dataCentersList.map((dataCenter) => dataCenter.name!).toList(),
                                           dropdownValue: provider.dataCenterSelectedValue,
                                           onChanged: (p0) {
                                             // if (p0 != null) provider.selectDataCenter(p0);
@@ -186,7 +174,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomDDownMenu(
                                             enabled: false,
-                                            list: provider.vendorsList,
+                                            list: provider.vendorsList.map((type) => type.vendorName!).toList(),
                                             dropdownValue: provider.vendorSelectedValue,
                                             onChanged: (p0) {
                                               /* if (provider.idVendor == null) {
@@ -202,7 +190,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomDDownMenu(
                                             enabled: false,
-                                            list: provider.circuitInfosList,
+                                            list: provider.circuitTypeList.map((type) => type.name!).toList(),
                                             dropdownValue: provider.circuitTypeSelectedValue,
                                             onChanged: (p0) {
                                               // if (p0 != null) provider.selectCircuitInfo(p0);
@@ -257,14 +245,14 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 padding: const EdgeInsets.only(left: 10),
                                                 child: CustomDDownMenu(
                                                   enabled: false,
-                                                  list: provider.bgpList,
+                                                  list: provider.bgpList.map((type) => type.name!).toList(),
                                                   dropdownValue: provider.bgpSelectedValue,
                                                   onChanged: (p0) {
                                                     // if (p0 != null) provider.selectBGP(p0);
                                                   },
                                                   icon: Icons.bug_report_outlined,
                                                   label: 'BGP Peering',
-                                                  width: txfFieldWidth / 1.6,
+                                                  width: txfFieldWidth / 1.6 + 5,
                                                 ),
                                               ),
                                             ],
@@ -314,6 +302,49 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             ],
                                           ),
                                         ),
+                                        if (provider.circuitTypeSelectedValue == 'PTP' || provider.circuitTypeSelectedValue == 'ASEoD')
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
+                                            child: Row(
+                                              children: [
+                                                if (provider
+                                                    .circuitTypeList[
+                                                        provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                    .parameters!
+                                                    .cir!)
+                                                  CustomDDownMenu(
+                                                    enabled: false,
+                                                    list: provider.cirList,
+                                                    dropdownValue: provider.cirSelectedValue,
+                                                    onChanged: (p0) {
+                                                      //if (p0 != null) provider.selectCIR(p0);
+                                                    },
+                                                    icon: Icons.send_outlined,
+                                                    label: 'CIR',
+                                                    width: txfFieldWidth / 1.8,
+                                                  ),
+                                                if (provider
+                                                    .circuitTypeList[
+                                                        provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                    .parameters!
+                                                    .portSize!)
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 20),
+                                                    child: CustomDDownMenu(
+                                                      enabled: false,
+                                                      list: provider.portSizeList,
+                                                      dropdownValue: provider.portSizeSelectedValue,
+                                                      onChanged: (p0) {
+                                                        //if (p0 != null) provider.selectPortSize(p0);
+                                                      },
+                                                      icon: Icons.lan_outlined,
+                                                      label: 'Port Size',
+                                                      width: txfFieldWidth / 1.6 + 5,
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
                                       ],
                                     ),
                                   ),
