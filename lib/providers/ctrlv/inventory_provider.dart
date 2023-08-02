@@ -190,6 +190,10 @@ class InventoryProvider extends ChangeNotifier {
 
   Issues? issue;
 
+  bool? esHoy;
+  int issueR = 0;
+  int issueD = 0;
+
 //------------------------------------------
   // TITULO LISTAS
   List<String> titulosIssue = [
@@ -901,7 +905,7 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   // EXCEL
-  bool excelActivityReports() {
+  Future<bool> excelActivityReports() async {
     //Crear excel
     Excel excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
@@ -936,6 +940,10 @@ class InventoryProvider extends ChangeNotifier {
     sheet?.setColWidth(13, 50);
     sheet?.setColWidth(14, 25);
     sheet?.setColWidth(15, 30);
+    sheet?.setColWidth(18,30);
+    sheet?.setColWidth(20,30);
+    sheet?.setColWidth(26,30);
+    sheet?.setColWidth(28,30);
 
     if (sheet == null) return false;
     CellStyle titulo = CellStyle(
@@ -1103,19 +1111,34 @@ class InventoryProvider extends ChangeNotifier {
     //sortear por su Id
     vehicles.sort((a, b) => a.idVehicle.compareTo(b.idVehicle));
 
-    CellStyle goodSec = CellStyle(
-      backgroundColorHex: "0xC7419B17",
-    );
-    CellStyle badSec = CellStyle(
-      backgroundColorHex: "0xC7D20030",
-    );
+    
     //Agregar datos
     for (int i = 0; i < vehicles.length; i++) {
-      String measureCheckOut;
-      String lightsCheckOut;
-      Vehicle report = vehicles[i];
-      getIssues(report);
+      issueR = 0;
+      issueD = 0;
+      String measureCheckOut = "";
+      String lightsCheckOut = "";
+      String bodyWorkCheckOut = "";
+      String fluidCheckOut = "";
+      String bucketCheckOut = "";
+      String securityCheckOut = "";
+      String extraCheckOut = "";
+      String equipmentCheckOut = "";
 
+      String measureCheckIn = "";
+      String lightsCheckIn = "";
+      String bodyWorkCheckIn = "";
+      String fluidCheckIn = "";
+      String bucketCheckIn = "";
+      String securityCheckIn = "";
+      String extraCheckIn = "";
+      String equipmentCheckIn = "";
+
+      Vehicle report = vehicles[i];
+      await getIssues(report);
+
+     if(esHoy == true){
+       //Secciones Check Out
       if (measureInspectR == true) {
         measureCheckOut = "✅";
       } else {
@@ -1126,6 +1149,82 @@ class InventoryProvider extends ChangeNotifier {
       } else {
         lightsCheckOut = "❌";
       }
+      if (carBodyInspectR == true) {
+        bodyWorkCheckOut = "✅";
+      } else {
+        bodyWorkCheckOut = "❌";
+      }
+      if (fluidCheckInspectR == true) {
+        fluidCheckOut = "✅";
+      } else {
+        fluidCheckOut = "❌";
+      }
+
+      if (bucketInspectR == true) {
+        bucketCheckOut = "✅";
+      } else {
+        bucketCheckOut = "❌";
+      }
+      if (securityInspectR == true) {
+        securityCheckOut = "✅";
+      } else {
+        securityCheckOut = "❌";
+      }
+      if (extraInspectR == true) {
+        extraCheckOut = "✅";
+      } else {
+        extraCheckOut = "❌";
+      }
+      if (equipmentInspectR == true) {
+        equipmentCheckOut = "✅";
+      } else {
+        equipmentCheckOut = "❌";
+      }
+
+      //Secciones Check In
+      if (measureInspectD == true) {
+        measureCheckIn = "✅";
+      } else {
+        measureCheckIn = "❌";
+      }
+      if (ligthsInspectD == true) {
+        lightsCheckIn = "✅";
+      } else {
+        lightsCheckIn = "❌";
+      }
+      if (carBodyInspectD == true) {
+        bodyWorkCheckIn = "✅";
+      } else {
+        bodyWorkCheckIn = "❌";
+      }
+      if (fluidCheckInspectD == true) {
+        fluidCheckIn = "✅";
+      } else {
+        fluidCheckIn = "❌";
+      }
+
+      if (bucketInspectD == true) {
+        bucketCheckIn = "✅";
+      } else {
+        bucketCheckIn = "❌";
+      }
+      if (securityInspectD == true) {
+        securityCheckIn = "✅";
+      } else {
+        securityCheckIn = "❌";
+      }
+      if (extraInspectD == true) {
+        extraCheckIn = "✅";
+      } else {
+        extraCheckIn = "❌";
+      }
+      if (equipmentInspectD == true) {
+        equipmentCheckIn = "✅";
+      } else {
+        equipmentCheckIn = "❌";
+      }
+     }
+
 
       final List<dynamic> row = [
         report.idVehicle,
@@ -1149,11 +1248,25 @@ class InventoryProvider extends ChangeNotifier {
             ? null
             : DateFormat("MMM/dd/yyyy")
                 .format(report.lastTransmissionFluidChange!),
-        report.issuesR,
-        report.issuesD,
+        issueR,
+        issueD,
         //Secciones
         measureCheckOut,
         lightsCheckOut,
+        bodyWorkCheckOut,
+        fluidCheckOut,
+        bucketCheckOut,
+        securityCheckOut,
+        extraCheckOut,
+        equipmentCheckOut,
+        measureCheckIn,
+        lightsCheckIn,
+        bodyWorkCheckIn,
+        fluidCheckIn,
+        bucketCheckIn,
+        securityCheckIn,
+        extraCheckIn,
+        equipmentCheckIn,
         // measureInspectR,
         // measureInspectD,
         // ligthsInspectR,
@@ -1180,7 +1293,14 @@ class InventoryProvider extends ChangeNotifier {
       cell.cellStyle = CellStyle(
         backgroundColorHex: colorFinal, // Cambia el color aquí
       );
+
+      var cellCO = sheet.cell(CellIndex.indexByColumnRow(columnIndex: 23, rowIndex: i+2));
+      var style = cellCO.cellStyle ?? CellStyle();
+        style.rightBorder.borderStyle;
+        cellCO.cellStyle = style;
     }
+
+    
 
     //Descargar
     final List<int>? fileBytes = excel.save(fileName: "Vehicle_Inventory.xlsx");
@@ -1254,32 +1374,43 @@ class InventoryProvider extends ChangeNotifier {
           .from('issues_view')
           .select()
           .eq('id_vehicle', vehicle.idVehicle)
+          .order('date_added_r',ascending: true)
           .limit(1);
-      // .order('bucket_inspection_r->>date_added, { ascending: false }')
-      // .limit(1);
+
+      
+
       print("El res Es: $res");
 
       if (res != null) {
+
         final listData = res as List<dynamic>;
         issue = Issues.fromJson(jsonEncode(listData[0]));
+        DateTime? date = issue?.dateAddedR;
+        DateTime today = DateTime.now();
 
-        //Repetir esto con todas las listas
+        if(date?.day == today.day && date?.month == today.month && date?.year == today.year){
+          esHoy = true;
+          issueR = issue!.issuesR;
+          if(issue!.issuesD != null){
+            issueD = issue!.issuesD!;
+          }
+          //Repetir esto con todas las listas
         issue!.bucketInspectionR.toMap().forEach((key, value) {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             bucketInspectR = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            bucketInspectR = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   bucketInspectR = true;
+          // }
         });
         //Bucket delivered llamada a su lista
         issue!.bucketInspectionD.toMap().forEach((key, value) {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             bucketInspectD = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            bucketInspectD = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   bucketInspectD = true;
+          // }
         });
 
         //Car BodyWork R
@@ -1287,9 +1418,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             carBodyInspectR = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            carBodyInspectR = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   carBodyInspectR = true;
+          // }
         });
 
         //Car BodyWork D
@@ -1297,9 +1428,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             carBodyInspectD = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            carBodyInspectD = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   carBodyInspectD = true;
+          // }
         });
 
         // Equipment R
@@ -1307,9 +1438,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             equipmentInspectR = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            equipmentInspectR = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   equipmentInspectR = true;
+          // }
         });
 
         //Equipment R
@@ -1317,9 +1448,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             equipmentInspectD = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            equipmentInspectD = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   equipmentInspectD = true;
+          // }
         });
 
         //Extra R
@@ -1327,9 +1458,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             extraInspectR = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            extraInspectR = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   extraInspectR = true;
+          // }
         });
 
         //Extra D
@@ -1337,9 +1468,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             extraInspectD = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            extraInspectD = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   extraInspectD = true;
+          // }
         });
 
         //Fluid Check R
@@ -1347,9 +1478,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             fluidCheckInspectR = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            fluidCheckInspectR = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   fluidCheckInspectR = true;
+          // }
         });
 
         //Fluid Check D
@@ -1357,9 +1488,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             fluidCheckInspectD = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            fluidCheckInspectD = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   fluidCheckInspectD = true;
+          // }
         });
 
         //Lights R
@@ -1367,9 +1498,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             ligthsInspectR = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            ligthsInspectR = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   ligthsInspectR = true;
+          // }
         });
 
         //Lights D
@@ -1377,9 +1508,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             ligthsInspectD = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            ligthsInspectD = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   ligthsInspectD = true;
+          // }
         });
 
         //Measure R
@@ -1387,9 +1518,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             measureInspectR = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            measureInspectR = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   measureInspectR = true;
+          // }
         });
 
         //Measure D
@@ -1397,9 +1528,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             measureInspectD = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            measureInspectD = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   measureInspectD = true;
+          // }
         });
 
         //Security R
@@ -1407,9 +1538,9 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             securityInspectR = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            securityInspectR = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   securityInspectR = true;
+          // }
         });
 
         //Security D
@@ -1417,10 +1548,17 @@ class InventoryProvider extends ChangeNotifier {
           if (value == 'Bad' && !(key.contains("_comments"))) {
             securityInspectD = false;
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            securityInspectD = true;
-          }
+          // if (value == 'Good' && !(key.contains("_comments"))) {
+          //   securityInspectD = true;
+          // }
         });
+        
+
+        }else{
+          esHoy = false;
+        }
+
+        
         notifyListeners();
         return true;
       } else {
