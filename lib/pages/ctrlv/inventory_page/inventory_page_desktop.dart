@@ -647,7 +647,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               onTap: () async {
                                                 isssueReportedProvider
                                                     .clearListgetIssues();
-
+                                                isssueReportedProvider
+                                                    .clearListasdegetIssues();
                                                 await isssueReportedProvider
                                                     .getIssuesxUsers(
                                                   rendererContext.cell.value,

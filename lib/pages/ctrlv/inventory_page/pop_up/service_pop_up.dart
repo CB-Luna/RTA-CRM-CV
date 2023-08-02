@@ -77,7 +77,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
                   Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.58,
+                        width: MediaQuery.of(context).size.width * 0.42,
                         height: MediaQuery.of(context).size.height * 0.45,
                         child: PlutoGrid(
                           key: UniqueKey(),
@@ -89,13 +89,13 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                 ...FilterHelper.defaultFilters,
                               ],
                               resolveDefaultColumnFilter: (column, resolver) {
-                                if (column.field == 'LicensePlates') {
-                                  return resolver<PlutoFilterTypeContains>()
-                                      as PlutoFilterType;
-                                } else if (column.field == 'service') {
+                                if (column.field == 'service') {
                                   return resolver<PlutoFilterTypeContains>()
                                       as PlutoFilterType;
                                 } else if (column.field == 'serviceDate') {
+                                  return resolver<PlutoFilterTypeContains>()
+                                      as PlutoFilterType;
+                                } else if (column.field == 'completed') {
                                   return resolver<PlutoFilterTypeContains>()
                                       as PlutoFilterType;
                                 }
@@ -106,17 +106,17 @@ class _ServicePopUpState extends State<ServicePopUp> {
                           ),
                           columns: [
                             PlutoColumn(
-                              title: 'LicensePlates',
-                              field: 'LicensePlates',
+                              title: 'service',
+                              field: 'service',
                               backgroundColor: const Color(0XFF6491F7),
                               titleSpan: TextSpan(children: [
                                 WidgetSpan(
-                                    child: Icon(Icons.credit_card_outlined,
+                                    child: Icon(Icons.list_alt_outlined,
                                         color: AppTheme.of(context)
                                             .primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
                                 TextSpan(
-                                    text: 'LicensePlates',
+                                    text: 'Service',
                                     style:
                                         AppTheme.of(context).encabezadoTablas)
                               ]),
@@ -129,6 +129,8 @@ class _ServicePopUpState extends State<ServicePopUp> {
                               renderer: (rendererContext) {
                                 return Container(
                                   height: rowHeight,
+                                  // width: rendererContext
+                                  //.cell.column.width,                                                    .cell.column.width,
                                   decoration:
                                       BoxDecoration(gradient: whiteGradient),
                                   child: Center(
@@ -178,17 +180,56 @@ class _ServicePopUpState extends State<ServicePopUp> {
                               },
                             ),
                             PlutoColumn(
-                              title: 'service',
-                              field: 'service',
+                              title: 'completed',
+                              field: 'completed',
                               backgroundColor: const Color(0XFF6491F7),
                               titleSpan: TextSpan(children: [
                                 WidgetSpan(
-                                    child: Icon(Icons.list_alt_outlined,
+                                    child: Icon(
+                                        Icons.check_box_outline_blank_outlined,
                                         color: AppTheme.of(context)
                                             .primaryBackground)),
                                 const WidgetSpan(child: SizedBox(width: 10)),
                                 TextSpan(
-                                    text: 'Service',
+                                    text: 'Completed',
+                                    style:
+                                        AppTheme.of(context).encabezadoTablas)
+                              ]),
+                              width: MediaQuery.of(context).size.width * 0.12,
+                              cellPadding: EdgeInsets.zero,
+                              titleTextAlign: PlutoColumnTextAlign.center,
+                              textAlign: PlutoColumnTextAlign.center,
+                              type: PlutoColumnType.text(),
+                              enableEditingMode: false,
+                              renderer: (rendererContext) {
+                                bool state = rendererContext.cell.value;
+                                return Container(
+                                  height: rowHeight,
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: state
+                                      ? const Icon(
+                                          Icons.check_circle_outline_outlined,
+                                          color:
+                                              Color.fromARGB(200, 65, 155, 23))
+                                      : const Icon(Icons.cancel_outlined,
+                                          color:
+                                              Color.fromARGB(200, 210, 0, 48)),
+                                );
+                              },
+                            ),
+                            PlutoColumn(
+                              title: 'serviceDate',
+                              field: 'serviceDate',
+                              backgroundColor: const Color(0XFF6491F7),
+                              titleSpan: TextSpan(children: [
+                                WidgetSpan(
+                                    child: Icon(Icons.calendar_today_outlined,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground)),
+                                const WidgetSpan(child: SizedBox(width: 10)),
+                                TextSpan(
+                                    text: 'Service Date',
                                     style:
                                         AppTheme.of(context).encabezadoTablas)
                               ]),
@@ -273,91 +314,6 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                   ),
                                 );
                                 //PlutoPagination(context.stateManager);
-                              },
-                            ),
-                            PlutoColumn(
-                              title: 'completed',
-                              field: 'completed',
-                              backgroundColor: const Color(0XFF6491F7),
-                              titleSpan: TextSpan(children: [
-                                WidgetSpan(
-                                    child: Icon(
-                                        Icons.check_box_outline_blank_outlined,
-                                        color: AppTheme.of(context)
-                                            .primaryBackground)),
-                                const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(
-                                    text: 'Completed',
-                                    style:
-                                        AppTheme.of(context).encabezadoTablas)
-                              ]),
-                              width: MediaQuery.of(context).size.width * 0.12,
-                              cellPadding: EdgeInsets.zero,
-                              titleTextAlign: PlutoColumnTextAlign.center,
-                              textAlign: PlutoColumnTextAlign.center,
-                              type: PlutoColumnType.text(),
-                              enableEditingMode: false,
-                              renderer: (rendererContext) {
-                                return Container(
-                                  height: rowHeight,
-                                  // width: rendererContext
-                                  //.cell.column.width,                                                    .cell.column.width,
-                                  decoration:
-                                      BoxDecoration(gradient: whiteGradient),
-                                  child: Center(
-                                      child: Text(
-                                    rendererContext.cell.value ?? '-',
-                                    style: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .override(
-                                            fontFamily: 'Gotham-Regular',
-                                            useGoogleFonts: false,
-                                            color: AppTheme.of(context)
-                                                .primaryColor),
-                                  )),
-                                );
-                              },
-                            ),
-                            PlutoColumn(
-                              title: 'serviceDate',
-                              field: 'serviceDate',
-                              backgroundColor: const Color(0XFF6491F7),
-                              titleSpan: TextSpan(children: [
-                                WidgetSpan(
-                                    child: Icon(Icons.calendar_today_outlined,
-                                        color: AppTheme.of(context)
-                                            .primaryBackground)),
-                                const WidgetSpan(child: SizedBox(width: 10)),
-                                TextSpan(
-                                    text: 'Service Date',
-                                    style:
-                                        AppTheme.of(context).encabezadoTablas)
-                              ]),
-                              width: MediaQuery.of(context).size.width * 0.15,
-                              cellPadding: EdgeInsets.zero,
-                              titleTextAlign: PlutoColumnTextAlign.center,
-                              textAlign: PlutoColumnTextAlign.center,
-                              type: PlutoColumnType.text(),
-                              enableEditingMode: false,
-                              renderer: (rendererContext) {
-                                return Container(
-                                  height: rowHeight,
-                                  // width: rendererContext
-                                  //.cell.column.width,                                                    .cell.column.width,
-                                  decoration:
-                                      BoxDecoration(gradient: whiteGradient),
-                                  child: Center(
-                                      child: Text(
-                                    rendererContext.cell.value ?? '-',
-                                    style: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .override(
-                                            fontFamily: 'Gotham-Regular',
-                                            useGoogleFonts: false,
-                                            color: AppTheme.of(context)
-                                                .primaryColor),
-                                  )),
-                                );
                               },
                             ),
                           ],

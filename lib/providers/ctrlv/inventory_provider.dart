@@ -648,7 +648,6 @@ class InventoryProvider extends ChangeNotifier {
         rowsService.add(
           PlutoRow(
             cells: {
-              "LicensePlates": PlutoCell(value: service.vehicle.licensePlates),
               "service": PlutoCell(value: service.servicex.service.toString()),
               "serviceDate": PlutoCell(
                   value: service.serviceDate == null
@@ -656,7 +655,7 @@ class InventoryProvider extends ChangeNotifier {
                       : DateFormat("MMM/dd/yyyy")
                           .format(service.serviceDate!)
                           .toString()),
-              "completed": PlutoCell(value: service.completed.toString()),
+              "completed": PlutoCell(value: service.completed),
             },
           ),
         );
