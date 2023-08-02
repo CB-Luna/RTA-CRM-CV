@@ -15,7 +15,6 @@ import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_icon_button.dart';
 import '../../../../widgets/side_menu/sidemenu.dart';
-import '../../../../widgets/success_toast.dart';
 import '../vehicle_cards/generalinformation_card.dart';
 
 class ReportedIssues extends StatefulWidget {
@@ -107,6 +106,44 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                     ),
                     columns: [
                       PlutoColumn(
+                          title: 'idIssues',
+                          field: 'idIssues',
+                          titleSpan: TextSpan(children: [
+                            WidgetSpan(
+                                child: Icon(Icons.label_important_outline,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground)),
+                            const WidgetSpan(child: SizedBox(width: 10)),
+                            TextSpan(
+                                text: 'idIssues',
+                                style: AppTheme.of(context).encabezadoTablas)
+                          ]),
+                          width: MediaQuery.of(context).size.width * 0.08,
+                          backgroundColor: const Color(0XFF6491F7),
+                          cellPadding: EdgeInsets.zero,
+                          titleTextAlign: PlutoColumnTextAlign.center,
+                          textAlign: PlutoColumnTextAlign.center,
+                          type: PlutoColumnType.text(),
+                          enableEditingMode: false,
+                          renderer: (rendererContext) {
+                            return Container(
+                              height: rowHeight,
+                              decoration:
+                                  BoxDecoration(gradient: whiteGradient),
+                              child: Center(
+                                  child: Text(
+                                rendererContext.cell.value ?? '-',
+                                style: AppTheme.of(context)
+                                    .contenidoTablas
+                                    .override(
+                                        fontFamily: 'Gotham-Regular',
+                                        useGoogleFonts: false,
+                                        color:
+                                            AppTheme.of(context).primaryColor),
+                              )),
+                            );
+                          }),
+                      PlutoColumn(
                         title: 'Status',
                         field: 'Status',
                         backgroundColor: const Color(0XFF6491F7),
@@ -129,8 +166,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         renderer: (rendererContext) {
                           return Container(
                             height: rowHeight,
-                            // width: rendererContext
-                            //.cell.column.width,                                                    .cell.column.width,
                             decoration: BoxDecoration(gradient: whiteGradient),
                             child: Center(
                                 child: Text(
@@ -213,20 +248,24 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                           return Text("");
                                         } else {
                                           if (fluidCheckState.state!) {
+                                            issueReportedProvider
+                                                .clearRegistroIssueComments();
                                             return IssuesPopUpTotal(
                                               text: "FluidsCheck",
                                               contador: 1,
                                               issueComments:
                                                   issueReportedProvider
-                                                      .fluidCheckR,
+                                                      .fluidCheckRR,
                                             );
                                           } else {
+                                            issueReportedProvider
+                                                .clearRegistroIssueComments();
                                             return IssuesPopUpTotal(
                                               text: "FluidsCheck",
                                               contador: 1,
                                               issueComments:
                                                   issueReportedProvider
-                                                      .fluidCheckD,
+                                                      .fluidCheckDD,
                                             );
                                           }
                                         }
@@ -339,7 +378,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 2,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .lightsR,
+                                                        .lightsRR,
                                               );
                                             } else {
                                               return IssuesPopUpTotal(
@@ -347,7 +386,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 2,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .lightsD,
+                                                        .lightsDD,
                                               );
                                             }
                                           }
@@ -407,7 +446,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 3,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .carBodyWorkR,
+                                                        .carBodyWorkRR,
                                               );
                                             } else {
                                               return IssuesPopUpTotal(
@@ -415,7 +454,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 3,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .carBodyWorkD,
+                                                        .carBodyWorkDD,
                                               );
                                             }
                                           }
@@ -474,7 +513,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 4,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .securityR,
+                                                        .securityRR,
                                               );
                                             } else {
                                               return IssuesPopUpTotal(
@@ -482,7 +521,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 4,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .securityD,
+                                                        .securityDD,
                                               );
                                             }
                                           }
@@ -541,7 +580,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 5,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .extraR,
+                                                        .extraRR,
                                               );
                                             } else {
                                               return IssuesPopUpTotal(
@@ -549,7 +588,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 5,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .extraD,
+                                                        .extraDD,
                                               );
                                             }
                                           }
@@ -606,7 +645,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                               contador: 6,
                                               issueComments:
                                                   issueReportedProvider
-                                                      .equipmentR,
+                                                      .equipmentRR,
                                             );
                                           } else {
                                             return IssuesPopUpTotal(
@@ -614,7 +653,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                               contador: 6,
                                               issueComments:
                                                   issueReportedProvider
-                                                      .equipmentD,
+                                                      .equipmentDD,
                                             );
                                           }
                                         }
@@ -674,7 +713,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 7,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .bucketInspectionR,
+                                                        .bucketInspectionRR,
                                               );
                                             } else {
                                               return IssuesPopUpTotal(
@@ -682,7 +721,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 7,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .bucketInspectionD,
+                                                        .bucketInspectionDD,
                                               );
                                             }
                                           }
@@ -742,7 +781,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 8,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .measureR,
+                                                        .measureRR,
                                               );
                                             } else {
                                               return IssuesPopUpTotal(
@@ -750,7 +789,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 8,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .measureD,
+                                                        .measureDD,
                                               );
                                             }
                                           }

@@ -129,6 +129,7 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
                       );
 
                       if (context.canPop()) context.pop();
+                      provider.updateStateService();
                     }),
                 CustomTextIconButton(
                   isLoading: false,

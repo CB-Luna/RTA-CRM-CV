@@ -144,6 +144,16 @@ class IssueReportedProvider extends ChangeNotifier {
     });
   }
 
+  bool validateElementAtListIC(List<IssuesComments> list, int id) {
+    return list.any((element) {
+      if (element.idIssue == id) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+
   void setIndex(int index) {
     for (var i = 0; i < indexSelected.length; i++) {
       indexSelected[i] = false;
@@ -324,7 +334,6 @@ class IssueReportedProvider extends ChangeNotifier {
     }
   }
 
-
   // Función para traer las funciones de los comentarios y las fotos de los IssueComments
   void getIssuePhotosComments(int contador, IssueOpenclose issuesComments,
       {bool notify = true}) {
@@ -420,16 +429,17 @@ class IssueReportedProvider extends ChangeNotifier {
             DateTime dateAdded =
                 DateTime.parse(issue.bucketInspectionR.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
-                idIssue: 0,
+                idIssue: issue.idBucketInspectionRFk,
                 nameIssue: nameIssue,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
-            //           if (!validateElementAtList(measureRR, issue.idMeasure!)) {
-            //   print("Nuevo elemento Agregado measureRR");
-            //   measureRR.add(newIssueComments);
-            // }
-            bucketInspectionR.add(newIssuesComments);
+            if (!validateElementAtListIC(
+                bucketInspectionR, issue.idBucketInspectionRFk)) {
+              print("Nuevo elemento Agregado bucketInspectionR");
+              bucketInspectionR.add(newIssuesComments);
+            }
+            // bucketInspectionR.add(newIssuesComments);
           }
         });
         //Bucket delivered llamada a su lista
@@ -448,7 +458,7 @@ class IssueReportedProvider extends ChangeNotifier {
                 DateTime.parse(issue.bucketInspectionD.toMap()["date_added"]);
             IssuesComments newIssuesComments = IssuesComments(
                 nameIssue: nameIssue,
-                idIssue: 0,
+                idIssue: issue.idBucketInspectionDFk ?? 1,
                 comments: comments,
                 listImages: listImage,
                 dateAdded: dateAdded);
@@ -794,7 +804,8 @@ class IssueReportedProvider extends ChangeNotifier {
           rows.add(
             PlutoRow(
               cells: {
-                "Status": PlutoCell(value: "Check Out"),
+                "idIssues": PlutoCell(value: issue.issuesR.toString()),
+                "Status": PlutoCell(value: "Check Out ${issue.issuesR}"),
                 "FluidsCheck": PlutoCell(value: issue.fluidCheckR),
                 "Lights": PlutoCell(value: issue.lightsR),
                 "CarBodyWork": PlutoCell(value: issue.carBodyworkR),
@@ -818,7 +829,8 @@ class IssueReportedProvider extends ChangeNotifier {
           rows.add(
             PlutoRow(
               cells: {
-                "Status": PlutoCell(value: "Check In"),
+                "idIssues": PlutoCell(value: issue.issuesD.toString()),
+                "Status": PlutoCell(value: "Check In ${issue.issuesD}"),
                 "FluidsCheck": PlutoCell(value: issue.fluidCheckD),
                 "Lights": PlutoCell(value: issue.lightsD),
                 "CarBodyWork": PlutoCell(value: issue.carBodyworkD),
@@ -841,7 +853,8 @@ class IssueReportedProvider extends ChangeNotifier {
           rows.add(
             PlutoRow(
               cells: {
-                "Status": PlutoCell(value: "Check Out"),
+                "idIssues": PlutoCell(value: issue.issuesR.toString()),
+                "Status": PlutoCell(value: "Check Out ${issue.issuesR}"),
                 "FluidsCheck": PlutoCell(value: issue.fluidCheckR),
                 "Lights": PlutoCell(value: issue.lightsR),
                 "CarBodyWork": PlutoCell(value: issue.carBodyworkR),
@@ -1286,7 +1299,8 @@ class IssueReportedProvider extends ChangeNotifier {
           rows.add(
             PlutoRow(
               cells: {
-                "Status": PlutoCell(value: "Check Out"),
+                "idIssues": PlutoCell(value: issue.issuesR.toString()),
+                "Status": PlutoCell(value: "Check Out ${issue.issuesR}"),
                 "FluidsCheck": PlutoCell(value: issue.fluidCheckR),
                 "Lights": PlutoCell(value: issue.lightsR),
                 "CarBodyWork": PlutoCell(value: issue.carBodyworkR),
@@ -1310,7 +1324,8 @@ class IssueReportedProvider extends ChangeNotifier {
           rows.add(
             PlutoRow(
               cells: {
-                "Status": PlutoCell(value: "Check In"),
+                "idIssues": PlutoCell(value: issue.issuesD.toString()),
+                "Status": PlutoCell(value: "Check In ${issue.issuesD}"),
                 "FluidsCheck": PlutoCell(value: issue.fluidCheckD),
                 "Lights": PlutoCell(value: issue.lightsD),
                 "CarBodyWork": PlutoCell(value: issue.carBodyworkD),
@@ -1351,7 +1366,7 @@ class IssueReportedProvider extends ChangeNotifier {
 
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
-      print('Error en getIssueALL() - $e');
+      print('Error en getIssueAll() - $e');
     }
     notifyListeners();
   }

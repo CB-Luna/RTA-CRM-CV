@@ -33,7 +33,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: CustomTextField(
-              width: 200,
+              width: MediaQuery.of(context).size.width * 0.1,
               enabled: true,
               controller: provider.searchController,
               icon: Icons.search,
@@ -47,11 +47,16 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
-              width: 131,
+              width: MediaQuery.of(context).size.width * 0.10,
               isLoading: false,
               icon: Icon(Icons.add_box_outlined,
                   color: AppTheme.of(context).primaryBackground),
               text: 'Add Vehicle',
+              style: AppTheme.of(context).contenidoTablas.override(
+                    fontFamily: 'Gotham-Regular',
+                    useGoogleFonts: false,
+                    color: AppTheme.of(context).primaryBackground,
+                  ),
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
                 provider.clearControllers(notify: false);
@@ -73,10 +78,15 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
-              width: 83,
+              width: MediaQuery.of(context).size.width * 0.06,
               isLoading: false,
               icon: Icon(Icons.filter_alt_outlined,
                   color: AppTheme.of(context).primaryBackground),
+              style: AppTheme.of(context).contenidoTablas.override(
+                    fontFamily: 'Gotham-Regular',
+                    useGoogleFonts: false,
+                    color: AppTheme.of(context).primaryBackground,
+                  ),
               text: 'Filter',
               color: AppTheme.of(context).primaryColor,
               onTap: () => provider.stateManager!.setShowColumnFilter(
@@ -89,11 +99,16 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
-              width: 131,
+              width: MediaQuery.of(context).size.width * 0.10,
               isLoading: false,
               icon: Icon(Icons.download_for_offline_outlined,
                   color: AppTheme.of(context).primaryBackground),
               text: 'Export Data',
+              style: AppTheme.of(context).contenidoTablas.override(
+                    fontFamily: 'Gotham-Regular',
+                    useGoogleFonts: false,
+                    color: AppTheme.of(context).primaryBackground,
+                  ),
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
                  await provider.excelActivityReports() == false ? Container() : Container();
@@ -103,25 +118,35 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
-              width: 112,
+              width: MediaQuery.of(context).size.width * 0.10,
               isLoading: false,
               icon: Icon(Icons.archive_outlined,
                   color: AppTheme.of(context).primaryBackground),
               text: 'Not Active',
+              style: AppTheme.of(context).contenidoTablas.override(
+                    fontFamily: 'Gotham-Regular',
+                    useGoogleFonts: false,
+                    color: AppTheme.of(context).primaryBackground,
+                  ),
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
-                await provider.UpdateStatusVehicle();
+                await provider.updateStatusVehicle();
               },
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
-              width: 96,
+              width: MediaQuery.of(context).size.width * 0.10,
               isLoading: false,
               icon: Icon(Icons.open_in_browser_outlined,
                   color: AppTheme.of(context).primaryBackground),
               text: 'Active',
+              style: AppTheme.of(context).contenidoTablas.override(
+                    fontFamily: 'Gotham-Regular',
+                    useGoogleFonts: false,
+                    color: AppTheme.of(context).primaryBackground,
+                  ),
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
                 await provider.updateState();

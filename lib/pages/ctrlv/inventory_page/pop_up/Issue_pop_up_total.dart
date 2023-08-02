@@ -11,7 +11,7 @@ import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 
 class IssuesPopUpTotal extends StatefulWidget {
-  final List<IssuesComments> issueComments;
+  final List<IssueOpenclose> issueComments;
   final int contador;
   final String text;
   const IssuesPopUpTotal({
@@ -26,56 +26,60 @@ class IssuesPopUpTotal extends StatefulWidget {
 }
 
 class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
-  // @override
-  // void initState() {
-  //   super.initState();
+  @override
+  void initState() {
+    super.initState();
 
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-  //     IssueReportedProvider provider =
-  //         Provider.of<IssueReportedProvider>(context, listen: false);
-  //     //TODO: no borrar todo, actualizar
-  //     if (widget.contador == 1) {
-  //       provider.cambiovistaMeasures = true;
-  //       await provider.getIssuesFluidCheck(provider.actualIssueXUser!);
-  //       print("getIssuesFluidCheck");
-  //     }
-  //     if (widget.contador == 2) {
-  //       provider.cambiovistaMeasures = true;
-  //       await provider.getIssuesLights(provider.actualIssueXUser!);
-  //       print("getIssuesLights");
-  //     }
-  //     if (widget.contador == 3) {
-  //       provider.cambiovistaMeasures = true;
-  //       await provider.getIssuesCarBodywork(provider.actualIssueXUser!);
-  //       print("getIssuesCarBodywork");
-  //     }
-  //     if (widget.contador == 4) {
-  //       provider.cambiovistaMeasures = true;
-  //       await provider.getIssueSecurity(provider.actualIssueXUser!);
-  //       print("getIssueSecurity");
-  //     }
-  //     if (widget.contador == 5) {
-  //       provider.cambiovistaMeasures = true;
-  //       await provider.getIssuesExtra(provider.actualIssueXUser!);
-  //       print("getIssuesExtra");
-  //     }
-  //     if (widget.contador == 6) {
-  //       provider.cambiovistaMeasures = true;
-  //       await provider.getIssuesEquipment(provider.actualIssueXUser!);
-  //       print("getIssuesEquipment");
-  //     }
-  //     if (widget.contador == 7) {
-  //       provider.cambiovistaMeasures = false;
-  //       await provider.getIssuesBasics(provider.actualIssueXUser!);
-  //       print("getBucketInspection");
-  //     }
-  //     if (widget.contador == 8) {
-  //       provider.cambiovistaMeasures = true;
-  //       await provider.getIssuesMeasure(provider.actualIssueXUser!);
-  //       print("getIssuesMeasure");
-  //     }
-  //   });
-  // }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      IssueReportedProvider provider =
+          Provider.of<IssueReportedProvider>(context, listen: false);
+      //TODO: no borrar todo, actualizar
+      if (widget.contador == 1) {
+        provider.cambiovistaMeasures = true;
+        await provider.getIssuesFluidCheck(provider.actualIssueXUser!);
+        print("getIssuesFluidCheck");
+      }
+      if (widget.contador == 2) {
+        provider.cambiovistaMeasures = true;
+        await provider.getIssuesLights(provider.actualIssueXUser!);
+        print("${provider.lightsRR.length}");
+        print("--------------");
+        print("${provider.lightsDD.length}");
+
+        print("getIssuesLights");
+      }
+      if (widget.contador == 3) {
+        provider.cambiovistaMeasures = true;
+        await provider.getIssuesCarBodywork(provider.actualIssueXUser!);
+        print("getIssuesCarBodywork");
+      }
+      if (widget.contador == 4) {
+        provider.cambiovistaMeasures = true;
+        await provider.getIssueSecurity(provider.actualIssueXUser!);
+        print("getIssueSecurity");
+      }
+      if (widget.contador == 5) {
+        provider.cambiovistaMeasures = true;
+        await provider.getIssuesExtra(provider.actualIssueXUser!);
+        print("getIssuesExtra");
+      }
+      if (widget.contador == 6) {
+        provider.cambiovistaMeasures = true;
+        await provider.getIssuesEquipment(provider.actualIssueXUser!);
+        print("getIssuesEquipment");
+      }
+      if (widget.contador == 7) {
+        provider.cambiovistaMeasures = false;
+        await provider.getIssuesBasics(provider.actualIssueXUser!);
+        print("getBucketInspection");
+      }
+      if (widget.contador == 8) {
+        provider.cambiovistaMeasures = true;
+        await provider.getIssuesMeasure(provider.actualIssueXUser!);
+        print("getIssuesMeasure");
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +131,7 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
                           children: [
                             Text(
                               DateFormat("MMM/dd/yyyy hh:mm:ss").format(
-                                  widget.issueComments[index].dateAdded),
+                                  widget.issueComments[index].dateAddedOpen),
                               style: TextStyle(
                                 color:
                                     AppTheme.of(context).contenidoTablas.color,

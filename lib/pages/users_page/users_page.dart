@@ -16,7 +16,10 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
+import 'package:rta_crm_cv/widgets/pluto_grid_cells/pluto_grid_company_cell.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
+
+import '../../widgets/pluto_grid_cells/pluto_grid_status_user_cell.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
@@ -577,15 +580,8 @@ class _UsersPageState extends State<UsersPage> {
                                 enableEditingMode: false,
                                 cellPadding: EdgeInsets.zero,
                                 renderer: (rendererContext) {
-                                  return Container(
-                                    height: rowHeight,
-                                    width: rendererContext.cell.column.width,
-                                    decoration:
-                                        BoxDecoration(gradient: whiteGradient),
-                                    child: Center(
-                                        child: Text(
-                                            rendererContext.cell.value ?? '-')),
-                                  );
+                                  return PlutoGridCompanyCellCV(
+                                      text: rendererContext.cell.value ?? "-");
                                 },
                               ),
                               PlutoColumn(
@@ -610,15 +606,8 @@ class _UsersPageState extends State<UsersPage> {
                                 enableEditingMode: false,
                                 cellPadding: EdgeInsets.zero,
                                 renderer: (rendererContext) {
-                                  return Container(
-                                    height: rowHeight,
-                                    width: rendererContext.cell.column.width,
-                                    decoration:
-                                        BoxDecoration(gradient: whiteGradient),
-                                    child: Center(
-                                        child: Text(
-                                            rendererContext.cell.value ?? '-')),
-                                  );
+                                  return PlutoGridStatusCellUserCV(
+                                      text: rendererContext.cell.value ?? "-");
                                 },
                               ),
                               PlutoColumn(
