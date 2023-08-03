@@ -76,19 +76,23 @@ class GeneralInformationCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            Icon(
+                              Icons.numbers_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
                               "Vehicle id: ",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               "${issueReportedProvider.actualVehicle!.idVehicle}",
@@ -104,15 +108,19 @@ class GeneralInformationCard extends StatelessWidget {
                         ),
                         Row(
                           children: [
+                            Icon(
+                              Icons.dialpad_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
                               "VIN: ",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               issueReportedProvider.actualVehicle!.vin,
@@ -128,48 +136,53 @@ class GeneralInformationCard extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "License Plates: ",
-                                  style: TextStyle(
-                                    color: AppTheme.of(context).primaryText,
-                                    fontFamily: 'Bicyclette-Thin',
-                                    fontSize: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontSize,
-                                  ),
-                                ),
-                                Text(
-                                  issueReportedProvider
-                                      .actualVehicle!.licesensePlates,
-                                  style: TextStyle(
-                                    color: AppTheme.of(context).primaryText,
-                                    fontFamily: 'Bicyclette-Thin',
-                                    fontSize: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .fontSize,
-                                  ),
-                                ),
-                              ],
+                            Icon(
+                              Icons.credit_card_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
+                            Text(
+                              "License Plates: ",
+                              style: TextStyle(
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              issueReportedProvider
+                                  .actualVehicle!.licesensePlates,
+                              style: TextStyle(
+                                color: AppTheme.of(context).primaryText,
+                                fontFamily: 'Bicyclette-Thin',
+                                fontSize: AppTheme.of(context)
+                                    .contenidoTablas
+                                    .fontSize,
+                              ),
                             ),
                           ],
                         ),
                       ],
                     ),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
+                            Icon(
+                              Icons.car_repair_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
-                              "status: ",
+                              "Status: ",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               issueReportedProvider
@@ -186,15 +199,19 @@ class GeneralInformationCard extends StatelessWidget {
                         ),
                         Row(
                           children: [
+                            Icon(
+                              Icons.directions_car_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
                               "Motor: ",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               issueReportedProvider.actualVehicle!.motor,
@@ -211,18 +228,23 @@ class GeneralInformationCard extends StatelessWidget {
                       ],
                     ),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
+                            Icon(
+                              Icons.calendar_today_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
                               "Oil Change Due: ",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               issueReportedProvider
@@ -242,15 +264,23 @@ class GeneralInformationCard extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text(
-                              "Last transmission fluid change:",
-                              style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                              ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.calendar_view_day_outlined,
+                                  color: AppTheme.of(context).primaryText,
+                                ),
+                                Text(
+                                  "Last transmission fluid change:",
+                                  style: TextStyle(
+                                      color: AppTheme.of(context).primaryText,
+                                      fontFamily: 'Bicyclette-Thin',
+                                      fontSize: AppTheme.of(context)
+                                          .encabezadoTablas
+                                          .fontSize,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
                             Text(
                               issueReportedProvider.actualVehicle!
@@ -270,15 +300,19 @@ class GeneralInformationCard extends StatelessWidget {
                         ),
                         Row(
                           children: [
+                            Icon(
+                              Icons.calendar_month_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
                               "Last radiator fluid change:  ",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               issueReportedProvider.actualVehicle!

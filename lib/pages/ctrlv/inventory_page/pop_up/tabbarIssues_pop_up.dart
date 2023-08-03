@@ -50,8 +50,6 @@ class _TabbarIssuePopUpState extends State<TabbarIssuePopUp> {
 
                     print(" Entro a getIssuesALL");
                   } else {
-                    // issueReportedProvider.clearListasdegetIssues();
-
                     await issueReportedProvider
                         .getIssues(issueReportedProvider.actualIssueXUser!);
                   }
