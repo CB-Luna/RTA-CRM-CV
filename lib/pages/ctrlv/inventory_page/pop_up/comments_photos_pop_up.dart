@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +43,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                       text: '',
                       color: AppTheme.of(context).primaryColor,
                       onTap: () {
-                        isssueReportedProvider.setIssueViewActual(1);
+                        context.pop();
                         isssueReportedProvider.clearRegistroIssueComments(
                             notify: false);
                       },

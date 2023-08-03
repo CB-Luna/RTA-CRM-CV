@@ -40,17 +40,21 @@ class _TabbarIssuePopUpState extends State<TabbarIssuePopUp> {
                     color: AppTheme.of(context).primaryColor, width: 2),
               ),
               child: TabBar(
-                onTap: (value) {
+                onTap: (value) async {
                   issueReportedProvider.selectIssuesXUser(value);
                   if (value == 0) {
-                    issueReportedProvider.getIssuesAll(issueReportedProvider
-                        .actualVehicle!); //Llamar la funcion con el usuario
+                    issueReportedProvider.clearListasdegetIssues();
+
+                    await issueReportedProvider
+                        .getIssuesAll(issueReportedProvider.actualVehicle!);
+
                     print(" Entro a getIssuesALL");
                   } else {
-                    issueReportedProvider.getIssues(issueReportedProvider
-                        .actualIssueXUser!); //Llamar la funcion con el usuario
+                    // issueReportedProvider.clearListasdegetIssues();
+
+                    await issueReportedProvider
+                        .getIssues(issueReportedProvider.actualIssueXUser!);
                   }
-                  // print(issueReportedProvider.actualIssueXUser);
                 },
                 indicator: BoxDecoration(
                   borderRadius: const BorderRadius.only(

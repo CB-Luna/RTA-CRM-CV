@@ -248,14 +248,14 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                           return Text("");
                                         } else {
                                           if (fluidCheckState.state!) {
-                                            issueReportedProvider
-                                                .clearRegistroIssueComments();
+                                            // issueReportedProvider
+                                            //     .clearRegistroIssueComments();
                                             return IssuesPopUpTotal(
                                               text: "FluidsCheck",
                                               contador: 1,
                                               issueComments:
                                                   issueReportedProvider
-                                                      .fluidCheckRR,
+                                                      .fluidCheckR,
                                             );
                                           } else {
                                             issueReportedProvider
@@ -265,7 +265,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                               contador: 1,
                                               issueComments:
                                                   issueReportedProvider
-                                                      .fluidCheckDD,
+                                                      .fluidCheckD,
                                             );
                                           }
                                         }
@@ -373,12 +373,14 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                             return Text("");
                                           } else {
                                             if (lightsState.state!) {
+                                              issueReportedProvider
+                                                  .clearRegistroIssueComments();
                                               return IssuesPopUpTotal(
                                                 text: "Lights",
                                                 contador: 2,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .lightsRR,
+                                                        .lightsR,
                                               );
                                             } else {
                                               return IssuesPopUpTotal(
@@ -386,7 +388,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 2,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .lightsDD,
+                                                        .lightsD,
                                               );
                                             }
                                           }
@@ -446,7 +448,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 3,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .carBodyWorkRR,
+                                                        .carBodyWorkR,
                                               );
                                             } else {
                                               return IssuesPopUpTotal(
@@ -454,7 +456,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 3,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .carBodyWorkDD,
+                                                        .carBodyWorkD,
                                               );
                                             }
                                           }
@@ -513,7 +515,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 4,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .securityRR,
+                                                        .securityR,
                                               );
                                             } else {
                                               return IssuesPopUpTotal(
@@ -521,7 +523,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 4,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .securityDD,
+                                                        .securityD,
                                               );
                                             }
                                           }
@@ -580,7 +582,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 5,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .extraRR,
+                                                        .extraR,
                                               );
                                             } else {
                                               return IssuesPopUpTotal(
@@ -588,7 +590,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 5,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .extraDD,
+                                                        .extraD,
                                               );
                                             }
                                           }
@@ -645,7 +647,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                               contador: 6,
                                               issueComments:
                                                   issueReportedProvider
-                                                      .equipmentRR,
+                                                      .equipmentR,
                                             );
                                           } else {
                                             return IssuesPopUpTotal(
@@ -653,7 +655,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                               contador: 6,
                                               issueComments:
                                                   issueReportedProvider
-                                                      .equipmentDD,
+                                                      .equipmentD,
                                             );
                                           }
                                         }
@@ -713,7 +715,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 7,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .bucketInspectionRR,
+                                                        .bucketInspectionR,
                                               );
                                             } else {
                                               return IssuesPopUpTotal(
@@ -721,7 +723,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 7,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .bucketInspectionDD,
+                                                        .bucketInspectionD,
                                               );
                                             }
                                           }
@@ -781,7 +783,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 8,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .measureRR,
+                                                        .measureR,
                                               );
                                             } else {
                                               return IssuesPopUpTotal(
@@ -789,7 +791,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 contador: 8,
                                                 issueComments:
                                                     issueReportedProvider
-                                                        .measureDD,
+                                                        .measureD,
                                               );
                                             }
                                           }

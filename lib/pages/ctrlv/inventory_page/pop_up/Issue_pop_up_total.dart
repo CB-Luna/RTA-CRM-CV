@@ -9,9 +9,10 @@ import '../../../../models/issues_open_close.dart';
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
+import 'comments_photos_pop_up.dart';
 
 class IssuesPopUpTotal extends StatefulWidget {
-  final List<IssueOpenclose> issueComments;
+  final List<IssuesComments> issueComments;
   final int contador;
   final String text;
   const IssuesPopUpTotal({
@@ -26,60 +27,60 @@ class IssuesPopUpTotal extends StatefulWidget {
 }
 
 class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      IssueReportedProvider provider =
-          Provider.of<IssueReportedProvider>(context, listen: false);
-      //TODO: no borrar todo, actualizar
-      if (widget.contador == 1) {
-        provider.cambiovistaMeasures = true;
-        await provider.getIssuesFluidCheck(provider.actualIssueXUser!);
-        print("getIssuesFluidCheck");
-      }
-      if (widget.contador == 2) {
-        provider.cambiovistaMeasures = true;
-        await provider.getIssuesLights(provider.actualIssueXUser!);
-        print("${provider.lightsRR.length}");
-        print("--------------");
-        print("${provider.lightsDD.length}");
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+  //     IssueReportedProvider provider =
+  //         Provider.of<IssueReportedProvider>(context, listen: false);
+  //     //TODO: no borrar todo, actualizar
+  //     if (widget.contador == 1) {
+  //       provider.cambiovistaMeasures = true;
+  //       await provider.getIssuesFluidCheck(provider.actualIssueXUser!);
+  //       print("getIssuesFluidCheck");
+  //     }
+  //     if (widget.contador == 2) {
+  //       provider.cambiovistaMeasures = true;
+  //       await provider.getIssuesLights(provider.actualIssueXUser!);
+  //       print("${provider.lightsRR.length}");
+  //       print("--------------");
+  //       print("${provider.lightsDD.length}");
 
-        print("getIssuesLights");
-      }
-      if (widget.contador == 3) {
-        provider.cambiovistaMeasures = true;
-        await provider.getIssuesCarBodywork(provider.actualIssueXUser!);
-        print("getIssuesCarBodywork");
-      }
-      if (widget.contador == 4) {
-        provider.cambiovistaMeasures = true;
-        await provider.getIssueSecurity(provider.actualIssueXUser!);
-        print("getIssueSecurity");
-      }
-      if (widget.contador == 5) {
-        provider.cambiovistaMeasures = true;
-        await provider.getIssuesExtra(provider.actualIssueXUser!);
-        print("getIssuesExtra");
-      }
-      if (widget.contador == 6) {
-        provider.cambiovistaMeasures = true;
-        await provider.getIssuesEquipment(provider.actualIssueXUser!);
-        print("getIssuesEquipment");
-      }
-      if (widget.contador == 7) {
-        provider.cambiovistaMeasures = false;
-        await provider.getIssuesBasics(provider.actualIssueXUser!);
-        print("getBucketInspection");
-      }
-      if (widget.contador == 8) {
-        provider.cambiovistaMeasures = true;
-        await provider.getIssuesMeasure(provider.actualIssueXUser!);
-        print("getIssuesMeasure");
-      }
-    });
-  }
+  //       print("getIssuesLights");
+  //     }
+  //     if (widget.contador == 3) {
+  //       provider.cambiovistaMeasures = true;
+  //       await provider.getIssuesCarBodywork(provider.actualIssueXUser!);
+  //       print("getIssuesCarBodywork");
+  //     }
+  //     if (widget.contador == 4) {
+  //       provider.cambiovistaMeasures = true;
+  //       await provider.getIssueSecurity(provider.actualIssueXUser!);
+  //       print("getIssueSecurity");
+  //     }
+  //     if (widget.contador == 5) {
+  //       provider.cambiovistaMeasures = true;
+  //       await provider.getIssuesExtra(provider.actualIssueXUser!);
+  //       print("getIssuesExtra");
+  //     }
+  //     if (widget.contador == 6) {
+  //       provider.cambiovistaMeasures = true;
+  //       await provider.getIssuesEquipment(provider.actualIssueXUser!);
+  //       print("getIssuesEquipment");
+  //     }
+  //     if (widget.contador == 7) {
+  //       provider.cambiovistaMeasures = false;
+  //       await provider.getIssuesBasics(provider.actualIssueXUser!);
+  //       print("getBucketInspection");
+  //     }
+  //     if (widget.contador == 8) {
+  //       provider.cambiovistaMeasures = true;
+  //       await provider.getIssuesMeasure(provider.actualIssueXUser!);
+  //       print("getIssuesMeasure");
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -88,11 +89,11 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
     return AlertDialog(
         backgroundColor: Colors.transparent,
         content: CustomCard(
-          width: MediaQuery.of(context).size.width * 0.3,
+          width: MediaQuery.of(context).size.width * 0.45,
           height: MediaQuery.of(context).size.height * 0.4,
           title: widget.text,
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.3,
+            width: MediaQuery.of(context).size.width * 0.45,
             height: MediaQuery.of(context).size.height * 0.4,
             child: ListView.builder(
               itemCount: widget.issueComments.length,
@@ -104,7 +105,8 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
-                        width: 150,
+                        width: 250,
+                        color: Colors.green,
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Column(
                           children: [
@@ -131,7 +133,7 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
                           children: [
                             Text(
                               DateFormat("MMM/dd/yyyy hh:mm:ss").format(
-                                  widget.issueComments[index].dateAddedOpen),
+                                  widget.issueComments[index].dateAdded),
                               style: TextStyle(
                                 color:
                                     AppTheme.of(context).contenidoTablas.color,
@@ -156,6 +158,14 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
                           text: '',
                           color: AppTheme.of(context).primaryColor,
                           onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(
+                                      builder: (context, setState) {
+                                    return CommentsPhotosPopUp();
+                                  });
+                                });
                             // Notify false en las primeras 2
                             // issueReportedProvider.getIssuePhotosComments(
                             //     widget.contador, widget.[index],
