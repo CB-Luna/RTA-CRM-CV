@@ -546,74 +546,82 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                   ),
                                                   Padding(
                                                     padding: const EdgeInsets.only(right: 10),
-                                                    child: CustomTextIconButton(
-                                                        color: provider.docProveedor != null ? AppTheme.of(context).primaryColor : AppTheme.of(context).tertiaryColor,
-                                                        isLoading: false,
-                                                        icon: Icon(
-                                                          provider.docProveedor != null ? Icons.remove_red_eye_outlined : Icons.upload_outlined,
-                                                          color: AppTheme.of(context).primaryBackground,
-                                                        ),
-                                                        text: provider.docProveedor != null ? 'View File' : 'Upload',
-                                                        onTap: (provider.pdfController != null && provider.docProveedor != null && provider.popupVisorPdfVisible)
-                                                            ? () async {
-                                                                await showDialog(
-                                                                  context: context,
-                                                                  builder: (BuildContext context) {
-                                                                    return AlertDialog(
-                                                                      backgroundColor: Colors.transparent,
-                                                                      shadowColor: Colors.transparent,
-                                                                      content: Container(
-                                                                        width: getWidth(1000, context),
-                                                                        height: getHeight(1000, context),
-                                                                        color: Colors.transparent,
-                                                                        child: PdfView(
-                                                                          pageSnapping: false,
-                                                                          scrollDirection: Axis.vertical,
-                                                                          physics: const BouncingScrollPhysics(),
-                                                                          renderer: (PdfPage page) {
-                                                                            if (page.width >= page.height) {
-                                                                              return page.render(
-                                                                                width: page.width * 7,
-                                                                                height: page.height * 4,
-                                                                                format: PdfPageImageFormat.jpeg,
-                                                                                backgroundColor: '#15FF0D',
-                                                                              );
-                                                                            } else if (page.width == page.height) {
-                                                                              return page.render(
-                                                                                width: page.width * 4,
-                                                                                height: page.height * 4,
-                                                                                format: PdfPageImageFormat.jpeg,
-                                                                                backgroundColor: '#15FF0D',
-                                                                              );
-                                                                            } else {
-                                                                              return page.render(
-                                                                                width: page.width * 4,
-                                                                                height: page.height * 7,
-                                                                                format: PdfPageImageFormat.jpeg,
-                                                                                backgroundColor: '#15FF0D',
-                                                                              );
-                                                                            }
-                                                                          },
-                                                                          controller: provider.pdfController!,
-                                                                          onDocumentLoaded: (document) {},
-                                                                          onPageChanged: (page) {},
-                                                                        ),
-                                                                      ),
+                                                    child: Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right: 10),
+                                                          child: CustomTextIconButton(
+                                                            color: provider.docProveedor != null ? AppTheme.of(context).primaryColor : AppTheme.of(context).tertiaryColor,
+                                                            isLoading: false,
+                                                            icon: Icon(
+                                                              provider.docProveedor != null ? Icons.remove_red_eye_outlined : Icons.upload_outlined,
+                                                              color: AppTheme.of(context).primaryBackground,
+                                                            ),
+                                                            text: provider.docProveedor != null ? 'View Image' : 'Upload Image',
+                                                            onTap: (provider.imageBytes != null && provider.docProveedor != null && provider.popupVisorPdfVisible)
+                                                                ? () async {
+                                                                    await showDialog(
+                                                                      context: context,
+                                                                      builder: (BuildContext context) {
+                                                                        return AlertDialog(
+                                                                          backgroundColor: Colors.transparent,
+                                                                          shadowColor: Colors.transparent,
+                                                                          content: SizedBox(
+                                                                              width: getWidth(1000, context),
+                                                                              height: getHeight(1000, context),
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                                                children: [
+                                                                                  /*  Padding(
+                                                          padding:
+                                                              const EdgeInsets.only(bottom: 20),
+                                                          child: IconButton(
+                                                            onPressed: () => Navigator.pop(context),
+                                                            icon: const Icon(Icons.close),
+                                                            iconSize: 50,
+                                                            color: Colors.red,
+                                                          ),
+                                                        ), */
+                                                                                  Padding(
+                                                                                    padding: const EdgeInsets.only(bottom: 20),
+                                                                                    child: CustomTextIconButton(
+                                                                                      isLoading: false,
+                                                                                      icon: Icon(Icons.close, color: AppTheme.of(context).secondaryColor),
+                                                                                      border: Border.all(color: AppTheme.of(context).secondaryColor),
+                                                                                      color: AppTheme.of(context).primaryBackground,
+                                                                                      style: TextStyle(color: AppTheme.of(context).secondaryColor),
+                                                                                      text: 'Exit',
+                                                                                      width: getWidth(60, context),
+                                                                                      onTap: () {
+                                                                                        Navigator.pop(context);
+                                                                                      },
+                                                                                    ),
+                                                                                  ),
+                                                                                  Image.memory(provider.imageBytes!),
+                                                                                ],
+                                                                              )),
+                                                                        );
+                                                                      },
                                                                     );
+                                                                  }
+                                                                : () {
+                                                                    if (provider.imageBytes != null && provider.docProveedor != null && provider.popupVisorPdfVisible == false) {
+                                                                      provider.verPdf(true);
+                                                                      setState(() {});
+                                                                    } else {
+                                                                      provider.pickDoc();
+                                                                      provider.verPdf(true);
+                                                                    }
                                                                   },
-                                                                );
-                                                              }
-                                                            : () {
-                                                                if (provider.pdfController != null && provider.docProveedor != null && provider.popupVisorPdfVisible == false) {
-                                                                  provider.verPdf(true);
-                                                                  setState(() {});
-                                                                } else {
-                                                                  provider.pickDoc();
-                                                                  provider.verPdf(true);
-                                                                }
-                                                              }),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                  provider.pdfController != null
+                                                  (provider.imageBytes != null && provider.docProveedor != null && provider.popupVisorPdfVisible)
                                                       ? Padding(
                                                           padding: const EdgeInsets.only(right: 10),
                                                           child: CustomTextIconButton(
