@@ -7,6 +7,7 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/pages/crm/quotes/create_order.dart';
 import 'package:rta_crm_cv/providers/crm/quote/quotes_provider.dart';
 import 'package:rta_crm_cv/providers/crm/quote/create_quote_provider.dart';
 import 'package:rta_crm_cv/providers/crm/quote/detail_quote_provider.dart';
@@ -67,15 +68,18 @@ class _QuotesTabState extends State<QuotesTab> {
                     children: [
                       CustomTextIconButton(
                         isLoading: false,
-                        icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                        icon: Icon(Icons.filter_alt_outlined,
+                            color: AppTheme.of(context).primaryBackground),
                         text: 'Filter',
-                        onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+                        onTap: () => provider.stateManager!
+                            .setShowColumnFilter(!provider.stateManager!.showColumnFilter),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: CustomTextIconButton(
                           isLoading: false,
-                          icon: Icon(Icons.view_column_outlined, color: AppTheme.of(context).primaryBackground),
+                          icon: Icon(Icons.view_column_outlined,
+                              color: AppTheme.of(context).primaryBackground),
                           text: 'Set Columns',
                           onTap: () => provider.stateManager!.showSetColumnsPopup(context),
                         ),
@@ -97,7 +101,10 @@ class _QuotesTabState extends State<QuotesTab> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       //filtros validate
-                      if (provider.indexSelected[13] || provider.indexSelected[2] || provider.indexSelected[3] || provider.indexSelected[4] && currentUser!.isSales)
+                      if (provider.indexSelected[13] ||
+                          provider.indexSelected[2] ||
+                          provider.indexSelected[3] ||
+                          provider.indexSelected[4] && currentUser!.isSales)
                         Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: Row(
@@ -107,7 +114,11 @@ class _QuotesTabState extends State<QuotesTab> {
                                 child: CustomTextIconButton(
                                   width: 100,
                                   isLoading: false,
-                                  icon: Icon(provider.indexSelected[13] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                  icon: Icon(
+                                      provider.indexSelected[13]
+                                          ? Icons.filter_alt
+                                          : Icons.filter_alt_outlined,
+                                      color: AppTheme.of(context).primaryBackground),
                                   text: 'All',
                                   color: AppTheme.of(context).primaryColor,
                                   onTap: () async {
@@ -120,7 +131,11 @@ class _QuotesTabState extends State<QuotesTab> {
                                 child: CustomTextIconButton(
                                   width: 165,
                                   isLoading: false,
-                                  icon: Icon(provider.indexSelected[2] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                  icon: Icon(
+                                      provider.indexSelected[2]
+                                          ? Icons.filter_alt
+                                          : Icons.filter_alt_outlined,
+                                      color: AppTheme.of(context).primaryBackground),
                                   text: 'Sen. Exec. Validate',
                                   color: Colors.orangeAccent,
                                   onTap: () async {
@@ -133,7 +148,11 @@ class _QuotesTabState extends State<QuotesTab> {
                                 child: CustomTextIconButton(
                                   width: 150,
                                   isLoading: false,
-                                  icon: Icon(provider.indexSelected[3] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                  icon: Icon(
+                                      provider.indexSelected[3]
+                                          ? Icons.filter_alt
+                                          : Icons.filter_alt_outlined,
+                                      color: AppTheme.of(context).primaryBackground),
                                   text: 'Finance Validate',
                                   color: Colors.orangeAccent,
                                   onTap: () async {
@@ -146,7 +165,11 @@ class _QuotesTabState extends State<QuotesTab> {
                                 child: CustomTextIconButton(
                                   width: 160,
                                   isLoading: false,
-                                  icon: Icon(provider.indexSelected[4] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                  icon: Icon(
+                                      provider.indexSelected[4]
+                                          ? Icons.filter_alt
+                                          : Icons.filter_alt_outlined,
+                                      color: AppTheme.of(context).primaryBackground),
                                   text: 'Engineer Validate',
                                   color: Colors.orangeAccent,
                                   onTap: () async {
@@ -158,7 +181,9 @@ class _QuotesTabState extends State<QuotesTab> {
                           ),
                         ),
                       //filtros canceled y rejected
-                      if (provider.indexSelected[14] || provider.indexSelected[5] || provider.indexSelected[12])
+                      if (provider.indexSelected[14] ||
+                          provider.indexSelected[5] ||
+                          provider.indexSelected[12])
                         Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: Row(
@@ -168,7 +193,11 @@ class _QuotesTabState extends State<QuotesTab> {
                                 child: CustomTextIconButton(
                                   width: 100,
                                   isLoading: false,
-                                  icon: Icon(provider.indexSelected[14] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                  icon: Icon(
+                                      provider.indexSelected[14]
+                                          ? Icons.filter_alt
+                                          : Icons.filter_alt_outlined,
+                                      color: AppTheme.of(context).primaryBackground),
                                   text: 'All',
                                   color: AppTheme.of(context).primaryColor,
                                   onTap: () async {
@@ -181,7 +210,11 @@ class _QuotesTabState extends State<QuotesTab> {
                                 child: CustomTextIconButton(
                                   width: 150,
                                   isLoading: false,
-                                  icon: Icon(provider.indexSelected[12] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                  icon: Icon(
+                                      provider.indexSelected[12]
+                                          ? Icons.filter_alt
+                                          : Icons.filter_alt_outlined,
+                                      color: AppTheme.of(context).primaryBackground),
                                   text: 'Canceled',
                                   color: Colors.red,
                                   onTap: () async {
@@ -194,7 +227,11 @@ class _QuotesTabState extends State<QuotesTab> {
                                 child: CustomTextIconButton(
                                   width: 165,
                                   isLoading: false,
-                                  icon: Icon(provider.indexSelected[5] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                  icon: Icon(
+                                      provider.indexSelected[5]
+                                          ? Icons.filter_alt
+                                          : Icons.filter_alt_outlined,
+                                      color: AppTheme.of(context).primaryBackground),
                                   text: 'Rejected',
                                   color: Colors.red,
                                   onTap: () async {
@@ -205,7 +242,9 @@ class _QuotesTabState extends State<QuotesTab> {
                             ],
                           ),
                         ),
-                      if (provider.indexSelected[15] || provider.indexSelected[9] || provider.indexSelected[10])
+                      if (provider.indexSelected[15] ||
+                          provider.indexSelected[9] ||
+                          provider.indexSelected[10])
                         Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: Row(
@@ -215,7 +254,11 @@ class _QuotesTabState extends State<QuotesTab> {
                                 child: CustomTextIconButton(
                                   width: 100,
                                   isLoading: false,
-                                  icon: Icon(provider.indexSelected[15] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                  icon: Icon(
+                                      provider.indexSelected[15]
+                                          ? Icons.filter_alt
+                                          : Icons.filter_alt_outlined,
+                                      color: AppTheme.of(context).primaryBackground),
                                   text: 'All',
                                   color: AppTheme.of(context).primaryColor,
                                   onTap: () async {
@@ -228,7 +271,11 @@ class _QuotesTabState extends State<QuotesTab> {
                                 child: CustomTextIconButton(
                                   width: 210,
                                   isLoading: false,
-                                  icon: Icon(provider.indexSelected[9] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                  icon: Icon(
+                                      provider.indexSelected[9]
+                                          ? Icons.filter_alt
+                                          : Icons.filter_alt_outlined,
+                                      color: AppTheme.of(context).primaryBackground),
                                   text: 'Network Cross-Connected',
                                   color: Colors.black,
                                   onTap: () async {
@@ -241,7 +288,11 @@ class _QuotesTabState extends State<QuotesTab> {
                                 child: CustomTextIconButton(
                                   width: 150,
                                   isLoading: false,
-                                  icon: Icon(provider.indexSelected[10] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                  icon: Icon(
+                                      provider.indexSelected[10]
+                                          ? Icons.filter_alt
+                                          : Icons.filter_alt_outlined,
+                                      color: AppTheme.of(context).primaryBackground),
                                   text: 'Network Issues',
                                   color: Colors.black,
                                   onTap: () async {
@@ -256,7 +307,8 @@ class _QuotesTabState extends State<QuotesTab> {
                       CustomTextIconButton(
                         width: 90,
                         isLoading: false,
-                        icon: Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryBackground),
+                        icon: Icon(Icons.file_download_outlined,
+                            color: AppTheme.of(context).primaryBackground),
                         text: 'Export',
                         color: AppTheme.of(context).primaryColor,
                         onTap: () async {
@@ -336,7 +388,9 @@ class _QuotesTabState extends State<QuotesTab> {
               columns: [
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.vpn_key_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.vpn_key_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'ID', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -359,7 +413,10 @@ class _QuotesTabState extends State<QuotesTab> {
                       child: Center(
                         child: Text(
                           rendererContext.cell.value.toString(),
-                          style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: AppTheme.of(context).primaryColor),
+                          style: AppTheme.of(context).contenidoTablas.override(
+                              fontFamily: 'Gotham-Regular',
+                              useGoogleFonts: false,
+                              color: AppTheme.of(context).primaryColor),
                         ),
                       ),
                     );
@@ -397,7 +454,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 if (currentUser!.isSales || currentUser!.isOpperations)
                   PlutoColumn(
                     titleSpan: TextSpan(children: [
-                      WidgetSpan(child: Icon(Icons.traffic_outlined, color: AppTheme.of(context).primaryBackground)),
+                      WidgetSpan(
+                          child: Icon(Icons.traffic_outlined,
+                              color: AppTheme.of(context).primaryBackground)),
                       const WidgetSpan(child: SizedBox(width: 10)),
                       TextSpan(text: 'Status', style: AppTheme.of(context).encabezadoTablas)
                     ]),
@@ -419,7 +478,8 @@ class _QuotesTabState extends State<QuotesTab> {
                   ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.list, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.list, color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Actions', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -444,22 +504,28 @@ class _QuotesTabState extends State<QuotesTab> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           //if (rendererContext.row.cells["STATUS_Column"]!.value != 'Rejected')
-                          if (rendererContext.row.cells["ID_STATUS_Column"]!.value == 1) //Sales Form
+                          if (rendererContext.row.cells["ID_STATUS_Column"]!.value ==
+                              1) //Sales Form
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
                                 Icons.assignment,
-                                color: AppTheme.of(context).primaryBackground,
+                                color: AppTheme.of(context).tertiaryColor,
                               ),
                               text: 'Fill Form',
-                              color: AppTheme.of(context).tertiaryColor,
+                              color:AppTheme.of(context).primaryBackground,
+                              style: TextStyle(
+                                color: AppTheme.of(context).tertiaryColor,
+                              ),
+                              border: Border.all(color: AppTheme.of(context).tertiaryColor),
                               onTap: () async {
                                 await providerCreate.getRowData(rendererContext.row.cells["ID_Column"]!.value);
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteCreation);
                               },
                             ),
-                          if (rendererContext.row.cells["ID_STATUS_Column"]!.value != 1) //Sales Form
+                          if (rendererContext.row.cells["ID_STATUS_Column"]!.value !=
+                              1) //Sales Form
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -478,9 +544,11 @@ class _QuotesTabState extends State<QuotesTab> {
                               isLoading: false,
                               icon: Icon(
                                 Icons.add,
-                                color: AppTheme.of(context).primaryBackground,
+                                color: AppTheme.of(context).tertiaryColor,
                               ),
-                              color: AppTheme.of(context).tertiaryColor,
+                              border: Border.all(color: AppTheme.of(context).tertiaryColor,),
+                              style: TextStyle(color: AppTheme.of(context).tertiaryColor,),
+                              color: AppTheme.of(context).primaryBackground,
                               text: 'Create New',
                               onTap: () async {
                                 await providerCreate.clearAll();
@@ -495,9 +563,11 @@ class _QuotesTabState extends State<QuotesTab> {
                               isLoading: false,
                               icon: Icon(
                                 Icons.add,
-                                color: AppTheme.of(context).primaryBackground,
+                                color: AppTheme.of(context).tertiaryColor,
                               ),
-                              color: AppTheme.of(context).tertiaryColor,
+                              style: TextStyle(color: AppTheme.of(context).tertiaryColor),
+                              border: Border.all(color: AppTheme.of(context).tertiaryColor),
+                              color: AppTheme.of(context).primaryBackground,
                               text: 'Create Order',
                               onTap: () async {
                                 /* await supabaseCRM.rpc(
@@ -505,28 +575,46 @@ class _QuotesTabState extends State<QuotesTab> {
                                   params: {"id_status": 8, "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id}, //Order Created
                                 );*/
                                 //await provider.getQuotes(null);
-                                await provider.insertPowerCode(rendererContext.row.cells["ID_Column"]!.value);
+                                await showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const CreateOrder();
+                                  },
+                                );
+                                //await provider.insertPowerCode(rendererContext.row.cells["ID_Column"]!.value);
                               },
                             ),
-                          if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 8) //Order Created
+                          if (currentUser!.isSales &&
+                              rendererContext.row.cells["ID_STATUS_Column"]!.value ==
+                                  8) //Order Created
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
                                 Icons.add,
-                                color: AppTheme.of(context).primaryBackground,
+                                color: AppTheme.of(context).tertiaryColor,
                               ),
-                              color: AppTheme.of(context).tertiaryColor,
                               text: 'Cross Connect',
+                              color:AppTheme.of(context).primaryBackground,
+                              style: TextStyle(
+                                color: AppTheme.of(context).tertiaryColor,
+                              ),
+                              border: Border.all(color: AppTheme.of(context).tertiaryColor),
                               onTap: () async {
                                 //Change to status 'Order Created'
                                 await supabaseCRM.rpc(
                                   'update_quote_status',
-                                  params: {"id_status": 9, "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id}, //Network Cross Connected
+                                  params: {
+                                    "id_status": 9,
+                                    "id": rendererContext.row.cells["ID_Column"]!.value,
+                                    "user_uuid": currentUser!.id
+                                  }, //Network Cross Connected
                                 );
                                 await provider.getQuotes(null);
                               },
                             ),
-                          if (currentUser!.isSenExec && rendererContext.row.cells["ID_STATUS_Column"]!.value == 2) //Sen. Exec. Validate
+                          if (currentUser!.isSenExec &&
+                              rendererContext.row.cells["ID_STATUS_Column"]!.value ==
+                                  2) //Sen. Exec. Validate
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -540,7 +628,9 @@ class _QuotesTabState extends State<QuotesTab> {
                                 context.pushReplacement(routeQuoteValidation);
                               },
                             ),
-                          if (currentUser!.isFinance && rendererContext.row.cells["ID_STATUS_Column"]!.value == 3) //Finance Validate
+                          if (currentUser!.isFinance &&
+                              rendererContext.row.cells["ID_STATUS_Column"]!.value ==
+                                  3) //Finance Validate
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -554,7 +644,9 @@ class _QuotesTabState extends State<QuotesTab> {
                                 context.pushReplacement(routeQuoteValidation);
                               },
                             ),
-                          if (currentUser!.isOpperations && rendererContext.row.cells["ID_STATUS_Column"]!.value == 4) //Engineer Validate
+                          if (currentUser!.isOpperations &&
+                              rendererContext.row.cells["ID_STATUS_Column"]!.value ==
+                                  4) //Engineer Validate
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -621,7 +713,11 @@ class _QuotesTabState extends State<QuotesTab> {
                             },
                           ),
                           const SizedBox(width: 5),
-                          SizedBox(width: 30, child: Center(child: Text(provider.page.toString(), style: const TextStyle(color: Colors.white)))),
+                          SizedBox(
+                              width: 30,
+                              child: Center(
+                                  child: Text(provider.page.toString(),
+                                      style: const TextStyle(color: Colors.white)))),
                           const SizedBox(width: 5),
                           CustomIconButton(
                             icon: Icons.keyboard_arrow_right_outlined,
@@ -645,7 +741,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.location_city_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.location_city_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Account', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -672,7 +770,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Name', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -699,7 +799,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.attach_money, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.attach_money,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Total', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -726,7 +828,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.percent_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.percent_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Margin', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -753,7 +857,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Vendor', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -780,7 +886,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Datacenter', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -807,7 +915,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Order', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -834,7 +944,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.person_outline, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Description', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -861,7 +973,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.percent_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.percent_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Probability', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -880,7 +994,9 @@ class _QuotesTabState extends State<QuotesTab> {
                       // width: rendererContext.cell.column.width,
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: CustomTextCell(
-                        text: rendererContext.cell.value != null ? '${moneyFormat(rendererContext.cell.value)}%' : '-',
+                        text: rendererContext.cell.value != null
+                            ? '${moneyFormat(rendererContext.cell.value)}%'
+                            : '-',
                         textAlign: TextAlign.end,
                       ),
                     );
@@ -888,7 +1004,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.calendar_month_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.calendar_month_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Expected Close', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -898,7 +1016,8 @@ class _QuotesTabState extends State<QuotesTab> {
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
+                  type:
+                      PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -915,7 +1034,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.local_offer_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Assigned To', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -942,7 +1063,9 @@ class _QuotesTabState extends State<QuotesTab> {
                 ),
                 PlutoColumn(
                   titleSpan: TextSpan(children: [
-                    WidgetSpan(child: Icon(Icons.watch_later_outlined, color: AppTheme.of(context).primaryBackground)),
+                    WidgetSpan(
+                        child: Icon(Icons.watch_later_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
                     const WidgetSpan(child: SizedBox(width: 10)),
                     TextSpan(text: 'Last Activity', style: AppTheme.of(context).encabezadoTablas)
                   ]),
@@ -952,7 +1075,8 @@ class _QuotesTabState extends State<QuotesTab> {
                   width: 200,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
+                  type:
+                      PlutoColumnType.date(format: 'MMMM, MM-dd-yyyy', headerFormat: 'MM-dd-yyyy'),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {

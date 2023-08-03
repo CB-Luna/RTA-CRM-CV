@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
@@ -1195,16 +1196,16 @@ class CreateQuoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+   Uint8List? imageBytes;
   Future<void> pickDoc() async {
-    FilePickerResult? picker = await FilePickerWeb.platform.pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'png']);
+    FilePickerResult? picker = await FilePickerWeb.platform
+        .pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'png']);
     //get and load pdf
     if (picker != null) {
       docProveedor = picker;
-      pdfController = PdfController(
-        document: PdfDocument.openData(picker.files.single.bytes!),
-      );
+      imageBytes = picker.files.single.bytes;
     } else {
-      pdfController = null;
+      imageBytes = null;
     }
 
     notifyListeners();

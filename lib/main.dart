@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
+import 'package:rta_crm_cv/providers/crm/accounts/tabs/order_provider.dart';
 import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/issue_reported_provider.dart';
@@ -104,6 +105,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => VisualStateProvider(context),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OrdersProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => DashboardCVProvider(),

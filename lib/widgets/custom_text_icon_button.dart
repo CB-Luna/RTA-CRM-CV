@@ -12,6 +12,7 @@ class CustomTextIconButton extends StatefulWidget {
     this.style,
     this.onTap,
     this.color,
+    this.border,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.enabled,
   });
@@ -24,6 +25,7 @@ class CustomTextIconButton extends StatefulWidget {
   final TextStyle? style;
   final bool? enabled;
   final bool isLoading;
+  final Border? border;
   final Function()? onTap;
   final MainAxisAlignment mainAxisAlignment;
 
@@ -59,7 +61,7 @@ class CustomTextIconButtonState extends State<CustomTextIconButton> {
           height: widget.height,
           width: widget.width,
           duration: const Duration(milliseconds: 100),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: widget.color ?? AppTheme.of(context).primaryColor, boxShadow: [
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: widget.color ?? AppTheme.of(context).primaryColor, border:widget.border, boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 0.1,

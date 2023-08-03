@@ -330,7 +330,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
       }
 
       await getVendors();
-      var responseVendor = await supabaseCRM.from('vendors').select().eq('id', quote.idVendor);
+      var responseVendor = await supabaseCRM.from('cat_vendors').select().eq('id', quote.idVendor);
       Vendor vendor = Vendor.fromJson(jsonEncode(responseVendor[0]));
       vendorSelectedValue = vendor.vendorName;
 

@@ -7,7 +7,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/crm/accounts/leads_model.dart';
 import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_bgp_peering.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_data_centers.dart';
@@ -191,7 +190,7 @@ class DetailQuoteProvider extends ChangeNotifier {
       }
 
       await getVendors();
-      var responseVendor = await supabaseCRM.from('vendors').select().eq('id', quote.idVendor);
+      var responseVendor = await supabaseCRM.from('cat_vendors').select().eq('id', quote.idVendor);
       Vendor vendor = Vendor.fromJson(jsonEncode(responseVendor[0]));
       vendorSelectedValue = vendor.vendorName;
 
