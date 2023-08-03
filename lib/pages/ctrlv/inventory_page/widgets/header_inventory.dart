@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
@@ -21,6 +22,8 @@ class InventoryPageHeader extends StatefulWidget {
 }
 
 class _InventoryPageHeaderState extends State<InventoryPageHeader> {
+  List<String> company = ["All", "Ode", "Smi", "Cry"];
+
   @override
   Widget build(BuildContext context) {
     final InventoryProvider provider = Provider.of<InventoryProvider>(context);
@@ -111,7 +114,25 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   ),
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
-                 await provider.excelActivityReports() == false ? Container() : Container();
+                // provider.clearControllers(notify: false);
+                // if (!mounted) return;
+                // await showDialog(
+                //     context: context,
+                //     builder: (BuildContext context) {
+                //       return const ExportDataFilter;
+                //     });
+                await provider.updateState();
+                DateTime? newDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1980),
+                    lastDate: DateTime(2050));
+
+                if (newDate != null) {
+                  await provider.excelActivityReports(newDate) == false
+                      ? Container()
+                      : Container();
+                }
               },
             ),
           ),
