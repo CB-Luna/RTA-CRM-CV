@@ -1038,7 +1038,7 @@ class CreateQuoteProvider extends ChangeNotifier {
               'ID_Column': PlutoCell(value: item.id),
               'LINE_ITEM_Column': PlutoCell(value: item.name),
               'UNIT_PRICE_Column': PlutoCell(value: item.price),
-              'UNIT_COST_Column': PlutoCell(value: item.adjustment),
+              'UNIT_COST_Column': PlutoCell(value: item.adjustment! * -1),
               'QUANTITY_Column': PlutoCell(value: item.quantity),
               'ACTIONS_Column': PlutoCell(value: ''),
             },

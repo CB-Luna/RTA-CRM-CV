@@ -39,7 +39,7 @@ class ModelX2LineItems {
         quoteId: json["quoteId"],
         currency: json["currency"],
         quantity: json["quantity"],
-        adjustment: json["adjustment"],
+        adjustment: json["adjustment"] ?? 0,
         createDate: json["createDate"],
       );
 
