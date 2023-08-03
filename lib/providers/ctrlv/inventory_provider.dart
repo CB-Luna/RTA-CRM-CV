@@ -192,7 +192,7 @@ class InventoryProvider extends ChangeNotifier {
 
   Issues? issue;
 
-  bool? esHoy;
+  bool? diaSelected;
   int issueR = 0;
   int issueD = 0;
 
@@ -971,7 +971,8 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   // EXCEL
-  Future<bool> excelActivityReports() async {
+  Future<bool> excelActivityReports(DateTime dateSelected, 
+  ) async {
     //Crear excel
     Excel excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
@@ -1032,7 +1033,7 @@ class InventoryProvider extends ChangeNotifier {
     cellD.cellStyle = titulo;
 
     var cellD2 = sheet.cell(CellIndex.indexByString("E1"));
-    cellD2.value = dateFormat(DateTime.now());
+    cellD2.value = dateFormat(dateSelected);
     cellD2.cellStyle = titulo;
 
     //Agregar primera linea
@@ -1201,9 +1202,9 @@ class InventoryProvider extends ChangeNotifier {
       String equipmentCheckIn = "";
 
       Vehicle report = vehicles[i];
-      await getIssues(report);
+      await getIssues(report, dateSelected);
 
-     if(esHoy == true){
+     if(diaSelected == true){
        //Secciones Check Out
       if (measureInspectR == true) {
         measureCheckOut = "✅";
@@ -1333,22 +1334,6 @@ class InventoryProvider extends ChangeNotifier {
         securityCheckIn,
         extraCheckIn,
         equipmentCheckIn,
-        // measureInspectR,
-        // measureInspectD,
-        // ligthsInspectR,
-        // ligthsInspectD,
-        // carBodyInspectR,
-        // carBodyInspectD,
-        // fluidCheckInspectR,
-        // fluidCheckInspectD,
-        // bucketInspectR,
-        // bucketInspectD,
-        // securityInspectR,
-        // securityInspectD,
-        // extraInspectR,
-        // extraInspectD,
-        // equipmentInspectR,
-        // equipmentInspectD,
       ];
       sheet.appendRow(row);
 
@@ -1415,7 +1400,7 @@ class InventoryProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  Future<bool> getIssues(Vehicle vehicle) async {
+  Future<bool> getIssues(Vehicle vehicle, DateTime selected) async {
     // Limpiar listas
     issue = null;
     bucketInspectR = true;
@@ -1434,11 +1419,23 @@ class InventoryProvider extends ChangeNotifier {
     measureInspectD = true;
     securityInspectR = true;
     securityInspectD = true;
+    diaSelected = false;
+
+    DateFormat format = DateFormat("yyyy-MM-dd HH:mm:ss");
+
+    DateTime startDateSelected = DateTime(selected.year, selected.month, selected.day);
+
+    DateTime endDateSelected = DateTime(selected.year, selected.month, selected.day, 23, 59, 59);
+
+    String formatStartDate = format.format(startDateSelected);
+    String formatEndDate = format.format(endDateSelected);
 
     try {
       final res = await supabaseCtrlV
           .from('issues_view')
           .select()
+          .gt('date_added_r', formatStartDate)
+          .lt('date_added_r', formatEndDate)
           .eq('id_vehicle', vehicle.idVehicle)
           .order('date_added_r',ascending: true)
           .limit(1);
@@ -1452,10 +1449,9 @@ class InventoryProvider extends ChangeNotifier {
         final listData = res as List<dynamic>;
         issue = Issues.fromJson(jsonEncode(listData[0]));
         DateTime? date = issue?.dateAddedR;
-        DateTime today = DateTime.now();
 
-        if(date?.day == today.day && date?.month == today.month && date?.year == today.year){
-          esHoy = true;
+        if(date?.day == selected.day && date?.month == selected.month && date?.year == selected.year){
+          diaSelected = true;
           issueR = issue!.issuesR;
           if(issue!.issuesD != null){
             issueD = issue!.issuesD!;
@@ -1621,13 +1617,14 @@ class InventoryProvider extends ChangeNotifier {
         
 
         }else{
-          esHoy = false;
+          diaSelected = false;
         }
 
         
         notifyListeners();
         return true;
       } else {
+        
         return false;
       }
     } catch (e) {
