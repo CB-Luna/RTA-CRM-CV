@@ -45,6 +45,11 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController yearController = TextEditingController();
   TextEditingController mileageController = TextEditingController();
 
+  // Controllers para exportar datos
+  TextEditingController dateExportDataController = TextEditingController();
+  String companySel = "All";
+  DateTime newDate = DateTime.now();
+
   // Controllers para el Update Inventario
   TextEditingController makeControllerUpdate = TextEditingController();
   TextEditingController modelControllerUpdate = TextEditingController();
@@ -970,11 +975,12 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   // EXCEL
-  Future<bool> excelActivityReports(DateTime dateSelected, 
+  Future<bool> excelActivityReports(DateTime dateSelected, String comp
   ) async {
     //Crear excel
     Excel excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
+    List<Vehicle> selectedComp = [];
 
     //TITULO
     sheet?.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
@@ -1180,6 +1186,9 @@ class InventoryProvider extends ChangeNotifier {
     
     //Agregar datos
     for (int i = 0; i < vehicles.length; i++) {
+      if(vehicles[i].company.company == comp){
+        
+      }
       issueR = 0;
       issueD = 0;
       String measureCheckOut = "";
@@ -1201,6 +1210,8 @@ class InventoryProvider extends ChangeNotifier {
       String equipmentCheckIn = "";
 
       Vehicle report = vehicles[i];
+
+      
       await getIssues(report, dateSelected);
 
      if(diaSelected == true){
@@ -1630,5 +1641,13 @@ class InventoryProvider extends ChangeNotifier {
       print("error ${e}");
       return false;
     }
+  }
+  void getCompanyFilter(String comp){
+    companySel = comp;
+    notifyListeners();
+  }
+  void getDateFilter(DateTime date){
+    newDate = date;
+    notifyListeners();
   }
 }
