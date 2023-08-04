@@ -197,7 +197,7 @@ class DetailVehicleCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              vehicle.mileageD == "" ? "${vehicle.mileageR}" : "${vehicle.mileageD}",
+                              vehicle.mileageD == "" ? NumberFormat('#,###').format(vehicle.mileageR) : NumberFormat('#,###').format(vehicle.mileageD),
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',

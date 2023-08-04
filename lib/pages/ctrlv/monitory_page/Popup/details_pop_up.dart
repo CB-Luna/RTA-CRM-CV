@@ -159,7 +159,7 @@ class DetailsPop extends StatelessWidget {
           //cambio de PopUp
           //Id enviarle el de control form para tomar todos los datos de las diferntes tablas.
           provider.viewPopup == 1
-              ? MeasuresPopUp(row: vehicle,)
+              ? MeasuresPopUp(row: vehicle, popUp:1)
               : provider.viewPopup == 2
                   ? const ExtraPopUp(catalog: "Lights", popUp: 2)
                   : provider.viewPopup == 3
@@ -178,7 +178,7 @@ class DetailsPop extends StatelessWidget {
                                           ? const ExtraPopUp(
                                               catalog: "Equipment", popUp: 8)
                                           : provider.viewPopup == 9
-                                              ? const CommentsImagesIssues()
+                                              ?  CommentsImagesIssues( popUp: provider.popUpExtra)
                                               : provider.viewPopup == 10
                                                   ? const BucketCommentsImagesIssues()
                                                   :  provider.viewPopup == 11

@@ -116,6 +116,9 @@ class MonitoryProvider extends ChangeNotifier {
   IssuesComments? actualDetailField;
   late int popUpExtra;
 
+  String section = "";
+  
+
   //List<RolApi> rolesSeleccionados = [];
   List<String> areaNames = [];
   bool isProveedor = false;
@@ -1555,7 +1558,9 @@ class MonitoryProvider extends ChangeNotifier {
         issue!.measureR.toMap().forEach((key, value) {
           
             String nameIssue = key;
-            String? comments = issue!.measureR.toMap()["${nameIssue}_comments"];
+
+            if(nameIssue == "gas" || nameIssue == "mileage"){
+               String? comments = issue!.measureR.toMap()["${nameIssue}_comments"];
             if (issue!.measureR.toMap()["${nameIssue}_image"] != null) {
               List<String> listImage = issue!.measureR
                   .toMap()["${nameIssue}_image"]
@@ -1571,7 +1576,9 @@ class MonitoryProvider extends ChangeNotifier {
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
-                  status: true);
+                  status: true,
+                  measure: nameIssue == "gas" ? issue?.measureR.gas :  null,
+                  mileage: nameIssue == "mileage" ? issue?.measureR.mileage : null);
               measureR.add(newIssuesComments);
             } else {
               DateTime dateAdded =
@@ -1582,9 +1589,13 @@ class MonitoryProvider extends ChangeNotifier {
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
-                  status: true);
+                  status: true,
+                  measure: nameIssue == "gas" ? issue?.measureR.gas :  null,
+                  mileage: nameIssue == "mileage" ? issue?.measureR.mileage : null);
               measureR.add(newIssuesComments);
             }
+            }
+           
           
         });
 
@@ -1592,7 +1603,9 @@ class MonitoryProvider extends ChangeNotifier {
         issue!.measureD.toMap().forEach((key, value) {
           
             String nameIssue = key;
-            String? comments = issue!.measureD.toMap()["${nameIssue}_comments"];
+
+            if(nameIssue == "gas" || nameIssue == "mileage"){
+              String? comments = issue!.measureD.toMap()["${nameIssue}_comments"];
             if (issue!.measureD.toMap()["${nameIssue}_image"] != null) {
               List<String> listImage = issue!.measureD
                   .toMap()["${nameIssue}_image"]
@@ -1608,7 +1621,9 @@ class MonitoryProvider extends ChangeNotifier {
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
-                  status: true);
+                  status: true,
+                  measure: nameIssue == "gas" ? issue?.measureD.gas :null,
+                  mileage: nameIssue == "mileage" ? issue?.measureD.mileage : null);
               measureD.add(newIssuesComments);
             } else {
               DateTime dateAdded =
@@ -1619,9 +1634,13 @@ class MonitoryProvider extends ChangeNotifier {
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
-                  status: true);
+                  status: true,
+                  measure: nameIssue == "gas" ? issue?.measureD.gas :null,
+                  mileage: nameIssue == "mileage" ? issue?.measureD.mileage : null);
               measureD.add(newIssuesComments);
             }
+            }
+            
           }
         );
 
@@ -1819,4 +1838,32 @@ class MonitoryProvider extends ChangeNotifier {
         break;
     }
   }
+
+
+  // void getSection(int index){
+  //   switch(index){
+      
+  //     case 2:
+  //       section = "Lights";
+  //       break;
+  //     case 3:
+  //       section = "Car Bodywork";
+  //       break;
+  //     case 4:
+  //       section = "Fluid Check";
+  //       break;
+  //     case 6:
+  //       section = "Security";
+  //       break;
+  //     case 7:
+  //       section = "Extra";
+  //       break;
+  //     case 8:
+  //       section = "Equipment";
+  //       break;
+  //     default:
+  //       section = "";
+  //       break;
+  //   }
+  // }
 }

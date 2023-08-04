@@ -49,21 +49,22 @@ class _MeasuresInspectState extends State<MeasuresInspect> {
                       text: "",
                       isLoading: false,
                       onTap: () {
-                         provider.updatePopUpExtra(provider.viewPopup);
+                         provider.updateViewPopup(provider.popUpExtra);
                       },
                     ), 
                 ),
                 SizedBox(
                   width: 200,
                 ),
-                Text(
-                  provider.actualDetailField!.status ? "Good" : "Bad",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: provider.actualDetailField!.status
-                        ? Color.fromARGB(200, 65, 155, 23)
-                        : Color.fromARGB(200, 210, 0, 48),
+                Center(
+                  child: Text(
+                    provider.actualDetailField!.nameIssue == "gas" ? provider.actualDetailField!.measure.toString() : NumberFormat('#,###').format(provider.actualDetailField!.mileage),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(200, 65, 155, 23)
+                          ,
+                    ),
                   ),
                 ),
               ],
@@ -109,17 +110,31 @@ class _MeasuresInspectState extends State<MeasuresInspect> {
                       ? "${provider.actualDetailField?.comments}"
                       : "No Comments")),
             ),
-            SizedBox(
+             provider.actualDetailField?.listImages?.length  == null || provider.actualDetailField?.listImages?.length == 0 ?
+              SizedBox(
               height: 300,
               width: 400,
               child: CarouselSlider.builder(
-                itemCount: provider.actualDetailField?.listImages?.length ?? 0,
+                itemCount: 1,
                 itemBuilder: (context, index, realIndex) {
-                  // const urlImage =
-                  //     "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
+
+                  const urlImage = "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
+
+                  return buildImage(urlImage, index);
+                },
+                options: CarouselOptions(height: 200),
+              ),
+            ):
+
+             SizedBox(
+              height: 300,
+              width: 400,
+              child: CarouselSlider.builder(
+                itemCount: provider.actualDetailField?.listImages?.length,
+                itemBuilder: (context, index, realIndex) {
+
                   final urlImage = provider
-                          .actualDetailField?.listImages?[index] ??
-                      "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
+                          .actualDetailField!.listImages![index];
 
                   return buildImage(urlImage, index);
                 },

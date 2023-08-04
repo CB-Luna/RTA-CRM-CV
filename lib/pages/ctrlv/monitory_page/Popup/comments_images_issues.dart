@@ -10,7 +10,8 @@ import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 
 class CommentsImagesIssues extends StatefulWidget {
-  const CommentsImagesIssues({super.key});
+  final int popUp;
+  const CommentsImagesIssues({super.key, required this.popUp});
 
   @override
   State<CommentsImagesIssues> createState() => _CommentsImagesIssuesState();
@@ -49,7 +50,7 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
                       text: "",
                       isLoading: false,
                       onTap: () {
-                         provider.updatePopUpExtra(provider.viewPopup);
+                         provider.updateViewPopup(provider.popUpExtra);
                       },
                     ), 
                 ),
@@ -109,17 +110,31 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
                       ? "${provider.actualDetailField?.comments}"
                       : "No Comments")),
             ),
-            SizedBox(
+              provider.actualDetailField?.listImages?.length  == null || provider.actualDetailField?.listImages?.length == 0 ?
+              SizedBox(
               height: 300,
               width: 400,
               child: CarouselSlider.builder(
-                itemCount: provider.actualDetailField?.listImages?.length ?? 0,
+                itemCount: 1,
                 itemBuilder: (context, index, realIndex) {
-                  // const urlImage =
-                  //     "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
+
+                  const urlImage = "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
+
+                  return buildImage(urlImage, index);
+                },
+                options: CarouselOptions(height: 200),
+              ),
+            ):
+
+             SizedBox(
+              height: 300,
+              width: 400,
+              child: CarouselSlider.builder(
+                itemCount: provider.actualDetailField?.listImages?.length,
+                itemBuilder: (context, index, realIndex) {
+
                   final urlImage = provider
-                          .actualDetailField?.listImages?[index] ??
-                      "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
+                          .actualDetailField!.listImages![index];
 
                   return buildImage(urlImage, index);
                 },

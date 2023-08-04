@@ -90,7 +90,9 @@ class ExtraPopUp extends StatelessWidget {
                                 color: Color.fromARGB(200, 210, 0, 48)),
                           onTap: () {
                             provider.getActualDetailField(provider.actualIssuesComments[index]);
+                            // provider.getSection(index);
                             provider.updateViewPopup(9);
+                            provider.updatePopUpExtra(popUp);
                           },
                           
                         ),

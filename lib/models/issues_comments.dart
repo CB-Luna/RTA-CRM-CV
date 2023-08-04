@@ -10,6 +10,8 @@ class IssuesComments {
     this.idControlForm,
     this.typeIssue,
     this.status = false,
+    this.measure,
+    this.mileage,
   });
 
   String nameIssue;
@@ -20,6 +22,8 @@ class IssuesComments {
   List<String>? listImages;
   DateTime dateAdded;
   bool status;
+  String? measure;
+  int? mileage;
 
   factory IssuesComments.fromJson(String str) =>
       IssuesComments.fromMap(json.decode(str));

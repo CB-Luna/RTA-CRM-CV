@@ -9,6 +9,7 @@ import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 import '../actions/add_vehicle_pop_up.dart';
+import '../actions/export_data.dart';
 
 class InventoryPageHeader extends StatefulWidget {
   InventoryPageHeader({
@@ -114,26 +115,26 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   ),
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
-                // provider.clearControllers(notify: false);
-                // if (!mounted) return;
-                // await showDialog(
-                //     context: context,
-                //     builder: (BuildContext context) {
-                //       return const ExportDataFilter;
-                //     });
-                await provider.updateState();
-                DateTime? newDate = await showDatePicker(
+                provider.clearControllers(notify: false);
+                if (!mounted) return;
+                await showDialog(
                     context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(1980),
-                    lastDate: DateTime(2050));
+                    builder: (BuildContext context) {
+                      return const ExportDataFilter();
+                    });
+              //   await provider.updateState();
+              //   DateTime? newDate = await showDatePicker(
+              //       context: context,
+              //       initialDate: DateTime.now(),
+              //       firstDate: DateTime(1980),
+              //       lastDate: DateTime(2050));
 
-                if (newDate != null) {
-                  await provider.excelActivityReports(newDate) == false
-                      ? Container()
-                      : Container();
-                }
-              },
+              //   if (newDate != null) {
+              //     await provider.excelActivityReports(newDate) == false
+              //         ? Container()
+              //         : Container();
+              //   }
+               },
             ),
           ),
           Padding(

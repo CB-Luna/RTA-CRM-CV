@@ -100,7 +100,9 @@ class BucketExtraPopUp extends StatelessWidget {
                             onTap: () {
                               provider.getActualDetailField(
                                   provider.actualIssuesComments[index]);
-                              provider.updateViewPopup(10);
+                              
+                            provider.updateViewPopup(10);
+                            provider.updatePopUpExtra(popUp);
                             },
                           ),
                         ],

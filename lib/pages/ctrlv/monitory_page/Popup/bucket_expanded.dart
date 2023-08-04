@@ -47,10 +47,10 @@ class _BucketCommentsImagesIssuesState extends State<BucketCommentsImagesIssues>
                     isLoading: false,
                     icon: Icon(Icons.arrow_back_outlined,
                         color: AppTheme.of(context).primaryBackground),
-                    text: 'Back',
+                    text: '',
                     color: AppTheme.of(context).primaryColor,
                     onTap: () async {
-                      provider.updateViewPopup(0);
+                      provider.updateViewPopup(provider.popUpExtra);
                     },
                   ),
                 ),
