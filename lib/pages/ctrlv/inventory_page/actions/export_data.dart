@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_dropdown_inventory.dart';
@@ -11,6 +11,9 @@ import 'package:rta_crm_cv/widgets/custom_text_fieldForm.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
+
+import '../../../../services/api_error_handler.dart';
+import '../../../../widgets/success_toast.dart';
 
 class ExportDataFilter extends StatefulWidget {
   const ExportDataFilter({super.key});
@@ -30,9 +33,8 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
     DateTime date = DateTime.now();
     DateTime selectedDate = DateTime.now();
     DateTime? newDate;
-    String? company;
-    
-  List<String> companies = ["All", "Ode", "Smi", "Cry"];
+
+    List<String> companies = ["All", "Ode", "Smi", "Cry"];
     final List<String> companyName =
         provider.company.map((companies) => companies.company).toList();
 
@@ -51,7 +53,6 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
@@ -59,9 +60,10 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
                         label: '1. Company*',
                         width: 350,
                         list: companies,
-                        dropdownValue: company,
+                        dropdownValue: provider.companySel,
                         onChanged: (val) {
-                          company = val;
+                          if (val == null) return;
+                          provider.getCompanyFilter(val);
                         },
                       ),
                     ),
@@ -69,7 +71,7 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                           label: 'Date*',
-                          controller: provider.dateTimeControllerOil,
+                          controller: provider.dateExportDataController,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
@@ -80,8 +82,12 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(1980),
                                 lastDate: DateTime(2050));
-
-                           
+                            if (newDate != null) {
+                              provider.dateExportDataController.text =
+                                  DateFormat("MM/dd/yyyy").format(newDate);
+                              provider.getDateFilter(newDate);
+                            }
+                            
                           }),
                     ),
                   ],
@@ -97,10 +103,10 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
                         color: AppTheme.of(context).primaryBackground),
                     text: 'Export',
                     onTap: () async {
-                     await provider.excelActivityReports(newDate!) ==
-                                      false
-                                  ? Container()
-                                  : Container();
+                      await provider.excelActivityReports(
+                          provider.newDate,
+                          provider.companySel);
+                      if (context.canPop()) context.pop();
                     }),
                 CustomTextIconButton(
                   isLoading: false,
