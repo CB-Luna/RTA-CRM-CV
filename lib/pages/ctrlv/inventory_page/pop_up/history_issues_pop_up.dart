@@ -23,13 +23,13 @@ class _HistoryIssuePopUpState extends State<HistoryIssuePopUp> {
       IssueReportedProvider provider =
           Provider.of<IssueReportedProvider>(context, listen: false);
 
-      provider.getIssueBucketInspectionClosed(provider.actualIssueXUser!);
-      provider.getIssuesFluidCheckClosed(provider.actualIssueXUser!);
-      provider.getIssuesLightsClosed(provider.actualIssueXUser!);
-      provider.getIssuesCarBodyworkClosed(provider.actualIssueXUser!);
-      provider.getIssueSecurityClosed(provider.actualIssueXUser!);
-      provider.getIssuesExtraClosed(provider.actualIssueXUser!);
-      provider.getIssuesEquipmentClosed(provider.actualIssueXUser!);
+      await provider.getIssueBucketInspectionClosed(provider.actualIssueXUser!);
+      await provider.getIssuesFluidCheckClosed(provider.actualIssueXUser!);
+      await provider.getIssuesLightsClosed(provider.actualIssueXUser!);
+      await provider.getIssuesCarBodyworkClosed(provider.actualIssueXUser!);
+      await provider.getIssueSecurityClosed(provider.actualIssueXUser!);
+      await provider.getIssuesExtraClosed(provider.actualIssueXUser!);
+      await provider.getIssuesEquipmentClosed(provider.actualIssueXUser!);
 
       //provider.getIssuesMeasuresClosed(provider.actualIssueXUer!);
     });
@@ -82,12 +82,12 @@ class _HistoryIssuePopUpState extends State<HistoryIssuePopUp> {
                                 children: [
                                   const Text(
                                     "Name Issue:  ",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     issueReportedProvider
                                         .listTotalClosedIssue[index].nameIssue,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),
@@ -95,6 +95,8 @@ class _HistoryIssuePopUpState extends State<HistoryIssuePopUp> {
                                 children: [
                                   const Text(
                                     "Date:  ",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     issueReportedProvider
@@ -103,20 +105,18 @@ class _HistoryIssuePopUpState extends State<HistoryIssuePopUp> {
                                             null
                                         ? " No date "
                                         : "${issueReportedProvider.listTotalClosedIssue[index].dateAddedClose}",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),
                               Row(
                                 children: [
                                   const Text(
-                                    "Company:  ",
+                                    "Category:  ",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     " ${issueReportedProvider.listTotalClosedIssue[index].category}",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),

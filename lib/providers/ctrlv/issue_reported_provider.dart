@@ -405,31 +405,32 @@ class IssueReportedProvider extends ChangeNotifier {
   }
 
   Future<void> getIssues(IssuesXUser actualIssueXUser) async {
-    bucketInspectR = true;
-    carBodyInspectR = true;
-    equipmentInspectR = true;
-    extraInspectR = true;
-    fluidCheckInspectR = true;
-    ligthsInspectR = true;
-    measureInspectR = true;
-    securityInspectR = true;
-
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
     }
     try {
       // SUPBASECTRlV es el control vehicular
-      await getIssuesFluidCheck(actualIssueXUser!);
-      await getIssuesLights(actualIssueXUser!);
-      await getIssuesCarBodywork(actualIssueXUser!);
-      await getIssueSecurity(actualIssueXUser!);
-      await getIssuesExtra(actualIssueXUser!);
-      await getIssuesEquipment(actualIssueXUser!);
-
-      getIssuesBasics(actualIssueXUser!);
+      await getIssuesFluidCheck(actualIssueXUser);
+      await getIssuesLights(actualIssueXUser);
+      await getIssuesCarBodywork(actualIssueXUser);
+      await getIssueSecurity(actualIssueXUser);
+      await getIssuesExtra(actualIssueXUser);
+      await getIssuesEquipment(actualIssueXUser);
+      await getIssuesBasics(actualIssueXUser);
       // await issueReportedProvider.getIssuesMeasure(
       //     issueReportedProvider.actualIssueXUser!);
+      print("------------------------");
+      print(
+          "En getIssues el valor de fluidCheckInspectR es: $fluidCheckInspectR");
+
+      print("En getIssues el valor de LightsInspectR es: $ligthsInspectR");
+      print("En getIssues el valor de CarBodyInspectR es: $carBodyInspectR");
+      print("En getIssues el valor de SecurityInspectR es: $securityInspectR");
+      print("En getIssues el valor de ExtraInspectR es: $extraInspectR");
+      print(
+          "En getIssues el valor de EquipmentInspectR es: $equipmentInspectR");
+      print("En getIssues el valor de bucketInspectR es: $bucketInspectR");
 
       rows.add(
         PlutoRow(
@@ -949,8 +950,8 @@ class IssueReportedProvider extends ChangeNotifier {
           await supabaseCtrlV.from('fluids_check').update({
             registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
-            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
-                "Issue Closed update at ${dateTimeClosedIssueController.text}",
+            // "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
+            //     "Issue Closed update at ${dateTimeClosedIssueController.text}",
             // "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_dateClosed":
             //     dateTimeClosedIssueController.text,
           }).eq("id_fluids_check", registroIssueComments!.idIssue);
@@ -1066,6 +1067,7 @@ class IssueReportedProvider extends ChangeNotifier {
       // BucketInspectionR
       for (BucketInspection issue in issuePart1) {
         if (issue.holesDrilled == "Bad") {
+          bucketInspectR = false & bucketInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Holes Drilled",
@@ -1073,10 +1075,14 @@ class IssueReportedProvider extends ChangeNotifier {
           if (!validateElementAtList(
               bucketInspectionRR, issue.idBucketInspection!)) {
             print("Nuevo elemento Agregado bucketInspectionRR");
+            print("El valor de bucketInspectR es : $bucketInspectR");
             bucketInspectionRR.add(newIssueComments);
           }
+        } else {
+          bucketInspectR = true & bucketInspectR;
         }
         if (issue.bucketLiner == "Bad") {
+          bucketInspectR = false & bucketInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Bucket Liner",
@@ -1084,10 +1090,14 @@ class IssueReportedProvider extends ChangeNotifier {
           if (!validateElementAtList(
               bucketInspectionRR, issue.idBucketInspection!)) {
             print("Nuevo elemento Agregado bucketInspectionRR");
+            print("El valor de bucketInspectR es : $bucketInspectR");
             bucketInspectionRR.add(newIssueComments);
           }
+        } else {
+          bucketInspectR = true & bucketInspectR;
         }
         if (issue.insulated == "Bad") {
+          bucketInspectR = false & bucketInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Insulated",
@@ -1095,14 +1105,18 @@ class IssueReportedProvider extends ChangeNotifier {
           if (!validateElementAtList(
               bucketInspectionRR, issue.idBucketInspection!)) {
             print("Nuevo elemento Agregado bucketInspectionRR");
+            print("El valor de bucketInspectR es : $bucketInspectR");
             bucketInspectionRR.add(newIssueComments);
           }
+        } else {
+          bucketInspectR = true & bucketInspectR;
         }
       }
 
       // BucketInspectionD
       for (BucketInspection issue in issuePartD) {
         if (issue.holesDrilled == "Bad") {
+          bucketInspectR = false & bucketInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Holes Drilled",
@@ -1110,10 +1124,14 @@ class IssueReportedProvider extends ChangeNotifier {
           if (!validateElementAtList(
               bucketInspectionDD, issue.idBucketInspection!)) {
             print("Nuevo elemento Agregado bucketInspectionDD");
+            print("El valor de bucketInspectR es : $bucketInspectR");
             bucketInspectionDD.add(newIssueComments);
           }
+        } else {
+          bucketInspectR = true & bucketInspectR;
         }
         if (issue.bucketLiner == "Bad") {
+          bucketInspectR = false & bucketInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Bucket Liner",
@@ -1121,10 +1139,14 @@ class IssueReportedProvider extends ChangeNotifier {
           if (!validateElementAtList(
               bucketInspectionDD, issue.idBucketInspection!)) {
             print("Nuevo elemento Agregado bucketInspectionDD");
+            print("El valor de bucketInspectR es : $bucketInspectR");
             bucketInspectionDD.add(newIssueComments);
           }
+        } else {
+          bucketInspectR = true & bucketInspectR;
         }
         if (issue.insulated == "Bad") {
+          bucketInspectR = false & bucketInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Insulated",
@@ -1132,8 +1154,11 @@ class IssueReportedProvider extends ChangeNotifier {
           if (!validateElementAtList(
               bucketInspectionDD, issue.idBucketInspection!)) {
             print("Nuevo elemento Agregado bucketInspectionDD");
+            print("El valor de bucketInspectR es : $bucketInspectR");
             bucketInspectionDD.add(newIssueComments);
           }
+        } else {
+          bucketInspectR = true & bucketInspectR;
         }
       }
       print("Entro a getIssuesBasics");
@@ -1601,270 +1626,386 @@ class IssueReportedProvider extends ChangeNotifier {
       // BucketInspectionR
       for (CarBodywork issue in issueCarBodywR) {
         if (issue.wiperBladesFront == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Wiper Blades Front",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.wiperBladesBack == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Wiper Blades Back",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.windshieldWiperFront == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "WindShield Wiper Front",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.windshieldWiperBack == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "WindShield Wiper Back",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.generalBody == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "General Body",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.decaling == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Decaling",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.tires == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Tires",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.glass == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Glass",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.mirrors == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Mirrors",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.parking == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Parking",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.brakes == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Brakes",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.emgBrakes == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Emg Brakes",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.horn == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Horn",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkRR.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
       }
 
-      // BucketInspectionD
+      // CarBodyWork D
       for (CarBodywork issue in issueCarBodyWD) {
         if (issue.wiperBladesFront == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
-              nameIssue: "Wuper Blades Front",
+              nameIssue: "Wiper Blades Front",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.wiperBladesBack == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Wiper Blades Back",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.windshieldWiperFront == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "WindShield Wiper Front",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.windshieldWiperBack == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "WindShield Wiper Back",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.generalBody == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "General Body",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.decaling == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Decaling",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.tires == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Tires",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.glass == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Glass",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.mirrors == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Mirrors",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.parking == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Parking",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.brakes == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Brakes",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.emgBrakes == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Emg Brakes",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
         if (issue.horn == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Horn",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
             print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
             carBodyWorkDD.add(newIssueComments);
           }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
         }
       }
+
       print("Entro a getIssuesCarBodywork");
     } catch (e) {
       print("Error in getIssuesCarBodywork() - $e");
@@ -2380,8 +2521,6 @@ class IssueReportedProvider extends ChangeNotifier {
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      print(resD);
-
       issueEquipmentR = (res as List<dynamic>)
           .map((issueEquipmentR) =>
               Equiment.fromJson(jsonEncode(issueEquipmentR)))
@@ -2394,6 +2533,7 @@ class IssueReportedProvider extends ChangeNotifier {
       // BucketInspectionR
       for (Equiment issue in issueEquipmentR) {
         if (issue.ignitionKey == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "ignition key",
@@ -2401,104 +2541,145 @@ class IssueReportedProvider extends ChangeNotifier {
 
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
             print("Nuevo elemento Agregado equipmentRR");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
             equipmentRR.add(newIssueComments);
           }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
         }
         if (issue.binsBoxKey == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Bins Box Key",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
             print("Nuevo elemento Agregado equipmentRR");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
             equipmentRR.add(newIssueComments);
           }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
         }
         if (issue.vehicleRegistrationCopy == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Vehicle Registration Copy",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
             print("Nuevo elemento Agregado equipmentRR");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
             equipmentRR.add(newIssueComments);
           }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
         }
         if (issue.vehicleInsuranceCopy == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Vehicle Insurance Copy",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
             print("Nuevo elemento Agregado equipmentRR");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
             equipmentRR.add(newIssueComments);
           }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
         }
         if (issue.bucketLiftOperatorManual == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Bucket Lift Operator Manual",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
             print("Nuevo elemento Agregado equipmentRR");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
             equipmentRR.add(newIssueComments);
           }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
         }
       }
-      // BucketInspectionD
 
+      // EquipmentD
       for (Equiment issue in issueEquipmentD) {
         if (issue.ignitionKey == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "ignition key",
               dateAddedOpen: issue.dateAdded!);
+
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
             print("Nuevo elemento Agregado equipmentDD");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
             equipmentDD.add(newIssueComments);
           }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
         }
         if (issue.binsBoxKey == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Bins Box Key",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
             print("Nuevo elemento Agregado equipmentDD");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
             equipmentDD.add(newIssueComments);
           }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
         }
         if (issue.vehicleRegistrationCopy == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Vehicle Registration Copy",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
             print("Nuevo elemento Agregado equipmentDD");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
             equipmentDD.add(newIssueComments);
           }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
         }
         if (issue.vehicleInsuranceCopy == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Vehicle Insurance Copy",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
             print("Nuevo elemento Agregado equipmentDD");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
             equipmentDD.add(newIssueComments);
           }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
         }
         if (issue.bucketLiftOperatorManual == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Bucket Lift Operator Manual",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
             print("Nuevo elemento Agregado equipmentDD");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
             equipmentDD.add(newIssueComments);
           }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
         }
       }
+
       print("Entro a getIssuesEquipment");
     } catch (e) {
       print("Error in getIssuesEquipment() - $e");
@@ -2707,167 +2888,231 @@ class IssueReportedProvider extends ChangeNotifier {
       // ExtraR
       for (Extra issue in issueExtraR) {
         if (issue.ladder == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Ladder",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraRR.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.stepLadder == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Step Ladder",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraRR.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.ladderStraps == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Ladder Straps",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraRR.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.hydraulicFluidForBucket == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Hydraulic Fluid for Bucket",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraRR.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.fiberReelRack == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Fiber Reel Rack",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraRR.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.binsLockedAndSecure == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Bins Locked and Secure",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraRR.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.safetyHarness == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Safety Harness",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraRR.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.lanyardSafetyHarness == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Lanyard Safety Harness",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraRR.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
       }
       // ExtraR
       for (Extra issue in issueExtraR) {
         if (issue.ladder == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Ladder",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraDD.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.stepLadder == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Step Ladder",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraDD.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.ladderStraps == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Ladder Straps",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraDD.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.hydraulicFluidForBucket == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Hydraulic Fluid for Bucket",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraDD.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.fiberReelRack == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Fiber Reel Rack",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraDD.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.binsLockedAndSecure == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Bins Locked and Secure",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraDD.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.safetyHarness == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Safety Harness",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraDD.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
         if (issue.lanyardSafetyHarness == "Bad") {
+          extraInspectR = false & extraInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Lanyard Safety Harness",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
             extraDD.add(newIssueComments);
           }
+        } else {
+          extraInspectR = true & extraInspectR;
         }
       }
       print("Entro a getIssuesExtra");
@@ -3332,6 +3577,7 @@ class IssueReportedProvider extends ChangeNotifier {
 
       for (FluidCheck issue in issueFluidCheckR) {
         if (issue.engineOil == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "engine_oil",
@@ -3339,10 +3585,15 @@ class IssueReportedProvider extends ChangeNotifier {
 
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
             print("Nuevo elemento Agregado FluidCheck");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
             fluidCheckRR.add(newIssueComments);
           }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
         }
+
         if (issue.transmission == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Transmission",
@@ -3350,121 +3601,389 @@ class IssueReportedProvider extends ChangeNotifier {
 
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
             print("Nuevo elemento Agregado FluidCheck");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+
             fluidCheckRR.add(newIssueComments);
           }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
         }
         if (issue.coolant == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Coolant",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
             print("Nuevo elemento Agregado FluidCheck");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+
             fluidCheckRR.add(newIssueComments);
           }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
         }
         if (issue.powerSteering == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Power Steering",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
             print("Nuevo elemento Agregado FluidCheck");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+
             fluidCheckRR.add(newIssueComments);
           }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
         }
         if (issue.dieselExhaustFluid == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Diesel Exhaust Fluid",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
             print("Nuevo elemento Agregado FluidCheck");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+
             fluidCheckRR.add(newIssueComments);
           }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
         }
         if (issue.windshieldWasherFluid == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Windshield Washer Fluid ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
             print("Nuevo elemento Agregado FluidCheck");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
             fluidCheckRR.add(newIssueComments);
           }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
         }
       }
       // FluidCheckD
       for (FluidCheck issue in issueFluidCheckD) {
         if (issue.engineOil == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Engine Oil",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
             print("Nuevo elemento Agregado FluidCheckDD");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
             fluidCheckDD.add(newIssueComments);
           }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
         }
+
         if (issue.transmission == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Transmission",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
             print("Nuevo elemento Agregado FluidCheckDD");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
             fluidCheckDD.add(newIssueComments);
           }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
         }
         if (issue.coolant == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Coolant",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
             print("Nuevo elemento Agregado FluidCheckDD");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
             fluidCheckDD.add(newIssueComments);
           }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
         }
         if (issue.powerSteering == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Power Steering",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
             print("Nuevo elemento Agregado FluidCheckDD");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
             fluidCheckDD.add(newIssueComments);
           }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
         }
         if (issue.dieselExhaustFluid == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Diesel Exhaust Fluid",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
             print("Nuevo elemento Agregado FluidCheckDD");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
             fluidCheckDD.add(newIssueComments);
           }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
         }
         if (issue.windshieldWasherFluid == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Windshield Washer Fluid ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
             print("Nuevo elemento Agregado FluidCheckDD");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
             fluidCheckDD.add(newIssueComments);
           }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
         }
       }
       print("Entro a getIssuesFluidCheck");
-      print("FluidcHeckRR : ${fluidCheckRR.length}");
     } catch (e) {
       print("Error in getIssuesFluidCheck() - $e");
     }
 
     notifyListeners();
   }
+
+  // --------------------------------------------------------------------------
+  // Función para traer los nombre de los issues de FluidsCheck
+  Future<void> getIssuesFluidCheckAll(Vehicle vehicle) async {
+    try {
+      // getIssuesFluidCheckR
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'fluid_check_r ->id_fluids_check, fluid_check_r ->engine_oil,fluid_check_r ->transmission, fluid_check_r ->coolant,fluid_check_r->power_steering,fluid_check_r ->diesel_exhaust_fluid,fluid_check_r ->windshield_washer_fluid, fluid_check_r ->date_added')
+          .eq('id_vehicle', vehicle.idVehicle)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // getIssuesFluidCheckD
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'fluid_check_d ->id_fluids_check, fluid_check_d ->engine_oil,fluid_check_d ->transmission, fluid_check_d ->coolant,fluid_check_d->power_steering,fluid_check_d ->diesel_exhaust_fluid,fluid_check_d ->windshield_washer_fluid, fluid_check_d ->date_added')
+          .eq('id_vehicle', vehicle.idVehicle)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      issueFluidCheckR = (res as List<dynamic>)
+          .map((issueFluidCheckR) =>
+              FluidCheck.fromJson(jsonEncode(issueFluidCheckR)))
+          .toList();
+      issueFluidCheckD = (resD as List<dynamic>)
+          .map((issueFluidCheckD) =>
+              FluidCheck.fromJson(jsonEncode(issueFluidCheckD)))
+          .toList();
+
+      // FluidCheckR
+
+      for (FluidCheck issue in issueFluidCheckR) {
+        if (issue.engineOil == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "engine_oil",
+              dateAddedOpen: issue.dateAdded!);
+
+          if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
+            print("Nuevo elemento Agregado FluidCheck");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+            fluidCheckRR.add(newIssueComments);
+          }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
+        }
+
+        if (issue.transmission == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Transmission",
+              dateAddedOpen: issue.dateAdded!);
+
+          if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
+            print("Nuevo elemento Agregado FluidCheck");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+
+            fluidCheckRR.add(newIssueComments);
+          }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
+        }
+        if (issue.coolant == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Coolant",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
+            print("Nuevo elemento Agregado FluidCheck");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+
+            fluidCheckRR.add(newIssueComments);
+          }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
+        }
+        if (issue.powerSteering == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Power Steering",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
+            print("Nuevo elemento Agregado FluidCheck");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+
+            fluidCheckRR.add(newIssueComments);
+          }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
+        }
+        if (issue.dieselExhaustFluid == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Diesel Exhaust Fluid",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
+            print("Nuevo elemento Agregado FluidCheck");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+
+            fluidCheckRR.add(newIssueComments);
+          }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
+        }
+        if (issue.windshieldWasherFluid == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Windshield Washer Fluid ",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
+            print("Nuevo elemento Agregado FluidCheck");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+            fluidCheckRR.add(newIssueComments);
+          }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
+        }
+      }
+      // FluidCheckD
+      for (FluidCheck issue in issueFluidCheckD) {
+        if (issue.engineOil == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Engine Oil",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
+            print("Nuevo elemento Agregado FluidCheckDD");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+            fluidCheckDD.add(newIssueComments);
+          }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
+        }
+
+        if (issue.transmission == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Transmission",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
+            print("Nuevo elemento Agregado FluidCheckDD");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+            fluidCheckDD.add(newIssueComments);
+          }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
+        }
+        if (issue.coolant == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Coolant",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
+            print("Nuevo elemento Agregado FluidCheckDD");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+            fluidCheckDD.add(newIssueComments);
+          }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
+        }
+        if (issue.powerSteering == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Power Steering",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
+            print("Nuevo elemento Agregado FluidCheckDD");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+            fluidCheckDD.add(newIssueComments);
+          }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
+        }
+        if (issue.dieselExhaustFluid == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Diesel Exhaust Fluid",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
+            print("Nuevo elemento Agregado FluidCheckDD");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+            fluidCheckDD.add(newIssueComments);
+          }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
+        }
+        if (issue.windshieldWasherFluid == "Bad") {
+          fluidCheckInspectR = false & fluidCheckInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idFluidsCheck!,
+              nameIssue: "Windshield Washer Fluid ",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
+            print("Nuevo elemento Agregado FluidCheckDD");
+            print("El valor de fluidCheckInspect es: $fluidCheckInspectR");
+            fluidCheckDD.add(newIssueComments);
+          }
+        } else {
+          fluidCheckInspectR = true & fluidCheckInspectR;
+        }
+      }
+      print("Entro a getIssuesFluidCheckAll");
+    } catch (e) {
+      print("Error in getIssuesFluidCheckAll() - $e");
+    }
+
+    notifyListeners();
+  }
+  // ---------------------------------------------------------------------------
 
   // Función para traer los nombre de los issues de FluidsCheck
   Future<void> getIssuesFluidCheckClosed(IssuesXUser issuesXUser) async {
@@ -3840,211 +4359,305 @@ class IssueReportedProvider extends ChangeNotifier {
       // LightsR
       for (Lights issue in issueLightsR) {
         if (issue.headlights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Headlights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
             lightsRR.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.brakeLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Brake Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsRR.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.reverseLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Reverse Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsRR.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.warningLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Warning Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
             lightsRR.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.turnSignals == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Turn Signals",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsRR.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.the4WayFlashers == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "4 way Flashers ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsRR.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.dashLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Dash Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsRR.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.strobeLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Strobe Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsRR.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.cabRoofLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Cab Roof Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsRR.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.clearanceLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Clearance Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsRR.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
       }
       // LightsD
       for (Lights issue in issueLightsD) {
         if (issue.headlights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Headlights",
               dateAddedOpen: issue.dateAdded!);
-
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
             lightsDD.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.brakeLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Brake Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsDD.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.reverseLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Reverse Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsDD.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.warningLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Warning Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
             lightsDD.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.turnSignals == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Turn Signals",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsDD.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.the4WayFlashers == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "4 way Flashers ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsDD.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.dashLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Dash Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsDD.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.strobeLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Strobe Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsDD.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.cabRoofLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Cab Roof Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsDD.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
         if (issue.clearanceLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Clearance Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
             lightsDD.add(newIssueComments);
           }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
         }
       }
-
       print("Entro a getIssuesLights");
     } catch (e) {
       print("Error in getIssuesLights() - $e");
@@ -4052,6 +4665,349 @@ class IssueReportedProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  // ---------------------------------------------------------------------------
+  // Función para traer los nombre de los issues de Lights
+  Future<void> getIssuesLightsAll(IssuesXUser issuesXUser) async {
+    try {
+      // getIssuesLightsR
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'lights_r ->id_lights, lights_r ->headlights,lights_r ->brake_lights, lights_r ->reverse_lights,lights_r->warning_lights,lights_r ->turn_lights,lights_r ->4_way_flashers,lights_r ->dash_lights,lights_r ->strobe_lights,lights_r ->clearance_lights,lights_r ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // getIssuesLightsD
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'lights_d ->id_lights, lights_d ->headlights,lights_d ->brake_lights, lights_d ->reverse_lights,lights_d->warning_lights,lights_d ->turn_lights,lights_d ->4_way_flashers,lights_d ->dash_lights,lights_d ->strobe_lights,lights_d ->clearance_lights,lights_d ->date_added')
+          .eq('id_vehicle', issuesXUser.idVehicleFk)
+          .eq('id_user_fk', issuesXUser.userProfileId)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // print(res);
+
+      issueLightsR = (res as List<dynamic>)
+          .map((issueLightsR) => Lights.fromJson(jsonEncode(issueLightsR)))
+          .toList();
+      issueLightsD = (resD as List<dynamic>)
+          .map((issueLightsD) => Lights.fromJson(jsonEncode(issueLightsD)))
+          .toList();
+
+      // LightsR
+      for (Lights issue in issueLightsR) {
+        if (issue.headlights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Headlights",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsRR, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+            lightsRR.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.brakeLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Brake Lights",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsRR, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsRR.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.reverseLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Reverse Lights",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsRR, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsRR.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.warningLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Warning Lights",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsRR, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+            lightsRR.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.turnSignals == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Turn Signals",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsRR, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsRR.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.the4WayFlashers == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "4 way Flashers ",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsRR, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsRR.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.dashLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Dash Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsRR, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsRR.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.strobeLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Strobe Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsRR, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsRR.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.cabRoofLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Cab Roof Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsRR, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsRR.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.clearanceLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Clearance Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsRR, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsRR");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsRR.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+      }
+      // LightsD
+      for (Lights issue in issueLightsD) {
+        if (issue.headlights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Headlights",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsDD, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+            lightsDD.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.brakeLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Brake Lights",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsDD, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsDD.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.reverseLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Reverse Lights",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsDD, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsDD.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.warningLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Warning Lights",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsDD, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+            lightsDD.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.turnSignals == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Turn Signals",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsDD, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsDD.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.the4WayFlashers == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "4 way Flashers ",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsDD, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsDD.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.dashLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Dash Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsDD, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsDD.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.strobeLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Strobe Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsDD, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsDD.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.cabRoofLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Cab Roof Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsDD, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsDD.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+        if (issue.clearanceLights == "Bad") {
+          ligthsInspectR = false & ligthsInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idLights!,
+              nameIssue: "Clearance Lights ",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(lightsDD, issue.idLights!)) {
+            print("Nuevo elemento Agregado lightsDD");
+            print("El valor de LightsInspectR es : ${ligthsInspectR}");
+
+            lightsDD.add(newIssueComments);
+          }
+        } else {
+          ligthsInspectR = true & ligthsInspectR;
+        }
+      }
+      print("Entro a getIssuesLightsAll");
+    } catch (e) {
+      print("Error in getIssuesLightsAll() - $e");
+    }
+
+    notifyListeners();
+  }
+
+  // ---------------------------------------------------------------------------
 
   // Función para traer los nombre de los issues de Lights Closed
   Future<void> getIssuesLightsClosed(IssuesXUser issuesXUser) async {
@@ -4810,128 +5766,178 @@ class IssueReportedProvider extends ChangeNotifier {
       // SecurityR
       for (Security issue in issueSecurityR) {
         if (issue.rtaMagnet == "Bad") {
+          securityInspectR = false & securityInspectR;
+
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "RTA Magnet",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityRR");
+            print("El valor de securityInspectR es : $securityInspectR");
             securityRR.add(newIssueComments);
           }
+        } else {
+          securityInspectR = true & securityInspectR;
         }
         if (issue.triangleReflectors == "Bad") {
+          securityInspectR = false & securityInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Triangle Reflectors",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityRR");
+            print("El valor de securityInspectR es : $securityInspectR");
             securityRR.add(newIssueComments);
           }
+        } else {
+          securityInspectR = true & securityInspectR;
         }
         if (issue.wheelChocks == "Bad") {
+          securityInspectR = false & securityInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Wheel Chocks",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityRR");
+            print("El valor de securityInspectR es : $securityInspectR");
             securityRR.add(newIssueComments);
           }
+        } else {
+          securityInspectR = true & securityInspectR;
         }
         if (issue.fireExtinguisher == "Bad") {
+          securityInspectR = false & securityInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Fire Extinguisher",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityRR");
+            print("El valor de securityInspectR es : $securityInspectR");
             securityRR.add(newIssueComments);
           }
+        } else {
+          securityInspectR = true & securityInspectR;
         }
         if (issue.firstAidKitSafetyVest == "Bad") {
+          securityInspectR = false & securityInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "First Aid Kit Safety Vest",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityRR");
+            print("El valor de securityInspectR es : $securityInspectR");
             securityRR.add(newIssueComments);
           }
+        } else {
+          securityInspectR = true & securityInspectR;
         }
         if (issue.backUpAlarm == "Bad") {
+          securityInspectR = false & securityInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Back Up Alarm",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityRR");
+            print("El valor de securityInspectR es : $securityInspectR");
             securityRR.add(newIssueComments);
           }
+        } else {
+          securityInspectR = true & securityInspectR;
         }
       }
 
       // SecurityR
       for (Security issue in issueSecurityD) {
         if (issue.rtaMagnet == "Bad") {
+          securityInspectR = false & securityInspectR;
+
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "RTA Magnet",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityDD");
+            print("El valor de securityInspectR es : $securityInspectR");
             securityDD.add(newIssueComments);
           }
+        } else {
+          securityInspectR = true & securityInspectR;
         }
         if (issue.triangleReflectors == "Bad") {
+          securityInspectR = false & securityInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Triangle Reflectors",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityDD");
+            print("El valor de securityInspectR es : $securityInspectR");
             securityDD.add(newIssueComments);
           }
+        } else {
+          securityInspectR = true & securityInspectR;
         }
         if (issue.wheelChocks == "Bad") {
+          securityInspectR = false & securityInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Wheel Chocks",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityDD");
+            print("El valor de securityInspectR es : $securityInspectR");
             securityDD.add(newIssueComments);
           }
+        } else {
+          securityInspectR = true & securityInspectR;
         }
         if (issue.fireExtinguisher == "Bad") {
+          securityInspectR = false & securityInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Fire Extinguisher",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityDD");
+            print("El valor de securityInspectR es : $securityInspectR");
             securityDD.add(newIssueComments);
           }
+        } else {
+          securityInspectR = true & securityInspectR;
         }
         if (issue.firstAidKitSafetyVest == "Bad") {
+          securityInspectR = false & securityInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "First Aid Kit Safety Vest",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityDD");
+            print("El valor de securityInspectR es : $securityInspectR");
             securityDD.add(newIssueComments);
           }
+        } else {
+          securityInspectR = true & securityInspectR;
         }
         if (issue.backUpAlarm == "Bad") {
+          securityInspectR = false & securityInspectR;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Back Up Alarm",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityDD");
+            print("El valor de securityInspectR es : $securityInspectR");
             securityDD.add(newIssueComments);
           }
+        } else {
+          securityInspectR = true & securityInspectR;
         }
       }
 

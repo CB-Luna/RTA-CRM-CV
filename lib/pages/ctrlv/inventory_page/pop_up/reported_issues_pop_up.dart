@@ -14,8 +14,10 @@ import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_icon_button.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 import '../../../../widgets/side_menu/sidemenu.dart';
 import '../vehicle_cards/generalinformation_card.dart';
+import 'history_issues_pop_up.dart';
 
 class ReportedIssues extends StatefulWidget {
   const ReportedIssues({super.key});
@@ -55,7 +57,34 @@ class _ReportedIssuesState extends State<ReportedIssues> {
             title: "Issues",
             child: Column(children: [
               const GeneralInformationCard(),
-              const TabbarIssuePopUp(),
+              Row(
+                children: [
+                  const TabbarIssuePopUp(),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: CustomTextIconButton(
+                        width: MediaQuery.of(context).size.width * 0.10,
+                        isLoading: false,
+                        icon: Icon(Icons.calendar_today_outlined,
+                            color: AppTheme.of(context).primaryBackground),
+                        text: 'Issues Closed',
+                        color: AppTheme.of(context).primaryColor,
+                        onTap: () async {
+                          print(provider.actualIssueXUser);
+
+                          // ignore: use_build_context_synchronously
+                          await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return StatefulBuilder(
+                                    builder: (context, setState) {
+                                  return const HistoryIssuePopUp();
+                                });
+                              });
+                        }),
+                  ),
+                ],
+              ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: SizedBox(
