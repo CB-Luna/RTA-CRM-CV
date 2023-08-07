@@ -6,7 +6,6 @@ import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../widgets/card_header.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
-import 'comments_images_issues.dart';
 
 class BucketExtraPopUp extends StatelessWidget {
   final int popUp;
@@ -28,23 +27,43 @@ class BucketExtraPopUp extends StatelessWidget {
             gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
-            CardHeader(text: "Bucket Inspection"),
+            const CardHeader(text: "Bucket Inspection"),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
                     child: CustomTextIconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
                       text: "",
                       isLoading: false,
                       onTap: () {
                         provider.updateViewPopup(0);
                       },
                     ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right:15.0),
+                    child: Container(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.03,
+                    decoration: BoxDecoration(
+                      color: statusColor(
+                          provider.monitoryActual!.vehicle.company.company),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        provider.monitoryActual!.vehicle.licesensePlates,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                                  ),
                   ),
                 ],
               ),
@@ -84,17 +103,17 @@ class BucketExtraPopUp extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color:
                                     provider.actualIssuesComments[index].status
-                                        ? Color.fromARGB(200, 65, 155, 23)
-                                        : Color.fromARGB(200, 210, 0, 48),
+                                        ? const Color.fromARGB(200, 65, 155, 23)
+                                        : const Color.fromARGB(200, 210, 0, 48),
                               ),
                             ),
                           ),
                           InkWell(
                             child: provider.actualIssuesComments[index].status
-                                ? Icon(Icons.remove_red_eye,
+                                ? const Icon(Icons.remove_red_eye,
                                     size: 30,
                                     color: Color.fromARGB(200, 65, 155, 23))
-                                : Icon(Icons.remove_red_eye,
+                                : const Icon(Icons.remove_red_eye,
                                     size: 30,
                                     color: Color.fromARGB(200, 210, 0, 48)),
                             onTap: () {
@@ -116,3 +135,24 @@ class BucketExtraPopUp extends StatelessWidget {
     );
   }
 }
+
+Color statusColor(String status) {
+  late Color color;
+
+  switch (status) {
+    case "ODE": //Sales Form
+      color = const Color(0XFFB2333A);
+      break;
+    case "SMI": //Sen. Exec. Validate
+      color = const Color.fromRGBO(255, 138, 0, 1);
+      break;
+    case "CRY": //Finance Validate
+      color = const Color(0XFF345694);
+      break;
+
+    default:
+      return Colors.black;
+  }
+  return color;
+}
+

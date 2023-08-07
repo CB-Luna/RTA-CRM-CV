@@ -6,7 +6,6 @@ import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../widgets/card_header.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
-import 'comments_images_issues.dart';
 
 class ExtraPopUp extends StatelessWidget {
   final String catalog;
@@ -24,7 +23,7 @@ class ExtraPopUp extends StatelessWidget {
       backgroundColor: Colors.transparent,
       content: Container(
         width: 700,
-        height: 670,
+        height: 750,
         decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
@@ -32,7 +31,7 @@ class ExtraPopUp extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     padding: const EdgeInsets.only(left: 20),
@@ -45,9 +44,29 @@ class ExtraPopUp extends StatelessWidget {
                         provider.updateViewPopup(0);
                       },),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(right:15.0),
+                    child: Container(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.03,
+                    decoration: BoxDecoration(
+                      color: statusColor(provider.monitoryActual!.vehicle.company.company),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        provider.monitoryActual!.vehicle.licesensePlates,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                                  ),
+                  ),
                 ],
               ),
             ),
+            
             SizedBox(
               height: 550,
               child: ListView.builder(
@@ -107,3 +126,24 @@ class ExtraPopUp extends StatelessWidget {
     );
   }
 }
+
+Color statusColor(String status) {
+  late Color color;
+
+  switch (status) {
+    case "ODE": //Sales Form
+      color = const Color(0XFFB2333A);
+      break;
+    case "SMI": //Sen. Exec. Validate
+      color = const Color.fromRGBO(255, 138, 0, 1);
+      break;
+    case "CRY": //Finance Validate
+      color = const Color(0XFF345694);
+      break;
+
+    default:
+      return Colors.black;
+  }
+  return color;
+}
+

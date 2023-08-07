@@ -117,6 +117,7 @@ class MonitoryProvider extends ChangeNotifier {
   late int popUpExtra;
 
   String section = "";
+  Monitory? monitoryActual;
   
 
   //List<RolApi> rolesSeleccionados = [];
@@ -511,6 +512,11 @@ class MonitoryProvider extends ChangeNotifier {
 
   void updateActualDate(DateTime selectedDate) {
     actualDate = selectedDate;
+    notifyListeners();
+  }
+
+  void getMonitoryVehicle(Monitory vehicleSel){
+    monitoryActual = vehicleSel;
     notifyListeners();
   }
 

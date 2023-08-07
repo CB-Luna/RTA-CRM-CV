@@ -2,7 +2,6 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/widgets/captura/thousands_separator_input_formatter.dart';
 
 import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
@@ -35,7 +34,7 @@ class MeasuresPopUp extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20,top:20),
                   alignment: Alignment.centerLeft,
                   child: CustomTextIconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
                       text: "",
                       isLoading: false,
                       onTap: () {
@@ -43,8 +42,29 @@ class MeasuresPopUp extends StatelessWidget {
                       },
                     ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(right:15.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.03,
+                    decoration: BoxDecoration(
+                      color: statusColor(
+                          provider.monitoryActual!.vehicle.company.company),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        provider.monitoryActual!.vehicle.licesensePlates,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
+             
             SizedBox(
               height: MediaQuery.of(context).size.height *.5,
               child: ListView.builder(
@@ -70,7 +90,7 @@ class MeasuresPopUp extends StatelessWidget {
                             //alignment: Alignment.center,
                             child: Text(
                               provider.actualIssuesComments[index].nameIssue == "mileage" ? NumberFormat('#,###').format(provider.actualIssuesComments[index].mileage) : "${provider.actualIssuesComments[index].measure}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
@@ -79,7 +99,7 @@ class MeasuresPopUp extends StatelessWidget {
                           ),
                           InkWell(
                           child: 
-                            Icon(Icons.remove_red_eye,
+                            const Icon(Icons.remove_red_eye,
                                 size: 30,
                                 color: Color.fromARGB(200, 65, 155, 23)),
                           onTap: () {
@@ -95,67 +115,31 @@ class MeasuresPopUp extends StatelessWidget {
                     );
                   }),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //     crossAxisAlignment: CrossAxisAlignment.center,
-            //     children: [
-            //       const Text(
-            //         "Mileage",
-            //         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            //       ),
-            //       Text(
-            //         row.mileageR.toString(),
-            //         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            //       ),
-                 
-            //       InkWell(
-            //         child: Icon(
-            //           Icons.remove_red_eye,
-            //           color: Color.fromARGB(200, 65, 155, 23),
-            //           size: 40,
-            //         ),
-            //         onTap: () {
-            //           provider.getActualDetailField(provider.measureR[3]);
-            //           provider.updateViewPopup(11);
-            //         },
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //     crossAxisAlignment: CrossAxisAlignment.center,
-            //     children: [
-            //       const Text(
-            //         "Gas/Diesel %",
-            //         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            //       ),
-            //       Text(
-            //         row.gasR.toString(),
-            //         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            //       ),
-                  
-            //       InkWell(
-            //         child: Icon(
-            //           Icons.remove_red_eye,
-            //           color: Color.fromARGB(200, 65, 155, 23),
-            //           size: 40,
-            //         ),
-            //         onTap: () {
-            //           //provider.getActualDetailField(provider.actualIssuesComments[0]);
-            //           provider.updateViewPopup(11);
-            //         },
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            
           ],
         ),
       ),
     );
   }
 }
+
+Color statusColor(String status) {
+  late Color color;
+
+  switch (status) {
+    case "ODE": //Sales Form
+      color = const Color(0XFFB2333A);
+      break;
+    case "SMI": //Sen. Exec. Validate
+      color = const Color.fromRGBO(255, 138, 0, 1);
+      break;
+    case "CRY": //Finance Validate
+      color = const Color(0XFF345694);
+      break;
+
+    default:
+      return Colors.black;
+  }
+  return color;
+}
+
