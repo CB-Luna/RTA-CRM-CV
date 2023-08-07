@@ -34,7 +34,7 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
     DateTime selectedDate = DateTime.now();
     DateTime? newDate;
 
-    List<String> companies = ["All", "Ode", "Smi", "Cry"];
+    List<String> companies = ["All", "ODE", "SMI", "CRY"];
     final List<String> companyName =
         provider.company.map((companies) => companies.company).toList();
 
