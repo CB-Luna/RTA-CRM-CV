@@ -25,7 +25,7 @@ class _BucketCommentsImagesIssuesState extends State<BucketCommentsImagesIssues>
       backgroundColor: Colors.transparent,
       content: Container(
         width: 700,
-        height: 700,
+        height: 750,
         decoration: BoxDecoration(
             gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
@@ -37,7 +37,7 @@ class _BucketCommentsImagesIssuesState extends State<BucketCommentsImagesIssues>
                   CardHeader(text: "${provider.actualDetailField?.nameIssue.capitalize.replaceAll("_", ' ')}"),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
                   alignment: Alignment.centerLeft,
@@ -54,10 +54,35 @@ class _BucketCommentsImagesIssuesState extends State<BucketCommentsImagesIssues>
                     },
                   ),
                 ),
-                SizedBox(
-                  width: 200,
+                Padding(
+                  padding: const EdgeInsets.only(right:15.0),
+                  child: Container(
+                      width: MediaQuery.of(context).size.width * 0.1,
+                      height: MediaQuery.of(context).size.height * 0.03,
+                      decoration: BoxDecoration(
+                        color: statusColor(
+                            provider.monitoryActual!.vehicle.company.company),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          provider.monitoryActual!.vehicle.licesensePlates,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                 ),
-                Text(
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom:15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  
+                  Text(
                   provider.actualDetailField!.status ? "Yes" : "No",
                   style: TextStyle(
                     fontSize: 20,
@@ -67,7 +92,8 @@ class _BucketCommentsImagesIssuesState extends State<BucketCommentsImagesIssues>
                         : Color.fromARGB(200, 210, 0, 48),
                   ),
                 ),
-              ],
+                ],
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(15.0),
@@ -91,6 +117,7 @@ class _BucketCommentsImagesIssuesState extends State<BucketCommentsImagesIssues>
                     fontWeight: FontWeight.bold),
               ),
             ),
+            
             Container(
               margin: const EdgeInsets.all(20.0),
               padding: const EdgeInsets.all(10.0),
@@ -144,3 +171,24 @@ Widget buildImage(String urlImage, int index) => Container(
         fit: BoxFit.cover,
       ),
     );
+
+    Color statusColor(String status) {
+  late Color color;
+
+  switch (status) {
+    case "ODE": //Sales Form
+      color = const Color(0XFFB2333A);
+      break;
+    case "SMI": //Sen. Exec. Validate
+      color = const Color.fromRGBO(255, 138, 0, 1);
+      break;
+    case "CRY": //Finance Validate
+      color = const Color(0XFF345694);
+      break;
+
+    default:
+      return Colors.black;
+  }
+  return color;
+}
+

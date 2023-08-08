@@ -1182,13 +1182,22 @@ class InventoryProvider extends ChangeNotifier {
 
     //sortear por su Id
     vehicles.sort((a, b) => a.idVehicle.compareTo(b.idVehicle));
-
     
-    //Agregar datos
-    for (int i = 0; i < vehicles.length; i++) {
-      if(vehicles[i].company.company == comp){
-        
+    if(comp != "All"){
+      for(int x =0; x<vehicles.length; x++){
+      if(vehicles[x].company.company == comp){
+        selectedComp.add(vehicles[x]);
       }
+    
+    }
+    }
+    else{
+      selectedComp = vehicles;
+    }
+    //Agregar datos
+    for (int i = 0; i < selectedComp.length; i++) {
+     
+      
       issueR = 0;
       issueD = 0;
       String measureCheckOut = "";
@@ -1209,7 +1218,11 @@ class InventoryProvider extends ChangeNotifier {
       String extraCheckIn = "";
       String equipmentCheckIn = "";
 
-      Vehicle report = vehicles[i];
+
+       //Sortear por Compania
+    
+       Vehicle report = selectedComp[i];
+
 
       
       await getIssues(report, dateSelected);

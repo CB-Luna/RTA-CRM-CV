@@ -9,7 +9,6 @@ import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/monitory_filters.da
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/monitory_page_header.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/calendar.dart';
 import 'package:rta_crm_cv/providers/ctrlv/monitory_provider.dart';
-import 'package:rta_crm_cv/widgets/card_header.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 //import 'widgets/carga_de_ticket_popup.dart';
@@ -510,7 +509,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                               PlutoColumn(
                                                 title: 'Check_In',
                                                 field: 'check_in',
-                                                titleSpan: TextSpan(
+                                                titleSpan: const TextSpan(
                                                   children: [
                                                     WidgetSpan(
                                                       child: Icon(
@@ -544,7 +543,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 type: PlutoColumnType.text(),
                                                 enableEditingMode: false,
                                                 backgroundColor:
-                                                    Color(0XFF6491F7),
+                                                    const Color(0XFF6491F7),
                                                 renderer: (rendererContext) {
                                                   return Container(
                                                     height: rowHeight,
@@ -563,7 +562,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 title: 'Details',
                                                 field: 'details',
                                                 backgroundColor:
-                                                    Color(0XFF6491F7),
+                                                    const Color(0XFF6491F7),
                                                 titleSpan: const TextSpan(
                                                   children: [
                                                     WidgetSpan(
@@ -619,6 +618,11 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                                             .cell
                                                                             .value) ==
                                                                 true) {
+                                                              monitoryProvider
+                                                                  .getMonitoryVehicle(
+                                                                      rendererContext
+                                                                          .cell
+                                                                          .value);
                                                               monitoryProvider
                                                                   .initializeViewPopup();
 
