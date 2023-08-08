@@ -48,16 +48,26 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                        height: 45,
-                        width: 200,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.only(bottom: 10.0, top: 10.0),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.1,
+                        height: MediaQuery.of(context).size.height * 0.03,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Text(
-                            "License Plates: ${provider.actualVehicle!.licesensePlates}")),
+                          color: statusColor(
+                              provider.actualVehicle!.company.company),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Text(
+                            provider.actualVehicle!.licesensePlates,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
@@ -147,4 +157,24 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
       ),
     );
   }
+}
+
+Color statusColor(String status) {
+  late Color color;
+
+  switch (status) {
+    case "ODE": //Sales Form
+      color = const Color(0XFFB2333A);
+      break;
+    case "SMI": //Sen. Exec. Validate
+      color = const Color.fromRGBO(255, 138, 0, 1);
+      break;
+    case "CRY": //Finance Validate
+      color = const Color(0XFF345694);
+      break;
+
+    default:
+      return Colors.black;
+  }
+  return color;
 }

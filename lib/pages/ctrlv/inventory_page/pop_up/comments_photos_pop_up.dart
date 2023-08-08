@@ -189,6 +189,26 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
   }
 }
 
+Color statusColor(String status) {
+  late Color color;
+
+  switch (status) {
+    case "ODE": //Sales Form
+      color = const Color(0XFFB2333A);
+      break;
+    case "SMI": //Sen. Exec. Validate
+      color = const Color.fromRGBO(255, 138, 0, 1);
+      break;
+    case "CRY": //Finance Validate
+      color = const Color(0XFF345694);
+      break;
+
+    default:
+      return Colors.black;
+  }
+  return color;
+}
+
 Widget buildImage(String urlImage, int index) => Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
