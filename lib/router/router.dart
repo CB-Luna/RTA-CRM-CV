@@ -5,7 +5,7 @@ import 'package:rta_crm_cv/pages/crm/campaigns/campaigns_page.dart';
 import 'package:rta_crm_cv/pages/crm/reports_page.dart';
 import 'package:rta_crm_cv/pages/crm/schedulings_page.dart';
 import 'package:rta_crm_cv/pages/crm/tickets_page.dart';
-import 'package:rta_crm_cv/pages/ctrlv/dashboards_page.dart';
+import 'package:rta_crm_cv/pages/ctrlv/dashboard/dashboards_page_ctrlv.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page.dart';
