@@ -457,482 +457,88 @@ class IssueReportedProvider extends ChangeNotifier {
 
   // Función para traernos los vehiculos
   Future<void> getIssuesAll(Vehicle vehicle) async {
-    bucketInspectR = true;
-    carBodyInspectR = true;
-    equipmentInspectR = true;
-    extraInspectR = true;
     fluidCheckInspectR = true;
     ligthsInspectR = true;
-    measureInspectR = true;
+    carBodyInspectR = true;
     securityInspectR = true;
+    extraInspectR = true;
+    equipmentInspectR = true;
+    bucketInspectR = true;
+
+    fluidCheckR.clear();
+    fluidCheckD.clear();
+    lightsR.clear();
+    lightsD.clear();
+    carBodyWorkR.clear();
+    carBodyWorkD.clear();
+    securityR.clear();
+    securityR.clear();
+    extraR.clear();
+    extraD.clear();
+    equipmentR.clear();
+    equipmentD.clear();
+    bucketInspectionR.clear();
+    bucketInspectionD.clear();
+    measureR.clear();
+    measureD.clear();
 
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
     }
     try {
-      // SUPBASECTRlV es el control vehicular
-      final res = await supabaseCtrlV
-          .from('issues_view')
-          .select()
-          .eq('id_vehicle', vehicle.idVehicle);
+      await getIssuesFluidCheckAll(vehicle);
+      await getIssuesLightsAll(vehicle);
+      await getIssuesCarBodyworkAll(vehicle);
+      await getIssueSecurityAll(vehicle);
+      await getIssuesExtraAll(vehicle);
+      await getIssuesEquipmentAll(vehicle);
+      await getIssuesBasicsAll(vehicle);
 
-      issues = (res as List<dynamic>)
-          .map((issues) => Issues.fromJson(jsonEncode(issues)))
-          .toList();
+      print("------------------------");
+      print(
+          "En getIssues el valor de fluidCheckInspectR es: $fluidCheckInspectR");
 
-      print(" ------------------- length en ALL: ${issues.length}");
-      rows.clear();
-      for (Issues issue in issues) {
-        //Repetir esto con todas las listas
-        issue.bucketInspectionR.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            bucketInspectR = false;
-            String nameIssue = key;
-            String? comments =
-                issue.bucketInspectionR.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.bucketInspectionR
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
+      print("En getIssues el valor de LightsInspectR es: $ligthsInspectR");
+      print("En getIssues el valor de CarBodyInspectR es: $carBodyInspectR");
+      print("En getIssues el valor de SecurityInspectR es: $securityInspectR");
+      print("En getIssues el valor de ExtraInspectR es: $extraInspectR");
+      print(
+          "En getIssues el valor de EquipmentInspectR es: $equipmentInspectR");
+      print("En getIssues el valor de bucketInspectR es: $bucketInspectR");
 
-            DateTime dateAdded =
-                DateTime.parse(issue.bucketInspectionR.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                idIssue: issue.idBucketInspectionRFk,
-                nameIssue: nameIssue,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            if (!validateElementAtListIC(
-                bucketInspectionR, issue.idBucketInspectionRFk)) {
-              print("Nuevo elemento Agregado bucketInspectionR");
-              bucketInspectionR.add(newIssuesComments);
-            }
-            // bucketInspectionR.add(newIssuesComments);
-          }
-        });
-        //Bucket delivered llamada a su lista
-        issue.bucketInspectionD.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            bucketInspectR = false;
-            String nameIssue = key;
-            String? comments =
-                issue.bucketInspectionD.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.bucketInspectionD
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.bucketInspectionD.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idBucketInspectionDFk ?? 123,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            bucketInspectionD.add(newIssuesComments);
-          }
-        });
-
-        //Car BodyWork R
-        issue.carBodyworkR.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            carBodyInspectR = false;
-            String nameIssue = key;
-            String? comments =
-                issue.carBodyworkR.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.carBodyworkR
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.carBodyworkR.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idCarBodyworkRFk,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            carBodyWorkR.add(newIssuesComments);
-          }
-        });
-
-        //Car BodyWork D
-        issue.carBodyworkD.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            carBodyInspectR = false;
-            String nameIssue = key;
-            String? comments =
-                issue.carBodyworkD.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.carBodyworkD
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.carBodyworkD.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idCarBodyworkDFk ?? 123,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            carBodyWorkD.add(newIssuesComments);
-          }
-        });
-
-        // Equipment R
-        issue.equimentR.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            equipmentInspectR = false;
-            String nameIssue = key;
-            String? comments = issue.equimentR.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.equimentR
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.equimentR.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idEquipmentRFk,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            equipmentR.add(newIssuesComments);
-          }
-        });
-
-        //Equipment R
-        issue.equimentD.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            equipmentInspectR = false;
-            String nameIssue = key;
-            String? comments = issue.equimentD.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.equimentD
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.equimentD.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idEquipmentDFk ?? 123,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            equipmentD.add(newIssuesComments);
-          }
-        });
-
-        //Extra R
-        issue.extraR.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            extraInspectR = false;
-            String nameIssue = key;
-            String? comments = issue.extraR.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.extraR
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.extraR.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idExtraRFk,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            extraR.add(newIssuesComments);
-          }
-        });
-
-        //Extra D
-        issue.extraD.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            extraInspectR = false;
-            String nameIssue = key;
-            String? comments = issue.extraD.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.extraD
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.extraD.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idExtraDFk ?? 123,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            extraD.add(newIssuesComments);
-          }
-        });
-
-        //Fluid Check R
-        issue.fluidCheckR.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            fluidCheckInspectR = false;
-            String nameIssue = key;
-            String? comments =
-                issue.fluidCheckR.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.fluidCheckR
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.fluidCheckR.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idFluidsCheckRFk,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            fluidCheckR.add(newIssuesComments);
-          }
-        });
-
-        //Fluid Check D
-        issue.fluidCheckD.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            fluidCheckInspectR = false;
-            String nameIssue = key;
-            String? comments =
-                issue.fluidCheckD.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.fluidCheckD
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.fluidCheckD.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idFluidsCheckDFk ?? 123,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            fluidCheckD.add(newIssuesComments);
-          }
-        });
-
-        //Lights R
-        issue.lightsR.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            ligthsInspectR = false;
-            String nameIssue = key;
-            String? comments = issue.lightsR.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.lightsR
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-            listImage.removeLast();
-
-            DateTime dateAdded =
-                DateTime.parse(issue.lightsR.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idLightsRFk,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            print("lightsR ${newIssuesComments.nameIssue}");
-
-            lightsR.add(newIssuesComments);
-          }
-        });
-
-        //Lights D
-        issue.lightsD.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            ligthsInspectR = false;
-            String nameIssue = key;
-            String? comments = issue.lightsD.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.lightsD
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.lightsD.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idLightsDFk == null ? 123 : issue.idLightsDFk!,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            lightsD.add(newIssuesComments);
-          }
-        });
-
-        //Measure R
-        issue.measureR.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            measureInspectR = false;
-            String nameIssue = key;
-            String? comments = issue.measureR.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.measureR
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.measureR.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idMeasureRFk,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            measureR.add(newIssuesComments);
-          }
-        });
-
-        //Measure D
-        issue.measureD.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            measureInspectR = false;
-            String nameIssue = key;
-            String? comments = issue.measureD.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.measureD
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.measureD.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idMeasureDFk ?? 123,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            measureD.add(newIssuesComments);
-          }
-        });
-
-        //Security R
-        issue.securityR.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            securityInspectR = false;
-            String nameIssue = key;
-            String? comments = issue.securityR.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.securityR
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.securityR.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idSecurityRFk,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            securityR.add(newIssuesComments);
-          }
-        });
-
-        //Security D
-        issue.securityD.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            securityInspectR = false;
-            String nameIssue = key;
-            String? comments = issue.securityD.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue.securityD
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
-
-            DateTime dateAdded =
-                DateTime.parse(issue.securityD.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: issue.idSecurityDFk ?? 123,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            securityD.add(newIssuesComments);
-          }
-        });
-        if (issue.issuesD == null) {
-          issue.fluidCheckR.state = true;
-          issue.lightsR.state = true;
-          issue.carBodyworkR.state = true;
-          issue.securityR.state = true;
-          issue.extraR.state = true;
-          issue.bucketInspectionR.state = true;
-          issue.equimentR.state = true;
-          issue.measureR.state = true;
-
-          rows.add(
-            PlutoRow(
-              cells: {
-                "idIssues": PlutoCell(value: issue.issuesR.toString()),
-                "Status": PlutoCell(value: "Check Out ${issue.idControlForm}"),
-                "FluidsCheck": PlutoCell(value: issue.fluidCheckR),
-                "Lights": PlutoCell(value: issue.lightsR),
-                "CarBodyWork": PlutoCell(value: issue.carBodyworkR),
-                "Security": PlutoCell(value: issue.securityR),
-                "Extra": PlutoCell(value: issue.extraR),
-                "Equipment": PlutoCell(value: issue.equimentR),
-                "BucketInspection": PlutoCell(value: issue.bucketInspectionR),
-                "Measures": PlutoCell(value: issue.measureR),
-              },
-            ),
-          );
-        } else {
-          issue.fluidCheckD.state = false;
-          issue.lightsD.state = false;
-          issue.carBodyworkD.state = false;
-          issue.securityD.state = false;
-          issue.extraD.state = false;
-          issue.bucketInspectionD.state = false;
-          issue.equimentD.state = false;
-          issue.measureD.state = false;
-          rows.add(
-            PlutoRow(
-              cells: {
-                "idIssues": PlutoCell(value: issue.issuesD.toString()),
-                "Status": PlutoCell(value: "Check In ${issue.idControlForm}"),
-                "FluidsCheck": PlutoCell(value: issue.fluidCheckD),
-                "Lights": PlutoCell(value: issue.lightsD),
-                "CarBodyWork": PlutoCell(value: issue.carBodyworkD),
-                "Security": PlutoCell(value: issue.securityD),
-                "Extra": PlutoCell(value: issue.extraD),
-                "Equipment": PlutoCell(value: issue.equimentD),
-                "BucketInspection": PlutoCell(value: issue.bucketInspectionD),
-                "Measures": PlutoCell(value: issue.measureD),
-              },
-            ),
-          );
-          // rows.add(
-          //   PlutoRow(
-          //     cells: {
-          //       "Status": PlutoCell(value: "Check Out"),
-          //       "FluidsCheck": PlutoCell(value: issue.fluidCheckR),
-          //       "Lights": PlutoCell(value: issue.lightsR),
-          //       "CarBodyWork": PlutoCell(value: issue.carBodyworkR),
-          //       "Security": PlutoCell(value: issue.securityR),
-          //       "Extra": PlutoCell(value: issue.extraR),
-          //       "Equipment": PlutoCell(value: issue.equimentR),
-          //       "BucketInspection": PlutoCell(value: issue.bucketInspectionR),
-          //       "Measures": PlutoCell(value: issue.measureR),
-          //     },
-          //   ),
-          // );
-        }
-      }
-
+      rows.add(
+        PlutoRow(
+          cells: {
+            "idIssues": PlutoCell(value: ""),
+            "Status": PlutoCell(value: "Check In "),
+            "FluidsCheck": PlutoCell(value: fluidCheckDD),
+            "Lights": PlutoCell(value: lightsDD),
+            "CarBodyWork": PlutoCell(value: carBodyWorkDD),
+            "Security": PlutoCell(value: securityDD),
+            "Extra": PlutoCell(value: extraDD),
+            "Equipment": PlutoCell(value: equipmentDD),
+            "BucketInspection": PlutoCell(value: bucketInspectionDD),
+            "Measures": PlutoCell(value: measureDD),
+          },
+        ),
+      );
+      rows.add(
+        PlutoRow(
+          cells: {
+            "idIssues": PlutoCell(value: ""),
+            "Status": PlutoCell(value: "Check Out "),
+            "FluidsCheck": PlutoCell(value: fluidCheckRR),
+            "Lights": PlutoCell(value: lightsRR),
+            "CarBodyWork": PlutoCell(value: carBodyWorkRR),
+            "Security": PlutoCell(value: securityRR),
+            "Extra": PlutoCell(value: extraRR),
+            "Equipment": PlutoCell(value: equipmentRR),
+            "BucketInspection": PlutoCell(value: bucketInspectionRR),
+            "Measures": PlutoCell(value: measureRR),
+          },
+        ),
+      );
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
       print('Error en getIssueAll() - $e');
@@ -1168,6 +774,140 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // -------------------------------------------------------------------------
+  // Función para traer el nombre de los issues de BucketInspection
+  Future<void> getIssuesBasicsAll(Vehicle vehicle) async {
+    // clearListgetIssues();
+    try {
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'id_vehicle, bucket_inspection_r ->id_bucket_inspection, bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner, bucket_inspection_r ->date_added')
+          .eq('id_vehicle', vehicle.idVehicle)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'bucket_inspection_d ->id_bucket_inspection, bucket_inspection_d ->holes_drilled,bucket_inspection_d ->insulated, bucket_inspection_d ->bucket_liner, bucket_inspection_d ->date_added')
+          .eq('id_vehicle', vehicle.idVehicle)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      issuePart1 = (res as List<dynamic>)
+          .map(
+              (issuePart1) => BucketInspection.fromJson(jsonEncode(issuePart1)))
+          .toList();
+      issuePartD = (resD as List<dynamic>)
+          .map(
+              (issuePartD) => BucketInspection.fromJson(jsonEncode(issuePartD)))
+          .toList();
+
+      // BucketInspectionR
+      for (BucketInspection issue in issuePart1) {
+        if (issue.holesDrilled == "Bad") {
+          bucketInspectR = false & bucketInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idBucketInspection!,
+              nameIssue: "Holes Drilled",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(
+              bucketInspectionRR, issue.idBucketInspection!)) {
+            print("Nuevo elemento Agregado bucketInspectionRR");
+            print("El valor de bucketInspectR es : $bucketInspectR");
+            bucketInspectionRR.add(newIssueComments);
+          }
+        } else {
+          bucketInspectR = true & bucketInspectR;
+        }
+        if (issue.bucketLiner == "Bad") {
+          bucketInspectR = false & bucketInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idBucketInspection!,
+              nameIssue: "Bucket Liner",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(
+              bucketInspectionRR, issue.idBucketInspection!)) {
+            print("Nuevo elemento Agregado bucketInspectionRR");
+            print("El valor de bucketInspectR es : $bucketInspectR");
+            bucketInspectionRR.add(newIssueComments);
+          }
+        } else {
+          bucketInspectR = true & bucketInspectR;
+        }
+        if (issue.insulated == "Bad") {
+          bucketInspectR = false & bucketInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idBucketInspection!,
+              nameIssue: "Insulated",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(
+              bucketInspectionRR, issue.idBucketInspection!)) {
+            print("Nuevo elemento Agregado bucketInspectionRR");
+            print("El valor de bucketInspectR es : $bucketInspectR");
+            bucketInspectionRR.add(newIssueComments);
+          }
+        } else {
+          bucketInspectR = true & bucketInspectR;
+        }
+      }
+
+      // BucketInspectionD
+      for (BucketInspection issue in issuePartD) {
+        if (issue.holesDrilled == "Bad") {
+          bucketInspectR = false & bucketInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idBucketInspection!,
+              nameIssue: "Holes Drilled",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(
+              bucketInspectionDD, issue.idBucketInspection!)) {
+            print("Nuevo elemento Agregado bucketInspectionDD");
+            print("El valor de bucketInspectR es : $bucketInspectR");
+            bucketInspectionDD.add(newIssueComments);
+          }
+        } else {
+          bucketInspectR = true & bucketInspectR;
+        }
+        if (issue.bucketLiner == "Bad") {
+          bucketInspectR = false & bucketInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idBucketInspection!,
+              nameIssue: "Bucket Liner",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(
+              bucketInspectionDD, issue.idBucketInspection!)) {
+            print("Nuevo elemento Agregado bucketInspectionDD");
+            print("El valor de bucketInspectR es : $bucketInspectR");
+            bucketInspectionDD.add(newIssueComments);
+          }
+        } else {
+          bucketInspectR = true & bucketInspectR;
+        }
+        if (issue.insulated == "Bad") {
+          bucketInspectR = false & bucketInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idBucketInspection!,
+              nameIssue: "Insulated",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(
+              bucketInspectionDD, issue.idBucketInspection!)) {
+            print("Nuevo elemento Agregado bucketInspectionDD");
+            print("El valor de bucketInspectR es : $bucketInspectR");
+            bucketInspectionDD.add(newIssueComments);
+          }
+        } else {
+          bucketInspectR = true & bucketInspectR;
+        }
+      }
+      print("Entro a getIssuesBucketInspectionAll()");
+    } catch (e) {
+      print("Error in getIssuesBucketInspectionAll() - $e");
+    }
+    notifyListeners();
+  }
+
+  // -------------------------------------------------------------------------
+
   // Función para traer el nombre de los issues de BucketInspection closed
   Future<void> getIssueBucketInspectionClosed(
     IssuesXUser issuesXUser,
@@ -1202,11 +942,18 @@ class IssueReportedProvider extends ChangeNotifier {
 
       // BucketInspectionR
       for (BucketInspection issue in issuePart1Closed) {
+        final resHolesDrilledClose = await supabaseCtrlV
+                .from('closed_view')
+                .select('bucket_inspection_r->holes_drilled_dateclosed')
+                .eq('id_bucket_inspection_r_fk', issue.idBucketInspection)
+            as List<dynamic>;
         if (issue.holesDrilled == "Closed") {
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Holes Drilled",
               category: "Bucket Inspection",
+              dateAddedClose: DateTime.parse(
+                  resHolesDrilledClose.first["holes_drilled_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
 
           if (!validateElementAtList(
@@ -1216,13 +963,18 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.bucketLiner == "Closed") {
+          final resBucketLinerClosed = await supabaseCtrlV
+                  .from('closed_view')
+                  .select('bucket_inspection_r->bucket_liner_dateclosed')
+                  .eq('id_bucket_inspection_r_fk', issue.idBucketInspection)
+              as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Bucket Liner",
               category: "Bucket Inspection",
-              dateAddedClose: issue.bucketLinerClosed,
+              dateAddedClose: DateTime.parse(
+                  resBucketLinerClosed.first["bucket_liner_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
-          print("bucketLinerClosed: ${issue.bucketLinerClosed}");
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idBucketInspection!)) {
             print("Nuevo elemento Agregado bucketInspectionRR");
@@ -1230,10 +982,17 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.insulated == "Closed") {
+          final resInsulatedClose = await supabaseCtrlV
+                  .from('closed_view')
+                  .select('bucket_inspection_r->insulated_dateclosed')
+                  .eq('id_bucket_inspection_r_fk', issue.idBucketInspection)
+              as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Insulated",
               category: "Bucket Inspection",
+              dateAddedClose: DateTime.parse(
+                  resInsulatedClose.first["insulated_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idBucketInspection!)) {
@@ -1247,10 +1006,17 @@ class IssueReportedProvider extends ChangeNotifier {
       // BucketInspectionD
       for (BucketInspection issue in issuePartDClosed) {
         if (issue.holesDrilled == "Closed") {
+          final resHolesDrilledClose = await supabaseCtrlV
+                  .from('closed_view')
+                  .select('bucket_inspection_d->holes_drilled_dateclosed')
+                  .eq('id_bucket_inspection_d_fk', issue.idBucketInspection)
+              as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Holes Drilled",
               category: "Bucket Inspection",
+              dateAddedClose: DateTime.parse(
+                  resHolesDrilledClose.first["holes_drilled_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idBucketInspection!)) {
@@ -1259,11 +1025,17 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.bucketLiner == "Closed") {
+          final resBucketLinerClosed = await supabaseCtrlV
+                  .from('closed_view')
+                  .select('bucket_inspection_d->bucket_liner_dateclosed')
+                  .eq('id_bucket_inspection_d_fk', issue.idBucketInspection)
+              as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Bucket Liner",
               category: "Bucket Inspection",
-              dateAddedClose: issue.bucketLinerClosed,
+              dateAddedClose: DateTime.parse(
+                  resBucketLinerClosed.first["bucket_liner_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idBucketInspection!)) {
@@ -1272,9 +1044,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.insulated == "Closed") {
+          final resInsulatedClose = await supabaseCtrlV
+                  .from('closed_view')
+                  .select('bucket_inspection_d->insulated_dateclosed')
+                  .eq('id_bucket_inspection_d_fk', issue.idBucketInspection)
+              as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Insulated",
+              dateAddedClose: DateTime.parse(
+                  resInsulatedClose.first["insulated_dateclosed"]),
               category: "Bucket Inspection",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
@@ -2013,6 +1792,425 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // ---------------------------------------------------------------------------
+  // Función para traer los comentarios de los issues de CarBodywork de todos
+  Future<void> getIssuesCarBodyworkAll(Vehicle vehicle) async {
+    try {
+      // CardBodyWork_R
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'car_bodywork_r ->id_car_bodywork, car_bodywork_r ->wiper_blades_front,car_bodywork_r ->wiper_blades_back, car_bodywork_r ->windshield_wiper_front,car_bodywork_r->windshield_wiper_back,car_bodywork_r ->general_body,car_bodywork_r ->decaling,car_bodywork_r ->tires,car_bodywork_r->glass,car_bodywork_r ->mirrors,car_bodywork_r-> parking,car_bodywork_r->brakes,car_bodywork_r ->emg_brakes,car_bodywork_r->horn ,car_bodywork_r ->date_added')
+          .eq('id_vehicle', vehicle.idVehicle)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // CardBodyWork_D
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'car_bodywork_d ->id_car_bodywork, car_bodywork_d ->wiper_blades_front,car_bodywork_d ->wiper_blades_back, car_bodywork_d ->windshield_wiper_front,car_bodywork_d->windshield_wiper_back,car_bodywork_d ->general_body,car_bodywork_d ->decaling,car_bodywork_d ->tires,car_bodywork_d->glass,car_bodywork_d ->mirrors,car_bodywork_d-> parking,car_bodywork_d->brakes,car_bodywork_d ->emg_brakes,car_bodywork_d->horn ,car_bodywork_d ->date_added')
+          .eq('id_vehicle', vehicle.idVehicle)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      issueCarBodywR = (res as List<dynamic>)
+          .map((issueCarBodywR) =>
+              CarBodywork.fromJson(jsonEncode(issueCarBodywR)))
+          .toList();
+      issueCarBodyWD = (resD as List<dynamic>)
+          .map((issueCarBodyWD) =>
+              CarBodywork.fromJson(jsonEncode(issueCarBodyWD)))
+          .toList();
+
+      // BucketInspectionR
+      for (CarBodywork issue in issueCarBodywR) {
+        if (issue.wiperBladesFront == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Wiper Blades Front",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.wiperBladesBack == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Wiper Blades Back",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.windshieldWiperFront == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "WindShield Wiper Front",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.windshieldWiperBack == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "WindShield Wiper Back",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.generalBody == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "General Body",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.decaling == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Decaling",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.tires == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Tires",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.glass == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Glass",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.mirrors == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Mirrors",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.parking == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Parking",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.brakes == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Brakes",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.emgBrakes == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Emg Brakes",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.horn == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Horn",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkRR");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkRR.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+      }
+
+      // CarBodyWork D
+      for (CarBodywork issue in issueCarBodyWD) {
+        if (issue.wiperBladesFront == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Wiper Blades Front",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.wiperBladesBack == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Wiper Blades Back",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.windshieldWiperFront == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "WindShield Wiper Front",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.windshieldWiperBack == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "WindShield Wiper Back",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.generalBody == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "General Body",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.decaling == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Decaling",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.tires == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Tires",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.glass == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Glass",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.mirrors == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Mirrors",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.parking == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Parking",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.brakes == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Brakes",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.emgBrakes == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Emg Brakes",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+        if (issue.horn == "Bad") {
+          carBodyInspectR = false & carBodyInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idCarBodywork!,
+              nameIssue: "Horn",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
+            print("Nuevo elemento Agregado carBodyWorkDD");
+            print("El valor de carBodyInspectR es : $carBodyInspectR");
+            carBodyWorkDD.add(newIssueComments);
+          }
+        } else {
+          carBodyInspectR = true & carBodyInspectR;
+        }
+      }
+
+      print("Entro a getIssuesCarBodyworkAll");
+    } catch (e) {
+      print("Error in getIssuesCarBodyworkAll() - $e");
+    }
+    notifyListeners();
+  }
+  // ---------------------------------------------------------------------------
+
   // Función para traer los comentarios de los issues de CarBodywork
   Future<void> getIssuesCarBodyworkClosed(IssuesXUser issuesXUser) async {
     try {
@@ -2046,10 +2244,16 @@ class IssueReportedProvider extends ChangeNotifier {
       // BucketInspectionR
       for (CarBodywork issue in issueCarBodywRClosed) {
         if (issue.wiperBladesFront == "Closed") {
+          final resWiperBladeFrontClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->wiper_blades_front_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Wiper Blades Front",
               category: "CarBodywork",
+              dateAddedClose: DateTime.parse(resWiperBladeFrontClose
+                  .first["wiper_blades_front_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2058,10 +2262,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.wiperBladesBack == "Closed") {
+          final resWiperBladeBackClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->wiper_blades_back_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               category: "CarBodywork",
               nameIssue: "Wiper Blades Back",
+              dateAddedClose: DateTime.parse(
+                  resWiperBladeBackClose.first["wiper_blades_back_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2070,10 +2280,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.windshieldWiperFront == "Closed") {
+          final reswindshieldWiperFrontClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->windshield_wiper_front_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               category: "CarBodywork",
               nameIssue: "WindShield Wiper Front",
+              dateAddedClose: DateTime.parse(reswindshieldWiperFrontClose
+                  .first["windshield_wiper_front_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2082,10 +2298,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.windshieldWiperBack == "Closed") {
+          final reswindshieldWiperBackClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->windshield_wiper_back_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               category: "CarBodywork",
               nameIssue: "WindShield Wiper Back",
+              dateAddedClose: DateTime.parse(reswindshieldWiperBackClose
+                  .first["windshield_wiper_back_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2094,10 +2316,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.generalBody == "Closed") {
+          final resGeneralBodyClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->general_body_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "General Body",
               category: "CarBodywork",
+              dateAddedClose: DateTime.parse(
+                  resGeneralBodyClose.first["general_body_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2106,10 +2334,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.decaling == "Closed") {
+          final resDecalingCLose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->decaling_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Decaling",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(resDecalingCLose.first["decaling_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2118,10 +2352,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.tires == "Closed") {
+          final restiresClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->tires_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Tires",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(restiresClosed.first["tires_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2130,10 +2370,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.glass == "Closed") {
+          final resGlassClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->glass_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Glass",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(resGlassClosed.first["glass_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2142,10 +2388,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.mirrors == "Closed") {
+          final resMirrorsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->mirrors_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Mirrors",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(resMirrorsClose.first["mirrors_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2154,10 +2406,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.parking == "Closed") {
+          final resParkingClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->parking_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Parking",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(resParkingClose.first["parking_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2166,10 +2424,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.brakes == "Closed") {
+          final resBrakesClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->brakes_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Brakes",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(resBrakesClosed.first["brakes_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2178,10 +2442,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.emgBrakes == "Closed") {
+          final resEmgBrakesClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->emg_brakes_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Emg Brakes",
               category: "CarBodywork",
+              dateAddedClose: DateTime.parse(
+                  resEmgBrakesClosed.first["emg_brakes_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2190,10 +2460,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.horn == "Closed") {
+          final resHornClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_r->horn_dateclosed')
+              .eq('id_car_bodywork_r_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Horn",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(resHornClosed.first["horn_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2206,10 +2482,16 @@ class IssueReportedProvider extends ChangeNotifier {
       // BucketInspectionD
       for (CarBodywork issue in issueCarBodyWDClosed) {
         if (issue.wiperBladesFront == "Closed") {
+          final resWiperBladeFrontClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->wiper_blades_front_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Wiper Blades Front",
               category: "CarBodywork",
+              dateAddedClose: DateTime.parse(resWiperBladeFrontClose
+                  .first["wiper_blades_front_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2218,10 +2500,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.wiperBladesBack == "Closed") {
+          final resWiperBladeBackClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->wiper_blades_back_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               category: "CarBodywork",
               nameIssue: "Wiper Blades Back",
+              dateAddedClose: DateTime.parse(
+                  resWiperBladeBackClose.first["wiper_blades_back_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2230,10 +2518,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.windshieldWiperFront == "Closed") {
+          final reswindshieldWiperFrontClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->windshield_wiper_front_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               category: "CarBodywork",
               nameIssue: "WindShield Wiper Front",
+              dateAddedClose: DateTime.parse(reswindshieldWiperFrontClose
+                  .first["windshield_wiper_front_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2242,10 +2536,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.windshieldWiperBack == "Closed") {
+          final reswindshieldWiperBackClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->windshield_wiper_back_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               category: "CarBodywork",
               nameIssue: "WindShield Wiper Back",
+              dateAddedClose: DateTime.parse(reswindshieldWiperBackClose
+                  .first["windshield_wiper_back_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2254,10 +2554,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.generalBody == "Closed") {
+          final resGeneralBodyClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->general_body_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "General Body",
               category: "CarBodywork",
+              dateAddedClose: DateTime.parse(
+                  resGeneralBodyClose.first["general_body_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2266,10 +2572,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.decaling == "Closed") {
+          final resDecalingCLose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->decaling_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Decaling",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(resDecalingCLose.first["decaling_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2278,10 +2590,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.tires == "Closed") {
+          final restiresClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->tires_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Tires",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(restiresClosed.first["tires_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2290,10 +2608,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.glass == "Closed") {
+          final resGlassClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->glass_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Glass",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(resGlassClosed.first["glass_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2302,9 +2626,15 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.mirrors == "Closed") {
+          final resMirrorsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->mirrors_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Mirrors",
+              dateAddedClose:
+                  DateTime.parse(resMirrorsClose.first["mirrors_dateclosed"]),
               category: "CarBodywork",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
@@ -2314,10 +2644,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.parking == "Closed") {
+          final resParkingClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->parking_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Parking",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(resParkingClose.first["parking_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2326,10 +2662,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.brakes == "Closed") {
+          final resBrakesClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->brakes_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Brakes",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(resBrakesClosed.first["brakes_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2338,10 +2680,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.emgBrakes == "Closed") {
+          final resEmgBrakesClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->emg_brakes_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Emg Brakes",
               category: "CarBodywork",
+              dateAddedClose: DateTime.parse(
+                  resEmgBrakesClosed.first["emg_brakes_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2350,10 +2698,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.horn == "Closed") {
+          final resHornClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('car_bodywork_d->horn_dateclosed')
+              .eq('id_car_bodywork_d_fk', issue.idCarBodywork) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idCarBodywork!,
               nameIssue: "Horn",
               category: "CarBodywork",
+              dateAddedClose:
+                  DateTime.parse(resHornClosed.first["horn_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
@@ -2689,6 +3043,195 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // --------------------------------------------------------------------------
+  // Función para traer los nombre de los issues de Equipment
+  Future<void> getIssuesEquipmentAll(Vehicle vehicle) async {
+    try {
+      // getIssuesEquipment_r
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'equiment_r ->id_equiment_r, equiment_r ->ignition_key,equiment_r ->bins_box_key, equiment_r ->vehicle_registration_copy,equiment_r->vehicle_insurance_copy,equiment_r ->bucket_lift_operator_manual,equiment_r ->date_added')
+          .eq('id_vehicle', vehicle.idVehicle)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // getIssuesEquipment_d
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'equiment_d ->id_equiment_d, equiment_d ->ignition_key,equiment_d ->bins_box_key, equiment_d ->vehicle_registration_copy,equiment_d->vehicle_insurance_copy,equiment_d ->bucket_lift_operator_manual,equiment_d ->date_added')
+          .eq('id_vehicle', vehicle.idVehicle)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      issueEquipmentR = (res as List<dynamic>)
+          .map((issueEquipmentR) =>
+              Equiment.fromJson(jsonEncode(issueEquipmentR)))
+          .toList();
+      issueEquipmentD = (resD as List<dynamic>)
+          .map((issueEquipmentD) =>
+              Equiment.fromJson(jsonEncode(issueEquipmentD)))
+          .toList();
+
+      // BucketInspectionR
+      for (Equiment issue in issueEquipmentR) {
+        if (issue.ignitionKey == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "ignition key",
+              dateAddedOpen: issue.dateAdded!);
+
+          if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
+            print("Nuevo elemento Agregado equipmentRR");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
+            equipmentRR.add(newIssueComments);
+          }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
+        }
+        if (issue.binsBoxKey == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Bins Box Key",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
+            print("Nuevo elemento Agregado equipmentRR");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
+            equipmentRR.add(newIssueComments);
+          }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
+        }
+        if (issue.vehicleRegistrationCopy == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Vehicle Registration Copy",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
+            print("Nuevo elemento Agregado equipmentRR");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
+            equipmentRR.add(newIssueComments);
+          }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
+        }
+        if (issue.vehicleInsuranceCopy == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Vehicle Insurance Copy",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
+            print("Nuevo elemento Agregado equipmentRR");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
+            equipmentRR.add(newIssueComments);
+          }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
+        }
+        if (issue.bucketLiftOperatorManual == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Bucket Lift Operator Manual",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
+            print("Nuevo elemento Agregado equipmentRR");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
+            equipmentRR.add(newIssueComments);
+          }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
+        }
+      }
+
+      // EquipmentD
+      for (Equiment issue in issueEquipmentD) {
+        if (issue.ignitionKey == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "ignition key",
+              dateAddedOpen: issue.dateAdded!);
+
+          if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
+            print("Nuevo elemento Agregado equipmentDD");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
+            equipmentDD.add(newIssueComments);
+          }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
+        }
+        if (issue.binsBoxKey == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Bins Box Key",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
+            print("Nuevo elemento Agregado equipmentDD");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
+            equipmentDD.add(newIssueComments);
+          }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
+        }
+        if (issue.vehicleRegistrationCopy == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Vehicle Registration Copy",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
+            print("Nuevo elemento Agregado equipmentDD");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
+            equipmentDD.add(newIssueComments);
+          }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
+        }
+        if (issue.vehicleInsuranceCopy == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Vehicle Insurance Copy",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
+            print("Nuevo elemento Agregado equipmentDD");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
+            equipmentDD.add(newIssueComments);
+          }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
+        }
+        if (issue.bucketLiftOperatorManual == "Bad") {
+          equipmentInspectR = false & equipmentInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idEquipment!,
+              nameIssue: "Bucket Lift Operator Manual",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
+            print("Nuevo elemento Agregado equipmentDD");
+            print("El valor de equipmentInspectR es : $equipmentInspectR");
+            equipmentDD.add(newIssueComments);
+          }
+        } else {
+          equipmentInspectR = true & equipmentInspectR;
+        }
+      }
+
+      print("Entro a getIssuesEquipmentAll()");
+    } catch (e) {
+      print("Error in getIssuesEquipmentAll() - $e");
+    }
+    //clearListgetIssues();
+
+    notifyListeners();
+  }
+
+  // --------------------------------------------------------------------------
   // Función para traer los nombre de los issues de Equipment Closed
   Future<void> getIssuesEquipmentClosed(IssuesXUser issuesXUser) async {
     try {
@@ -2722,10 +3265,16 @@ class IssueReportedProvider extends ChangeNotifier {
       // BucketInspectionR
       for (Equiment issue in issueEquipmentRClosed) {
         if (issue.ignitionKey == "Closed") {
+          final resignitionKeyClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('equiment_r->ignition_key_dateclosed')
+              .eq('id_equipment_r_fk', issue.idEquipment) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "ignition key",
               category: "Equipment",
+              dateAddedClose: DateTime.parse(
+                  resignitionKeyClose.first["ignition_key_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
@@ -2734,10 +3283,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.binsBoxKey == "Closed") {
+          final resbinsBoxKeyClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('equiment_r->bins_box_key_dateclosed')
+              .eq('id_equipment_r_fk', issue.idEquipment) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Bins Box Key",
               category: "Equipment",
+              dateAddedClose: DateTime.parse(
+                  resbinsBoxKeyClose.first["bins_box_key_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
@@ -2746,10 +3301,17 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.vehicleRegistrationCopy == "Closed") {
+          final resvehicleRegistrationCopyClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('equiment_r->vehicle_registration_copy_dateclosed')
+              .eq('id_equipment_r_fk', issue.idEquipment) as List<dynamic>;
+
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Vehicle Registration Copy",
               category: "Equipment",
+              dateAddedClose: DateTime.parse(resvehicleRegistrationCopyClose
+                  .first["vehicle_registration_copy_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
@@ -2758,10 +3320,17 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.vehicleInsuranceCopy == "Closed") {
+          final resvehicleInsuranceCopyClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('equiment_r->vehicle_insurance_copy_dateclosed')
+              .eq('id_equipment_r_fk', issue.idEquipment) as List<dynamic>;
+
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Vehicle Insurance Copy",
               category: "Equipment",
+              dateAddedClose: DateTime.parse(resvehicleInsuranceCopyClose
+                  .first["vehicle_insurance_copy_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
@@ -2770,10 +3339,17 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.bucketLiftOperatorManual == "Closed") {
+          final resbucketLiftOperatorManualClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('equiment_r->bucket_lift_operator_manual_dateclosed')
+              .eq('id_equipment_r_fk', issue.idEquipment) as List<dynamic>;
+
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Bucket Lift Operator Manual",
               category: "Equipment",
+              dateAddedClose: DateTime.parse(resbucketLiftOperatorManualClose
+                  .first["bucket_lift_operator_manual_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
@@ -2786,10 +3362,16 @@ class IssueReportedProvider extends ChangeNotifier {
 
       for (Equiment issue in issueEquipmentDClosed) {
         if (issue.ignitionKey == "Closed") {
+          final resignitionKeyClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('equiment_d->ignition_key_dateclosed')
+              .eq('id_equipment_d_fk', issue.idEquipment) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "ignition key",
               category: "Equipment",
+              dateAddedClose: DateTime.parse(
+                  resignitionKeyClose.first["ignition_key_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
@@ -2798,10 +3380,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.binsBoxKey == "Closed") {
+          final resbinsBoxKeyClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('equiment_d->bins_box_key_dateclosed')
+              .eq('id_equipment_d_fk', issue.idEquipment) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Bins Box Key",
               category: "Equipment",
+              dateAddedClose: DateTime.parse(
+                  resbinsBoxKeyClose.first["bins_box_key_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
@@ -2810,10 +3398,17 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.vehicleRegistrationCopy == "Closed") {
+          final resvehicleRegistrationCopyClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('equiment_r->vehicle_registration_copy_dateclosed')
+              .eq('id_equipment_r_fk', issue.idEquipment) as List<dynamic>;
+
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Vehicle Registration Copy",
               category: "Equipment",
+              dateAddedClose: DateTime.parse(resvehicleRegistrationCopyClose
+                  .first["vehicle_registration_copy_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
@@ -2822,10 +3417,17 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.vehicleInsuranceCopy == "Closed") {
+          final resvehicleInsuranceCopyClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('equiment_r->vehicle_insurance_copy_dateclosed')
+              .eq('id_equipment_r_fk', issue.idEquipment) as List<dynamic>;
+
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Vehicle Insurance Copy",
               category: "Equipment",
+              dateAddedClose: DateTime.parse(resvehicleInsuranceCopyClose
+                  .first["vehicle_insurance_copy_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
@@ -2834,10 +3436,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.bucketLiftOperatorManual == "Closed") {
+          final resbucketLiftOperatorManualClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('equiment_r->bucket_lift_operator_manual_dateclosed')
+              .eq('id_equipment_r_fk', issue.idEquipment) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idEquipment!,
               nameIssue: "Bucket Lift Operator Manual",
               category: "Equipment",
+              dateAddedClose: DateTime.parse(resbucketLiftOperatorManualClose
+                  .first["bucket_lift_operator_manual_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
@@ -3124,6 +3732,275 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // --------------------------------------------------------------------------
+  // Función para traer los nombre de los issues de Extra
+  Future<void> getIssuesExtraAll(Vehicle vehicle) async {
+    try {
+      // getIssuesEquipment_r
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'extra_r ->id_extra, extra_r ->ladder,extra_r ->step_ladder, extra_r ->ladder_straps,extra_r->hydraulic_fluid_for_bucket,extra_r ->fiber_reel_rack,extra_r ->bins_locked_and_secure,extra_r ->safety_harness,extra_r ->lanyard_safety_harness, extra_r ->date_added')
+          .eq('id_vehicle', vehicle.idVehicle)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // getIssuesEquipment_d
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'extra_d ->id_extra, extra_d ->ladder,extra_d ->step_ladder, extra_d ->ladder_straps,extra_d->hydraulic_fluid_for_bucket,extra_d ->fiber_reel_rack,extra_d ->bins_locked_and_secure,extra_d ->safety_harness,extra_d ->lanyard_safety_harness, extra_d ->date_added')
+          .eq('id_vehicle', vehicle.idVehicle)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      //// print(res);
+
+      issueExtraR = (res as List<dynamic>)
+          .map((issueExtraR) => Extra.fromJson(jsonEncode(issueExtraR)))
+          .toList();
+      issueExtradD = (resD as List<dynamic>)
+          .map((issueExtradD) => Extra.fromJson(jsonEncode(issueExtradD)))
+          .toList();
+
+      // ExtraR
+      for (Extra issue in issueExtraR) {
+        if (issue.ladder == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Ladder",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraRR, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraRR.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.stepLadder == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Step Ladder",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraRR, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraRR.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.ladderStraps == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Ladder Straps",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraRR, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraRR.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.hydraulicFluidForBucket == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Hydraulic Fluid for Bucket",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraRR, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraRR.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.fiberReelRack == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Fiber Reel Rack",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraRR, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraRR.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.binsLockedAndSecure == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Bins Locked and Secure",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraRR, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraRR.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.safetyHarness == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Safety Harness",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraRR, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraRR.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.lanyardSafetyHarness == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Lanyard Safety Harness",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraRR, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraRR");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraRR.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+      }
+      // ExtraR
+      for (Extra issue in issueExtraR) {
+        if (issue.ladder == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Ladder",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraDD, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraDD.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.stepLadder == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Step Ladder",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraDD, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraDD.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.ladderStraps == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Ladder Straps",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraDD, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraDD.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.hydraulicFluidForBucket == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Hydraulic Fluid for Bucket",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraDD, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraDD.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.fiberReelRack == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Fiber Reel Rack",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraDD, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraDD.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.binsLockedAndSecure == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Bins Locked and Secure",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraDD, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraDD.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.safetyHarness == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Safety Harness",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraDD, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraDD.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+        if (issue.lanyardSafetyHarness == "Bad") {
+          extraInspectR = false & extraInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idExtra!,
+              nameIssue: "Lanyard Safety Harness",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(extraDD, issue.idExtra!)) {
+            print("Nuevo elemento Agregado extraDD");
+            print("El valor de extraInspectR es : $extraInspectR");
+            extraDD.add(newIssueComments);
+          }
+        } else {
+          extraInspectR = true & extraInspectR;
+        }
+      }
+      print("Entro a getIssuesExtraAll");
+    } catch (e) {
+      print("Error in getIssuesExtraAll() - $e");
+    }
+    //clearListgetIssues();
+
+    notifyListeners();
+  }
+
+  // --------------------------------------------------------------------------
   // Función para traer los nombre de los issues de Extra
   Future<void> getIssuesExtraClosed(IssuesXUser issuesXUser) async {
     try {
@@ -3157,10 +4034,16 @@ class IssueReportedProvider extends ChangeNotifier {
       // ExtraR
       for (Extra issue in issueExtraRClosed) {
         if (issue.ladder == "Closed") {
+          final resladderClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_r->ladder_dateclosed')
+              .eq('id_extra_r_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Ladder",
               category: "Extra",
+              dateAddedClose:
+                  DateTime.parse(resladderClose.first["ladder_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3168,10 +4051,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.stepLadder == "Closed") {
+          final resstepLadderClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_r->step_ladder_dateclosed')
+              .eq('id_extra_r_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Step Ladder",
               category: "Extra",
+              dateAddedClose: DateTime.parse(
+                  resstepLadderClose.first["step_ladder_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3179,10 +4068,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.ladderStraps == "Closed") {
+          final resladderStrapsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_r->ladder_straps_dateclosed')
+              .eq('id_extra_r_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Ladder Straps",
               category: "Extra",
+              dateAddedClose: DateTime.parse(
+                  resladderStrapsClose.first["ladder_straps_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3190,10 +4085,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.hydraulicFluidForBucket == "Closed") {
+          final reshydraulicFluidForBucketClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_r->hydraulic_fluid_for_bucket_dateclosed')
+              .eq('id_extra_r_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Hydraulic Fluid for Bucket",
               category: "Extra",
+              dateAddedClose: DateTime.parse(reshydraulicFluidForBucketClose
+                  .first["hydraulic_fluid_for_bucket_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3201,10 +4102,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.fiberReelRack == "Closed") {
+          final resfiberReelRackClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_r->fiber_reel_rack')
+              .eq('id_extra_r_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Fiber Reel Rack",
               category: "Extra",
+              dateAddedClose: DateTime.parse(
+                  resfiberReelRackClose.first["fiber_reel_rack"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3212,10 +4119,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.binsLockedAndSecure == "Closed") {
+          final resbinsLockedAndSecureClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_r->bins_locked_and_secure_dateclosed')
+              .eq('id_extra_r_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Bins Locked and Secure",
               category: "Extra",
+              dateAddedClose: DateTime.parse(resbinsLockedAndSecureClose
+                  .first["bins_locked_and_secure_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3223,10 +4136,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.safetyHarness == "Closed") {
+          final ressafetyharnessClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_r->safety_harness')
+              .eq('id_extra_r_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Safety Harness",
               category: "Extra",
+              dateAddedClose:
+                  DateTime.parse(ressafetyharnessClose.first["safety_harness"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3234,10 +4153,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.lanyardSafetyHarness == "Closed") {
+          final reslanyardSafetyHarnessClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_r->lanyard_harness_dateclosed')
+              .eq('id_extra_r_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Lanyard Safety Harness",
               category: "Extra",
+              dateAddedClose: DateTime.parse(reslanyardSafetyHarnessClose
+                  .first["lanyard_harness_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3248,10 +4173,16 @@ class IssueReportedProvider extends ChangeNotifier {
       // ExtraR
       for (Extra issue in issueExtradDClosed) {
         if (issue.ladder == "Closed") {
+          final resladderClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_d->ladder_dateclosed')
+              .eq('id_extra_d_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Ladder",
               category: "Extra",
+              dateAddedClose:
+                  DateTime.parse(resladderClose.first["ladder_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3259,10 +4190,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.stepLadder == "Closed") {
+          final resstepLadderClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_d->step_ladder_dateclosed')
+              .eq('id_extra_d_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Step Ladder",
               category: "Extra",
+              dateAddedClose: DateTime.parse(
+                  resstepLadderClose.first["step_ladder_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3270,10 +4207,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.ladderStraps == "Closed") {
+          final resladderStrapsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_d->ladder_straps_dateclosed')
+              .eq('id_extra_d_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Ladder Straps",
               category: "Extra",
+              dateAddedClose: DateTime.parse(
+                  resladderStrapsClose.first["ladder_straps_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3281,10 +4224,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.hydraulicFluidForBucket == "Closed") {
+          final reshydraulicFluidForBucketClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_d->hydraulic_fluid_for_bucket_dateclosed')
+              .eq('id_extra_d_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Hydraulic Fluid for Bucket",
               category: "Extra",
+              dateAddedClose: DateTime.parse(reshydraulicFluidForBucketClose
+                  .first["hydraulic_fluid_for_bucket_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3292,10 +4241,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.fiberReelRack == "Closed") {
+          final resfiberReelRackClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_d->fiber_reel_rack')
+              .eq('id_extra_d_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Fiber Reel Rack",
               category: "Extra",
+              dateAddedClose: DateTime.parse(
+                  resfiberReelRackClose.first["fiber_reel_rack"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3303,10 +4258,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.binsLockedAndSecure == "Closed") {
+          final resbinsLockedAndSecureClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_d->bins_locked_and_secure_dateclosed')
+              .eq('id_extra_d_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Bins Locked and Secure",
               category: "Extra",
+              dateAddedClose: DateTime.parse(resbinsLockedAndSecureClose
+                  .first["bins_locked_and_secure_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3314,10 +4275,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.safetyHarness == "Closed") {
+          final ressafetyharnessClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_d->safety_harness')
+              .eq('id_extra_d_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Safety Harness",
               category: "Extra",
+              dateAddedClose:
+                  DateTime.parse(ressafetyharnessClose.first["safety_harness"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -3325,10 +4292,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.lanyardSafetyHarness == "Closed") {
+          final reslanyardSafetyHarnessClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('extra_d->lanyard_harness_dateclosed')
+              .eq('id_extra_d_fk', issue.idExtra) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idExtra!,
               nameIssue: "Lanyard Safety Harness",
               category: "Extra",
+              dateAddedClose: DateTime.parse(reslanyardSafetyHarnessClose
+                  .first["lanyard_harness_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
             print("Nuevo elemento Agregado extraRRClosed");
@@ -4019,10 +4992,16 @@ class IssueReportedProvider extends ChangeNotifier {
 
       for (FluidCheck issue in issueFluidCheckRClosed) {
         if (issue.engineOil == "Closed") {
+          final resEngineOilClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('fluid_check_r->engine_oil_dateclosed')
+              .eq('id_fluids_check_r_fk', issue.idFluidsCheck) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "engine_oil",
               category: "Fluids Check",
+              dateAddedClose: DateTime.parse(
+                  resEngineOilClose.first["engine_oil_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
@@ -4031,10 +5010,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.transmission == "Closed") {
+          final resTransmissionClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('fluid_check_r->transmission_dateclosed')
+              .eq('id_fluids_check_r_fk', issue.idFluidsCheck) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Transmission",
               category: "Fluids Check",
+              dateAddedClose: DateTime.parse(
+                  resTransmissionClose.first["transmission_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
 
           if (!validateElementAtList(
@@ -4044,10 +5029,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.coolant == "Closed") {
+          final resCoolantClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('fluid_check_r->coolant_dateclosed')
+              .eq('id_fluids_check_r_fk', issue.idFluidsCheck) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Coolant",
               category: "Fluids Check",
+              dateAddedClose:
+                  DateTime.parse(resCoolantClose.first["coolant_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
@@ -4056,10 +5047,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.powerSteering == "Closed") {
+          final resPowerSteeringClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('fluid_check_r->power_steering_dateclosed')
+              .eq('id_fluids_check_r_fk', issue.idFluidsCheck) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Power Steering",
               category: "Fluids Check",
+              dateAddedClose: DateTime.parse(
+                  resPowerSteeringClose.first["power_steering_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
@@ -4068,10 +5065,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.dieselExhaustFluid == "Closed") {
+          final resDieselExhaustFluid = await supabaseCtrlV
+              .from('closed_view')
+              .select('fluid_check_r->diesel_exhaust_fluid_dateclosed')
+              .eq('id_fluids_check_r_fk', issue.idFluidsCheck) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Diesel Exhaust Fluid",
               category: "Fluids Check",
+              dateAddedClose: DateTime.parse(resDieselExhaustFluid
+                  .first["diesel_exhaust_fluid_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
@@ -4080,10 +5083,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.windshieldWasherFluid == "Closed") {
+          final reswindshieldWasherFluidClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('fluid_check_r->windshield_washer_fluid_dateclosed')
+              .eq('id_fluids_check_r_fk', issue.idFluidsCheck) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Windshield Washer Fluid ",
               category: "Fluids Check",
+              dateAddedClose: DateTime.parse(reswindshieldWasherFluidClose
+                  .first["windshield_washer_fluid_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
@@ -4095,10 +5104,16 @@ class IssueReportedProvider extends ChangeNotifier {
       // FluidCheckD
       for (FluidCheck issue in issueFluidCheckDClosed) {
         if (issue.engineOil == "Closed") {
+          final resEngineOilClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('fluid_check_d->engine_oil_dateclosed')
+              .eq('id_fluids_check_d_fk', issue.idFluidsCheck) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               category: "Fluids Check",
               nameIssue: "Engine Oil",
+              dateAddedClose: DateTime.parse(
+                  resEngineOilClose.first["engine_oil_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
@@ -4107,10 +5122,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.transmission == "Closed") {
+          final resTransmissionClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('fluid_check_d->transmission_dateclosed')
+              .eq('id_fluids_check_d_fk', issue.idFluidsCheck) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               category: "Fluids Check",
               nameIssue: "Transmission",
+              dateAddedClose: DateTime.parse(
+                  resTransmissionClose.first["transmission_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
@@ -4119,10 +5140,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.coolant == "Closed") {
+          final resCoolantClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('fluid_check_d->coolant_dateclosed')
+              .eq('id_fluids_check_d_fk', issue.idFluidsCheck) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               category: "Fluids Check",
               nameIssue: "Coolant",
+              dateAddedClose:
+                  DateTime.parse(resCoolantClose.first["coolant_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
@@ -4131,10 +5158,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.powerSteering == "Closed") {
+          final resPowerSteeringClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('fluid_check_d->power_steering_dateclosed')
+              .eq('id_fluids_check_d_fk', issue.idFluidsCheck) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Power Steering",
               category: "Fluids Check",
+              dateAddedClose: DateTime.parse(
+                  resPowerSteeringClose.first["power_steering_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
@@ -4143,10 +5176,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.dieselExhaustFluid == "Closed") {
+          final resDieselExhaustFluid = await supabaseCtrlV
+              .from('closed_view')
+              .select('fluid_check_d->diesel_exhaust_fluid_dateclosed')
+              .eq('id_fluids_check_d_fk', issue.idFluidsCheck) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Diesel Exhaust Fluid",
               category: "Fluids Check",
+              dateAddedClose: DateTime.parse(resDieselExhaustFluid
+                  .first["diesel_exhaust_fluid_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
@@ -4155,9 +5194,15 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.windshieldWasherFluid == "Closed") {
+          final reswindshieldWasherFluidClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('fluid_check_d->windshield_washer_fluid_dateclosed')
+              .eq('id_fluids_check_d_fk', issue.idFluidsCheck) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idFluidsCheck!,
               nameIssue: "Windshield Washer Fluid ",
+              dateAddedClose: DateTime.parse(reswindshieldWasherFluidClose
+                  .first["windshield_washer_fluid_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
@@ -4668,15 +5713,14 @@ class IssueReportedProvider extends ChangeNotifier {
 
   // ---------------------------------------------------------------------------
   // Función para traer los nombre de los issues de Lights
-  Future<void> getIssuesLightsAll(IssuesXUser issuesXUser) async {
+  Future<void> getIssuesLightsAll(Vehicle vehicle) async {
     try {
       // getIssuesLightsR
       final res = await supabaseCtrlV
           .from('issues_view')
           .select(
               'lights_r ->id_lights, lights_r ->headlights,lights_r ->brake_lights, lights_r ->reverse_lights,lights_r->warning_lights,lights_r ->turn_lights,lights_r ->4_way_flashers,lights_r ->dash_lights,lights_r ->strobe_lights,lights_r ->clearance_lights,lights_r ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
+          .eq('id_vehicle', vehicle.idVehicle)
           .or('issues_r.neq.0,issues_d.neq.0');
 
       // getIssuesLightsD
@@ -4684,8 +5728,7 @@ class IssueReportedProvider extends ChangeNotifier {
           .from('issues_view')
           .select(
               'lights_d ->id_lights, lights_d ->headlights,lights_d ->brake_lights, lights_d ->reverse_lights,lights_d->warning_lights,lights_d ->turn_lights,lights_d ->4_way_flashers,lights_d ->dash_lights,lights_d ->strobe_lights,lights_d ->clearance_lights,lights_d ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
+          .eq('id_vehicle', vehicle.idVehicle)
           .or('issues_r.neq.0,issues_d.neq.0');
 
       // print(res);
@@ -5044,10 +6087,18 @@ class IssueReportedProvider extends ChangeNotifier {
       // LightsR
       for (Lights issue in issueLightsRClosed) {
         if (issue.headlights == "Closed") {
+          final resHeadlightsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->headlights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
+          // print(resHeadlightsClose);
+          // print(resHeadlightsClose.first["headlights_dateclosed"]);
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Headlights",
               category: "Lights",
+              dateAddedClose: DateTime.parse(
+                  resHeadlightsClose.first["headlights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRRClosed");
@@ -5055,10 +6106,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.brakeLights == "Closed") {
+          final resBrakelightsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->brake_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Brake Lights",
               category: "Lights",
+              dateAddedClose: DateTime.parse(
+                  resBrakelightsClose.first["brake_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRRClosed");
@@ -5066,10 +6123,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.reverseLights == "Closed") {
+          final resReverseLightsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->reverse_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Reverse Lights",
               category: "Lights",
+              dateAddedClose: DateTime.parse(
+                  resReverseLightsClose.first["reverse_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRRClosed");
@@ -5077,10 +6140,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.warningLights == "Closed") {
+          final resWarningLightsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->warning_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               category: "Lights",
               nameIssue: "Warning Lights",
+              dateAddedClose: DateTime.parse(
+                  resWarningLightsClose.first["warning_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRRClosed");
@@ -5088,10 +6157,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.turnSignals == "Closed") {
+          final resTurnSignalsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->turn_signals_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Turn Signals",
               category: "Lights",
+              dateAddedClose: DateTime.parse(
+                  resTurnSignalsClose.first["turn_signals_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRRClosed");
@@ -5099,10 +6174,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.the4WayFlashers == "Closed") {
+          final res4wayFlashers = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->4_way_flashers_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               category: "Lights",
               nameIssue: "4 way Flashers ",
+              dateAddedClose: DateTime.parse(
+                  res4wayFlashers.first["4_way_flashers_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRRClosed");
@@ -5110,10 +6191,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.dashLights == "Closed") {
+          final resDashLightsClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->dash_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Dash Lights ",
               category: "Lights",
+              dateAddedClose: DateTime.parse(
+                  resDashLightsClosed.first["dash_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRRClosed");
@@ -5121,10 +6208,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.strobeLights == "Closed") {
+          final resStrobeLightsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->strobe_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Strobe Lights ",
               category: "Lights",
+              dateAddedClose: DateTime.parse(
+                  resStrobeLightsClose.first["strobe_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRRClosed");
@@ -5132,10 +6225,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.cabRoofLights == "Closed") {
+          final resCabRoofLightsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->cab_roof_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Cab Roof Lights ",
               category: "Lights",
+              dateAddedClose: DateTime.parse(
+                  resCabRoofLightsClose.first["cab_roof_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRRClosed");
@@ -5143,10 +6242,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.clearanceLights == "Closed") {
+          final resClearanceLightsClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->clearance_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               category: "Lights",
               nameIssue: "Clearance Lights ",
+              dateAddedClose: DateTime.parse(resClearanceLightsClosed
+                  .first["clearance_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsRRClosed");
@@ -5157,10 +6262,16 @@ class IssueReportedProvider extends ChangeNotifier {
       // LightsD
       for (Lights issue in issueLightsDClosed) {
         if (issue.headlights == "Closed") {
+          final resHeadlightsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->headlights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Headlights",
               category: "Lights",
+              dateAddedClose: DateTime.parse(
+                  resHeadlightsClose.first["headlights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
 
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
@@ -5169,10 +6280,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.brakeLights == "Closed") {
+          final resBrakelightsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->brake_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Brake Lights",
               category: "Lights",
+              dateAddedClose: DateTime.parse(
+                  resBrakelightsClose.first["brake_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDDClosed");
@@ -5180,10 +6297,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.reverseLights == "Closed") {
+          final resReverseLightsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->reverse_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               category: "Lights",
               nameIssue: "Reverse Lights",
+              dateAddedClose: DateTime.parse(
+                  resReverseLightsClose.first["reverse_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDDClosed");
@@ -5191,10 +6314,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.warningLights == "Closed") {
+          final resWarningLightsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->warning_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Warning Lights",
               category: "Lights",
+              dateAddedClose: DateTime.parse(
+                  resWarningLightsClose.first["warning_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDDClosed");
@@ -5202,10 +6331,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.turnSignals == "Closed") {
+          final resTurnSignalsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->turn_signals_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Turn Signals",
               category: "Lights",
+              dateAddedClose: DateTime.parse(
+                  resTurnSignalsClose.first["turn_signals_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDDClosed");
@@ -5213,10 +6348,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.the4WayFlashers == "Closed") {
+          final res4wayFlashers = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->4_way_flashers_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               category: "Lights",
               nameIssue: "4 way Flashers ",
+              dateAddedClose: DateTime.parse(
+                  res4wayFlashers.first["4_way_flashers_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDDClosed");
@@ -5224,10 +6365,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.dashLights == "Closed") {
+          final resDashLightsClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->dash_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               category: "Lights",
               nameIssue: "Dash Lights ",
+              dateAddedClose: DateTime.parse(
+                  resDashLightsClosed.first["dash_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDDClosed");
@@ -5235,10 +6382,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.strobeLights == "Closed") {
+          final resStrobeLightsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->strobe_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               category: "Lights",
               nameIssue: "Strobe Lights ",
+              dateAddedClose: DateTime.parse(
+                  resStrobeLightsClose.first["strobe_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDDClosed");
@@ -5246,10 +6399,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.cabRoofLights == "Closed") {
+          final resCabRoofLightsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->cab_roof_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               category: "Lights",
               nameIssue: "Cab Roof Lights ",
+              dateAddedClose: DateTime.parse(
+                  resCabRoofLightsClose.first["cab_roof_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDDClosed");
@@ -5257,10 +6416,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.clearanceLights == "Closed") {
+          final resClearanceLightsClosed = await supabaseCtrlV
+              .from('closed_view')
+              .select('lights_r->clearance_lights_dateclosed')
+              .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               category: "Lights",
               nameIssue: "Clearance Lights ",
+              dateAddedClose: DateTime.parse(resClearanceLightsClosed
+                  .first["clearance_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
             print("Nuevo elemento Agregado lightsDDClosed");
@@ -5949,6 +7114,222 @@ class IssueReportedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Función para traer los nombre de los issues de Security
+  Future<void> getIssueSecurityAll(Vehicle vehicle) async {
+    try {
+      // getIssuesLightsR
+      final res = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'security_r ->id_security, security_r ->rta_magnet,security_r ->triangle_reflectors, security_r ->wheel_chocks,security_r->fire_extinguisher,security_r ->firts_aid_kit_safety_vest,security_r ->back_up_alarm,security_r ->date_added')
+          .eq('id_vehicle', vehicle.idVehicle)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // getIssuesLightsD
+      final resD = await supabaseCtrlV
+          .from('issues_view')
+          .select(
+              'security_d ->id_security, security_d ->rta_magnet,security_d ->triangle_reflectors, security_d ->wheel_chocks,security_d->fire_extinguisher,security_d ->firts_aid_kit_safety_vest,security_d ->back_up_alarm,security_d ->date_added')
+          .eq('id_vehicle', vehicle.idVehicle)
+          .or('issues_r.neq.0,issues_d.neq.0');
+
+      // print(res);
+
+      issueSecurityR = (res as List<dynamic>)
+          .map(
+              (issueSecurityR) => Security.fromJson(jsonEncode(issueSecurityR)))
+          .toList();
+      issueSecurityD = (resD as List<dynamic>)
+          .map(
+              (issueSecurityD) => Security.fromJson(jsonEncode(issueSecurityD)))
+          .toList();
+
+      // SecurityR
+      for (Security issue in issueSecurityR) {
+        if (issue.rtaMagnet == "Bad") {
+          securityInspectR = false & securityInspectR;
+
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "RTA Magnet",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(securityRR, issue.idSecurity!)) {
+            print("Nuevo elemento Agregado securityRR");
+            print("El valor de securityInspectR es : $securityInspectR");
+            securityRR.add(newIssueComments);
+          }
+        } else {
+          securityInspectR = true & securityInspectR;
+        }
+        if (issue.triangleReflectors == "Bad") {
+          securityInspectR = false & securityInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Triangle Reflectors",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(securityRR, issue.idSecurity!)) {
+            print("Nuevo elemento Agregado securityRR");
+            print("El valor de securityInspectR es : $securityInspectR");
+            securityRR.add(newIssueComments);
+          }
+        } else {
+          securityInspectR = true & securityInspectR;
+        }
+        if (issue.wheelChocks == "Bad") {
+          securityInspectR = false & securityInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Wheel Chocks",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(securityRR, issue.idSecurity!)) {
+            print("Nuevo elemento Agregado securityRR");
+            print("El valor de securityInspectR es : $securityInspectR");
+            securityRR.add(newIssueComments);
+          }
+        } else {
+          securityInspectR = true & securityInspectR;
+        }
+        if (issue.fireExtinguisher == "Bad") {
+          securityInspectR = false & securityInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Fire Extinguisher",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(securityRR, issue.idSecurity!)) {
+            print("Nuevo elemento Agregado securityRR");
+            print("El valor de securityInspectR es : $securityInspectR");
+            securityRR.add(newIssueComments);
+          }
+        } else {
+          securityInspectR = true & securityInspectR;
+        }
+        if (issue.firstAidKitSafetyVest == "Bad") {
+          securityInspectR = false & securityInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "First Aid Kit Safety Vest",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(securityRR, issue.idSecurity!)) {
+            print("Nuevo elemento Agregado securityRR");
+            print("El valor de securityInspectR es : $securityInspectR");
+            securityRR.add(newIssueComments);
+          }
+        } else {
+          securityInspectR = true & securityInspectR;
+        }
+        if (issue.backUpAlarm == "Bad") {
+          securityInspectR = false & securityInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Back Up Alarm",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(securityRR, issue.idSecurity!)) {
+            print("Nuevo elemento Agregado securityRR");
+            print("El valor de securityInspectR es : $securityInspectR");
+            securityRR.add(newIssueComments);
+          }
+        } else {
+          securityInspectR = true & securityInspectR;
+        }
+      }
+
+      // SecurityR
+      for (Security issue in issueSecurityD) {
+        if (issue.rtaMagnet == "Bad") {
+          securityInspectR = false & securityInspectR;
+
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "RTA Magnet",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(securityDD, issue.idSecurity!)) {
+            print("Nuevo elemento Agregado securityDD");
+            print("El valor de securityInspectR es : $securityInspectR");
+            securityDD.add(newIssueComments);
+          }
+        } else {
+          securityInspectR = true & securityInspectR;
+        }
+        if (issue.triangleReflectors == "Bad") {
+          securityInspectR = false & securityInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Triangle Reflectors",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(securityDD, issue.idSecurity!)) {
+            print("Nuevo elemento Agregado securityDD");
+            print("El valor de securityInspectR es : $securityInspectR");
+            securityDD.add(newIssueComments);
+          }
+        } else {
+          securityInspectR = true & securityInspectR;
+        }
+        if (issue.wheelChocks == "Bad") {
+          securityInspectR = false & securityInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Wheel Chocks",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(securityDD, issue.idSecurity!)) {
+            print("Nuevo elemento Agregado securityDD");
+            print("El valor de securityInspectR es : $securityInspectR");
+            securityDD.add(newIssueComments);
+          }
+        } else {
+          securityInspectR = true & securityInspectR;
+        }
+        if (issue.fireExtinguisher == "Bad") {
+          securityInspectR = false & securityInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Fire Extinguisher",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(securityDD, issue.idSecurity!)) {
+            print("Nuevo elemento Agregado securityDD");
+            print("El valor de securityInspectR es : $securityInspectR");
+            securityDD.add(newIssueComments);
+          }
+        } else {
+          securityInspectR = true & securityInspectR;
+        }
+        if (issue.firstAidKitSafetyVest == "Bad") {
+          securityInspectR = false & securityInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "First Aid Kit Safety Vest",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(securityDD, issue.idSecurity!)) {
+            print("Nuevo elemento Agregado securityDD");
+            print("El valor de securityInspectR es : $securityInspectR");
+            securityDD.add(newIssueComments);
+          }
+        } else {
+          securityInspectR = true & securityInspectR;
+        }
+        if (issue.backUpAlarm == "Bad") {
+          securityInspectR = false & securityInspectR;
+          IssueOpenclose newIssueComments = IssueOpenclose(
+              idIssue: issue.idSecurity!,
+              nameIssue: "Back Up Alarm",
+              dateAddedOpen: issue.dateAdded!);
+          if (!validateElementAtList(securityDD, issue.idSecurity!)) {
+            print("Nuevo elemento Agregado securityDD");
+            print("El valor de securityInspectR es : $securityInspectR");
+            securityDD.add(newIssueComments);
+          }
+        } else {
+          securityInspectR = true & securityInspectR;
+        }
+      }
+
+      print("Entro a getIssuesSecurityAll");
+    } catch (e) {
+      print("Error in getIssuesSecurityAll() - $e");
+    }
+
+    notifyListeners();
+  }
+
   // Funcion de getIssueSecurity issue cerrado
   Future<void> getIssueSecurityClosed(IssuesXUser issuesXUser) async {
     try {
@@ -5984,10 +7365,16 @@ class IssueReportedProvider extends ChangeNotifier {
       // SecurityR
       for (Security issue in issueSecurityRClosed) {
         if (issue.rtaMagnet == "Closed") {
+          final resRTAMagnetClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('security_r->rta_magnet_dateclosed')
+              .eq('id_security_r_fk', issue.idSecurity) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "RTA Magnet",
               category: "Security",
+              dateAddedClose: DateTime.parse(
+                  resRTAMagnetClose.first["rta_magnet_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityRRClosed");
@@ -5995,10 +7382,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.triangleReflectors == "Closed") {
+          final restriangleReflectorsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('security_r->triangle_reflectors_dateclosed')
+              .eq('id_security_r_fk', issue.idSecurity) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Triangle Reflectors",
               category: "Security",
+              dateAddedClose: DateTime.parse(restriangleReflectorsClose
+                  .first["triangle_reflectors_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityRRClosed");
@@ -6006,10 +7399,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.wheelChocks == "Closed") {
+          final reswheelChocksClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('security_r->wheel_chocks_dateclosed')
+              .eq('id_security_r_fk', issue.idSecurity) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Wheel Chocks",
               category: "Security",
+              dateAddedClose: DateTime.parse(
+                  reswheelChocksClose.first["wheel_chocks_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityRRClosed");
@@ -6017,10 +7416,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.fireExtinguisher == "Closed") {
+          final resfireExtinguisherClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('security_r->fire_extinguisher_dateclosed')
+              .eq('id_security_r_fk', issue.idSecurity) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Fire Extinguisher",
               category: "Security",
+              dateAddedClose: DateTime.parse(resfireExtinguisherClose
+                  .first["fire_extinguisher_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityRRClosed");
@@ -6028,10 +7433,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.firstAidKitSafetyVest == "Closed") {
+          final resfirstAidKitSafetyVestClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('security_r->first_aid_kit_safety_vest_dateclosed')
+              .eq('id_security_r_fk', issue.idSecurity) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "First Aid Kit Safety Vest",
               category: "Security",
+              dateAddedClose: DateTime.parse(resfirstAidKitSafetyVestClose
+                  .first["first_aid_kit_safety_vest_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityRRClosed");
@@ -6039,10 +7450,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.backUpAlarm == "Closed") {
+          final resbackUpAlarmClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('security_r->back_up_alarm_dateclosed')
+              .eq('id_security_r_fk', issue.idSecurity) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Back Up Alarm",
               category: "Security",
+              dateAddedClose: DateTime.parse(
+                  resbackUpAlarmClose.first["back_up_alarm_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityRRClosed");
@@ -6051,13 +7468,19 @@ class IssueReportedProvider extends ChangeNotifier {
         }
       }
 
-      // SecurityR
+      // SecurityD
       for (Security issue in issueSecurityDClosed) {
         if (issue.rtaMagnet == "Closed") {
+          final resRTAMagnetClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('security_d->rta_magnet_dateclosed')
+              .eq('id_security_d_fk', issue.idSecurity) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "RTA Magnet",
               category: "Security",
+              dateAddedClose: DateTime.parse(
+                  resRTAMagnetClose.first["rta_magnet_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityDDClosed");
@@ -6065,10 +7488,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.triangleReflectors == "Closed") {
+          final restriangleReflectorsClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('security_d->triangle_reflectors_dateclosed')
+              .eq('id_security_d_fk', issue.idSecurity) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Triangle Reflectors",
               category: "Security",
+              dateAddedClose: DateTime.parse(restriangleReflectorsClose
+                  .first["triangle_reflectors_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityDDClosed");
@@ -6076,10 +7505,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.wheelChocks == "Closed") {
+          final reswheelChocksClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('security_d->wheel_chocks_dateclosed')
+              .eq('id_security_d_fk', issue.idSecurity) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Wheel Chocks",
               category: "Security",
+              dateAddedClose: DateTime.parse(
+                  reswheelChocksClose.first["wheel_chocks_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityDDClosed");
@@ -6087,10 +7522,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.fireExtinguisher == "Closed") {
+          final resfireExtinguisherClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('security_d->fire_extinguisher_dateclosed')
+              .eq('id_security_d_fk', issue.idSecurity) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Fire Extinguisher",
               category: "Security",
+              dateAddedClose: DateTime.parse(resfireExtinguisherClose
+                  .first["fire_extinguisher_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityDDClosed");
@@ -6098,10 +7539,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.firstAidKitSafetyVest == "Closed") {
+          final resfirstAidKitSafetyVestClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('security_d->first_aid_kit_safety_vest_dateclosed')
+              .eq('id_security_d_fk', issue.idSecurity) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "First Aid Kit Safety Vest",
               category: "Security",
+              dateAddedClose: DateTime.parse(resfirstAidKitSafetyVestClose
+                  .first["first_aid_kit_safety_vest_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityDDClosed");
@@ -6109,10 +7556,16 @@ class IssueReportedProvider extends ChangeNotifier {
           }
         }
         if (issue.backUpAlarm == "Closed") {
+          final resbackUpAlarmClose = await supabaseCtrlV
+              .from('closed_view')
+              .select('security_d->back_up_alarm_dateclosed')
+              .eq('id_security_d_fk', issue.idSecurity) as List<dynamic>;
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idSecurity!,
               nameIssue: "Back Up Alarm",
               category: "Security",
+              dateAddedClose: DateTime.parse(
+                  resbackUpAlarmClose.first["back_up_alarm_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
             print("Nuevo elemento Agregado securityDDClosed");

@@ -261,8 +261,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         enableEditingMode: false,
                         renderer: (rendererContext) {
                           bool state = issueReportedProvider.fluidCheckInspectR;
-                          FluidCheck fluidCheckState =
-                              rendererContext.cell.value;
 
                           return Container(
                             height: rowHeight,
@@ -276,27 +274,22 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                         if (state) {
                                           return Text("");
                                         } else {
-                                          if (fluidCheckState.state!) {
-                                            // issueReportedProvider
-                                            //     .clearRegistroIssueComments();
-                                            return IssuesPopUpTotal(
-                                              text: "FluidsCheck",
-                                              contador: 1,
-                                              issueComments:
-                                                  issueReportedProvider
-                                                      .fluidCheckR,
-                                            );
-                                          } else {
-                                            issueReportedProvider
-                                                .clearRegistroIssueComments();
-                                            return IssuesPopUpTotal(
-                                              text: "FluidsCheck",
-                                              contador: 1,
-                                              issueComments:
-                                                  issueReportedProvider
-                                                      .fluidCheckD,
-                                            );
-                                          }
+                                          return IssuesPopUpTotal(
+                                            text: "FluidsCheck",
+                                            contador: 1,
+                                            issueComments: issueReportedProvider
+                                                .fluidCheckRR,
+                                          );
+
+                                          // issueReportedProvider
+                                          //     .clearRegistroIssueComments();
+                                          // return IssuesPopUpTotal(
+                                          //   text: "FluidsCheck",
+                                          //   contador: 1,
+                                          //   issueComments:
+                                          //       issueReportedProvider
+                                          //           .fluidCheckD,
+                                          // );
                                         }
                                       });
                                     }),
@@ -386,7 +379,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           enableEditingMode: false,
                           renderer: (rendererContext) {
                             bool state = issueReportedProvider.ligthsInspectR;
-                            Lights lightsState = rendererContext.cell.value;
 
                             return Container(
                               height: rowHeight,
@@ -401,25 +393,13 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                           if (state) {
                                             return Text("");
                                           } else {
-                                            if (lightsState.state!) {
-                                              issueReportedProvider
-                                                  .clearRegistroIssueComments();
-                                              return IssuesPopUpTotal(
+                                            issueReportedProvider
+                                                .clearRegistroIssueComments();
+                                            return IssuesPopUpTotal(
                                                 text: "Lights",
                                                 contador: 2,
                                                 issueComments:
-                                                    issueReportedProvider
-                                                        .lightsR,
-                                              );
-                                            } else {
-                                              return IssuesPopUpTotal(
-                                                text: "Lights",
-                                                contador: 2,
-                                                issueComments:
-                                                    issueReportedProvider
-                                                        .lightsD,
-                                              );
-                                            }
+                                                    rendererContext.cell.value);
                                           }
                                         });
                                       }),
@@ -455,8 +435,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           enableEditingMode: false,
                           renderer: (rendererContext) {
                             bool state = issueReportedProvider.carBodyInspectR;
-                            CarBodywork carBodyWorkState =
-                                rendererContext.cell.value;
 
                             return Container(
                               height: rowHeight,
@@ -471,23 +449,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                           if (state) {
                                             return Text("");
                                           } else {
-                                            if (carBodyWorkState.state!) {
-                                              return IssuesPopUpTotal(
-                                                text: "CarBodyWork",
-                                                contador: 3,
-                                                issueComments:
-                                                    issueReportedProvider
-                                                        .carBodyWorkR,
-                                              );
-                                            } else {
-                                              return IssuesPopUpTotal(
-                                                text: "CarBodyWork",
-                                                contador: 3,
-                                                issueComments:
-                                                    issueReportedProvider
-                                                        .carBodyWorkD,
-                                              );
-                                            }
+                                            return IssuesPopUpTotal(
+                                              text: "CarBodyWork",
+                                              contador: 3,
+                                              issueComments:
+                                                  rendererContext.cell.value,
+                                            );
                                           }
                                         });
                                       }),
@@ -523,7 +490,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           enableEditingMode: false,
                           renderer: (rendererContext) {
                             bool state = issueReportedProvider.securityInspectR;
-                            Security securityState = rendererContext.cell.value;
 
                             return Container(
                               height: rowHeight,
@@ -538,23 +504,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                           if (state) {
                                             return Text("");
                                           } else {
-                                            if (securityState.state!) {
-                                              return IssuesPopUpTotal(
-                                                text: "Security",
-                                                contador: 4,
-                                                issueComments:
-                                                    issueReportedProvider
-                                                        .securityR,
-                                              );
-                                            } else {
-                                              return IssuesPopUpTotal(
-                                                text: "Security",
-                                                contador: 4,
-                                                issueComments:
-                                                    issueReportedProvider
-                                                        .securityD,
-                                              );
-                                            }
+                                            return IssuesPopUpTotal(
+                                              text: "Security",
+                                              contador: 4,
+                                              issueComments:
+                                                  rendererContext.cell.value,
+                                            );
                                           }
                                         });
                                       }),
@@ -590,7 +545,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           enableEditingMode: false,
                           renderer: (rendererContext) {
                             bool state = issueReportedProvider.extraInspectR;
-                            Extra extraState = rendererContext.cell.value;
 
                             return Container(
                               height: rowHeight,
@@ -605,23 +559,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                           if (state) {
                                             return Text("");
                                           } else {
-                                            if (extraState.state!) {
-                                              return IssuesPopUpTotal(
-                                                text: "Extra",
-                                                contador: 5,
-                                                issueComments:
-                                                    issueReportedProvider
-                                                        .extraR,
-                                              );
-                                            } else {
-                                              return IssuesPopUpTotal(
-                                                text: "Extra",
-                                                contador: 5,
-                                                issueComments:
-                                                    issueReportedProvider
-                                                        .extraD,
-                                              );
-                                            }
+                                            return IssuesPopUpTotal(
+                                              text: "Extra",
+                                              contador: 5,
+                                              issueComments:
+                                                  rendererContext.cell.value,
+                                            );
                                           }
                                         });
                                       }),
@@ -657,7 +600,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         enableEditingMode: false,
                         renderer: (rendererContext) {
                           bool state = issueReportedProvider.equipmentInspectR;
-                          Equiment equipmentState = rendererContext.cell.value;
                           return Container(
                             height: rowHeight,
                             decoration: BoxDecoration(gradient: whiteGradient),
@@ -670,23 +612,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                         if (state) {
                                           return Text("");
                                         } else {
-                                          if (equipmentState.state!) {
-                                            return IssuesPopUpTotal(
-                                              text: "Equipment",
-                                              contador: 6,
-                                              issueComments:
-                                                  issueReportedProvider
-                                                      .equipmentR,
-                                            );
-                                          } else {
-                                            return IssuesPopUpTotal(
-                                              text: "Equipment",
-                                              contador: 6,
-                                              issueComments:
-                                                  issueReportedProvider
-                                                      .equipmentD,
-                                            );
-                                          }
+                                          return IssuesPopUpTotal(
+                                            text: "Equipment",
+                                            contador: 6,
+                                            issueComments:
+                                                rendererContext.cell.value,
+                                          );
                                         }
                                       });
                                     }),
@@ -722,8 +653,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           enableEditingMode: false,
                           renderer: (rendererContext) {
                             bool state = issueReportedProvider.bucketInspectR;
-                            BucketInspection bucketInspectionstate =
-                                rendererContext.cell.value;
 
                             return Container(
                               height: rowHeight,
@@ -738,23 +667,11 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                           if (state) {
                                             return Text("");
                                           } else {
-                                            if (bucketInspectionstate.state!) {
-                                              return IssuesPopUpTotal(
+                                            return IssuesPopUpTotal(
                                                 text: "BucketInspection",
                                                 contador: 7,
                                                 issueComments:
-                                                    issueReportedProvider
-                                                        .bucketInspectionR,
-                                              );
-                                            } else {
-                                              return IssuesPopUpTotal(
-                                                text: "BucketInspection",
-                                                contador: 7,
-                                                issueComments:
-                                                    issueReportedProvider
-                                                        .bucketInspectionD,
-                                              );
-                                            }
+                                                    rendererContext.cell.value);
                                           }
                                         });
                                       }),
@@ -791,8 +708,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           renderer: (rendererContext) {
                             bool state = issueReportedProvider.measureInspectR;
 
-                            Measure measureState = rendererContext.cell.value;
-
                             return Container(
                               height: rowHeight,
                               decoration:
@@ -806,23 +721,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                           if (state) {
                                             return Text("");
                                           } else {
-                                            if (measureState.state!) {
-                                              return IssuesPopUpTotal(
-                                                text: "Measures",
-                                                contador: 8,
-                                                issueComments:
-                                                    issueReportedProvider
-                                                        .measureR,
-                                              );
-                                            } else {
-                                              return IssuesPopUpTotal(
-                                                text: "Measures",
-                                                contador: 8,
-                                                issueComments:
-                                                    issueReportedProvider
-                                                        .measureD,
-                                              );
-                                            }
+                                            return IssuesPopUpTotal(
+                                              text: "Measures",
+                                              contador: 8,
+                                              issueComments:
+                                                  rendererContext.cell.value,
+                                            );
                                           }
                                         });
                                       }),

@@ -12,7 +12,7 @@ import '../../../../widgets/custom_text_icon_button.dart';
 import 'comments_photos_pop_up.dart';
 
 class IssuesPopUpTotal extends StatefulWidget {
-  final List<IssuesComments> issueComments;
+  final List<IssueOpenclose> issueComments;
   final int contador;
   final String text;
   const IssuesPopUpTotal({
@@ -84,8 +84,6 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
 
   @override
   Widget build(BuildContext context) {
-    IssueReportedProvider issueReportedProvider =
-        Provider.of<IssueReportedProvider>(context);
     return AlertDialog(
         backgroundColor: Colors.transparent,
         content: CustomCard(
@@ -133,7 +131,7 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
                           children: [
                             Text(
                               DateFormat("MMM/dd/yyyy hh:mm:ss").format(
-                                  widget.issueComments[index].dateAdded),
+                                  widget.issueComments[index].dateAddedOpen),
                               style: TextStyle(
                                 color:
                                     AppTheme.of(context).contenidoTablas.color,

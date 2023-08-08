@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
@@ -23,12 +24,16 @@ class _HistoryIssuePopUpState extends State<HistoryIssuePopUp> {
       IssueReportedProvider provider =
           Provider.of<IssueReportedProvider>(context, listen: false);
 
-      await provider.getIssueBucketInspectionClosed(provider.actualIssueXUser!);
-      await provider.getIssuesFluidCheckClosed(provider.actualIssueXUser!);
-      await provider.getIssuesLightsClosed(provider.actualIssueXUser!);
-      await provider.getIssuesCarBodyworkClosed(provider.actualIssueXUser!);
-      await provider.getIssueSecurityClosed(provider.actualIssueXUser!);
-      await provider.getIssuesExtraClosed(provider.actualIssueXUser!);
+      await provider
+          .getIssueBucketInspectionClosed(provider.actualIssueXUser!); // Listo
+      await provider
+          .getIssuesFluidCheckClosed(provider.actualIssueXUser!); // Listo
+      await provider.getIssuesLightsClosed(provider.actualIssueXUser!); // Listo
+      await provider
+          .getIssuesCarBodyworkClosed(provider.actualIssueXUser!); // Listo
+      await provider
+          .getIssueSecurityClosed(provider.actualIssueXUser!); // Listo
+      await provider.getIssuesExtraClosed(provider.actualIssueXUser!); // Listo
       await provider.getIssuesEquipmentClosed(provider.actualIssueXUser!);
 
       //provider.getIssuesMeasuresClosed(provider.actualIssueXUer!);
@@ -59,6 +64,14 @@ class _HistoryIssuePopUpState extends State<HistoryIssuePopUp> {
                   onTap: () {
                     context.pop();
                   },
+                ),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.08,
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: Text(
+                  "License Plates: ${issueReportedProvider.actualVehicle?.licesensePlates}",
+                  textAlign: TextAlign.center,
                 ),
               ),
               SizedBox(
@@ -98,14 +111,15 @@ class _HistoryIssuePopUpState extends State<HistoryIssuePopUp> {
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
-                                  Text(
-                                    issueReportedProvider
-                                                .listTotalClosedIssue[index]
-                                                .dateAddedClose ==
-                                            null
-                                        ? " No date "
-                                        : "${issueReportedProvider.listTotalClosedIssue[index].dateAddedClose}",
-                                  )
+                                  Text(issueReportedProvider
+                                              .listTotalClosedIssue[index]
+                                              .dateAddedClose ==
+                                          null
+                                      ? " No date "
+                                      : DateFormat("MM/dd/yyyy").format(
+                                          issueReportedProvider
+                                              .listTotalClosedIssue[index]
+                                              .dateAddedClose!))
                                 ],
                               ),
                               Row(

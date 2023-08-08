@@ -46,10 +46,9 @@ class Issues {
   final int? idSecurityDFk;
   final Security securityD;
 
-  Issues(
-  {
-    required this.dateAddedR, 
-    this.dateAddedD, 
+  Issues({
+    required this.dateAddedR,
+    this.dateAddedD,
     required this.idVehicle,
     required this.issuesR,
     this.issuesD,
@@ -99,7 +98,9 @@ class Issues {
         issuesR: json["issues_r"],
         idControlForm: json["id_control_form"],
         dateAddedR: DateTime.parse(json["date_added_r"]),
-        dateAddedD: json["date_added_d"] == null ? null: DateTime.parse(json["date_added_d"]),
+        dateAddedD: json["date_added_d"] == null
+            ? null
+            : DateTime.parse(json["date_added_d"]),
         issuesD: json["issues_d"],
         idBucketInspectionRFk: json["id_bucket_inspection_r_fk"],
         idBucketInspectionDFk: json["id_bucket_inspection_d_fk"],
@@ -188,12 +189,14 @@ class BucketInspection {
   final String? insulated;
   final String? insulatedComments;
   final String? insulatedImage;
+  final DateTime? insulatedDateclosed;
   final String? holesDrilled;
   final String? holesDrilledComments;
   final String? holesDrilledImage;
+  final DateTime? holesDrilledDateclosed;
   final String? bucketLiner;
   final String? bucketLinerComments;
-  final DateTime? bucketLinerClosed;
+  final DateTime? bucketLinerDateclosed;
   final String? bucketLinerImage;
   final DateTime? dateAdded;
   bool? state;
@@ -203,12 +206,14 @@ class BucketInspection {
     this.insulated,
     this.insulatedComments,
     this.insulatedImage,
+    this.insulatedDateclosed,
     this.holesDrilled,
     this.holesDrilledComments,
     this.holesDrilledImage,
+    this.holesDrilledDateclosed,
     this.bucketLiner,
     this.bucketLinerComments,
-    this.bucketLinerClosed,
+    this.bucketLinerDateclosed,
     this.bucketLinerImage,
     this.dateAdded,
     this.state,
@@ -225,13 +230,19 @@ class BucketInspection {
         insulated: json["insulated"],
         insulatedComments: json["insulated_comments"],
         insulatedImage: json["insulated_image"],
+        insulatedDateclosed: json["insulated_dateclosed"] == null
+            ? null
+            : DateTime.parse(json["insulated_dateclosed"]),
         holesDrilled: json["holes_drilled"],
         holesDrilledComments: json["holes_drilled_comments"],
         holesDrilledImage: json["holes_drilled_image"],
+        holesDrilledDateclosed: json["holes_drilled_dateclosed"] == null
+            ? null
+            : DateTime.parse(json["holes_drilled_dateclosed"]),
         bucketLiner: json["bucket_liner"],
         bucketLinerComments: json["bucket_liner_comments"],
         bucketLinerImage: json["bucket_liner_image"],
-        bucketLinerClosed: json["bucket_liner_DateClosed"] == null
+        bucketLinerDateclosed: json["bucket_liner_dateclosed"] == null
             ? null
             : DateTime.parse(json["date_added"]),
         dateAdded: json["date_added"] == null
@@ -251,7 +262,8 @@ class BucketInspection {
         "bucket_liner_comments": bucketLinerComments,
         "bucket_liner_image": bucketLinerImage,
         "date_added": dateAdded?.toIso8601String(),
-        "bucket_liner_DateClosed": bucketLinerClosed?.toIso8601String(),
+        "bucket_liner_dateclosed": bucketLinerDateclosed?.toIso8601String(),
+        "insulated_dateclosed": insulatedDateclosed?.toIso8601String(),
       };
 }
 
@@ -751,6 +763,7 @@ class Lights {
   final String? headlights;
   final String? headlightsComments;
   final String? headlightsImage;
+  // final String? headlightsdateclsoed;
   final String? brakeLights;
   final String? brakeLightsComments;
   final String? brakeLightsImage;
