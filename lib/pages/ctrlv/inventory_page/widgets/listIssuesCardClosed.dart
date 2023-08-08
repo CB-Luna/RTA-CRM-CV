@@ -60,8 +60,8 @@ class _ListIssuesCardClosedState extends State<ListIssuesCardClosed> {
       }
       if (widget.contador == 7) {
         provider.cambiovistaMeasures = false;
-        await provider
-            .getIssueBucketInspectionClosed(provider.actualIssueXUser!);
+        await provider.getIssueBucketInspectionClosed(
+            provider.actualIssueXUser!, provider.statePrueba = true);
         print("getBucketInspection");
       }
       if (widget.contador == 8) {

@@ -706,6 +706,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           type: PlutoColumnType.text(),
                           enableEditingMode: false,
                           renderer: (rendererContext) {
+                            issueReportedProvider.measureInspectR = true;
                             bool state = issueReportedProvider.measureInspectR;
 
                             return Container(

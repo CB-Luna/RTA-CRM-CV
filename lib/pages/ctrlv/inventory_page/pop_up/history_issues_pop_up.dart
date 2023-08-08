@@ -24,17 +24,38 @@ class _HistoryIssuePopUpState extends State<HistoryIssuePopUp> {
       IssueReportedProvider provider =
           Provider.of<IssueReportedProvider>(context, listen: false);
 
-      await provider
-          .getIssueBucketInspectionClosed(provider.actualIssueXUser!); // Listo
-      await provider
-          .getIssuesFluidCheckClosed(provider.actualIssueXUser!); // Listo
-      await provider.getIssuesLightsClosed(provider.actualIssueXUser!); // Listo
-      await provider
-          .getIssuesCarBodyworkClosed(provider.actualIssueXUser!); // Listo
-      await provider
-          .getIssueSecurityClosed(provider.actualIssueXUser!); // Listo
-      await provider.getIssuesExtraClosed(provider.actualIssueXUser!); // Listo
-      await provider.getIssuesEquipmentClosed(provider.actualIssueXUser!);
+      if (provider.statePrueba == false) {
+        await provider.getIssueBucketInspectionClosed(
+            provider.actualIssueXUser!, provider.statePrueba = false); // Listo
+        await provider.getIssuesFluidCheckClosed(
+            provider.actualIssueXUser!, provider.statePrueba = false); // Listo
+        await provider.getIssuesLightsClosed(
+            provider.actualIssueXUser!, provider.statePrueba = false); // Listo
+        await provider.getIssuesCarBodyworkClosed(
+            provider.actualIssueXUser!, provider.statePrueba = false); // Listo
+        await provider.getIssueSecurityClosed(
+            provider.actualIssueXUser!, provider.statePrueba = false); // Listo
+        await provider.getIssuesExtraClosed(
+            provider.actualIssueXUser!, provider.statePrueba = false); // Listo
+        await provider.getIssuesEquipmentClosed(
+            provider.actualIssueXUser!, provider.statePrueba = false);
+      } else {
+        print("Esta en el All");
+        await provider.getIssueBucketInspectionClosed(
+            provider.actualIssueXUser!, provider.statePrueba = true); // Listo
+        await provider.getIssuesFluidCheckClosed(
+            provider.actualIssueXUser!, provider.statePrueba = true); // Listo
+        await provider.getIssuesLightsClosed(
+            provider.actualIssueXUser!, provider.statePrueba = true);
+        await provider.getIssuesCarBodyworkClosed(
+            provider.actualIssueXUser!, provider.statePrueba = true); // Listo
+        await provider.getIssueSecurityClosed(
+            provider.actualIssueXUser!, provider.statePrueba = true); // Listo
+        await provider.getIssuesExtraClosed(
+            provider.actualIssueXUser!, provider.statePrueba = true); // Listo
+        await provider.getIssuesEquipmentClosed(
+            provider.actualIssueXUser!, provider.statePrueba = true);
+      }
 
       //provider.getIssuesMeasuresClosed(provider.actualIssueXUer!);
     });
@@ -91,48 +112,58 @@ class _HistoryIssuePopUpState extends State<HistoryIssuePopUp> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Row(
-                                children: [
-                                  const Text(
-                                    "Name Issue:  ",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    issueReportedProvider
-                                        .listTotalClosedIssue[index].nameIssue,
-                                  )
-                                ],
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.1,
+                                child: Wrap(
+                                  children: [
+                                    const Text(
+                                      "Name Issue:  ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      issueReportedProvider
+                                          .listTotalClosedIssue[index]
+                                          .nameIssue,
+                                    )
+                                  ],
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  const Text(
-                                    "Date:  ",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(issueReportedProvider
-                                              .listTotalClosedIssue[index]
-                                              .dateAddedClose ==
-                                          null
-                                      ? " No date "
-                                      : DateFormat("MM/dd/yyyy").format(
-                                          issueReportedProvider
-                                              .listTotalClosedIssue[index]
-                                              .dateAddedClose!))
-                                ],
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.08,
+                                child: Wrap(
+                                  children: [
+                                    const Text(
+                                      "Date:  ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(issueReportedProvider
+                                                .listTotalClosedIssue[index]
+                                                .dateAddedClose ==
+                                            null
+                                        ? " No date "
+                                        : DateFormat("MM/dd/yyyy").format(
+                                            issueReportedProvider
+                                                .listTotalClosedIssue[index]
+                                                .dateAddedClose!))
+                                  ],
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  const Text(
-                                    "Category:  ",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    " ${issueReportedProvider.listTotalClosedIssue[index].category}",
-                                  )
-                                ],
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.08,
+                                child: Wrap(
+                                  children: [
+                                    const Text(
+                                      "Category:  ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      " ${issueReportedProvider.listTotalClosedIssue[index].category}",
+                                    )
+                                  ],
+                                ),
                               ),
                             ],
                           ));

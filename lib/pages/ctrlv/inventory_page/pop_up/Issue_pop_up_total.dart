@@ -104,7 +104,6 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
                       Container(
                         alignment: Alignment.centerLeft,
                         width: 250,
-                        color: Colors.green,
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Column(
                           children: [

@@ -16,6 +16,7 @@ class IssueReportedProvider extends ChangeNotifier {
   List<PlutoRow> rows = [];
   int pageRowCount = 9;
   int page = 1;
+  bool statePrueba = true;
 
   //---------------- Variables Para ingresar los Issues --------------------------
   List<BucketInspection> issuePart1 = [];
@@ -132,6 +133,10 @@ class IssueReportedProvider extends ChangeNotifier {
     rows.clear();
     getIssuesAll(actualVehicle!);
     await selectIssuesXUser(0);
+  }
+
+  Future<void> updateStateUser() async {
+    rows.clear();
   }
 
   bool validateElementAtList(List<IssueOpenclose> list, int id) {
@@ -384,22 +389,22 @@ class IssueReportedProvider extends ChangeNotifier {
   }
 
   void clearListasdegetIssues() {
-    fluidCheckR.clear();
-    fluidCheckD.clear();
-    lightsR.clear();
-    lightsD.clear();
-    carBodyWorkR.clear();
-    carBodyWorkD.clear();
-    securityR.clear();
-    securityR.clear();
-    extraR.clear();
-    extraD.clear();
-    equipmentR.clear();
-    equipmentD.clear();
-    bucketInspectionR.clear();
-    bucketInspectionD.clear();
-    measureR.clear();
-    measureD.clear();
+    fluidCheckRR.clear();
+    fluidCheckDD.clear();
+    lightsRR.clear();
+    lightsDD.clear();
+    carBodyWorkRR.clear();
+    carBodyWorkDD.clear();
+    securityRR.clear();
+    securityRR.clear();
+    extraRR.clear();
+    extraDD.clear();
+    equipmentRR.clear();
+    equipmentDD.clear();
+    bucketInspectionRR.clear();
+    bucketInspectionDD.clear();
+    measureRR.clear();
+    measureDD.clear();
     print("Entro a clearListasdegetIssues");
     notifyListeners();
   }
@@ -420,22 +425,32 @@ class IssueReportedProvider extends ChangeNotifier {
       await getIssuesBasics(actualIssueXUser);
       // await issueReportedProvider.getIssuesMeasure(
       //     issueReportedProvider.actualIssueXUser!);
-      print("------------------------");
-      print(
-          "En getIssues el valor de fluidCheckInspectR es: $fluidCheckInspectR");
 
-      print("En getIssues el valor de LightsInspectR es: $ligthsInspectR");
-      print("En getIssues el valor de CarBodyInspectR es: $carBodyInspectR");
-      print("En getIssues el valor de SecurityInspectR es: $securityInspectR");
-      print("En getIssues el valor de ExtraInspectR es: $extraInspectR");
-      print(
-          "En getIssues el valor de EquipmentInspectR es: $equipmentInspectR");
-      print("En getIssues el valor de bucketInspectR es: $bucketInspectR");
+      List<dynamic> listaTotalR = [];
+      listaTotalR.addAll(fluidCheckRR);
+      listaTotalR.addAll(lightsRR);
+      listaTotalR.addAll(carBodyWorkRR);
+      listaTotalR.addAll(securityRR);
+      listaTotalR.addAll(extraRR);
+      listaTotalR.addAll(equipmentRR);
+      listaTotalR.addAll(bucketInspectionRR);
+      listaTotalR.addAll(measureRR);
 
-      rows.add(
-        PlutoRow(
+      List<dynamic> listaTotalD = [];
+      listaTotalD.addAll(fluidCheckRR);
+      listaTotalD.addAll(lightsRR);
+      listaTotalD.addAll(carBodyWorkRR);
+      listaTotalD.addAll(securityRR);
+      listaTotalD.addAll(extraRR);
+      listaTotalD.addAll(equipmentRR);
+      listaTotalD.addAll(bucketInspectionRR);
+      listaTotalD.addAll(measureRR);
+
+      if (listaTotalD.isEmpty) {
+        print("El issueD es nulo");
+        rows.add(PlutoRow(
           cells: {
-            "idIssues": PlutoCell(value: ""),
+            "idIssues": PlutoCell(value: listaTotalR.length.toString()),
             "Status": PlutoCell(value: "Check Out "),
             "FluidsCheck": PlutoCell(value: fluidCheckRR),
             "Lights": PlutoCell(value: lightsRR),
@@ -446,8 +461,38 @@ class IssueReportedProvider extends ChangeNotifier {
             "BucketInspection": PlutoCell(value: bucketInspectionRR),
             "Measures": PlutoCell(value: measureRR),
           },
-        ),
-      );
+        ));
+      } else {
+        rows.add(PlutoRow(
+          cells: {
+            "idIssues": PlutoCell(value: listaTotalD.length.toString()),
+            "Status": PlutoCell(value: "Check in "),
+            "FluidsCheck": PlutoCell(value: fluidCheckDD),
+            "Lights": PlutoCell(value: lightsDD),
+            "CarBodyWork": PlutoCell(value: carBodyWorkDD),
+            "Security": PlutoCell(value: securityDD),
+            "Extra": PlutoCell(value: extraDD),
+            "Equipment": PlutoCell(value: equipmentDD),
+            "BucketInspection": PlutoCell(value: bucketInspectionDD),
+            "Measures": PlutoCell(value: measureDD),
+          },
+        ));
+        rows.add(PlutoRow(
+          cells: {
+            "idIssues": PlutoCell(value: listaTotalR.length.toString()),
+            "Status": PlutoCell(value: "Check Out "),
+            "FluidsCheck": PlutoCell(value: fluidCheckRR),
+            "Lights": PlutoCell(value: lightsRR),
+            "CarBodyWork": PlutoCell(value: carBodyWorkRR),
+            "Security": PlutoCell(value: securityRR),
+            "Extra": PlutoCell(value: extraRR),
+            "Equipment": PlutoCell(value: equipmentRR),
+            "BucketInspection": PlutoCell(value: bucketInspectionRR),
+            "Measures": PlutoCell(value: measureRR),
+          },
+        ));
+      }
+
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
       print('Error en getIssues() - $e');
@@ -464,23 +509,6 @@ class IssueReportedProvider extends ChangeNotifier {
     extraInspectR = true;
     equipmentInspectR = true;
     bucketInspectR = true;
-
-    fluidCheckR.clear();
-    fluidCheckD.clear();
-    lightsR.clear();
-    lightsD.clear();
-    carBodyWorkR.clear();
-    carBodyWorkD.clear();
-    securityR.clear();
-    securityR.clear();
-    extraR.clear();
-    extraD.clear();
-    equipmentR.clear();
-    equipmentD.clear();
-    bucketInspectionR.clear();
-    bucketInspectionD.clear();
-    measureR.clear();
-    measureD.clear();
 
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
@@ -558,8 +586,8 @@ class IssueReportedProvider extends ChangeNotifier {
                 "Closed",
             // "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
             //     "Issue Closed update at ${dateTimeClosedIssueController.text}",
-            // "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_dateClosed":
-            //     dateTimeClosedIssueController.text,
+            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_dateclosed":
+                dateTimeClosedIssueController.text,
           }).eq("id_fluids_check", registroIssueComments!.idIssue);
 
           return true;
@@ -910,44 +938,68 @@ class IssueReportedProvider extends ChangeNotifier {
 
   // Función para traer el nombre de los issues de BucketInspection closed
   Future<void> getIssueBucketInspectionClosed(
-    IssuesXUser issuesXUser,
-  ) async {
-    print("actualissuexUSER: $issuesXUser");
+      IssuesXUser issuesXUser, bool statePrueba) async {
     print("Entro a getIssueBucketInspectionClosed");
     try {
-      final res = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'id_vehicle, bucket_inspection_r ->id_bucket_inspection, bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner,bucket_inspection_r ->bucket_liner_dateClosed, bucket_inspection_r ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+      if (statePrueba = false) {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'id_vehicle, bucket_inspection_r ->id_bucket_inspection, bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner, bucket_inspection_r ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      final resD = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'bucket_inspection_d ->id_bucket_inspection, bucket_inspection_d ->holes_drilled,bucket_inspection_d ->insulated, bucket_inspection_d ->bucket_liner, bucket_inspection_d ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'bucket_inspection_d ->id_bucket_inspection, bucket_inspection_d ->holes_drilled,bucket_inspection_d ->insulated, bucket_inspection_d ->bucket_liner, bucket_inspection_d ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
+        issuePart1Closed = (res as List<dynamic>)
+            .map((issuePart1Closed) =>
+                BucketInspection.fromJson(jsonEncode(issuePart1Closed)))
+            .toList();
+        issuePartDClosed = (resD as List<dynamic>)
+            .map((issuePartDClosed) =>
+                BucketInspection.fromJson(jsonEncode(issuePartDClosed)))
+            .toList();
+      } else {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'id_vehicle, bucket_inspection_r ->id_bucket_inspection, bucket_inspection_r ->holes_drilled,bucket_inspection_r ->insulated, bucket_inspection_r ->bucket_liner, bucket_inspection_r ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      issuePart1Closed = (res as List<dynamic>)
-          .map((issuePart1Closed) =>
-              BucketInspection.fromJson(jsonEncode(issuePart1Closed)))
-          .toList();
-      issuePartDClosed = (resD as List<dynamic>)
-          .map((issuePartDClosed) =>
-              BucketInspection.fromJson(jsonEncode(issuePartDClosed)))
-          .toList();
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'bucket_inspection_d ->id_bucket_inspection, bucket_inspection_d ->holes_drilled,bucket_inspection_d ->insulated, bucket_inspection_d ->bucket_liner, bucket_inspection_d ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
+        issuePart1Closed = (res as List<dynamic>)
+            .map((issuePart1Closed) =>
+                BucketInspection.fromJson(jsonEncode(issuePart1Closed)))
+            .toList();
+        issuePartDClosed = (resD as List<dynamic>)
+            .map((issuePartDClosed) =>
+                BucketInspection.fromJson(jsonEncode(issuePartDClosed)))
+            .toList();
+        print("statePrueba es True");
+      }
 
       // BucketInspectionR
       for (BucketInspection issue in issuePart1Closed) {
-        final resHolesDrilledClose = await supabaseCtrlV
-                .from('closed_view')
-                .select('bucket_inspection_r->holes_drilled_dateclosed')
-                .eq('id_bucket_inspection_r_fk', issue.idBucketInspection)
-            as List<dynamic>;
+        print("Valor: ${issuePart1Closed.length}");
         if (issue.holesDrilled == "Closed") {
+          final resHolesDrilledClose = await supabaseCtrlV
+                  .from('closed_view')
+                  .select('bucket_inspection_r->holes_drilled_dateclosed')
+                  .eq('id_bucket_inspection_r_fk', issue.idBucketInspection)
+              as List<dynamic>;
+          print("respuesta de HolesDrilled $resHolesDrilledClose");
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Holes Drilled",
@@ -2212,34 +2264,61 @@ class IssueReportedProvider extends ChangeNotifier {
   // ---------------------------------------------------------------------------
 
   // Función para traer los comentarios de los issues de CarBodywork
-  Future<void> getIssuesCarBodyworkClosed(IssuesXUser issuesXUser) async {
+  Future<void> getIssuesCarBodyworkClosed(
+      IssuesXUser issuesXUser, bool statePrueba) async {
     try {
       // CardBodyWork_R
-      final res = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'car_bodywork_r ->id_car_bodywork, car_bodywork_r ->wiper_blades_front,car_bodywork_r ->wiper_blades_back, car_bodywork_r ->windshield_wiper_front,car_bodywork_r->windshield_wiper_back,car_bodywork_r ->general_body,car_bodywork_r ->decaling,car_bodywork_r ->tires,car_bodywork_r->glass,car_bodywork_r ->mirrors,car_bodywork_r-> parking,car_bodywork_r->brakes,car_bodywork_r ->emg_brakes,car_bodywork_r->horn ,car_bodywork_r ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+      if (statePrueba == false) {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'car_bodywork_r ->id_car_bodywork, car_bodywork_r ->wiper_blades_front,car_bodywork_r ->wiper_blades_back, car_bodywork_r ->windshield_wiper_front,car_bodywork_r->windshield_wiper_back,car_bodywork_r ->general_body,car_bodywork_r ->decaling,car_bodywork_r ->tires,car_bodywork_r->glass,car_bodywork_r ->mirrors,car_bodywork_r-> parking,car_bodywork_r->brakes,car_bodywork_r ->emg_brakes,car_bodywork_r->horn ,car_bodywork_r ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      // CardBodyWork_D
-      final resD = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'car_bodywork_d ->id_car_bodywork, car_bodywork_d ->wiper_blades_front,car_bodywork_d ->wiper_blades_back, car_bodywork_d ->windshield_wiper_front,car_bodywork_d->windshield_wiper_back,car_bodywork_d ->general_body,car_bodywork_d ->decaling,car_bodywork_d ->tires,car_bodywork_d->glass,car_bodywork_d ->mirrors,car_bodywork_d-> parking,car_bodywork_d->brakes,car_bodywork_d ->emg_brakes,car_bodywork_d->horn ,car_bodywork_d ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+        // CardBodyWork_D
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'car_bodywork_d ->id_car_bodywork, car_bodywork_d ->wiper_blades_front,car_bodywork_d ->wiper_blades_back, car_bodywork_d ->windshield_wiper_front,car_bodywork_d->windshield_wiper_back,car_bodywork_d ->general_body,car_bodywork_d ->decaling,car_bodywork_d ->tires,car_bodywork_d->glass,car_bodywork_d ->mirrors,car_bodywork_d-> parking,car_bodywork_d->brakes,car_bodywork_d ->emg_brakes,car_bodywork_d->horn ,car_bodywork_d ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      issueCarBodywRClosed = (res as List<dynamic>)
-          .map((issueCarBodywRClosed) =>
-              CarBodywork.fromJson(jsonEncode(issueCarBodywRClosed)))
-          .toList();
-      issueCarBodyWDClosed = (resD as List<dynamic>)
-          .map((issueCarBodyWDClosed) =>
-              CarBodywork.fromJson(jsonEncode(issueCarBodyWDClosed)))
-          .toList();
+        issueCarBodywRClosed = (res as List<dynamic>)
+            .map((issueCarBodywRClosed) =>
+                CarBodywork.fromJson(jsonEncode(issueCarBodywRClosed)))
+            .toList();
+        issueCarBodyWDClosed = (resD as List<dynamic>)
+            .map((issueCarBodyWDClosed) =>
+                CarBodywork.fromJson(jsonEncode(issueCarBodyWDClosed)))
+            .toList();
+      } else {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'car_bodywork_r ->id_car_bodywork, car_bodywork_r ->wiper_blades_front,car_bodywork_r ->wiper_blades_back, car_bodywork_r ->windshield_wiper_front,car_bodywork_r->windshield_wiper_back,car_bodywork_r ->general_body,car_bodywork_r ->decaling,car_bodywork_r ->tires,car_bodywork_r->glass,car_bodywork_r ->mirrors,car_bodywork_r-> parking,car_bodywork_r->brakes,car_bodywork_r ->emg_brakes,car_bodywork_r->horn ,car_bodywork_r ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
+
+        // CardBodyWork_D
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'car_bodywork_d ->id_car_bodywork, car_bodywork_d ->wiper_blades_front,car_bodywork_d ->wiper_blades_back, car_bodywork_d ->windshield_wiper_front,car_bodywork_d->windshield_wiper_back,car_bodywork_d ->general_body,car_bodywork_d ->decaling,car_bodywork_d ->tires,car_bodywork_d->glass,car_bodywork_d ->mirrors,car_bodywork_d-> parking,car_bodywork_d->brakes,car_bodywork_d ->emg_brakes,car_bodywork_d->horn ,car_bodywork_d ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
+
+        issueCarBodywRClosed = (res as List<dynamic>)
+            .map((issueCarBodywRClosed) =>
+                CarBodywork.fromJson(jsonEncode(issueCarBodywRClosed)))
+            .toList();
+        issueCarBodyWDClosed = (resD as List<dynamic>)
+            .map((issueCarBodyWDClosed) =>
+                CarBodywork.fromJson(jsonEncode(issueCarBodyWDClosed)))
+            .toList();
+      }
 
       // BucketInspectionR
       for (CarBodywork issue in issueCarBodywRClosed) {
@@ -3233,35 +3312,61 @@ class IssueReportedProvider extends ChangeNotifier {
 
   // --------------------------------------------------------------------------
   // Función para traer los nombre de los issues de Equipment Closed
-  Future<void> getIssuesEquipmentClosed(IssuesXUser issuesXUser) async {
+  Future<void> getIssuesEquipmentClosed(
+      IssuesXUser issuesXUser, bool statePrueba) async {
     try {
       // getIssuesEquipment_r
-      final res = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'equiment_r ->id_equiment_r, equiment_r ->ignition_key,equiment_r ->bins_box_key, equiment_r ->vehicle_registration_copy,equiment_r->vehicle_insurance_copy,equiment_r ->bucket_lift_operator_manual,equiment_r ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+      if (statePrueba == false) {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'equiment_r ->id_equiment_r, equiment_r ->ignition_key,equiment_r ->bins_box_key, equiment_r ->vehicle_registration_copy,equiment_r->vehicle_insurance_copy,equiment_r ->bucket_lift_operator_manual,equiment_r ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      // getIssuesEquipment_d
-      final resD = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'equiment_d ->id_equiment_d, equiment_d ->ignition_key,equiment_d ->bins_box_key, equiment_d ->vehicle_registration_copy,equiment_d->vehicle_insurance_copy,equiment_d ->bucket_lift_operator_manual,equiment_d ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+        // getIssuesEquipment_d
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'equiment_d ->id_equiment_d, equiment_d ->ignition_key,equiment_d ->bins_box_key, equiment_d ->vehicle_registration_copy,equiment_d->vehicle_insurance_copy,equiment_d ->bucket_lift_operator_manual,equiment_d ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      issueEquipmentRClosed = (res as List<dynamic>)
-          .map((issueEquipmentRClosed) =>
-              Equiment.fromJson(jsonEncode(issueEquipmentRClosed)))
-          .toList();
-      issueEquipmentDClosed = (resD as List<dynamic>)
-          .map((issueEquipmentDClosed) =>
-              Equiment.fromJson(jsonEncode(issueEquipmentDClosed)))
-          .toList();
+        issueEquipmentRClosed = (res as List<dynamic>)
+            .map((issueEquipmentRClosed) =>
+                Equiment.fromJson(jsonEncode(issueEquipmentRClosed)))
+            .toList();
+        issueEquipmentDClosed = (resD as List<dynamic>)
+            .map((issueEquipmentDClosed) =>
+                Equiment.fromJson(jsonEncode(issueEquipmentDClosed)))
+            .toList();
+      } else {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'equiment_r ->id_equiment_r, equiment_r ->ignition_key,equiment_r ->bins_box_key, equiment_r ->vehicle_registration_copy,equiment_r->vehicle_insurance_copy,equiment_r ->bucket_lift_operator_manual,equiment_r ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
+        // getIssuesEquipment_d
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'equiment_d ->id_equiment_d, equiment_d ->ignition_key,equiment_d ->bins_box_key, equiment_d ->vehicle_registration_copy,equiment_d->vehicle_insurance_copy,equiment_d ->bucket_lift_operator_manual,equiment_d ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
+
+        issueEquipmentRClosed = (res as List<dynamic>)
+            .map((issueEquipmentRClosed) =>
+                Equiment.fromJson(jsonEncode(issueEquipmentRClosed)))
+            .toList();
+        issueEquipmentDClosed = (resD as List<dynamic>)
+            .map((issueEquipmentDClosed) =>
+                Equiment.fromJson(jsonEncode(issueEquipmentDClosed)))
+            .toList();
+      }
       // BucketInspectionR
       for (Equiment issue in issueEquipmentRClosed) {
         if (issue.ignitionKey == "Closed") {
@@ -4002,35 +4107,61 @@ class IssueReportedProvider extends ChangeNotifier {
 
   // --------------------------------------------------------------------------
   // Función para traer los nombre de los issues de Extra
-  Future<void> getIssuesExtraClosed(IssuesXUser issuesXUser) async {
+  Future<void> getIssuesExtraClosed(
+      IssuesXUser issuesXUser, bool statePrueba) async {
     try {
       // getIssuesEquipment_r
-      final res = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'extra_r ->id_extra, extra_r ->ladder,extra_r ->step_ladder, extra_r ->ladder_straps,extra_r->hydraulic_fluid_for_bucket,extra_r ->fiber_reel_rack,extra_r ->bins_locked_and_secure,extra_r ->safety_harness,extra_r ->lanyard_safety_harness, extra_r ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+      if (statePrueba == false) {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'extra_r ->id_extra, extra_r ->ladder,extra_r ->step_ladder, extra_r ->ladder_straps,extra_r->hydraulic_fluid_for_bucket,extra_r ->fiber_reel_rack,extra_r ->bins_locked_and_secure,extra_r ->safety_harness,extra_r ->lanyard_safety_harness, extra_r ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      // getIssuesEquipment_d
-      final resD = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'extra_d ->id_extra, extra_d ->ladder,extra_d ->step_ladder, extra_d ->ladder_straps,extra_d->hydraulic_fluid_for_bucket,extra_d ->fiber_reel_rack,extra_d ->bins_locked_and_secure,extra_d ->safety_harness,extra_d ->lanyard_safety_harness, extra_d ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+        // getIssuesEquipment_d
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'extra_d ->id_extra, extra_d ->ladder,extra_d ->step_ladder, extra_d ->ladder_straps,extra_d->hydraulic_fluid_for_bucket,extra_d ->fiber_reel_rack,extra_d ->bins_locked_and_secure,extra_d ->safety_harness,extra_d ->lanyard_safety_harness, extra_d ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      issueExtraRClosed = (res as List<dynamic>)
-          .map((issueExtraRClosed) =>
-              Extra.fromJson(jsonEncode(issueExtraRClosed)))
-          .toList();
-      issueExtradDClosed = (resD as List<dynamic>)
-          .map((issueExtradDClosed) =>
-              Extra.fromJson(jsonEncode(issueExtradDClosed)))
-          .toList();
+        issueExtraRClosed = (res as List<dynamic>)
+            .map((issueExtraRClosed) =>
+                Extra.fromJson(jsonEncode(issueExtraRClosed)))
+            .toList();
+        issueExtradDClosed = (resD as List<dynamic>)
+            .map((issueExtradDClosed) =>
+                Extra.fromJson(jsonEncode(issueExtradDClosed)))
+            .toList();
+      } else {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'extra_r ->id_extra, extra_r ->ladder,extra_r ->step_ladder, extra_r ->ladder_straps,extra_r->hydraulic_fluid_for_bucket,extra_r ->fiber_reel_rack,extra_r ->bins_locked_and_secure,extra_r ->safety_harness,extra_r ->lanyard_safety_harness, extra_r ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
+        // getIssuesEquipment_d
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'extra_d ->id_extra, extra_d ->ladder,extra_d ->step_ladder, extra_d ->ladder_straps,extra_d->hydraulic_fluid_for_bucket,extra_d ->fiber_reel_rack,extra_d ->bins_locked_and_secure,extra_d ->safety_harness,extra_d ->lanyard_safety_harness, extra_d ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
+
+        issueExtraRClosed = (res as List<dynamic>)
+            .map((issueExtraRClosed) =>
+                Extra.fromJson(jsonEncode(issueExtraRClosed)))
+            .toList();
+        issueExtradDClosed = (resD as List<dynamic>)
+            .map((issueExtradDClosed) =>
+                Extra.fromJson(jsonEncode(issueExtradDClosed)))
+            .toList();
+      }
       // ExtraR
       for (Extra issue in issueExtraRClosed) {
         if (issue.ladder == "Closed") {
@@ -4959,34 +5090,61 @@ class IssueReportedProvider extends ChangeNotifier {
   // ---------------------------------------------------------------------------
 
   // Función para traer los nombre de los issues de FluidsCheck
-  Future<void> getIssuesFluidCheckClosed(IssuesXUser issuesXUser) async {
+  Future<void> getIssuesFluidCheckClosed(
+      IssuesXUser issuesXUser, bool statePrueba) async {
     try {
       // getIssuesFluidCheckR
-      final res = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'fluid_check_r ->id_fluids_check, fluid_check_r ->engine_oil,fluid_check_r ->transmission, fluid_check_r ->coolant,fluid_check_r->power_steering,fluid_check_r ->diesel_exhaust_fluid,fluid_check_r ->windshield_washer_fluid, fluid_check_r ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+      if (statePrueba == false) {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'fluid_check_r ->id_fluids_check, fluid_check_r ->engine_oil,fluid_check_r ->transmission, fluid_check_r ->coolant,fluid_check_r->power_steering,fluid_check_r ->diesel_exhaust_fluid,fluid_check_r ->windshield_washer_fluid, fluid_check_r ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      // getIssuesFluidCheckD
-      final resD = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'fluid_check_d ->id_fluids_check, fluid_check_d ->engine_oil,fluid_check_d ->transmission, fluid_check_d ->coolant,fluid_check_d->power_steering,fluid_check_d ->diesel_exhaust_fluid,fluid_check_d ->windshield_washer_fluid, fluid_check_d ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+        // getIssuesFluidCheckD
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'fluid_check_d ->id_fluids_check, fluid_check_d ->engine_oil,fluid_check_d ->transmission, fluid_check_d ->coolant,fluid_check_d->power_steering,fluid_check_d ->diesel_exhaust_fluid,fluid_check_d ->windshield_washer_fluid, fluid_check_d ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      issueFluidCheckRClosed = (res as List<dynamic>)
-          .map((issueFluidCheckRClosed) =>
-              FluidCheck.fromJson(jsonEncode(issueFluidCheckRClosed)))
-          .toList();
-      issueFluidCheckDClosed = (resD as List<dynamic>)
-          .map((issueFluidCheckDClosed) =>
-              FluidCheck.fromJson(jsonEncode(issueFluidCheckDClosed)))
-          .toList();
+        issueFluidCheckRClosed = (res as List<dynamic>)
+            .map((issueFluidCheckRClosed) =>
+                FluidCheck.fromJson(jsonEncode(issueFluidCheckRClosed)))
+            .toList();
+        issueFluidCheckDClosed = (resD as List<dynamic>)
+            .map((issueFluidCheckDClosed) =>
+                FluidCheck.fromJson(jsonEncode(issueFluidCheckDClosed)))
+            .toList();
+      } else {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'fluid_check_r ->id_fluids_check, fluid_check_r ->engine_oil,fluid_check_r ->transmission, fluid_check_r ->coolant,fluid_check_r->power_steering,fluid_check_r ->diesel_exhaust_fluid,fluid_check_r ->windshield_washer_fluid, fluid_check_r ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
+
+        // getIssuesFluidCheckD
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'fluid_check_d ->id_fluids_check, fluid_check_d ->engine_oil,fluid_check_d ->transmission, fluid_check_d ->coolant,fluid_check_d->power_steering,fluid_check_d ->diesel_exhaust_fluid,fluid_check_d ->windshield_washer_fluid, fluid_check_d ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
+
+        issueFluidCheckRClosed = (res as List<dynamic>)
+            .map((issueFluidCheckRClosed) =>
+                FluidCheck.fromJson(jsonEncode(issueFluidCheckRClosed)))
+            .toList();
+        issueFluidCheckDClosed = (resD as List<dynamic>)
+            .map((issueFluidCheckDClosed) =>
+                FluidCheck.fromJson(jsonEncode(issueFluidCheckDClosed)))
+            .toList();
+      }
 
       // FluidCheckR
 
@@ -6053,37 +6211,65 @@ class IssueReportedProvider extends ChangeNotifier {
   // ---------------------------------------------------------------------------
 
   // Función para traer los nombre de los issues de Lights Closed
-  Future<void> getIssuesLightsClosed(IssuesXUser issuesXUser) async {
+  Future<void> getIssuesLightsClosed(
+      IssuesXUser issuesXUser, bool statePrueba) async {
     try {
       // getIssuesLightsR
-      final res = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'lights_r ->id_lights, lights_r ->headlights,lights_r ->brake_lights, lights_r ->reverse_lights,lights_r->warning_lights,lights_r ->turn_lights,lights_r ->4_way_flashers,lights_r ->dash_lights,lights_r ->strobe_lights,lights_r ->clearance_lights,lights_r ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+      if (statePrueba == false) {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'lights_r ->id_lights, lights_r ->headlights,lights_r ->brake_lights, lights_r ->reverse_lights,lights_r->warning_lights,lights_r ->turn_lights,lights_r ->4_way_flashers,lights_r ->dash_lights,lights_r ->strobe_lights,lights_r ->clearance_lights,lights_r ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      // getIssuesLightsD
-      final resD = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'lights_d ->id_lights, lights_d ->headlights,lights_d ->brake_lights, lights_d ->reverse_lights,lights_d->warning_lights,lights_d ->turn_lights,lights_d ->4_way_flashers,lights_d ->dash_lights,lights_d ->strobe_lights,lights_d ->clearance_lights,lights_d ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+        // getIssuesLightsD
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'lights_d ->id_lights, lights_d ->headlights,lights_d ->brake_lights, lights_d ->reverse_lights,lights_d->warning_lights,lights_d ->turn_lights,lights_d ->4_way_flashers,lights_d ->dash_lights,lights_d ->strobe_lights,lights_d ->clearance_lights,lights_d ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      // print(res);
+        // print(res);
 
-      issueLightsRClosed = (res as List<dynamic>)
-          .map((issueLightsRClosed) =>
-              Lights.fromJson(jsonEncode(issueLightsRClosed)))
-          .toList();
-      issueLightsDClosed = (resD as List<dynamic>)
-          .map((issueLightsDClosed) =>
-              Lights.fromJson(jsonEncode(issueLightsDClosed)))
-          .toList();
+        issueLightsRClosed = (res as List<dynamic>)
+            .map((issueLightsRClosed) =>
+                Lights.fromJson(jsonEncode(issueLightsRClosed)))
+            .toList();
+        issueLightsDClosed = (resD as List<dynamic>)
+            .map((issueLightsDClosed) =>
+                Lights.fromJson(jsonEncode(issueLightsDClosed)))
+            .toList();
+      } else {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'lights_r ->id_lights, lights_r ->headlights,lights_r ->brake_lights, lights_r ->reverse_lights,lights_r->warning_lights,lights_r ->turn_lights,lights_r ->4_way_flashers,lights_r ->dash_lights,lights_r ->strobe_lights,lights_r ->clearance_lights,lights_r ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
+        // getIssuesLightsD
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'lights_d ->id_lights, lights_d ->headlights,lights_d ->brake_lights, lights_d ->reverse_lights,lights_d->warning_lights,lights_d ->turn_lights,lights_d ->4_way_flashers,lights_d ->dash_lights,lights_d ->strobe_lights,lights_d ->clearance_lights,lights_d ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
+
+        // print(res);
+
+        issueLightsRClosed = (res as List<dynamic>)
+            .map((issueLightsRClosed) =>
+                Lights.fromJson(jsonEncode(issueLightsRClosed)))
+            .toList();
+        issueLightsDClosed = (resD as List<dynamic>)
+            .map((issueLightsDClosed) =>
+                Lights.fromJson(jsonEncode(issueLightsDClosed)))
+            .toList();
+      }
       // LightsR
       for (Lights issue in issueLightsRClosed) {
         if (issue.headlights == "Closed") {
@@ -7331,37 +7517,65 @@ class IssueReportedProvider extends ChangeNotifier {
   }
 
   // Funcion de getIssueSecurity issue cerrado
-  Future<void> getIssueSecurityClosed(IssuesXUser issuesXUser) async {
+  Future<void> getIssueSecurityClosed(
+      IssuesXUser issuesXUser, bool statePrueba) async {
     try {
       // getIssuesLightsR
-      final res = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'security_r ->id_security, security_r ->rta_magnet,security_r ->triangle_reflectors, security_r ->wheel_chocks,security_r->fire_extinguisher,security_r ->firts_aid_kit_safety_vest,security_r ->back_up_alarm,security_r ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+      if (statePrueba == false) {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'security_r ->id_security, security_r ->rta_magnet,security_r ->triangle_reflectors, security_r ->wheel_chocks,security_r->fire_extinguisher,security_r ->firts_aid_kit_safety_vest,security_r ->back_up_alarm,security_r ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      // getIssuesLightsD
-      final resD = await supabaseCtrlV
-          .from('issues_view')
-          .select(
-              'security_d ->id_security, security_d ->rta_magnet,security_d ->triangle_reflectors, security_d ->wheel_chocks,security_d->fire_extinguisher,security_d ->firts_aid_kit_safety_vest,security_d ->back_up_alarm,security_d ->date_added')
-          .eq('id_vehicle', issuesXUser.idVehicleFk)
-          .eq('id_user_fk', issuesXUser.userProfileId)
-          .or('issues_r.neq.0,issues_d.neq.0');
+        // getIssuesLightsD
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'security_d ->id_security, security_d ->rta_magnet,security_d ->triangle_reflectors, security_d ->wheel_chocks,security_d->fire_extinguisher,security_d ->firts_aid_kit_safety_vest,security_d ->back_up_alarm,security_d ->date_added')
+            .eq('id_vehicle', issuesXUser.idVehicleFk)
+            .eq('id_user_fk', issuesXUser.userProfileId)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
-      // print(res);
+        // print(res);
 
-      issueSecurityRClosed = (res as List<dynamic>)
-          .map((issueSecurityRClosed) =>
-              Security.fromJson(jsonEncode(issueSecurityRClosed)))
-          .toList();
-      issueSecurityDClosed = (resD as List<dynamic>)
-          .map((issueSecurityDClosed) =>
-              Security.fromJson(jsonEncode(issueSecurityDClosed)))
-          .toList();
+        issueSecurityRClosed = (res as List<dynamic>)
+            .map((issueSecurityRClosed) =>
+                Security.fromJson(jsonEncode(issueSecurityRClosed)))
+            .toList();
+        issueSecurityDClosed = (resD as List<dynamic>)
+            .map((issueSecurityDClosed) =>
+                Security.fromJson(jsonEncode(issueSecurityDClosed)))
+            .toList();
+      } else {
+        final res = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'security_r ->id_security, security_r ->rta_magnet,security_r ->triangle_reflectors, security_r ->wheel_chocks,security_r->fire_extinguisher,security_r ->firts_aid_kit_safety_vest,security_r ->back_up_alarm,security_r ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
 
+        // getIssuesLightsD
+        final resD = await supabaseCtrlV
+            .from('issues_view')
+            .select(
+                'security_d ->id_security, security_d ->rta_magnet,security_d ->triangle_reflectors, security_d ->wheel_chocks,security_d->fire_extinguisher,security_d ->firts_aid_kit_safety_vest,security_d ->back_up_alarm,security_d ->date_added')
+            .eq('id_vehicle', actualVehicle?.idVehicle)
+            .or('issues_r.neq.0,issues_d.neq.0');
+
+        // print(res);
+
+        issueSecurityRClosed = (res as List<dynamic>)
+            .map((issueSecurityRClosed) =>
+                Security.fromJson(jsonEncode(issueSecurityRClosed)))
+            .toList();
+        issueSecurityDClosed = (resD as List<dynamic>)
+            .map((issueSecurityDClosed) =>
+                Security.fromJson(jsonEncode(issueSecurityDClosed)))
+            .toList();
+      }
       // SecurityR
       for (Security issue in issueSecurityRClosed) {
         if (issue.rtaMagnet == "Closed") {
