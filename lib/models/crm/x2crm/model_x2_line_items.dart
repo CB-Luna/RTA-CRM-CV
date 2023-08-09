@@ -1,10 +1,34 @@
 // To parse this JSON data, do
 //
-//     final modelX2LineItems = modelX2LineItemsFromMap(jsonString);
+//     final modelX2LineItems = modelX2LineItemsFromJson(jsonString);
 
 import 'dart:convert';
 
 class ModelX2LineItems {
+  String? description;
+  List<Item>? items;
+
+  ModelX2LineItems({
+    this.description,
+    this.items,
+  });
+
+  factory ModelX2LineItems.fromRawJson(String str) => ModelX2LineItems.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory ModelX2LineItems.fromJson(Map<String, dynamic> json) => ModelX2LineItems(
+        description: json["description"],
+        items: json["items"] == null ? [] : List<Item>.from(json["items"]!.map((x) => Item.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "description": description,
+        "items": items == null ? [] : List<dynamic>.from(items!.map((x) => x.toJson())),
+      };
+}
+
+class Item {
   int? id;
   String? name;
   double? price;
@@ -15,7 +39,7 @@ class ModelX2LineItems {
   double? adjustment;
   dynamic createDate;
 
-  ModelX2LineItems({
+  Item({
     this.id,
     this.name,
     this.price,
@@ -27,11 +51,11 @@ class ModelX2LineItems {
     this.createDate,
   });
 
-  factory ModelX2LineItems.fromJson(String str) => ModelX2LineItems.fromMap(json.decode(str));
+  factory Item.fromRawJson(String str) => Item.fromJson(json.decode(str));
 
-  String toJson() => json.encode(toMap());
+  String toRawJson() => json.encode(toJson());
 
-  factory ModelX2LineItems.fromMap(Map<String, dynamic> json) => ModelX2LineItems(
+  factory Item.fromJson(Map<String, dynamic> json) => Item(
         id: json["id"],
         name: json["name"],
         price: json["price"],
@@ -39,11 +63,11 @@ class ModelX2LineItems {
         quoteId: json["quoteId"],
         currency: json["currency"],
         quantity: json["quantity"],
-        adjustment: json["adjustment"] ?? 0,
+        adjustment: json["adjustment"],
         createDate: json["createDate"],
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "price": price,

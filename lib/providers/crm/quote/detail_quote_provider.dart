@@ -7,12 +7,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
-import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_bgp_peering.dart';
-import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_data_centers.dart';
+//import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_%20generic_cat.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_order_info_types.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_cat_circuit_types.dart';
-import 'package:rta_crm_cv/models/crm/catalogos/model_cat_order_types.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_cat_vendor_model.dart';
 import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/models/orders.dart';
@@ -38,20 +36,20 @@ class DetailQuoteProvider extends ChangeNotifier {
     existingCircuitIDController.clear();
     newCircuitIDController.clear();
     newDataCenterController.clear();
-    existingEVCController.clear();
+    rackLocationController.clear();
+    demarcationPointController.clear();
 
-    orderTypesSelectedValue = orderTypesList.first.name!;
-    typesSelectedValue = typesList.first.name!;
-    dataCenterSelectedValue = dataCentersList.first.name!;
-    circuitTypeSelectedValue = circuitTypeList.first.name!;
+    multicastRequired = false;
+    locationController.clear();
     evcodSelectedValue = evcodList.first;
-    ddosSelectedValue = ddosList.first;
-    bgpSelectedValue = bgpList.first.name!;
+    evcCircuitId.clear();
+    //ddosSelectedValue = ddosList.first;
+    ddosSelectedValue = false;
     ipAdressSelectedValue = ipAdressList.first;
     ipInterfaceSelectedValue = ipInterfaceList.first;
     subnetSelectedValue = subnetList.first;
-    cirSelectedValue = cirList.first;
-    portSizeSelectedValue = portSizeList.first;
+
+    //idVendor = null;
 
     lineItemCenterController.clear();
     unitPriceController.clear();
@@ -62,6 +60,12 @@ class DetailQuoteProvider extends ChangeNotifier {
 
     comments.clear();
     commentController.clear();
+
+/*     pdfController = null;
+    docProveedor = null;
+    popupVisorPdfVisible = false; */
+
+    isLoading = false;
 
     id = 0;
 
@@ -102,6 +106,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   List<PlutoGridStateManager> listStateManager = [];
   List<PlutoRow> globalRows = [];
   List<QuoteOrder> quotes = [];
+  bool isLoading = false;
 
   var tableTop1Group = AutoSizeGroup();
   var tableTopGroup = AutoSizeGroup();
@@ -115,26 +120,33 @@ class DetailQuoteProvider extends ChangeNotifier {
   double totalPlusTax = 0;
   double margin = 0;
 
-  final existingCircuitIDController = TextEditingController();
-  final newCircuitIDController = TextEditingController();
-  final newDataCenterController = TextEditingController();
-  final existingEVCController = TextEditingController();
-  List<CatOrderTypes> orderTypesList = [CatOrderTypes(name: 'Internal Circuit')];
+  List<GenericCat> orderTypesList = [GenericCat(name: 'Internal Circuit')];
   late String orderTypesSelectedValue;
   List<CatOrderInfoTypes> typesList = [CatOrderInfoTypes(name: 'New')];
   late String typesSelectedValue;
-  List<CatDataCenters> dataCentersList = [CatDataCenters(name: 'New')];
+  final existingCircuitIDController = TextEditingController();
+  final newCircuitIDController = TextEditingController();
+  List<GenericCat> dataCentersList = [GenericCat(name: 'New')];
   late String dataCenterSelectedValue;
+  final newDataCenterController = TextEditingController();
+  final rackLocationController = TextEditingController();
+  List<GenericCat> handoffList = [GenericCat(name: 'New')];
+  late String handoffSelectedValue;
+  final demarcationPointController = TextEditingController();
 
   List<Vendor> vendorsList = [Vendor(vendorName: 'ATT')];
   String vendorSelectedValue = '';
+  bool multicastRequired = false;
+  final locationController = TextEditingController();
   List<CatCircuitTypes> circuitTypeList = [CatCircuitTypes(name: 'NNI')];
   late String circuitTypeSelectedValue;
-  List<String> ddosList = ['Yes', 'No'];
-  late String ddosSelectedValue;
+  //List<String> ddosList = ['Yes', 'No'];
+  //late String ddosSelectedValue;
+  bool ddosSelectedValue = false;
   List<String> evcodList = ['No', 'New', 'Existing EVC'];
   late String evcodSelectedValue;
-  List<CatBgpPeering> bgpList = [CatBgpPeering(name: 'No')];
+  final evcCircuitId = TextEditingController();
+  List<GenericCat> bgpList = [GenericCat(name: 'No')];
   late String bgpSelectedValue;
   List<String> ipAdressList = ['Interface', 'IP Subnet'];
   late String ipAdressSelectedValue;
@@ -142,9 +154,9 @@ class DetailQuoteProvider extends ChangeNotifier {
   late String ipInterfaceSelectedValue;
   List<String> subnetList = ['No', 'IPv4', 'IPv6'];
   late String subnetSelectedValue;
-  List<String> cirList = ['No', 'Yes'];
+  List<GenericCat> cirList = [GenericCat(name: 'Empty')];
   late String cirSelectedValue;
-  List<String> portSizeList = ['No', 'Yes'];
+  List<GenericCat> portSizeList = [GenericCat(name: 'Empty')];
   late String portSizeSelectedValue;
 
   final lineItemCenterController = TextEditingController();
@@ -198,7 +210,7 @@ class DetailQuoteProvider extends ChangeNotifier {
       if (quote.orderInfo.circuitType == 'EVCoD') {
         evcodSelectedValue = quote.orderInfo.evcodType!;
         if (quote.orderInfo.evcodType == 'Existing EVC') {
-          existingEVCController.text = quote.orderInfo.evcCircuitId!;
+          evcCircuitId.text = quote.orderInfo.evcCircuitId!;
         }
       }
 
@@ -310,7 +322,7 @@ class DetailQuoteProvider extends ChangeNotifier {
 
   void selectEVCOD(String selected) {
     evcodSelectedValue = selected;
-    existingEVCController.clear();
+    evcCircuitId.clear();
     notifyListeners();
   }
 
@@ -360,7 +372,7 @@ class DetailQuoteProvider extends ChangeNotifier {
       return false;
     } else if (dataCenterSelectedValue == 'New' && existingCircuitIDController.text.isEmpty && newCircuitIDController.text.isEmpty) {
       return false;
-    } else if (evcodSelectedValue == 'Existing EVC' && existingEVCController.text.isEmpty) {
+    } else if (evcodSelectedValue == 'Existing EVC' && evcCircuitId.text.isEmpty) {
       return false;
     } else if (lineItemCenterController.text.isEmpty ||
         unitPriceController.text.isEmpty ||
@@ -394,7 +406,7 @@ class DetailQuoteProvider extends ChangeNotifier {
     if (circuitTypeSelectedValue == 'EVCoD') {
       evcod = evcodSelectedValue;
       if (evcodSelectedValue == 'Existing EVC') {
-        evcodId = existingEVCController.text;
+        evcodId = evcCircuitId.text;
       }
     }
 
@@ -534,7 +546,7 @@ class DetailQuoteProvider extends ChangeNotifier {
     existingCircuitIDController.clear();
     newCircuitIDController.clear();
     newDataCenterController.clear();
-    existingEVCController.clear();
+    evcCircuitId.clear();
 
     orderTypesSelectedValue = orderTypesList.first;
     typesSelectedValue = typesList.first;
@@ -559,32 +571,47 @@ class DetailQuoteProvider extends ChangeNotifier {
     try {
       dynamic response = await supabaseCRM.from('cat_order_types').select().eq('visible', true);
       orderTypesList.clear();
-      orderTypesList = (response as List<dynamic>).map((type) => CatOrderTypes.fromRawJson(jsonEncode(type))).toList();
+      orderTypesList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
       orderTypesSelectedValue = orderTypesList.first.name!;
 
       response = await supabaseCRM.from('cat_order_info_types').select().eq('visible', true);
       typesList.clear();
-      typesList = (response as List<dynamic>).map((type) => CatOrderInfoTypes.fromRawJson(jsonEncode(type))).toList();
+      typesList = (response as List<dynamic>).map((index) => CatOrderInfoTypes.fromRawJson(jsonEncode(index))).toList();
       typesSelectedValue = typesList.first.name!;
 
       response = await supabaseCRM.from('cat_data_centers').select().eq('visible', true);
       dataCentersList.clear();
-      dataCentersList = (response as List<dynamic>).map((dataCenter) => CatDataCenters.fromRawJson(jsonEncode(dataCenter))).toList();
+      dataCentersList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
       dataCenterSelectedValue = dataCentersList.first.name!;
+
+      response = await supabaseCRM.from('cat_handoffs').select().eq('visible', true);
+      handoffList.clear();
+      handoffList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
+      handoffSelectedValue = handoffList.first.name!;
 
       response = await supabaseCRM.from('cat_vendors').select().eq('visible', true);
       vendorsList.clear();
-      vendorsList = (response as List<dynamic>).map((vendor) => Vendor.fromJson(jsonEncode(vendor))).toList();
+      vendorsList = (response as List<dynamic>).map((index) => Vendor.fromJson(jsonEncode(index))).toList();
       vendorSelectedValue = vendorsList.first.vendorName!;
 
       response = await supabaseCRM.from('cat_circuit_types').select().eq('visible', true);
       circuitTypeList.clear();
-      circuitTypeList = (response as List<dynamic>).map((type) => CatCircuitTypes.fromRawJson(jsonEncode(type))).toList();
+      circuitTypeList = (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
       circuitTypeSelectedValue = circuitTypeList.first.name!;
+
+      response = await supabaseCRM.from('cat_ports').select().eq('visible', true);
+      portSizeList.clear();
+      portSizeList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
+      portSizeSelectedValue = portSizeList.first.name!;
+
+      response = await supabaseCRM.from('cat_cirs').select().eq('visible', true);
+      cirList.clear();
+      cirList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
+      cirSelectedValue = cirList.first.name!;
 
       response = await supabaseCRM.from('cat_bgp_peering').select().eq('visible', true);
       bgpList.clear();
-      bgpList = (response as List<dynamic>).map((type) => CatBgpPeering.fromRawJson(jsonEncode(type))).toList();
+      bgpList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
       bgpSelectedValue = bgpList.first.name!;
 
       notifyListeners();
@@ -605,13 +632,13 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       var response = await supabaseCRM.from('x2_quotes_view').select().eq('quoteid', id);
 
-      quote = ModelX2QuotesView.fromJson(jsonEncode(response[0]));
+      quote = ModelX2QuotesView.fromRawJson(jsonEncode(response[0]));
 
       dynamic parameter = (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
       parameter = CatOrderInfoTypes.fromRawJson(jsonEncode(parameter)); // TODO: este mantenimiento para los demás
 
-      orderTypesSelectedValue = quote.orderInfo!.orderType;
-      typesSelectedValue = quote.orderInfo!.type;
+      orderTypesSelectedValue = quote.orderInfo!.orderType!;
+      typesSelectedValue = quote.orderInfo!.type!;
       if (parameter.parameters.newCircuitId) {
         newCircuitIDController.text = quote.orderInfo!.newCircuitId!;
       }
@@ -621,9 +648,9 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       if (quote.orderInfo!.dataCenterType == 'New') {
         dataCenterSelectedValue = 'New';
-        newDataCenterController.text = quote.orderInfo!.dataCenterLocation;
+        newDataCenterController.text = quote.orderInfo!.dataCenterLocation!;
       } else {
-        dataCenterSelectedValue = quote.orderInfo!.dataCenterLocation;
+        dataCenterSelectedValue = quote.orderInfo!.dataCenterLocation!;
       }
 
       vendorSelectedValue = quote.vendor!;
@@ -632,11 +659,14 @@ class DetailQuoteProvider extends ChangeNotifier {
       parameter = CatCircuitTypes.fromRawJson(jsonEncode(parameter));
 
       circuitTypeSelectedValue = quote.circuitInfo!.circuitType!;
-      if (quote.circuitInfo!.circuitType == 'EVCoD') {
+      /* if (quote.circuitInfo!.circuitType == 'EVCoD') {
         evcodSelectedValue = quote.circuitInfo!.evcodType!;
         if (quote.circuitInfo!.evcodType == 'Existing EVC') {
-          existingEVCController.text = quote.circuitInfo!.evcCircuitId!;
+          evcCircuitId.text = quote.circuitInfo!.evcCircuitId!;
         }
+      } */
+      if (quote.circuitInfo!.evcCircuitId != null) {
+        evcCircuitId.text = quote.circuitInfo!.evcCircuitId!;
       }
 
       if (parameter.parameters.cir) {
@@ -663,11 +693,11 @@ class DetailQuoteProvider extends ChangeNotifier {
       phoneController.text = quote.contactphone!;
 
       subtotal = quote.subtotal!;
-      cost = quote.totals!.cost;
-      total = quote.totals!.total;
-      tax = quote.totals!.tax;
-      totalPlusTax = quote.totals!.totalTax;
-      margin = quote.totals!.margin;
+      cost = quote.totals!.cost!;
+      total = quote.totals!.total!;
+      tax = quote.totals!.tax!;
+      totalPlusTax = quote.totals!.totalTax!;
+      margin = quote.totals!.margin!;
 
       //TODO : No se visualizan los items
       for (var item in quote.items!) {
@@ -684,7 +714,7 @@ class DetailQuoteProvider extends ChangeNotifier {
         );
       }
 
-      for (var comment in quote.comments!) {
+      /* for (var comment in quote.comments!) {
         comments.add(
           Comment(
             role: comment.role,
@@ -693,7 +723,7 @@ class DetailQuoteProvider extends ChangeNotifier {
             sended: comment.sended,
           ),
         );
-      }
+      } */
       notifyListeners();
       return true;
     } catch (e) {

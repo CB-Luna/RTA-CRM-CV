@@ -147,6 +147,7 @@ class _MyAppState extends State<MyApp> {
         locale: _locale,
         supportedLocales: const [Locale('en', 'US')],
         theme: ThemeData(
+          //useMaterial3: true,
           brightness: Brightness.light,
           dividerColor: Colors.grey,
           inputDecorationTheme: InputDecorationTheme(

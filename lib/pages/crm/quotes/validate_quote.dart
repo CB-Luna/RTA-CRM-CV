@@ -114,7 +114,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                           child: CustomTextField(
                                             enabled: false,
                                             width: txfFieldWidth,
-                                            controller: provider.existingCircuitIDController,
+                                            controller: provider.evcCircuitId,
                                             label: 'Existing Circuit ID',
                                             icon: Icons.cable_outlined,
                                             keyboardType: TextInputType.text,
@@ -316,7 +316,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     .cir!)
                                                   CustomDDownMenu(
                                                     enabled: false,
-                                                    list: provider.cirList,
+                                                    list: provider.cirList.map((type) => type.name!).toList(),
                                                     dropdownValue: provider.cirSelectedValue,
                                                     onChanged: (p0) {
                                                       //if (p0 != null) provider.selectCIR(p0);
@@ -334,7 +334,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     padding: const EdgeInsets.only(left: 20),
                                                     child: CustomDDownMenu(
                                                       enabled: false,
-                                                      list: provider.portSizeList,
+                                                      list: provider.portSizeList.map((type) => type.name!).toList(),
                                                       dropdownValue: provider.portSizeSelectedValue,
                                                       onChanged: (p0) {
                                                         //if (p0 != null) provider.selectPortSize(p0);
@@ -1065,7 +1065,7 @@ class _CommentsSectionState extends State<CommentsSection> {
                                     padding: const EdgeInsets.all(5),
                                     child: CustomScrollBar(
                                       scrollDirection: Axis.vertical,
-                                      child: Text(provider.comments[index].comment),
+                                      child: Text(provider.comments[index].comment!),
                                     ),
                                   ),
                                 ),

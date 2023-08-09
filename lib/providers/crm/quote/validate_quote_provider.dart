@@ -7,12 +7,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
-import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_bgp_peering.dart';
-import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_data_centers.dart';
+//import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_order_info_types.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_%20generic_cat.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_cat_circuit_types.dart';
-import 'package:rta_crm_cv/models/crm/catalogos/model_cat_order_types.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_cat_vendor_model.dart';
 import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/models/orders.dart';
@@ -36,29 +34,30 @@ class ValidateQuoteProvider extends ChangeNotifier {
     totalPlusTax = 0;
     margin = 0;
 
-    existingCircuitIDController.clear();
+    evcCircuitId.clear();
     newCircuitIDController.clear();
     newDataCenterController.clear();
     existingEVCController.clear();
 
-    orderTypesSelectedValue = orderTypesList.first.name!;
-    typesSelectedValue = typesList.first.name!;
-    dataCenterSelectedValue = dataCentersList.first.name!;
-    circuitTypeSelectedValue = circuitTypeList.first.name!;
+    getCatalogData();
+
+    evcCircuitId.clear();
+    newCircuitIDController.clear();
+    newDataCenterController.clear();
+    rackLocationController.clear();
+    demarcationPointController.clear();
+
+    multicastRequired = false;
+    locationController.clear();
     evcodSelectedValue = evcodList.first;
-    ddosSelectedValue = ddosList.first;
-    bgpSelectedValue = bgpList.first.name!;
+    existingEVCController.clear();
+    //ddosSelectedValue = ddosList.first;
+    ddosSelectedValue = false;
     ipAdressSelectedValue = ipAdressList.first;
     ipInterfaceSelectedValue = ipInterfaceList.first;
     subnetSelectedValue = subnetList.first;
-    cirSelectedValue = cirList.first;
-    portSizeSelectedValue = portSizeList.first;
 
-    companyController.clear();
-    nameController.clear();
-    lastNameController.clear();
-    emailController.clear();
-    phoneController.clear();
+    //idVendor = null;
 
     lineItemCenterController.clear();
     unitPriceController.clear();
@@ -121,26 +120,33 @@ class ValidateQuoteProvider extends ChangeNotifier {
   double totalPlusTax = 0;
   double margin = 0;
 
-  final existingCircuitIDController = TextEditingController();
-  final newCircuitIDController = TextEditingController();
-  final newDataCenterController = TextEditingController();
-  final existingEVCController = TextEditingController();
-  List<CatOrderTypes> orderTypesList = [CatOrderTypes(name: 'Internal Circuit')];
+  List<GenericCat> orderTypesList = [GenericCat(name: 'Internal Circuit')];
   late String orderTypesSelectedValue;
   List<CatOrderInfoTypes> typesList = [CatOrderInfoTypes(name: 'New')];
   late String typesSelectedValue;
-  List<CatDataCenters> dataCentersList = [CatDataCenters(name: 'New')];
+  final evcCircuitId = TextEditingController();
+  final newCircuitIDController = TextEditingController();
+  List<GenericCat> dataCentersList = [GenericCat(name: 'New')];
   late String dataCenterSelectedValue;
+  final newDataCenterController = TextEditingController();
+  final rackLocationController = TextEditingController();
+  List<GenericCat> handoffList = [GenericCat(name: 'New')];
+  late String handoffSelectedValue;
+  final demarcationPointController = TextEditingController();
 
   List<Vendor> vendorsList = [Vendor(vendorName: 'ATT')];
   String vendorSelectedValue = '';
+  bool multicastRequired = false;
+  final locationController = TextEditingController();
   List<CatCircuitTypes> circuitTypeList = [CatCircuitTypes(name: 'NNI')];
   late String circuitTypeSelectedValue;
-  List<String> ddosList = ['Yes', 'No'];
-  late String ddosSelectedValue;
+  //List<String> ddosList = ['Yes', 'No'];
+  //late String ddosSelectedValue;
+  bool ddosSelectedValue = false;
   List<String> evcodList = ['No', 'New', 'Existing EVC'];
   late String evcodSelectedValue;
-  List<CatBgpPeering> bgpList = [CatBgpPeering(name: 'No')];
+  final existingEVCController = TextEditingController();
+  List<GenericCat> bgpList = [GenericCat(name: 'No')];
   late String bgpSelectedValue;
   List<String> ipAdressList = ['Interface', 'IP Subnet'];
   late String ipAdressSelectedValue;
@@ -148,9 +154,9 @@ class ValidateQuoteProvider extends ChangeNotifier {
   late String ipInterfaceSelectedValue;
   List<String> subnetList = ['No', 'IPv4', 'IPv6'];
   late String subnetSelectedValue;
-  List<String> cirList = ['No', 'Yes'];
+  List<GenericCat> cirList = [GenericCat(name: 'Empty')];
   late String cirSelectedValue;
-  List<String> portSizeList = ['No', 'Yes'];
+  List<GenericCat> portSizeList = [GenericCat(name: 'Empty')];
   late String portSizeSelectedValue;
 
   final lineItemCenterController = TextEditingController();
@@ -316,9 +322,9 @@ class ValidateQuoteProvider extends ChangeNotifier {
       if (quote.orderInfo.type == 'New') {
         newCircuitIDController.text = quote.orderInfo.newCircuitId!;
       } else if (quote.orderInfo.type == 'Disconnect') {
-        existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
+        evcCircuitId.text = quote.orderInfo.existingCircuitId!;
       } else if (quote.orderInfo.type == 'Upgrade') {
-        existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
+        evcCircuitId.text = quote.orderInfo.existingCircuitId!;
         newCircuitIDController.text = quote.orderInfo.newCircuitId!;
       }
 
@@ -408,7 +414,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
     try {
       dynamic response = await supabaseCRM.from('cat_order_types').select().eq('visible', true);
       orderTypesList.clear();
-      orderTypesList = (response as List<dynamic>).map((type) => CatOrderTypes.fromRawJson(jsonEncode(type))).toList();
+      orderTypesList = (response as List<dynamic>).map((type) => GenericCat.fromRawJson(jsonEncode(type))).toList();
       orderTypesSelectedValue = orderTypesList.first.name!;
 
       response = await supabaseCRM.from('cat_order_info_types').select().eq('visible', true);
@@ -418,7 +424,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       response = await supabaseCRM.from('cat_data_centers').select().eq('visible', true);
       dataCentersList.clear();
-      dataCentersList = (response as List<dynamic>).map((dataCenter) => CatDataCenters.fromRawJson(jsonEncode(dataCenter))).toList();
+      dataCentersList = (response as List<dynamic>).map((dataCenter) => GenericCat.fromRawJson(jsonEncode(dataCenter))).toList();
       dataCenterSelectedValue = dataCentersList.first.name!;
 
       response = await supabaseCRM.from('cat_vendors').select().eq('visible', true);
@@ -433,7 +439,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       response = await supabaseCRM.from('cat_bgp_peering').select().eq('visible', true);
       bgpList.clear();
-      bgpList = (response as List<dynamic>).map((type) => CatBgpPeering.fromRawJson(jsonEncode(type))).toList();
+      bgpList = (response as List<dynamic>).map((type) => GenericCat.fromRawJson(jsonEncode(type))).toList();
       bgpSelectedValue = bgpList.first.name!;
 
       notifyListeners();
@@ -454,25 +460,25 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       var response = await supabaseCRM.from('x2_quotes_view').select().eq('quoteid', id);
 
-      quote = ModelX2QuotesView.fromJson(jsonEncode(response[0]));
+      quote = ModelX2QuotesView.fromRawJson(jsonEncode(response[0]));
 
       dynamic parameter = (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
       parameter = CatOrderInfoTypes.fromRawJson(jsonEncode(parameter)); // TODO: este mantenimiento para los demás
 
-      orderTypesSelectedValue = quote.orderInfo!.orderType;
-      typesSelectedValue = quote.orderInfo!.type;
+      orderTypesSelectedValue = quote.orderInfo!.orderType!;
+      typesSelectedValue = quote.orderInfo!.type!;
       if (parameter.parameters.newCircuitId) {
         newCircuitIDController.text = quote.orderInfo!.newCircuitId!;
       }
       if (parameter.parameters.existingCircuitId) {
-        existingCircuitIDController.text = quote.orderInfo!.existingCircuitId!;
+        evcCircuitId.text = quote.orderInfo!.existingCircuitId!;
       }
 
       if (quote.orderInfo!.dataCenterType == 'New') {
         dataCenterSelectedValue = 'New';
-        newDataCenterController.text = quote.orderInfo!.dataCenterLocation;
+        newDataCenterController.text = quote.orderInfo!.dataCenterLocation!;
       } else {
-        dataCenterSelectedValue = quote.orderInfo!.dataCenterLocation;
+        dataCenterSelectedValue = quote.orderInfo!.dataCenterLocation!;
       }
 
       vendorSelectedValue = quote.vendor!;
@@ -481,11 +487,21 @@ class ValidateQuoteProvider extends ChangeNotifier {
       parameter = CatCircuitTypes.fromRawJson(jsonEncode(parameter));
 
       circuitTypeSelectedValue = quote.circuitInfo!.circuitType!;
-      if (quote.circuitInfo!.circuitType == 'EVCoD') {
+      /* if (quote.circuitInfo!.circuitType == 'EVCoD') {
         evcodSelectedValue = quote.circuitInfo!.evcodType!;
         if (quote.circuitInfo!.evcodType == 'Existing EVC') {
-          existingEVCController.text = quote.circuitInfo!.evcCircuitId!;
+          evcCircuitId.text = quote.circuitInfo!.evcCircuitId!;
         }
+      } */
+      if (quote.circuitInfo!.evcCircuitId != null) {
+        evcCircuitId.text = quote.circuitInfo!.evcCircuitId!;
+      }
+
+      if (parameter.parameters.cir) {
+        cirSelectedValue = quote.circuitInfo!.cir!;
+      }
+      if (parameter.parameters.portSize) {
+        portSizeSelectedValue = quote.circuitInfo!.portSize!;
       }
 
       ddosSelectedValue = quote.circuitInfo!.ddosType!;
@@ -498,13 +514,6 @@ class ValidateQuoteProvider extends ChangeNotifier {
         subnetSelectedValue = quote.circuitInfo!.subnetType!;
       }
 
-      if (parameter.parameters.cir) {
-        cirSelectedValue = quote.circuitInfo!.cir!;
-      }
-      if (parameter.parameters.portSize) {
-        portSizeSelectedValue = quote.circuitInfo!.portSize!;
-      }
-
       companyController.text = quote.account!;
       nameController.text = quote.contactfirstname!;
       lastNameController.text = quote.contactlastname!;
@@ -512,11 +521,11 @@ class ValidateQuoteProvider extends ChangeNotifier {
       phoneController.text = quote.contactphone!;
 
       subtotal = quote.subtotal!;
-      cost = quote.totals!.cost;
-      total = quote.totals!.total;
-      tax = quote.totals!.tax;
-      totalPlusTax = quote.totals!.totalTax;
-      margin = quote.totals!.margin;
+      cost = quote.totals!.cost!;
+      total = quote.totals!.total!;
+      tax = quote.totals!.tax!;
+      totalPlusTax = quote.totals!.totalTax!;
+      margin = quote.totals!.margin!;
 
       //TODO : No se visualizan los items
       for (var item in quote.items!) {

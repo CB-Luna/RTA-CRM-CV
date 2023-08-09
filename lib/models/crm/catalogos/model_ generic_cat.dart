@@ -1,27 +1,27 @@
 // To parse this JSON data, do
 //
-//     final catBgpPeering = catBgpPeeringFromJson(jsonString);
+//     final catDataCenters = catDataCentersFromJson(jsonString);
 
 import 'dart:convert';
 
-class CatBgpPeering {
+class GenericCat {
   int? id;
   DateTime? createdAt;
   String? name;
   bool? visible;
 
-  CatBgpPeering({
+  GenericCat({
     this.id,
     this.createdAt,
     this.name,
     this.visible,
   });
 
-  factory CatBgpPeering.fromRawJson(String str) => CatBgpPeering.fromJson(json.decode(str));
+  factory GenericCat.fromRawJson(String str) => GenericCat.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory CatBgpPeering.fromJson(Map<String, dynamic> json) => CatBgpPeering(
+  factory GenericCat.fromJson(Map<String, dynamic> json) => GenericCat(
         id: json["id"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         name: json["name"],

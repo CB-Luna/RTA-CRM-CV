@@ -32,7 +32,7 @@ class QuotesProvider extends ChangeNotifier {
 
   Future<void> updateState() async {
     await setIndex(0);
-    await getQuotes(null);
+    await getX2Quotes(null);
   }
 
   void clearControllers({bool notify = true}) {
@@ -231,7 +231,7 @@ class QuotesProvider extends ChangeNotifier {
     }
   } */
 
-  Future<void> getQuotes(int? status) async {
+/*   Future<void> getQuotes(int? status) async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
@@ -313,7 +313,7 @@ class QuotesProvider extends ChangeNotifier {
     notifyListeners();
 
     await getX2Quotes(null);
-  }
+  } */
 
   Future<void> getX2Quotes(int? status) async {
     try {
@@ -352,7 +352,7 @@ class QuotesProvider extends ChangeNotifier {
         }
       }
 
-      List<ModelX2QuotesView> listQuotes = (res as List<dynamic>).map((quote) => ModelX2QuotesView.fromJson(jsonEncode(quote))).toList();
+      List<ModelX2QuotesView> listQuotes = (res as List<dynamic>).map((quote) => ModelX2QuotesView.fromRawJson(jsonEncode(quote))).toList();
 
       rows.clear();
       for (ModelX2QuotesView quote in listQuotes) {
@@ -391,7 +391,7 @@ class QuotesProvider extends ChangeNotifier {
   Future<bool> insertPowerCode(int id) async {
     try {
       var responseQuote = await supabaseCRM.from('x2_quotes_view').select().eq('quoteid', id);
-      var quote = ModelX2QuotesView.fromJson(jsonEncode(responseQuote[0]));
+      var quote = ModelX2QuotesView.fromRawJson(jsonEncode(responseQuote[0]));
 
       bool existInPowerCode = false;
       PcCustomer? pcCustomer;
@@ -405,7 +405,7 @@ class QuotesProvider extends ChangeNotifier {
       for (var item in quote.items!) {
         servicesList.add(
           {
-            "id": item.id, //LineItem ID
+            "id": item.idQuoteItem, //LineItem ID
             "name": item.lineItem, //LineItem Name
             "price": item.unitPrice, //LineItem Price
             "quantity": item.quantity, //LineItem Quantiy
