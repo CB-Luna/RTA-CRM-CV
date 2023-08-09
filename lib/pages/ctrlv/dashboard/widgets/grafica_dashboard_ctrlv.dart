@@ -645,9 +645,9 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                               ),
                               lineBarsData: [
                                 provider.totals(verde),
-                                provider.cry(),
-                                provider.ode(),
-                                provider.smi(),
+                                provider.getCRY(),
+                                provider.getODE(),
+                                provider.getSMI(),
                               ],
                               minY: 0,
                               titlesData: FlTitlesData(

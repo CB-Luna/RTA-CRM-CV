@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
-import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/ctrlv/dashboard_provider.dart';
@@ -137,7 +137,7 @@ class _TablaMesesCtrlVState extends State<TablaMesesCtrlV> {
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
                   type: PlutoColumnType.text(),
-                  width: 225,
+                  width: 170,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
                     return Container(
@@ -198,7 +198,7 @@ class _TablaMesesCtrlVState extends State<TablaMesesCtrlV> {
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'L. PLATES',
                   field: 'LICENSE_PLATES_Column',
-                  width: 225,
+                  width: 150,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
                   type: PlutoColumnType.text(),
@@ -281,10 +281,10 @@ class _TablaMesesCtrlVState extends State<TablaMesesCtrlV> {
                   backgroundColor: const Color(0XFF6491F7),
                   title: 'ISSUE',
                   field: 'ISSUE_Column',
-                  width: 225,
+                  width: 160,
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
-                  type: PlutoColumnType.number(),
+                  type: PlutoColumnType.text(),
                   enableEditingMode: false,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
@@ -294,7 +294,75 @@ class _TablaMesesCtrlVState extends State<TablaMesesCtrlV> {
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                           child: Text(
-                        '\$ ${moneyFormat(rendererContext.cell.value)} USD',
+                        '${rendererContext.cell.value}',
+                        style: AppTheme.of(context).contenidoTablas.override(
+                            fontFamily: 'Gotham-Regular',
+                            useGoogleFonts: false),
+                      )),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(
+                        child: Icon(Icons.person_outline,
+                            color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(
+                        text: 'User',
+                        style: AppTheme.of(context).encabezadoTablas)
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'User',
+                  field: 'USER_Column',
+                  width: 200,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      // width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(
+                          child: Text(
+                        '${rendererContext.cell.value}',
+                        style: AppTheme.of(context).contenidoTablas.override(
+                            fontFamily: 'Gotham-Regular',
+                            useGoogleFonts: false),
+                      )),
+                    );
+                  },
+                ),
+                PlutoColumn(
+                  titleSpan: TextSpan(children: [
+                    WidgetSpan(
+                        child: Icon(Icons.assignment_outlined,
+                            color: AppTheme.of(context).primaryBackground)),
+                    const WidgetSpan(child: SizedBox(width: 10)),
+                    TextSpan(
+                        text: 'Type Form',
+                        style: AppTheme.of(context).encabezadoTablas)
+                  ]),
+                  backgroundColor: const Color(0XFF6491F7),
+                  title: 'Type Form',
+                  field: 'TYPE_FORM_Column',
+                  width: 170,
+                  titleTextAlign: PlutoColumnTextAlign.start,
+                  textAlign: PlutoColumnTextAlign.center,
+                  type: PlutoColumnType.text(),
+                  enableEditingMode: false,
+                  cellPadding: EdgeInsets.zero,
+                  renderer: (rendererContext) {
+                    return Container(
+                      height: rowHeight,
+                      // width: rendererContext.cell.column.width,
+                      decoration: BoxDecoration(gradient: whiteGradient),
+                      child: Center(
+                          child: Text(
+                        '${rendererContext.cell.value}',
                         style: AppTheme.of(context).contenidoTablas.override(
                             fontFamily: 'Gotham-Regular',
                             useGoogleFonts: false),
@@ -328,7 +396,7 @@ class _TablaMesesCtrlVState extends State<TablaMesesCtrlV> {
                       decoration: BoxDecoration(gradient: whiteGradient),
                       child: Center(
                         child: Text(
-                          '${moneyFormat(rendererContext.cell.value)}%',
+                          DateFormat("MMM-dd-yyyy hh:mm:ss").format(rendererContext.cell.value),
                           style: AppTheme.of(context).contenidoTablas.override(
                               fontFamily: 'Gotham-Regular',
                               useGoogleFonts: false),

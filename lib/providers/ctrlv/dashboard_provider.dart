@@ -3,13 +3,13 @@ import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart' hide State;
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
+import 'package:rta_crm_cv/models/issues_dashboards.dart';
 import 'package:rta_crm_cv/models/leads_history.dart';
-
-import 'package:http/http.dart' as http;
 
 import 'package:rta_crm_cv/models/x2crm/x2crm_quote_model.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -18,6 +18,7 @@ class DashboardCVProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<PlutoRow> rows = [], rows2 = [];
   List<Quotes> quotess = [];
+  List<IssuesDashboards> issuesDashboards = [];
   List<X2CrmQuote> x2crmQuotes = [];
   PlutoGridStateManager? stateManager;
   bool editmode = false;
@@ -33,6 +34,7 @@ class DashboardCVProvider extends ChangeNotifier {
   DateTimeRange dateRange = DateTimeRange(start: DateTime.now().subtract(const Duration(days: 28)), end: DateTime.now());
 
   Color azul = const Color(0xFF2E5899), rojo = const Color(0xFFD20030), naranja = const Color.fromRGBO(255, 138, 0, 1);
+  double cry = 62, ode = 30, smi = 28;
   //Radianes grafica barra
   /* LinearGradient get gradientRoja => LinearGradient(
         colors: [
@@ -70,7 +72,7 @@ class DashboardCVProvider extends ChangeNotifier {
   var titleGroup = AutoSizeGroup();
   Future<void> updateState() async {
     await getHistory();
-    await getQuotes(null);
+    await getIssues(null);
   }
 
   clearAll() {
@@ -128,7 +130,7 @@ class DashboardCVProvider extends ChangeNotifier {
         initialEntryMode: DatePickerEntryMode.input);
     if (newDateRange == null) return;
     dateRange = newDateRange;
-    getQuotes(null);
+    getIssues(null);
     notifyListeners();
   }
 
@@ -173,76 +175,329 @@ class DashboardCVProvider extends ChangeNotifier {
   }
 
 //Tabla overview history
-  Future<void> getX2CRMQuotes() async {
-    var headers = {
-      'Authorization': 'Basic YWxleGM6NW1saDM5UjhQUVc4WnI3TzhDcGlPSDJvZE1xaGtFOE8=',
-      //'Cookie': 'PHPSESSID=u3lgismtbbamh7g3k6b8dqteuk; YII_CSRF_TOKEN=Z2VybTVsZERNcV9faDVSUlE1VFRZeHk3WmNUWmRiSEMSMv7x7artFlmFwAp6GLyf7Qsi4oYOGXtsrcYz02xGJg%3D%3D'
-    };
-    var request = http.Request('GET', Uri.parse('http://34.130.182.108/X2CRM-master/x2engine/index.php/api2/Quotes'));
+  // Future<void> getX2CRMQuotes() async {
+  //   var headers = {
+  //     'Authorization': 'Basic YWxleGM6NW1saDM5UjhQUVc4WnI3TzhDcGlPSDJvZE1xaGtFOE8=',
+  //     //'Cookie': 'PHPSESSID=u3lgismtbbamh7g3k6b8dqteuk; YII_CSRF_TOKEN=Z2VybTVsZERNcV9faDVSUlE1VFRZeHk3WmNUWmRiSEMSMv7x7artFlmFwAp6GLyf7Qsi4oYOGXtsrcYz02xGJg%3D%3D'
+  //   };
+  //   var request = http.Request('GET', Uri.parse('http://34.130.182.108/X2CRM-master/x2engine/index.php/api2/Quotes'));
 
-    request.headers.addAll(headers);
+  //   request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
+  //   http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
-      x2crmQuotes.clear();
+  //   if (response.statusCode == 200) {
+  //     x2crmQuotes.clear();
 
-      var res = jsonDecode(await response.stream.bytesToString());
+  //     var res = jsonDecode(await response.stream.bytesToString());
 
-      x2crmQuotes = (res as List<dynamic>).map((quote) => X2CrmQuote.fromJson(jsonEncode(quote))).toList();
-    } else {
-      log(response.reasonPhrase.toString());
-    }
-  }
+  //     x2crmQuotes = (res as List<dynamic>).map((quote) => X2CrmQuote.fromJson(jsonEncode(quote))).toList();
+  //   } else {
+  //     log(response.reasonPhrase.toString());
+  //   }
+  // }
 
-  Future<void> getQuotes(String? status) async {
+  Future<void> getIssues(String? status) async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
     }
     try {
-      dynamic res;
+      dynamic resCTRLV;
       if (status != null) {
-        res = await supabaseCRM.from('quotes_view').select().eq('status', status);
+        // res = await supabaseCRM.from('quotes_view').select().eq('status', status);
       } else {
-        if (currentUser!.isSales) {
-          res = await supabaseCRM.from('quotes_view').select().gt('updated_at', dateRange.start).lt('updated_at', dateRange.end);
-
-          //res = await supabaseCRM.from('quotes_view').select().eq('status', 'Margin Positive').or('margin.lt.22,margin.gt.45');
-        } else if (currentUser!.isSenExec) {
-          res = await supabaseCRM.from('quotes_view').select().eq('status', 'Opened');
-        } else if (currentUser!.isFinance) {
-          res = await supabaseCRM.from('quotes_view').select().or('status.eq.Sen. Exec. Validate,status.eq.Margin Positive');
-        } else if (currentUser!.isOpperations) {
-          res = await supabaseCRM.from('quotes_view').select().eq('status', 'Finance Validate').or('status.eq.Accepted');
-        }
+        resCTRLV = await supabaseCtrlV.from('dashboards_cv_view').select().gt('date_added_r', dateRange.start).lt('date_added_r', dateRange.end);
       }
 
-      if (res == null) {
-        log('Error en getUsuarios()');
+      if (resCTRLV == null) {
+        log('Error en getIssues()');
         return;
       }
-      quotess = (res as List<dynamic>).map((quote) => Quotes.fromJson(jsonEncode(quote))).toList();
+      issuesDashboards = (resCTRLV as List<dynamic>).map((issue) => IssuesDashboards.fromJson(jsonEncode(issue))).toList();
 
       rows2.clear();
-      for (Quotes quote in quotess) {
-        rows2.add(
-          PlutoRow(
-            cells: {
-              'COMPANY_Column': PlutoCell(value: quote.organitationName),
-              'LICENSE_PLATES_Column': PlutoCell(value: quote.total),
-              'ISSUE_Column': PlutoCell(value: quote.items.first.lineItem),
-              'DATE_Column': PlutoCell(value: quote.expectedClose),
-            },
-          ),
-        );
+      for (IssuesDashboards issue in issuesDashboards) {
+        // Bucket Inspection
+        issue.bucketInspectionR.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.bucketInspectionR.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check Out"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        issue.bucketInspectionD.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.bucketInspectionD.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check In"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        // Car Bodywork
+        issue.carBodyworkR.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.carBodyworkR.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check Out"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        issue.carBodyworkD.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.carBodyworkD.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check In"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        // Equipment
+        issue.equipmentR.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.equipmentR.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check Out"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        issue.equipmentD.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.equipmentD.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check In"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        // Extra
+        issue.extraR.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.extraR.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check Out"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        issue.extraD.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.extraD.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check In"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        // Fluid Check
+        issue.fluidCheckR.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.fluidCheckR.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check Out"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        issue.fluidCheckD.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.fluidCheckD.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check In"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        // Lights
+        issue.lightsR.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.lightsR.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check Out"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        issue.lightsD.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.lightsD.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check In"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        // Security
+        issue.securityR.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.securityR.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check Out"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
+        issue.securityD.toMap().forEach((key, value) {
+          if (value == false) {
+            String nameIssue = key.replaceAll("_", " ").capitalize;
+            DateTime dateAdded =
+                DateTime.parse(issue.securityD.toMap()["date_added"]);
+            rows2.add(
+              PlutoRow(
+                cells: {
+                  'COMPANY_Column': PlutoCell(value: issue.company),
+                  'LICENSE_PLATES_Column': PlutoCell(value: issue.licensePlates),
+                  'ISSUE_Column': PlutoCell(value: nameIssue),
+                  'USER_Column': PlutoCell(value: "${issue.userProfile.name} ${issue.userProfile.lastName}"),
+                  'TYPE_FORM_Column': PlutoCell(value: "Check In"),
+                  'DATE_Column': PlutoCell(value: dateAdded),
+                },
+              ),
+            );
+          }
+        });
       }
 
       if (stateManager != null) stateManager!.notifyListeners();
 
-      await getX2CRMQuotes();
+      // await getX2CRMQuotes();
     } catch (e) {
-      log('Error en getQuotes() - $e');
+      log('Error en getIssues() - $e');
     }
 
     notifyListeners();
@@ -667,7 +922,7 @@ class DashboardCVProvider extends ChangeNotifier {
     );
   }
 
-  LineChartBarData cry() {
+  LineChartBarData getCRY() {
     return LineChartBarData(
       spots: [
         const FlSpot(0, 10),
@@ -692,7 +947,7 @@ class DashboardCVProvider extends ChangeNotifier {
     );
   }
 
-  LineChartBarData ode() {
+  LineChartBarData getODE() {
     return LineChartBarData(
       spots: [
         const FlSpot(0, 1),
@@ -717,7 +972,7 @@ class DashboardCVProvider extends ChangeNotifier {
     );
   }
 
-  LineChartBarData smi() {
+  LineChartBarData getSMI() {
     return LineChartBarData(
       spots: [
         const FlSpot(0, 1),
@@ -743,9 +998,9 @@ class DashboardCVProvider extends ChangeNotifier {
   }
 
   //pie chart
-  double orderpie = 62, quote = 30, cancel = 28;
+  
   List<PieChartSectionData> showingSections() {
-    double porder = (orderpie / (orderpie + quote + cancel)) * 100, pquote = (quote / (orderpie + quote + cancel)) * 100, pcancel = (cancel / (orderpie + quote + cancel)) * 100;
+    double porder = (cry / (cry + ode + smi)) * 100, pquote = (ode / (cry + ode + smi)) * 100, pcancel = (smi / (cry + ode + smi)) * 100;
     String rorder = porder.toStringAsFixed(2), rquote = pquote.toStringAsFixed(2), rcancel = pcancel.toStringAsFixed(2);
     double dorder = double.parse(rorder), dquote = double.parse(rquote), dcancel = double.parse(rcancel);
     return List.generate(3, (i) {
@@ -757,7 +1012,7 @@ class DashboardCVProvider extends ChangeNotifier {
           return PieChartSectionData(
             color: azul,
             value: dorder,
-            title: '$orderpie\n$dorder%',
+            title: '$cry\n$dorder%',
             radius: radius,
             titleStyle: TextStyle(fontFamily: 'UniNeue', fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
@@ -765,7 +1020,7 @@ class DashboardCVProvider extends ChangeNotifier {
           return PieChartSectionData(
             color: rojo,
             value: dquote,
-            title: '$quote\n$dquote%',
+            title: '$ode\n$dquote%',
             radius: radius,
             titleStyle: TextStyle(fontFamily: 'UniNeue', fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
@@ -773,7 +1028,7 @@ class DashboardCVProvider extends ChangeNotifier {
           return PieChartSectionData(
             color: naranja,
             value: dcancel,
-            title: '$cancel\n$dcancel%',
+            title: '$smi\n$dcancel%',
             radius: radius,
             titleStyle: TextStyle(fontFamily: 'UniNeue', fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
@@ -827,7 +1082,7 @@ class DashboardCVProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void load() {
+  void load() { 
     stateManager!.setShowLoading(true);
   }
 }
