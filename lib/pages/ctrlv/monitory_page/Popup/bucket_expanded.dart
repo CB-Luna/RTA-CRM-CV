@@ -136,8 +136,8 @@ class _BucketCommentsImagesIssuesState extends State<BucketCommentsImagesIssues>
                   child: Text(provider.actualDetailField?.comments != "" ? "${provider.actualDetailField?.comments}" : "No Comments")),
             ),
             SizedBox(
-              height: 300,
-              width: 400,
+              height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.2,
               child: CarouselSlider.builder(
                 itemCount: provider.actualDetailField?.listImages?.length ?? 0,
                 itemBuilder: (context, index, realIndex) {

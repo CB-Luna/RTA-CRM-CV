@@ -215,7 +215,7 @@ class DetailVehicleCard extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              "Oil Change Due: ",
+                              "Last Oil Change: ",
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
