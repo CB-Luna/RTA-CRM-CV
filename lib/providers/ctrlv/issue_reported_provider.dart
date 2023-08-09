@@ -98,6 +98,7 @@ class IssueReportedProvider extends ChangeNotifier {
   List<Issues> issues = [];
 
   IssuesComments? actualissuesComments;
+  IssueOpenclose? actualIssueOpenClose;
 
   // ---------------------- Listas R -------------------------
   //List<IssuesComments> bucketInspectionR = [];
@@ -234,8 +235,8 @@ class IssueReportedProvider extends ChangeNotifier {
   }
 
   // Seleccionar el Issue Comments
-  void selectIssuesComments(IssuesComments issueComments) {
-    actualissuesComments = issueComments;
+  void selectIssueOpenClose(int index, List<IssueOpenclose> issueOpenClose) {
+    actualIssueOpenClose = issueOpenClose[index];
     notifyListeners();
   }
 
@@ -350,7 +351,7 @@ class IssueReportedProvider extends ChangeNotifier {
       }
       if (contador == 2) {
         cambiovistaMeasures = true;
-        getIssuesLightsComments(issuesComments);
+        getIssuesLightsComments(issuesComments); //Listo
         print("getIssuesLightsComments");
       }
       if (contador == 3) {
@@ -582,13 +583,13 @@ class IssueReportedProvider extends ChangeNotifier {
         case 1:
           print(contadorSeccion);
           await supabaseCtrlV.from('fluids_check').update({
-            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
+            actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
             // "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
             //     "Issue Closed update at ${dateTimeClosedIssueController.text}",
-            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_dateclosed":
+            "${actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_")}_dateclosed":
                 dateTimeClosedIssueController.text,
-          }).eq("id_fluids_check", registroIssueComments!.idIssue);
+          }).eq("id_fluids_check", actualIssueOpenClose!.idIssue);
 
           return true;
         case 2:
@@ -603,11 +604,15 @@ class IssueReportedProvider extends ChangeNotifier {
         case 3:
           print(contadorSeccion);
           await supabaseCtrlV.from('car_bodywork').update({
-            registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_"):
+            actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
-            "${registroIssueComments!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
-                "Issue Closed update at ${dateTimeClosedIssueController.text}"
-          }).eq("car_bodywork.id_car_bodywork", registroIssueComments!.idIssue);
+            // "${actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_")}_comments":
+            //     "Issue Closed update at ${dateTimeClosedIssueController.text}"
+            "${actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_")}_dateclosed":
+                dateTimeClosedIssueController.text,
+          }).eq("car_bodywork.id_car_bodywork", actualIssueOpenClose!.idIssue);
+
+          print("ISSUE: ${actualIssueOpenClose?.nameIssue}");
           return true;
         case 4:
           print(contadorSeccion);
@@ -1139,12 +1144,13 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resHolesDrilled.first['holes_drilled_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resHolesDrilled.first['date_added']));
+              dateAddedOpen:
+                  DateTime.parse(resHolesDrilled.first['date_added']));
         }
       }
       if (issueOpenClose.nameIssue == "Bucket Liner") {
@@ -1157,12 +1163,13 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resBucketLiner.first['holes_drilled_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resBucketLiner.first['bucket_liner_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resBucketLiner.first['date_added']));
+              dateAddedOpen:
+                  DateTime.parse(resBucketLiner.first['date_added']));
         }
       }
       if (issueOpenClose.nameIssue == "Insulated") {
@@ -1175,12 +1182,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resInsulated.first['insulated_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resInsulated.first['insulated_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resInsulated.first['date_added']));
+              dateAddedOpen: DateTime.parse(resInsulated.first['date_added']));
         }
       }
       print("Entro a getIssuesBucketInspectionComments");
@@ -1208,15 +1215,16 @@ class IssueReportedProvider extends ChangeNotifier {
               .first['wiper_blades_front_image']
               .toString()
               .split('|');
+          listImage.removeLast();
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resWiperBladeF.first['wiper_blades_front_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resWiperBladeF.first['date_added']));
-          print(
-              "RegistroIssueCommentsCar: ${registroIssueComments!.nameIssue}");
+              dateAddedOpen:
+                  DateTime.parse(resWiperBladeF.first['date_added']));
+          print("RegistroIssueCommentsCar: ${actualIssueOpenClose!.nameIssue}");
         }
 
         notifyListeners();
@@ -1234,12 +1242,13 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resWiperBladeB.first['wiper_blades_back_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resWiperBladeB.first['date_added']));
+              dateAddedOpen:
+                  DateTime.parse(resWiperBladeB.first['date_added']));
         }
         notifyListeners();
       }
@@ -1252,13 +1261,14 @@ class IssueReportedProvider extends ChangeNotifier {
         if (resGeneralB.isNotEmpty) {
           List<String> listImage =
               resGeneralB.first['general_body_image'].toString().split('|');
+          listImage.removeLast();
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resGeneralB.first['general_body_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resGeneralB.first['date_added']));
+              dateAddedOpen: DateTime.parse(resGeneralB.first['date_added']));
         }
         notifyListeners();
       }
@@ -1272,12 +1282,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resDecaling.first['decaling_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resDecaling.first['decaling_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resDecaling.first['date_added']));
+              dateAddedOpen: DateTime.parse(resDecaling.first['date_added']));
         }
         notifyListeners();
       }
@@ -1291,12 +1301,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resTires.first['tires_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resTires.first['tires_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resTires.first['date_added']));
+              dateAddedOpen: DateTime.parse(resTires.first['date_added']));
         }
         notifyListeners();
       }
@@ -1311,12 +1321,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resGlass.first['glass_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resGlass.first['glass_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resGlass.first['date_added']));
+              dateAddedOpen: DateTime.parse(resGlass.first['date_added']));
         }
         notifyListeners();
       }
@@ -1330,13 +1340,14 @@ class IssueReportedProvider extends ChangeNotifier {
         if (resMirrors.isNotEmpty) {
           List<String> listImage =
               resMirrors.first['mirrors_image'].toString().split('|');
+          listImage.removeLast();
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resMirrors.first['mirrors_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resMirrors.first['date_added']));
+              dateAddedOpen: DateTime.parse(resMirrors.first['date_added']));
         }
         notifyListeners();
       }
@@ -1350,12 +1361,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resParking.first['parking_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resParking.first['parking_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resParking.first['date_added']));
+              dateAddedOpen: DateTime.parse(resParking.first['date_added']));
         }
         notifyListeners();
       }
@@ -1369,12 +1380,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resBrakes.first['brakes_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resBrakes.first['brakes_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resBrakes.first['date_added']));
+              dateAddedOpen: DateTime.parse(resBrakes.first['date_added']));
         }
         notifyListeners();
       }
@@ -1388,12 +1399,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resEmgBrakes.first['emg_brakes_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resEmgBrakes.first['emg_brakes_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resEmgBrakes.first['date_added']));
+              dateAddedOpen: DateTime.parse(resEmgBrakes.first['date_added']));
         }
         notifyListeners();
       }
@@ -1408,12 +1419,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resHorn.first['horn_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resHorn.first['horn_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resHorn.first['date_added']));
+              dateAddedOpen: DateTime.parse(resHorn.first['date_added']));
         }
         notifyListeners();
       }
@@ -2817,12 +2828,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resIgnitionK.first['ignition_key_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resIgnitionK.first['ignition_key_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resIgnitionK.first['date_added']));
+              dateAddedOpen: DateTime.parse(resIgnitionK.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -2838,12 +2849,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resBinsBoxKey.first['bins_box_key_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resBinsBoxKey.first['bins_box_key_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resBinsBoxKey.first['date_added']));
+              dateAddedOpen: DateTime.parse(resBinsBoxKey.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -2863,13 +2874,13 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments:
                   resVehicleRC.first['vehicle_registration_copy_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resVehicleRC.first['date_added']));
+              dateAddedOpen: DateTime.parse(resVehicleRC.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -2889,12 +2900,12 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resVehicleIC.first['vehicle_insurance_copy_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resVehicleIC.first['date_added']));
+              dateAddedOpen: DateTime.parse(resVehicleIC.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -2914,13 +2925,14 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments:
                   resBucketLiftOM.first['bucket_lift_operator_manual_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resBucketLiftOM.first['date_added']));
+              dateAddedOpen:
+                  DateTime.parse(resBucketLiftOM.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -4464,12 +4476,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resLadder.first['ladder_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resLadder.first['ladder_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resLadder.first['date_added']));
+              dateAddedOpen: DateTime.parse(resLadder.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -4486,12 +4498,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resStepLadder.first['step_ladder_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resStepLadder.first['step_ladder_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resStepLadder.first['date_added']));
+              dateAddedOpen: DateTime.parse(resStepLadder.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -4508,12 +4520,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resLadderS.first['ladder_straps_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               nameIssue: issueOpenClose.nameIssue,
               idIssue: issueOpenClose.idIssue,
               comments: resLadderS.first['ladder_straps_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resLadderS.first['date_added']));
+              dateAddedOpen: DateTime.parse(resLadderS.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -4533,13 +4545,13 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments:
                   resHydraFFB.first['hydraulic_fluid_for_bucket_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resHydraFFB.first['date_added']));
+              dateAddedOpen: DateTime.parse(resHydraFFB.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -4557,12 +4569,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resFiberRR.first['fiber_reel_rack_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resFiberRR.first['fiber_reel_rack_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resFiberRR.first['date_added']));
+              dateAddedOpen: DateTime.parse(resFiberRR.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -4582,12 +4594,12 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resBinsLAS.first['bins_locked_and_secure_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resBinsLAS.first['date_added']));
+              dateAddedOpen: DateTime.parse(resBinsLAS.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -4604,12 +4616,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resSafetyH.first['safety_harness_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resSafetyH.first['safety_harness_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resSafetyH.first['date_added']));
+              dateAddedOpen: DateTime.parse(resSafetyH.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -4629,12 +4641,12 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resLanyardSH.first['lanyard_safety_harness_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resLanyardSH.first['date_added']));
+              dateAddedOpen: DateTime.parse(resLanyardSH.first['date_added']));
           print(
               "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
@@ -5393,12 +5405,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resEngineOil.first['engine_oil_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resEngineOil.first['engine_oil_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resEngineOil.first['date_added']));
+              dateAddedOpen: DateTime.parse(resEngineOil.first['date_added']));
           print(
               "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
         }
@@ -5415,12 +5427,13 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resTransmission.first['transmission_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resTransmission.first['transmission_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resTransmission.first['date_added']));
+              dateAddedOpen:
+                  DateTime.parse(resTransmission.first['date_added']));
           print(
               "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
         }
@@ -5437,12 +5450,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resCoolant.first['coolant_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resCoolant.first['coolant_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resCoolant.first['date_added']));
+              dateAddedOpen: DateTime.parse(resCoolant.first['date_added']));
           print(
               "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
         }
@@ -5459,12 +5472,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resPowerS.first['power_steering_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resPowerS.first['power_steering_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resPowerS.first['date_added']));
+              dateAddedOpen: DateTime.parse(resPowerS.first['date_added']));
           print(
               "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
         }
@@ -5484,12 +5497,12 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               nameIssue: issueOpenClose.nameIssue,
               idIssue: issueOpenClose.idIssue,
               comments: resDieselExF.first['diesel_exhaust_fluid_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resDieselExF.first['date_added']));
+              dateAddedOpen: DateTime.parse(resDieselExF.first['date_added']));
           print(
               "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
         }
@@ -5509,13 +5522,14 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments:
                   resWindshieldWF.first['windshield_washer_fluid_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resWindshieldWF.first['date_added']));
+              dateAddedOpen:
+                  DateTime.parse(resWindshieldWF.first['date_added']));
           print(
               "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
         }
@@ -6643,13 +6657,13 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resLights.first['headlights_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               nameIssue: issueOpenClose.nameIssue,
               idIssue: issueOpenClose.idIssue,
               comments: resLights.first['headlights_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resLights.first['date_added']));
-          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+              dateAddedOpen: DateTime.parse(resLights.first['date_added']));
+          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6664,13 +6678,14 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resBrakeLights.first['brake_lights_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resBrakeLights.first['brake_lights_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resBrakeLights.first['date_added']));
-          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+              dateAddedOpen:
+                  DateTime.parse(resBrakeLights.first['date_added']));
+          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6685,13 +6700,13 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resReverseL.first['reverse_lights_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resReverseL.first['reverse_lights_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resReverseL.first['date_added']));
-          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+              dateAddedOpen: DateTime.parse(resReverseL.first['date_added']));
+          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6706,13 +6721,13 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resWarningL.first['warning_lights_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resWarningL.first['warning_lights_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resWarningL.first['date_added']));
-          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+              dateAddedOpen: DateTime.parse(resWarningL.first['date_added']));
+          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6727,13 +6742,13 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resTurnS.first['turn_signals_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resTurnS.first['turn_signals_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resTurnS.first['date_added']));
-          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+              dateAddedOpen: DateTime.parse(resTurnS.first['date_added']));
+          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6748,13 +6763,13 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               res4WayF.first['4_way_flashers_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: res4WayF.first['4_way_flashers_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(res4WayF.first['date_added']));
-          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+              dateAddedOpen: DateTime.parse(res4WayF.first['date_added']));
+          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6769,13 +6784,13 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resDashL.first['dash_lights_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resDashL.first['dash_lights_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resDashL.first['date_added']));
-          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+              dateAddedOpen: DateTime.parse(resDashL.first['date_added']));
+          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6790,13 +6805,13 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resStrobeL.first['strobe_lights_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resStrobeL.first['strobe_lights_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resStrobeL.first['date_added']));
-          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+              dateAddedOpen: DateTime.parse(resStrobeL.first['date_added']));
+          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6812,13 +6827,13 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resCabRoofL.first['cab_roof_lights_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               nameIssue: issueOpenClose.nameIssue,
               idIssue: issueOpenClose.idIssue,
               comments: resCabRoofL.first['cab_roof_lights_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resCabRoofL.first['date_added']));
-          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+              dateAddedOpen: DateTime.parse(resCabRoofL.first['date_added']));
+          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6835,13 +6850,13 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resClearanceL.first['clearance_lights_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resClearanceL.first['date_added']));
-          print("getIssuesLightsComments: ${registroIssueComments!.nameIssue}");
+              dateAddedOpen: DateTime.parse(resClearanceL.first['date_added']));
+          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -7041,12 +7056,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resGas.first['gas_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resGas.first['gas_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resGas.first['date_added']));
+              dateAddedOpen: DateTime.parse(resGas.first['date_added']));
           print(
               "getIssuesMeasuresComments: ${registroIssueComments!.nameIssue}");
         }
@@ -7063,12 +7078,12 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resMileage.first['gas_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resMileage.first['gas_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resMileage.first['date_added']));
+              dateAddedOpen: DateTime.parse(resMileage.first['date_added']));
           print(
               "getIssuesMeasuresComments: ${registroIssueComments!.nameIssue}");
         }
@@ -7811,14 +7826,14 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resRTAM.first['rta_magnet_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resRTAM.first['rta_magnet_commnets'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resRTAM.first['date_added']));
+              dateAddedOpen: DateTime.parse(resRTAM.first['date_added']));
           print(
-              "getIssuesSecurityComments: ${registroIssueComments!.nameIssue}");
+              "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -7836,14 +7851,14 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resTriangleR.first['triangle_reflectors_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resTriangleR.first['date_added']));
+              dateAddedOpen: DateTime.parse(resTriangleR.first['date_added']));
           print(
-              "getIssuesSecurityComments: ${registroIssueComments!.nameIssue}");
+              "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -7858,14 +7873,15 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resWheelChocks.first['wheel_chocks_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               nameIssue: issueOpenClose.nameIssue,
               idIssue: issueOpenClose.idIssue,
               comments: resWheelChocks.first['wheel_chocks_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resWheelChocks.first['date_added']));
+              dateAddedOpen:
+                  DateTime.parse(resWheelChocks.first['date_added']));
           print(
-              "getIssuesSecurityComments: ${registroIssueComments!.nameIssue}");
+              "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -7883,14 +7899,14 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resFireExting.first['fire_extinguisher_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resFireExting.first['date_added']));
+              dateAddedOpen: DateTime.parse(resFireExting.first['date_added']));
           print(
-              "getIssuesSecurityComments: ${registroIssueComments!.nameIssue}");
+              "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -7908,15 +7924,16 @@ class IssueReportedProvider extends ChangeNotifier {
               .toString()
               .split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments:
                   resFirstAidKSV.first['first_aid_kit_safety_vest_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resFirstAidKSV.first['date_added']));
+              dateAddedOpen:
+                  DateTime.parse(resFirstAidKSV.first['date_added']));
           print(
-              "getIssuesSecurityComments: ${registroIssueComments!.nameIssue}");
+              "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -7931,14 +7948,15 @@ class IssueReportedProvider extends ChangeNotifier {
           List<String> listImage =
               resBackUpAlarm.first['back_up_alarm_image'].toString().split('|');
 
-          registroIssueComments = IssuesComments(
+          actualIssueOpenClose = IssueOpenclose(
               idIssue: issueOpenClose.idIssue,
               nameIssue: issueOpenClose.nameIssue,
               comments: resBackUpAlarm.first['back_up_alarm_comments'],
               listImages: listImage,
-              dateAdded: DateTime.parse(resBackUpAlarm.first['date_added']));
+              dateAddedOpen:
+                  DateTime.parse(resBackUpAlarm.first['date_added']));
           print(
-              "getIssuesSecurityComments: ${registroIssueComments!.nameIssue}");
+              "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }

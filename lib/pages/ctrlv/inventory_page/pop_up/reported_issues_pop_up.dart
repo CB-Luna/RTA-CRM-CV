@@ -8,7 +8,6 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 import '../../../../functions/sizes.dart';
 import '../../../../helpers/constants.dart';
-import '../../../../models/issues.dart';
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../public/colors.dart';
@@ -276,18 +275,13 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                           builder: (BuildContext context) {
                                             return StatefulBuilder(
                                                 builder: (context, setState) {
-                                              if (state) {
-                                                return Text("");
-                                              } else {
-                                                issueReportedProvider
-                                                    .clearRegistroIssueComments();
-                                                return IssuesPopUpTotal(
-                                                    text: "FluidCheck",
-                                                    contador: 1,
-                                                    issueComments:
-                                                        rendererContext
-                                                            .cell.value);
-                                              }
+                                              issueReportedProvider
+                                                  .clearRegistroIssueComments();
+                                              return IssuesPopUpTotal(
+                                                  text: "FluidCheck",
+                                                  contador: 1,
+                                                  issueComments: rendererContext
+                                                      .cell.value);
                                             });
                                           }),
                                       child: const Icon(Icons.cancel_outlined,
@@ -389,6 +383,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                   builder: (context, setState) {
                                                 issueReportedProvider
                                                     .clearRegistroIssueComments();
+
                                                 return IssuesPopUpTotal(
                                                     text: "Lights",
                                                     contador: 2,
