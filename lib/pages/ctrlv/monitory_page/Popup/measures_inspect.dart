@@ -138,8 +138,8 @@ class _MeasuresInspectState extends State<MeasuresInspect> {
             provider.actualDetailField?.listImages?.length == null ||
                     provider.actualDetailField?.listImages?.length == 0
                 ? SizedBox(
-                    height: 300,
-                    width: 400,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.2,
                     child: CarouselSlider.builder(
                       itemCount: 1,
                       itemBuilder: (context, index, realIndex) {
@@ -152,8 +152,8 @@ class _MeasuresInspectState extends State<MeasuresInspect> {
                     ),
                   )
                 : SizedBox(
-                    height: 300,
-                    width: 400,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.2,
                     child: CarouselSlider.builder(
                       itemCount: provider.actualDetailField?.listImages?.length,
                       itemBuilder: (context, index, realIndex) {

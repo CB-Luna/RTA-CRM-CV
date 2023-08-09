@@ -140,8 +140,8 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
             provider.actualDetailField?.listImages?.length == null ||
                     provider.actualDetailField?.listImages?.length == 0
                 ? SizedBox(
-                    height: 300,
-                    width: 400,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.2,
                     child: CarouselSlider.builder(
                       itemCount: 1,
                       itemBuilder: (context, index, realIndex) {
@@ -154,8 +154,8 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
                     ),
                   )
                 : SizedBox(
-                    height: 300,
-                    width: 400,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.2,
                     child: CarouselSlider.builder(
                       itemCount: provider.actualDetailField?.listImages?.length,
                       itemBuilder: (context, index, realIndex) {
