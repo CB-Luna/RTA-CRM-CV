@@ -1130,14 +1130,14 @@ class CreateQuoteProvider extends ChangeNotifier {
         },
       ).select())[0];
 
-      var responseImage = await supabase.storage.from('demarcation-points').uploadBinary('order_${resp["id"].toString()}_demarcationPoint', imageBytes!);
+      var responseImage = await supabase.storage.from('demarcation-points').uploadBinary('order_${resp["id"].toString()}_demarcationPoint.png', imageBytes!);
 
       if (responseImage.isNotEmpty) {
-        responseImage = supabase.storage.from('assets/Vehicles').getPublicUrl(
-              'order_${resp["id"].toString()}_demarcationPoint',
+        responseImage = supabase.storage.from('demarcation-points').getPublicUrl(
+              'order_${resp["id"].toString()}_demarcationPoint.png',
             );
         await supabaseCRM.from('orders_info').update(
-          {'demarcation_url': responseImage, 'demarcation_doc': 'order_${resp["id"].toString()}_demarcationPoint'},
+          {'demarcation_url': responseImage, 'demarcation_doc': 'order_${resp["id"].toString()}_demarcationPoint.png'},
         ).eq('id', resp["id"]);
       }
 
