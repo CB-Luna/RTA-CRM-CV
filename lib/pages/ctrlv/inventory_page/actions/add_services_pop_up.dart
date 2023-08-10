@@ -48,6 +48,20 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomTextIconButton(
+                  isLoading: false,
+                  icon: Icon(Icons.arrow_back_outlined,
+                      color: AppTheme.of(context).primaryBackground),
+                  text: '',
+                  onTap: () {
+                    context.pop();
+                  },
+                ),
+                      ],
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(right: 15),
                       child: Container(
@@ -141,15 +155,7 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
                       if (context.canPop()) context.pop();
                       provider.updateStateService();
                     }),
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.exit_to_app_outlined,
-                      color: AppTheme.of(context).primaryBackground),
-                  text: 'Exit',
-                  onTap: () {
-                    context.pop();
-                  },
-                ),
+                
               ],
             )
           ],

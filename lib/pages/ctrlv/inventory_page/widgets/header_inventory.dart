@@ -10,6 +10,7 @@ import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 import '../actions/add_vehicle_pop_up.dart';
 import '../actions/export_data.dart';
+import '../actions/export_vehicle.dart';
 
 class InventoryPageHeader extends StatefulWidget {
   InventoryPageHeader({
@@ -122,18 +123,31 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                     builder: (BuildContext context) {
                       return const ExportDataFilter();
                     });
-              //   await provider.updateState();
-              //   DateTime? newDate = await showDatePicker(
-              //       context: context,
-              //       initialDate: DateTime.now(),
-              //       firstDate: DateTime(1980),
-              //       lastDate: DateTime(2050));
-
-              //   if (newDate != null) {
-              //     await provider.excelActivityReports(newDate) == false
-              //         ? Container()
-              //         : Container();
-              //   }
+               },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, top: 10),
+            child: CustomTextIconButton(
+              width: MediaQuery.of(context).size.width * 0.12,
+              isLoading: false,
+              icon: Icon(Icons.download_for_offline_outlined,
+                  color: AppTheme.of(context).primaryBackground),
+              text: 'Export Vehicle Data',
+              style: AppTheme.of(context).contenidoTablas.override(
+                    fontFamily: 'Gotham-Regular',
+                    useGoogleFonts: false,
+                    color: AppTheme.of(context).primaryBackground,
+                  ),
+              color: AppTheme.of(context).primaryColor,
+              onTap: () async {
+                provider.clearControllers(notify: false);
+                if (!mounted) return;
+                await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const ExportVehicleFilter();
+                    });
                },
             ),
           ),

@@ -11,14 +11,16 @@ import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
-class ExportDataFilter extends StatefulWidget {
-  const ExportDataFilter({super.key});
+import '../../../../models/vehicle.dart';
+
+class ExportVehicleFilter extends StatefulWidget {
+  const ExportVehicleFilter({super.key});
 
   @override
-  State<ExportDataFilter> createState() => _ExportDataFilterState();
+  State<ExportVehicleFilter> createState() => _ExportVehicleFilterState();
 }
 
-class _ExportDataFilterState extends State<ExportDataFilter> {
+class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
   FToast fToast = FToast();
 
   @override
@@ -27,12 +29,15 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
     final formKey = GlobalKey<FormState>();
 
-    List<String> companies = ["All", "ODE", "SMI", "CRY"];
+    provider.getLicenses();
+    
+    
+
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
-        title: 'Export Data',
+        title: 'Export Vehicle Data',
         height: 634,
         width: 380,
         child: Column(
@@ -61,22 +66,45 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
-                        hint: 'Choose a Company',
-                        label: '1. Company*',
+                        hint: 'Choose a Vehicle',
+                        label: 'Vehicle*',
                         width: 350,
-                        list: companies,
-                        dropdownValue: provider.companySel,
+                        list: provider.plates ?? [],
+                        dropdownValue: provider.vehicleSel,
                         onChanged: (val) {
                           if (val == null) return;
-                          provider.getCompanyFilter(val);
+                          provider.getVehicleExport(val);
                         },
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                          label: 'Date*',
-                          controller: provider.dateExportDataController,
+                          label: 'Initial Date*',
+                          controller: provider.dateExportVehicleDataFirstController,
+                          enabled: true,
+                          onTapCheck: true,
+                          width: 350,
+                          keyboardType: TextInputType.name,
+                          onTap: () async {
+                            DateTime? newfirstDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1980),
+                                lastDate: DateTime(2050));
+                            if (newfirstDate != null) {
+                              provider.dateExportVehicleDataFirstController.text =
+                                  DateFormat("MM/dd/yyyy").format(newfirstDate);
+                              provider.getFirstDate(newfirstDate);
+                            }
+                            
+                          }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      child: CustomTextFieldForm(
+                          label: 'Final Date*',
+                          controller: provider.dateExportVehicleDataLastController,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
@@ -88,9 +116,9 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
                                 firstDate: DateTime(1980),
                                 lastDate: DateTime(2050));
                             if (newDate != null) {
-                              provider.dateExportDataController.text =
+                              provider.dateExportVehicleDataLastController.text =
                                   DateFormat("MM/dd/yyyy").format(newDate);
-                              provider.getDateFilter(newDate);
+                              provider.getLastDate(newDate);
                             }
                             
                           }),

@@ -47,8 +47,16 @@ class InventoryProvider extends ChangeNotifier {
 
   // Controllers para exportar datos
   TextEditingController dateExportDataController = TextEditingController();
+  TextEditingController dateExportVehicleDataFirstController = TextEditingController();
+  TextEditingController dateExportVehicleDataLastController = TextEditingController();
+
   String companySel = "All";
   DateTime newDate = DateTime.now();
+  String vehicleSel = "";
+  List<String>? plates;
+  DateTime firstSel = DateTime.now();
+  DateTime lastSel = DateTime.now();
+
 
   // Controllers para el Update Inventario
   TextEditingController makeControllerUpdate = TextEditingController();
@@ -1661,6 +1669,25 @@ class InventoryProvider extends ChangeNotifier {
   }
   void getDateFilter(DateTime date){
     newDate = date;
+    notifyListeners();
+  }
+
+  void getVehicleExport(String plate){
+    vehicleSel = plate;
+    notifyListeners();
+  }
+  void getLicenses(){
+    for(int i = 0; i<vehicles.length;i++){
+      plates?[i] = vehicles[i].licesensePlates;
+    }
+    notifyListeners();
+  }
+  void getFirstDate (DateTime selection){
+    firstSel = selection;
+    notifyListeners();
+  }
+  void getLastDate (DateTime select){
+    lastSel = select;
     notifyListeners();
   }
 }

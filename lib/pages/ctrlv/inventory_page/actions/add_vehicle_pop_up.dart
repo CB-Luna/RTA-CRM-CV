@@ -55,6 +55,20 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CustomTextIconButton(
+                  isLoading: false,
+                  icon: Icon(Icons.arrow_back_outlined,
+                      color: AppTheme.of(context).primaryBackground),
+                  text: '',
+                  onTap: () {
+                    context.pop();
+                  },
+                ),
+              ],
+            ),
             Form(
               key: formKey,
               child: SingleChildScrollView(
@@ -320,7 +334,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomTextIconButton(
                     isLoading: false,
@@ -351,15 +365,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
 
                       if (context.canPop()) context.pop();
                     }),
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.exit_to_app_outlined,
-                      color: AppTheme.of(context).primaryBackground),
-                  text: 'Exit',
-                  onTap: () {
-                    context.pop();
-                  },
-                ),
+                
               ],
             )
           ],
