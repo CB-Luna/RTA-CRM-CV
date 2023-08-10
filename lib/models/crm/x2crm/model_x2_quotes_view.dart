@@ -8,7 +8,7 @@ class ModelX2QuotesView {
   int? quoteid;
   String? quote;
   String? x2Quoteid;
-  int? probability;
+  double? probability;
   int? idStatus;
   String? status;
   String? description;
@@ -20,7 +20,7 @@ class ModelX2QuotesView {
   String? currency;
   double? total;
   double? subtotal;
-  int? margin;
+  double? margin;
   int? idvendor;
   String? vendor;
   String? dataCenter;
@@ -117,8 +117,8 @@ class ModelX2QuotesView {
         lastactivity: json["lastactivity"] == null ? null : DateTime.parse(json["lastactivity"]),
         expectedclosedate: json["expectedclosedate"],
         currency: json["currency"],
-        total: json["total"]?.toDouble(),
-        subtotal: json["subtotal"]?.toDouble(),
+        total: json["total"],
+        subtotal: json["subtotal"],
         margin: json["margin"],
         idvendor: json["idvendor"],
         vendor: json["vendor"],
@@ -202,7 +202,7 @@ class ModelX2QuotesView {
 
 class CircuitInfo {
   String? cir;
-  String? handoff;
+
   String? ipType;
   String? bgpType;
   bool? ddosType;
@@ -216,7 +216,6 @@ class CircuitInfo {
 
   CircuitInfo({
     this.cir,
-    this.handoff,
     this.ipType,
     this.bgpType,
     this.ddosType,
@@ -235,7 +234,6 @@ class CircuitInfo {
 
   factory CircuitInfo.fromJson(Map<String, dynamic> json) => CircuitInfo(
         cir: json["cir"],
-        handoff: json["handoff"],
         ipType: json["ip_type"],
         bgpType: json["bgp_type"],
         ddosType: json["ddos_type"],
@@ -250,7 +248,6 @@ class CircuitInfo {
 
   Map<String, dynamic> toJson() => {
         "cir": cir,
-        "handoff": handoff,
         "ip_type": ipType,
         "bgp_type": bgpType,
         "ddos_type": ddosType,
@@ -368,6 +365,7 @@ class OrderInfo {
   String? type;
   String? orderType;
   String? rackLocation;
+  String? handoff;
   String? dataCenterType;
   String? demarcationPoint;
   String? existingCircuitId;
@@ -378,6 +376,7 @@ class OrderInfo {
     this.type,
     this.orderType,
     this.rackLocation,
+    this.handoff,
     this.dataCenterType,
     this.demarcationPoint,
     this.existingCircuitId,
@@ -393,6 +392,7 @@ class OrderInfo {
         type: json["type"],
         orderType: json["order_type"],
         rackLocation: json["rack_location"],
+        handoff: json["handoff"],
         dataCenterType: json["data_center_type"],
         demarcationPoint: json["demarcation_point"],
         existingCircuitId: json["existing_circuit_id"],
@@ -404,6 +404,7 @@ class OrderInfo {
         "type": type,
         "order_type": orderType,
         "rack_location": rackLocation,
+        "handoff": handoff,
         "data_center_type": dataCenterType,
         "demarcation_point": demarcationPoint,
         "existing_circuit_id": existingCircuitId,

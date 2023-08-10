@@ -124,7 +124,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             label: 'Existing Circuit ID',
                                             icon: Icons.cable_outlined,
                                             keyboardType: TextInputType.text,
-                                            validator: (value) {
+                                            /* validator: (value) {
                                               if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
                                                   .parameters!.existingCircuitId!) {
                                                 if (value == null || value.isEmpty) {
@@ -134,7 +134,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 return null;
                                               }
                                               return null;
-                                            },
+                                            }, */
                                           ),
                                         ),
                                       if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))].parameters!
@@ -150,7 +150,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             label: 'New Circuit ID',
                                             icon: Icons.cable_outlined,
                                             keyboardType: TextInputType.text,
-                                            validator: (value) {
+                                            /* validator: (value) {
                                               if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
                                                   .parameters!.newCircuitId!) {
                                                 if (value == null || value.isEmpty) {
@@ -160,7 +160,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 return null;
                                               }
                                               return null;
-                                            },
+                                            }, */
                                           ),
                                         ),
                                       Padding(
@@ -188,7 +188,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             label: 'New Data Center',
                                             icon: Icons.location_on_outlined,
                                             keyboardType: TextInputType.text,
-                                            validator: (value) {
+                                            /* validator: (value) {
                                               if (provider.dataCenterSelectedValue == 'New') {
                                                 if (value == null || value.isEmpty) {
                                                   print('aqui3');
@@ -197,7 +197,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 return null;
                                               }
                                               return null;
-                                            },
+                                            }, */
                                           ),
                                         ),
                                       Padding(
@@ -211,13 +211,13 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                           label: 'Rack Location',
                                           icon: Icons.not_listed_location_outlined,
                                           keyboardType: TextInputType.text,
-                                          validator: (value) {
+                                          /* validator: (value) {
                                             if (value == null || value.isEmpty) {
                                               print('aqui4');
                                               return 'Please enter some text';
                                             }
                                             return null;
-                                          },
+                                          }, */
                                         ),
                                       ),
                                       Padding(
@@ -244,13 +244,13 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                           label: 'Demarcation Point',
                                           icon: Icons.fork_left_sharp,
                                           keyboardType: TextInputType.text,
-                                          validator: (value) {
+                                          /* validator: (value) {
                                             if (value == null || value.isEmpty) {
                                               print('aqui5');
                                               return 'Please enter some text';
                                             }
                                             return null;
-                                          },
+                                          }, */
                                         ),
                                       ),
                                     ],
@@ -304,13 +304,13 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             label: 'Location',
                                             icon: Icons.location_city_outlined,
                                             keyboardType: TextInputType.text,
-                                            validator: (value) {
+                                            /* validator: (value) {
                                               if (value == null || value.isEmpty) {
                                                 print('aqui6');
                                                 return 'Please enter some text';
                                               }
                                               return null;
-                                            },
+                                            }, */
                                           ),
                                         ),
                                         Padding(
@@ -401,11 +401,11 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                               required: true,
                                               enabled: false,
                                               width: txfFieldWidth,
-                                              controller: provider.evcCircuitId,
+                                              controller: provider.evcCircuitIdController,
                                               label: 'EVC Circuit ID',
                                               icon: Icons.electrical_services,
                                               keyboardType: TextInputType.text,
-                                              validator: (value) {
+                                              /* validator: (value) {
                                                 if (provider
                                                     .circuitTypeList[
                                                         provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
@@ -418,7 +418,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                   return null;
                                                 }
                                                 return null;
-                                              },
+                                              }, */
                                             ),
                                           ),
                                         Padding(

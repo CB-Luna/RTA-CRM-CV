@@ -46,7 +46,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     multicastRequired = false;
     locationController.clear();
     evcodSelectedValue = evcodList.first;
-    evcCircuitId.clear();
+    evcCircuitIdController.clear();
     //ddosSelectedValue = ddosList.first;
     ddosSelectedValue = false;
     ipAdressSelectedValue = ipAdressList.first;
@@ -137,7 +137,7 @@ class CreateQuoteProvider extends ChangeNotifier {
   bool ddosSelectedValue = false;
   List<String> evcodList = ['No', 'New', 'Existing EVC'];
   late String evcodSelectedValue;
-  final evcCircuitId = TextEditingController();
+  final evcCircuitIdController = TextEditingController();
   List<GenericCat> bgpList = [GenericCat(name: 'No')];
   late String bgpSelectedValue;
   List<String> ipAdressList = ['Interface', 'IP Subnet'];
@@ -193,6 +193,7 @@ class CreateQuoteProvider extends ChangeNotifier {
 
   void selectCircuitInfo(String selected) {
     circuitTypeSelectedValue = selected;
+    evcCircuitIdController.clear();
     selectCIR(cirList.first.name!);
     selectPortSize(cirList.first.name!);
     selectEVCOD(evcodList.first);
@@ -201,7 +202,7 @@ class CreateQuoteProvider extends ChangeNotifier {
 
   void selectEVCOD(String selected) {
     evcodSelectedValue = selected;
-    evcCircuitId.clear();
+    evcCircuitIdController.clear();
     notifyListeners();
   }
 
@@ -257,7 +258,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       return false;
     } else if (demarcationPointController.text.isEmpty) {
       return false;
-    } else if (evcodSelectedValue == 'Existing EVC' && evcCircuitId.text.isEmpty) {
+    } else if (evcodSelectedValue == 'Existing EVC' && evcCircuitIdController.text.isEmpty) {
       return false;
     } else if (globalRows.isEmpty) {
       return false;
@@ -466,8 +467,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       if (circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.portSize!)
         'port_size': portSizeSelectedValue,
       if (circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.evcod!)
-        'evc_circuit_id': evcCircuitId.text,
-      'handoff': handoffSelectedValue,
+        'evc_circuit_id': evcCircuitIdController.text,
     });
 
     return circuitType;
@@ -495,27 +495,17 @@ class CreateQuoteProvider extends ChangeNotifier {
 
   Map<String, dynamic> returnOrderType() {
     Map<String, dynamic> orderType = {};
-    if (typesSelectedValue == 'New Circuit') {
-      orderType.addAll({
-        'order_type': orderTypesSelectedValue,
-        'type': typesSelectedValue,
+
+    orderType.addAll({
+      'order_type': orderTypesSelectedValue,
+      'type': typesSelectedValue,
+      if (typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.existingCircuitId!)
         'existing_circuit_id': existingCircuitIDController.text,
+      if (typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.newCircuitId!)
         'new_circuit_id': newCircuitIDController.text,
-      });
-    } else if (typesSelectedValue == 'Circuit Removal') {
-      orderType.addAll({
-        'order_type': orderTypesSelectedValue,
-        'type': typesSelectedValue,
-        'existing_circuit_id': existingCircuitIDController.text,
-      });
-    } else {
-      orderType.addAll({
-        'order_type': orderTypesSelectedValue,
-        'type': typesSelectedValue,
-        'existing_circuit_id': existingCircuitIDController.text,
-        'new_circuit_id': newCircuitIDController.text,
-      });
-    }
+      'handoff': handoffSelectedValue,
+    });
+
     return orderType;
   }
 
@@ -1151,7 +1141,7 @@ class CreateQuoteProvider extends ChangeNotifier {
         ).eq('id', resp["id"]);
       }
 
-      /* //History
+      //History
       await supabaseCRM.from('leads_history').insert(
         {
           "action": 'INSERT',
@@ -1161,16 +1151,16 @@ class CreateQuoteProvider extends ChangeNotifier {
           "user": currentUser!.id,
           "name": "${currentUser!.name} ${currentUser!.lastName}"
         },
-      ); */
+      );
 
-      /* //Update Status
+      //Update Status
       if (margin > 20) {
         await supabaseCRM.from('x2_quotes').update({'id_status': 3}).eq('id', quote.quoteid);
       } else {
         await supabaseCRM.from('x2_quotes').update({'id_status': 2}).eq('id', quote.quoteid);
-      } */
+      }
 
-      /* //History
+      //History
       await supabaseCRM.from('leads_history').insert(
         {
           "action": 'UPDATE',
@@ -1180,7 +1170,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "user": currentUser!.id,
           "name": "${currentUser!.name} ${currentUser!.lastName}"
         },
-      ); */
+      );
 
       isLoading = false;
       notifyListeners();

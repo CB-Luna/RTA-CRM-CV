@@ -407,7 +407,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                   required: true,
                                                   enabled: true,
                                                   width: txfFieldWidth,
-                                                  controller: provider.evcCircuitId,
+                                                  controller: provider.evcCircuitIdController,
                                                   label: 'EVC Circuit ID',
                                                   icon: Icons.electrical_services,
                                                   keyboardType: TextInputType.text,

@@ -42,7 +42,7 @@ class DetailQuoteProvider extends ChangeNotifier {
     multicastRequired = false;
     locationController.clear();
     evcodSelectedValue = evcodList.first;
-    evcCircuitId.clear();
+    evcCircuitIdController.clear();
     //ddosSelectedValue = ddosList.first;
     ddosSelectedValue = false;
     ipAdressSelectedValue = ipAdressList.first;
@@ -145,7 +145,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   bool ddosSelectedValue = false;
   List<String> evcodList = ['No', 'New', 'Existing EVC'];
   late String evcodSelectedValue;
-  final evcCircuitId = TextEditingController();
+  final evcCircuitIdController = TextEditingController();
   List<GenericCat> bgpList = [GenericCat(name: 'No')];
   late String bgpSelectedValue;
   List<String> ipAdressList = ['Interface', 'IP Subnet'];
@@ -210,7 +210,7 @@ class DetailQuoteProvider extends ChangeNotifier {
       if (quote.orderInfo.circuitType == 'EVCoD') {
         evcodSelectedValue = quote.orderInfo.evcodType!;
         if (quote.orderInfo.evcodType == 'Existing EVC') {
-          evcCircuitId.text = quote.orderInfo.evcCircuitId!;
+          evcCircuitIdController.text = quote.orderInfo.evcCircuitId!;
         }
       }
 
@@ -322,7 +322,7 @@ class DetailQuoteProvider extends ChangeNotifier {
 
   void selectEVCOD(String selected) {
     evcodSelectedValue = selected;
-    evcCircuitId.clear();
+    evcCircuitIdController.clear();
     notifyListeners();
   }
 
@@ -372,7 +372,7 @@ class DetailQuoteProvider extends ChangeNotifier {
       return false;
     } else if (dataCenterSelectedValue == 'New' && existingCircuitIDController.text.isEmpty && newCircuitIDController.text.isEmpty) {
       return false;
-    } else if (evcodSelectedValue == 'Existing EVC' && evcCircuitId.text.isEmpty) {
+    } else if (evcodSelectedValue == 'Existing EVC' && evcCircuitIdController.text.isEmpty) {
       return false;
     } else if (lineItemCenterController.text.isEmpty ||
         unitPriceController.text.isEmpty ||
@@ -406,7 +406,7 @@ class DetailQuoteProvider extends ChangeNotifier {
     if (circuitTypeSelectedValue == 'EVCoD') {
       evcod = evcodSelectedValue;
       if (evcodSelectedValue == 'Existing EVC') {
-        evcodId = evcCircuitId.text;
+        evcodId = evcCircuitIdController.text;
       }
     }
 
@@ -546,7 +546,7 @@ class DetailQuoteProvider extends ChangeNotifier {
     existingCircuitIDController.clear();
     newCircuitIDController.clear();
     newDataCenterController.clear();
-    evcCircuitId.clear();
+    evcCircuitIdController.clear();
 
     orderTypesSelectedValue = orderTypesList.first;
     typesSelectedValue = typesList.first;
@@ -635,7 +635,9 @@ class DetailQuoteProvider extends ChangeNotifier {
       quote = ModelX2QuotesView.fromRawJson(jsonEncode(response[0]));
 
       dynamic parameter = (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
-      parameter = CatOrderInfoTypes.fromRawJson(jsonEncode(parameter)); // TODO: este mantenimiento para los demás
+      parameter = CatOrderInfoTypes.fromRawJson(jsonEncode(parameter));
+
+      ///////////////Order Info////////////////////////////////////////////////////////////////////
 
       orderTypesSelectedValue = quote.orderInfo!.orderType!;
       typesSelectedValue = quote.orderInfo!.type!;
@@ -653,20 +655,26 @@ class DetailQuoteProvider extends ChangeNotifier {
         dataCenterSelectedValue = quote.orderInfo!.dataCenterLocation!;
       }
 
-      vendorSelectedValue = quote.vendor!;
+      rackLocationController.text = quote.orderInfo!.rackLocation!;
+      handoffSelectedValue = quote.orderInfo!.handoff!;
+      demarcationPointController.text = quote.orderInfo!.demarcationPoint!;
 
+      ///////////////Circuit Info////////////////////////////////////////////////////////////////////
+
+      vendorSelectedValue = quote.vendor!;
+      multicastRequired = quote.circuitInfo!.multicast!;
+      locationController.text = quote.circuitInfo!.location!;
       parameter = (await supabaseCRM.from('cat_circuit_types').select().eq('name', quote.circuitInfo!.circuitType!))[0];
       parameter = CatCircuitTypes.fromRawJson(jsonEncode(parameter));
-
       circuitTypeSelectedValue = quote.circuitInfo!.circuitType!;
       /* if (quote.circuitInfo!.circuitType == 'EVCoD') {
         evcodSelectedValue = quote.circuitInfo!.evcodType!;
         if (quote.circuitInfo!.evcodType == 'Existing EVC') {
-          evcCircuitId.text = quote.circuitInfo!.evcCircuitId!;
+          evcCircuitIdController.text = quote.circuitInfo!.evcCircuitId!;
         }
       } */
       if (quote.circuitInfo!.evcCircuitId != null) {
-        evcCircuitId.text = quote.circuitInfo!.evcCircuitId!;
+        evcCircuitIdController.text = quote.circuitInfo!.evcCircuitId!;
       }
 
       if (parameter.parameters.cir) {
@@ -686,11 +694,15 @@ class DetailQuoteProvider extends ChangeNotifier {
         subnetSelectedValue = quote.circuitInfo!.subnetType!;
       }
 
+      ///////////////Customer Info////////////////////////////////////////////////////////////////////
+
       companyController.text = quote.account!;
       nameController.text = quote.contactfirstname!;
       lastNameController.text = quote.contactlastname!;
       emailController.text = quote.contactemail!;
       phoneController.text = quote.contactphone!;
+
+      ///////////////Totals////////////////////////////////////////////////////////////////////
 
       subtotal = quote.subtotal!;
       cost = quote.totals!.cost!;
@@ -699,7 +711,6 @@ class DetailQuoteProvider extends ChangeNotifier {
       totalPlusTax = quote.totals!.totalTax!;
       margin = quote.totals!.margin!;
 
-      //TODO : No se visualizan los items
       for (var item in quote.items!) {
         globalRows.add(
           PlutoRow(
@@ -714,7 +725,9 @@ class DetailQuoteProvider extends ChangeNotifier {
         );
       }
 
-      /* for (var comment in quote.comments!) {
+      ///////////////Comments////////////////////////////////////////////////////////////////////
+
+      for (var comment in quote.comments!) {
         comments.add(
           Comment(
             role: comment.role,
@@ -723,7 +736,8 @@ class DetailQuoteProvider extends ChangeNotifier {
             sended: comment.sended,
           ),
         );
-      } */
+      }
+
       notifyListeners();
       return true;
     } catch (e) {
