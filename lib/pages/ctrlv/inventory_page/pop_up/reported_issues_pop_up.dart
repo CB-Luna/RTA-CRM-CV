@@ -8,7 +8,6 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 import '../../../../functions/sizes.dart';
 import '../../../../helpers/constants.dart';
-import '../../../../models/issues.dart';
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../public/colors.dart';
@@ -263,44 +262,32 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           bool state = issueReportedProvider.fluidCheckInspectR;
 
                           return Container(
-                            height: rowHeight,
-                            decoration: BoxDecoration(gradient: whiteGradient),
-                            child: InkWell(
-                                onTap: () => showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                          builder: (context, setState) {
-                                        if (state) {
-                                          return Text("");
-                                        } else {
-                                          return IssuesPopUpTotal(
-                                            text: "FluidsCheck",
-                                            contador: 1,
-                                            issueComments: issueReportedProvider
-                                                .fluidCheckRR,
-                                          );
-
-                                          // issueReportedProvider
-                                          //     .clearRegistroIssueComments();
-                                          // return IssuesPopUpTotal(
-                                          //   text: "FluidsCheck",
-                                          //   contador: 1,
-                                          //   issueComments:
-                                          //       issueReportedProvider
-                                          //           .fluidCheckD,
-                                          // );
-                                        }
-                                      });
-                                    }),
-                                child: state
-                                    ? const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color: Color.fromARGB(200, 65, 155, 23))
-                                    : const Icon(Icons.cancel_outlined,
-                                        color:
-                                            Color.fromARGB(200, 210, 0, 48))),
-                          );
+                              height: rowHeight,
+                              decoration:
+                                  BoxDecoration(gradient: whiteGradient),
+                              child: state
+                                  ? const Icon(
+                                      Icons.check_circle_outline_outlined,
+                                      color: Color.fromARGB(200, 65, 155, 23))
+                                  : InkWell(
+                                      onTap: () => showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return StatefulBuilder(
+                                                builder: (context, setState) {
+                                              issueReportedProvider
+                                                  .clearRegistroIssueComments();
+                                              return IssuesPopUpTotal(
+                                                  text: "FluidCheck",
+                                                  contador: 1,
+                                                  issueComments: rendererContext
+                                                      .cell.value);
+                                            });
+                                          }),
+                                      child: const Icon(Icons.cancel_outlined,
+                                          color:
+                                              Color.fromARGB(200, 210, 0, 48)),
+                                    ));
                         },
                         footerRenderer: (context) {
                           return SizedBox(
@@ -381,37 +368,34 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                             bool state = issueReportedProvider.ligthsInspectR;
 
                             return Container(
-                              height: rowHeight,
-                              decoration:
-                                  BoxDecoration(gradient: whiteGradient),
-                              child: InkWell(
-                                  onTap: () => showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return StatefulBuilder(
-                                            builder: (context, setState) {
-                                          if (state) {
-                                            return Text("");
-                                          } else {
-                                            issueReportedProvider
-                                                .clearRegistroIssueComments();
-                                            return IssuesPopUpTotal(
-                                                text: "Lights",
-                                                contador: 2,
-                                                issueComments:
-                                                    rendererContext.cell.value);
-                                          }
-                                        });
-                                      }),
-                                  child: state
-                                      ? const Icon(
-                                          Icons.check_circle_outline_outlined,
-                                          color:
-                                              Color.fromARGB(200, 65, 155, 23))
-                                      : const Icon(Icons.cancel_outlined,
-                                          color:
-                                              Color.fromARGB(200, 210, 0, 48))),
-                            );
+                                height: rowHeight,
+                                decoration:
+                                    BoxDecoration(gradient: whiteGradient),
+                                child: state
+                                    ? const Icon(
+                                        Icons.check_circle_outline_outlined,
+                                        color: Color.fromARGB(200, 65, 155, 23))
+                                    : InkWell(
+                                        onTap: () => showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return StatefulBuilder(
+                                                  builder: (context, setState) {
+                                                issueReportedProvider
+                                                    .clearRegistroIssueComments();
+
+                                                return IssuesPopUpTotal(
+                                                    text: "Lights",
+                                                    contador: 2,
+                                                    issueComments:
+                                                        rendererContext
+                                                            .cell.value);
+                                              });
+                                            }),
+                                        child: const Icon(Icons.cancel_outlined,
+                                            color: Color.fromARGB(
+                                                200, 210, 0, 48)),
+                                      ));
                           }),
                       PlutoColumn(
                           title: 'CarBodyWork',
@@ -440,30 +424,25 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                               height: rowHeight,
                               decoration:
                                   BoxDecoration(gradient: whiteGradient),
-                              child: InkWell(
-                                  onTap: () => showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return StatefulBuilder(
-                                            builder: (context, setState) {
-                                          if (state) {
-                                            return Text("");
-                                          } else {
-                                            return IssuesPopUpTotal(
-                                              text: "CarBodyWork",
-                                              contador: 3,
-                                              issueComments:
-                                                  rendererContext.cell.value,
-                                            );
-                                          }
-                                        });
-                                      }),
-                                  child: state
-                                      ? const Icon(
-                                          Icons.check_circle_outline_outlined,
-                                          color:
-                                              Color.fromARGB(200, 65, 155, 23))
-                                      : const Icon(Icons.cancel_outlined,
+                              child: state
+                                  ? const Icon(
+                                      Icons.check_circle_outline_outlined,
+                                      color: Color.fromARGB(200, 65, 155, 23))
+                                  : InkWell(
+                                      onTap: () => showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return StatefulBuilder(
+                                                builder: (context, setState) {
+                                              return IssuesPopUpTotal(
+                                                text: "CarBodyWork",
+                                                contador: 3,
+                                                issueComments:
+                                                    rendererContext.cell.value,
+                                              );
+                                            });
+                                          }),
+                                      child: const Icon(Icons.cancel_outlined,
                                           color:
                                               Color.fromARGB(200, 210, 0, 48))),
                             );
@@ -495,30 +474,25 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                               height: rowHeight,
                               decoration:
                                   BoxDecoration(gradient: whiteGradient),
-                              child: InkWell(
-                                  onTap: () => showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return StatefulBuilder(
-                                            builder: (context, setState) {
-                                          if (state) {
-                                            return Text("");
-                                          } else {
-                                            return IssuesPopUpTotal(
-                                              text: "Security",
-                                              contador: 4,
-                                              issueComments:
-                                                  rendererContext.cell.value,
-                                            );
-                                          }
-                                        });
-                                      }),
-                                  child: state
-                                      ? const Icon(
-                                          Icons.check_circle_outline_outlined,
-                                          color:
-                                              Color.fromARGB(200, 65, 155, 23))
-                                      : const Icon(Icons.cancel_outlined,
+                              child: state
+                                  ? const Icon(
+                                      Icons.check_circle_outline_outlined,
+                                      color: Color.fromARGB(200, 65, 155, 23))
+                                  : InkWell(
+                                      onTap: () => showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return StatefulBuilder(
+                                                builder: (context, setState) {
+                                              return IssuesPopUpTotal(
+                                                text: "Security",
+                                                contador: 4,
+                                                issueComments:
+                                                    rendererContext.cell.value,
+                                              );
+                                            });
+                                          }),
+                                      child: const Icon(Icons.cancel_outlined,
                                           color:
                                               Color.fromARGB(200, 210, 0, 48))),
                             );
@@ -550,30 +524,25 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                               height: rowHeight,
                               decoration:
                                   BoxDecoration(gradient: whiteGradient),
-                              child: InkWell(
-                                  onTap: () => showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return StatefulBuilder(
-                                            builder: (context, setState) {
-                                          if (state) {
-                                            return Text("");
-                                          } else {
-                                            return IssuesPopUpTotal(
-                                              text: "Extra",
-                                              contador: 5,
-                                              issueComments:
-                                                  rendererContext.cell.value,
-                                            );
-                                          }
-                                        });
-                                      }),
-                                  child: state
-                                      ? const Icon(
-                                          Icons.check_circle_outline_outlined,
-                                          color:
-                                              Color.fromARGB(200, 65, 155, 23))
-                                      : const Icon(Icons.cancel_outlined,
+                              child: state
+                                  ? const Icon(
+                                      Icons.check_circle_outline_outlined,
+                                      color: Color.fromARGB(200, 65, 155, 23))
+                                  : InkWell(
+                                      onTap: () => showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return StatefulBuilder(
+                                                builder: (context, setState) {
+                                              return IssuesPopUpTotal(
+                                                text: "Extra",
+                                                contador: 5,
+                                                issueComments:
+                                                    rendererContext.cell.value,
+                                              );
+                                            });
+                                          }),
+                                      child: const Icon(Icons.cancel_outlined,
                                           color:
                                               Color.fromARGB(200, 210, 0, 48))),
                             );
@@ -603,29 +572,25 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           return Container(
                             height: rowHeight,
                             decoration: BoxDecoration(gradient: whiteGradient),
-                            child: InkWell(
-                                onTap: () => showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                          builder: (context, setState) {
-                                        if (state) {
-                                          return Text("");
-                                        } else {
-                                          return IssuesPopUpTotal(
-                                            text: "Equipment",
-                                            contador: 6,
-                                            issueComments:
-                                                rendererContext.cell.value,
-                                          );
-                                        }
-                                      });
-                                    }),
-                                child: state
-                                    ? const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color: Color.fromARGB(200, 65, 155, 23))
-                                    : const Icon(Icons.cancel_outlined,
+                            child: state
+                                ? const Icon(
+                                    Icons.check_circle_outline_outlined,
+                                    color: Color.fromARGB(200, 65, 155, 23))
+                                : InkWell(
+                                    onTap: () => showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return StatefulBuilder(
+                                              builder: (context, setState) {
+                                            return IssuesPopUpTotal(
+                                              text: "Equipment",
+                                              contador: 6,
+                                              issueComments:
+                                                  rendererContext.cell.value,
+                                            );
+                                          });
+                                        }),
+                                    child: const Icon(Icons.cancel_outlined,
                                         color:
                                             Color.fromARGB(200, 210, 0, 48))),
                           );
@@ -658,29 +623,24 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                               height: rowHeight,
                               decoration:
                                   BoxDecoration(gradient: whiteGradient),
-                              child: InkWell(
-                                  onTap: () => showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return StatefulBuilder(
-                                            builder: (context, setState) {
-                                          if (state) {
-                                            return Text("");
-                                          } else {
-                                            return IssuesPopUpTotal(
-                                                text: "BucketInspection",
-                                                contador: 7,
-                                                issueComments:
-                                                    rendererContext.cell.value);
-                                          }
-                                        });
-                                      }),
-                                  child: state
-                                      ? const Icon(
-                                          Icons.check_circle_outline_outlined,
-                                          color:
-                                              Color.fromARGB(200, 65, 155, 23))
-                                      : const Icon(Icons.cancel_outlined,
+                              child: state
+                                  ? const Icon(
+                                      Icons.check_circle_outline_outlined,
+                                      color: Color.fromARGB(200, 65, 155, 23))
+                                  : InkWell(
+                                      onTap: () => showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return StatefulBuilder(
+                                                builder: (context, setState) {
+                                              return IssuesPopUpTotal(
+                                                  text: "BucketInspection",
+                                                  contador: 7,
+                                                  issueComments: rendererContext
+                                                      .cell.value);
+                                            });
+                                          }),
+                                      child: const Icon(Icons.cancel_outlined,
                                           color:
                                               Color.fromARGB(200, 210, 0, 48))),
                             );
@@ -713,30 +673,25 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                               height: rowHeight,
                               decoration:
                                   BoxDecoration(gradient: whiteGradient),
-                              child: InkWell(
-                                  onTap: () => showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return StatefulBuilder(
-                                            builder: (context, setState) {
-                                          if (state) {
-                                            return Text("");
-                                          } else {
-                                            return IssuesPopUpTotal(
-                                              text: "Measures",
-                                              contador: 8,
-                                              issueComments:
-                                                  rendererContext.cell.value,
-                                            );
-                                          }
-                                        });
-                                      }),
-                                  child: state
-                                      ? const Icon(
-                                          Icons.check_circle_outline_outlined,
-                                          color:
-                                              Color.fromARGB(200, 65, 155, 23))
-                                      : const Icon(Icons.cancel_outlined,
+                              child: state
+                                  ? const Icon(
+                                      Icons.check_circle_outline_outlined,
+                                      color: Color.fromARGB(200, 65, 155, 23))
+                                  : InkWell(
+                                      onTap: () => showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return StatefulBuilder(
+                                                builder: (context, setState) {
+                                              return IssuesPopUpTotal(
+                                                text: "Measures",
+                                                contador: 8,
+                                                issueComments:
+                                                    rendererContext.cell.value,
+                                              );
+                                            });
+                                          }),
+                                      child: const Icon(Icons.cancel_outlined,
                                           color:
                                               Color.fromARGB(200, 210, 0, 48))),
                             );

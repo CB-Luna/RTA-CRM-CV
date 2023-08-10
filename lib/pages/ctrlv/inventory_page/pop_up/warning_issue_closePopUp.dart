@@ -80,7 +80,7 @@ class _WarningIssueClosePopUpState extends State<WarningIssueClosePopUp> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                            " ${provider.registroIssueComments!.nameIssue} "),
+                            " ${provider.actualIssueOpenClose!.nameIssue} "),
                       ),
                     ],
                   ),

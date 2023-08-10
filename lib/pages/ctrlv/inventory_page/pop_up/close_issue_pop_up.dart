@@ -97,7 +97,7 @@ class _CloseIssuePopUpState extends State<CloseIssuePopUp> {
                           builder: (BuildContext context) {
                             return StatefulBuilder(
                                 builder: (context, setState) {
-                              return WarningIssueClosePopUp();
+                              return const WarningIssueClosePopUp();
                             });
                           });
                     }),
