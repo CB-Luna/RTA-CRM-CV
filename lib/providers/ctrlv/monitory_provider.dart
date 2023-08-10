@@ -201,26 +201,26 @@ class MonitoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void setPage(String x) {
-  //   switch (x) {
-  //     case 'next':
-  //       if (page < stateManager!.totalPage) page++;
-  //       break;
-  //     case 'previous':
-  //       if (page > 1) page--;
-  //       break;
-  //     case 'start':
-  //       page = 1;
-  //       break;
-  //     case 'end':
-  //       page = stateManager!.totalPage;
-  //       break;
-  //     default:
-  //       return;
-  //   }
-  //   stateManager!.setPage(page);
-  //   notifyListeners();
-  // }
+  void setPage(String x) {
+    switch (x) {
+      case 'next':
+        if (page < stateManager!.totalPage) page++;
+        break;
+      case 'previous':
+        if (page > 1) page--;
+        break;
+      case 'start':
+        page = 1;
+        break;
+      case 'end':
+        page = stateManager!.totalPage;
+        break;
+      default:
+        return;
+    }
+    stateManager!.setPage(page);
+    notifyListeners();
+  }
 
   Future<void> getMonitory() async {
     try {

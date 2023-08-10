@@ -78,10 +78,15 @@ class DetailVehicleCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            Icon(
+                              Icons.numbers_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
                               "Vehicle id: ",
                               style: TextStyle(
@@ -106,6 +111,10 @@ class DetailVehicleCard extends StatelessWidget {
                         ),
                         Row(
                           children: [
+                            Icon(
+                              Icons.dialpad_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
                               "VIN: ",
                               style: TextStyle(
@@ -132,6 +141,10 @@ class DetailVehicleCard extends StatelessWidget {
                           children: [
                             Row(
                               children: [
+                                Icon(
+                              Icons.credit_card_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                                 Text(
                                   "License Plates: ",
                                   style: TextStyle(
@@ -159,9 +172,14 @@ class DetailVehicleCard extends StatelessWidget {
                       ],
                     ),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
+                            Icon(
+                              Icons.local_gas_station_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
                               "Gas: ",
                               style: TextStyle(
@@ -186,6 +204,10 @@ class DetailVehicleCard extends StatelessWidget {
                         ),
                         Row(
                           children: [
+                            Icon(
+                              Icons.speed_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
                               "Mileage: ",
                               style: TextStyle(
@@ -211,9 +233,14 @@ class DetailVehicleCard extends StatelessWidget {
                       ],
                     ),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
+                            Icon(
+                              Icons.oil_barrel_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
                               "Last Oil Change: ",
                               style: TextStyle(
@@ -240,6 +267,10 @@ class DetailVehicleCard extends StatelessWidget {
                         ),
                         Row(
                           children: [
+                            Icon(
+                              Icons.local_car_wash_outlined,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
                               "Last transmission fluid change:",
                               style: TextStyle(
@@ -270,6 +301,10 @@ class DetailVehicleCard extends StatelessWidget {
                         ),
                         Row(
                           children: [
+                            Icon(
+                              Icons.mode_fan_off,
+                              color: AppTheme.of(context).primaryText,
+                            ),
                             Text(
                               "Last radiator fluid change:  ",
                               style: TextStyle(

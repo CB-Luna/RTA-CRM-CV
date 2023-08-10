@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import 'package:rta_crm_cv/models/company_api.dart';
-import 'package:rta_crm_cv/models/status_api.dart';
-
 class VehicleDash {
   VehicleDash(
       {required this.idVehicle,

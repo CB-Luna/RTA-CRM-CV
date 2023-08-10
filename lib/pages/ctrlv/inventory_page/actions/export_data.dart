@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -11,9 +10,6 @@ import 'package:rta_crm_cv/widgets/custom_text_fieldForm.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
-
-import '../../../../services/api_error_handler.dart';
-import '../../../../widgets/success_toast.dart';
 
 class ExportDataFilter extends StatefulWidget {
   const ExportDataFilter({super.key});
@@ -30,13 +26,8 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
     fToast.init(context);
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
     final formKey = GlobalKey<FormState>();
-    DateTime date = DateTime.now();
-    DateTime selectedDate = DateTime.now();
-    DateTime? newDate;
 
     List<String> companies = ["All", "ODE", "SMI", "CRY"];
-    final List<String> companyName =
-        provider.company.map((companies) => companies.company).toList();
 
     return AlertDialog(
       backgroundColor: Colors.transparent,

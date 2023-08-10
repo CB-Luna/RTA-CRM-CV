@@ -9,6 +9,7 @@ import 'package:rta_crm_cv/pages/ctrlv/dashboard/dashboards_page_ctrlv.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page.dart';
+import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
 import 'package:rta_crm_cv/helpers/constants.dart';
@@ -53,7 +54,7 @@ final GoRouter router = GoRouter(
         if (currentUser!.isCRM) {
           return const QuotesPage();
         } else if (currentUser!.isCV) {
-          return const MonitoryPage();
+          return const MonitoryPageDesktop();
         } else {
           return const PageNotFoundPage();
         }
@@ -63,7 +64,7 @@ final GoRouter router = GoRouter(
         child: currentUser!.isCRM
             ? const QuotesPage()
             : currentUser!.isCV
-                ? const MonitoryPage()
+                ? const MonitoryPageDesktop()
                 : const PageNotFoundPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             FadeTransition(
@@ -223,10 +224,10 @@ final GoRouter router = GoRouter(
       path: '/vehicle_status',
       name: 'Vehicle_Status',
       builder: (BuildContext context, GoRouterState state) {
-        return const MonitoryPage();
+        return const MonitoryPageDesktop();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const MonitoryPage()),
+          pageTransition(context, state, const MonitoryPageDesktop()),
     ),
     GoRoute(
       path: '/inventory',
