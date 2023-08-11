@@ -8,6 +8,7 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 import '../../../../functions/sizes.dart';
 import '../../../../helpers/constants.dart';
+import '../../../../models/issues_open_close.dart';
 import '../../../../providers/ctrlv/inventory_provider.dart';
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../public/colors.dart';
@@ -62,16 +63,20 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: CustomTextIconButton(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         width: MediaQuery.of(context).size.width * 0.10,
                         isLoading: false,
                         icon: Icon(Icons.calendar_today_outlined,
                             color: AppTheme.of(context).primaryBackground),
                         text: 'Issues Closed',
+                        style: AppTheme.of(context).contenidoTablas.override(
+                              fontFamily: 'Gotham-Regular',
+                              useGoogleFonts: false,
+                              color: AppTheme.of(context).primaryBackground,
+                            ),
                         color: AppTheme.of(context).primaryColor,
                         onTap: () async {
-                          print(provider.actualIssueXUser);
-
-                          // ignore: use_build_context_synchronously
+                          issueReportedProvider.listTotalClosedIssue.clear();
                           await showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -185,7 +190,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                               text: 'Status',
                               style: AppTheme.of(context).encabezadoTablas)
                         ]),
-                        width: MediaQuery.of(context).size.width * 0.13,
+                        width: MediaQuery.of(context).size.width * 0.10,
                         cellPadding: EdgeInsets.zero,
                         titleTextAlign: PlutoColumnTextAlign.center,
                         textAlign: PlutoColumnTextAlign.center,
@@ -252,42 +257,44 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                               text: 'FluidsCheck',
                               style: AppTheme.of(context).encabezadoTablas)
                         ]),
-                        width: MediaQuery.of(context).size.width * 0.15,
+                        width: MediaQuery.of(context).size.width * 0.13,
                         cellPadding: EdgeInsets.zero,
                         titleTextAlign: PlutoColumnTextAlign.center,
                         textAlign: PlutoColumnTextAlign.center,
                         type: PlutoColumnType.text(),
                         enableEditingMode: false,
                         renderer: (rendererContext) {
-                          bool state = issueReportedProvider.fluidCheckInspectR;
-
+                          List<IssueOpenclose> listaCeldaActual =
+                              rendererContext.cell.value
+                                  as List<IssueOpenclose>;
                           return Container(
                               height: rowHeight,
                               decoration:
                                   BoxDecoration(gradient: whiteGradient),
-                              child: state
-                                  ? const Icon(
+                              child: listaCeldaActual.isNotEmpty
+                                  ? Tooltip(
+                                      message: "${listaCeldaActual.length}",
+                                      child: InkWell(
+                                          onTap: () => showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return IssuesPopUpTotal(
+                                                    text: "FluidsCheck",
+                                                    contador: 1,
+                                                    issueComments:
+                                                        rendererContext
+                                                            .cell.value);
+                                              }),
+                                          child: const Icon(
+                                              Icons.cancel_outlined,
+                                              color: Color.fromARGB(
+                                                  200, 210, 0, 48))),
+                                    )
+
+                                  // si esta vacio entonces que haga esto.
+                                  : const Icon(
                                       Icons.check_circle_outline_outlined,
-                                      color: Color.fromARGB(200, 65, 155, 23))
-                                  : InkWell(
-                                      onTap: () => showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return StatefulBuilder(
-                                                builder: (context, setState) {
-                                              issueReportedProvider
-                                                  .clearRegistroIssueComments();
-                                              return IssuesPopUpTotal(
-                                                  text: "FluidCheck",
-                                                  contador: 1,
-                                                  issueComments: rendererContext
-                                                      .cell.value);
-                                            });
-                                          }),
-                                      child: const Icon(Icons.cancel_outlined,
-                                          color:
-                                              Color.fromARGB(200, 210, 0, 48)),
-                                    ));
+                                      color: Color.fromARGB(200, 65, 155, 23)));
                         },
                         footerRenderer: (context) {
                           return SizedBox(
@@ -365,37 +372,39 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           type: PlutoColumnType.text(),
                           enableEditingMode: false,
                           renderer: (rendererContext) {
-                            bool state = issueReportedProvider.ligthsInspectR;
-
+                            List<IssueOpenclose> listaCeldaActual =
+                                rendererContext.cell.value
+                                    as List<IssueOpenclose>;
                             return Container(
                                 height: rowHeight,
                                 decoration:
                                     BoxDecoration(gradient: whiteGradient),
-                                child: state
-                                    ? const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color: Color.fromARGB(200, 65, 155, 23))
-                                    : InkWell(
-                                        onTap: () => showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return StatefulBuilder(
-                                                  builder: (context, setState) {
-                                                issueReportedProvider
-                                                    .clearRegistroIssueComments();
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "Lights",
+                                                      contador: 2,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
 
-                                                return IssuesPopUpTotal(
-                                                    text: "Lights",
-                                                    contador: 2,
-                                                    issueComments:
-                                                        rendererContext
-                                                            .cell.value);
-                                              });
-                                            }),
-                                        child: const Icon(Icons.cancel_outlined,
-                                            color: Color.fromARGB(
-                                                200, 210, 0, 48)),
-                                      ));
+                                    // si esta vacio entonces que haga esto.
+                                    : const Icon(
+                                        Icons.check_circle_outline_outlined,
+                                        color:
+                                            Color.fromARGB(200, 65, 155, 23)));
                           }),
                       PlutoColumn(
                           title: 'CarBodyWork',
@@ -418,34 +427,45 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           type: PlutoColumnType.text(),
                           enableEditingMode: false,
                           renderer: (rendererContext) {
-                            bool state = issueReportedProvider.carBodyInspectR;
-
+                            List<IssueOpenclose> listaCeldaActual =
+                                rendererContext.cell.value
+                                    as List<IssueOpenclose>;
                             return Container(
-                              height: rowHeight,
-                              decoration:
-                                  BoxDecoration(gradient: whiteGradient),
-                              child: state
-                                  ? const Icon(
-                                      Icons.check_circle_outline_outlined,
-                                      color: Color.fromARGB(200, 65, 155, 23))
-                                  : InkWell(
-                                      onTap: () => showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return StatefulBuilder(
-                                                builder: (context, setState) {
-                                              return IssuesPopUpTotal(
-                                                text: "CarBodyWork",
-                                                contador: 3,
-                                                issueComments:
-                                                    rendererContext.cell.value,
-                                              );
-                                            });
-                                          }),
-                                      child: const Icon(Icons.cancel_outlined,
-                                          color:
-                                              Color.fromARGB(200, 210, 0, 48))),
-                            );
+                                height: rowHeight,
+                                decoration:
+                                    BoxDecoration(gradient: whiteGradient),
+                                // Preguntamos si esta vacio
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return StatefulBuilder(
+                                                      builder:
+                                                          (context, setState) {
+                                                    return IssuesPopUpTotal(
+                                                      text: "CarBodyWork",
+                                                      contador: 3,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value,
+                                                    );
+                                                  });
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
+
+                                    // si esta vacio entonces que haga esto.
+                                    : const Icon(
+                                        Icons.check_circle_outline_outlined,
+                                        color:
+                                            Color.fromARGB(200, 65, 155, 23)));
                           }),
                       PlutoColumn(
                           title: 'Security',
@@ -468,34 +488,39 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           type: PlutoColumnType.text(),
                           enableEditingMode: false,
                           renderer: (rendererContext) {
-                            bool state = issueReportedProvider.securityInspectR;
-
+                            List<IssueOpenclose> listaCeldaActual =
+                                rendererContext.cell.value
+                                    as List<IssueOpenclose>;
                             return Container(
-                              height: rowHeight,
-                              decoration:
-                                  BoxDecoration(gradient: whiteGradient),
-                              child: state
-                                  ? const Icon(
-                                      Icons.check_circle_outline_outlined,
-                                      color: Color.fromARGB(200, 65, 155, 23))
-                                  : InkWell(
-                                      onTap: () => showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return StatefulBuilder(
-                                                builder: (context, setState) {
-                                              return IssuesPopUpTotal(
-                                                text: "Security",
-                                                contador: 4,
-                                                issueComments:
-                                                    rendererContext.cell.value,
-                                              );
-                                            });
-                                          }),
-                                      child: const Icon(Icons.cancel_outlined,
-                                          color:
-                                              Color.fromARGB(200, 210, 0, 48))),
-                            );
+                                height: rowHeight,
+                                decoration:
+                                    BoxDecoration(gradient: whiteGradient),
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "Security",
+                                                      contador: 4,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
+
+                                    // si esta vacio entonces que haga esto.
+                                    : const Icon(
+                                        Icons.check_circle_outline_outlined,
+                                        color:
+                                            Color.fromARGB(200, 65, 155, 23)));
                           }),
                       PlutoColumn(
                           title: 'Extra',
@@ -511,91 +536,101 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 text: 'Extra',
                                 style: AppTheme.of(context).encabezadoTablas)
                           ]),
-                          width: MediaQuery.of(context).size.width * 0.09,
+                          width: MediaQuery.of(context).size.width * 0.07,
                           cellPadding: EdgeInsets.zero,
                           titleTextAlign: PlutoColumnTextAlign.center,
                           textAlign: PlutoColumnTextAlign.center,
                           type: PlutoColumnType.text(),
                           enableEditingMode: false,
                           renderer: (rendererContext) {
-                            bool state = issueReportedProvider.extraInspectR;
-
+                            List<IssueOpenclose> listaCeldaActual =
+                                rendererContext.cell.value
+                                    as List<IssueOpenclose>;
                             return Container(
-                              height: rowHeight,
-                              decoration:
-                                  BoxDecoration(gradient: whiteGradient),
-                              child: state
-                                  ? const Icon(
-                                      Icons.check_circle_outline_outlined,
-                                      color: Color.fromARGB(200, 65, 155, 23))
-                                  : InkWell(
-                                      onTap: () => showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return StatefulBuilder(
-                                                builder: (context, setState) {
-                                              return IssuesPopUpTotal(
-                                                text: "Extra",
-                                                contador: 5,
-                                                issueComments:
-                                                    rendererContext.cell.value,
-                                              );
-                                            });
-                                          }),
-                                      child: const Icon(Icons.cancel_outlined,
-                                          color:
-                                              Color.fromARGB(200, 210, 0, 48))),
-                            );
+                                height: rowHeight,
+                                decoration:
+                                    BoxDecoration(gradient: whiteGradient),
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "Extra",
+                                                      contador: 5,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
+
+                                    // si esta vacio entonces que haga esto.
+                                    : const Icon(
+                                        Icons.check_circle_outline_outlined,
+                                        color:
+                                            Color.fromARGB(200, 65, 155, 23)));
                           }),
                       PlutoColumn(
-                        title: 'Equipment',
-                        field: 'Equipment',
-                        backgroundColor: const Color(0XFF6491F7),
-                        titleSpan: TextSpan(children: [
-                          WidgetSpan(
-                              child: Icon(Icons.call_to_action_outlined,
-                                  color:
-                                      AppTheme.of(context).primaryBackground)),
-                          const WidgetSpan(child: SizedBox(width: 10)),
-                          TextSpan(
-                              text: 'Equipment',
-                              style: AppTheme.of(context).encabezadoTablas)
-                        ]),
-                        width: MediaQuery.of(context).size.width * 0.10,
-                        cellPadding: EdgeInsets.zero,
-                        titleTextAlign: PlutoColumnTextAlign.center,
-                        textAlign: PlutoColumnTextAlign.center,
-                        type: PlutoColumnType.text(),
-                        enableEditingMode: false,
-                        renderer: (rendererContext) {
-                          bool state = issueReportedProvider.equipmentInspectR;
-                          return Container(
-                            height: rowHeight,
-                            decoration: BoxDecoration(gradient: whiteGradient),
-                            child: state
-                                ? const Icon(
-                                    Icons.check_circle_outline_outlined,
-                                    color: Color.fromARGB(200, 65, 155, 23))
-                                : InkWell(
-                                    onTap: () => showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return StatefulBuilder(
-                                              builder: (context, setState) {
-                                            return IssuesPopUpTotal(
-                                              text: "Equipment",
-                                              contador: 6,
-                                              issueComments:
-                                                  rendererContext.cell.value,
-                                            );
-                                          });
-                                        }),
-                                    child: const Icon(Icons.cancel_outlined,
+                          title: 'Equipment',
+                          field: 'Equipment',
+                          backgroundColor: const Color(0XFF6491F7),
+                          titleSpan: TextSpan(children: [
+                            WidgetSpan(
+                                child: Icon(Icons.call_to_action_outlined,
+                                    color: AppTheme.of(context)
+                                        .primaryBackground)),
+                            const WidgetSpan(child: SizedBox(width: 10)),
+                            TextSpan(
+                                text: 'Equipment',
+                                style: AppTheme.of(context).encabezadoTablas)
+                          ]),
+                          width: MediaQuery.of(context).size.width * 0.10,
+                          cellPadding: EdgeInsets.zero,
+                          titleTextAlign: PlutoColumnTextAlign.center,
+                          textAlign: PlutoColumnTextAlign.center,
+                          type: PlutoColumnType.text(),
+                          enableEditingMode: false,
+                          renderer: (rendererContext) {
+                            List<IssueOpenclose> listaCeldaActual =
+                                rendererContext.cell.value
+                                    as List<IssueOpenclose>;
+                            return Container(
+                                height: rowHeight,
+                                decoration:
+                                    BoxDecoration(gradient: whiteGradient),
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "Equipment",
+                                                      contador: 6,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
+
+                                    // si esta vacio entonces que haga esto.
+                                    : const Icon(
+                                        Icons.check_circle_outline_outlined,
                                         color:
-                                            Color.fromARGB(200, 210, 0, 48))),
-                          );
-                        },
-                      ),
+                                            Color.fromARGB(200, 65, 155, 23)));
+                          }),
                       PlutoColumn(
                           title: 'BucketInspection',
                           field: 'BucketInspection',
@@ -617,33 +652,39 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           type: PlutoColumnType.text(),
                           enableEditingMode: false,
                           renderer: (rendererContext) {
-                            bool state = issueReportedProvider.bucketInspectR;
-
+                            List<IssueOpenclose> listaCeldaActual =
+                                rendererContext.cell.value
+                                    as List<IssueOpenclose>;
                             return Container(
-                              height: rowHeight,
-                              decoration:
-                                  BoxDecoration(gradient: whiteGradient),
-                              child: state
-                                  ? const Icon(
-                                      Icons.check_circle_outline_outlined,
-                                      color: Color.fromARGB(200, 65, 155, 23))
-                                  : InkWell(
-                                      onTap: () => showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return StatefulBuilder(
-                                                builder: (context, setState) {
-                                              return IssuesPopUpTotal(
-                                                  text: "BucketInspection",
-                                                  contador: 7,
-                                                  issueComments: rendererContext
-                                                      .cell.value);
-                                            });
-                                          }),
-                                      child: const Icon(Icons.cancel_outlined,
-                                          color:
-                                              Color.fromARGB(200, 210, 0, 48))),
-                            );
+                                height: rowHeight,
+                                decoration:
+                                    BoxDecoration(gradient: whiteGradient),
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "BucketInspection",
+                                                      contador: 7,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
+
+                                    // si esta vacio entonces que haga esto.
+                                    : const Icon(
+                                        Icons.check_circle_outline_outlined,
+                                        color:
+                                            Color.fromARGB(200, 65, 155, 23)));
                           }),
                       PlutoColumn(
                           title: 'Measures',
@@ -666,35 +707,39 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           type: PlutoColumnType.text(),
                           enableEditingMode: false,
                           renderer: (rendererContext) {
-                            issueReportedProvider.measureInspectR = true;
-                            bool state = issueReportedProvider.measureInspectR;
-
+                            List<IssueOpenclose> listaCeldaActual =
+                                rendererContext.cell.value
+                                    as List<IssueOpenclose>;
                             return Container(
-                              height: rowHeight,
-                              decoration:
-                                  BoxDecoration(gradient: whiteGradient),
-                              child: state
-                                  ? const Icon(
-                                      Icons.check_circle_outline_outlined,
-                                      color: Color.fromARGB(200, 65, 155, 23))
-                                  : InkWell(
-                                      onTap: () => showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return StatefulBuilder(
-                                                builder: (context, setState) {
-                                              return IssuesPopUpTotal(
-                                                text: "Measures",
-                                                contador: 8,
-                                                issueComments:
-                                                    rendererContext.cell.value,
-                                              );
-                                            });
-                                          }),
-                                      child: const Icon(Icons.cancel_outlined,
-                                          color:
-                                              Color.fromARGB(200, 210, 0, 48))),
-                            );
+                                height: rowHeight,
+                                decoration:
+                                    BoxDecoration(gradient: whiteGradient),
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "Measures",
+                                                      contador: 8,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
+
+                                    // si esta vacio entonces que haga esto.
+                                    : const Icon(
+                                        Icons.check_circle_outline_outlined,
+                                        color:
+                                            Color.fromARGB(200, 65, 155, 23)));
                           }),
                     ],
                     rows: issueReportedProvider.rows,

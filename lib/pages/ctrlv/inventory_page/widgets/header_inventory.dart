@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
@@ -52,6 +51,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
+              mainAxisAlignment: MainAxisAlignment.center,
               width: MediaQuery.of(context).size.width * 0.10,
               isLoading: false,
               icon: Icon(Icons.add_box_outlined,
@@ -84,6 +84,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
               width: MediaQuery.of(context).size.width * 0.06,
+              mainAxisAlignment: MainAxisAlignment.center,
               isLoading: false,
               icon: Icon(Icons.filter_alt_outlined,
                   color: AppTheme.of(context).primaryBackground),
@@ -104,6 +105,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
+              mainAxisAlignment: MainAxisAlignment.center,
               width: MediaQuery.of(context).size.width * 0.10,
               isLoading: false,
               icon: Icon(Icons.download_for_offline_outlined,
@@ -123,13 +125,14 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                     builder: (BuildContext context) {
                       return const ExportDataFilter();
                     });
-               },
+              },
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
-              width: MediaQuery.of(context).size.width * 0.12,
+              mainAxisAlignment: MainAxisAlignment.center,
+              width: MediaQuery.of(context).size.width * 0.14,
               isLoading: false,
               icon: Icon(Icons.download_for_offline_outlined,
                   color: AppTheme.of(context).primaryBackground),
@@ -148,12 +151,13 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                     builder: (BuildContext context) {
                       return const ExportVehicleFilter();
                     });
-               },
+              },
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
+              mainAxisAlignment: MainAxisAlignment.center,
               width: MediaQuery.of(context).size.width * 0.10,
               isLoading: false,
               icon: Icon(Icons.archive_outlined,
@@ -173,6 +177,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(
+              mainAxisAlignment: MainAxisAlignment.center,
               width: MediaQuery.of(context).size.width * 0.10,
               isLoading: false,
               icon: Icon(Icons.open_in_browser_outlined,

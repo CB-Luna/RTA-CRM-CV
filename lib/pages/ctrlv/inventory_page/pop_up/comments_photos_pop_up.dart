@@ -28,7 +28,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
       backgroundColor: Colors.transparent,
       content: CustomCard(
         width: MediaQuery.of(context).size.width * 0.55,
-        height: MediaQuery.of(context).size.height * 0.70,
+        height: MediaQuery.of(context).size.height * 0.75,
         title:
             issueReportedProvider.actualIssueOpenClose?.nameIssue ?? "Prueba",
         child: Column(

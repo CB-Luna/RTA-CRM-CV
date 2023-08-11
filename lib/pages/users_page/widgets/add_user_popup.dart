@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
@@ -72,6 +70,20 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomTextIconButton(
+                          isLoading: false,
+                          icon: Icon(Icons.arrow_back_outlined,
+                              color: AppTheme.of(context).primaryBackground),
+                          text: '',
+                          onTap: () {
+                            context.pop();
+                          },
+                        ),
+                      ],
+                    ),
                     InkWell(
                       onTap: () async {
                         await provider.selectImage();
@@ -239,79 +251,59 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.save_outlined,
-                      color: AppTheme.of(context).primaryBackground),
-                  text: 'Save User',
-                  onTap: () async {
-                    if (!formKey.currentState!.validate()) {
-                      return;
-                    }
+            CustomTextIconButton(
+              mainAxisAlignment: MainAxisAlignment.center,
+              isLoading: false,
+              icon: Icon(Icons.save_outlined,
+                  color: AppTheme.of(context).primaryBackground),
+              text: 'Save User',
+              width: MediaQuery.of(context).size.width * 0.1,
+              onTap: () async {
+                if (!formKey.currentState!.validate()) {
+                  return;
+                }
+                //Registrar usuario
+                final Map<String, String>? result =
+                    await provider.registerUser();
 
-                    // if (provider.webImage != null) {
-                    //   final res = await provider.uploadImage();
-                    //   if (res == null) {
-                    //     ApiErrorHandler.callToast('Error al subir imagen');
-                    //   }
-                    // }
+                if (result == null) {
+                  await ApiErrorHandler.callToast('Error registering user');
+                  return;
+                } else {
+                  if (result['Error'] != null) {
+                    await ApiErrorHandler.callToast(result['Error']!);
+                    return;
+                  }
+                }
 
-                    //Registrar usuario
-                    final Map<String, String>? result =
-                        await provider.registerUser();
+                final String? userId = result['userId'];
 
-                    if (result == null) {
-                      await ApiErrorHandler.callToast('Error registering user');
-                      return;
-                    } else {
-                      if (result['Error'] != null) {
-                        await ApiErrorHandler.callToast(result['Error']!);
-                        return;
-                      }
-                    }
+                if (userId == null) {
+                  await ApiErrorHandler.callToast('Error registering user');
+                  return;
+                }
 
-                    final String? userId = result['userId'];
+                //Crear perfil de usuario
+                bool res = await provider.createUserProfile(userId);
 
-                    if (userId == null) {
-                      await ApiErrorHandler.callToast('Error registering user');
-                      return;
-                    }
+                if (!res) {
+                  await ApiErrorHandler.callToast(
+                      'Error creating user profile');
+                  return;
+                }
 
-                    //Crear perfil de usuario
-                    bool res = await provider.createUserProfile(userId);
+                if (!mounted) return;
+                fToast.showToast(
+                  child: const SuccessToast(
+                    message: 'User Created',
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                  toastDuration: const Duration(seconds: 2),
+                );
+                provider.updateVehiclestatus();
 
-                    if (!res) {
-                      await ApiErrorHandler.callToast(
-                          'Error creating user profile');
-                      return;
-                    }
-
-                    if (!mounted) return;
-                    fToast.showToast(
-                      child: const SuccessToast(
-                        message: 'User Created',
-                      ),
-                      gravity: ToastGravity.BOTTOM,
-                      toastDuration: const Duration(seconds: 2),
-                    );
-                    provider.updateVehiclestatus();
-
-                    if (context.canPop()) context.pop();
-                  },
-                ),
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.exit_to_app_outlined,
-                      color: AppTheme.of(context).primaryBackground),
-                  text: 'Exit',
-                  onTap: () {
-                    context.pop();
-                  },
-                ),
-              ],
+                if (context.canPop()) context.pop();
+              },
             )
           ],
         ),

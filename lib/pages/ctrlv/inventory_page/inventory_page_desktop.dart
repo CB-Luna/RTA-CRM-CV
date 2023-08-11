@@ -646,21 +646,14 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   .primaryColor,
                                               onTap: () async {
                                                 isssueReportedProvider
-                                                    .clearListgetIssues();
-                                                isssueReportedProvider
                                                     .clearListasdegetIssues();
                                                 await isssueReportedProvider
                                                     .getIssuesxUsers(
                                                   rendererContext.cell.value,
                                                   notify: false,
                                                 );
-
                                                 isssueReportedProvider
                                                     .selectVehicle(
-                                                  rendererContext.cell.value,
-                                                  notify: false,
-                                                );
-                                                provider.selectVehicle(
                                                   rendererContext.cell.value,
                                                   notify: false,
                                                 );
@@ -677,6 +670,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             ),
                                           ),
                                           CustomTextIconButton(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
@@ -729,6 +724,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             },
                                           ),
                                           CustomTextIconButton(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *

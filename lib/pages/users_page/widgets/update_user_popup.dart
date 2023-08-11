@@ -71,6 +71,20 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomTextIconButton(
+                          isLoading: false,
+                          icon: Icon(Icons.arrow_back_outlined,
+                              color: AppTheme.of(context).primaryBackground),
+                          text: '',
+                          onTap: () {
+                            context.pop();
+                          },
+                        ),
+                      ],
+                    ),
                     InkWell(
                       onTap: () async {
                         await provider.selectImage();
@@ -107,17 +121,6 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         keyboardType: TextInputType.name,
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(vertical: 10),
-                    //   child: CustomTextField(
-                    //     label: 'Email',
-                    //     icon: Icons.alternate_email,
-                    //     controller: provider.emailControllerUpdate,
-                    //     enabled: true,
-                    //     width: 350,
-                    //     keyboardType: TextInputType.emailAddress,
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
@@ -234,58 +237,46 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.save_outlined,
-                      color: AppTheme.of(context).primaryBackground),
-                  text: 'Save User',
-                  onTap: () async {
-                    if (!formKey.currentState!.validate()) {
-                      return;
-                    }
+            CustomTextIconButton(
+              isLoading: false,
+              icon: Icon(Icons.save_outlined,
+                  color: AppTheme.of(context).primaryBackground),
+              text: 'Save User',
+              mainAxisAlignment: MainAxisAlignment.center,
+              width: MediaQuery.of(context).size.width * 0.1,
+              onTap: () async {
+                if (!formKey.currentState!.validate()) {
+                  return;
+                }
 
-                    // if (provider.webImage != null) {
-                    //   final res = await provider.uploadImage();
-                    //   if (res == null) {
-                    //     ApiErrorHandler.callToast('Error al subir imagen');
-                    //   }
-                    // }
+                // if (provider.webImage != null) {
+                //   final res = await provider.uploadImage();
+                //   if (res == null) {
+                //     ApiErrorHandler.callToast('Error al subir imagen');
+                //   }
+                // }
 
-                    //Crear perfil de usuario
-                    bool res = await provider.updateUser(widget.users);
+                //Crear perfil de usuario
+                bool res = await provider.updateUser(widget.users);
 
-                    if (!res) {
-                      await ApiErrorHandler.callToast(
-                          'Error Updating user profile');
-                      return;
-                    }
+                if (!res) {
+                  await ApiErrorHandler.callToast(
+                      'Error Updating user profile');
+                  return;
+                }
 
-                    if (!mounted) return;
-                    fToast.showToast(
-                      child: const SuccessToast(
-                        message: 'User Updated',
-                      ),
-                      gravity: ToastGravity.BOTTOM,
-                      toastDuration: const Duration(seconds: 2),
-                    );
-                    provider.updateVehiclestatusUpdate(widget.users);
+                if (!mounted) return;
+                fToast.showToast(
+                  child: const SuccessToast(
+                    message: 'User Updated',
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                  toastDuration: const Duration(seconds: 2),
+                );
+                provider.updateVehiclestatusUpdate(widget.users);
 
-                    if (context.canPop()) context.pop();
-                  },
-                ),
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.exit_to_app_outlined,
-                      color: AppTheme.of(context).primaryBackground),
-                  text: 'Exit',
-                  onTap: () {
-                    context.pop();
-                  },
-                ),
-              ],
+                if (context.canPop()) context.pop();
+              },
             )
           ],
         ),
