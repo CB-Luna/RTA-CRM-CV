@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
@@ -43,46 +44,40 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
       String text;
       switch (value.toInt()) {
         case 0:
-          text = 'Jul';
-
+          text = DateFormat("MMM").format(DateTime(provider.dateRange.end.year, provider.dateRange.end.month - 11));
           break;
         case 1:
-          text = 'Ago';
+          text = DateFormat("MMM").format(DateTime(provider.dateRange.end.year, provider.dateRange.end.month - 10));
           break;
         case 2:
-          text = 'Sep';
-
+          text = DateFormat("MMM").format(DateTime(provider.dateRange.end.year, provider.dateRange.end.month - 9));
           break;
         case 3:
-          text = 'Oct';
+          text = DateFormat("MMM").format(DateTime(provider.dateRange.end.year, provider.dateRange.end.month - 8));
           break;
         case 4:
-          text = 'Nov';
-
+          text = DateFormat("MMM").format(DateTime(provider.dateRange.end.year, provider.dateRange.end.month - 7));
           break;
         case 5:
-          text = 'Dec';
+          text = DateFormat("MMM").format(DateTime(provider.dateRange.end.year, provider.dateRange.end.month - 6));
           break;
         case 6:
-          text = 'Jan';
-
+          text = DateFormat("MMM").format(DateTime(provider.dateRange.end.year, provider.dateRange.end.month - 5));
           break;
         case 7:
-          text = 'Feb';
+          text = DateFormat("MMM").format(DateTime(provider.dateRange.end.year, provider.dateRange.end.month - 4));
           break;
         case 8:
-          text = 'Mar';
-
+          text = DateFormat("MMM").format(DateTime(provider.dateRange.end.year, provider.dateRange.end.month - 3));
           break;
         case 9:
-          text = 'Apr';
+          text = DateFormat("MMM").format(DateTime(provider.dateRange.end.year, provider.dateRange.end.month - 2));
           break;
         case 10:
-          text = 'May';
-
+          text = DateFormat("MMM").format(DateTime(provider.dateRange.end.year, provider.dateRange.end.month - 1));
           break;
         case 11:
-          text = 'Jun';
+          text = DateFormat("MMM").format(provider.dateRange.end);
           break;
         default:
           text = '\$';
@@ -211,40 +206,40 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                               String ace;
                               switch (group.x.toInt()) {
                                 case 0:
-                                  ace = '12';
+                                  ace = (provider.elevenMonthsAgoEndCry + provider.elevenMonthsAgoEndOde + provider.elevenMonthsAgoEndSmi).toString();
                                   break;
                                 case 1:
-                                  ace = '13';
+                                  ace = (provider.tenMonthsAgoEndCry + provider.tenMonthsAgoEndOde + provider.tenMonthsAgoEndSmi).toString();
                                   break;
                                 case 2:
-                                  ace = '4';
+                                  ace = (provider.nineMonthsAgoEndCry + provider.nineMonthsAgoEndOde + provider.nineMonthsAgoEndSmi).toString();
                                   break;
                                 case 3:
-                                  ace = '2';
+                                  ace = (provider.eightMonthsAgoEndCry + provider.eightMonthsAgoEndOde + provider.eightMonthsAgoEndSmi).toString();
                                   break;
                                 case 4:
-                                  ace = '15';
+                                  ace = (provider.sevenMonthsAgoEndCry + provider.sevenMonthsAgoEndOde + provider.sevenMonthsAgoEndSmi).toString();
                                   break;
                                 case 5:
-                                  ace = '7';
+                                  ace = (provider.sixMonthsAgoEndCry + provider.sixMonthsAgoEndOde + provider.sixMonthsAgoEndSmi).toString();
                                   break;
                                 case 6:
-                                  ace = '9';
+                                  ace = (provider.fiveMonthsAgoEndCry + provider.fiveMonthsAgoEndOde + provider.fiveMonthsAgoEndSmi).toString();
                                   break;
                                 case 7:
-                                  ace = '23';
+                                  ace = (provider.fourMonthsAgoEndCry + provider.fourMonthsAgoEndOde + provider.fourMonthsAgoEndSmi).toString();
                                   break;
                                 case 8:
-                                  ace = '9';
+                                  ace = (provider.threeMonthsAgoEndCry + provider.threeMonthsAgoEndOde + provider.threeMonthsAgoEndSmi).toString();
                                   break;
                                 case 9:
-                                  ace = '6';
+                                  ace = (provider.twoMonthsAgoEndCry + provider.twoMonthsAgoEndOde + provider.twoMonthsAgoEndSmi).toString();
                                   break;
                                 case 10:
-                                  ace = '5';
+                                  ace = (provider.oneMonthAgoEndCry + provider.oneMonthAgoEndOde + provider.oneMonthAgoEndSmi).toString();
                                   break;
                                 case 11:
-                                  ace = '15';
+                                  ace = (provider.actualMonthEndCry + provider.actualMonthEndOde + provider.actualMonthEndSmi).toString();
                                   break;
                                 default:
                                   throw Error();
@@ -308,18 +303,18 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                       ),
                       groupsSpace: 50,
                       barGroups: [
-                        provider.puntos(0, 12, verde),
-                        provider.puntos(1, 13, verde),
-                        provider.puntos(2, 4, verde), //Color(0xFFE7C037)
-                        provider.puntos(3, 2, verde),
-                        provider.puntos(4, 15, verde),
-                        provider.puntos(5, 7, verde),
-                        provider.puntos(6, 9, verde),
-                        provider.puntos(7, 23, verde),
-                        provider.puntos(8, 9, verde),
-                        provider.puntos(9, 6, verde),
-                        provider.puntos(10, 5, verde),
-                        provider.puntos(11, 15, verde),
+                        provider.puntos(0, provider.elevenMonthsAgoEndCry + provider.elevenMonthsAgoEndOde + provider.elevenMonthsAgoEndSmi, verde),
+                        provider.puntos(1, provider.tenMonthsAgoEndCry + provider.tenMonthsAgoEndOde + provider.tenMonthsAgoEndSmi, verde),
+                        provider.puntos(2, provider.nineMonthsAgoEndCry + provider.nineMonthsAgoEndOde + provider.nineMonthsAgoEndSmi, verde), //Color(0xFFE7C037)
+                        provider.puntos(3, provider.eightMonthsAgoEndCry + provider.eightMonthsAgoEndOde + provider.eightMonthsAgoEndSmi, verde),
+                        provider.puntos(4, provider.sevenMonthsAgoEndCry + provider.sevenMonthsAgoEndOde + provider.sevenMonthsAgoEndSmi, verde),
+                        provider.puntos(5, provider.sixMonthsAgoEndCry + provider.sixMonthsAgoEndOde + provider.sixMonthsAgoEndSmi, verde),
+                        provider.puntos(6, provider.fiveMonthsAgoEndCry + provider.fiveMonthsAgoEndOde + provider.fiveMonthsAgoEndSmi, verde),
+                        provider.puntos(7, provider.fourMonthsAgoEndCry + provider.fourMonthsAgoEndOde + provider.fourMonthsAgoEndSmi, verde),
+                        provider.puntos(8, provider.threeMonthsAgoEndCry + provider.threeMonthsAgoEndOde + provider.threeMonthsAgoEndSmi, verde),
+                        provider.puntos(9, provider.twoMonthsAgoEndCry + provider.twoMonthsAgoEndOde + provider.twoMonthsAgoEndSmi, verde),
+                        provider.puntos(10, provider.oneMonthAgoEndCry + provider.oneMonthAgoEndOde + provider.oneMonthAgoEndSmi, verde),
+                        provider.puntos(11, provider.actualMonthEndCry + provider.actualMonthEndOde + provider.actualMonthEndSmi, verde),
                       ],
                     ),
                   )
@@ -336,13 +331,13 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                   if (group.x == 0) {
                                     switch (rodIndex) {
                                       case 0:
-                                        n1 = '10';
+                                        n1 = provider.elevenMonthsAgoEndCry.toString();
                                         break;
                                       case 1:
-                                        n1 = '1';
+                                        n1 = provider.elevenMonthsAgoEndOde.toString();
                                         break;
                                       case 2:
-                                        n1 = '1';
+                                        n1 = provider.elevenMonthsAgoEndSmi.toString();
                                         break;
                                       default:
                                         throw Error();
@@ -350,13 +345,13 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                   } else if (group.x == 1) {
                                     switch (rodIndex) {
                                       case 0:
-                                        n1 = '7';
+                                        n1 = provider.tenMonthsAgoEndCry.toString();
                                         break;
                                       case 1:
-                                        n1 = '1';
+                                        n1 = provider.tenMonthsAgoEndOde.toString();
                                         break;
                                       case 2:
-                                        n1 = '5';
+                                        n1 = provider.tenMonthsAgoEndSmi.toString();
                                         break;
                                       default:
                                         throw Error();
@@ -364,13 +359,13 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                   } else if (group.x == 2) {
                                     switch (rodIndex) {
                                       case 0:
-                                        n1 = '1';
+                                        n1 = provider.nineMonthsAgoEndCry.toString();
                                         break;
                                       case 1:
-                                        n1 = '2';
+                                        n1 = provider.nineMonthsAgoEndOde.toString();
                                         break;
                                       case 2:
-                                        n1 = '1';
+                                        n1 = provider.nineMonthsAgoEndSmi.toString();
                                         break;
 
                                       default:
@@ -379,13 +374,13 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                   } else if (group.x == 3) {
                                     switch (rodIndex) {
                                       case 0:
-                                        n1 = '2';
+                                        n1 = provider.eightMonthsAgoEndCry.toString();
                                         break;
                                       case 1:
-                                        n1 = '0';
+                                        n1 = provider.eightMonthsAgoEndOde.toString();
                                         break;
                                       case 2:
-                                        n1 = '0';
+                                        n1 = provider.eightMonthsAgoEndSmi.toString();
                                         break;
 
                                       default:
@@ -394,13 +389,13 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                   } else if (group.x == 4) {
                                     switch (rodIndex) {
                                       case 0:
-                                        n1 = '11';
+                                        n1 = provider.sevenMonthsAgoEndCry.toString();
                                         break;
                                       case 1:
-                                        n1 = '4';
+                                        n1 = provider.sevenMonthsAgoEndOde.toString();
                                         break;
                                       case 2:
-                                        n1 = '1';
+                                        n1 = provider.sevenMonthsAgoEndSmi.toString();
                                         break;
 
                                       default:
@@ -409,13 +404,13 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                   } else if (group.x == 5) {
                                     switch (rodIndex) {
                                       case 0:
-                                        n1 = '2';
+                                        n1 = provider.sixMonthsAgoEndCry.toString();
                                         break;
                                       case 1:
-                                        n1 = '1';
+                                        n1 = provider.sixMonthsAgoEndOde.toString();
                                         break;
                                       case 2:
-                                        n1 = '4';
+                                        n1 = provider.sixMonthsAgoEndSmi.toString();
                                         break;
 
                                       default:
@@ -424,13 +419,13 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                   } else if (group.x == 6) {
                                     switch (rodIndex) {
                                       case 0:
-                                        n1 = '6';
+                                        n1 = provider.fiveMonthsAgoEndCry.toString();
                                         break;
                                       case 1:
-                                        n1 = '3';
+                                        n1 = provider.fiveMonthsAgoEndOde.toString();
                                         break;
                                       case 2:
-                                        n1 = '2';
+                                        n1 = provider.fiveMonthsAgoEndSmi.toString();
                                         break;
                                       default:
                                         throw Error();
@@ -438,13 +433,13 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                   } else if (group.x == 7) {
                                     switch (rodIndex) {
                                       case 0:
-                                        n1 = '5';
+                                        n1 = provider.fourMonthsAgoEndCry.toString();
                                         break;
                                       case 1:
-                                        n1 = '9';
+                                        n1 = provider.fourMonthsAgoEndOde.toString();
                                         break;
                                       case 2:
-                                        n1 = '8';
+                                        n1 = provider.fourMonthsAgoEndSmi.toString();
                                         break;
 
                                       default:
@@ -453,13 +448,13 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                   } else if (group.x == 8) {
                                     switch (rodIndex) {
                                       case 0:
-                                        n1 = '1';
+                                        n1 = provider.threeMonthsAgoEndCry.toString();
                                         break;
                                       case 1:
-                                        n1 = '4';
+                                        n1 = provider.threeMonthsAgoEndOde.toString();
                                         break;
                                       case 2:
-                                        n1 = '4';
+                                        n1 = provider.threeMonthsAgoEndSmi.toString();
                                         break;
 
                                       default:
@@ -468,13 +463,13 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                   } else if (group.x == 9) {
                                     switch (rodIndex) {
                                       case 0:
-                                        n1 = '2';
+                                        n1 = provider.twoMonthsAgoEndCry.toString();
                                         break;
                                       case 1:
-                                        n1 = '3';
+                                        n1 = provider.twoMonthsAgoEndOde.toString();
                                         break;
                                       case 2:
-                                        n1 = '1';
+                                        n1 = provider.twoMonthsAgoEndSmi.toString();
                                         break;
 
                                       default:
@@ -483,13 +478,13 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                   } else if (group.x == 10) {
                                     switch (rodIndex) {
                                       case 0:
-                                        n1 = '2';
+                                        n1 = provider.oneMonthAgoEndCry.toString();
                                         break;
                                       case 1:
-                                        n1 = '2';
+                                        n1 = provider.oneMonthAgoEndOde.toString();
                                         break;
                                       case 2:
-                                        n1 = '1';
+                                        n1 = provider.oneMonthAgoEndSmi.toString();
                                         break;
 
                                       default:
@@ -498,13 +493,13 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                   } else if (group.x == 11) {
                                     switch (rodIndex) {
                                       case 0:
-                                        n1 = '11';
+                                        n1 = provider.actualMonthEndCry.toString();
                                         break;
                                       case 1:
-                                        n1 = '0';
+                                        n1 = provider.actualMonthEndOde.toString();
                                         break;
                                       case 2:
-                                        n1 = '0';
+                                        n1 = provider.actualMonthEndSmi.toString();
                                         break;
 
                                       default:
