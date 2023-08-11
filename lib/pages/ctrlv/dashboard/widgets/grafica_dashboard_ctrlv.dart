@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/providers/ctrlv/dashboard_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -7,6 +8,7 @@ import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown_das
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
+import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/indicator.dart';
 
 class GraficaDashboardCtrlV extends StatefulWidget {
@@ -167,15 +169,14 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                           ],
                         )
                       : SizedBox(width: getWidth(56, context)),
-                  CustomeDDownMenuDashboard(
-                    icon: Icons.calendar_month,
-                    width: 170,
-                    list: provider.timeList,
-                    dropdownValue: provider.selectTimeValue,
-                    onChanged: (p0) {
-                      if (p0 != null) {
-                        provider.selectTime(p0);
-                      }
+                  CustomTextIconButton(
+                    isLoading: false,
+                    icon: Icon(Icons.calendar_month,
+                        color: AppTheme.of(context).primaryBackground),
+                    text:
+                        '${dateFormat(provider.dateRange.start)} - ${dateFormat(provider.dateRange.end)}',
+                    onTap: () {
+                      provider.pickDateRange(context);
                     },
                   ),
                   SizedBox(width: getWidth(56, context)),

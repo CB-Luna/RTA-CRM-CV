@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/ctrlv/dashboard_provider.dart';
@@ -74,16 +73,6 @@ class _TablaMesesCtrlVState extends State<TablaMesesCtrlV> {
                     icon: Icons.search,
                     label: 'Search',
                     keyboardType: TextInputType.text,
-                  ),
-                  CustomTextIconButton(
-                    isLoading: false,
-                    icon: Icon(Icons.calendar_month,
-                        color: AppTheme.of(context).primaryBackground),
-                    text:
-                        '${dateFormat(provider.dateRange.start)} - ${dateFormat(provider.dateRange.end)}',
-                    onTap: () {
-                      provider.pickDateRange(context);
-                    },
                   ),
                 ],
               ),

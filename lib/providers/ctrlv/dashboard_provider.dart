@@ -34,7 +34,7 @@ class DashboardCVProvider extends ChangeNotifier {
   DateTimeRange dateRange = DateTimeRange(start: DateTime.now().subtract(const Duration(days: 28)), end: DateTime.now());
 
   Color azul = const Color(0xFF2E5899), rojo = const Color(0xFFD20030), naranja = const Color.fromRGBO(255, 138, 0, 1);
-  double cry = 62, ode = 30, smi = 28;
+  double cry = 0, ode = 0, smi = 0;
   //Radianes grafica barra
   /* LinearGradient get gradientRoja => LinearGradient(
         colors: [
@@ -217,6 +217,9 @@ class DashboardCVProvider extends ChangeNotifier {
       issuesDashboards = (resCTRLV as List<dynamic>).map((issue) => IssuesDashboards.fromJson(jsonEncode(issue))).toList();
 
       rows2.clear();
+      cry = 0;
+      ode = 0;
+      smi = 0;
       for (IssuesDashboards issue in issuesDashboards) {
         // Bucket Inspection
         issue.bucketInspectionR.toMap().forEach((key, value) {
@@ -236,6 +239,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         issue.bucketInspectionD.toMap().forEach((key, value) {
@@ -255,6 +261,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         // Car Bodywork
@@ -275,6 +284,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         issue.carBodyworkD.toMap().forEach((key, value) {
@@ -294,6 +306,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         // Equipment
@@ -314,6 +329,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         issue.equipmentD.toMap().forEach((key, value) {
@@ -333,6 +351,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         // Extra
@@ -353,6 +374,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         issue.extraD.toMap().forEach((key, value) {
@@ -372,6 +396,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         // Fluid Check
@@ -392,6 +419,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         issue.fluidCheckD.toMap().forEach((key, value) {
@@ -411,6 +441,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         // Lights
@@ -431,6 +464,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         issue.lightsD.toMap().forEach((key, value) {
@@ -450,6 +486,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         // Security
@@ -470,6 +509,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
         issue.securityD.toMap().forEach((key, value) {
@@ -489,6 +531,9 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
+            if (issue.company == "CRY") cry++;
+            if (issue.company == "ODE") ode++;
+            if (issue.company == "SMI") smi++;
           }
         });
       }
@@ -1000,9 +1045,9 @@ class DashboardCVProvider extends ChangeNotifier {
   //pie chart
   
   List<PieChartSectionData> showingSections() {
-    double porder = (cry / (cry + ode + smi)) * 100, pquote = (ode / (cry + ode + smi)) * 100, pcancel = (smi / (cry + ode + smi)) * 100;
-    String rorder = porder.toStringAsFixed(2), rquote = pquote.toStringAsFixed(2), rcancel = pcancel.toStringAsFixed(2);
-    double dorder = double.parse(rorder), dquote = double.parse(rquote), dcancel = double.parse(rcancel);
+    double pcry = (cry / (cry + ode + smi)) * 100, pode = (ode / (cry + ode + smi)) * 100, psmi = (smi / (cry + ode + smi)) * 100;
+    String rcry = pcry.toStringAsFixed(2), rode = pode.toStringAsFixed(2), rsmi = psmi.toStringAsFixed(2);
+    double dcry = double.parse(rcry), dode = double.parse(rode), dsmi = double.parse(rsmi);
     return List.generate(3, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 15.0;
@@ -1011,24 +1056,24 @@ class DashboardCVProvider extends ChangeNotifier {
         case 0:
           return PieChartSectionData(
             color: azul,
-            value: dorder,
-            title: '$cry\n$dorder%',
+            value: dcry,
+            title: '$cry\n$dcry%',
             radius: radius,
             titleStyle: TextStyle(fontFamily: 'UniNeue', fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
         case 1:
           return PieChartSectionData(
             color: rojo,
-            value: dquote,
-            title: '$ode\n$dquote%',
+            value: dode,
+            title: '$ode\n$dode%',
             radius: radius,
             titleStyle: TextStyle(fontFamily: 'UniNeue', fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
         case 2:
           return PieChartSectionData(
             color: naranja,
-            value: dcancel,
-            title: '$smi\n$dcancel%',
+            value: dsmi,
+            title: '$smi\n$dsmi%',
             radius: radius,
             titleStyle: TextStyle(fontFamily: 'UniNeue', fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
           );
