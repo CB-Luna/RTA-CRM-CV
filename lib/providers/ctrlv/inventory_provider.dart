@@ -54,8 +54,9 @@ class InventoryProvider extends ChangeNotifier {
 
   String companySel = "All";
   DateTime newDate = DateTime.now();
-  String vehicleSel = "";
-  List<String>? plates;
+
+  String? vehicleSel;
+  List<String> plates = [];
   DateTime firstSel = DateTime.now();
   DateTime lastSel = DateTime.now();
 
@@ -1657,9 +1658,41 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   void getLicenses() {
-    for (int i = 0; i < vehicles.length; i++) {
-      plates?[i] = vehicles[i].licesensePlates;
+    plates.clear();
+
+    switch (companySel) {
+      case "All":
+        for (int i = 0; i < vehicles.length; i++) {
+          String license = vehicles[i].licesensePlates;
+          plates.add(license);
+        }
+        break;
+      case "ODE":
+        for (int i = 0; i < vehicles.length; i++) {
+          if (vehicles[i].company.company == "ODE") {
+            String license = vehicles[i].licesensePlates;
+            plates.add(license);
+          }
+        }
+        break;
+      case "SMI":
+        for (int i = 0; i < vehicles.length; i++) {
+          if (vehicles[i].company.company == "SMI") {
+            String license = vehicles[i].licesensePlates;
+            plates.add(license);
+          }
+        }
+        break;
+      case "CRY":
+        for (int i = 0; i < vehicles.length; i++) {
+          if (vehicles[i].company.company == "CRY") {
+            String license = vehicles[i].licesensePlates;
+            plates.add(license);
+          }
+        }
+        break;
     }
+
     notifyListeners();
   }
 
@@ -1671,5 +1704,44 @@ class InventoryProvider extends ChangeNotifier {
   void getLastDate(DateTime select) {
     lastSel = select;
     notifyListeners();
+  }
+
+  Future<bool> exportVehicleData(
+      DateTime initial, DateTime finish, String plate) async {
+    Excel excel = Excel.createExcel();
+    Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
+    List<Vehicle> selectedComp = [];
+
+    //TITULO
+    sheet?.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
+
+    if (sheet == null) return false;
+    CellStyle titulo = CellStyle(
+      fontFamily: getFontFamily(FontFamily.Calibri),
+      fontSize: 16,
+      bold: true,
+      horizontalAlign: HorizontalAlign.Center,
+      verticalAlign: VerticalAlign.Center,
+    );
+    var cellT = sheet.cell(CellIndex.indexByString("A1"));
+    cellT.value = "Title";
+    cellT.cellStyle = titulo;
+
+    var cellT2 = sheet.cell(CellIndex.indexByString("B1"));
+    cellT2.value = "Vehicle History";
+    cellT2.cellStyle = titulo;
+
+    var cellD = sheet.cell(CellIndex.indexByString("D1"));
+    cellD.value = "Vehicle";
+    cellD.cellStyle = titulo;
+
+    var cellD2 = sheet.cell(CellIndex.indexByString("E1"));
+    cellD2.value = plate;
+    cellD2.cellStyle = titulo;
+
+    //Agregar primera linea
+    sheet.appendRow(['']);
+    //Agregar linea vacia
+    return true;
   }
 }

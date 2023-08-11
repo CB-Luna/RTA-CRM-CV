@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_dropdown_inventory.dart';
 import 'package:rta_crm_cv/widgets/custom_text_fieldForm.dart';
-
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
@@ -26,6 +25,8 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
     fToast.init(context);
     InventoryProvider provider = Provider.of<InventoryProvider>(context);
     final formKey = GlobalKey<FormState>();
+
+    List<String> companies = ["All", "ODE", "SMI", "CRY"];
 
     provider.getLicenses();
 
@@ -61,14 +62,29 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
+                        hint: 'Choose a Company',
+                        label: 'Company*',
+                        width: 350,
+                        list: companies,
+                        dropdownValue: provider.companySel,
+                        onChanged: (val) {
+                          if (val == null) return;
+                          provider.getCompanyFilter(val);
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      child: CustomDropDownInventory(
                         hint: 'Choose a Vehicle',
                         label: 'Vehicle*',
                         width: 350,
-                        list: provider.plates ?? [],
+                        list: provider.plates,
                         dropdownValue: provider.vehicleSel,
                         onChanged: (val) {
                           if (val == null) return;
                           provider.getVehicleExport(val);
+                          provider.getLicenses();
                         },
                       ),
                     ),
