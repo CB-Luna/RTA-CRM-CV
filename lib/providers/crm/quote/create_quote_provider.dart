@@ -998,7 +998,7 @@ class CreateQuoteProvider extends ChangeNotifier {
 
       //getItems////////////////////////////////////////////////////////////
       var request = http.Request('POST', Uri.parse(apiGatewayURL));
-      var headers = {'Content-Type': 'application/json'};
+      var headers = {'Content-Type': 'application/json', 'key': supabase.auth.currentSession!.accessToken};
       request.headers.addAll(headers);
       request.body = json.encode(
         {
