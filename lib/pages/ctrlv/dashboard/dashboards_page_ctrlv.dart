@@ -69,7 +69,7 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                               padding: const EdgeInsets.only(right: 10),
                               child: SizedBox(
                                 height: 40,
-                                child: Text('Dashboards', style: AppTheme.of(context).title1),
+                                child: Text('Fleet Management Tool', style: AppTheme.of(context).title1),
                               ),
                             ),
                           ],

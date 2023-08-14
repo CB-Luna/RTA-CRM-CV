@@ -7,9 +7,7 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart' hide State;
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/models/issues_dashboards.dart';
-import 'package:rta_crm_cv/models/leads_history.dart';
 
 import 'package:rta_crm_cv/models/x2crm/x2crm_quote_model.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -17,7 +15,6 @@ import 'package:rta_crm_cv/theme/theme.dart';
 class DashboardCVProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<PlutoRow> rows = [], rows2 = [];
-  List<Quotes> quotess = [];
   List<IssuesDashboards> issuesDashboards = [];
   List<X2CrmQuote> x2crmQuotes = [];
   PlutoGridStateManager? stateManager;
@@ -35,49 +32,60 @@ class DashboardCVProvider extends ChangeNotifier {
 
   Color azul = const Color(0xFF2E5899), rojo = const Color(0xFFD20030), naranja = const Color.fromRGBO(255, 138, 0, 1);
   double cry = 0, ode = 0, smi = 0;
-  //Radianes grafica barra
-  /* LinearGradient get gradientRoja => LinearGradient(
-        colors: [
-          Colors.rojo.shade900,
-          Colors.rojo,
-          Colors.rojo.shade100,
-        ],
-        begin: Alignment.bottomCenter,
-        end: Alignment.topCenter,
-      );
-  LinearGradient get gradientAma => LinearGradient(
-        colors: [
-          Colors.yellow.shade900,
-          Colors.yellow,
-          Colors.yellow.shade100,
-        ],
-        begin: Alignment.bottomCenter,
-        end: Alignment.topCenter,
-      );
-  LinearGradient get gradientVer => LinearGradient(
-        colors: [
-          Colors.green.shade900,
-          Colors.green,
-          Colors.green.shade100,
-        ],
-        begin: Alignment.bottomCenter,
-        end: Alignment.topCenter,
-      );
- */ ////////////////////////////////////////////////////////////////////////////
+  double actualMonthEndCry = 0;
+  double oneMonthAgoEndCry = 0;
+  double twoMonthsAgoEndCry = 0;
+  double threeMonthsAgoEndCry = 0;
+  double fourMonthsAgoEndCry = 0;
+  double fiveMonthsAgoEndCry = 0;
+  double sixMonthsAgoEndCry = 0;
+  double sevenMonthsAgoEndCry = 0;
+  double eightMonthsAgoEndCry = 0;
+  double nineMonthsAgoEndCry = 0;
+  double tenMonthsAgoEndCry = 0;
+  double elevenMonthsAgoEndCry = 0;
+
+  double actualMonthEndOde = 0;
+  double oneMonthAgoEndOde = 0;
+  double twoMonthsAgoEndOde = 0;
+  double threeMonthsAgoEndOde = 0;
+  double fourMonthsAgoEndOde = 0;
+  double fiveMonthsAgoEndOde = 0;
+  double sixMonthsAgoEndOde = 0;
+  double sevenMonthsAgoEndOde = 0;
+  double eightMonthsAgoEndOde = 0;
+  double nineMonthsAgoEndOde = 0;
+  double tenMonthsAgoEndOde = 0;
+  double elevenMonthsAgoEndOde = 0;
+
+  double actualMonthEndSmi = 0;
+  double oneMonthAgoEndSmi = 0;
+  double twoMonthsAgoEndSmi = 0;
+  double threeMonthsAgoEndSmi = 0;
+  double fourMonthsAgoEndSmi = 0;
+  double fiveMonthsAgoEndSmi = 0;
+  double sixMonthsAgoEndSmi = 0;
+  double sevenMonthsAgoEndSmi = 0;
+  double eightMonthsAgoEndSmi = 0;
+  double nineMonthsAgoEndSmi = 0;
+  double tenMonthsAgoEndSmi = 0;
+  double elevenMonthsAgoEndSmi = 0;
+
+
   DashboardCVProvider() {
     touchedValue = -1;
     updateState();
     clearAll();
   }
+  
   var titleGroup = AutoSizeGroup();
   Future<void> updateState() async {
-    await getHistory();
     await getIssues(null);
   }
 
   clearAll() {
-    selectChartValue = chartList.first;
-    selectTimeValue = timeList.first;
+    selectChartValue = chartList.last;
+    selectTimeValue = timeList.last;
   }
 
   late String selectChartValue, selectTimeValue;
@@ -134,68 +142,6 @@ class DashboardCVProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-//Tabla History Leads
-  Future<void> getHistory() async {
-    if (stateManager != null) {
-      stateManager!.setShowLoading(true);
-      notifyListeners();
-    }
-    try {
-      final res = await supabaseCRM.from('leads_history').select();
-      if (res == null) {
-        log('Error en getHistory()');
-        return;
-      }
-      List<LeadsHistory> leads = (res as List<dynamic>).map((lead) => LeadsHistory.fromJson(jsonEncode(lead))).toList();
-
-      rows.clear();
-      for (LeadsHistory lead in leads) {
-        rows.add(
-          PlutoRow(
-            cells: {
-              'ID': PlutoCell(value: lead.id),
-              'CREATE_AT': PlutoCell(value: lead.createdAt),
-              'USER': PlutoCell(value: lead.user),
-              'ACTION': PlutoCell(value: lead.action),
-              'DESCRIPTION': PlutoCell(value: lead.description),
-              'TABLE': PlutoCell(value: lead.table),
-              'ID_TABLE': PlutoCell(value: lead.idTable),
-              'NAME': PlutoCell(value: lead.name),
-              'ACTIONS_Column': PlutoCell(value: ''),
-            },
-          ),
-        );
-      }
-      if (stateManager != null) stateManager!.notifyListeners();
-    } catch (e) {
-      log('Error en gethistory() - $e');
-    }
-
-    notifyListeners();
-  }
-
-//Tabla overview history
-  // Future<void> getX2CRMQuotes() async {
-  //   var headers = {
-  //     'Authorization': 'Basic YWxleGM6NW1saDM5UjhQUVc4WnI3TzhDcGlPSDJvZE1xaGtFOE8=',
-  //     //'Cookie': 'PHPSESSID=u3lgismtbbamh7g3k6b8dqteuk; YII_CSRF_TOKEN=Z2VybTVsZERNcV9faDVSUlE1VFRZeHk3WmNUWmRiSEMSMv7x7artFlmFwAp6GLyf7Qsi4oYOGXtsrcYz02xGJg%3D%3D'
-  //   };
-  //   var request = http.Request('GET', Uri.parse('http://34.130.182.108/X2CRM-master/x2engine/index.php/api2/Quotes'));
-
-  //   request.headers.addAll(headers);
-
-  //   http.StreamedResponse response = await request.send();
-
-  //   if (response.statusCode == 200) {
-  //     x2crmQuotes.clear();
-
-  //     var res = jsonDecode(await response.stream.bytesToString());
-
-  //     x2crmQuotes = (res as List<dynamic>).map((quote) => X2CrmQuote.fromJson(jsonEncode(quote))).toList();
-  //   } else {
-  //     log(response.reasonPhrase.toString());
-  //   }
-  // }
 
   Future<void> getIssues(String? status) async {
     if (stateManager != null) {
@@ -220,6 +166,45 @@ class DashboardCVProvider extends ChangeNotifier {
       cry = 0;
       ode = 0;
       smi = 0;
+      actualMonthEndCry = 0;
+      oneMonthAgoEndCry = 0;
+      twoMonthsAgoEndCry = 0;
+      threeMonthsAgoEndCry = 0;
+      fourMonthsAgoEndCry = 0;
+      fiveMonthsAgoEndCry = 0;
+      sixMonthsAgoEndCry = 0;
+      sevenMonthsAgoEndCry = 0;
+      eightMonthsAgoEndCry = 0;
+      nineMonthsAgoEndCry = 0;
+      tenMonthsAgoEndCry = 0;
+      elevenMonthsAgoEndCry = 0;
+
+      actualMonthEndOde = 0;
+      oneMonthAgoEndOde = 0;
+      twoMonthsAgoEndOde = 0;
+      threeMonthsAgoEndOde = 0;
+      fourMonthsAgoEndOde = 0;
+      fiveMonthsAgoEndOde = 0;
+      sixMonthsAgoEndOde = 0;
+      sevenMonthsAgoEndOde = 0;
+      eightMonthsAgoEndOde = 0;
+      nineMonthsAgoEndOde = 0;
+      tenMonthsAgoEndOde = 0;
+      elevenMonthsAgoEndOde = 0;
+
+      actualMonthEndSmi = 0;
+      oneMonthAgoEndSmi = 0;
+      twoMonthsAgoEndSmi = 0;
+      threeMonthsAgoEndSmi = 0;
+      fourMonthsAgoEndSmi = 0;
+      fiveMonthsAgoEndSmi = 0;
+      sixMonthsAgoEndSmi = 0;
+      sevenMonthsAgoEndSmi = 0;
+      eightMonthsAgoEndSmi = 0;
+      nineMonthsAgoEndSmi = 0;
+      tenMonthsAgoEndSmi = 0;
+      elevenMonthsAgoEndSmi = 0;
+
       for (IssuesDashboards issue in issuesDashboards) {
         // Bucket Inspection
         issue.bucketInspectionR.toMap().forEach((key, value) {
@@ -239,9 +224,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         issue.bucketInspectionD.toMap().forEach((key, value) {
@@ -261,9 +288,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         // Car Bodywork
@@ -284,9 +353,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         issue.carBodyworkD.toMap().forEach((key, value) {
@@ -306,9 +417,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         // Equipment
@@ -329,9 +482,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         issue.equipmentD.toMap().forEach((key, value) {
@@ -351,9 +546,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         // Extra
@@ -374,9 +611,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         issue.extraD.toMap().forEach((key, value) {
@@ -396,9 +675,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         // Fluid Check
@@ -419,9 +740,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         issue.fluidCheckD.toMap().forEach((key, value) {
@@ -441,9 +804,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         // Lights
@@ -464,9 +869,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         issue.lightsD.toMap().forEach((key, value) {
@@ -486,9 +933,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         // Security
@@ -509,9 +998,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
         issue.securityD.toMap().forEach((key, value) {
@@ -531,9 +1062,51 @@ class DashboardCVProvider extends ChangeNotifier {
                 },
               ),
             );
-            if (issue.company == "CRY") cry++;
-            if (issue.company == "ODE") ode++;
-            if (issue.company == "SMI") smi++;
+            if (issue.company == "CRY") {
+             cry++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+            }
+            if (issue.company == "ODE") {
+             ode++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+            }
+            if (issue.company == "SMI") {
+             smi++;
+             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
+             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+            }
           }
         });
       }
@@ -572,26 +1145,26 @@ class DashboardCVProvider extends ChangeNotifier {
         barRods: [
           BarChartRodData(
               width: 20,
-              toY: 10,
+              toY: elevenMonthsAgoEndCry,
               color: azul,
               rodStackItems: [
-                BarChartRodStackItem(0, 10, azul),
+                BarChartRodStackItem(0, elevenMonthsAgoEndCry, azul),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
               width: 20,
-              toY: 1,
+              toY: elevenMonthsAgoEndOde,
               color: rojo,
               rodStackItems: [
-                BarChartRodStackItem(0, 1, rojo),
+                BarChartRodStackItem(0, elevenMonthsAgoEndOde, rojo),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
             width: 20,
-            toY: 1,
+            toY: elevenMonthsAgoEndSmi,
             color: naranja,
             rodStackItems: [
-              BarChartRodStackItem(0, 1, naranja),
+              BarChartRodStackItem(0, elevenMonthsAgoEndSmi, naranja),
             ],
             borderRadius: const BorderRadius.all(Radius.zero),
           )
@@ -603,26 +1176,26 @@ class DashboardCVProvider extends ChangeNotifier {
         barRods: [
           BarChartRodData(
               width: 20,
-              toY: 7,
+              toY: tenMonthsAgoEndCry,
               color: azul,
               rodStackItems: [
-                BarChartRodStackItem(0, 7, azul),
+                BarChartRodStackItem(0, tenMonthsAgoEndCry, azul),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
               width: 20,
-              toY: 1,
+              toY: tenMonthsAgoEndOde,
               color: rojo,
               rodStackItems: [
-                BarChartRodStackItem(0, 1, rojo),
+                BarChartRodStackItem(0, tenMonthsAgoEndOde, rojo),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
             width: 20,
-            toY: 5,
+            toY: tenMonthsAgoEndSmi,
             color: naranja,
             rodStackItems: [
-              BarChartRodStackItem(0, 5, naranja),
+              BarChartRodStackItem(0, tenMonthsAgoEndSmi, naranja),
             ],
             borderRadius: const BorderRadius.all(Radius.zero),
           )
@@ -634,26 +1207,26 @@ class DashboardCVProvider extends ChangeNotifier {
         barRods: [
           BarChartRodData(
               width: 20,
-              toY: 1,
+              toY: nineMonthsAgoEndCry,
               color: azul,
               rodStackItems: [
-                BarChartRodStackItem(0, 1, azul),
+                BarChartRodStackItem(0, nineMonthsAgoEndCry, azul),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
               width: 20,
-              toY: 2,
+              toY: nineMonthsAgoEndOde,
               color: rojo,
               rodStackItems: [
-                BarChartRodStackItem(0, 2, rojo),
+                BarChartRodStackItem(0, nineMonthsAgoEndOde, rojo),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
             width: 20,
-            toY: 1,
+            toY: nineMonthsAgoEndSmi,
             color: naranja,
             rodStackItems: [
-              BarChartRodStackItem(0, 1, naranja),
+              BarChartRodStackItem(0, nineMonthsAgoEndSmi, naranja),
             ],
             borderRadius: const BorderRadius.all(Radius.zero),
           )
@@ -665,26 +1238,26 @@ class DashboardCVProvider extends ChangeNotifier {
         barRods: [
           BarChartRodData(
               width: 20,
-              toY: 2,
+              toY: eightMonthsAgoEndCry,
               color: azul,
               rodStackItems: [
-                BarChartRodStackItem(0, 2, azul),
+                BarChartRodStackItem(0, eightMonthsAgoEndCry, azul),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
               width: 20,
-              toY: 0,
+              toY: eightMonthsAgoEndOde,
               color: rojo,
               rodStackItems: [
-                BarChartRodStackItem(0, 0, rojo),
+                BarChartRodStackItem(0, eightMonthsAgoEndOde, rojo),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
             width: 20,
-            toY: 0,
+            toY: eightMonthsAgoEndSmi,
             color: naranja,
             rodStackItems: [
-              BarChartRodStackItem(0, 0, naranja),
+              BarChartRodStackItem(0, eightMonthsAgoEndSmi, naranja),
             ],
             borderRadius: const BorderRadius.all(Radius.zero),
           )
@@ -696,26 +1269,26 @@ class DashboardCVProvider extends ChangeNotifier {
         barRods: [
           BarChartRodData(
               width: 20,
-              toY: 11,
+              toY: sevenMonthsAgoEndCry,
               color: azul,
               rodStackItems: [
-                BarChartRodStackItem(0, 11, azul),
+                BarChartRodStackItem(0, sevenMonthsAgoEndCry, azul),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
               width: 20,
-              toY: 4,
+              toY: sevenMonthsAgoEndOde,
               color: rojo,
               rodStackItems: [
-                BarChartRodStackItem(0, 4, rojo),
+                BarChartRodStackItem(0, sevenMonthsAgoEndOde, rojo),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
             width: 20,
-            toY: 1,
+            toY: sevenMonthsAgoEndSmi,
             color: naranja,
             rodStackItems: [
-              BarChartRodStackItem(0, 1, naranja),
+              BarChartRodStackItem(0, sevenMonthsAgoEndSmi, naranja),
             ],
             borderRadius: const BorderRadius.all(Radius.zero),
           )
@@ -727,26 +1300,26 @@ class DashboardCVProvider extends ChangeNotifier {
         barRods: [
           BarChartRodData(
               width: 20,
-              toY: 2,
+              toY: sixMonthsAgoEndCry,
               color: azul,
               rodStackItems: [
-                BarChartRodStackItem(0, 2, azul),
+                BarChartRodStackItem(0, sixMonthsAgoEndCry, azul),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
               width: 20,
-              toY: 1,
+              toY: sixMonthsAgoEndOde,
               color: rojo,
               rodStackItems: [
-                BarChartRodStackItem(0, 1, rojo),
+                BarChartRodStackItem(0, sixMonthsAgoEndOde, rojo),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
             width: 20,
-            toY: 4,
+            toY: sixMonthsAgoEndSmi,
             color: naranja,
             rodStackItems: [
-              BarChartRodStackItem(0, 4, naranja),
+              BarChartRodStackItem(0, sixMonthsAgoEndSmi, naranja),
             ],
             borderRadius: const BorderRadius.all(Radius.zero),
           )
@@ -758,26 +1331,26 @@ class DashboardCVProvider extends ChangeNotifier {
         barRods: [
           BarChartRodData(
               width: 20,
-              toY: 6,
+              toY: fiveMonthsAgoEndCry,
               color: azul,
               rodStackItems: [
-                BarChartRodStackItem(0, 6, azul),
+                BarChartRodStackItem(0, fiveMonthsAgoEndCry, azul),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
               width: 20,
-              toY: 3,
+              toY: fiveMonthsAgoEndOde,
               color: rojo,
               rodStackItems: [
-                BarChartRodStackItem(0, 3, rojo),
+                BarChartRodStackItem(0, fiveMonthsAgoEndOde, rojo),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
             width: 20,
-            toY: 2,
+            toY: fiveMonthsAgoEndSmi,
             color: naranja,
             rodStackItems: [
-              BarChartRodStackItem(0, 2, naranja),
+              BarChartRodStackItem(0, fiveMonthsAgoEndSmi, naranja),
             ],
             borderRadius: const BorderRadius.all(Radius.zero),
           )
@@ -789,26 +1362,26 @@ class DashboardCVProvider extends ChangeNotifier {
         barRods: [
           BarChartRodData(
               width: 20,
-              toY: 5,
+              toY: fourMonthsAgoEndCry,
               color: azul,
               rodStackItems: [
-                BarChartRodStackItem(0, 5, azul),
+                BarChartRodStackItem(0, fourMonthsAgoEndCry, azul),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
               width: 20,
-              toY: 9,
+              toY: fourMonthsAgoEndOde,
               color: rojo,
               rodStackItems: [
-                BarChartRodStackItem(0, 9, rojo),
+                BarChartRodStackItem(0, fourMonthsAgoEndOde, rojo),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
             width: 20,
-            toY: 8,
+            toY: fourMonthsAgoEndSmi,
             color: naranja,
             rodStackItems: [
-              BarChartRodStackItem(0, 8, naranja),
+              BarChartRodStackItem(0, fourMonthsAgoEndSmi, naranja),
             ],
             borderRadius: const BorderRadius.all(Radius.zero),
           )
@@ -820,26 +1393,26 @@ class DashboardCVProvider extends ChangeNotifier {
         barRods: [
           BarChartRodData(
               width: 20,
-              toY: 1,
+              toY: threeMonthsAgoEndCry,
               color: azul,
               rodStackItems: [
-                BarChartRodStackItem(0, 1, azul),
+                BarChartRodStackItem(0, threeMonthsAgoEndCry, azul),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
               width: 20,
-              toY: 4,
+              toY: threeMonthsAgoEndOde,
               color: rojo,
               rodStackItems: [
-                BarChartRodStackItem(0, 4, rojo),
+                BarChartRodStackItem(0, threeMonthsAgoEndOde, rojo),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
             width: 20,
-            toY: 4,
+            toY: threeMonthsAgoEndSmi,
             color: naranja,
             rodStackItems: [
-              BarChartRodStackItem(0, 4, naranja),
+              BarChartRodStackItem(0, threeMonthsAgoEndSmi, naranja),
             ],
             borderRadius: const BorderRadius.all(Radius.zero),
           )
@@ -851,26 +1424,26 @@ class DashboardCVProvider extends ChangeNotifier {
         barRods: [
           BarChartRodData(
               width: 20,
-              toY: 2,
+              toY: twoMonthsAgoEndCry,
               color: azul,
               rodStackItems: [
-                BarChartRodStackItem(0, 2, azul),
+                BarChartRodStackItem(0, twoMonthsAgoEndCry, azul),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
               width: 20,
-              toY: 3,
+              toY: twoMonthsAgoEndOde,
               color: rojo,
               rodStackItems: [
-                BarChartRodStackItem(0, 3, rojo),
+                BarChartRodStackItem(0, twoMonthsAgoEndOde, rojo),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
             width: 20,
-            toY: 1,
+            toY: twoMonthsAgoEndSmi,
             color: naranja,
             rodStackItems: [
-              BarChartRodStackItem(0, 1, naranja),
+              BarChartRodStackItem(0, twoMonthsAgoEndSmi, naranja),
             ],
             borderRadius: const BorderRadius.all(Radius.zero),
           )
@@ -882,15 +1455,15 @@ class DashboardCVProvider extends ChangeNotifier {
         barRods: [
           BarChartRodData(
               width: 20,
-              toY: 2,
+              toY: oneMonthAgoEndCry,
               color: azul,
               rodStackItems: [
-                BarChartRodStackItem(0, 2, azul),
+                BarChartRodStackItem(0, oneMonthAgoEndCry, azul),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
               width: 20,
-              toY: 2,
+              toY: oneMonthAgoEndOde,
               color: rojo,
               rodStackItems: [
                 BarChartRodStackItem(0, 2, rojo),
@@ -898,10 +1471,10 @@ class DashboardCVProvider extends ChangeNotifier {
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
             width: 20,
-            toY: 1,
+            toY: oneMonthAgoEndSmi,
             color: naranja,
             rodStackItems: [
-              BarChartRodStackItem(0, 1, naranja),
+              BarChartRodStackItem(0, oneMonthAgoEndSmi, naranja),
             ],
             borderRadius: const BorderRadius.all(Radius.zero),
           )
@@ -913,26 +1486,26 @@ class DashboardCVProvider extends ChangeNotifier {
         barRods: [
           BarChartRodData(
               width: 20,
-              toY: 11,
+              toY: actualMonthEndCry,
               color: azul,
               rodStackItems: [
-                BarChartRodStackItem(0, 11, azul),
+                BarChartRodStackItem(0, actualMonthEndCry, azul),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
               width: 20,
-              toY: 0,
+              toY: actualMonthEndOde,
               color: rojo,
               rodStackItems: [
-                BarChartRodStackItem(0, 0, rojo),
+                BarChartRodStackItem(0, actualMonthEndOde, rojo),
               ],
               borderRadius: const BorderRadius.all(Radius.zero)),
           BarChartRodData(
             width: 20,
-            toY: 0,
+            toY: actualMonthEndSmi,
             color: naranja,
             rodStackItems: [
-              BarChartRodStackItem(0, 0, naranja),
+              BarChartRodStackItem(0, actualMonthEndSmi, naranja),
             ],
             borderRadius: const BorderRadius.all(Radius.zero),
           )
@@ -945,18 +1518,18 @@ class DashboardCVProvider extends ChangeNotifier {
   LineChartBarData totals(Color color) {
     return LineChartBarData(
       spots: [
-        const FlSpot(0, 12),
-        const FlSpot(1, 13),
-        const FlSpot(2, 4),
-        const FlSpot(3, 2),
-        const FlSpot(4, 16),
-        const FlSpot(5, 7),
-        const FlSpot(6, 11),
-        const FlSpot(7, 23),
-        const FlSpot(8, 9),
-        const FlSpot(9, 6),
-        const FlSpot(10, 5),
-        const FlSpot(11, 11),
+        FlSpot(0, elevenMonthsAgoEndCry + elevenMonthsAgoEndOde + elevenMonthsAgoEndSmi),
+        FlSpot(1, tenMonthsAgoEndCry + tenMonthsAgoEndOde + tenMonthsAgoEndSmi),
+        FlSpot(2, nineMonthsAgoEndCry + nineMonthsAgoEndOde + nineMonthsAgoEndSmi),
+        FlSpot(3, eightMonthsAgoEndCry + eightMonthsAgoEndOde + eightMonthsAgoEndSmi),
+        FlSpot(4, sevenMonthsAgoEndCry + sevenMonthsAgoEndOde + sevenMonthsAgoEndSmi),
+        FlSpot(5, sixMonthsAgoEndCry + sixMonthsAgoEndOde + sixMonthsAgoEndSmi),
+        FlSpot(6, fiveMonthsAgoEndCry + fiveMonthsAgoEndOde + fiveMonthsAgoEndSmi),
+        FlSpot(7, fourMonthsAgoEndCry + fourMonthsAgoEndOde + fourMonthsAgoEndSmi),
+        FlSpot(8, threeMonthsAgoEndCry + threeMonthsAgoEndOde + threeMonthsAgoEndSmi),
+        FlSpot(9, twoMonthsAgoEndCry + twoMonthsAgoEndOde + twoMonthsAgoEndSmi),
+        FlSpot(10,oneMonthAgoEndCry + oneMonthAgoEndOde + oneMonthAgoEndSmi),
+        FlSpot(11,actualMonthEndCry + actualMonthEndOde + actualMonthEndSmi),
       ],
       isCurved: false,
       barWidth: 5,
@@ -970,18 +1543,18 @@ class DashboardCVProvider extends ChangeNotifier {
   LineChartBarData getCRY() {
     return LineChartBarData(
       spots: [
-        const FlSpot(0, 10),
-        const FlSpot(1, 7),
-        const FlSpot(2, 1),
-        const FlSpot(3, 2),
-        const FlSpot(4, 11),
-        const FlSpot(5, 2),
-        const FlSpot(6, 6),
-        const FlSpot(7, 5),
-        const FlSpot(8, 1),
-        const FlSpot(9, 2),
-        const FlSpot(10, 2),
-        const FlSpot(11, 11),
+        FlSpot(0, elevenMonthsAgoEndCry),
+        FlSpot(1, tenMonthsAgoEndCry),
+        FlSpot(2, nineMonthsAgoEndCry),
+        FlSpot(3, eightMonthsAgoEndCry),
+        FlSpot(4, sevenMonthsAgoEndCry),
+        FlSpot(5, sixMonthsAgoEndCry),
+        FlSpot(6, fiveMonthsAgoEndCry),
+        FlSpot(7, fourMonthsAgoEndCry),
+        FlSpot(8, threeMonthsAgoEndCry),
+        FlSpot(9, twoMonthsAgoEndCry),
+        FlSpot(10,oneMonthAgoEndCry),
+        FlSpot(11,actualMonthEndCry),
       ],
       isCurved: false,
       barWidth: 5,
@@ -995,18 +1568,18 @@ class DashboardCVProvider extends ChangeNotifier {
   LineChartBarData getODE() {
     return LineChartBarData(
       spots: [
-        const FlSpot(0, 1),
-        const FlSpot(1, 1),
-        const FlSpot(2, 2),
-        const FlSpot(3, 0),
-        const FlSpot(4, 4),
-        const FlSpot(5, 1),
-        const FlSpot(6, 3),
-        const FlSpot(7, 9),
-        const FlSpot(8, 4),
-        const FlSpot(9, 3),
-        const FlSpot(10, 2),
-        const FlSpot(11, 0),
+        FlSpot(0, elevenMonthsAgoEndOde),
+        FlSpot(1, tenMonthsAgoEndOde),
+        FlSpot(2, nineMonthsAgoEndOde),
+        FlSpot(3, eightMonthsAgoEndOde),
+        FlSpot(4, sevenMonthsAgoEndOde),
+        FlSpot(5, sixMonthsAgoEndOde),
+        FlSpot(6, fiveMonthsAgoEndOde),
+        FlSpot(7, fourMonthsAgoEndOde),
+        FlSpot(8, threeMonthsAgoEndOde),
+        FlSpot(9, twoMonthsAgoEndOde),
+        FlSpot(10,oneMonthAgoEndOde),
+        FlSpot(11,actualMonthEndOde),
       ],
       isCurved: false,
       barWidth: 5,
@@ -1020,18 +1593,18 @@ class DashboardCVProvider extends ChangeNotifier {
   LineChartBarData getSMI() {
     return LineChartBarData(
       spots: [
-        const FlSpot(0, 1),
-        const FlSpot(1, 5),
-        const FlSpot(2, 1),
-        const FlSpot(3, 0),
-        const FlSpot(4, 1),
-        const FlSpot(5, 4),
-        const FlSpot(6, 2),
-        const FlSpot(7, 8),
-        const FlSpot(8, 4),
-        const FlSpot(9, 1),
-        const FlSpot(10, 1),
-        const FlSpot(11, 0),
+        FlSpot(0, elevenMonthsAgoEndSmi),
+        FlSpot(1, tenMonthsAgoEndSmi),
+        FlSpot(2, nineMonthsAgoEndSmi),
+        FlSpot(3, eightMonthsAgoEndSmi),
+        FlSpot(4, sevenMonthsAgoEndSmi),
+        FlSpot(5, sixMonthsAgoEndSmi),
+        FlSpot(6, fiveMonthsAgoEndSmi),
+        FlSpot(7, fourMonthsAgoEndSmi),
+        FlSpot(8, threeMonthsAgoEndSmi),
+        FlSpot(9, twoMonthsAgoEndSmi),
+        FlSpot(10,oneMonthAgoEndSmi),
+        FlSpot(11,actualMonthEndSmi),
       ],
       isCurved: false,
       barWidth: 5,

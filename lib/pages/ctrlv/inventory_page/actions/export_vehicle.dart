@@ -29,9 +29,6 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
     List<String> companies = ["All", "ODE", "SMI", "CRY"];
 
     provider.getLicenses();
-    
-    
-
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
@@ -95,7 +92,8 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                           label: 'Initial Date*',
-                          controller: provider.dateExportVehicleDataFirstController,
+                          controller:
+                              provider.dateExportVehicleDataFirstController,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
@@ -107,18 +105,19 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
                                 firstDate: DateTime(1980),
                                 lastDate: DateTime(2050));
                             if (newfirstDate != null) {
-                              provider.dateExportVehicleDataFirstController.text =
+                              provider.dateExportVehicleDataFirstController
+                                      .text =
                                   DateFormat("MM/dd/yyyy").format(newfirstDate);
                               provider.getFirstDate(newfirstDate);
                             }
-                            
                           }),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                           label: 'Final Date*',
-                          controller: provider.dateExportVehicleDataLastController,
+                          controller:
+                              provider.dateExportVehicleDataLastController,
                           enabled: true,
                           onTapCheck: true,
                           width: 350,
@@ -130,11 +129,11 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
                                 firstDate: DateTime(1980),
                                 lastDate: DateTime(2050));
                             if (newDate != null) {
-                              provider.dateExportVehicleDataLastController.text =
+                              provider.dateExportVehicleDataLastController
+                                      .text =
                                   DateFormat("MM/dd/yyyy").format(newDate);
                               provider.getLastDate(newDate);
                             }
-                            
                           }),
                     ),
                   ],
@@ -151,11 +150,9 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
                     text: 'Export',
                     onTap: () async {
                       await provider.excelActivityReports(
-                          provider.newDate,
-                          provider.companySel);
+                          provider.newDate, provider.companySel);
                       if (context.canPop()) context.pop();
                     }),
-                
               ],
             )
           ],

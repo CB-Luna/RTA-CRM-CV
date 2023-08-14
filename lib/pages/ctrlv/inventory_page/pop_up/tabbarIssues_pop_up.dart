@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
@@ -17,7 +16,6 @@ class _TabbarIssuePopUpState extends State<TabbarIssuePopUp> {
   Widget build(BuildContext context) {
     IssueReportedProvider issueReportedProvider =
         Provider.of<IssueReportedProvider>(context);
-
     return Container(
       padding: const EdgeInsets.all(10.0),
       width: MediaQuery.of(context).size.width * 0.6,
@@ -44,19 +42,20 @@ class _TabbarIssuePopUpState extends State<TabbarIssuePopUp> {
                   issueReportedProvider.selectIssuesXUser(value);
                   if (value == 0) {
                     issueReportedProvider.statePrueba = true;
-                    issueReportedProvider.clearListasdegetIssues();
+                    // issueReportedProvider.clearListasdegetIssues();
                     await issueReportedProvider.updateState();
                     // await issueReportedProvider
                     //     .getIssuesAll(issueReportedProvider.actualVehicle!);
-
-                    print(" Entro a getIssuesALL");
                   } else {
                     issueReportedProvider.statePrueba = false;
                     await issueReportedProvider.updateStateUser();
-
                     await issueReportedProvider
                         .getIssues(issueReportedProvider.actualIssueXUser!);
                   }
+                  print("-------------------------");
+                  print(
+                      "El usuario es: ${issueReportedProvider.actualIssueXUser?.name}");
+                  print("-------------------------");
                 },
                 indicator: BoxDecoration(
                   borderRadius: const BorderRadius.only(

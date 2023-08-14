@@ -27,7 +27,7 @@ class _TablaMesesCtrlVState extends State<TablaMesesCtrlV> {
     return CustomCard(
       width: getWidth(670, context),
       height: getHeight(432.91, context),
-      title: 'Overview History',
+      title: 'Issues Overview History',
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -121,7 +121,7 @@ class _TablaMesesCtrlVState extends State<TablaMesesCtrlV> {
                         style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'COMPANY',
+                  title: 'Company',
                   field: 'COMPANY_Column',
                   titleTextAlign: PlutoColumnTextAlign.start,
                   textAlign: PlutoColumnTextAlign.center,
@@ -185,7 +185,7 @@ class _TablaMesesCtrlVState extends State<TablaMesesCtrlV> {
                         style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'L. PLATES',
+                  title: 'License Plates',
                   field: 'LICENSE_PLATES_Column',
                   width: 150,
                   titleTextAlign: PlutoColumnTextAlign.start,
@@ -268,7 +268,7 @@ class _TablaMesesCtrlVState extends State<TablaMesesCtrlV> {
                         style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'ISSUE',
+                  title: 'Issue',
                   field: 'ISSUE_Column',
                   width: 160,
                   titleTextAlign: PlutoColumnTextAlign.start,
@@ -370,7 +370,7 @@ class _TablaMesesCtrlVState extends State<TablaMesesCtrlV> {
                         style: AppTheme.of(context).encabezadoTablas)
                   ]),
                   backgroundColor: const Color(0XFF6491F7),
-                  title: 'DATE',
+                  title: 'Date',
                   field: 'DATE_Column',
                   width: 225,
                   titleTextAlign: PlutoColumnTextAlign.start,

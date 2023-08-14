@@ -40,7 +40,6 @@ class _HistoryIssuePopUpState extends State<HistoryIssuePopUp> {
         await provider.getIssuesEquipmentClosed(
             provider.actualIssueXUser!, provider.statePrueba = false);
       } else {
-        print("Esta en el All");
         await provider.getIssueBucketInspectionClosed(
             provider.actualIssueXUser!, provider.statePrueba = true); // Listo
         await provider.getIssuesFluidCheckClosed(
@@ -88,26 +87,25 @@ class _HistoryIssuePopUpState extends State<HistoryIssuePopUp> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(right:15),
-                  child: Container(
-                      width: MediaQuery.of(context).size.width * 0.1,
-                      height: MediaQuery.of(context).size.height * 0.03,
-                      decoration: BoxDecoration(
-                        color: statusColor(
-                            issueReportedProvider.actualVehicle!.company.company),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text(
-                          issueReportedProvider.actualVehicle!.licesensePlates,
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
+                padding: const EdgeInsets.only(right: 15),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.1,
+                  height: MediaQuery.of(context).size.height * 0.03,
+                  decoration: BoxDecoration(
+                    color: statusColor(
+                        issueReportedProvider.actualVehicle!.company.company),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text(
+                      issueReportedProvider.actualVehicle!.licesensePlates,
+                      style: const TextStyle(
+                        color: Colors.white,
                       ),
                     ),
+                  ),
                 ),
-              
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.8,
                 width: MediaQuery.of(context).size.width * 0.4,

@@ -1,5 +1,6 @@
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -38,29 +39,48 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
           title: widget.text,
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 15),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  height: MediaQuery.of(context).size.height * 0.03,
-                  decoration: BoxDecoration(
-                    color: statusColor(
-                        issueReportedProvider.actualVehicle!.company.company),
-                    borderRadius: BorderRadius.circular(10),
+              Row(
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.only(right: 40.0),
+                    child: CustomTextIconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      text: "",
+                      isLoading: false,
+                      onTap: () {
+                        context.pop();
+                      },
+                    ),
                   ),
-                  child: Center(
-                    child: Text(
-                      issueReportedProvider.actualVehicle!.licesensePlates,
-                      style: const TextStyle(
-                        color: Colors.white,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.1,
+                      height: MediaQuery.of(context).size.height * 0.03,
+                      decoration: BoxDecoration(
+                        color: statusColor(issueReportedProvider
+                            .actualVehicle!.company.company),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          issueReportedProvider.actualVehicle!.licesensePlates,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.45,
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.2,
                 child: ListView.builder(
                   itemCount: widget.issueComments.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -71,7 +91,7 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
                         children: [
                           Container(
                             alignment: Alignment.centerLeft,
-                            width: 250,
+                            width: MediaQuery.of(context).size.width * 0.2,
                             padding: const EdgeInsets.only(left: 10.0),
                             child: Column(
                               children: [
@@ -144,13 +164,6 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
                                         return const CommentsPhotosPopUp();
                                       });
                                     });
-                                // Notify false en las primeras 2
-                                // issueReportedProvider.getIssuePhotosComments(
-                                //     widget.contador, widget.[index],
-                                //     notify: false);
-                                // issueReportedProvider.setContador(widget.contador,
-                                //     notify: false);
-                                // isssueReportedProvider.setIssueViewActual(2);
                               },
                             ),
                           ),
