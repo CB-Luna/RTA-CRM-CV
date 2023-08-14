@@ -84,8 +84,8 @@ class DashboardCVProvider extends ChangeNotifier {
   }
 
   clearAll() {
-    selectChartValue = chartList.first;
-    selectTimeValue = timeList.first;
+    selectChartValue = chartList.last;
+    selectTimeValue = timeList.last;
   }
 
   late String selectChartValue, selectTimeValue;
