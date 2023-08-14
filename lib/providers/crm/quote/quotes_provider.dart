@@ -376,6 +376,7 @@ class QuotesProvider extends ChangeNotifier {
               'STATUS_Column': PlutoCell(value: quote.status),
               'ACTIONS_Column': PlutoCell(value: null),
               'ID_LEAD_Column': PlutoCell(value: null),
+              'X2_QUOTE_Column': PlutoCell(value: quote.x2Quoteid),
             },
           ),
         );

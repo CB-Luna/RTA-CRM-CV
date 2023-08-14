@@ -55,9 +55,7 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
         //angle: provider.dateList[0].length > 5 ? 7 : 0,
         space: 40,
         child: Text(
-            provider.range.start == findFirstDateOfTheYear(DateTime.now()) ||
-                    provider.range.start ==
-                        findFirstDateOfTheYear(DateTime(DateTime.now().year - 1, 1))
+            provider.range.start == findFirstDateOfTheYear(DateTime.now()) || provider.range.start == findFirstDateOfTheYear(DateTime(DateTime.now().year - 1, 1))
                 ? provider.weekList[value.toInt()]
                 : 'Week: ${provider.weekList[value.toInt()]}',
             textAlign: TextAlign.center,
@@ -114,10 +112,8 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                     padding: const EdgeInsets.only(left: 10),
                     child: CustomTextIconButton(
                       isLoading: false,
-                      icon:
-                          Icon(Icons.calendar_month, color: AppTheme.of(context).primaryBackground),
-                      text:
-                          '${dateFormat(provider.range.start)} - ${dateFormat(provider.range.end)}',
+                      icon: Icon(Icons.calendar_month, color: AppTheme.of(context).primaryBackground),
+                      text: '${dateFormat(provider.range.start)} - ${dateFormat(provider.range.end)}',
                       onTap: () {
                         showDialog(
                           barrierColor: Colors.transparent,
@@ -192,9 +188,7 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                             ),
                             touchCallback: (FlTouchEvent event, barTouchResponse) {
                               setState(() {
-                                if (!event.isInterestedForInteractions ||
-                                    barTouchResponse == null ||
-                                    barTouchResponse.spot == null) {
+                                if (!event.isInterestedForInteractions || barTouchResponse == null || barTouchResponse.spot == null) {
                                   provider.touchedIndex = -1;
                                   return;
                                 }
@@ -244,10 +238,7 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                             show: true,
                           ),
                           groupsSpace: 50,
-                          barGroups: [
-                            for (int i = 0; i < provider.totalList.length; i++)
-                              provider.puntos(i, provider.totalList[i], azul)
-                          ],
+                          barGroups: [for (int i = 0; i < provider.totalList.length; i++) provider.puntos(i, provider.totalList[i], azul)],
                         ),
                       )
                 : provider.selectChartValue == 'Barchart'
@@ -279,14 +270,11 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                                     tooltipBgColor: const Color.fromARGB(255, 204, 204, 204)),
                                 touchCallback: (FlTouchEvent event, barTouchResponse) {
                                   setState(() {
-                                    if (!event.isInterestedForInteractions ||
-                                        barTouchResponse == null ||
-                                        barTouchResponse.spot == null) {
+                                    if (!event.isInterestedForInteractions || barTouchResponse == null || barTouchResponse.spot == null) {
                                       provider.touchedIndex = -1;
                                       return;
                                     }
-                                    provider.touchedIndex =
-                                        barTouchResponse.spot!.touchedBarGroupIndex;
+                                    provider.touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
                                   });
                                 },
                               ),
@@ -345,28 +333,14 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                                   borderData: FlBorderData(
                                       show: true,
                                       border: Border(
-                                          top: BorderSide(
-                                              color: AppTheme.of(context).primaryText,
-                                              width: 1,
-                                              style: BorderStyle.solid),
-                                          bottom: BorderSide(
-                                              color: AppTheme.of(context).primaryText,
-                                              width: 1,
-                                              style: BorderStyle.solid),
-                                          left: BorderSide(
-                                              color: AppTheme.of(context).primaryText,
-                                              width: 1,
-                                              style: BorderStyle.solid),
-                                          right: BorderSide(
-                                              color: AppTheme.of(context).primaryText,
-                                              width: 1,
-                                              style: BorderStyle.solid))),
+                                          top: BorderSide(color: AppTheme.of(context).primaryText, width: 1, style: BorderStyle.solid),
+                                          bottom: BorderSide(color: AppTheme.of(context).primaryText, width: 1, style: BorderStyle.solid),
+                                          left: BorderSide(color: AppTheme.of(context).primaryText, width: 1, style: BorderStyle.solid),
+                                          right: BorderSide(color: AppTheme.of(context).primaryText, width: 1, style: BorderStyle.solid))),
                                   lineTouchData: LineTouchData(
                                     enabled: true,
                                     touchCallback: (FlTouchEvent event, lineTouch) {
-                                      if (!event.isInterestedForInteractions ||
-                                          lineTouch == null ||
-                                          lineTouch.lineBarSpots == null) {
+                                      if (!event.isInterestedForInteractions || lineTouch == null || lineTouch.lineBarSpots == null) {
                                         setState(() {
                                           provider.touchedIndex = -1;
                                         });
@@ -417,11 +391,7 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                                   minY: 0,
                                   titlesData: FlTitlesData(
                                     bottomTitles: AxisTitles(
-                                      sideTitles: SideTitles(
-                                          showTitles: true,
-                                          interval: 1,
-                                          getTitlesWidget: bottomTitles,
-                                          reservedSize: 80),
+                                      sideTitles: SideTitles(showTitles: true, interval: 1, getTitlesWidget: bottomTitles, reservedSize: 80),
                                     ),
                                     leftTitles: AxisTitles(
                                       sideTitles: SideTitles(
@@ -457,17 +427,13 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                             : provider.selectChartValue == 'PieChart'
                                 ? PieChart(
                                     PieChartData(
-                                        pieTouchData: PieTouchData(
-                                            touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                                        pieTouchData: PieTouchData(touchCallback: (FlTouchEvent event, pieTouchResponse) {
                                           setState(() {
-                                            if (!event.isInterestedForInteractions ||
-                                                pieTouchResponse == null ||
-                                                pieTouchResponse.touchedSection == null) {
+                                            if (!event.isInterestedForInteractions || pieTouchResponse == null || pieTouchResponse.touchedSection == null) {
                                               provider.touchedIndex = -1;
                                               return;
                                             }
-                                            provider.touchedIndex = pieTouchResponse
-                                                .touchedSection!.touchedSectionIndex;
+                                            provider.touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
                                           });
                                         }),
                                         borderData: FlBorderData(

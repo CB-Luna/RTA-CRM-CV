@@ -8,6 +8,7 @@ import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/crm/quotes/create_order.dart';
+import 'package:rta_crm_cv/providers/crm/accounts/tabs/order_provider.dart';
 import 'package:rta_crm_cv/providers/crm/quote/quotes_provider.dart';
 import 'package:rta_crm_cv/providers/crm/quote/create_quote_provider.dart';
 import 'package:rta_crm_cv/providers/crm/quote/detail_quote_provider.dart';
@@ -50,6 +51,7 @@ class _QuotesTabState extends State<QuotesTab> {
     DetailQuoteProvider detailProvider = Provider.of<DetailQuoteProvider>(context);
     CreateQuoteProvider providerCreate = Provider.of<CreateQuoteProvider>(context);
     ValidateQuoteProvider providerValidate = Provider.of<ValidateQuoteProvider>(context);
+    OrdersProvider ordersProvider = Provider.of<OrdersProvider>(context);
 
     return CustomCard(
       title: 'Order List',
@@ -497,7 +499,7 @@ class _QuotesTabState extends State<QuotesTab> {
                                 context.pushReplacement(routeQuoteCreation);
                               },
                             ), */
-                          if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 7) //Approved
+                          //if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 7) //Approved
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -514,13 +516,17 @@ class _QuotesTabState extends State<QuotesTab> {
                                   params: {"id_status": 8, "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id}, //Order Created
                                 );*/
                                 //await provider.getQuotes(null);
-                                await showDialog(
+                                await ordersProvider.getData(rendererContext.row.cells['ID_Column']!.value,rendererContext.row.cells['X2_QUOTE_Column']!.value);
+                                // ignore: use_build_context_synchronously
+                                showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return const CreateOrder();
                                   },
                                 );
-                                //await provider.insertPowerCode(rendererContext.row.cells["ID_Column"]!.value);
+                                if (ordersProvider.ordercreate == true) {
+                                  await provider.insertPowerCode(rendererContext.row.cells["ID_Column"]!.value);
+                                }
                               },
                             ),
                           if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 8) //Order Created

@@ -20,19 +20,6 @@ class CreateOrder extends StatefulWidget {
 }
 
 class _CreateOrderState extends State<CreateOrder> {
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final OrdersProvider provider = Provider.of<OrdersProvider>(
-        context,
-        listen: false,
-      );
-      await provider.updateState();
-    });
-  }
-
   FToast fToast = FToast();
   @override
   Widget build(BuildContext context) {
@@ -42,10 +29,8 @@ class _CreateOrderState extends State<CreateOrder> {
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
-        title: '${provider.typesSelectedValue} ${provider.circuitTypeSelectedValue} - Address',
-        height: provider.typesSelectedValue == 'Migration' || provider.typesSelectedValue == 'New Circuit' || provider.typesSelectedValue == 'Circuit Upgrade'
-            ? getHeight(680, context)
-            : getHeight(500, context),
+        title: '${provider.typesSelectedValue.text} - ${provider.circuitAddressController.text} - ${provider.circuitTypeSelectedValue.text} ', //${provider.circuitAddressController}
+        height: getHeight(690, context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -58,170 +43,181 @@ class _CreateOrderState extends State<CreateOrder> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: CustomTextField(
-                          label: 'Circuit Address',
-                          icon: Icons.location_on_outlined,
-                          controller: provider.existingCircuitIDController,
-                          enabled: true,
-                          width: 350,
-                          keyboardType: TextInputType.name,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: CustomTextField(
-                          label: 'Circuit Detail',
-                          icon: Icons.description_sharp,
-                          controller: provider.existingCircuitIDController,
-                          enabled: true,
-                          width: 350,
-                          keyboardType: TextInputType.name,
-                        ),
-                      ),
-                      Padding(
+                      if ((provider.typesSelectedValue.text == 'Migration' || provider.typesSelectedValue.text == 'New Circuit' || provider.typesSelectedValue.text == 'Upgrade') &&
+                          (provider.circuitTypeSelectedValue.text == 'ASEoD' || provider.circuitTypeSelectedValue.text == 'PTP'))
+                        //circuit address
+                        Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: CustomDDownMenu(
-                            hint: 'None',
-                            label: 'Data Center Location',
+                          child: CustomTextField(
+                            label: 'Circuit Address',
                             icon: Icons.location_on_outlined,
+                            controller: provider.circuitAddressController,
+                            enabled: false,
                             width: 350,
-                            list: provider.dataCentersList,
-                            dropdownValue: provider.dataCenterSelectedValue,
-                            onChanged: (p0) {
-                              if (p0 != null) {
-                                provider.selectDataCenter(p0);
-                              }
-                            },
-                          )),
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                      //circuit detail
+                      if ((provider.typesSelectedValue.text == 'Migration' || provider.typesSelectedValue.text == 'New Circuit' || provider.typesSelectedValue.text == 'Upgrade') &&
+                          (provider.circuitTypeSelectedValue.text == 'ASEoD' || provider.circuitTypeSelectedValue.text == 'PTP'))
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomTextField(
+                            label: 'Circuit Detail',
+                            icon: Icons.description_sharp,
+                            controller: provider.circuitDetailController,
+                            enabled: false,
+                            width: 350,
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                      //Data center location
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: CustomTextField(
-                          label: 'Port',
-                          icon: Icons.wifi_find_rounded,
-                          controller: provider.existingCircuitIDController,
-                          enabled: true,
+                          label: 'Data Center Location',
+                          icon: Icons.location_on_outlined,
+                          controller: provider.dataCenterSelectedValue,
+                          enabled: false,
                           width: 350,
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.name,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: CustomTextField(
-                          label: 'CIR',
-                          icon: Icons.tag,
-                          controller: provider.existingCircuitIDController,
-                          enabled: true,
-                          width: 350,
-                          keyboardType: TextInputType.emailAddress,
+                      //port size
+                      if ((provider.typesSelectedValue.text == 'Migration' || provider.typesSelectedValue.text == 'New Circuit' || provider.typesSelectedValue.text == 'Upgrade') &&
+                          (provider.circuitTypeSelectedValue.text == 'ASEoD' || provider.circuitTypeSelectedValue.text == 'PTP'))
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomTextField(
+                            label: 'Port Size',
+                            icon: Icons.lan_outlined,
+                            controller: provider.portSizeSelectedValue,
+                            enabled: false,
+                            width: 350,
+                            keyboardType: TextInputType.name,
+                          ),
                         ),
-                      ),
-                      provider.typesSelectedValue == 'Migration' || provider.typesSelectedValue == 'New Circuit' || provider.typesSelectedValue == 'Circuit Upgrade'
-                          ? Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: CustomTextField(
-                                label: 'Handoff',
-                                icon: Icons.mark_chat_unread,
-                                controller: provider.existingCircuitIDController,
-                                enabled: true,
-                                width: 350,
-                                keyboardType: TextInputType.phone,
-                              ),
-                            )
-                          : const SizedBox(),
-                      provider.typesSelectedValue == 'Migration' || provider.typesSelectedValue == 'New Circuit' || provider.typesSelectedValue == 'Circuit Upgrade'
-                          ? Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: CustomTextField(
-                                label: 'Demarkation Point',
-                                icon: Icons.pin_drop,
-                                controller: provider.existingCircuitIDController,
-                                enabled: true,
-                                width: 350,
-                                keyboardType: TextInputType.phone,
-                              ),
-                            )
-                          : const SizedBox(),
-                      provider.typesSelectedValue == 'Migration' || provider.typesSelectedValue == 'New Circuit' || provider.typesSelectedValue == 'Circuit Upgrade'
-                          ? Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child: CustomTextIconButton(
-                                      color: provider.docProveedor != null ? AppTheme.of(context).primaryColor : AppTheme.of(context).tertiaryColor,
-                                      isLoading: false,
-                                      icon: Icon(
-                                        provider.docProveedor != null ? Icons.remove_red_eye_outlined : Icons.upload_outlined,
-                                        color: AppTheme.of(context).primaryBackground,
-                                      ),
-                                      text: provider.docProveedor != null ? 'View Image of Demarkation Point' : 'Upload Image of Demarkation Point',
-                                      onTap: (provider.imageBytes != null && provider.docProveedor != null && provider.popupVisorPdfVisible)
-                                          ? () async {
-                                              await showDialog(
-                                                context: context,
-                                                builder: (BuildContext context) {
-                                                  return AlertDialog(
-                                                    backgroundColor: Colors.transparent,
-                                                    shadowColor: Colors.transparent,
-                                                    content: SizedBox(
-                                                        width: getWidth(1000, context),
-                                                        height: getHeight(1000, context),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                                          mainAxisAlignment: MainAxisAlignment.end,
-                                                          children: [
-                                                            /*  Padding(
-                                                          padding:
-                                                              const EdgeInsets.only(bottom: 20),
-                                                          child: IconButton(
-                                                            onPressed: () => Navigator.pop(context),
-                                                            icon: const Icon(Icons.close),
-                                                            iconSize: 50,
-                                                            color: Colors.red,
-                                                          ),
-                                                        ), */
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(bottom: 20),
-                                                              child: CustomTextIconButton(
-                                                                isLoading: false,
-                                                                icon: Icon(Icons.close, color: AppTheme.of(context).secondaryColor),
-                                                                border: Border.all(color: AppTheme.of(context).secondaryColor),
-                                                                color: AppTheme.of(context).primaryBackground,
-                                                                style: TextStyle(color: AppTheme.of(context).secondaryColor),
-                                                                text: 'Exit',
-                                                                width: getWidth(60, context),
-                                                                onTap: () {
-                                                                  Navigator.pop(context);
-                                                                },
-                                                              ),
-                                                            ),
-                                                            Image.memory(provider.imageBytes!),
-                                                          ],
-                                                        )),
-                                                  );
-                                                },
-                                              );
-                                            }
-                                          : () {
-                                              if (provider.imageBytes != null && provider.docProveedor != null && provider.popupVisorPdfVisible == false) {
-                                                provider.verPdf(true);
-                                                setState(() {});
-                                              } else {
-                                                provider.pickProveedorDoc();
-                                                provider.verPdf(true);
-                                              }
-                                            },
-                                    ),
+
+                      //CIR
+                      if ((provider.typesSelectedValue.text == 'Migration' || provider.typesSelectedValue.text == 'New Circuit' || provider.typesSelectedValue.text == 'Upgrade') &&
+                          (provider.circuitTypeSelectedValue.text == 'ASEoD' || provider.circuitTypeSelectedValue.text == 'PTP'))
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomTextField(
+                            label: 'CIR',
+                            icon: Icons.send_outlined,
+                            controller: provider.cirSelectedValue,
+                            enabled: false,
+                            width: 350,
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+
+                      if (provider.typesSelectedValue.text != 'Circuit Removal' && (provider.circuitTypeSelectedValue.text == 'ASEoD' || provider.circuitTypeSelectedValue.text == 'PTP'))
+                        //Handoff
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomTextField(
+                            label: 'Handoff',
+                            icon: Icons.waving_hand_outlined,
+                            controller: provider.handoffSelectedValue,
+                            enabled: false,
+                            width: 350,
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                      if (provider.typesSelectedValue.text != 'Circuit Removal' && (provider.circuitTypeSelectedValue.text == 'ASEoD' || provider.circuitTypeSelectedValue.text == 'PTP'))
+                         //demarkation point
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomTextField(
+                            label: 'Demarkation Point',
+                            icon: Icons.pin_drop,
+                            controller: provider.demarcationPointController,
+                            enabled: false,
+                            width: 350,
+                            keyboardType: TextInputType.phone,
+                          ),
+                        ),
+                      if (provider.typesSelectedValue.text != 'Circuit Removal' && (provider.circuitTypeSelectedValue.text == 'ASEoD' || provider.circuitTypeSelectedValue.text == 'PTP'))
+                        //demarkation image
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: CustomTextIconButton(
+                                  color: provider.titulo != '' ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+                                  isLoading: false,
+                                  icon: Icon(
+                                    provider.titulo != '' ? Icons.remove_red_eye_outlined : Icons.image_not_supported_outlined,
+                                    color: AppTheme.of(context).primaryBackground,
                                   ),
-                                ],
+                                  text: provider.titulo != '' ? 'View Image of Demarkation Point' : 'No Image',
+                                  onTap: (provider.titulo != '')
+                                      ? () async {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                backgroundColor: Colors.transparent,
+                                                shadowColor: Colors.transparent,
+                                                content: SizedBox(
+                                                  width: getWidth(1000, context),
+                                                  height: getHeight(1000, context),
+                                                  child: CustomScrollBar(
+                                                    scrollDirection: Axis.vertical,
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(bottom: 20),
+                                                          child: CustomTextIconButton(
+                                                            isLoading: false,
+                                                            icon: Icon(Icons.close, color: AppTheme.of(context).secondaryColor),
+                                                            border: Border.all(color: AppTheme.of(context).secondaryColor),
+                                                            color: AppTheme.of(context).primaryBackground,
+                                                            style: TextStyle(color: AppTheme.of(context).secondaryColor),
+                                                            text: 'Exit',
+                                                            width: getWidth(60, context),
+                                                            onTap: () {
+                                                              Navigator.pop(context);
+                                                            },
+                                                          ),
+                                                        ),
+                                                        Image.network(provider.titulo)
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }
+                                      : () {},
+                                ),
                               ),
-                            )
-                          : const SizedBox(),
+                            ],
+                          ),
+                        ),
+                      //rack location
+                      if (provider.circuitTypeSelectedValue.text == 'NNI' || provider.circuitTypeSelectedValue.text == 'X-Connect')
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: CustomTextField(
+                            key: const Key('rack_location'),
+                            enabled: false,
+                            width: 350,
+                            controller: provider.rackLocationController,
+                            label: 'Rack Location',
+                            icon: Icons.not_listed_location_outlined,
+                            keyboardType: TextInputType.text,
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -252,7 +248,7 @@ class _CreateOrderState extends State<CreateOrder> {
                     border: Border.all(color: AppTheme.of(context).tertiaryColor),
                     color: AppTheme.of(context).primaryBackground,
                     onTap: () async {
-                      provider.createOrder();
+                      provider.ordercreate = true;
                       fToast.showToast(
                         child: const SuccessToast(
                           message: 'Succes Lead Creat',

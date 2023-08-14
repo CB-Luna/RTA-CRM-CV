@@ -1,161 +1,75 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:typed_data';
-
-import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart' hide State;
-import 'package:pdfx/pdfx.dart';
-import 'package:pluto_grid/pluto_grid.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_order_info_types.dart';
+import 'package:rta_crm_cv/models/crm/catalogos/model_%20generic_cat.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_cat_circuit_types.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_cat_vendor_model.dart';
+import 'package:rta_crm_cv/models/crm/dashboard_crm/demarkation_imagen.dart';
+import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class OrdersProvider extends ChangeNotifier {
   final searchController = TextEditingController();
-  List<PlutoRow> rows = [];
   List<String> vendorsList = [];
-  PlutoGridStateManager? stateManager;
   bool editmode = false;
-  int pageRowCount = 10;
-  int page = 1;
+  bool ordercreate = false;
   late int? id;
   DateTime create = DateTime.now();
-  double slydervalue = 0, min = 0, max = 100;
+  late ModelX2QuotesView quote;
+  late DemarcationImage demarcationImage;
+  late String titulo;
 
-  final newDataCenterController = TextEditingController();
-  late String dataCenterSelectedValue;
-  final existingCircuitIDController = TextEditingController();
-  final newCircuitIDController = TextEditingController();
-  final existingEVCController = TextEditingController();
-  List<String> orderTypesList = ['Internal Circuit', 'External Customer'];
-  late String orderTypesSelectedValue;
-  List<String> typesList = ['New', 'Disconnect', 'Upgrade'];
-  late String typesSelectedValue;
-  List<String> dataCentersList = [
-    'Austin - Logix',
-    'Austin – Data Foundry',
-    'Chicago - Equinix',
-    'Chicago - Naperville',
-    'Dallas',
-    'Denver',
-    'Helena',
-    'Houston - Logix',
-    'Houston – Data Foundry',
-    'Salt Lake',
-    'San Antonio',
-    'Seattle',
-    'St. Louis',
-    'New'
-  ];
-  String vendorSelectedValue = '';
-  List<String> circuitInfosList = ['NNI', 'DIA', 'CIR', 'Port Size', 'Multicast Required', 'Cross-Connect', 'EVCoD'];
-  List<CatCircuitTypes> circuitTypeList = [CatCircuitTypes(name: 'NNI')];
-  late String circuitTypeSelectedValue;
-  List<String> ddosList = ['Yes', 'No'];
-  late String ddosSelectedValue;
-  List<String> evcodList = ['No', 'New', 'Existing EVC'];
-  late String evcodSelectedValue;
-  List<String> bgpList = ['No', 'IPv4', 'IPv6', 'Current ASN(s)'];
-  late String bgpSelectedValue;
-  List<String> ipAdressList = ['Interface', 'IP Subnet'];
-  late String ipAdressSelectedValue;
-  List<String> ipInterfaceList = ['IPv4', 'IPv6'];
-  late String ipInterfaceSelectedValue;
-  List<String> subnetList = ['No', 'IPv4', 'IPv6'];
-  late String subnetSelectedValue;
-//Listas DropdownMenu
+  //Nombre popup
+  final  typesSelectedValue= TextEditingController();
+  final  orderTypesSelectedValue= TextEditingController();
+  final  circuitTypeSelectedValue= TextEditingController();
 
-  late String selectSaleStoreValue, selectAssignedTValue, selectLeadSourceValue;
-  List<String> saleStoreList = [
-    '',
-    'None',
-    'Mike Haddock',
-    'Rosalia Silvey',
-    'Tom Carrol',
-    'Vini Garcia',
-  ];
-  List<String> assignedList = [
-    '',
-    'Frank Befera',
-    'Rosalia Silvey',
-    'Tom Carrol',
-    'Mike Haddock',
-  ];
-  List<String> leadSourceList = [
-    '',
-    'Social Media',
-    'Campain',
-    'TV',
-    'Email',
-    'Web',
-  ];
-
-  void selectDataCenter(String selected) {
-    dataCenterSelectedValue = selected;
-    newDataCenterController.clear();
-    notifyListeners();
-  }
-
-  void selectSaleStore(String selected) {
-    selectSaleStoreValue = selected;
-    notifyListeners();
-  }
-
-  void selectAssigned(String selected) {
-    selectAssignedTValue = selected;
-    notifyListeners();
-  }
-
-  void selectLeadSource(String selected) {
-    selectLeadSourceValue = selected;
-    notifyListeners();
-  }
+  //Datos Form
+  final circuitAddressController = TextEditingController();
+  final circuitDetailController = TextEditingController();
+  final  dataCenterSelectedValue= TextEditingController();
+  final  portSizeSelectedValue= TextEditingController();
+  final  cirSelectedValue= TextEditingController();
+  final  handoffSelectedValue= TextEditingController();
+  final demarcationPointController = TextEditingController();
+  final rackLocationController = TextEditingController();
 
 ////////////////////////////////////////////////////////////////////////////
   OrdersProvider() {
-    clearAll();
     updateState();
   }
 
   clearAll() {
     id = 0;
     editmode = false;
+    ordercreate = false;
     create = DateTime.now();
-    slydervalue = 0;
+    titulo='';
+    //Nombre popup
+    typesSelectedValue.clear();
+    orderTypesSelectedValue.clear();
+    circuitTypeSelectedValue.clear();
+    //addres circuit
 
-    dataCenterSelectedValue = dataCentersList.first;
-    selectSaleStoreValue = saleStoreList.first;
-    selectAssignedTValue = assignedList.first;
-    selectLeadSourceValue = leadSourceList.first;
-
-    orderTypesSelectedValue = orderTypesList.first;
-    typesSelectedValue = typesList.first;
-    dataCenterSelectedValue = dataCentersList.first;
-    circuitTypeSelectedValue = circuitInfosList.first;
-    evcodSelectedValue = evcodList.first;
-    ddosSelectedValue = ddosList.first;
-    bgpSelectedValue = bgpList.first;
-    ipAdressSelectedValue = ipAdressList.first;
-    ipInterfaceSelectedValue = ipInterfaceList.first;
-    subnetSelectedValue = subnetList.first;
+    //Datos Form
+    circuitAddressController.clear();
+    circuitDetailController.clear();
+    dataCenterSelectedValue.clear();
+    portSizeSelectedValue.clear();
+    cirSelectedValue.clear();
+    handoffSelectedValue.clear();
+    demarcationPointController.clear();
+     rackLocationController.clear();
   }
 
   Future<void> updateState() async {
-    rows.clear();
-    await getData();
     await clearAll();
   }
 
-  List<bool> tabBar = [
-    false,
-    false,
-    true,
-    false,
-    false,
-  ];
 ////////////////////////////////////////////////////////////////////////////
 
   Future<void> selectdate(
@@ -189,12 +103,12 @@ class OrdersProvider extends ChangeNotifier {
     try {
       //Registrar al usuario con una contraseña temporal
       var resp = (await supabaseCRM.from('leads').insert({
-        "probability": slydervalue.toString(),
+        "probability": '',
         "expected_close": create.toString(),
-        "assigned_to": selectAssignedTValue,
+        "assigned_to": 'selectAssignedTValue',
         "status": "In process",
-        "sales_stage": selectSaleStoreValue,
-        "lead_source": selectLeadSourceValue,
+        "sales_stage": 'selectSaleStoreValue',
+        "lead_source": 'selectLeadSourceValue',
       }).select())[0];
 
       await supabaseCRM.from('leads_history').insert({
@@ -210,59 +124,43 @@ class OrdersProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getData() async {
-    if (id != 0) {
-      var responseQuote = await supabaseCRM.from('quotes_view').select().eq('id', id);
-
-      if (responseQuote == null) {
-        log('Error en getData()-DetailQuoteProvider');
-        return;
-      }
-
-      Quotes quote = Quotes.fromJson(jsonEncode(responseQuote[0]));
-
-      orderTypesSelectedValue = quote.orderInfo.orderType;
-      typesSelectedValue = quote.orderInfo.type;
-      if (quote.orderInfo.type == 'New') {
-        newCircuitIDController.text = quote.orderInfo.newCircuitId!;
-      } else if (quote.orderInfo.type == 'Disconnect') {
-        existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
-      } else if (quote.orderInfo.type == 'Upgrade') {
-        existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
-        newCircuitIDController.text = quote.orderInfo.newCircuitId!;
-      }
-
-      if (quote.orderInfo.dataCenterType == 'New') {
-        dataCenterSelectedValue = 'New';
-        newDataCenterController.text = quote.orderInfo.dataCenterLocation;
-      } else {
-        dataCenterSelectedValue = quote.orderInfo.dataCenterLocation;
-      }
-
-      await getVendors();
-      var responseVendor = await supabaseCRM.from('cat_vendors').select().eq('id', quote.idVendor);
-      Vendor vendor = Vendor.fromJson(jsonEncode(responseVendor[0]));
-      vendorSelectedValue = vendor.vendorName!;
-
-      circuitTypeSelectedValue = quote.orderInfo.circuitType;
-      if (quote.orderInfo.circuitType == 'EVCoD') {
-        evcodSelectedValue = quote.orderInfo.evcodType!;
-        if (quote.orderInfo.evcodType == 'Existing EVC') {
-          existingEVCController.text = quote.orderInfo.evcCircuitId!;
-        }
-      }
-
-      ddosSelectedValue = quote.orderInfo.ddosType;
-      bgpSelectedValue = quote.orderInfo.bgpType;
-
-      ipAdressSelectedValue = quote.orderInfo.ipType;
-      if (quote.orderInfo.ipType == 'Interface') {
-        ipInterfaceSelectedValue = quote.orderInfo.interfaceType!;
-      } else {
-        subnetSelectedValue = quote.orderInfo.subnetType!;
-      }
-
+  
+  Future<bool> getDemarkationImage(String x2quoteid) async {
+    try {
+      dynamic response = await supabaseCRM.from('orders_info').select('demarcation_url').eq('x2_quote_nameId', x2quoteid);
+      demarcationImage = DemarcationImage.fromJson(jsonEncode(response[0]));
+      titulo=demarcationImage.demarcationUrl.toString();
       notifyListeners();
+      return true;
+    } catch (e) {
+      log('Error getDemarkationImage() : e');
+      return false;
+    }
+  }
+
+  Future<void> getData(int idQuote, String x2quoteid) async {
+    try {
+      await clearAll();
+      await getDemarkationImage(x2quoteid);
+      var response = await supabaseCRM.from('x2_quotes_view').select().eq('quoteid', idQuote);
+      quote = ModelX2QuotesView.fromRawJson(jsonEncode(response[0]));
+      //Nombre popup
+      typesSelectedValue.text = quote.orderInfo!.type!;
+      orderTypesSelectedValue.text = quote.orderInfo!.orderType!;
+      circuitTypeSelectedValue.text = quote.circuitInfo!.circuitType!;
+      //addres circuit
+
+      //Datos Form
+      circuitAddressController.text = quote.circuitInfo!.location!;
+      circuitDetailController.text = quote.circuitInfo!.bgpType!;
+      dataCenterSelectedValue.text = quote.orderInfo!.dataCenterLocation!;
+      portSizeSelectedValue.text = quote.circuitInfo!.portSize!;
+      cirSelectedValue.text = quote.circuitInfo!.cir!;
+      demarcationPointController.text = quote.orderInfo!.demarcationPoint!;
+      handoffSelectedValue.text = quote.orderInfo!.handoff!;
+      rackLocationController.text = quote.orderInfo!.rackLocation!;
+    } catch (e) {
+      log('Error en GetData() - $e');
     }
   }
 
@@ -278,83 +176,17 @@ class OrdersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future setIndex(int index) async {
-    for (var i = 0; i < tabBar.length; i++) {
-      tabBar[i] = false;
-    }
-    tabBar[index] = true;
-
-    notifyListeners();
-  }
-
-//Controladores Paginado Pluto?
-  void clearControllers({bool notify = true}) {
-    searchController.clear();
-
-    if (notify) notifyListeners();
-  }
-
-  void setPageSize(String x) {
-    switch (x) {
-      case 'more':
-        if (pageRowCount < rows.length) pageRowCount++;
-        break;
-      case 'less':
-        if (pageRowCount > 1) pageRowCount--;
-        break;
-      default:
-        return;
-    }
-    stateManager!.createFooter;
-    notifyListeners();
-  }
-
-  void setPage(String x) {
-    switch (x) {
-      case 'next':
-        if (page < stateManager!.totalPage) page++;
-        break;
-      case 'previous':
-        if (page > 1) page--;
-        break;
-      case 'start':
-        page = 1;
-        break;
-      case 'end':
-        page = stateManager!.totalPage;
-        break;
-      default:
-        return;
-    }
-    stateManager!.setPage(page);
-    notifyListeners();
-  }
-
-  void load() {
-    stateManager!.setShowLoading(true);
-  }
-
-  bool popupVisorPdfVisible = true;
-  FilePickerResult? docProveedor;
-  PdfController? pdfController;
-
-  void verPdf(bool visible) {
-    popupVisorPdfVisible = visible;
-    notifyListeners();
-  }
-
-  Uint8List? imageBytes;
-  Future<void> pickProveedorDoc() async {
-    FilePickerResult? picker = await FilePickerWeb.platform.pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'png']);
-    //get and load pdf
-    if (picker != null) {
-      docProveedor = picker;
-      imageBytes = picker.files.single.bytes;
-    } else {
-      imageBytes = null;
-    }
-
-    notifyListeners();
-    return;
+  void showErrorToast(String errorMessage) {
+    Fluttertoast.showToast(
+      msg: errorMessage,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 2,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      webPosition: 'center',
+      webShowClose: true,
+      fontSize: 16.0,
+    );
   }
 }
