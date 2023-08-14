@@ -36,10 +36,11 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
           children: [
             Container(
               alignment: Alignment.centerLeft,
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       CustomTextIconButton(
                         width: 60,
@@ -50,10 +51,37 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                         color: AppTheme.of(context).primaryColor,
                         onTap: () {
                           context.pop();
-                          // issueReportedProvider.clearactualIssueOpenClose(
-                          //     notify: false);
                         },
                       ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.1,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          height: MediaQuery.of(context).size.height * 0.03,
+                          decoration: BoxDecoration(
+                            color: statusColor(issueReportedProvider
+                                .actualVehicle!.company.company),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              issueReportedProvider
+                                  .actualVehicle!.licesensePlates,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                       Container(
                         padding: const EdgeInsets.all(15.0),
                         alignment: Alignment.center,
@@ -74,33 +102,33 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        margin: const EdgeInsets.all(10.0),
+                        alignment: Alignment.center,
+                        width: 250,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.blue[100],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          issueReportedProvider
+                                      .actualIssueOpenClose?.dateAddedOpen ==
+                                  null
+                              ? "No Date"
+                              : DateFormat("MMM/dd/yyyy").format(
+                                  issueReportedProvider
+                                      .actualIssueOpenClose!.dateAddedOpen),
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10.0),
-                    margin: const EdgeInsets.all(10.0),
-                    alignment: Alignment.center,
-                    width: 250,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.blue[100],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      issueReportedProvider
-                                  .actualIssueOpenClose?.dateAddedOpen ==
-                              null
-                          ? "No Date"
-                          : DateFormat("MMM/dd/yyyy").format(
-                              issueReportedProvider
-                                  .actualIssueOpenClose!.dateAddedOpen),
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontFamily: 'Bicyclette-Thin',
-                          fontSize:
-                              AppTheme.of(context).contenidoTablas.fontSize,
-                          fontWeight: FontWeight.bold),
-                    ),
                   ),
                 ],
               ),

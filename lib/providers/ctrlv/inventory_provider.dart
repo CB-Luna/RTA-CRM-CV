@@ -413,7 +413,9 @@ class InventoryProvider extends ChangeNotifier {
             ? ""
             : DateFormat("MMM/dd/yyyy")
                 .format(vehicle.lastTransmissionFluidChange!);
-    mileageControllerUpdate.text = vehicle.mileage.toString();
+    mileageControllerUpdate.text =
+        NumberFormat('#,###').format(vehicle.mileage);
+    // vehicle.mileage.toString();
   }
 
   // Función para hacerle update a la Imagen
@@ -837,7 +839,8 @@ class InventoryProvider extends ChangeNotifier {
               "motor": PlutoCell(value: vehicle.motor),
               "status": PlutoCell(value: vehicle.status.status),
               "company": PlutoCell(value: vehicle.company.company),
-              "mileage": PlutoCell(value: vehicle.mileage.toString()),
+              "mileage": PlutoCell(
+                  value: NumberFormat('#,###').format(vehicle.mileage)),
               "actions": PlutoCell(value: vehicle),
             },
           ),

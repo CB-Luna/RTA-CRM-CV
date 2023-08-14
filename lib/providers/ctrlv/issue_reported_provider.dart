@@ -368,6 +368,7 @@ class IssueReportedProvider extends ChangeNotifier {
         print("El issueD es nulo");
         rows.add(PlutoRow(
           cells: {
+            "idIssues": PlutoCell(value: listaTotalD.length.toString()),
             "Status": PlutoCell(value: "Check Out "),
             "FluidsCheck": PlutoCell(value: fluidCheckRR),
             "Lights": PlutoCell(value: lightsRR),
@@ -462,6 +463,7 @@ class IssueReportedProvider extends ChangeNotifier {
         print("El issueD es nulo");
         rows.add(PlutoRow(
           cells: {
+            "idIssues": PlutoCell(value: listaTotalD.length.toString()),
             "Status": PlutoCell(value: "Check Out "),
             "FluidsCheck": PlutoCell(value: fluidCheckRR),
             "Lights": PlutoCell(value: lightsRR),
