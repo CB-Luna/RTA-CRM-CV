@@ -68,7 +68,7 @@ class ExtraPopUp extends StatelessWidget {
             ),
             
             SizedBox(
-              height: 550,
+              height: MediaQuery.of(context).size.height * 0.5,
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
                   itemCount: provider.actualIssuesComments.length,

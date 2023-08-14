@@ -242,7 +242,7 @@ class MonitoryProvider extends ChangeNotifier {
               // "id_control_form": PlutoCell(value: monitory.idControlForm),
               // "id_vehicle": PlutoCell(value: monitory.idVehicle),
               // "date_added": PlutoCell(value: DateFormat("MMM-dd-yyyy").format(monitory.dateAdded)),
-              "employee": PlutoCell(value: monitory.employee.name),
+              "employee": PlutoCell(value: "${monitory.employee.name} ${monitory.employee.lastName}"),
               "vin": PlutoCell(value: monitory.vin),
               "license_plates": PlutoCell(value: monitory.licensePlates),
               "company": PlutoCell(value: monitory.company.company),
@@ -386,15 +386,9 @@ class MonitoryProvider extends ChangeNotifier {
       horizontalAlign: HorizontalAlign.Center,
       verticalAlign: VerticalAlign.Center,
     );
-    //Agregar primera linea
-    //mas grande y en bold
-    // sheet.appendRow([
-    //   'Títle',
-    //   'Monitory Reports',
-    //   '',
-    //   'Fecha',
-    //   dateFormat(DateTime.now()),
-    // ]);
+    sheet.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
+    sheet.merge(CellIndex.indexByString("E1"), CellIndex.indexByString("F1"));
+
     var cellT = sheet.cell(CellIndex.indexByString("A1"));
     cellT.value = "Title";
     cellT.cellStyle = titulo;

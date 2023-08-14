@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../models/monitory.dart';
-import '../../../../providers/ctrlv/issue_reported_provider.dart';
 import '../../../../theme/theme.dart';
 
 class DetailVehicleCard extends StatelessWidget {
@@ -14,8 +11,6 @@ class DetailVehicleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    IssueReportedProvider issueReportedProvider =
-        Provider.of<IssueReportedProvider>(context);
     return Container(
         width: MediaQuery.of(context).size.width * 0.6,
         height: MediaQuery.of(context).size.height * 0.3,

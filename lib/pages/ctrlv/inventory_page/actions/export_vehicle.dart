@@ -79,8 +79,8 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
-                        hint: 'Choose a Vehicle',
-                        label: 'Vehicle*',
+                        hint: 'Choose a License Plate',
+                        label: 'License Plates*',
                         width: 350,
                         list: provider.plates,
                         dropdownValue: provider.vehicleSel,
