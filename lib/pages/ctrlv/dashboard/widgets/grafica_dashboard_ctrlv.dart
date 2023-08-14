@@ -117,7 +117,7 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
     return CustomCard(
       width: getWidth(670, context),
       height: getHeight(432.91, context),
-      title: 'Overview',
+      title: 'Issues Overview',
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -192,7 +192,7 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
           ),
           SizedBox(
             width: getWidth(670, context), //670
-            height: getHeight(300, context), //350
+            height: getHeight(325, context), //325
             child: provider.selectChartValue == 'Totals Barchart'
                 ? BarChart(
                     BarChartData(
@@ -367,7 +367,7 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                       case 2:
                                         n1 = provider.nineMonthsAgoEndSmi.toString();
                                         break;
-
+          
                                       default:
                                         throw Error();
                                     }
@@ -382,7 +382,7 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                       case 2:
                                         n1 = provider.eightMonthsAgoEndSmi.toString();
                                         break;
-
+          
                                       default:
                                         throw Error();
                                     }
@@ -397,7 +397,7 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                       case 2:
                                         n1 = provider.sevenMonthsAgoEndSmi.toString();
                                         break;
-
+          
                                       default:
                                         throw Error();
                                     }
@@ -412,7 +412,7 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                       case 2:
                                         n1 = provider.sixMonthsAgoEndSmi.toString();
                                         break;
-
+          
                                       default:
                                         throw Error();
                                     }
@@ -441,7 +441,7 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                       case 2:
                                         n1 = provider.fourMonthsAgoEndSmi.toString();
                                         break;
-
+          
                                       default:
                                         throw Error();
                                     }
@@ -456,7 +456,7 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                       case 2:
                                         n1 = provider.threeMonthsAgoEndSmi.toString();
                                         break;
-
+          
                                       default:
                                         throw Error();
                                     }
@@ -471,7 +471,7 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                       case 2:
                                         n1 = provider.twoMonthsAgoEndSmi.toString();
                                         break;
-
+          
                                       default:
                                         throw Error();
                                     }
@@ -486,7 +486,7 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                       case 2:
                                         n1 = provider.oneMonthAgoEndSmi.toString();
                                         break;
-
+          
                                       default:
                                         throw Error();
                                     }
@@ -501,7 +501,7 @@ class _GraficaDashboardCtrlVState extends State<GraficaDashboardCtrlV> {
                                       case 2:
                                         n1 = provider.actualMonthEndSmi.toString();
                                         break;
-
+          
                                       default:
                                         throw Error();
                                     }

@@ -24,151 +24,176 @@ class _MeasuresInspectState extends State<MeasuresInspect> {
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
-        width: 700,
-        height: 750,
         decoration: BoxDecoration(
-            gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
+          gradient: whiteGradient,
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CardHeader(
-                  text:
-                      "${provider.actualDetailField?.nameIssue.capitalize.replaceAll("_", ' ')}"),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.all(20),
-                  child: CustomTextIconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
-                    text: "",
-                    isLoading: false,
-                    onTap: () {
-                      provider.updateViewPopup(provider.popUpExtra);
-                    },
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CardHeader(
+                        text:
+                            "${provider.actualDetailField?.nameIssue.capitalize.replaceAll("_", ' ')}"),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right:15),
-                  child: Container(
-                      width: MediaQuery.of(context).size.width * 0.1,
-                      height: MediaQuery.of(context).size.height * 0.03,
-                      decoration: BoxDecoration(
-                        color: statusColor(
-                            provider.monitoryActual!.vehicle.company.company),
-                        borderRadius: BorderRadius.circular(10),
+                  Row(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.all(20),
+                        child: CustomTextIconButton(
+                          icon: Icon(Icons.arrow_back, color: Colors.white),
+                          text: "",
+                          isLoading: false,
+                          onTap: () {
+                            provider.updateViewPopup(provider.popUpExtra);
+                          },
+                        ),
                       ),
-                      child: Center(
-                        child: Text(
-                          provider.monitoryActual!.vehicle.licesensePlates,
-                          style: TextStyle(
-                            color: Colors.white,
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              provider.actualDetailField!.nameIssue == "gas"
+                                  ? provider.actualDetailField!.measure
+                                      .toString()
+                                  : NumberFormat('#,###').format(
+                                      provider.actualDetailField!.mileage),
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(200, 65, 155, 23),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          height: MediaQuery.of(context).size.height * 0.04,
+                          decoration: BoxDecoration(
+                            color: statusColor(provider
+                                .monitoryActual!.vehicle.company.company),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              provider.monitoryActual!.vehicle.licesensePlates,
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom:15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                  provider.actualDetailField!.nameIssue == "gas"
-                      ? provider.actualDetailField!.measure.toString()
-                      : NumberFormat('#,###')
-                          .format(provider.actualDetailField!.mileage),
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(200, 65, 155, 23),
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        margin: const EdgeInsets.all(10.0),
+                        alignment: Alignment.center,
+                        width: 250,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.blue[100],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          DateFormat("MMM/dd/yyyy")
+                              .format(provider.actualDetailField!.dateAdded),
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontFamily: 'Bicyclette-Thin',
+                              fontSize:
+                                  AppTheme.of(context).contenidoTablas.fontSize,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   ),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(10.0),
+                      alignment: Alignment.center,
+                      width: 400,
+                      height: 350,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [
+                          BoxShadow(
+                              blurRadius: 4,
+                              color: Colors.grey,
+                              offset: Offset(10, 10))
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Text("COMMENTS"),
+                          SingleChildScrollView(
+                            child: Text(
+                                provider.actualDetailField?.comments != ""
+                                    ? "${provider.actualDetailField?.comments}"
+                                    : "No Comments"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(15.0),
-              alignment: Alignment.center,
-              width: 200,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: const [
-                  BoxShadow(
-                      blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
-                ],
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                DateFormat("MMM/dd/yyyy")
-                    .format(provider.actualDetailField!.dateAdded),
-                style: TextStyle(
-                    color: AppTheme.of(context).contenidoTablas.color,
-                    fontFamily: 'Bicyclette-Thin',
-                    fontSize: AppTheme.of(context).contenidoTablas.fontSize,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            
-            Container(
-              margin: const EdgeInsets.all(20.0),
-              padding: const EdgeInsets.all(10.0),
-              height: 150,
-              alignment: Alignment.center,
-              width: 350,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
-                  BoxShadow(
-                      blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
-                ],
-              ),
-              child: SingleChildScrollView(
-                  child: Text(provider.actualDetailField?.comments != ""
-                      ? "${provider.actualDetailField?.comments}"
-                      : "No Comments")),
-            ),
-            provider.actualDetailField?.listImages?.length == null ||
-                    provider.actualDetailField?.listImages?.length == 0
-                ? SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    child: CarouselSlider.builder(
-                      itemCount: 1,
-                      itemBuilder: (context, index, realIndex) {
-                        const urlImage =
-                            "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
+                provider.actualDetailField?.listImages?.length == null ||
+                        provider.actualDetailField?.listImages?.length == 0
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        child: CarouselSlider.builder(
+                          itemCount: 1,
+                          itemBuilder: (context, index, realIndex) {
+                            const urlImage =
+                                "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
 
-                        return buildImage(urlImage, index);
-                      },
-                      options: CarouselOptions(height: 200),
-                    ),
-                  )
-                : SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    child: CarouselSlider.builder(
-                      itemCount: provider.actualDetailField?.listImages?.length,
-                      itemBuilder: (context, index, realIndex) {
-                        final urlImage =
-                            provider.actualDetailField!.listImages![index];
+                            return buildImage(urlImage, index);
+                          },
+                          options: CarouselOptions(height: 200),
+                        ),
+                      )
+                    : SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        child: CarouselSlider.builder(
+                          itemCount:
+                              provider.actualDetailField?.listImages?.length,
+                          itemBuilder: (context, index, realIndex) {
+                            final urlImage =
+                                provider.actualDetailField!.listImages![index];
 
-                        return buildImage(urlImage, index);
-                      },
-                      options: CarouselOptions(height: 200),
-                    ),
-                  )
+                            return buildImage(urlImage, index);
+                          },
+                          options: CarouselOptions(height: 200),
+                        ),
+                      )
+              ],
+            )
           ],
         ),
       ),
     );
+    
   }
 }
 

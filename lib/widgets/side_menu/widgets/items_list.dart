@@ -231,7 +231,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               selected: provider.indexSelected[9],
               leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
               isOpen: widget.isOpen,
-              title: 'Dashbords',
+              title: 'Dashboards',
               onTap: () async {
                 context.pushReplacement('/dashboards');
               },
