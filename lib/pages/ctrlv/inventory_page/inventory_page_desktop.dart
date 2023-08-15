@@ -645,8 +645,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               color: AppTheme.of(context)
                                                   .primaryColor,
                                               onTap: () async {
-                                                isssueReportedProvider
-                                                    .clearListasdegetIssues();
+                                                // isssueReportedProvider
+                                                //     .clearListasdegetIssues();
                                                 await isssueReportedProvider
                                                     .getIssuesxUsers(
                                                   rendererContext.cell.value,
@@ -657,9 +657,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   rendererContext.cell.value,
                                                   notify: false,
                                                 );
-                                                isssueReportedProvider
-                                                    .setIssueViewActual(0,
-                                                        notify: false);
 
                                                 if (!mounted) return;
                                                 context.pushReplacement(

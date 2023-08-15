@@ -41,8 +41,8 @@ class _TabbarIssuePopUpState extends State<TabbarIssuePopUp> {
                 onTap: (value) async {
                   issueReportedProvider.selectIssuesXUser(value);
                   if (value == 0) {
+                    issueReportedProvider.selectIssuesXUser(0);
                     issueReportedProvider.statePrueba = true;
-                    // issueReportedProvider.clearListasdegetIssues();
                     await issueReportedProvider.updateState();
                     // await issueReportedProvider
                     //     .getIssuesAll(issueReportedProvider.actualVehicle!);

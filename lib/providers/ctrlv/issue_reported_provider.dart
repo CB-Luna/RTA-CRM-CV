@@ -17,6 +17,7 @@ class IssueReportedProvider extends ChangeNotifier {
   int pageRowCount = 9;
   int page = 1;
   bool statePrueba = true;
+  bool nuloNOnulo = true;
 
   //---------------- Variables Para ingresar los Issues --------------------------
   List<BucketInspection> issuePart1 = [];
@@ -35,6 +36,9 @@ class IssueReportedProvider extends ChangeNotifier {
   List<Security> issueSecurityD = [];
   List<Measure> issueMeasureR = [];
   List<Measure> issueMeasureD = [];
+  List<IssueOpenclose> listaNula = [];
+  List<dynamic> listaTotalR = [];
+  List<dynamic> listaTotalD = [];
 
   // Listas R
   List<IssuesComments> bucketInspectionR = [];
@@ -125,7 +129,10 @@ class IssueReportedProvider extends ChangeNotifier {
   Future<void> updateState() async {
     rows.clear();
     if (statePrueba = true) {
+      clearListasdegetIssues();
+      print("Entro aqui updatestate");
       rows.clear();
+      // await selectIssuesXUser(0);
       await getIssuesAll(actualVehicle!);
     }
     await selectIssuesXUser(0);
@@ -314,7 +321,7 @@ class IssueReportedProvider extends ChangeNotifier {
     carBodyWorkRR.clear();
     carBodyWorkDD.clear();
     securityRR.clear();
-    securityRR.clear();
+    securityDD.clear();
     extraRR.clear();
     extraDD.clear();
     equipmentRR.clear();
@@ -323,6 +330,9 @@ class IssueReportedProvider extends ChangeNotifier {
     bucketInspectionDD.clear();
     measureRR.clear();
     measureDD.clear();
+    listaTotalR.clear();
+    listaTotalD.clear();
+
     print("Entro a clearListasdegetIssues");
     notifyListeners();
   }
@@ -344,7 +354,6 @@ class IssueReportedProvider extends ChangeNotifier {
       await getIssuesEquipment(actualIssueXUser);
       await getIssuesBasics(actualIssueXUser);
 
-      List<dynamic> listaTotalR = [];
       listaTotalR.addAll(fluidCheckRR);
       listaTotalR.addAll(lightsRR);
       listaTotalR.addAll(carBodyWorkRR);
@@ -354,16 +363,17 @@ class IssueReportedProvider extends ChangeNotifier {
       listaTotalR.addAll(bucketInspectionRR);
       listaTotalR.addAll(measureRR);
 
-      List<dynamic> listaTotalD = [];
-      listaTotalD.addAll(fluidCheckRR);
-      listaTotalD.addAll(lightsRR);
-      listaTotalD.addAll(carBodyWorkRR);
-      listaTotalD.addAll(securityRR);
-      listaTotalD.addAll(extraRR);
-      listaTotalD.addAll(equipmentRR);
-      listaTotalD.addAll(bucketInspectionRR);
-      listaTotalD.addAll(measureRR);
+      listaTotalD.addAll(fluidCheckDD);
+      listaTotalD.addAll(lightsDD);
+      listaTotalD.addAll(carBodyWorkDD);
+      listaTotalD.addAll(securityDD);
+      listaTotalD.addAll(extraDD);
+      listaTotalD.addAll(equipmentDD);
+      listaTotalD.addAll(bucketInspectionDD);
+      listaTotalD.addAll(measureDD);
 
+      print("----------------------");
+      print("ListaTotalD :${listaTotalD.length}");
       if (listaTotalD.isEmpty) {
         print("El issueD es nulo");
         rows.add(PlutoRow(
@@ -436,7 +446,8 @@ class IssueReportedProvider extends ChangeNotifier {
       await getIssuesBasicsAll(vehicle);
 
       print("------------------------");
-      print("Length de carbodyWorkDD: ${carBodyWorkDD.length}");
+      print("ActualIssueXuser: ${actualIssueXUser?.name}");
+      print("ID_Vehicle: ${vehicle.idVehicle}");
       print("------------------------");
 
       List<dynamic> listaTotalR = [];
@@ -450,32 +461,60 @@ class IssueReportedProvider extends ChangeNotifier {
       listaTotalR.addAll(measureRR);
 
       List<dynamic> listaTotalD = [];
-      listaTotalD.addAll(fluidCheckRR);
-      listaTotalD.addAll(lightsRR);
-      listaTotalD.addAll(carBodyWorkRR);
-      listaTotalD.addAll(securityRR);
-      listaTotalD.addAll(extraRR);
-      listaTotalD.addAll(equipmentRR);
-      listaTotalD.addAll(bucketInspectionRR);
-      listaTotalD.addAll(measureRR);
+      listaTotalD.addAll(fluidCheckDD);
+      listaTotalD.addAll(lightsDD);
+      listaTotalD.addAll(carBodyWorkDD);
+      listaTotalD.addAll(securityDD);
+      listaTotalD.addAll(extraDD);
+      listaTotalD.addAll(equipmentDD);
+      listaTotalD.addAll(bucketInspectionDD);
+      listaTotalD.addAll(measureDD);
+      print("----------------------");
+      print("Length de listaTotalD: ${listaTotalD.length}");
 
       if (listaTotalD.isEmpty) {
         print("El issueD es nulo");
-        rows.add(PlutoRow(
-          cells: {
-            "idIssues": PlutoCell(value: listaTotalD.length.toString()),
-            "Status": PlutoCell(value: "Check Out "),
-            "FluidsCheck": PlutoCell(value: fluidCheckRR),
-            "Lights": PlutoCell(value: lightsRR),
-            "CarBodyWork": PlutoCell(value: carBodyWorkRR),
-            "Security": PlutoCell(value: securityRR),
-            "Extra": PlutoCell(value: extraRR),
-            "Equipment": PlutoCell(value: equipmentRR),
-            "BucketInspection": PlutoCell(value: bucketInspectionRR),
-            "Measures": PlutoCell(value: measureRR),
-          },
-        ));
+        if (listaTotalR.isEmpty) {
+          print("Entro al NUlo");
+          nuloNOnulo = false;
+          rows.add(PlutoRow(
+            cells: {
+              "idIssues": PlutoCell(value: ""),
+              "Status": PlutoCell(value: ""),
+              "FluidsCheck": PlutoCell(value: listaNula),
+              "Lights": PlutoCell(value: listaNula),
+              "CarBodyWork": PlutoCell(value: listaNula),
+              "Security": PlutoCell(value: listaNula),
+              "Extra": PlutoCell(value: listaNula),
+              "Equipment": PlutoCell(value: listaNula),
+              "BucketInspection": PlutoCell(value: listaNula),
+              "Measures": PlutoCell(value: listaNula),
+            },
+          ));
+        } else {
+          nuloNOnulo = true;
+          print("---------------------");
+          print("Entro aqui donde listaTotalD esta vacia, pero ListaTotalR no");
+          rows.add(PlutoRow(
+            cells: {
+              "idIssues": PlutoCell(value: listaTotalD.length.toString()),
+              "Status": PlutoCell(value: "Check Out "),
+              "FluidsCheck": PlutoCell(value: fluidCheckRR),
+              "Lights": PlutoCell(value: lightsRR),
+              "CarBodyWork": PlutoCell(value: carBodyWorkRR),
+              "Security": PlutoCell(value: securityRR),
+              "Extra": PlutoCell(value: extraRR),
+              "Equipment": PlutoCell(value: equipmentRR),
+              "BucketInspection": PlutoCell(value: bucketInspectionRR),
+              "Measures": PlutoCell(value: measureRR),
+            },
+          ));
+        }
       } else {
+        nuloNOnulo = true;
+        print("---------------------");
+
+        print("Entro aqui Donde hay listaTotalD no esta VACIA");
         rows.add(PlutoRow(
           cells: {
             "idIssues": PlutoCell(value: listaTotalD.length.toString()),

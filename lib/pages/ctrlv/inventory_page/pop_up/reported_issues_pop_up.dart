@@ -267,41 +267,40 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         type: PlutoColumnType.text(),
                         enableEditingMode: false,
                         renderer: (rendererContext) {
-                          List<IssueOpenclose> listaCeldaActual =
+                          List<IssueOpenclose?> listaCeldaActual =
                               rendererContext.cell.value
-                                  as List<IssueOpenclose>;
+                                  as List<IssueOpenclose?>;
                           return Container(
                               height: rowHeight,
                               decoration:
                                   BoxDecoration(gradient: whiteGradient),
-                              child: rendererContext.cell.value == null
-                                  ? const Text("-")
-                                  : listaCeldaActual.isNotEmpty
-                                      ? Tooltip(
-                                          message: "${listaCeldaActual.length}",
-                                          child: InkWell(
-                                              onTap: () => showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return IssuesPopUpTotal(
-                                                        text: "FluidsCheck",
-                                                        contador: 1,
-                                                        issueComments:
-                                                            rendererContext
-                                                                .cell.value);
-                                                  }),
-                                              child: const Icon(
-                                                  Icons.cancel_outlined,
-                                                  color: Color.fromARGB(
-                                                      200, 210, 0, 48))),
-                                        )
+                              child: listaCeldaActual.isNotEmpty
+                                  ? Tooltip(
+                                      message: "${listaCeldaActual.length}",
+                                      child: InkWell(
+                                          onTap: () => showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return IssuesPopUpTotal(
+                                                    text: "FluidsCheck",
+                                                    contador: 1,
+                                                    issueComments:
+                                                        rendererContext
+                                                            .cell.value);
+                                              }),
+                                          child: const Icon(
+                                              Icons.cancel_outlined,
+                                              color: Color.fromARGB(
+                                                  200, 210, 0, 48))),
+                                    )
 
-                                      // si esta vacio entonces que haga esto.
-                                      : const Icon(
+                                  // si esta vacio entonces que haga esto.
+                                  : issueReportedProvider.nuloNOnulo
+                                      ? const Icon(
                                           Icons.check_circle_outline_outlined,
-                                          color: Color.fromARGB(
-                                              200, 65, 155, 23)));
+                                          color:
+                                              Color.fromARGB(200, 65, 155, 23))
+                                      : const Text(""));
                         },
                         footerRenderer: (context) {
                           return SizedBox(
@@ -386,35 +385,34 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 height: rowHeight,
                                 decoration:
                                     BoxDecoration(gradient: whiteGradient),
-                                child: rendererContext.cell.value == null
-                                    ? const Text("-")
-                                    : listaCeldaActual.isNotEmpty
-                                        ? Tooltip(
-                                            message:
-                                                "${listaCeldaActual.length}",
-                                            child: InkWell(
-                                                onTap: () => showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return IssuesPopUpTotal(
-                                                          text: "Lights",
-                                                          contador: 2,
-                                                          issueComments:
-                                                              rendererContext
-                                                                  .cell.value);
-                                                    }),
-                                                child: const Icon(
-                                                    Icons.cancel_outlined,
-                                                    color: Color.fromARGB(
-                                                        200, 210, 0, 48))),
-                                          )
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "Lights",
+                                                      contador: 2,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
 
-                                        // si esta vacio entonces que haga esto.
-                                        : const Icon(
+                                    // si esta vacio entonces que haga esto.
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
                                             Icons.check_circle_outline_outlined,
                                             color: Color.fromARGB(
-                                                200, 65, 155, 23)));
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                       PlutoColumn(
                           title: 'CarBodyWork',
@@ -444,35 +442,34 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 height: rowHeight,
                                 decoration:
                                     BoxDecoration(gradient: whiteGradient),
-                                child: rendererContext.cell.value == null
-                                    ? const Text("-")
-                                    : listaCeldaActual.isNotEmpty
-                                        ? Tooltip(
-                                            message:
-                                                "${listaCeldaActual.length}",
-                                            child: InkWell(
-                                                onTap: () => showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return IssuesPopUpTotal(
-                                                          text: "CarBodyWork",
-                                                          contador: 3,
-                                                          issueComments:
-                                                              rendererContext
-                                                                  .cell.value);
-                                                    }),
-                                                child: const Icon(
-                                                    Icons.cancel_outlined,
-                                                    color: Color.fromARGB(
-                                                        200, 210, 0, 48))),
-                                          )
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "CarBodyWork",
+                                                      contador: 3,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
 
-                                        // si esta vacio entonces que haga esto.
-                                        : const Icon(
+                                    // si esta vacio entonces que haga esto.
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
                                             Icons.check_circle_outline_outlined,
                                             color: Color.fromARGB(
-                                                200, 65, 155, 23)));
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                       PlutoColumn(
                           title: 'Security',
@@ -502,35 +499,34 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 height: rowHeight,
                                 decoration:
                                     BoxDecoration(gradient: whiteGradient),
-                                child: rendererContext.cell.value == null
-                                    ? const Text("-")
-                                    : listaCeldaActual.isNotEmpty
-                                        ? Tooltip(
-                                            message:
-                                                "${listaCeldaActual.length}",
-                                            child: InkWell(
-                                                onTap: () => showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return IssuesPopUpTotal(
-                                                          text: "Security",
-                                                          contador: 4,
-                                                          issueComments:
-                                                              rendererContext
-                                                                  .cell.value);
-                                                    }),
-                                                child: const Icon(
-                                                    Icons.cancel_outlined,
-                                                    color: Color.fromARGB(
-                                                        200, 210, 0, 48))),
-                                          )
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "Security",
+                                                      contador: 4,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
 
-                                        // si esta vacio entonces que haga esto.
-                                        : const Icon(
+                                    // si esta vacio entonces que haga esto.
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
                                             Icons.check_circle_outline_outlined,
                                             color: Color.fromARGB(
-                                                200, 65, 155, 23)));
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                       PlutoColumn(
                           title: 'Extra',
@@ -560,35 +556,34 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 height: rowHeight,
                                 decoration:
                                     BoxDecoration(gradient: whiteGradient),
-                                child: rendererContext.cell.value == null
-                                    ? const Text("-")
-                                    : listaCeldaActual.isNotEmpty
-                                        ? Tooltip(
-                                            message:
-                                                "${listaCeldaActual.length}",
-                                            child: InkWell(
-                                                onTap: () => showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return IssuesPopUpTotal(
-                                                          text: "Extra",
-                                                          contador: 5,
-                                                          issueComments:
-                                                              rendererContext
-                                                                  .cell.value);
-                                                    }),
-                                                child: const Icon(
-                                                    Icons.cancel_outlined,
-                                                    color: Color.fromARGB(
-                                                        200, 210, 0, 48))),
-                                          )
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "Extra",
+                                                      contador: 5,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
 
-                                        // si esta vacio entonces que haga esto.
-                                        : const Icon(
+                                    // si esta vacio entonces que haga esto.
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
                                             Icons.check_circle_outline_outlined,
                                             color: Color.fromARGB(
-                                                200, 65, 155, 23)));
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                       PlutoColumn(
                           title: 'Equipment',
@@ -618,35 +613,34 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 height: rowHeight,
                                 decoration:
                                     BoxDecoration(gradient: whiteGradient),
-                                child: rendererContext.cell.value == null
-                                    ? const Text("-")
-                                    : listaCeldaActual.isNotEmpty
-                                        ? Tooltip(
-                                            message:
-                                                "${listaCeldaActual.length}",
-                                            child: InkWell(
-                                                onTap: () => showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return IssuesPopUpTotal(
-                                                          text: "Equipment",
-                                                          contador: 6,
-                                                          issueComments:
-                                                              rendererContext
-                                                                  .cell.value);
-                                                    }),
-                                                child: const Icon(
-                                                    Icons.cancel_outlined,
-                                                    color: Color.fromARGB(
-                                                        200, 210, 0, 48))),
-                                          )
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "Equipment",
+                                                      contador: 6,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
 
-                                        // si esta vacio entonces que haga esto.
-                                        : const Icon(
+                                    // si esta vacio entonces que haga esto.
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
                                             Icons.check_circle_outline_outlined,
                                             color: Color.fromARGB(
-                                                200, 65, 155, 23)));
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                       PlutoColumn(
                           title: 'BucketInspection',
@@ -676,36 +670,34 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 height: rowHeight,
                                 decoration:
                                     BoxDecoration(gradient: whiteGradient),
-                                child: rendererContext.cell.value == null
-                                    ? const Text("-")
-                                    : listaCeldaActual.isNotEmpty
-                                        ? Tooltip(
-                                            message:
-                                                "${listaCeldaActual.length}",
-                                            child: InkWell(
-                                                onTap: () => showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return IssuesPopUpTotal(
-                                                          text:
-                                                              "BucketInspection",
-                                                          contador: 7,
-                                                          issueComments:
-                                                              rendererContext
-                                                                  .cell.value);
-                                                    }),
-                                                child: const Icon(
-                                                    Icons.cancel_outlined,
-                                                    color: Color.fromARGB(
-                                                        200, 210, 0, 48))),
-                                          )
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "BucketInspection",
+                                                      contador: 7,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
 
-                                        // si esta vacio entonces que haga esto.
-                                        : const Icon(
+                                    // si esta vacio entonces que haga esto.
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
                                             Icons.check_circle_outline_outlined,
                                             color: Color.fromARGB(
-                                                200, 65, 155, 23)));
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                       PlutoColumn(
                           title: 'Measures',
@@ -735,35 +727,34 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 height: rowHeight,
                                 decoration:
                                     BoxDecoration(gradient: whiteGradient),
-                                child: rendererContext.cell.value == null
-                                    ? const Text("-")
-                                    : listaCeldaActual.isNotEmpty
-                                        ? Tooltip(
-                                            message:
-                                                "${listaCeldaActual.length}",
-                                            child: InkWell(
-                                                onTap: () => showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return IssuesPopUpTotal(
-                                                          text: "Measures",
-                                                          contador: 8,
-                                                          issueComments:
-                                                              rendererContext
-                                                                  .cell.value);
-                                                    }),
-                                                child: const Icon(
-                                                    Icons.cancel_outlined,
-                                                    color: Color.fromARGB(
-                                                        200, 210, 0, 48))),
-                                          )
+                                child: listaCeldaActual.isNotEmpty
+                                    ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
+                                        child: InkWell(
+                                            onTap: () => showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return IssuesPopUpTotal(
+                                                      text: "Measures",
+                                                      contador: 8,
+                                                      issueComments:
+                                                          rendererContext
+                                                              .cell.value);
+                                                }),
+                                            child: const Icon(
+                                                Icons.cancel_outlined,
+                                                color: Color.fromARGB(
+                                                    200, 210, 0, 48))),
+                                      )
 
-                                        // si esta vacio entonces que haga esto.
-                                        : const Icon(
+                                    // si esta vacio entonces que haga esto.
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
                                             Icons.check_circle_outline_outlined,
                                             color: Color.fromARGB(
-                                                200, 65, 155, 23)));
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                     ],
                     rows: issueReportedProvider.rows,
