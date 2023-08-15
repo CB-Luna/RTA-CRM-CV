@@ -499,7 +499,7 @@ class _QuotesTabState extends State<QuotesTab> {
                                 context.pushReplacement(routeQuoteCreation);
                               },
                             ), */
-                          //if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 7) //Approved
+                          if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 7) //Approved
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(

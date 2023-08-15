@@ -30,7 +30,11 @@ class _CreateOrderState extends State<CreateOrder> {
       backgroundColor: Colors.transparent,
       content: CustomCard(
         title: '${provider.typesSelectedValue.text} - ${provider.circuitAddressController.text} - ${provider.circuitTypeSelectedValue.text} ', //${provider.circuitAddressController}
-        height: getHeight(690, context),
+        height: provider.circuitTypeSelectedValue.text == 'DIA' || provider.circuitTypeSelectedValue.text == 'NNI'
+            ? getHeight(300, context)
+            : provider.circuitTypeSelectedValue.text == 'X-Connect'
+                ? getHeight(380, context)
+                : getHeight(700, context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -127,7 +131,7 @@ class _CreateOrderState extends State<CreateOrder> {
                           ),
                         ),
                       if (provider.typesSelectedValue.text != 'Circuit Removal' && (provider.circuitTypeSelectedValue.text == 'ASEoD' || provider.circuitTypeSelectedValue.text == 'PTP'))
-                         //demarkation point
+                        //demarkation point
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: CustomTextField(
@@ -136,7 +140,7 @@ class _CreateOrderState extends State<CreateOrder> {
                             controller: provider.demarcationPointController,
                             enabled: false,
                             width: 350,
-                            keyboardType: TextInputType.phone,
+                            keyboardType: TextInputType.name,
                           ),
                         ),
                       if (provider.typesSelectedValue.text != 'Circuit Removal' && (provider.circuitTypeSelectedValue.text == 'ASEoD' || provider.circuitTypeSelectedValue.text == 'PTP'))
@@ -209,13 +213,36 @@ class _CreateOrderState extends State<CreateOrder> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: CustomTextField(
-                            key: const Key('rack_location'),
                             enabled: false,
                             width: 350,
                             controller: provider.rackLocationController,
                             label: 'Rack Location',
                             icon: Icons.not_listed_location_outlined,
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                      if (provider.circuitTypeSelectedValue.text == 'X-Connect')
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: CustomTextField(
+                            enabled: false,
+                            width: 350,
+                            controller: provider.detailController,
+                            label: 'Detail',
+                            icon: Icons.details_outlined,
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                      if (provider.circuitTypeSelectedValue.text == 'DIA')
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: CustomTextField(
+                            enabled: false,
+                            width: 350,
+                            controller: provider.bandwidthController,
+                            label: 'Bandwidth',
+                            icon: Icons.wifi_tethering_outlined,
+                            keyboardType: TextInputType.name,
                           ),
                         ),
                     ],
