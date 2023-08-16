@@ -169,7 +169,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               ),
 
             // Sección CONTROL VEHICULAR
-            if (currentUser!.isCV)
+            if (currentUser!.isAdminCv || currentUser!.isManager)
               SideMenuItem(
                 selected: provider.indexSelected[8],
                 leading: provider.aRMonitory != null
@@ -187,7 +187,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverMonitory?.change(false);
                 },
               ),
-            if (currentUser!.isCV)
+            if (currentUser!.isAdminCv || currentUser!.isManager)
               SideMenuItem(
                 selected: provider.indexSelected[7],
                 leading: provider.aRInventories != null
@@ -203,6 +203,24 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 },
                 onExit: (event) {
                   provider.iHoverInventories?.change(false);
+                },
+              ),
+            if (currentUser!.isEmployee)
+              SideMenuItem(
+                selected: provider.indexSelected[13],
+                leading: provider.aRDownloadAPK != null
+                    ? Rive(artboard: provider.aRDownloadAPK!)
+                    : const CircularProgressIndicator(),
+                isOpen: widget.isOpen,
+                title: 'Download APK',
+                onTap: () async {
+                  context.pushReplacement(routeDownloadAPK);
+                },
+                onEnter: (event) {
+                  provider.iHoverDownloadAPK?.change(true);
+                },
+                onExit: (event) {
+                  provider.iHoverDownloadAPK?.change(false);
                 },
               ),
 
@@ -226,7 +244,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverUsers?.change(false);
                 },
               ),
-              if (currentUser!.isCV)
+              if (currentUser!.isAdminCv)
               SideMenuItem(
               selected: provider.indexSelected[9],
               leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
