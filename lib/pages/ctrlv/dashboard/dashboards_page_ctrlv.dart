@@ -100,11 +100,6 @@ class _DashboardsCTRLVPageState extends State<DashboardsCTRLVPage> {
                           ],
                         ),
                       ),
-                      //Transaction history
-                      // const Padding(
-                      //   padding: EdgeInsets.all(10),
-                      //   child: TransactionHistory(),
-                      // )
                     ],
                   ),
                 ),
