@@ -1,16 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart' hide State;
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_order_info_types.dart';
-import 'package:rta_crm_cv/models/crm/catalogos/model_%20generic_cat.dart';
-import 'package:rta_crm_cv/models/crm/catalogos/model_cat_circuit_types.dart';
-import 'package:rta_crm_cv/models/crm/catalogos/model_cat_vendor_model.dart';
 import 'package:rta_crm_cv/models/crm/dashboard_crm/demarkation_imagen.dart';
 import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
-import 'package:rta_crm_cv/theme/theme.dart';
 
 class OrdersProvider extends ChangeNotifier {
   final searchController = TextEditingController();
@@ -75,63 +68,9 @@ class OrdersProvider extends ChangeNotifier {
   }
 
 ////////////////////////////////////////////////////////////////////////////
-
-  Future<void> selectdate(
-    BuildContext context,
-  ) async {
-    DateTime? newDate = await showDatePicker(
-        builder: (context, child) {
-          return Theme(
-            data: Theme.of(context).copyWith(
-              colorScheme: ColorScheme.light(
-                primary: AppTheme.of(context).primaryColor, // color Appbar
-                onPrimary: AppTheme.of(context).primaryBackground, // Color letras
-                onSurface: AppTheme.of(context).primaryColor, // Color Meses
-              ),
-              dialogBackgroundColor: AppTheme.of(context).primaryBackground,
-            ),
-            child: child!,
-          );
-        },
-        context: context,
-        initialDate: create,
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100));
-
-    if (newDate == null) return;
-    create = newDate;
-    notifyListeners();
-  }
-
-  /* Future<void> createOrder() async {
-    try {
-      //Registrar al usuario con una contraseña temporal
-      var resp = (await supabaseCRM.from('leads').insert({
-        "probability": '',
-        "expected_close": create.toString(),
-        "assigned_to": 'selectAssignedTValue',
-        "status": "In process",
-        "sales_stage": 'selectSaleStoreValue',
-        "lead_source": 'selectLeadSourceValue',
-      }).select())[0];
-
-      await supabaseCRM.from('leads_history').insert({
-        "user": currentUser!.id,
-        "action": 'INSERT',
-        "description": 'New Lead created',
-        "table": 'leads',
-        "id_table": resp["id"].toString(),
-        "name": "${currentUser!.name} ${currentUser!.lastName}"
-      });
-    } catch (e) {
-      log('Error en registrarOpportunity() - $e');
-    }
-  }
- */
-
   Future<bool> getDemarkationImage(String x2quoteid) async {
     try {
-      dynamic response = await supabaseCRM.from('orders_info').select('demarcation_url').eq('x2_quote_nameId', x2quoteid);
+      dynamic response = await supabaseCRM.from('order_info').select('demarcation_url').eq('x2_quote_nameId', x2quoteid);
       demarcationImage = DemarcationImage.fromJson(jsonEncode(response[0]));
       titulo = demarcationImage.demarcationUrl.toString();
       notifyListeners();
@@ -146,7 +85,7 @@ class OrdersProvider extends ChangeNotifier {
     try {
       await clearAll();
       await getDemarkationImage(x2quoteid);
-      var response = await supabaseCRM.from('x2_quotes_view').select().eq('quoteid', idQuote);
+      var response = await supabaseCRM.from('x2_quotes_view_v2').select().eq('quoteid', idQuote);
       quote = ModelX2QuotesView.fromRawJson(jsonEncode(response[0]));
       //print(jsonEncode(response[0]));
       //Nombre popup
@@ -183,31 +122,5 @@ class OrdersProvider extends ChangeNotifier {
     } catch (e) {
       log('Error en GetData() - $e');
     }
-  }
-
-  Future<void> getVendors() async {
-    var response = await supabaseCRM.from('cat_vendors').select();
-
-    List<Vendor> vendors = (response as List<dynamic>).map((vendor) => Vendor.fromJson(jsonEncode(vendor))).toList();
-
-    vendorsList.clear();
-    for (var vendor in vendors) {
-      vendorsList.add(vendor.vendorName!);
-    }
-    notifyListeners();
-  }
-
-  void showErrorToast(String errorMessage) {
-    Fluttertoast.showToast(
-      msg: errorMessage,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 2,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      webPosition: 'center',
-      webShowClose: true,
-      fontSize: 16.0,
-    );
   }
 }

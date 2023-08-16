@@ -6,7 +6,6 @@ import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/providers/crm/accounts/tabs/order_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
-import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
@@ -33,7 +32,7 @@ class _CreateOrderState extends State<CreateOrder> {
         height: provider.circuitTypeSelectedValue.text == 'DIA' || provider.circuitTypeSelectedValue.text == 'NNI'
             ? getHeight(300, context)
             : provider.circuitTypeSelectedValue.text == 'X-Connect'
-                ? getHeight(380, context)
+                ? getHeight(500, context)
                 : getHeight(700, context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -222,7 +221,7 @@ class _CreateOrderState extends State<CreateOrder> {
                           ),
                         ),
                       if (provider.circuitTypeSelectedValue.text == 'X-Connect')
-                        Padding(
+                        /* Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: CustomTextField(
                             enabled: false,
@@ -232,7 +231,59 @@ class _CreateOrderState extends State<CreateOrder> {
                             icon: Icons.details_outlined,
                             keyboardType: TextInputType.name,
                           ),
+                        ), */
+
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: AppTheme.of(context).primaryColor,
+                                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Detail',
+                                        style: TextStyle(color: AppTheme.of(context).primaryBackground),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 350,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+                                  color: AppTheme.of(context).primaryBackground,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 0.1,
+                                      blurRadius: 3,
+                                      // changes position of shadow
+                                      offset: const Offset(0, 0),
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Text(
+                                    provider.detailController.text,
+                                    style: TextStyle(color: AppTheme.of(context).hintText.color),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+
                       if (provider.circuitTypeSelectedValue.text == 'DIA')
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
