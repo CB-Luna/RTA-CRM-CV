@@ -233,7 +233,7 @@ class GeneralInformationCard extends StatelessWidget {
                         Row(
                           children: [
                             Icon(
-                              Icons.calendar_today_outlined,
+                              Icons.oil_barrel_outlined,
                               color: AppTheme.of(context).primaryText,
                             ),
                             Text(
@@ -267,7 +267,7 @@ class GeneralInformationCard extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(
-                                  Icons.calendar_view_day_outlined,
+                                  Icons.local_car_wash_outlined,
                                   color: AppTheme.of(context).primaryText,
                                 ),
                                 Text(
@@ -301,7 +301,7 @@ class GeneralInformationCard extends StatelessWidget {
                         Row(
                           children: [
                             Icon(
-                              Icons.calendar_month_outlined,
+                              Icons.mode_fan_off,
                               color: AppTheme.of(context).primaryText,
                             ),
                             Text(

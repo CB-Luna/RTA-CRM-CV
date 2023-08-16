@@ -378,7 +378,7 @@ class IssueReportedProvider extends ChangeNotifier {
         print("El issueD es nulo");
         rows.add(PlutoRow(
           cells: {
-            "idIssues": PlutoCell(value: listaTotalD.length.toString()),
+            "totalIssues": PlutoCell(value: listaTotalR.length.toString()),
             "Status": PlutoCell(value: "Check Out "),
             "FluidsCheck": PlutoCell(value: fluidCheckRR),
             "Lights": PlutoCell(value: lightsRR),
@@ -393,7 +393,7 @@ class IssueReportedProvider extends ChangeNotifier {
       } else {
         rows.add(PlutoRow(
           cells: {
-            "idIssues": PlutoCell(value: listaTotalD.length.toString()),
+            "totalIssues": PlutoCell(value: listaTotalD.length.toString()),
             "Status": PlutoCell(value: "Check in "),
             "FluidsCheck": PlutoCell(value: fluidCheckDD),
             "Lights": PlutoCell(value: lightsDD),
@@ -407,7 +407,7 @@ class IssueReportedProvider extends ChangeNotifier {
         ));
         rows.add(PlutoRow(
           cells: {
-            "idIssues": PlutoCell(value: listaTotalR.length.toString()),
+            "totalIssues": PlutoCell(value: listaTotalR.length.toString()),
             "Status": PlutoCell(value: "Check Out "),
             "FluidsCheck": PlutoCell(value: fluidCheckRR),
             "Lights": PlutoCell(value: lightsRR),
@@ -479,7 +479,7 @@ class IssueReportedProvider extends ChangeNotifier {
           nuloNOnulo = false;
           rows.add(PlutoRow(
             cells: {
-              "idIssues": PlutoCell(value: ""),
+              "totalIssues": PlutoCell(value: ""),
               "Status": PlutoCell(value: ""),
               "FluidsCheck": PlutoCell(value: listaNula),
               "Lights": PlutoCell(value: listaNula),
@@ -497,7 +497,7 @@ class IssueReportedProvider extends ChangeNotifier {
           print("Entro aqui donde listaTotalD esta vacia, pero ListaTotalR no");
           rows.add(PlutoRow(
             cells: {
-              "idIssues": PlutoCell(value: listaTotalD.length.toString()),
+              "totalIssues": PlutoCell(value: listaTotalD.length.toString()),
               "Status": PlutoCell(value: "Check Out "),
               "FluidsCheck": PlutoCell(value: fluidCheckRR),
               "Lights": PlutoCell(value: lightsRR),
@@ -517,7 +517,7 @@ class IssueReportedProvider extends ChangeNotifier {
         print("Entro aqui Donde hay listaTotalD no esta VACIA");
         rows.add(PlutoRow(
           cells: {
-            "idIssues": PlutoCell(value: listaTotalD.length.toString()),
+            "totalIssues": PlutoCell(value: listaTotalD.length.toString()),
             "Status": PlutoCell(value: "Check in "),
             "FluidsCheck": PlutoCell(value: fluidCheckDD),
             "Lights": PlutoCell(value: lightsDD),
@@ -531,7 +531,7 @@ class IssueReportedProvider extends ChangeNotifier {
         ));
         rows.add(PlutoRow(
           cells: {
-            "idIssues": PlutoCell(value: listaTotalR.length.toString()),
+            "totalIssues": PlutoCell(value: listaTotalR.length.toString()),
             "Status": PlutoCell(value: "Check Out "),
             "FluidsCheck": PlutoCell(value: fluidCheckRR),
             "Lights": PlutoCell(value: lightsRR),

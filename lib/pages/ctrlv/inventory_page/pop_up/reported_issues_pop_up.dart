@@ -142,16 +142,16 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                     ),
                     columns: [
                       PlutoColumn(
-                          title: 'idIssues',
-                          field: 'idIssues',
+                          title: 'totalIssues',
+                          field: 'totalIssues',
                           titleSpan: TextSpan(children: [
                             WidgetSpan(
-                                child: Icon(Icons.label_important_outline,
+                                child: Icon(Icons.numbers_outlined,
                                     color: AppTheme.of(context)
                                         .primaryBackground)),
                             const WidgetSpan(child: SizedBox(width: 10)),
                             TextSpan(
-                                text: 'idIssues',
+                                text: 'Total Issues',
                                 style: AppTheme.of(context).encabezadoTablas)
                           ]),
                           width: MediaQuery.of(context).size.width * 0.08,
@@ -185,7 +185,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         backgroundColor: const Color(0XFF6491F7),
                         titleSpan: TextSpan(children: [
                           WidgetSpan(
-                              child: Icon(Icons.dialpad_outlined,
+                              child: Icon(Icons.car_repair_outlined,
                                   color:
                                       AppTheme.of(context).primaryBackground)),
                           const WidgetSpan(child: SizedBox(width: 10)),
@@ -252,12 +252,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         backgroundColor: const Color(0XFF6491F7),
                         titleSpan: TextSpan(children: [
                           WidgetSpan(
-                              child: Icon(Icons.car_repair_outlined,
+                              child: Icon(Icons.invert_colors_outlined,
                                   color:
                                       AppTheme.of(context).primaryBackground)),
                           const WidgetSpan(child: SizedBox(width: 10)),
                           TextSpan(
-                              text: 'FluidsCheck',
+                              text: 'Fluids Check',
                               style: AppTheme.of(context).encabezadoTablas)
                         ]),
                         width: MediaQuery.of(context).size.width * 0.13,
@@ -362,7 +362,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           field: 'Lights',
                           titleSpan: TextSpan(children: [
                             WidgetSpan(
-                                child: Icon(Icons.label_important_outline,
+                                child: Icon(Icons.lightbulb_outline,
                                     color: AppTheme.of(context)
                                         .primaryBackground)),
                             const WidgetSpan(child: SizedBox(width: 10)),
@@ -420,12 +420,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           backgroundColor: const Color(0XFF6491F7),
                           titleSpan: TextSpan(children: [
                             WidgetSpan(
-                                child: Icon(Icons.local_shipping_outlined,
+                                child: Icon(Icons.no_crash_outlined,
                                     color: AppTheme.of(context)
                                         .primaryBackground)),
                             const WidgetSpan(child: SizedBox(width: 10)),
                             TextSpan(
-                                text: 'CarBodyWork',
+                                text: 'Car BodyWork',
                                 style: AppTheme.of(context).encabezadoTablas)
                           ]),
                           width: MediaQuery.of(context).size.width * 0.10,
@@ -477,7 +477,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           backgroundColor: const Color(0XFF6491F7),
                           titleSpan: TextSpan(children: [
                             WidgetSpan(
-                                child: Icon(Icons.warehouse_outlined,
+                                child: Icon(Icons.health_and_safety_outlined,
                                     color: AppTheme.of(context)
                                         .primaryBackground)),
                             const WidgetSpan(child: SizedBox(width: 10)),
@@ -534,7 +534,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           backgroundColor: const Color(0XFF6491F7),
                           titleSpan: TextSpan(children: [
                             WidgetSpan(
-                                child: Icon(Icons.warehouse_outlined,
+                                child: Icon(Icons.more_outlined,
                                     color: AppTheme.of(context)
                                         .primaryBackground)),
                             const WidgetSpan(child: SizedBox(width: 10)),
@@ -591,7 +591,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           backgroundColor: const Color(0XFF6491F7),
                           titleSpan: TextSpan(children: [
                             WidgetSpan(
-                                child: Icon(Icons.call_to_action_outlined,
+                                child: Icon(Icons.home_repair_service_outlined,
                                     color: AppTheme.of(context)
                                         .primaryBackground)),
                             const WidgetSpan(child: SizedBox(width: 10)),
@@ -648,12 +648,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           backgroundColor: const Color(0XFF6491F7),
                           titleSpan: TextSpan(children: [
                             WidgetSpan(
-                                child: Icon(Icons.call_to_action_outlined,
+                                child: Icon(Icons.search_outlined,
                                     color: AppTheme.of(context)
                                         .primaryBackground)),
                             const WidgetSpan(child: SizedBox(width: 10)),
                             TextSpan(
-                                text: 'BucketInspection',
+                                text: 'Bucket Inspection',
                                 style: AppTheme.of(context).encabezadoTablas)
                           ]),
                           width: MediaQuery.of(context).size.width * 0.10,
@@ -705,7 +705,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           backgroundColor: const Color(0XFF6491F7),
                           titleSpan: TextSpan(children: [
                             WidgetSpan(
-                                child: Icon(Icons.call_to_action_outlined,
+                                child: Icon(Icons.speed_outlined,
                                     color: AppTheme.of(context)
                                         .primaryBackground)),
                             const WidgetSpan(child: SizedBox(width: 10)),
