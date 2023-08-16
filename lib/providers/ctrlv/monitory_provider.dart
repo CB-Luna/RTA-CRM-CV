@@ -45,6 +45,11 @@ class MonitoryProvider extends ChangeNotifier {
   //Lista para color en placas
   List<Monitory> lista = [];
 
+  //Variables y Controladores para Exportar Excel
+  TextEditingController dateExportDataController = TextEditingController();
+  String companySel = "All";
+  DateTime newDate = DateTime.now();
+
   //List<RolApi> roles = [];
   List<String> dropdownMenuItems = [];
 
@@ -372,10 +377,18 @@ class MonitoryProvider extends ChangeNotifier {
   //   }
   // }
 
-  Future<bool> excelActivityReports() async {
+  Future<bool> excelActivityReports(DateTime dateSelected, String comp) async {
     //Crear excel
     var excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
+    List<Monitory> selectedComp = [];
+
+
+    DateTime startDateSelected =
+        DateTime(dateSelected.year, dateSelected.month, dateSelected.day);
+
+    DateTime endDateSelected =
+        DateTime(dateSelected.year, dateSelected.month, dateSelected.day, 23, 59, 59);
 
     if (sheet == null) return false;
 
@@ -389,8 +402,15 @@ class MonitoryProvider extends ChangeNotifier {
     sheet.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
     sheet.merge(CellIndex.indexByString("E1"), CellIndex.indexByString("F1"));
 
+    sheet.setColWidth(0, 25);
+    sheet.setColWidth(2, 20);
+    sheet.setColWidth(4, 25);
+    sheet.setColWidth(5, 20);
+    sheet.setColWidth(9, 25);
+    sheet.setColWidth(10, 20);
+
     var cellT = sheet.cell(CellIndex.indexByString("A1"));
-    cellT.value = "Title";
+    cellT.value = "Title:";
     cellT.cellStyle = titulo;
 
     var cellT2 = sheet.cell(CellIndex.indexByString("B1"));
@@ -398,12 +418,20 @@ class MonitoryProvider extends ChangeNotifier {
     cellT2.cellStyle = titulo;
 
     var cellD = sheet.cell(CellIndex.indexByString("D1"));
-    cellD.value = "Date";
+    cellD.value = "Date:";
     cellD.cellStyle = titulo;
 
     var cellD2 = sheet.cell(CellIndex.indexByString("E1"));
     cellD2.value = dateFormat(DateTime.now());
     cellD2.cellStyle = titulo;
+
+    var cellD3 = sheet.cell(CellIndex.indexByString("G1"));
+    cellD3.value = "Company:";
+    cellD3.cellStyle = titulo;
+
+    var cellD4 = sheet.cell(CellIndex.indexByString("H1"));
+    cellD4.value = comp;
+    cellD4.cellStyle = titulo;
     //Agregar linea vacia
     sheet.appendRow(['']);
 
@@ -461,21 +489,45 @@ class MonitoryProvider extends ChangeNotifier {
     cell11.value = "Check Out";
     cell11.cellStyle = cellStyle;
 
+    //sortear por id
+    monitory.sort((a, b) => b.idControlForm.compareTo(a.idControlForm));
+
+    if(comp != "All"){
+      for(Monitory vehicle in monitory){
+        if(vehicle.company.company == comp){
+          if(vehicle.dateAddedR.isAfter(startDateSelected) && vehicle.dateAddedR.isBefore(endDateSelected)){
+            selectedComp.add(vehicle);
+          }
+        }
+      }
+    }else{
+      for(Monitory vehicle in monitory){
+        if(vehicle.dateAddedR.isAfter(startDateSelected) && vehicle.dateAddedR.isBefore(endDateSelected)){
+            selectedComp.add(vehicle);
+          }
+      }
+    }
+
     //Agregar datos
-    for (var vehicle in monitory) {
+    for (int i = 0; i < selectedComp.length; i++) {
+
+      Monitory report = selectedComp[i];
+
+      
+
       final List<dynamic> row = [
-        vehicle.idControlForm,
-        vehicle.idVehicle,
-        "${vehicle.employee.name} ${vehicle.employee.lastName}",
-        vehicle.vehicle.status.status,
-        vehicle.vin,
-        vehicle.licensePlates,
-        vehicle.company.company,
-        vehicle.gasR,
-        vehicle.mileageR,
-        DateFormat("MMM-dd-yyyy").format(vehicle.dateAddedR),
-        vehicle.dateAddedD != null
-            ? DateFormat("MMM-dd-yyyy").format(vehicle.dateAddedD!)
+        report.idControlForm,
+        report.idVehicle,
+        "${report.employee.name} ${report.employee.lastName}",
+        report.vehicle.status.status,
+        report.vin,
+        report.licensePlates,
+        report.company.company,
+        report.gasR,
+        report.mileageR,
+        DateFormat("MMM-dd-yyyy hh:mm:ss").format(report.dateAddedR),
+        report.dateAddedD != null
+            ? DateFormat("MMM-dd-yyyy hh:mm:ss").format(report.dateAddedD!)
             : "NA",
       ];
       sheet.appendRow(row);
@@ -1838,32 +1890,16 @@ class MonitoryProvider extends ChangeNotifier {
         break;
     }
   }
+  
+  void getCompanyFilter(String comp) {
+    companySel = comp;
+    notifyListeners();
+  }
 
+  void getDateFilter(DateTime date) {
+    newDate = date;
+    notifyListeners();
+  }
 
-  // void getSection(int index){
-  //   switch(index){
-      
-  //     case 2:
-  //       section = "Lights";
-  //       break;
-  //     case 3:
-  //       section = "Car Bodywork";
-  //       break;
-  //     case 4:
-  //       section = "Fluid Check";
-  //       break;
-  //     case 6:
-  //       section = "Security";
-  //       break;
-  //     case 7:
-  //       section = "Extra";
-  //       break;
-  //     case 8:
-  //       section = "Equipment";
-  //       break;
-  //     default:
-  //       section = "";
-  //       break;
-  //   }
-  // }
+  
 }
