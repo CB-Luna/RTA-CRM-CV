@@ -100,6 +100,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                               Padding(
                                                 padding: const EdgeInsets.symmetric(vertical: 10),
                                                 child: CustomDDownMenu(
+                                                  enabled: true,
                                                   list: provider.orderTypesList.map((type) => type.name!).toList(),
                                                   //provider.sadasdasda.map((comment) => comment.comment).toList(),
                                                   label: 'Order Type',
@@ -115,6 +116,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
                                             child: CustomDDownMenu(
+                                              enabled: true,
                                               list: provider.typesList.map((type) => type.name!).toList(),
                                               dropdownValue: provider.typesSelectedValue,
                                               onChanged: (p0) {
@@ -124,61 +126,10 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                               label: 'Type',
                                             ),
                                           ),
-                                          if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
-                                              .parameters!.existingCircuitId!)
-                                            Padding(
-                                              padding: const EdgeInsets.only(bottom: 10),
-                                              child: CustomTextField(
-                                                key: const Key('existing_circuit_id'),
-                                                required: true,
-                                                enabled: true,
-                                                width: txfFieldWidth,
-                                                controller: provider.existingCircuitIDController,
-                                                label: 'Existing Circuit ID',
-                                                icon: Icons.cable_outlined,
-                                                keyboardType: TextInputType.text,
-                                                validator: (value) {
-                                                  if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
-                                                      .parameters!.existingCircuitId!) {
-                                                    if (value == null || value.isEmpty) {
-                                                      print('aqui1');
-                                                      return 'Please enter some text';
-                                                    }
-                                                    return null;
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
-                                          if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
-                                              .parameters!.newCircuitId!)
-                                            Padding(
-                                              padding: const EdgeInsets.only(bottom: 10),
-                                              child: CustomTextField(
-                                                key: const Key('new_circuit_id'),
-                                                required: true,
-                                                enabled: true,
-                                                width: txfFieldWidth,
-                                                controller: provider.newCircuitIDController,
-                                                label: 'New Circuit ID',
-                                                icon: Icons.cable_outlined,
-                                                keyboardType: TextInputType.text,
-                                                validator: (value) {
-                                                  if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
-                                                      .parameters!.newCircuitId!) {
-                                                    if (value == null || value.isEmpty) {
-                                                      print('aqui2');
-                                                      return 'Please enter some text';
-                                                    }
-                                                    return null;
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
                                           Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
                                             child: CustomDDownMenu(
+                                              enabled: true,
                                               list: provider.dataCentersList.map((dataCenter) => dataCenter.name!).toList(),
                                               dropdownValue: provider.dataCenterSelectedValue,
                                               onChanged: (p0) {
@@ -212,7 +163,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                 },
                                               ),
                                             ),
-                                          Padding(
+                                          /*  Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
                                             child: CustomTextField(
                                               key: const Key('rack_location'),
@@ -257,13 +208,13 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                               keyboardType: TextInputType.text,
                                               validator: (value) {
                                                 if (value == null || value.isEmpty) {
-                                                  print('aqui5');
                                                   return 'Please enter some text';
                                                 }
                                                 return null;
                                               },
                                             ),
                                           ),
+                                         */
                                         ],
                                       ),
                                     ),
@@ -280,6 +231,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                             Padding(
                                               padding: const EdgeInsets.symmetric(vertical: 10),
                                               child: CustomDDownMenu(
+                                                enabled: true,
                                                 list: provider.vendorsList.map((vendor) => vendor.vendorName!).toList(),
                                                 dropdownValue: provider.vendorSelectedValue,
                                                 onChanged: (p0) {
@@ -295,6 +247,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                             Padding(
                                               padding: const EdgeInsets.only(bottom: 10),
                                               child: CustomSwitch(
+                                                enabled: true,
                                                 value: provider.multicastRequired,
                                                 label: 'Multicast Required',
                                                 onChanged: (p0) {
@@ -322,16 +275,74 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                 },
                                               ),
                                             ),
+                                            /* if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
+                                                .parameters!.existingCircuitId!)
+                                              Padding(
+                                                padding: const EdgeInsets.only(bottom: 10),
+                                                child: CustomTextField(
+                                                  key: const Key('existing_circuit_id'),
+                                                  required: true,
+                                                  enabled: true,
+                                                  width: txfFieldWidth,
+                                                  controller: provider.existingCircuitIDController,
+                                                  label: 'Existing Circuit ID',
+                                                  icon: Icons.cable_outlined,
+                                                  keyboardType: TextInputType.text,
+                                                  validator: (value) {
+                                                    if (provider
+                                                        .typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
+                                                        .parameters!
+                                                        .existingCircuitId!) {
+                                                      if (value == null || value.isEmpty) {
+                                                        print('aqui1');
+                                                        return 'Please enter some text';
+                                                      }
+                                                      return null;
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                              ),
+                                            if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
+                                                .parameters!.newCircuitId!)
+                                              Padding(
+                                                padding: const EdgeInsets.only(bottom: 10),
+                                                child: CustomTextField(
+                                                  key: const Key('new_circuit_id'),
+                                                  required: true,
+                                                  enabled: true,
+                                                  width: txfFieldWidth,
+                                                  controller: provider.newCircuitIDController,
+                                                  label: 'New Circuit ID',
+                                                  icon: Icons.cable_outlined,
+                                                  keyboardType: TextInputType.text,
+                                                  validator: (value) {
+                                                    if (provider
+                                                        .typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
+                                                        .parameters!
+                                                        .newCircuitId!) {
+                                                      if (value == null || value.isEmpty) {
+                                                        print('aqui2');
+                                                        return 'Please enter some text';
+                                                      }
+                                                      return null;
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                              ),
+                                             */
                                             Padding(
                                               padding: const EdgeInsets.only(bottom: 10),
                                               child: CustomDDownMenu(
+                                                enabled: true,
                                                 list: provider.circuitTypeList.map((type) => type.name!).toList(),
                                                 dropdownValue: provider.circuitTypeSelectedValue,
                                                 onChanged: (p0) {
                                                   if (p0 != null) provider.selectCircuitInfo(p0);
                                                 },
                                                 icon: Icons.info_outline,
-                                                label: 'Circuit Type',
+                                                label: 'Service Type',
                                               ),
                                             ),
                                             if (provider
@@ -354,6 +365,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         .parameters!
                                                         .cir!)
                                                       CustomDDownMenu(
+                                                        enabled: true,
                                                         list: provider.cirList.map((type) => type.name!).toList(),
                                                         dropdownValue: provider.cirSelectedValue,
                                                         onChanged: (p0) {
@@ -370,6 +382,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                       Padding(
                                                         padding: const EdgeInsets.only(left: 20),
                                                         child: CustomDDownMenu(
+                                                          enabled: true,
                                                           list: provider.portSizeList.map((type) => type.name!).toList(),
                                                           dropdownValue: provider.portSizeSelectedValue,
                                                           onChanged: (p0) {
@@ -386,6 +399,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                               Padding(
                                                 padding: const EdgeInsets.only(top: 15, bottom: 15),
                                                 child: CustomDDownMenu(
+                                                  enabled: true,
                                                   list: provider.evcodList,
                                                   dropdownValue: provider.evcodSelectedValue,
                                                   onChanged: (p0) {
@@ -430,6 +444,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                             Padding(
                                               padding: const EdgeInsets.only(bottom: 10),
                                               child: CustomSwitch(
+                                                enabled: true,
                                                 value: provider.ddosSelectedValue,
                                                 label: 'DDoS Migration',
                                                 onChanged: (p0) {
@@ -437,23 +452,26 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                 },
                                               ),
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(bottom: 10),
-                                              child: CustomDDownMenu(
-                                                list: provider.bgpList.map((type) => type.name!).toList(),
-                                                dropdownValue: provider.bgpSelectedValue,
-                                                onChanged: (p0) {
-                                                  if (p0 != null) provider.selectBGP(p0);
-                                                },
-                                                icon: Icons.bug_report_outlined,
-                                                label: 'BGP Peering',
+                                            if (provider.circuitTypeSelectedValue == 'DIA')
+                                              Padding(
+                                                padding: const EdgeInsets.only(bottom: 10),
+                                                child: CustomDDownMenu(
+                                                  enabled: true,
+                                                  list: provider.bgpList.map((type) => type.name!).toList(),
+                                                  dropdownValue: provider.bgpSelectedValue,
+                                                  onChanged: (p0) {
+                                                    if (p0 != null) provider.selectBGP(p0);
+                                                  },
+                                                  icon: Icons.bug_report_outlined,
+                                                  label: 'BGP Peering',
+                                                ),
                                               ),
-                                            ),
                                             Padding(
                                               padding: const EdgeInsets.only(bottom: 10),
                                               child: Row(
                                                 children: [
                                                   CustomDDownMenu(
+                                                    enabled: true,
                                                     list: provider.ipAdressList,
                                                     dropdownValue: provider.ipAdressSelectedValue,
                                                     onChanged: (p0) {
@@ -466,6 +484,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     Padding(
                                                       padding: const EdgeInsets.only(left: 10),
                                                       child: CustomDDownMenu(
+                                                        enabled: true,
                                                         list: provider.ipInterfaceList,
                                                         dropdownValue: provider.ipInterfaceSelectedValue,
                                                         onChanged: (p0) {
@@ -479,6 +498,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     Padding(
                                                       padding: const EdgeInsets.only(left: 10),
                                                       child: CustomDDownMenu(
+                                                        enabled: true,
                                                         list: provider.subnetList,
                                                         dropdownValue: provider.subnetSelectedValue,
                                                         onChanged: (p0) {
@@ -614,7 +634,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                             context.pushReplacement(routeQuotes);
                                                           } else {
                                                             ScaffoldMessenger.of(context).showSnackBar(
-                                                              const SnackBar(content: Text('Errors')),
+                                                              const SnackBar(content: Text('Errors - createValidation')),
                                                             );
                                                           }
                                                         } else {

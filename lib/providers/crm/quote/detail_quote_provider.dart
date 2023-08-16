@@ -12,7 +12,8 @@ import 'package:rta_crm_cv/models/crm/catalogos/model_%20generic_cat.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_order_info_types.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_cat_circuit_types.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_cat_vendor_model.dart';
-import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
+import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view_v2.dart';
+//import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/models/orders.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -23,7 +24,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   }
 
   int id = 0;
-  late ModelX2QuotesView quote;
+  late ModelX2V2QuotesView quote;
 
   clearAll() {
     subtotal = 0;
@@ -76,6 +77,16 @@ class DetailQuoteProvider extends ChangeNotifier {
   List<Comment> comments = [];
   Future<void> addComment() async {
     if (commentController.text.isNotEmpty) {
+      await supabaseCRM.from('order_comments').insert(
+        {
+          "order_info_id": 7,
+          "user_id": currentUser!.id,
+          "role": currentUser!.role.roleName,
+          "name": currentUser!.name,
+          "comment": commentController.text,
+          "sended": DateTime.now(),
+        },
+      );
       comments.add(
         Comment(
           role: currentUser!.role.roleName,
@@ -85,7 +96,7 @@ class DetailQuoteProvider extends ChangeNotifier {
         ),
       );
       commentController.clear();
-      List<Map<String, dynamic>> commentsList = [];
+      /* List<Map<String, dynamic>> commentsList = [];
       for (var comment in comments) {
         Map<String, dynamic> item = {
           'role': comment.role,
@@ -94,10 +105,11 @@ class DetailQuoteProvider extends ChangeNotifier {
           'sended': comment.sended.toString(),
         };
         commentsList.add(item);
-      }
+      } */
 
       //await supabaseCRM.from('quotes').update({'comments': commentsList}).eq('id', id);
-      await supabaseCRM.from('orders_info').update({'comments': commentsList}).eq('id', quote.idOrders);
+
+      //await supabaseCRM.from('orders_info').update({'comments': commentsList}).eq('id', quote.idOrders);
 
       notifyListeners();
     }
@@ -278,7 +290,7 @@ class DetailQuoteProvider extends ChangeNotifier {
         ChannelFilter(
           event: 'UPDATE',
           schema: 'crm',
-          table: 'orders_info',
+          table: 'order_comments',
         ), (payload, [ref]) async {
       await getDataV2(id);
     }).subscribe();
@@ -630,9 +642,9 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       id = idQuote;
 
-      var response = await supabaseCRM.from('x2_quotes_view').select().eq('quoteid', id);
+      var response = await supabaseCRM.from('x2_quotes_view_v2').select().eq('quoteid', id);
 
-      quote = ModelX2QuotesView.fromRawJson(jsonEncode(response[0]));
+      quote = ModelX2V2QuotesView.fromJson(jsonEncode(response[0]));
 
       dynamic parameter = (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
       parameter = CatOrderInfoTypes.fromRawJson(jsonEncode(parameter));
@@ -642,10 +654,10 @@ class DetailQuoteProvider extends ChangeNotifier {
       orderTypesSelectedValue = quote.orderInfo!.orderType!;
       typesSelectedValue = quote.orderInfo!.type!;
       if (parameter.parameters.newCircuitId) {
-        newCircuitIDController.text = quote.orderInfo!.newCircuitId!;
+        newCircuitIDController.text = quote.orderInfo!.newCircuitId ?? '';
       }
       if (parameter.parameters.existingCircuitId) {
-        existingCircuitIDController.text = quote.orderInfo!.existingCircuitId!;
+        existingCircuitIDController.text = quote.orderInfo!.existingCircuitId ?? '';
       }
 
       if (quote.orderInfo!.dataCenterType == 'New') {
@@ -655,9 +667,9 @@ class DetailQuoteProvider extends ChangeNotifier {
         dataCenterSelectedValue = quote.orderInfo!.dataCenterLocation!;
       }
 
-      rackLocationController.text = quote.orderInfo!.rackLocation!;
-      handoffSelectedValue = quote.orderInfo!.handoff!;
-      demarcationPointController.text = quote.orderInfo!.demarcationPoint!;
+      rackLocationController.text = quote.orderInfo!.rackLocation ?? '';
+      handoffSelectedValue = quote.orderInfo!.handoff ?? '';
+      demarcationPointController.text = quote.orderInfo!.demarcationPoint ?? '';
 
       ///////////////Circuit Info////////////////////////////////////////////////////////////////////
 

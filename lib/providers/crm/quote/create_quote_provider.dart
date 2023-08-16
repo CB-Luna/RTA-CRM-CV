@@ -16,7 +16,8 @@ import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_order_info_types.da
 import 'package:rta_crm_cv/models/crm/catalogos/model_cat_circuit_types.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_cat_vendor_model.dart';
 import 'package:rta_crm_cv/models/crm/x2crm/model_x2_line_items.dart';
-import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
+import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view_v2.dart';
+//import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/models/orders.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -75,7 +76,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  ModelX2QuotesView quote = ModelX2QuotesView();
+  ModelX2V2QuotesView quote = ModelX2V2QuotesView();
 
   final commentController = TextEditingController();
   List<Comment> comments = [];
@@ -249,18 +250,22 @@ class CreateQuoteProvider extends ChangeNotifier {
   ////////////////////////////////////////////////////////
 
   bool createValidation() {
-    if (typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.newCircuitId! && newCircuitIDController.text.isEmpty) {
+    /* if (typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.newCircuitId! && newCircuitIDController.text.isEmpty) {
       return false;
     } else if (typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.existingCircuitId! &&
         existingCircuitIDController.text.isEmpty) {
       return false;
-    } else if (dataCenterSelectedValue == 'New' && existingCircuitIDController.text.isEmpty && newCircuitIDController.text.isEmpty) {
+    } else */
+    if (dataCenterSelectedValue == 'New' && newDataCenterController.text.isEmpty) {
       return false;
-    } else if (demarcationPointController.text.isEmpty) {
+    } /* else if (demarcationPointController.text.isEmpty) {
       return false;
-    } else if (evcodSelectedValue == 'Existing EVC' && evcCircuitIdController.text.isEmpty) {
+    } */
+    else if (evcodSelectedValue == 'Existing EVC' && evcCircuitIdController.text.isEmpty) {
       return false;
     } else if (globalRows.isEmpty) {
+      return false;
+    } else if (imageBytes == null) {
       return false;
     } else {
       return true;
@@ -932,7 +937,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       orderTypesList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
       orderTypesSelectedValue = orderTypesList.first.name!;
 
-      response = await supabaseCRM.from('cat_order_info_types').select().eq('visible', true);
+      response = await supabaseCRM.from('cat_order_info_types').select().eq('visible', true).order('id', ascending: true);
       typesList.clear();
       typesList = (response as List<dynamic>).map((index) => CatOrderInfoTypes.fromRawJson(jsonEncode(index))).toList();
       typesSelectedValue = typesList.first.name!;
@@ -984,9 +989,9 @@ class CreateQuoteProvider extends ChangeNotifier {
     try {
       await clearAll();
 
-      var res = await supabaseCRM.from('x2_quotes_view').select().eq('quoteid', id);
+      var res = await supabaseCRM.from('x2_quotes_view_v2').select().eq('quoteid', id);
 
-      quote = ModelX2QuotesView.fromRawJson(jsonEncode(res.first));
+      quote = ModelX2V2QuotesView.fromJson(jsonEncode(res.first));
 
       //getLead////////////////////////////////////////////////////////////
       leadSelectedValue = quote.account ?? 'Not Configured';
@@ -1051,35 +1056,63 @@ class CreateQuoteProvider extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
 
-      Map<String, dynamic> orderInfo = {};
+      /*  Map<String, dynamic> orderInfo = {
+        'order_type': orderTypesSelectedValue,
+        'type': typesSelectedValue,
+        if (typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.existingCircuitId!)
+          'existing_circuit_id': "", //existingCircuitIDController.text,
+        if (typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.newCircuitId!)
+          'new_circuit_id': "", //newCircuitIDController.text,
+        'data_center_type': dataCenterSelectedValue == 'New' ? 'New' : 'Existing',
+        'data_center_location': dataCenterSelectedValue == 'New' ? newDataCenterController.text : dataCenterSelectedValue,
+        'handoff': "", //handoffSelectedValue,
+        'rack_location': "", //rackLocationController.text,
+        'demarcation_point': "", //demarcationPointController.text,
+      };
+ */
       //OrderType
-      orderInfo.addAll(returnOrderType());
+      //orderInfo.addAll(returnOrderType());
       //DataCenter
-      orderInfo.addAll(returnDataCenter());
+      //orderInfo.addAll(returnDataCenter());
 
       //Vendor
       var responseVendor = await supabaseCRM.from('cat_vendors').select().eq('vendor_name', vendorSelectedValue);
       Vendor vendor = Vendor.fromJson(jsonEncode(responseVendor[0]));
 
-      Map<String, dynamic> circuitInfo = {};
-      //CircuitType
-      circuitInfo.addAll(returnCircuitType());
-      //DDoS - BGPerring
-      circuitInfo.addAll({
+/*       Map<String, dynamic> circuitInfo = {
+        'multicast': multicastRequired,
+        'location': locationController.text,
+        'circuit_type': circuitTypeSelectedValue,
+        if (circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.cir!) 'cir': cirSelectedValue,
+        if (circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.portSize!)
+          'port_size': portSizeSelectedValue,
+        if (circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.evcod!)
+          'evc_circuit_id': evcCircuitIdController.text,
         'ddos_type': ddosSelectedValue,
         'bgp_type': bgpSelectedValue,
-      });
-      //IP Adress
-      circuitInfo.addAll(returnIPAdress());
+        'ip_type': ipAdressSelectedValue,
+        if (ipAdressSelectedValue == 'Interface') 'interface_type': ipInterfaceSelectedValue,
+        if (ipAdressSelectedValue == 'IP Subnet') 'subnet_type': subnetSelectedValue,
+      }; */
 
-      Map<String, dynamic> customerInfo = {
+      //CircuitType
+      //circuitInfo.addAll(returnCircuitType());
+      //DDoS - BGPerring
+      /* circuitInfo.addAll({
+        'ddos_type': ddosSelectedValue,
+        'bgp_type': bgpSelectedValue,
+      }); */
+      //IP Adress
+      //circuitInfo.addAll(returnIPAdress());
+
+      /* Map<String, dynamic> customerInfo = {
         "company": companyController.text,
         "name": nameController.text,
         "email": emailController.text,
         "phone": phoneController.text,
-      };
+      }; */
 
-      Map<String, dynamic> totals = {
+      /* Map<String, dynamic> totals = {
         "items": globalRows.length,
         "subtotal": subtotal,
         "cost": cost,
@@ -1087,10 +1120,10 @@ class CreateQuoteProvider extends ChangeNotifier {
         "total": total,
         "total_tax": totalPlusTax,
         "margin": margin,
-      };
+      }; */
 
       //Items
-      List<Map<String, dynamic>> itemsList = [];
+      /* List<Map<String, dynamic>> itemsList = [];
       for (var row in globalRows) {
         Map<String, dynamic> item = {
           'id_quote_item': row.cells['ID_Column']!.value,
@@ -1100,10 +1133,10 @@ class CreateQuoteProvider extends ChangeNotifier {
           'quantity': row.cells['QUANTITY_Column']!.value,
         };
         itemsList.add(item);
-      }
+      } */
 
       //Comments
-      List<Map<String, dynamic>> commentsList = [];
+      /* List<Map<String, dynamic>> commentsList = [];
       for (var comment in comments) {
         Map<String, dynamic> item = {
           'role': comment.role,
@@ -1112,32 +1145,83 @@ class CreateQuoteProvider extends ChangeNotifier {
           'sended': comment.sended.toString(),
         };
         commentsList.add(item);
-      }
+      } */
 
-      var resp = (await supabaseCRM.from('orders_info').insert(
+      var resp = (await supabaseCRM.from('order_info').insert(
         {
           "created_by": currentUser!.id,
           "updated_by": currentUser!.id,
-          //
-          "order_info": orderInfo,
-          "vendor_id": vendor.id,
-          "circuit_info": circuitInfo,
-          "customer_info": customerInfo,
-          "totals": totals,
-          "items": itemsList,
-          "comments": commentsList,
           "x2_quote_nameId": quote.x2Quoteid,
+          "order_type": orderTypesSelectedValue,
+          "type": typesSelectedValue,
+          "existing_circuit_id": null,
+          "new_circuit_id": null,
+          "data_center_type": dataCenterSelectedValue == 'New' ? 'New' : 'Existing',
+          "data_center_location": dataCenterSelectedValue == 'New' ? newDataCenterController.text : dataCenterSelectedValue,
+          "handoff": null,
+          "rack_location": null,
+          "demarcation_point": null,
+          "vendor_id": vendor.id,
+          "multicast": multicastRequired,
+          "location": locationController.text,
+          "circuit_type": circuitTypeSelectedValue,
+          "cir": circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.cir! ? cirSelectedValue : null,
+          "port_size": circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.portSize!
+              ? portSizeSelectedValue
+              : null,
+          "evc_circuit_id": circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.evcod!
+              ? evcCircuitIdController.text
+              : null,
+          "ddos_type": ddosSelectedValue,
+          "bgp_type": circuitTypeSelectedValue == "DIA" ? bgpSelectedValue : null,
+          "ip_type": ipAdressSelectedValue,
+          "interface_type": ipAdressSelectedValue == 'Interface' ? ipInterfaceSelectedValue : null,
+          "subnet_type": ipAdressSelectedValue == 'IP Subnet' ? subnetSelectedValue : null,
+          "contact_id": quote.contactid,
+          "items": totalItems,
+          "subtotal": subtotal,
+          "cost": cost,
+          "tax": double.parse(taxController.text),
+          "total": total,
+          "total_tax": totalPlusTax,
+          "margin": margin,
         },
       ).select())[0];
 
-      var responseImage = await supabase.storage.from('demarcation-points').uploadBinary('order_${resp["id"].toString()}_demarcationPoint.png', imageBytes!);
+      for (var row in globalRows) {
+        await supabaseCRM.from('line_items').insert(
+          {
+            "order_info_id": resp["id"],
+            "id_quote_item": row.cells['ID_Column']!.value,
+            "line_item": row.cells['LINE_ITEM_Column']!.value,
+            "unit_price": row.cells['UNIT_PRICE_Column']!.value,
+            "adjustment": row.cells['UNIT_COST_Column']!.value,
+            "quantity": row.cells['QUANTITY_Column']!.value,
+          },
+        );
+      }
+
+      for (var comment in comments) {
+        await supabaseCRM.from('order_comments').insert(
+          {
+            "order_info_id": resp["id"],
+            "user_id": currentUser!.id,
+            "role": comment.role,
+            "name": comment.name,
+            "comment": comment.comment,
+            "sended": comment.sended!.toIso8601String(),
+          },
+        );
+      }
+
+      var responseImage = await supabase.storage.from('demarcation-points').uploadBinary('orderInfo_${resp["id"].toString()}_demarcationPoint.png', imageBytes!);
 
       if (responseImage.isNotEmpty) {
         responseImage = supabase.storage.from('demarcation-points').getPublicUrl(
-              'order_${resp["id"].toString()}_demarcationPoint.png',
+              'orderInfo_${resp["id"].toString()}_demarcationPoint.png',
             );
-        await supabaseCRM.from('orders_info').update(
-          {'demarcation_url': responseImage, 'demarcation_doc': 'order_${resp["id"].toString()}_demarcationPoint.png'},
+        await supabaseCRM.from('order_info').update(
+          {'demarcation_url': responseImage, 'demarcation_doc': 'orderInfo_${resp["id"].toString()}_demarcationPoint.png'},
         ).eq('id', resp["id"]);
       }
 

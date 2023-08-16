@@ -516,7 +516,7 @@ class _QuotesTabState extends State<QuotesTab> {
                                   params: {"id_status": 8, "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id}, //Order Created
                                 );*/
                                 //await provider.getQuotes(null);
-                                await ordersProvider.getData(rendererContext.row.cells['ID_Column']!.value,rendererContext.row.cells['X2_QUOTE_Column']!.value);
+                                await ordersProvider.getData(rendererContext.row.cells['ID_Column']!.value, rendererContext.row.cells['X2_QUOTE_Column']!.value);
                                 // ignore: use_build_context_synchronously
                                 showDialog(
                                   context: context,
