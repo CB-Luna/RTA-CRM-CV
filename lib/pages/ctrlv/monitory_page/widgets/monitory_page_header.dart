@@ -6,6 +6,7 @@ import 'package:rta_crm_cv/providers/ctrlv/monitory_provider.dart';
 
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
+import '../Popup/export_monitory_data.dart';
 
 class MonitoryPageHeader extends StatefulWidget {
   MonitoryPageHeader({
@@ -38,7 +39,12 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
                   icon: Icon(Icons.download_outlined, color: AppTheme.of(context).primaryBackground),
                   text: 'Export Data',
                   onTap: () {
-                    provider.excelActivityReports();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const ExportMonitoryDataFilter();
+                      },
+                    );
                   },
                 ),
                 CustomTextIconButton(
