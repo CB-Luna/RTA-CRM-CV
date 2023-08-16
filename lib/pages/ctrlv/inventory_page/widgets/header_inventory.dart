@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
-import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
@@ -34,20 +33,6 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: CustomTextField(
-              width: MediaQuery.of(context).size.width * 0.1,
-              enabled: true,
-              controller: provider.searchController,
-              icon: Icons.search,
-              label: 'Search',
-              keyboardType: TextInputType.text,
-            ),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: CustomTextIconButton(

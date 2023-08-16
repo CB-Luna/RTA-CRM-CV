@@ -91,6 +91,6 @@ const String routeDetailsInventory = '/details_inventory';
 const String routeService = '/service';
 const String routeQuotes = '/order';
 const String routeCampaigns = '/campaigns';
-
+const String routeDownloadAPK = '/download_apk';
 const String routeInventory = '/inventory';
 const String routeTickets = '/tickets';

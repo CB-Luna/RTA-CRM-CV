@@ -6,6 +6,7 @@ import 'package:rta_crm_cv/pages/crm/reports_page.dart';
 import 'package:rta_crm_cv/pages/crm/schedulings_page.dart';
 import 'package:rta_crm_cv/pages/crm/tickets_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/dashboard/dashboards_page_ctrlv.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/download_apk_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page.dart';
@@ -53,8 +54,10 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         if (currentUser!.isCRM) {
           return const QuotesPage();
-        } else if (currentUser!.isCV) {
+        } else if (currentUser!.isAdminCv || currentUser!.isManager) {
           return const MonitoryPageDesktop();
+        } else if (currentUser!.isEmployee) {
+          return const DownloadAPKPage();
         } else {
           return const PageNotFoundPage();
         }
@@ -63,8 +66,10 @@ final GoRouter router = GoRouter(
         key: state.pageKey,
         child: currentUser!.isCRM
             ? const QuotesPage()
-            : currentUser!.isCV
+            : currentUser!.isAdminCv || currentUser!.isManager
                 ? const MonitoryPageDesktop()
+                : currentUser!.isEmployee
+                ? const DownloadAPKPage()
                 : const PageNotFoundPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             FadeTransition(
@@ -255,6 +260,14 @@ final GoRouter router = GoRouter(
         if (state.extra == null) return const InventoryPageDesktop();
         // return ReportedIssues(vehicle: state.extra as Vehicle);
         return const ServicePopUp();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeDownloadAPK,
+      name: 'Download APK',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
       },
       // (context, state, const DetailsPopUp()),
     ),

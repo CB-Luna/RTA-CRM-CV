@@ -104,7 +104,10 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                           ...FilterHelper.defaultFilters,
                         ],
                         resolveDefaultColumnFilter: (column, resolver) {
-                          if (column.field == 'Status') {
+                          if (column.field == 'idIssues') {
+                            return resolver<PlutoFilterTypeContains>()
+                                as PlutoFilterType;
+                          } else if (column.field == 'Status') {
                             return resolver<PlutoFilterTypeContains>()
                                 as PlutoFilterType;
                           } else if (column.field == 'FluidsCheck') {
@@ -264,9 +267,9 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                         type: PlutoColumnType.text(),
                         enableEditingMode: false,
                         renderer: (rendererContext) {
-                          List<IssueOpenclose> listaCeldaActual =
+                          List<IssueOpenclose?> listaCeldaActual =
                               rendererContext.cell.value
-                                  as List<IssueOpenclose>;
+                                  as List<IssueOpenclose?>;
                           return Container(
                               height: rowHeight,
                               decoration:
@@ -292,9 +295,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                     )
 
                                   // si esta vacio entonces que haga esto.
-                                  : const Icon(
-                                      Icons.check_circle_outline_outlined,
-                                      color: Color.fromARGB(200, 65, 155, 23)));
+                                  : issueReportedProvider.nuloNOnulo
+                                      ? const Icon(
+                                          Icons.check_circle_outline_outlined,
+                                          color:
+                                              Color.fromARGB(200, 65, 155, 23))
+                                      : const Text(""));
                         },
                         footerRenderer: (context) {
                           return SizedBox(
@@ -401,10 +407,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       )
 
                                     // si esta vacio entonces que haga esto.
-                                    : const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color:
-                                            Color.fromARGB(200, 65, 155, 23)));
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
+                                            Icons.check_circle_outline_outlined,
+                                            color: Color.fromARGB(
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                       PlutoColumn(
                           title: 'CarBodyWork',
@@ -434,7 +442,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                 height: rowHeight,
                                 decoration:
                                     BoxDecoration(gradient: whiteGradient),
-                                // Preguntamos si esta vacio
                                 child: listaCeldaActual.isNotEmpty
                                     ? Tooltip(
                                         message: "${listaCeldaActual.length}",
@@ -443,17 +450,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                                 context: context,
                                                 builder:
                                                     (BuildContext context) {
-                                                  return StatefulBuilder(
-                                                      builder:
-                                                          (context, setState) {
-                                                    return IssuesPopUpTotal(
+                                                  return IssuesPopUpTotal(
                                                       text: "CarBodyWork",
                                                       contador: 3,
                                                       issueComments:
                                                           rendererContext
-                                                              .cell.value,
-                                                    );
-                                                  });
+                                                              .cell.value);
                                                 }),
                                             child: const Icon(
                                                 Icons.cancel_outlined,
@@ -462,10 +464,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       )
 
                                     // si esta vacio entonces que haga esto.
-                                    : const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color:
-                                            Color.fromARGB(200, 65, 155, 23)));
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
+                                            Icons.check_circle_outline_outlined,
+                                            color: Color.fromARGB(
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                       PlutoColumn(
                           title: 'Security',
@@ -517,10 +521,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       )
 
                                     // si esta vacio entonces que haga esto.
-                                    : const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color:
-                                            Color.fromARGB(200, 65, 155, 23)));
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
+                                            Icons.check_circle_outline_outlined,
+                                            color: Color.fromARGB(
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                       PlutoColumn(
                           title: 'Extra',
@@ -572,10 +578,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       )
 
                                     // si esta vacio entonces que haga esto.
-                                    : const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color:
-                                            Color.fromARGB(200, 65, 155, 23)));
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
+                                            Icons.check_circle_outline_outlined,
+                                            color: Color.fromARGB(
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                       PlutoColumn(
                           title: 'Equipment',
@@ -607,6 +615,7 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                     BoxDecoration(gradient: whiteGradient),
                                 child: listaCeldaActual.isNotEmpty
                                     ? Tooltip(
+                                        message: "${listaCeldaActual.length}",
                                         child: InkWell(
                                             onTap: () => showDialog(
                                                 context: context,
@@ -626,10 +635,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       )
 
                                     // si esta vacio entonces que haga esto.
-                                    : const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color:
-                                            Color.fromARGB(200, 65, 155, 23)));
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
+                                            Icons.check_circle_outline_outlined,
+                                            color: Color.fromARGB(
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                       PlutoColumn(
                           title: 'BucketInspection',
@@ -681,10 +692,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       )
 
                                     // si esta vacio entonces que haga esto.
-                                    : const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color:
-                                            Color.fromARGB(200, 65, 155, 23)));
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
+                                            Icons.check_circle_outline_outlined,
+                                            color: Color.fromARGB(
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                       PlutoColumn(
                           title: 'Measures',
@@ -736,10 +749,12 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                                       )
 
                                     // si esta vacio entonces que haga esto.
-                                    : const Icon(
-                                        Icons.check_circle_outline_outlined,
-                                        color:
-                                            Color.fromARGB(200, 65, 155, 23)));
+                                    : issueReportedProvider.nuloNOnulo
+                                        ? const Icon(
+                                            Icons.check_circle_outline_outlined,
+                                            color: Color.fromARGB(
+                                                200, 65, 155, 23))
+                                        : const Text(""));
                           }),
                     ],
                     rows: issueReportedProvider.rows,

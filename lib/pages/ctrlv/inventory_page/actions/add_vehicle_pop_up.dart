@@ -229,7 +229,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                          label: '10. oil change due*',
+                          label: '10. Last Oil Change*',
                           controller: provider.dateTimeControllerOil,
                           enabled: true,
                           onTapCheck: true,
@@ -303,71 +303,72 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                         keyboardType: TextInputType.name,
                       ),
                     ),
-                    Column(
-                      children: [
-                        Text(
-                          "14. Add Vehicle Image",
-                          style: TextStyle(
-                            color: AppTheme.of(context).primaryColor,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            await provider.selectImage();
-                          },
-                          child: Container(
-                            width: 105,
-                            height: 105,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: getAddImageV(
-                              provider.webImage,
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 14),
+                      child: Column(
+                        children: [
+                          Text(
+                            "14. Add Vehicle Image",
+                            style: TextStyle(
+                              color: AppTheme.of(context).primaryColor,
                             ),
                           ),
-                        ),
-                      ],
+                          InkWell(
+                            onTap: () async {
+                              await provider.selectImage();
+                            },
+                            child: Container(
+                              width: 105,
+                              height: 105,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: getAddImageV(
+                                provider.webImage,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomTextIconButton(
-                    isLoading: false,
-                    icon: Icon(Icons.save_outlined,
-                        color: AppTheme.of(context).primaryBackground),
-                    text: 'Save Vehicle',
-                    onTap: () async {
-                      if (!formKey.currentState!.validate()) {
-                        return;
-                      }
-                      //Crear perfil de usuario
-                      bool res = await provider.createVehicleInventory();
+            CustomTextIconButton(
+                mainAxisAlignment: MainAxisAlignment.center,
+                width: MediaQuery.of(context).size.width * 0.1,
+                isLoading: false,
+                icon: Icon(Icons.save_outlined,
+                    color: AppTheme.of(context).primaryBackground),
+                text: 'Save Vehicle',
+                onTap: () async {
+                  if (!formKey.currentState!.validate()) {
+                    return;
+                  }
+                  //Crear perfil de usuario
+                  bool res = await provider.createVehicleInventory();
 
-                      if (!res) {
-                        await ApiErrorHandler.callToast(
-                            'Error al agregar el vehiculo');
-                        return;
-                      }
+                  if (!res) {
+                    await ApiErrorHandler.callToast(
+                        'Error al agregar el vehiculo');
+                    return;
+                  }
 
-                      if (!mounted) return;
-                      fToast.showToast(
-                        child: const SuccessToast(
-                          message: 'Vehicle Added Succesfuly',
-                        ),
-                        gravity: ToastGravity.BOTTOM,
-                        toastDuration: const Duration(seconds: 2),
-                      );
+                  if (!mounted) return;
+                  fToast.showToast(
+                    child: const SuccessToast(
+                      message: 'Vehicle Added Succesfuly',
+                    ),
+                    gravity: ToastGravity.BOTTOM,
+                    toastDuration: const Duration(seconds: 2),
+                  );
 
-                      if (context.canPop()) context.pop();
-                    }),
-                
-              ],
-            )
+                  if (context.canPop()) context.pop();
+                })
           ],
         ),
       ),
