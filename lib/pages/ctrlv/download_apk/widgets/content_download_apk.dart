@@ -2,17 +2,15 @@ import 'dart:developer';
 import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toast.dart';
-import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/success_toast.dart';
 import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/warning_toast.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_buttom.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sf;
 import 'package:rive/rive.dart' as rive;
+import 'package:url_launcher/url_launcher.dart';
 
 class ContentDownloadAPK extends StatefulWidget {
   const ContentDownloadAPK({Key? key}) : super(key: key);
@@ -24,7 +22,7 @@ class ContentDownloadAPK extends StatefulWidget {
 class _ContentDownloadAPKState extends State<ContentDownloadAPK> {
   FToast fToast = FToast();
   bool passwordVisibility = false;
-  double? _progress;
+  final Uri _urlFMTAPK = Uri.parse("https://drive.google.com/file/d/1BdtCmh91_2uMwBvO5ixbNooxyGii-pqp/view?usp=sharing");
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
@@ -48,261 +46,226 @@ class _ContentDownloadAPKState extends State<ContentDownloadAPK> {
                     fit: BoxFit.cover,
                   ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Center(
-                    child: SizedBox(
-                      width: 800,
-                      height: 800,
-                      child: CustomPaint(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 50),
-                              child: Text(
-                                'Download the APK below',
-                                style: AppTheme.of(context)
-                                    .bodyText1
-                                    .override(
-                                      fontFamily: 'Bicyclette-Light',
-                                      color: AppTheme.of(context)
-                                          .primaryColor,
-                                      fontSize: 60,
-                                      fontWeight: FontWeight.w600,
-                                      useGoogleFonts: false,
-                                    ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 50),
-                              child: AppTheme.themeMode == ThemeMode.dark
-                                  ? Image.asset(
-                                      'assets/images/icon.png',
-                                      height: 200,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image.asset(
-                                      'assets/images/icon.png',
-                                      height: 200,
-                                      fit: BoxFit.cover,
-                                    ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(
-                                      0, 40, 0, 0),
-                              child: CustomButton(
-                                onPressed: () async {
-                                  //Download
-                                  try {
-                                    _progress == null ? showDialog(
-                                      barrierDismissible: false,
-                                      context: (context),
-                                      builder: (builder) {
-                                        return AlertDialog(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(15),
-                                          ),
-                                          title: const Text('Allow Download FMT.'),
-                                          content: const Text('Are you sure you want to download FMT APK?'),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () async {
-                                                final html = window.navigator.userAgent.toLowerCase();
-                                                if (html.contains("android")) {
-                                                    await FileDownloader.downloadFile(
-                                                    url: 'https://tinypng.com/images/social/website.jpg', // Reemplaza con la URL real del archivo APK
-                                                    name: 'panda.jpg', // Nombre del archivo
-                                                    onDownloadCompleted: (String path) {
-                                                      setState(() => 
-                                                          _progress = null
-                                                        );
-                                                      fToast.showToast(
-                                                        child: const SuccessToast(
-                                                          message: "Succesfull download",
-                                                        ),
-                                                        gravity: ToastGravity.BOTTOM,
-                                                        toastDuration: const Duration(seconds: 3),
-                                                      );
-                                                      print('FILE DOWNLOADED TO PATH: $path');
-                                                    },
-                                                    onDownloadError: (String error) {
-                                                      setState(() => 
-                                                          _progress = null
-                                                        );
-                                                      fToast.showToast(
-                                                        child: const FailedToast(
-                                                          message: "Download failed",
-                                                        ),
-                                                        gravity: ToastGravity.BOTTOM,
-                                                        toastDuration: const Duration(seconds: 3),
-                                                      );
-                                                      print('DOWNLOAD ERROR: $error');
-                                                    },
-                                                    onProgress: (String? fileName, double progress) {
-                                                        setState(() => 
-                                                          _progress = progress
-                                                        );
-                                                      },
-                                                    );
-                                                } else {
-                                                  fToast.showToast(
-                                                    child: const WarningToast(
-                                                      message: "This device don't support the download file APK",
-                                                    ),
-                                                    gravity: ToastGravity.BOTTOM,
-                                                    toastDuration: const Duration(seconds: 3),
-                                                  );
-                                                }
-                                                // ignore: use_build_context_synchronously
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(
-                                                'Yes',
-                                                style: AppTheme.of(context)
-                                                .bodyText1
-                                                .override(
-                                                  fontFamily: 'Poppins',
-                                                  color: AppTheme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                              )
-                                            ),
-                                            TextButton(
-                                              onPressed: () => Navigator.pop(context),
-                                              child: Text(
-                                                'No',
-                                                style: AppTheme.of(context)
-                                                .bodyText1
-                                                .override(
-                                                  fontFamily: 'Poppins',
-                                                  color: AppTheme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                              )
-                                            ),
-                                          ],
-                                        );
-                                      }) 
-                                      :
-                                      const CircularProgressIndicator();
-                                  } catch (e) {
-                                    if (e is sf.AuthException) {
-                                      await ApiErrorHandler.callToast(
-                                          'Failed to download the APK');
-                                      return;
-                                    }
-                                    log('Error al descargar el archivo apk - $e');
-                                  }
-                                },
-                                text: 'Download',
-                                options: ButtonOptions(
-                                  width: 200,
-                                  height: 50,
-                                  color:
-                                      AppTheme.of(context).primaryColor,
-                                  textStyle: AppTheme.of(context)
-                                      .subtitle2
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: SizedBox(
+                        width: 800,
+                        height: 800,
+                        child: CustomPaint(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0, 0, 0, 50),
+                                child: Text(
+                                  "Click on 'Download' to redirect to the FMT APK",
+                                  textAlign: TextAlign.center,
+                                  style: AppTheme.of(context)
+                                      .bodyText1
                                       .override(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'Bicyclette-Light',
+                                        color: AppTheme.of(context)
+                                            .primaryColor,
+                                        fontSize: 60,
+                                        fontWeight: FontWeight.w600,
+                                        useGoogleFonts: false,
                                       ),
-                                  borderSide: const BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(30),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.fromSTEB(
-                                      15, 40, 15, 0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsetsDirectional
-                                                .fromSTEB(0, 0, 10, 0),
-                                        child: FaIcon(
-                                          FontAwesomeIcons.shieldHalved,
-                                          color: AppTheme.of(context)
-                                              .primaryColor,
-                                          size: 40,
-                                        ),
+                              Padding(
+                                padding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0, 0, 0, 50),
+                                child: AppTheme.themeMode == ThemeMode.dark
+                                    ? Image.asset(
+                                        'assets/images/icon.png',
+                                        height: 200,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(
+                                        'assets/images/icon.png',
+                                        height: 200,
+                                        fit: BoxFit.cover,
                                       ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsetsDirectional
-                                                .fromSTEB(0, 0, 10, 0),
-                                        child: Text(
-                                          'Data\nprotected',
-                                          style: AppTheme.of(context)
-                                              .bodyText1
-                                              .override(
-                                                fontFamily: 'Poppins',
-                                                color:
-                                                    AppTheme.of(context)
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        0, 40, 0, 0),
+                                child: CustomButton(
+                                  onPressed: () async {
+                                    //Download
+                                    try {
+                                      showDialog(
+                                        barrierDismissible: false,
+                                        context: (context),
+                                        builder: (builder) {
+                                          return AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(15),
+                                            ),
+                                            title: const Text('Allow Download FMT.'),
+                                            content: const Text('Are you sure you want to download FMT APK?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () async {
+                                                  final html = window.navigator.userAgent.toLowerCase();
+                                                  if (html.contains("android")) {
+                                                    await launchInBrowser(_urlFMTAPK);
+                                                  } else {
+                                                    fToast.showToast(
+                                                      child: const WarningToast(
+                                                        message: "The actual device don't support APK download",
+                                                      ),
+                                                      gravity: ToastGravity.BOTTOM,
+                                                      toastDuration: const Duration(seconds: 3),
+                                                    );
+                                                  }
+                                                  // ignore: use_build_context_synchronously
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  'Yes',
+                                                  style: AppTheme.of(context)
+                                                  .bodyText1
+                                                  .override(
+                                                    fontFamily: 'Poppins',
+                                                    color: AppTheme.of(context)
                                                         .primaryColor,
-                                                fontSize: 15,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
+                                                )
                                               ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(context),
+                                                child: Text(
+                                                  'No',
+                                                  style: AppTheme.of(context)
+                                                  .bodyText1
+                                                  .override(
+                                                    fontFamily: 'Poppins',
+                                                    color: AppTheme.of(context)
+                                                        .primaryColor,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
+                                                )
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                    } catch (e) {
+                                      if (e is sf.AuthException) {
+                                        await ApiErrorHandler.callToast(
+                                            'Failed to download the APK');
+                                        return;
+                                      }
+                                      log('Failed to download apk - $e');
+                                    }
+                                  },
+                                  text: 'Download',
+                                  options: ButtonOptions(
+                                    width: 200,
+                                    height: 50,
+                                    color:
+                                        AppTheme.of(context).primaryColor,
+                                    textStyle: AppTheme.of(context)
+                                        .subtitle2
+                                        .override(
+                                          fontFamily: 'Poppins',
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.normal,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    width: 2,
-                                    height: 70,
-                                    decoration: const BoxDecoration(
-                                      color: Color(0xFFE7E7E7),
+                                    borderSide: const BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1,
                                     ),
+                                    borderRadius: BorderRadius.circular(30),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional
-                                        .fromSTEB(10, 0, 0, 2),
-                                    child: Text(
-                                      "Security is our priority, that's why\nwe adhere to the highest standards.",
-                                      style: AppTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        15, 40, 15, 0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional
+                                                  .fromSTEB(0, 0, 10, 0),
+                                          child: FaIcon(
+                                            FontAwesomeIcons.shieldHalved,
                                             color: AppTheme.of(context)
                                                 .primaryColor,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
+                                            size: 40,
                                           ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional
+                                                  .fromSTEB(0, 0, 10, 0),
+                                          child: Text(
+                                            'Data\nprotected',
+                                            style: AppTheme.of(context)
+                                                .bodyText1
+                                                .override(
+                                                  fontFamily: 'Poppins',
+                                                  color:
+                                                      AppTheme.of(context)
+                                                          .primaryColor,
+                                                  fontSize: 15,
+                                                ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
+                                    Container(
+                                      width: 2,
+                                      height: 70,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFFE7E7E7),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional
+                                          .fromSTEB(10, 0, 0, 2),
+                                      child: Text(
+                                        "Security is our priority, that's why\nwe adhere to the highest standards.",
+                                        style: AppTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              color: AppTheme.of(context)
+                                                  .primaryColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
           ],
         ),
     );
@@ -315,6 +278,15 @@ class LoginPaint extends StatefulWidget {
   @override
   State<LoginPaint> createState() => _LoginPaintState();
 }
+
+Future<void> launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
 class _LoginPaintState extends State<LoginPaint> {
   @override
