@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -25,6 +26,8 @@ import '../../models/vehicle_dashboard.dart';
 
 class InventoryProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
+  PlutoGridStateManager? stateManagerService;
+
   List<PlutoRow> rows = [];
   List<PlutoRow> rowsService = [];
 
@@ -86,6 +89,11 @@ class InventoryProvider extends ChangeNotifier {
     print("Se hizo el updateStateService");
     rowsService.clear();
     await getServicesPage();
+  }
+
+  void clearControllerService() {
+    serviceSelected = null;
+    serviceDateController.clear();
   }
 
   // Variables Individuales
@@ -337,14 +345,14 @@ class InventoryProvider extends ChangeNotifier {
       default:
         return;
     }
-    stateManager!.createFooter;
+    stateManagerService!.createFooter;
     notifyListeners();
   }
 
   void setPageService(String x) {
     switch (x) {
       case 'next':
-        if (pageService < stateManager!.totalPage) pageService++;
+        if (pageService < stateManagerService!.totalPage) pageService++;
         break;
       case 'previous':
         if (pageService > 1) pageService--;
@@ -353,17 +361,17 @@ class InventoryProvider extends ChangeNotifier {
         pageService = 1;
         break;
       case 'end':
-        pageService = stateManager!.totalPage;
+        pageService = stateManagerService!.totalPage;
         break;
       default:
         return;
     }
-    stateManager!.setPage(page);
+    stateManagerService!.setPage(page);
     notifyListeners();
   }
 
   void loadService() {
-    stateManager!.setShowLoading(true);
+    stateManagerService!.setShowLoading(true);
   }
 
   void setIndexIssue(int index) async {
@@ -372,17 +380,6 @@ class InventoryProvider extends ChangeNotifier {
     }
     indexSelectedIssue[index] = true;
 
-    notifyListeners();
-  }
-
-  //------------------------------------------
-  List<IssueOpenclose> listaFiltrada = []; // Lista filtrada, inicialmente vacía
-  void filtrarPorMes(int day) {
-    print("provider.listaTotalISSUES: ${listaTotalIssues.length}");
-    listaFiltrada = listaTotalIssues
-        .where((elemento) => elemento.dateAddedOpen.day == day)
-        .toList();
-    print("Provider.listafiltrada: ${listaFiltrada.length}");
     notifyListeners();
   }
 
@@ -398,7 +395,6 @@ class InventoryProvider extends ChangeNotifier {
     imageUrlUpdate = vehicle.image!.replaceAll(
         "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/",
         "");
-
     colorControllerUpdate = colorController;
     colorControllers.text = colorController.toString();
     companySelectedUpdate = companySelected;
@@ -420,19 +416,39 @@ class InventoryProvider extends ChangeNotifier {
 
   // Función para hacerle update a la Imagen
   Future<void> updateImage() async {
+    // Enviar la segunda
     final ImagePicker picker = ImagePicker();
 
     final XFile? pickedImage = await picker.pickImage(
       source: ImageSource.gallery,
     );
 
+    final String? placeHolderImage;
+
     if (pickedImage == null) return;
+
     webImage = await pickedImage.readAsBytes();
-    final res = await supabase.storage.from('assets/Vehicles').updateBinary(
-          imageUrlUpdate!,
-          webImage!,
-        );
-    // print(res);
+    print("-------------------------");
+    print(imageUrl);
+    print("-------------------------");
+    notifyListeners();
+    placeHolderImage = "${uuid.v4()}${pickedImage.name}";
+
+    final storageResponse =
+        await supabase.storage.from('assets/Vehicles').uploadBinary(
+              placeHolderImage,
+              webImage!,
+              fileOptions: const FileOptions(
+                cacheControl: '3600',
+                upsert: false,
+              ),
+            );
+
+    if (storageResponse.isNotEmpty) {
+      imageUrl = supabase.storage.from('assets/Vehicles').getPublicUrl(
+            placeHolderImage,
+          );
+    }
   }
 
   // Función para seleccionar la imagen
@@ -468,6 +484,20 @@ class InventoryProvider extends ChangeNotifier {
       imageUrl = supabase.storage.from('assets/Vehicles').getPublicUrl(
             placeHolderImage,
           );
+    }
+  }
+
+  Future<void> deleteImage() async {
+    // Eliminar la imagen Anterior
+    try {
+      if (imageUrlUpdate != null) {
+        final List<FileObject> oldImage = await supabase.storage
+            .from('assets')
+            .remove(['Vehicles/${imageUrlUpdate!}']);
+        if (oldImage.isEmpty) return;
+      }
+    } catch (e) {
+      print("Error in deleteImage $e");
     }
   }
 
@@ -564,19 +594,13 @@ class InventoryProvider extends ChangeNotifier {
 
   // Función para inicializar la imagen
   void inicializeImage(Vehicle vehicle) {
-    final List<int> codeUnits = vehicle.image!.codeUnits;
-    webImage = Uint8List.fromList(codeUnits);
+    webImage = null;
 
     notifyListeners();
   }
 
   // Función para hacerle update al Vehiculo
   Future<bool> updateVehicle(Vehicle vehicle) async {
-    // final res = await supabase.storage.from('assets/Vehicles').updateBinary(
-    //       imageUrlUpdate!,
-    //       webImage!,
-    //     );
-    // print(res);
     try {
       await supabaseCtrlV.from('vehicle').update({
         'make': makeControllerUpdate.text,
@@ -590,11 +614,13 @@ class InventoryProvider extends ChangeNotifier {
             statusSelectedUpdate?.statusId ?? vehicle.status.statusId,
         'id_company_fk':
             companySelectedUpdate?.companyId ?? vehicle.company.companyId,
+        'image': imageUrl,
+
         'date_added': DateTime.now().toIso8601String(),
         'oil_change_due': dateTimeControllerOilUpdate.text,
         'last_radiator_fluid_change': dateTimeControllerRFCUpadte.text,
         'last_transmission_fluid_change': dateTimeControllerLTFCUpadte.text,
-        'mileage': mileageControllerUpdate.text,
+        'mileage': int.parse(mileageControllerUpdate.text.replaceAll(",", "")),
 
         //(registroIssueComments!.nameIssue)
       }).eq("id_vehicle", vehicle.idVehicle);
@@ -639,22 +665,18 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   // Función para traer la pagina de servicios
-  Future<bool> getServicesPage() async {
+  Future<void> getServicesPage() async {
     try {
       final res = await supabaseCtrlV
           .from('service_view')
           .select()
           .match({"id_vehicle_fk": actualVehicle!.idVehicle});
-      print(res);
-
       services = (res as List<dynamic>)
           .map((services) => ServicesApi.fromJson(jsonEncode(services)))
           .toList();
       // final serviceList = res as List<dynamic>;
       rowsService.clear();
       for (ServicesApi service in services) {
-        print(service.servicex.service);
-        print("-------------");
         rowsService.add(
           PlutoRow(
             cells: {
@@ -670,17 +692,11 @@ class InventoryProvider extends ChangeNotifier {
           ),
         );
       }
-      // vehicle.oilChangeDue == null
-      //   ? ""
-      //   : DateFormat("MMM/dd/yyyy").format(vehicle.oilChangeDue!);
-
       print("Entro a getServicesPage()");
-      return true;
     } catch (e) {
       print("Error in getServicesPage() - $e");
-      print(actualVehicle!.idVehicle);
-      return false;
     }
+    notifyListeners();
   }
 
   // Función para crear un vehiculo
@@ -1387,12 +1403,19 @@ class InventoryProvider extends ChangeNotifier {
 
   // Limpiar los controller
   void clearControllers({bool notify = true}) {
+    companySelected = null;
     brandController.clear();
     modelController.clear();
+    yearController.clear();
     vinController.clear();
     plateNumberController.clear();
+    statusSelected = null;
     motorController.clear();
     colorController = 0xffffffff;
+    dateTimeControllerOil.clear();
+    dateTimeControllerRFC.clear();
+    dateTimeControllerLTFC.clear();
+    mileageController.clear();
     if (notify) notifyListeners();
   }
 

@@ -334,7 +334,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                                 shape: BoxShape.circle,
                               ),
                               child: getImageUpdate(
-                                  widget.vehicle, provider.imageUrlUpdate),
+                                  widget.vehicle, provider.webImage),
                             ),
                           ),
                         ],
@@ -355,6 +355,8 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                   if (!formKey.currentState!.validate()) {
                     return;
                   }
+                  await provider.deleteImage();
+
                   //Crear perfil de usuario
                   bool res = await provider.updateVehicle(widget.vehicle);
 

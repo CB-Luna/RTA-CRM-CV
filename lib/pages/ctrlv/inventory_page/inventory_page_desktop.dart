@@ -788,7 +788,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                 rendererContext.cell.value,
                                                 notify: false,
                                               );
-                                              // provider.selectVehicle(
+                                              provider
+                                                  .clearControllerService(); // provider.selectVehicle(
                                               //   rendererContext.cell.value,
                                               //   notify: false,
                                               // );

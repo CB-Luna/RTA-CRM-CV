@@ -52,14 +52,14 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.arrow_back_outlined,
-                      color: AppTheme.of(context).primaryBackground),
-                  text: '',
-                  onTap: () {
-                    context.pop();
-                  },
-                ),
+                          isLoading: false,
+                          icon: Icon(Icons.arrow_back_outlined,
+                              color: AppTheme.of(context).primaryBackground),
+                          text: '',
+                          onTap: () {
+                            context.pop();
+                          },
+                        ),
                       ],
                     ),
                     Padding(
@@ -75,7 +75,7 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
                         child: Center(
                           child: Text(
                             provider.actualVehicle!.licesensePlates,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                             ),
                           ),
@@ -139,7 +139,7 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
 
                       if (!res) {
                         await ApiErrorHandler.callToast(
-                            'Error al agregar el Servicio');
+                            'Error creating service');
                         return;
                       }
 
@@ -153,9 +153,8 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
                       );
 
                       if (context.canPop()) context.pop();
-                      provider.updateStateService();
+                      provider.getServicesPage();
                     }),
-                
               ],
             )
           ],

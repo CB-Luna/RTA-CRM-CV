@@ -23,6 +23,7 @@ class UsersProvider extends ChangeNotifier {
   bool forcedOpen = true;
   List<User> users = [];
   List<Vehicle> vehicles = [];
+  List<Vehicle> vehiclexUser = [];
   final searchController = TextEditingController();
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
@@ -82,6 +83,7 @@ class UsersProvider extends ChangeNotifier {
     selectedStateUpdate = selectedState;
     selectedRoleUpdate = selectedRole;
     selectedCompanyUpdate = selectedCompany;
+    selectedVehicleUpdate = null;
     statusControllerUpdate.text = users.status ?? "-";
     licenseControllerUpdate.text = users.license ?? "-";
     certificationControllerUpdate.text = users.certification ?? "-";
@@ -144,6 +146,8 @@ class UsersProvider extends ChangeNotifier {
   void selectVehicleUpdates(String vehicle) {
     selectedVehicleUpdate =
         vehicles.firstWhere((element) => element.licesensePlates == vehicle);
+    print("-----------");
+    print("selectedVehicleUpdate: ${selectedVehicleUpdate?.licesensePlates}");
     notifyListeners();
   }
 
@@ -228,20 +232,31 @@ class UsersProvider extends ChangeNotifier {
 
   void updateVehiclestatusUpdate(User users) async {
     try {
+      print(
+          "Id del SelectedVehicleUpdate: ${selectedVehicleUpdate?.idVehicle}");
+      // Aqui cambiamos el status del vehiculo que seleccionamos a Assignado
       final res = await supabaseCtrlV
           .from('vehicle')
           .update({'id_status_fk': 1}).eq(
               'id_vehicle', selectedVehicleUpdate?.idVehicle);
 
+      // Aqui cambiamos el vehiculo viejo a disponible
       final res2 = await supabaseCtrlV
           .from('vehicle')
           .update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
+
+      // Aqui cambiamos el id del vehiculo donde el id_sequential sea el mismo que el del usuario
+      // final cambioVehiculo = await supabase
+      //     .from('user_profile')
+      //     .update({'id_vehicle_fk': selectedVehicleUpdate!.idVehicle}).eq(
+      //         'sequential_id', users.sequentialId);
 
       print("entro a updateVehiclestatusUpdate: $res");
       print("Entro en el cambio del vehiculo viejo $res2");
     } catch (e) {
       print("Error in updateVehiclestatusUpdate $e");
     }
+    notifyListeners();
   }
 
   Future<void> getStates({bool notify = true}) async {
@@ -288,6 +303,50 @@ class UsersProvider extends ChangeNotifier {
         .map((rol) => Role.fromJson(jsonEncode(rol)))
         .toList();
 
+    if (notify) notifyListeners();
+  }
+
+  // -----------------------------------------------
+  Future<void> getVehicleUser(User users, {bool notify = true}) async {
+    try {
+      final resC = await supabaseCtrlV
+          .from('inventory_view')
+          .select()
+          .eq('id_vehicle', users.idVehicle);
+
+      vehiclexUser = (resC as List<dynamic>)
+          .map((vehiclexUser) => Vehicle.fromJson(jsonEncode(vehiclexUser)))
+          .toList();
+      print("Entro a getVehicleUser");
+    } catch (e) {
+      print("getVehicleUser $e");
+    }
+    if (notify) notifyListeners();
+  }
+
+  // -----------------------------------------------
+  Future<void> getVehicleActiveInit(User users, {bool notify = true}) async {
+    try {
+      final resC = await supabase
+          .from('company')
+          .select()
+          .eq('company', users.company.company);
+
+      final company = (resC as List<dynamic>);
+
+      final res = await supabaseCtrlV
+          .from('inventory_view')
+          .select()
+          .eq('status ->id_status', 3)
+          .eq('company ->id_company', company.first["id_company"]);
+
+      vehicles = (res as List<dynamic>)
+          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
+          .toList();
+      print("Entro a getVehicles");
+    } catch (e) {
+      print("getVehicleActive $e");
+    }
     if (notify) notifyListeners();
   }
 
@@ -519,7 +578,7 @@ class UsersProvider extends ChangeNotifier {
         'birthdate': DateTime.now().toIso8601String(),
         'id_role_fk': selectedRoleUpdate?.id ?? users.role.id,
         'state_fk': selectedStateUpdate?.id ?? users.state.id,
-        // TODO: implementar campo de Company
+        'id_vehicle_fk': selectedVehicleUpdate?.idVehicle ?? users.idVehicle,
         'id_company_fk': selectedCompanyUpdate?.id ?? users.company.id,
         'status': statusControllerUpdate.text,
         'license': licenseControllerUpdate.text,

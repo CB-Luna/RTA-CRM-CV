@@ -1,4 +1,6 @@
-import 'package:carousel_slider/carousel_slider.dart';
+// ignore_for_file: prefer_is_empty
+
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -23,14 +25,15 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
   Widget build(BuildContext context) {
     IssueReportedProvider issueReportedProvider =
         Provider.of<IssueReportedProvider>(context);
-
+    const urlImage =
+        "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
         width: MediaQuery.of(context).size.width * 0.55,
         height: MediaQuery.of(context).size.height * 0.75,
         title:
-            issueReportedProvider.actualIssueOpenClose?.nameIssue ?? "Prueba",
+            issueReportedProvider.actualIssueOpenClose?.nameIssue ?? "No Issue",
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -106,8 +109,10 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                         padding: const EdgeInsets.all(10.0),
                         margin: const EdgeInsets.all(10.0),
                         alignment: Alignment.center,
-                        width: 250,
-                        height: 50,
+                        // width: 250,
+                        // height: 50,
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        height: MediaQuery.of(context).size.height * 0.05,
                         decoration: BoxDecoration(
                           color: Colors.blue[100],
                           borderRadius: BorderRadius.circular(10),
@@ -142,8 +147,8 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                       margin: const EdgeInsets.all(20.0),
                       padding: const EdgeInsets.all(10.0),
                       alignment: Alignment.center,
-                      width: 400,
-                      height: 350,
+                      width: MediaQuery.of(context).size.width * 0.22,
+                      height: MediaQuery.of(context).size.height * 0.4,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -156,7 +161,7 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                       ),
                       child: Column(
                         children: [
-                          Text("NOTES"),
+                          const Text("NOTES"),
                           SingleChildScrollView(
                             child: Text(issueReportedProvider
                                         .actualIssueOpenClose?.comments ==
@@ -197,59 +202,24 @@ class _CommentsPhotosPopUpState extends State<CommentsPhotosPopUp> {
                                 .actualIssueOpenClose?.listImages?.length ==
                             0
                     ? SizedBox(
-                        height: 335,
-                        width: 400,
-                        child: CarouselSlider.builder(
-                          itemCount: 1,
-                          itemBuilder: (context, index, realIndex) {
-                            const urlImage =
-                                "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
-
-                            return buildImage(urlImage, index);
-                          },
-                          options: CarouselOptions(height: 200),
-                        ),
-                      )
+                        height: MediaQuery.of(context).size.height * 0.30,
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        child: Image.network(urlImage, fit: BoxFit.contain))
                     : SizedBox(
-                        height: 335,
-                        width: 400,
-                        child: CarouselSlider.builder(
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        child: Swiper(
                           itemCount: issueReportedProvider
                               .actualIssueOpenClose!.listImages!.length,
-                          itemBuilder: (context, index, realIndex) {
-                            print("----------------");
-                            print(
-                                "Length listImages ${issueReportedProvider.actualIssueOpenClose!.listImages!.length}");
+                          itemBuilder: (context, index) {
                             final urlImage = issueReportedProvider
                                 .actualIssueOpenClose!.listImages![index];
-
-                            return buildImage(urlImage, index);
+                            return Image.network(urlImage, fit: BoxFit.fill);
                           },
-                          options: CarouselOptions(height: 200),
+                          itemWidth: 300.0,
+                          layout: SwiperLayout.STACK,
                         ),
                       )
-                // SizedBox(
-                //   height: 335,
-                //   width: 400,
-                //   child: CarouselSlider.builder(
-                //     itemCount: issueReportedProvider
-                //                 .actualIssueOpenClose?.listImages ==
-                //             null
-                //         ? 0
-                //         : issueReportedProvider
-                //             .actualIssueOpenClose?.listImages?.length,
-                //     itemBuilder: (context, index, realIndex) {
-                //       final urlImage = issueReportedProvider
-                //           .actualIssueOpenClose?.listImages![index];
-                //       // const urlImage = "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png";
-                //       return buildImage(
-                //           urlImage ??
-                //               "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png",
-                //           index);
-                //     },
-                //     options: CarouselOptions(height: 200),
-                //   ),
-                // ),
               ],
             )
           ],
@@ -278,18 +248,3 @@ Color statusColor(String status) {
   }
   return color;
 }
-
-Widget buildImage(String urlImage, int index) => Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.grey,
-        boxShadow: const [
-          BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
-        ],
-      ),
-      margin: const EdgeInsets.symmetric(horizontal: 12),
-      child: Image.network(
-        urlImage,
-        fit: BoxFit.cover,
-      ),
-    );

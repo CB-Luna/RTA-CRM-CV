@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +21,8 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
   @override
   Widget build(BuildContext context) {
     MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
-
+    const urlImage =
+        "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
@@ -77,8 +78,8 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
                           width: MediaQuery.of(context).size.width * 0.1,
                           height: MediaQuery.of(context).size.height * 0.04,
                           decoration: BoxDecoration(
-                            color: statusColor(
-                                provider.monitoryActual!.vehicle.company.company),
+                            color: statusColor(provider
+                                .monitoryActual!.vehicle.company.company),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
@@ -142,9 +143,10 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
                         children: [
                           Text("COMMENTS"),
                           SingleChildScrollView(
-                            child: Text(provider.actualDetailField?.comments != ""
-                                ? "${provider.actualDetailField?.comments}"
-                                : "No Comments"),
+                            child: Text(
+                                provider.actualDetailField?.comments != ""
+                                    ? "${provider.actualDetailField?.comments}"
+                                    : "No Comments"),
                           ),
                         ],
                       ),
@@ -154,34 +156,53 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
                 provider.actualDetailField?.listImages?.length == null ||
                         provider.actualDetailField?.listImages?.length == 0
                     ? SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        child: CarouselSlider.builder(
-                          itemCount: 1,
-                          itemBuilder: (context, index, realIndex) {
-                            const urlImage =
-                                "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
-      
-                            return buildImage(urlImage, index);
-                          },
-                          options: CarouselOptions(height: 200),
-                        ),
-                      )
+                        height: MediaQuery.of(context).size.height * 0.30,
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        child: Image.network(urlImage, fit: BoxFit.contain))
                     : SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        child: CarouselSlider.builder(
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        child: Swiper(
                           itemCount:
-                              provider.actualDetailField?.listImages?.length,
-                          itemBuilder: (context, index, realIndex) {
+                              provider.actualDetailField!.listImages!.length,
+                          itemBuilder: (context, index) {
                             final urlImage =
                                 provider.actualDetailField!.listImages![index];
-      
-                            return buildImage(urlImage, index);
+                            return Image.network(urlImage, fit: BoxFit.fill);
                           },
-                          options: CarouselOptions(height: 200),
+                          itemWidth: 300.0,
+                          layout: SwiperLayout.STACK,
                         ),
                       )
+                // ? SizedBox(
+                //     height: MediaQuery.of(context).size.height * 0.3,
+                //     width: MediaQuery.of(context).size.width * 0.2,
+                //     child: CarouselSlider.builder(
+                //       itemCount: 1,
+                //       itemBuilder: (context, index, realIndex) {
+                //         const urlImage =
+                //             "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
+
+                //         return buildImage(urlImage, index);
+                //       },
+                //       options: CarouselOptions(height: 200),
+                //     ),
+                //   )
+                // : SizedBox(
+                //     height: MediaQuery.of(context).size.height * 0.3,
+                //     width: MediaQuery.of(context).size.width * 0.2,
+                //     child: CarouselSlider.builder(
+                //       itemCount:
+                //           provider.actualDetailField?.listImages?.length,
+                //       itemBuilder: (context, index, realIndex) {
+                //         final urlImage =
+                //             provider.actualDetailField!.listImages![index];
+
+                //         return buildImage(urlImage, index);
+                //       },
+                //       options: CarouselOptions(height: 200),
+                //     ),
+                //   )
               ],
             )
           ],

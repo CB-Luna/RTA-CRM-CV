@@ -75,15 +75,22 @@ Widget? getAddImageV(dynamic image,
   }
 }
 
-Widget? getImageUpdate(Vehicle vehicle, dynamic image,
+Widget? getImageUpdate(Vehicle vehicle, Uint8List? newImage,
     {double height = 180, BoxFit boxFit = BoxFit.cover}) {
-  if (vehicle.image == null) {
+  if (newImage == null) {
+    if (vehicle.image != null) {
+      return Image.network(
+        vehicle.image!,
+        height: height,
+        width: double.infinity,
+        filterQuality: FilterQuality.high,
+        fit: boxFit,
+      );
+    }
     return Image.asset('assets/images/default-user-profile-picture.png');
   } else {
-    print("ENTRO AQUI STRING");
-    print(vehicle.image);
-    return Image.network(
-      image!,
+    return Image.memory(
+      newImage,
       height: height,
       width: double.infinity,
       filterQuality: FilterQuality.high,

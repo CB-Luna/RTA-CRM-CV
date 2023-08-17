@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -20,7 +20,8 @@ class _MeasuresInspectState extends State<MeasuresInspect> {
   @override
   Widget build(BuildContext context) {
     MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
-
+    const urlImage =
+        "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
@@ -159,32 +160,22 @@ class _MeasuresInspectState extends State<MeasuresInspect> {
                 provider.actualDetailField?.listImages?.length == null ||
                         provider.actualDetailField?.listImages?.length == 0
                     ? SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        child: CarouselSlider.builder(
-                          itemCount: 1,
-                          itemBuilder: (context, index, realIndex) {
-                            const urlImage =
-                                "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
-
-                            return buildImage(urlImage, index);
-                          },
-                          options: CarouselOptions(height: 200),
-                        ),
-                      )
+                        height: MediaQuery.of(context).size.height * 0.30,
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        child: Image.network(urlImage, fit: BoxFit.contain))
                     : SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        child: CarouselSlider.builder(
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        child: Swiper(
                           itemCount:
-                              provider.actualDetailField?.listImages?.length,
-                          itemBuilder: (context, index, realIndex) {
+                              provider.actualDetailField!.listImages!.length,
+                          itemBuilder: (context, index) {
                             final urlImage =
                                 provider.actualDetailField!.listImages![index];
-
-                            return buildImage(urlImage, index);
+                            return Image.network(urlImage, fit: BoxFit.fill);
                           },
-                          options: CarouselOptions(height: 200),
+                          itemWidth: 300.0,
+                          layout: SwiperLayout.STACK,
                         ),
                       )
               ],
@@ -193,7 +184,6 @@ class _MeasuresInspectState extends State<MeasuresInspect> {
         ),
       ),
     );
-    
   }
 }
 

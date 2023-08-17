@@ -46,6 +46,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
     final List<String> vehicleNames = provider.vehicles
         .map((vehicleNames) => vehicleNames.licesensePlates)
         .toList();
+
     return Dialog(
       shape: const RoundedRectangleBorder(
         side: BorderSide.none,

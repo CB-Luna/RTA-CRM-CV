@@ -65,12 +65,14 @@ class _ServicePopUpState extends State<ServicePopUp> {
                           ),
                       color: AppTheme.of(context).primaryColor,
                       onTap: () async {
+                        provider.clearControllerService();
                         // // ignore: use_build_context_synchronously
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return const AddServicePopUp();
                             });
+                        // await provider.updateStateService();
                       },
                     ),
                   ),
@@ -319,12 +321,12 @@ class _ServicePopUpState extends State<ServicePopUp> {
                           ],
                           rows: provider.rowsService,
                           onLoaded: (event) async {
-                            provider.stateManager = event.stateManager;
+                            provider.stateManagerService = event.stateManager;
                           },
-                          createFooter: (stateManager) {
-                            stateManager
+                          createFooter: (stateManagerService) {
+                            stateManagerService
                                 .setPageSize(provider.pageRowCountService);
-                            stateManager.setPage(provider.pageService);
+                            stateManagerService.setPage(provider.pageService);
                             return const SizedBox(height: 0, width: 0);
                           },
                         ),

@@ -78,19 +78,6 @@ class _ReportedIssuesState extends State<ReportedIssues> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: CustomTextIconButton(
-                          width: 82,
-                          isLoading: false,
-                          icon: Icon(Icons.calendar_today_outlined,
-                              color: AppTheme.of(context).primaryBackground),
-                          text: 'Date',
-                          color: AppTheme.of(context).primaryColor,
-                          onTap: () {
-                            provider.filtrarPorMes(12);
-                          }),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: CustomTextIconButton(
                           width: MediaQuery.of(context).size.width * 0.10,
                           isLoading: false,
                           icon: Icon(Icons.calendar_today_outlined,

@@ -724,19 +724,23 @@ class _UsersPageState extends State<UsersPage> {
                                           ),
                                           text: 'Edit',
                                           onTap: () async {
+                                            provider.vehicles.clear();
+
                                             await provider.getCompany(
                                                 notify: false);
                                             await provider.getStates(
                                                 notify: false);
                                             await provider.getRoles(
                                                 notify: false);
+                                            await provider.getVehicleUser(
+                                                rendererContext.cell.value,
+                                                notify: false);
                                             provider.updateControllers(
                                                 rendererContext.cell.value);
-                                            // provider.getActualVehicle(
-                                            //     rendererContext.cell.value);
-                                            // provider.selectVehicleActual(
-                                            //     rendererContext.cell.value,
-                                            //     notify: true);
+                                            await provider.getVehicleActiveInit(
+                                                rendererContext.cell.value,
+                                                notify: false);
+
                                             // ignore: use_build_context_synchronously
                                             await showDialog(
                                                 context: context,
