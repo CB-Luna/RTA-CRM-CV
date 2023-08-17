@@ -149,8 +149,8 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
                         color: AppTheme.of(context).primaryBackground),
                     text: 'Export',
                     onTap: () async {
-                      await provider.excelActivityReports(
-                          provider.newDate, provider.companySel);
+                      await provider.exportVehicleData(
+                          provider.firstSel, provider.lastSel,provider.vehicleSel);
                       if (context.canPop()) context.pop();
                     }),
               ],

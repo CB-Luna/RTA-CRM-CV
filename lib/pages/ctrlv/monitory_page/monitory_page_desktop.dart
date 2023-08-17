@@ -240,7 +240,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                     ),
                                     width:
                                         MediaQuery.of(context).size.width *
-                                            0.1,
+                                            0.11,
                                     cellPadding: EdgeInsets.zero,
                                     titleTextAlign:
                                         PlutoColumnTextAlign.center,
