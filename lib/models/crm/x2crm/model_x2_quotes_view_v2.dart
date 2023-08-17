@@ -4,7 +4,7 @@ class ModelX2V2QuotesView {
   int? quoteid;
   String? quote;
   String? x2Quoteid;
-  int? probability;
+  double? probability;
   int? idStatus;
   String? status;
   String? description;
@@ -16,7 +16,7 @@ class ModelX2V2QuotesView {
   String? currency;
   double? total;
   double? subtotal;
-  int? margin;
+  double? margin;
   int? idvendor;
   String? vendor;
   String? order;
@@ -319,8 +319,8 @@ class CustomerInfo {
 class Item {
   int? quantity;
   String? lineItem;
-  int? unitCost;
-  int? unitPrice;
+  double? unitCost;
+  double? unitPrice;
   int? idQuoteItem;
 
   Item({

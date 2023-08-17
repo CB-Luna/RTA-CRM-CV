@@ -510,12 +510,12 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       orderTypesSelectedValue = quote.orderInfo!.orderType!;
       typesSelectedValue = quote.orderInfo!.type!;
-      if (parameter.parameters.newCircuitId) {
+      /* if (parameter.parameters.newCircuitId) {
         newCircuitIDController.text = quote.orderInfo!.newCircuitId ?? '';
       }
       if (parameter.parameters.existingCircuitId) {
         existingCircuitIDController.text = quote.orderInfo!.existingCircuitId ?? '';
-      }
+      } */
 
       if (quote.orderInfo!.dataCenterType == 'New') {
         dataCenterSelectedValue = 'New';
@@ -524,9 +524,9 @@ class ValidateQuoteProvider extends ChangeNotifier {
         dataCenterSelectedValue = quote.orderInfo!.dataCenterLocation!;
       }
 
-      rackLocationController.text = quote.orderInfo!.rackLocation ?? '';
-      handoffSelectedValue = quote.orderInfo!.handoff ?? '';
-      demarcationPointController.text = quote.orderInfo!.demarcationPoint ?? '';
+      //rackLocationController.text = quote.orderInfo!.rackLocation ?? '';
+      //handoffSelectedValue = quote.orderInfo!.handoff ?? '';
+      //demarcationPointController.text = quote.orderInfo!.demarcationPoint ?? '';
 
       ///////////////Circuit Info////////////////////////////////////////////////////////////////////
 

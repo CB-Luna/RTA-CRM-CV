@@ -57,7 +57,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: CustomCard(
-                    title: 'Order Edit',
+                    title: 'Order Detail - ${provider.quote.x2Quoteid}',
                     height: MediaQuery.of(context).size.height - 20,
                     width: MediaQuery.of(context).size.width,
                     child: Column(
