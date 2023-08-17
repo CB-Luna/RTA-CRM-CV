@@ -150,10 +150,11 @@ class ReviewElement extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         Text(
+          overflow: TextOverflow.ellipsis,
           text,
           style: GoogleFonts.poppins(
             fontSize: 15,
-            color: const Color(0xFF4D4D4D),
+            color: Colors.black,
             fontWeight: FontWeight.normal,
           ),
         )

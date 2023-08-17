@@ -9,8 +9,8 @@ import 'package:rta_crm_cv/pages/ctrlv/dashboard/dashboards_page_ctrlv.dart';
 import 'package:rta_crm_cv/pages/ctrlv/download_apk/download_apk_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
-import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
+import 'package:rta_crm_cv/pages/login_page/login_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
 import 'package:rta_crm_cv/helpers/constants.dart';
@@ -21,9 +21,6 @@ import 'package:rta_crm_cv/pages/crm/quotes/quotes_page.dart';
 import 'package:rta_crm_cv/pages/crm/quotes/validate_quote.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 
-import '../models/vehicle.dart';
-import '../pages/ctrlv/inventory_page/inventory_page.dart';
-import '../pages/ctrlv/inventory_page/pop_up/details_pop_up.dart';
 import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 
 /// The route configuration.
@@ -249,7 +246,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         if (state.extra == null) return const InventoryPageDesktop();
         // return ReportedIssues(vehicle: state.extra as Vehicle);
-        return ReportedIssues();
+        return const ReportedIssues();
       },
       // (context, state, const DetailsPopUp()),
     ),
