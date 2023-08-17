@@ -11,6 +11,7 @@ import 'package:rta_crm_cv/models/issues_dashboards.dart';
 
 import 'package:rta_crm_cv/models/x2crm/x2crm_quote_model.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DashboardCVProvider extends ChangeNotifier {
   final searchController = TextEditingController();
@@ -32,6 +33,7 @@ class DashboardCVProvider extends ChangeNotifier {
 
   Color azul = const Color(0xFF2E5899), rojo = const Color(0xFFD20030), naranja = const Color.fromRGBO(255, 138, 0, 1);
   double cry = 0, ode = 0, smi = 0;
+  int vehiclesCRY = 0, vehiclesODE = 0, vehiclesSMI = 0;
   double actualMonthEndCry = 0;
   double oneMonthAgoEndCry = 0;
   double twoMonthsAgoEndCry = 0;
@@ -80,6 +82,7 @@ class DashboardCVProvider extends ChangeNotifier {
   
   var titleGroup = AutoSizeGroup();
   Future<void> updateState() async {
+    await getVehicles();
     await getIssues(null);
   }
 
@@ -1120,6 +1123,55 @@ class DashboardCVProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+
+  Future<void> getVehicles() async {
+    if (stateManager != null) {
+      stateManager!.setShowLoading(true);
+      notifyListeners();
+    }
+    try {
+      vehiclesCRY = 0;
+      vehiclesODE = 0;
+      vehiclesSMI = 0;
+      List<dynamic>? resCRY;
+      List<dynamic>? resODE;
+      List<dynamic>? resSMI;
+
+      //Se recupera el Id de CRY
+      resCRY = await supabase.from('company').select().eq('company', 'CRY').select<PostgrestList>('id_company');
+      //Se recupera el Id de CRY
+      resODE = await supabase.from('company').select().eq('company', 'ODE').select<PostgrestList>('id_company');
+      //Se recupera el Id de SMI
+      resSMI = await supabase.from('company').select().eq('company', 'SMI').select<PostgrestList>('id_company');
+
+      if (resCRY.isNotEmpty) {
+        vehiclesCRY = await supabaseCtrlV.from('vehicle').select().eq('id_company_fk', resCRY.first['id_company']).select<PostgrestList>('id_vehicle').then((value) {
+         return value.toList().length;
+        });
+      }
+
+      if (resODE.isNotEmpty) {
+        vehiclesODE = await supabaseCtrlV.from('vehicle').select().eq('id_company_fk', resODE.first['id_company']).select<PostgrestList>('id_vehicle').then((value) {
+         return value.toList().length;
+        });
+      }
+
+      if (resSMI.isNotEmpty) {
+        vehiclesSMI = await supabaseCtrlV.from('vehicle').select().eq('id_company_fk', resSMI.first['id_company']).select<PostgrestList>('id_vehicle').then((value) {
+         return value.toList().length;
+        });
+      }
+
+      if (stateManager != null) stateManager!.notifyListeners();
+
+    } catch (e) {
+      log('Error en getVehicles() - $e');
+    }
+
+    notifyListeners();
+  }
+
 
   //Graficas
   //totales
