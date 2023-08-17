@@ -614,8 +614,14 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     color: secondaryColor,
                                                     text: 'Reject',
                                                     onTap: () async {
-                                                      if (await provider.validateV2(false)) {
-                                                        context.pushReplacement(routeQuotes);
+                                                      if (formKey.currentState!.validate()) {
+                                                        if (await provider.validateV2(false)) {
+                                                          context.pushReplacement(routeQuotes);
+                                                        }
+                                                      } else {
+                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                          const SnackBar(content: Text('Errors - Validator')),
+                                                        );
                                                       }
                                                     },
                                                   ),

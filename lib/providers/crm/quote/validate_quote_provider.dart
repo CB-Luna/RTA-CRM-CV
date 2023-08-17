@@ -74,12 +74,12 @@ class ValidateQuoteProvider extends ChangeNotifier {
     if (commentController.text.isNotEmpty) {
       await supabaseCRM.from('order_comments').insert(
         {
-          "order_info_id": 7,
+          "order_info_id": quote.idOrders,
           "user_id": currentUser!.id,
           "role": currentUser!.role.roleName,
           "name": currentUser!.name,
           "comment": commentController.text,
-          "sended": DateTime.now(),
+          "sended": DateTime.now().toIso8601String(),
         },
       );
       comments.add(
@@ -290,6 +290,14 @@ class ValidateQuoteProvider extends ChangeNotifier {
       } else {
         await updateRegister(5, quote.quoteid!, quote.idOrders!);
 
+        await supabaseCRM.from('order_info').update({
+          "handoff": handoffSelectedValue,
+          "rack_location": rackLocationController.text,
+          "demarcation_point": demarcationPointController.text,
+          "existing_circuit_id": existingCircuitIDController.text,
+          "new_circuit_id": newCircuitIDController.text,
+        }).eq('id', quote.idOrders!);
+
         await supabaseCRM.from('leads_history').insert({
           "user": currentUser!.id,
           "action": 'UPDATE',
@@ -496,7 +504,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
       quote = ModelX2V2QuotesView.fromJson(jsonEncode(response[0]));
 
       dynamic parameter = (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
-      parameter = CatOrderInfoTypes.fromRawJson(jsonEncode(parameter)); // TODO: este mantenimiento para los demás
+      parameter = CatOrderInfoTypes.fromRawJson(jsonEncode(parameter));
 
       ///////////////Order Info////////////////////////////////////////////////////////////////////
 
@@ -546,7 +554,9 @@ class ValidateQuoteProvider extends ChangeNotifier {
       }
 
       ddosSelectedValue = quote.circuitInfo!.ddosType!;
-      bgpSelectedValue = quote.circuitInfo!.bgpType!;
+      if (quote.circuitInfo!.circuitType == 'DIA') {
+        bgpSelectedValue = quote.circuitInfo!.bgpType!;
+      }
 
       ipAdressSelectedValue = quote.circuitInfo!.ipType!;
       if (quote.circuitInfo!.ipType == 'Interface') {

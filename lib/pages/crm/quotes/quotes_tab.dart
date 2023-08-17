@@ -447,7 +447,7 @@ class _QuotesTabState extends State<QuotesTab> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           //if (rendererContext.row.cells["STATUS_Column"]!.value != 'Rejected')
-                          if (rendererContext.row.cells["ID_STATUS_Column"]!.value == 1) //Sales Form
+                          if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 1) //Sales Form
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -466,6 +466,7 @@ class _QuotesTabState extends State<QuotesTab> {
                                 context.pushReplacement(routeQuoteCreation);
                               },
                             ),
+
                           if (rendererContext.row.cells["ID_STATUS_Column"]!.value != 1) //Sales Form
                             CustomTextIconButton(
                               isLoading: false,
@@ -480,25 +481,25 @@ class _QuotesTabState extends State<QuotesTab> {
                                 context.pushReplacement(routeQuoteDetail);
                               },
                             ),
-                          /*  if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 5) //Rejected
+                          if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 5) //Rejected
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
-                                Icons.add,
+                                Icons.assignment,
                                 color: AppTheme.of(context).tertiaryColor,
                               ),
-                              border: Border.all(color: AppTheme.of(context).tertiaryColor,),
-                              style: TextStyle(color: AppTheme.of(context).tertiaryColor,),
+                              text: 'Fill Form',
                               color: AppTheme.of(context).primaryBackground,
-                              text: 'Create New',
+                              style: TextStyle(
+                                color: AppTheme.of(context).tertiaryColor,
+                              ),
+                              border: Border.all(color: AppTheme.of(context).tertiaryColor),
                               onTap: () async {
-                                await providerCreate.clearAll();
-                                //await providerCreate.getData(rendererContext.row.cells["ACTIONS_Column"]!.value);
-                                //await providerCreate.getLead(rendererContext.row.cells["ID_LEAD_Column"]!.value, null);
+                                await providerCreate.getRowData(rendererContext.row.cells["ID_Column"]!.value);
                                 // ignore: use_build_context_synchronously
                                 context.pushReplacement(routeQuoteCreation);
                               },
-                            ), */
+                            ),
                           if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 7) //Approved
                             CustomTextIconButton(
                               isLoading: false,

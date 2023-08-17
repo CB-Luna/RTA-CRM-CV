@@ -1018,6 +1018,21 @@ class CreateQuoteProvider extends ChangeNotifier {
         dynamic resp = jsonDecode(await response.stream.bytesToString());
         var lineItems = ModelX2LineItems.fromRawJson(jsonEncode(resp["result"]));
 
+        if (quote.idOrders != null) {
+          var prevQuoteRes = await supabaseCRM.from('x2_quotes_view_v2').select().eq('id_orders', quote.idOrders);
+          ModelX2V2QuotesView prevQuote = ModelX2V2QuotesView.fromJson(jsonEncode(prevQuoteRes.first));
+
+          for (var comment in prevQuote.comments!) {
+            comments.add(
+              Comment(
+                role: comment.role,
+                name: comment.name,
+                comment: comment.comment,
+                sended: comment.sended,
+              ),
+            );
+          }
+        }
         comments.add(
           Comment(
             role: 'X2',

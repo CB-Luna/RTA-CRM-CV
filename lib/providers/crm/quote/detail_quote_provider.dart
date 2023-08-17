@@ -79,7 +79,7 @@ class DetailQuoteProvider extends ChangeNotifier {
     if (commentController.text.isNotEmpty) {
       await supabaseCRM.from('order_comments').insert(
         {
-          "order_info_id": 7,
+          "order_info_id": quote.idOrders,
           "user_id": currentUser!.id,
           "role": currentUser!.role.roleName,
           "name": currentUser!.name,
@@ -697,7 +697,9 @@ class DetailQuoteProvider extends ChangeNotifier {
       }
 
       ddosSelectedValue = quote.circuitInfo!.ddosType!;
-      bgpSelectedValue = quote.circuitInfo!.bgpType!;
+      if (quote.circuitInfo!.circuitType == 'DIA') {
+        bgpSelectedValue = quote.circuitInfo!.bgpType!;
+      }
 
       ipAdressSelectedValue = quote.circuitInfo!.ipType!;
       if (quote.circuitInfo!.ipType == 'Interface') {
