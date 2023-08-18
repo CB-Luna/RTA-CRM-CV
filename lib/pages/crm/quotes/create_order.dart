@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/providers/crm/accounts/tabs/order_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/captura/custom_details.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
@@ -33,7 +34,7 @@ class _CreateOrderState extends State<CreateOrder> {
             ? getHeight(300, context)
             : provider.circuitTypeSelectedValue.text == 'X-Connect'
                 ? getHeight(500, context)
-                : getHeight(700, context),
+                : getHeight(800, context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -63,16 +64,10 @@ class _CreateOrderState extends State<CreateOrder> {
                       //circuit detail
                       if ((provider.typesSelectedValue.text == 'Migration' || provider.typesSelectedValue.text == 'New Circuit' || provider.typesSelectedValue.text == 'Upgrade') &&
                           (provider.circuitTypeSelectedValue.text == 'ASEoD' || provider.circuitTypeSelectedValue.text == 'PTP'))
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: CustomTextField(
-                            label: 'Circuit Detail',
-                            icon: Icons.description_sharp,
-                            controller: provider.circuitDetailController,
-                            enabled: false,
-                            width: 350,
-                            keyboardType: TextInputType.name,
-                          ),
+                        CustomDetails(
+                          title: 'Circuit Detail',
+                          icon: Icons.description_sharp,
+                          description: provider.circuitDetailController.text,
                         ),
                       //Data center location
                       Padding(
@@ -221,69 +216,11 @@ class _CreateOrderState extends State<CreateOrder> {
                           ),
                         ),
                       if (provider.circuitTypeSelectedValue.text == 'X-Connect')
-                        /* Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: CustomTextField(
-                            enabled: false,
-                            width: 350,
-                            controller: provider.detailController,
-                            label: 'Detail',
-                            icon: Icons.details_outlined,
-                            keyboardType: TextInputType.name,
-                          ),
-                        ), */
-
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: AppTheme.of(context).primaryColor,
-                                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Detail',
-                                        style: TextStyle(color: AppTheme.of(context).primaryBackground),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 350,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
-                                  color: AppTheme.of(context).primaryBackground,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 0.1,
-                                      blurRadius: 3,
-                                      // changes position of shadow
-                                      offset: const Offset(0, 0),
-                                    ),
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: Text(
-                                    provider.detailController.text,
-                                    style: TextStyle(color: AppTheme.of(context).hintText.color),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                        CustomDetails(
+                          title: 'Detail',
+                          icon: Icons.details_outlined,
+                          description: provider.detailController.text,
                         ),
-
                       if (provider.circuitTypeSelectedValue.text == 'DIA')
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),

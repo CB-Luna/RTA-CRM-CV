@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart' hide State;
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/crm/dashboard_crm/demarkation_imagen.dart';
-import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
+import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view_v2.dart';
 
 class OrdersProvider extends ChangeNotifier {
   final searchController = TextEditingController();
@@ -12,7 +12,7 @@ class OrdersProvider extends ChangeNotifier {
   bool ordercreate = false;
   late int? id;
   DateTime create = DateTime.now();
-  late ModelX2QuotesView quote;
+  late ModelX2V2QuotesView quote;
   late DemarcationImage demarcationImage;
   late String titulo;
 
@@ -86,7 +86,7 @@ class OrdersProvider extends ChangeNotifier {
       await clearAll();
       await getDemarkationImage(x2quoteid);
       var response = await supabaseCRM.from('x2_quotes_view_v2').select().eq('quoteid', idQuote);
-      quote = ModelX2QuotesView.fromRawJson(jsonEncode(response[0]));
+      quote = ModelX2V2QuotesView.fromJson(jsonEncode(response[0]));
       //print(jsonEncode(response[0]));
       //Nombre popup
       typesSelectedValue.text = quote.orderInfo!.type!;
@@ -97,7 +97,7 @@ class OrdersProvider extends ChangeNotifier {
       if ((typesSelectedValue.text == 'Migration' || typesSelectedValue.text == 'New Circuit' || typesSelectedValue.text == 'Upgrade') &&
           (circuitTypeSelectedValue.text == 'ASEoD' || circuitTypeSelectedValue.text == 'PTP')) {
         circuitAddressController.text = quote.circuitInfo!.location!;
-        circuitDetailController.text = quote.circuitInfo!.bgpType!;
+        circuitDetailController.text = quote.description!;
         portSizeSelectedValue.text = quote.circuitInfo!.portSize!;
         cirSelectedValue.text = quote.circuitInfo!.cir!;
       }
