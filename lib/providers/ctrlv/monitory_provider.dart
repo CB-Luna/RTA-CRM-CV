@@ -48,7 +48,7 @@ class MonitoryProvider extends ChangeNotifier {
   //Variables y Controladores para Exportar Excel
   TextEditingController dateExportDataController = TextEditingController();
   String companySel = "All";
-  DateTime newDate = DateTime.now();
+  DateTime? newDate;
 
   //List<RolApi> roles = [];
   List<String> dropdownMenuItems = [];
@@ -123,7 +123,6 @@ class MonitoryProvider extends ChangeNotifier {
 
   String section = "";
   Monitory? monitoryActual;
-  
 
   //List<RolApi> rolesSeleccionados = [];
   List<String> areaNames = [];
@@ -173,7 +172,7 @@ class MonitoryProvider extends ChangeNotifier {
   }
 
   //-----------------------------------------------
-   Future<void> updateState() async {
+  Future<void> updateState() async {
     rows.clear();
     await getMonitory();
   }
@@ -191,6 +190,7 @@ class MonitoryProvider extends ChangeNotifier {
     clearControllers();
     return;
   }
+
   void setPageSize(String x) {
     switch (x) {
       case 'more':
@@ -247,7 +247,9 @@ class MonitoryProvider extends ChangeNotifier {
               // "id_control_form": PlutoCell(value: monitory.idControlForm),
               // "id_vehicle": PlutoCell(value: monitory.idVehicle),
               // "date_added": PlutoCell(value: DateFormat("MMM-dd-yyyy").format(monitory.dateAdded)),
-              "employee": PlutoCell(value: "${monitory.employee.name} ${monitory.employee.lastName}"),
+              "employee": PlutoCell(
+                  value:
+                      "${monitory.employee.name} ${monitory.employee.lastName}"),
               "vin": PlutoCell(value: monitory.vin),
               "license_plates": PlutoCell(value: monitory.licensePlates),
               "company": PlutoCell(value: monitory.company.company),
@@ -357,38 +359,19 @@ class MonitoryProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  // int getNumAppoint(int index, Appointment event) {
-  //   if(event.startTime.day == selected)
-  //   switch (index) {
-  //     case 1:
-  //       break;
-  //       case 2:
-  //       break;
-  //       case 3:
-  //       break;
-  //       case 4:
-  //       break;
-  //       case 5:
-  //       break;
-  //       case 6:
-  //       break;
-  //     default:
-  //   }
-  // }
-
-  Future<bool> excelActivityReports(DateTime dateSelected, String comp) async {
+  Future<bool> excelActivityReports(DateTime? dateSelected, String comp) async {
+    //Limpuar variables y Controladores
+    dateExportDataController = TextEditingController();
+    companySel = "All";
+    newDate = DateTime.now();
     //Crear excel
     var excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
     List<Monitory> selectedComp = [];
+    DateTime? startDateSelected;
+    DateTime? endDateSelected;
 
-
-    DateTime startDateSelected =
-        DateTime(dateSelected.year, dateSelected.month, dateSelected.day);
-
-    DateTime endDateSelected =
-        DateTime(dateSelected.year, dateSelected.month, dateSelected.day, 23, 59, 59);
-
+    
     if (sheet == null) return false;
 
     CellStyle titulo = CellStyle(
@@ -491,28 +474,49 @@ class MonitoryProvider extends ChangeNotifier {
     //sortear por id
     monitory.sort((a, b) => b.idControlForm.compareTo(a.idControlForm));
 
-    if(comp != "All"){
-      for(Monitory vehicle in monitory){
-        if(vehicle.company.company == comp){
-          if(vehicle.dateAddedR.isAfter(startDateSelected) && vehicle.dateAddedR.isBefore(endDateSelected)){
+    if(dateSelected != null){
+       startDateSelected =
+        DateTime(dateSelected.year, dateSelected.month, dateSelected.day);
+
+    endDateSelected = DateTime(
+        dateSelected.year, dateSelected.month, dateSelected.day, 23, 59, 59);
+
+        if (comp != "All") {
+      for (Monitory vehicle in monitory) {
+        if (vehicle.company.company == comp) {
+          if (vehicle.dateAddedR.isAfter(startDateSelected) &&
+              vehicle.dateAddedR.isBefore(endDateSelected)) {
             selectedComp.add(vehicle);
           }
         }
       }
-    }else{
-      for(Monitory vehicle in monitory){
-        if(vehicle.dateAddedR.isAfter(startDateSelected) && vehicle.dateAddedR.isBefore(endDateSelected)){
-            selectedComp.add(vehicle);
-          }
+    } else {
+      for (Monitory vehicle in monitory) {
+        if (vehicle.dateAddedR.isAfter(startDateSelected) &&
+            vehicle.dateAddedR.isBefore(endDateSelected)) {
+          selectedComp.add(vehicle);
+        }
       }
     }
+    }else{
+      if (comp != "All") {
+      for (Monitory vehicle in monitory) {
+        if (vehicle.company.company == comp) {
+          selectedComp.add(vehicle);
+        }
+      }
+    } else {
+      for (Monitory vehicle in monitory) {
+        selectedComp.add(vehicle);
+      }
+    }
+    }
+
+    
 
     //Agregar datos
     for (int i = 0; i < selectedComp.length; i++) {
-
       Monitory report = selectedComp[i];
-
-      
 
       final List<dynamic> row = [
         report.idControlForm,
@@ -523,7 +527,10 @@ class MonitoryProvider extends ChangeNotifier {
         report.licensePlates,
         report.company.company,
         report.gasR,
-        report.mileageR,
+        // ignore: unrelated_type_equality_checks
+        report.mileageD == ""
+            ? NumberFormat('#,###').format(report.mileageR)
+            : NumberFormat('#,###').format(report.mileageD),
         DateFormat("MMM-dd-yyyy hh:mm:ss").format(report.dateAddedR),
         report.dateAddedD != null
             ? DateFormat("MMM-dd-yyyy hh:mm:ss").format(report.dateAddedD!)
@@ -534,6 +541,7 @@ class MonitoryProvider extends ChangeNotifier {
 
     //Descargar
     final List<int>? fileBytes = excel.save(fileName: "Vehicle_Status.xlsx");
+    
     if (fileBytes == null) return false;
 
     return true;
@@ -560,7 +568,7 @@ class MonitoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getMonitoryVehicle(Monitory vehicleSel){
+  void getMonitoryVehicle(Monitory vehicleSel) {
     monitoryActual = vehicleSel;
     notifyListeners();
   }
@@ -915,7 +923,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.bucketInspectionR.toMap()["date_added"]);
@@ -937,7 +945,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded = DateTime.parse(
                   issue!.bucketInspectionR.toMap()["date_added"]);
@@ -974,7 +982,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.bucketInspectionD.toMap()["date_added"]);
@@ -996,7 +1004,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded = DateTime.parse(
                   issue!.bucketInspectionD.toMap()["date_added"]);
@@ -1034,7 +1042,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.carBodyworkR.toMap()["date_added"]);
@@ -1055,7 +1063,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.carBodyworkR.toMap()["date_added"]);
@@ -1093,7 +1101,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.carBodyworkD.toMap()["date_added"]);
@@ -1114,7 +1122,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.carBodyworkD.toMap()["date_added"]);
@@ -1152,7 +1160,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.equimentR.toMap()["date_added"]);
@@ -1173,7 +1181,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.equimentR.toMap()["date_added"]);
@@ -1211,7 +1219,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.equimentD.toMap()["date_added"]);
@@ -1232,7 +1240,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.equimentD.toMap()["date_added"]);
@@ -1269,7 +1277,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.extraR.toMap()["date_added"]);
@@ -1289,7 +1297,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.extraR.toMap()["date_added"]);
@@ -1326,7 +1334,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.extraD.toMap()["date_added"]);
@@ -1346,7 +1354,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.extraD.toMap()["date_added"]);
@@ -1384,7 +1392,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.fluidCheckR.toMap()["date_added"]);
@@ -1405,7 +1413,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.fluidCheckR.toMap()["date_added"]);
@@ -1443,7 +1451,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.fluidCheckD.toMap()["date_added"]);
@@ -1464,7 +1472,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.fluidCheckD.toMap()["date_added"]);
@@ -1498,7 +1506,7 @@ class MonitoryProvider extends ChangeNotifier {
             String nameIssue = key;
             String? comments = issue!.lightsR.toMap()["${nameIssue}_comments"];
             List<String> listImage = issue!.lightsR
-                .toMap()["${nameIssue}_image"] 
+                .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
             listImage.removeLast();
@@ -1521,7 +1529,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.lightsR.toMap()["date_added"]);
@@ -1558,7 +1566,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.lightsD.toMap()["date_added"]);
@@ -1578,7 +1586,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.lightsD.toMap()["date_added"]);
@@ -1607,17 +1615,16 @@ class MonitoryProvider extends ChangeNotifier {
 
         //Measure R
         issue!.measureR.toMap().forEach((key, value) {
-          
-            String nameIssue = key;
+          String nameIssue = key;
 
-            if(nameIssue == "gas" || nameIssue == "mileage"){
-               String? comments = issue!.measureR.toMap()["${nameIssue}_comments"];
+          if (nameIssue == "gas" || nameIssue == "mileage") {
+            String? comments = issue!.measureR.toMap()["${nameIssue}_comments"];
             if (issue!.measureR.toMap()["${nameIssue}_image"] != null) {
               List<String> listImage = issue!.measureR
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.measureR.toMap()["date_added"]);
@@ -1628,8 +1635,9 @@ class MonitoryProvider extends ChangeNotifier {
                   listImages: listImage,
                   dateAdded: dateAdded,
                   status: true,
-                  measure: nameIssue == "gas" ? issue?.measureR.gas :  null,
-                  mileage: nameIssue == "mileage" ? issue?.measureR.mileage : null);
+                  measure: nameIssue == "gas" ? issue?.measureR.gas : null,
+                  mileage:
+                      nameIssue == "mileage" ? issue?.measureR.mileage : null);
               measureR.add(newIssuesComments);
             } else {
               DateTime dateAdded =
@@ -1641,28 +1649,26 @@ class MonitoryProvider extends ChangeNotifier {
                   listImages: null,
                   dateAdded: dateAdded,
                   status: true,
-                  measure: nameIssue == "gas" ? issue?.measureR.gas :  null,
-                  mileage: nameIssue == "mileage" ? issue?.measureR.mileage : null);
+                  measure: nameIssue == "gas" ? issue?.measureR.gas : null,
+                  mileage:
+                      nameIssue == "mileage" ? issue?.measureR.mileage : null);
               measureR.add(newIssuesComments);
             }
-            }
-           
-          
+          }
         });
 
         //Measure D
         issue!.measureD.toMap().forEach((key, value) {
-          
-            String nameIssue = key;
+          String nameIssue = key;
 
-            if(nameIssue == "gas" || nameIssue == "mileage"){
-              String? comments = issue!.measureD.toMap()["${nameIssue}_comments"];
+          if (nameIssue == "gas" || nameIssue == "mileage") {
+            String? comments = issue!.measureD.toMap()["${nameIssue}_comments"];
             if (issue!.measureD.toMap()["${nameIssue}_image"] != null) {
               List<String> listImage = issue!.measureD
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.measureD.toMap()["date_added"]);
@@ -1673,8 +1679,9 @@ class MonitoryProvider extends ChangeNotifier {
                   listImages: listImage,
                   dateAdded: dateAdded,
                   status: true,
-                  measure: nameIssue == "gas" ? issue?.measureD.gas :null,
-                  mileage: nameIssue == "mileage" ? issue?.measureD.mileage : null);
+                  measure: nameIssue == "gas" ? issue?.measureD.gas : null,
+                  mileage:
+                      nameIssue == "mileage" ? issue?.measureD.mileage : null);
               measureD.add(newIssuesComments);
             } else {
               DateTime dateAdded =
@@ -1686,14 +1693,13 @@ class MonitoryProvider extends ChangeNotifier {
                   listImages: null,
                   dateAdded: dateAdded,
                   status: true,
-                  measure: nameIssue == "gas" ? issue?.measureD.gas :null,
-                  mileage: nameIssue == "mileage" ? issue?.measureD.mileage : null);
+                  measure: nameIssue == "gas" ? issue?.measureD.gas : null,
+                  mileage:
+                      nameIssue == "mileage" ? issue?.measureD.mileage : null);
               measureD.add(newIssuesComments);
             }
-            }
-            
           }
-        );
+        });
 
         //Security R
         issue!.securityR.toMap().forEach((key, value) {
@@ -1706,7 +1712,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.securityR.toMap()["date_added"]);
@@ -1727,7 +1733,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.securityR.toMap()["date_added"]);
@@ -1765,7 +1771,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
-                listImage.removeLast();
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.securityD.toMap()["date_added"]);
@@ -1786,7 +1792,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
-                  listImage.removeLast();
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.securityD.toMap()["date_added"]);
@@ -1889,16 +1895,14 @@ class MonitoryProvider extends ChangeNotifier {
         break;
     }
   }
-  
+
   void getCompanyFilter(String comp) {
     companySel = comp;
     notifyListeners();
   }
 
-  void getDateFilter(DateTime date) {
+  void getDateFilter(DateTime? date) {
     newDate = date;
     notifyListeners();
   }
-
-  
 }

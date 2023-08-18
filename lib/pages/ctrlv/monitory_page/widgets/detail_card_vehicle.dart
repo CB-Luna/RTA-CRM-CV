@@ -6,7 +6,8 @@ import '../../../../theme/theme.dart';
 class DetailVehicleCard extends StatelessWidget {
   final Monitory vehicle;
   const DetailVehicleCard({
-    super.key, required this.vehicle,
+    super.key,
+    required this.vehicle,
   });
 
   @override
@@ -28,9 +29,8 @@ class DetailVehicleCard extends StatelessWidget {
               Container(
                 width: MediaQuery.of(context).size.width * 0.6,
                 height: MediaQuery.of(context).size.height * 0.1,
-                decoration: BoxDecoration(
-                    color: companyColor(
-                        vehicle.company.company)),
+                decoration:
+                    BoxDecoration(color: companyColor(vehicle.company.company)),
               ),
             ],
           ),
@@ -48,8 +48,7 @@ class DetailVehicleCard extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: ShapeDecoration(
-                      color: companyColor(
-                          vehicle.company.company),
+                      color: companyColor(vehicle.company.company),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
                       ),
@@ -137,9 +136,9 @@ class DetailVehicleCard extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(
-                              Icons.credit_card_outlined,
-                              color: AppTheme.of(context).primaryText,
-                            ),
+                                  Icons.credit_card_outlined,
+                                  color: AppTheme.of(context).primaryText,
+                                ),
                                 Text(
                                   "License Plates: ",
                                   style: TextStyle(
@@ -186,7 +185,9 @@ class DetailVehicleCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              vehicle.gasD == "" ? vehicle.gasR : "${vehicle.gasD}",
+                              vehicle.gasD == null
+                                  ? vehicle.gasR
+                                  : "${vehicle.gasD}",
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -215,7 +216,11 @@ class DetailVehicleCard extends StatelessWidget {
                             ),
                             Text(
                               // ignore: unrelated_type_equality_checks
-                              vehicle.mileageD == "" ? NumberFormat('#,###').format(vehicle.mileageR) : NumberFormat('#,###').format(vehicle.mileageD),
+                              vehicle.mileageD == null
+                                  ? NumberFormat('#,###')
+                                      .format(vehicle.mileageR)
+                                  : NumberFormat('#,###')
+                                      .format(vehicle.mileageD),
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -249,8 +254,8 @@ class DetailVehicleCard extends StatelessWidget {
                             ),
                             Text(
                               vehicle.vehicle.oilChangeDue == null
-                                              ? "Not Registered"
-                                              : " ${DateFormat("MMM/dd/yyyy").format(vehicle.vehicle.oilChangeDue!)}",
+                                  ? "Not Registered"
+                                  : " ${DateFormat("MMM/dd/yyyy").format(vehicle.vehicle.oilChangeDue!)}",
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -278,13 +283,11 @@ class DetailVehicleCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                               vehicle.vehicle
-                                                      .lastTransmissionFluidChange ==
-                                                  null
-                                              ? "Not Registered"
-                                              : DateFormat("MMM/dd/yyyy")
-                                                  .format(vehicle.vehicle
-                                                      .lastTransmissionFluidChange!),
+                              vehicle.vehicle.lastTransmissionFluidChange ==
+                                      null
+                                  ? "Not Registered"
+                                  : DateFormat("MMM/dd/yyyy").format(vehicle
+                                      .vehicle.lastTransmissionFluidChange!),
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -312,13 +315,10 @@ class DetailVehicleCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              vehicle.vehicle
-                                                      .lastRadiatorFluidChange ==
-                                                  null
-                                              ? "Not Registered"
-                                              : DateFormat("MMM/dd/yyyy")
-                                                  .format(vehicle.vehicle
-                                                      .lastRadiatorFluidChange!),
+                              vehicle.vehicle.lastRadiatorFluidChange == null
+                                  ? "Not Registered"
+                                  : DateFormat("MMM/dd/yyyy").format(
+                                      vehicle.vehicle.lastRadiatorFluidChange!),
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,
                                 fontFamily: 'Bicyclette-Thin',
@@ -343,8 +343,8 @@ class DetailVehicleCard extends StatelessWidget {
                   decoration: ShapeDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(
-                            vehicle.vehicle.image ?? "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png")),
+                        image: NetworkImage(vehicle.vehicle.image ??
+                            "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png")),
                     shape: RoundedRectangleBorder(
                       side: const BorderSide(width: 2.50, color: Colors.white),
                       borderRadius: BorderRadius.circular(20),
@@ -417,8 +417,7 @@ class DetailVehicleCard extends StatelessWidget {
                           height: 100,
                           margin: const EdgeInsets.all(20.0),
                           decoration: BoxDecoration(
-                              color: Color(int.parse(
-                                  vehicle.vehicle.color)),
+                              color: Color(int.parse(vehicle.vehicle.color)),
                               borderRadius: BorderRadius.circular(20),
                               border:
                                   Border.all(color: Colors.black, width: 2.0)),
