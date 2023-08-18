@@ -52,10 +52,6 @@ class _TabbarIssuePopUpState extends State<TabbarIssuePopUp> {
                     await issueReportedProvider
                         .getIssues(issueReportedProvider.actualIssueXUser!);
                   }
-                  print("-------------------------");
-                  print(
-                      "El usuario es: ${issueReportedProvider.actualIssueXUser?.name}");
-                  print("-------------------------");
                 },
                 indicator: BoxDecoration(
                   borderRadius: const BorderRadius.only(
