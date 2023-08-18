@@ -54,7 +54,7 @@ Widget? getUserImage(dynamic image,
 Widget? getAddImageV(dynamic image,
     {double height = 180, BoxFit boxFit = BoxFit.cover}) {
   if (image == null) {
-    return Image.asset('assets/images/default-user-profile-picture.png');
+    return Image.asset('assets/images/fadeInAnimation.gif');
   } else if (image is Uint8List) {
     return Image.memory(
       image,
@@ -71,7 +71,7 @@ Widget? getAddImageV(dynamic image,
       fit: boxFit,
     );
   } else {
-    return Image.asset('assets/images/default-user-profile-picture.png');
+    return Image.asset('assets/images/fadeInAnimation.gif');
   }
 }
 
@@ -87,7 +87,7 @@ Widget? getImageUpdate(Vehicle vehicle, Uint8List? newImage,
         fit: boxFit,
       );
     }
-    return Image.asset('assets/images/default-user-profile-picture.png');
+    return Image.asset('assets/images/fadeInAnimation.gif');
   } else {
     return Image.memory(
       newImage,
