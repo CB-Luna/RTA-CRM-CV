@@ -135,7 +135,7 @@ class SmiCard extends StatelessWidget {
                   decoration: ShapeDecoration(
                     image: const DecorationImage(
                       image: NetworkImage(
-                          "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/LYP6475.jpg"),
+                          "https://supa43.rtatel.com/storage/v1/object/public/assets/car_images/LYP6475(SMI).jpg"),
                       fit: BoxFit.cover,
                     ),
                     shape: RoundedRectangleBorder(

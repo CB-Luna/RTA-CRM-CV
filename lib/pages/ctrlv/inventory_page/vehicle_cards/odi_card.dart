@@ -38,9 +38,7 @@ class OdiCard extends StatelessWidget {
               ),
             ],
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
+          Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             // Header
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -135,7 +133,7 @@ class OdiCard extends StatelessWidget {
                   decoration: ShapeDecoration(
                     image: const DecorationImage(
                       image: NetworkImage(
-                          "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/2629483.jpg"),
+                          "https://supa43.rtatel.com/storage/v1/object/public/assets/car_images/2629483(ODE).jpg"),
                       fit: BoxFit.cover,
                     ),
                     shape: RoundedRectangleBorder(
