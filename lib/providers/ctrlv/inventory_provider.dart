@@ -1417,6 +1417,14 @@ class InventoryProvider extends ChangeNotifier {
     if (notify) notifyListeners();
   }
 
+  // Función para limpiar controladores de ExportVehicleData
+  void clearControllersExportVehicleData({bool notify = true}) {
+    vehicleSel = null;
+    companySel = "All";
+    dateExportVehicleDataFirstController.clear();
+    dateExportVehicleDataLastController.clear();
+  }
+
   // Limpiar la imagen
   void clearImage() {
     webImage = null;
@@ -1689,6 +1697,7 @@ class InventoryProvider extends ChangeNotifier {
         for (int i = 0; i < vehicles.length; i++) {
           String license = vehicles[i].licesensePlates;
           plates.add(license);
+          plates.sort();
         }
         break;
       case "ODE":
@@ -1696,6 +1705,7 @@ class InventoryProvider extends ChangeNotifier {
           if (vehicles[i].company.company == "ODE") {
             String license = vehicles[i].licesensePlates;
             plates.add(license);
+            plates.sort();
           }
         }
         break;
@@ -1704,6 +1714,7 @@ class InventoryProvider extends ChangeNotifier {
           if (vehicles[i].company.company == "SMI") {
             String license = vehicles[i].licesensePlates;
             plates.add(license);
+            plates.sort();
           }
         }
         break;
@@ -1712,6 +1723,7 @@ class InventoryProvider extends ChangeNotifier {
           if (vehicles[i].company.company == "CRY") {
             String license = vehicles[i].licesensePlates;
             plates.add(license);
+            plates.sort();
           }
         }
         break;

@@ -129,7 +129,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   ),
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
-                provider.clearControllers(notify: false);
+                provider.clearControllersExportVehicleData(notify: false);
                 if (!mounted) return;
                 await showDialog(
                     context: context,
