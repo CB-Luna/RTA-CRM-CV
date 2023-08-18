@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -200,21 +199,21 @@ class InventoryProvider extends ChangeNotifier {
 //--------------------------------------------
   //Variables para banderas de de excel
   bool bucketInspectR = true;
-  late bool? bucketInspectD;
-  late bool carBodyInspectR;
-  late bool? carBodyInspectD;
-  late bool equipmentInspectR;
-  late bool? equipmentInspectD;
-  late bool extraInspectR;
-  late bool? extraInspectD;
-  late bool fluidCheckInspectR;
-  late bool? fluidCheckInspectD;
-  late bool ligthsInspectR;
-  late bool? ligthsInspectD;
-  late bool measureInspectR;
-  late bool? measureInspectD;
-  late bool securityInspectR;
-  late bool? securityInspectD;
+  bool? bucketInspectD;
+  bool carBodyInspectR = true;
+  bool? carBodyInspectD;
+  bool equipmentInspectR = true;
+  bool? equipmentInspectD;
+  bool extraInspectR = true;
+  bool? extraInspectD;
+  bool fluidCheckInspectR = true;
+  bool? fluidCheckInspectD;
+  bool ligthsInspectR = true;
+  bool? ligthsInspectD;
+  bool measureInspectR = true;
+  bool? measureInspectD;
+  bool securityInspectR = true;
+  bool? securityInspectD;
 
   Issues? issue;
 
@@ -1742,6 +1741,26 @@ class InventoryProvider extends ChangeNotifier {
 
     //TITULO
     sheet?.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
+    //Headers de la Tabla
+    sheet?.merge(CellIndex.indexByString("A3"), CellIndex.indexByString("A4"));
+    sheet?.merge(CellIndex.indexByString("B3"), CellIndex.indexByString("B4"));
+    sheet?.merge(CellIndex.indexByString("C3"), CellIndex.indexByString("C4"));
+    sheet?.merge(CellIndex.indexByString("D3"), CellIndex.indexByString("D4"));
+    sheet?.merge(CellIndex.indexByString("E3"), CellIndex.indexByString("E4"));
+    sheet?.merge(CellIndex.indexByString("F3"), CellIndex.indexByString("F4"));
+    //Headers para secciones
+    sheet?.merge(CellIndex.indexByString("G3"), CellIndex.indexByString("M3"));
+    sheet?.merge(CellIndex.indexByString("N3"), CellIndex.indexByString("T3"));
+
+    sheet?.setColWidth(0, 25);
+    sheet?.setColWidth(2, 25);
+    sheet?.setColWidth(3, 25);
+    sheet?.setColWidth(4, 25);
+    sheet?.setColWidth(5, 25);
+    sheet?.setColWidth(7, 25);
+    sheet?.setColWidth(9, 25);
+    sheet?.setColWidth(14, 25);
+    sheet?.setColWidth(16, 25);
 
     if (sheet == null) return false;
     CellStyle titulo = CellStyle(
@@ -1770,35 +1789,279 @@ class InventoryProvider extends ChangeNotifier {
     //Agregar primera linea
     sheet.appendRow(['']);
     //Agregar linea vacia
+    //blanco, bold y mas grande
+    CellStyle cellStyle = CellStyle(
+      backgroundColorHex: "#1E90FF",
+      fontColorHex: Colors.white.value.toRadixString(16),
+      fontFamily: getFontFamily(FontFamily.Calibri),
+      fontSize: 16,
+      bold: true,
+      horizontalAlign: HorizontalAlign.Center,
+      verticalAlign: VerticalAlign.Center,
+    );
+    var cell = sheet.cell(CellIndex.indexByString("A3"));
+    cell.value = "License Plates";
+    cell.cellStyle = cellStyle;
+
+    var cell2 = sheet.cell(CellIndex.indexByString("B3"));
+    cell2.value = "Employee";
+    cell2.cellStyle = cellStyle;
+
+    var cell3 = sheet.cell(CellIndex.indexByString("C3"));
+    cell3.value = "Date Check Out";
+    cell3.cellStyle = cellStyle;
+
+    var cell4 = sheet.cell(CellIndex.indexByString("D3"));
+    cell4.value = "Date Check In";
+    cell4.cellStyle = cellStyle;
+
+    var cell5 = sheet.cell(CellIndex.indexByString("E3"));
+    cell5.value = "Issues Check Out";
+    cell5.cellStyle = cellStyle;
+
+    var cell6 = sheet.cell(CellIndex.indexByString("F3"));
+    cell6.value = "Issues Check In";
+    cell6.cellStyle = cellStyle;
+
+    //Seccion Titulos
+    var cell7 = sheet.cell(CellIndex.indexByString("G3"));
+    cell7.value = "Check Out";
+    cell7.cellStyle = cellStyle;
+
+    var cell14 = sheet.cell(CellIndex.indexByString("N3"));
+    cell14.value = "Check In";
+    cell14.cellStyle = cellStyle;
+
+    //Secciones Check Out
+    var cell15 = sheet.cell(CellIndex.indexByString("G4"));
+    cell15.value = "Lights";
+    cell15.cellStyle = cellStyle;
+    var cell16 = sheet.cell(CellIndex.indexByString("H4"));
+    cell16.value = "Car Bodywork";
+    cell16.cellStyle = cellStyle;
+    var cell17 = sheet.cell(CellIndex.indexByString("I4"));
+    cell17.value = "Fluid Check";
+    cell17.cellStyle = cellStyle;
+    var cell18 = sheet.cell(CellIndex.indexByString("J4"));
+    cell18.value = "Bucket Inspection";
+    cell18.cellStyle = cellStyle;
+    var cell19 = sheet.cell(CellIndex.indexByString("K4"));
+    cell19.value = "Security";
+    cell19.cellStyle = cellStyle;
+    var cell20 = sheet.cell(CellIndex.indexByString("L4"));
+    cell20.value = "Extra";
+    cell20.cellStyle = cellStyle;
+    var cell21 = sheet.cell(CellIndex.indexByString("M4"));
+    cell21.value = "Equipment";
+    cell21.cellStyle = cellStyle;
+
+    //Secciones Check In
+    var cell22 = sheet.cell(CellIndex.indexByString("N4"));
+    cell22.value = "Lights";
+    cell22.cellStyle = cellStyle;
+    var cell23 = sheet.cell(CellIndex.indexByString("O4"));
+    cell23.value = "Car Bodywork";
+    cell23.cellStyle = cellStyle;
+    var cell24 = sheet.cell(CellIndex.indexByString("P4"));
+    cell24.value = "Fluid Check";
+    cell24.cellStyle = cellStyle;
+    var cell25 = sheet.cell(CellIndex.indexByString("Q4"));
+    cell25.value = "Bucket Inspection";
+    cell25.cellStyle = cellStyle;
+    var cell26 = sheet.cell(CellIndex.indexByString("R4"));
+    cell26.value = "Security";
+    cell26.cellStyle = cellStyle;
+    var cell27 = sheet.cell(CellIndex.indexByString("S4"));
+    cell27.value = "Extra";
+    cell27.cellStyle = cellStyle;
+    var cell28 = sheet.cell(CellIndex.indexByString("T4"));
+    cell28.value = "Equipment";
+    cell28.cellStyle = cellStyle;
+    
     // Consultar la base de datos para obtener el historial del vehículo entre las fechas
     // Aquí asumiré que tienes una función para obtener los datos desde tu base de datos.
     DateTime date = initial;
 
     if(date.day <= finish.day && date.month <= finish.month && date.year <= finish.year){
 
-      getIssuesByRange();
-      List<dynamic> row = [
-        date,
-        bucketInspectR,
-        carBodyInspectR,
-        equipmentInspectR,
-        extraInspectR,
-        fluidCheckInspectR,
-        ligthsInspectR,
-        securityInspectR,
-        bucketInspectD ?? "N/A",
-        carBodyInspectD ?? "N/A",
-        equipmentInspectD ?? "N/A",
-        extraInspectD ?? "N/A",
-        fluidCheckInspectD ?? "N/A",
-        ligthsInspectD ?? "N/A",
-        securityInspectD ?? "N/A"
+      // dynamic resCTRLV;
+      final resCTRLV = await supabaseCtrlV
+          .from('dashboards_cv_view')
+          .select()
+          .gt('date_added_r', firstSel)
+          .lt('date_added_r', lastSel)
+          .eq('license_plates', vehicleSel)
+          .order('date_added_r', ascending: true);
+      
+      if (resCTRLV == null) {
+        log('Error en getIssuesByRange()');
+      } else {
+        issuesDashboards = (resCTRLV as List<dynamic>)
+          .map((issue) => issue_dashboard.IssuesDashboards.fromJson(jsonEncode(issue)))
+          .toList();
+        
+        for (issue_dashboard.IssuesDashboards issue in issuesDashboards) {
+          bucketInspectR = true;
+          bucketInspectD = null;
+          carBodyInspectR = true;
+          carBodyInspectD = null;
+          equipmentInspectR = true;
+          equipmentInspectD = null;
+          extraInspectR = true;
+          extraInspectD = null;
+          fluidCheckInspectR = true;
+          fluidCheckInspectD = null;
+          ligthsInspectR = true;
+          ligthsInspectD = null;
+          securityInspectR = true;
+          securityInspectD = null;
+          // Bucket Inspection
+          issue.bucketInspectionR.toMap().forEach((key, value) {
+            if (key != "date_added") {
+              if (value == false) {
+                bucketInspectR = false;
+              }
+            }
+          });
+          // Car Bodywork
+          issue.carBodyworkR.toMap().forEach((key, value) {
+            if(key != "date_added"){
+              if (value == false) {
+                carBodyInspectR = false;
+              }
+            }
+          });
+          // Equipment
+          issue.equipmentR.toMap().forEach((key, value) {
+            if(key != "date_added"){
+              if (value == false) {
+                equipmentInspectR = false;
+              }
+            }
+          });
+          // Extra
+          issue.extraR.toMap().forEach((key, value) {
+            if(key != "date_added"){
+              if (value == false) {
+                extraInspectR = false;
+              }
+            }
+          });
+          // Fluid Check
+          issue.fluidCheckR.toMap().forEach((key, value) {
+            if(key != "date_added"){
+              if (value == false) {
+                fluidCheckInspectR = false;
+              }
+            }
+          });
+          // Lights
+          issue.lightsR.toMap().forEach((key, value) {
+            if(key != "date_added"){
+              if (value == false) {
+                ligthsInspectR = false;
+              }
+            }
+          });
+          // Security
+          issue.securityR.toMap().forEach((key, value) {
+            if(key != "date_added"){
+              if (value == false) {
+                securityInspectR = false;
+              }
+            }
+          });
+          if (issue.issuesD != null) {
+            bucketInspectD = true;
+            carBodyInspectD = true;
+            equipmentInspectD = true;
+            extraInspectD = true;
+            fluidCheckInspectD = true;
+            ligthsInspectD = true;
+            securityInspectD = true;
 
-      ];
-
-      sheet.appendRow(row);
-
-      date = date.add(Duration(days: 1));
+            // Bucket Inspection
+            issue.bucketInspectionD.toMap().forEach((key, value) {
+              if (key != "date_added") {
+                if (value == false) {
+                  bucketInspectD = false;
+                }
+              }
+            });
+            // Car Bodywork
+            issue.carBodyworkD.toMap().forEach((key, value) {
+              if(key != "date_added"){
+                if (value == false) {
+                  carBodyInspectD = false;
+                }
+              }
+            });
+            // Equipment
+            issue.equipmentD.toMap().forEach((key, value) {
+              if(key != "date_added"){
+                if (value == false) {
+                  equipmentInspectD = false;
+                }
+              }
+            });
+            // Extra
+            issue.extraD.toMap().forEach((key, value) {
+              if(key != "date_added"){
+                if (value == false) {
+                  extraInspectD = false;
+                }
+              }
+            });
+            // Fluid Check
+            issue.fluidCheckD.toMap().forEach((key, value) {
+              if(key != "date_added"){
+                if (value == false) {
+                  fluidCheckInspectD = false;
+                }
+              }
+            });
+            // Lights
+            issue.lightsD.toMap().forEach((key, value) {
+              if(key != "date_added"){
+                if (value == false) {
+                  ligthsInspectD = false;
+                }
+              }
+            });
+            // Security
+            issue.securityD.toMap().forEach((key, value) {
+              if(key != "date_added"){
+                if (value == false) {
+                  securityInspectD = false;
+                }
+              }
+            });
+          }
+          List<dynamic> row = [
+            issue.licensePlates,
+            "${issue.userProfile.name} ${issue.userProfile.lastName}", 
+            DateFormat('dd/MMM/yyy hh:mm:ss').format(issue.dateAddedR),
+            issue.dateAddedD == null ? null : DateFormat('dd/MMM/yyy hh:mm:ss').format(issue.dateAddedR),
+            issue.issuesR,
+            issue.issuesD,
+            ligthsInspectR ? "✅" : "❌",
+            carBodyInspectR ? "✅" : "❌",
+            fluidCheckInspectR ? "✅" : "❌",
+            bucketInspectR ? "✅" : "❌",
+            securityInspectR ? "✅" : "❌",
+            extraInspectR ? "✅" : "❌",
+            equipmentInspectR ? "✅" : "❌",
+            ligthsInspectD == null ? null : ligthsInspectD == true ? "✅" : "❌",
+            carBodyInspectD == null ? null : carBodyInspectD == true ? "✅" : "❌",
+            fluidCheckInspectD == null ? null : fluidCheckInspectD == true ? "✅" : "❌",
+            bucketInspectD == null ? null : bucketInspectD == true ? "✅" : "❌",
+            securityInspectD == null ? null: securityInspectD == true ? "✅" : "❌",
+            extraInspectD == null ? null : extraInspectD == true ? "✅" : "❌",
+            equipmentInspectD == null ? null : equipmentInspectD == true ? "✅" : "❌",
+          ];
+          sheet.appendRow(row);
+        }
+      }
     }
 
     // Guardar el archivo Excel en la ubicación deseada
@@ -1809,159 +2072,13 @@ class InventoryProvider extends ChangeNotifier {
     return true;
   }
 
-  Future<void> getIssuesByRange() async {
-   
-    try {
-      // dynamic resCTRLV;
-        final resCTRLV = await supabaseCtrlV
-            .from('dashboards_cv_view')
-            .select()
-            .gt('date_added_r', firstSel)
-            .lt('date_added_r', lastSel)
-            .eq('license_plates', vehicleSel);
-      
-
-      if (resCTRLV == null) {
-        log('Error en getIssuesByRange()');
-        return;
-      }
-      issuesDashboards = (resCTRLV as List<dynamic>)
-          .map((issue) => issue_dashboard.IssuesDashboards.fromJson(jsonEncode(issue)))
-          .toList();
-
-      issue = null;
-      bucketInspectR = true;
-      bucketInspectD = true;
-      carBodyInspectR = true;
-      carBodyInspectD = true;
-      equipmentInspectR = true;
-      equipmentInspectD = true;
-      extraInspectR = true;
-      extraInspectD = true;
-      fluidCheckInspectR = true;
-      fluidCheckInspectD = true;
-      ligthsInspectR = true;
-      ligthsInspectD = true;
-      measureInspectR = true;
-      measureInspectD = true;
-      securityInspectR = true;
-      securityInspectD = true;
-
-      for (issue_dashboard.IssuesDashboards issue in issuesDashboards) {
-        // Bucket Inspection
-        issue.bucketInspectionR.toMap().forEach((key, value) {
-          if (key != "date_added") {
-            if (value == 'false') {
-              bucketInspectR = false;
-            }
-          }
-        });
-        issue.bucketInspectionD.toMap().forEach((key, value) {
-          if (key != "date_added") {
-            if (value == "false") {
-              bucketInspectD = false;
-            }
-          }
-        });
-        // Car Bodywork
-        issue.carBodyworkR.toMap().forEach((key, value) {
-          if(key != "date_added"){
-            if (value == 'false') {
-              carBodyInspectR = false;
-            }
-          }
-        });
-        issue.carBodyworkD.toMap().forEach((key, value) {
-          if(key != "date_added"){
-            if (value == "false") {
-              carBodyInspectD = false;
-            }
-          }
-        });
-        // Equipment
-        issue.equipmentR.toMap().forEach((key, value) {
-          if(key != "date_added"){
-            if (value == 'false') {
-              equipmentInspectR = false;
-            }
-          }
-        });
-        issue.equipmentD.toMap().forEach((key, value) {
-          if(key != "date_added"){
-            if (value == "false") {
-              equipmentInspectD = false;
-            }
-          }
-        });
-        // Extra
-        issue.extraR.toMap().forEach((key, value) {
-          if(key != "date_added"){
-            if (value == 'false') {
-              extraInspectR = false;
-            }
-          }
-        });
-        issue.extraD.toMap().forEach((key, value) {
-          if(key != "date_added"){
-            if (value == "false") {
-              extraInspectD = false;
-            }
-          }
-        });
-        // Fluid Check
-        issue.fluidCheckR.toMap().forEach((key, value) {
-          if(key != "date_added"){
-            if (value == 'false') {
-              fluidCheckInspectR = false;
-            }
-          }
-        });
-        issue.fluidCheckD.toMap().forEach((key, value) {
-          if(key != "date_added"){
-            if (value == "false") {
-              fluidCheckInspectD = false;
-            }
-          }
-        });
-        // Lights
-        issue.lightsR.toMap().forEach((key, value) {
-          if(key != "date_added"){
-            if (value == 'false') {
-              ligthsInspectR = false;
-            }
-          }
-        });
-        issue.lightsD.toMap().forEach((key, value) {
-          if(key != "date_added"){
-            if (value == "false") {
-              ligthsInspectD = false;
-            }
-          }
-        });
-        // Security
-        issue.securityR.toMap().forEach((key, value) {
-          if(key != "date_added"){
-            if (value == 'false') {
-              securityInspectR = false;
-            }
-          }
-        });
-        issue.securityD.toMap().forEach((key, value) {
-          if(key != "date_added"){
-            if (value == "false") {
-              securityInspectD = false;
-            }
-          }
-        });
-      }
-
-      if (stateManager != null) stateManager!.notifyListeners();
-
-      // await getX2CRMQuotes();
-    } catch (e) {
-      log('Error en getIssues() - $e');
-    }
-
-    notifyListeners();
-  }
+  // Future<void> getIssuesByRange(Sheet? sheet) async {
+  //   try {
+  //     if (sheet != null) {
+       
+  //     }
+  //   } catch (e) {
+  //     log('Error en getIssues() - $e');
+  //   }
+  // }
 }
