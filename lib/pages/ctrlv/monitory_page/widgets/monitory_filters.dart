@@ -36,7 +36,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -45,11 +45,11 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                 width: MediaQuery.of(context).size.width * 0.07,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: Color.fromRGBO(171, 235, 198, 1),
+                  color: const Color.fromRGBO(171, 235, 198, 1),
                   border: Border.all(
                       color: AppTheme.lightTheme.tertiaryColor, width: 3),
                 ),
-                margin: EdgeInsets.only(left: 10),
+                margin: const EdgeInsets.only(left: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -72,13 +72,13 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                 width: MediaQuery.of(context).size.width * 0.07,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: Color.fromRGBO(195, 155, 211, 1),
+                  color: const Color.fromRGBO(195, 155, 211, 1),
                   border: Border.all(
-                      color: Color.fromRGBO(245, 6, 213, 1), width: 2),
+                      color: const Color.fromRGBO(245, 6, 213, 1), width: 2),
                   // color:  Color.fromRGBO(245, 6, 213, 1),
                 ),
-                margin: EdgeInsets.only(left: 10),
-                child: Row(
+                margin: const EdgeInsets.only(left: 10),
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
@@ -111,7 +111,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
-                              stops: [0.1,0.6],
+                              stops: const [0.1,0.6],
                               colors: [
                                 AppTheme.of(context)
                                     .primaryColor
@@ -120,7 +120,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                               ],
                             ),
                             borderRadius:
-                                BorderRadius.all(Radius.circular(15)),
+                                const BorderRadius.all(Radius.circular(15)),
                           ),
                 child: Column(
                   children: [
@@ -141,7 +141,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                                     borderRadius: BorderRadius.circular(15),
                                     border: Border.all(
                                         color: Colors.white, width: 2)),
-                                child: Center(
+                                child: const Center(
                                     child: Text("CRY",
                                         style: TextStyle(
                                           color: Colors.white,
@@ -160,7 +160,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                           height: MediaQuery.of(context).size.height * 0.025,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: Color.fromRGBO(171, 235, 198, 1),
+                            color: const Color.fromRGBO(171, 235, 198, 1),
                             
                           ),
                           child: Row(
@@ -173,7 +173,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                               ),
                               Text(
                                 provider.numCheckOutCRY.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),
@@ -185,21 +185,21 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                           width: MediaQuery.of(context).size.width * 0.03,
                           height: MediaQuery.of(context).size.height * 0.025,
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(195, 155, 211, 1),
+                            color: const Color.fromRGBO(195, 155, 211, 1),
                             borderRadius: BorderRadius.circular(8),
                             
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 5),
+                              const Padding(
+                                padding: EdgeInsets.only(bottom: 5),
                                 child: Icon(Icons.login_rounded,
                                 color:Color.fromRGBO(245, 6, 213, 1),),
                               ),
                               Text(
                                 provider.numCheckInCRY.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),
@@ -224,14 +224,14 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
-                              stops: [0.1,0.6],
+                              stops: const [0.1,0.6],
                               colors: [
                                 AppTheme.of(context).secondaryColor,
                                 Colors.white,
                               ],
                             ),
                             borderRadius:
-                                BorderRadius.all(Radius.circular(15)),
+                                const BorderRadius.all(Radius.circular(15)),
                           ),
                   
                   child: Column(
@@ -253,7 +253,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                                       borderRadius: BorderRadius.circular(15),
                                       border: Border.all(
                                           color: Colors.white, width: 2)),
-                                  child: Center(
+                                  child: const Center(
                                       child: Text("ODE",
                                           style: TextStyle(
                                             color: Colors.white,
@@ -272,7 +272,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                           height: MediaQuery.of(context).size.height * 0.025,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: Color.fromRGBO(171, 235, 198, 1),
+                            color: const Color.fromRGBO(171, 235, 198, 1),
                             
                           ),
                           child: Row(
@@ -285,7 +285,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                               ),
                               Text(
                                 provider.numCheckOutODE.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),
@@ -297,21 +297,21 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                           width: MediaQuery.of(context).size.width * 0.03,
                           height: MediaQuery.of(context).size.height * 0.025,
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(195, 155, 211, 1),
+                            color: const Color.fromRGBO(195, 155, 211, 1),
                             borderRadius: BorderRadius.circular(8),
                             
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 5),
+                              const Padding(
+                                padding: EdgeInsets.only(bottom: 5),
                                 child: Icon(Icons.login_rounded,
                                 color:Color.fromRGBO(245, 6, 213, 1),),
                               ),
                               Text(
                                 provider.numCheckInODE.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),
@@ -329,7 +329,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
               Container(
                   width: MediaQuery.of(context).size.width * 0.08,
                   height: MediaQuery.of(context).size.height * 0.1,
-                  decoration:  BoxDecoration(
+                  decoration:  const BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -358,11 +358,11 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                                   width: MediaQuery.of(context).size.width * 0.03,
                                   height: MediaQuery.of(context).size.height * 0.05,
                                   decoration: BoxDecoration(
-                                      color: Color.fromRGBO(255, 138, 0, 1),
+                                      color: const Color.fromRGBO(255, 138, 0, 1),
                                       borderRadius: BorderRadius.circular(15),
                                       border: Border.all(
                                           color: Colors.white, width: 2)),
-                                  child: Center(
+                                  child: const Center(
                                       child: Text("SMI",
                                           style: TextStyle(
                                             color: Colors.white,
@@ -381,7 +381,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                           height: MediaQuery.of(context).size.height * 0.025,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: Color.fromRGBO(171, 235, 198, 1),
+                            color: const Color.fromRGBO(171, 235, 198, 1),
                             
                           ),
                           child: Row(
@@ -394,7 +394,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                               ),
                               Text(
                                 provider.numCheckOutSMI.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),
@@ -406,21 +406,21 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                           width: MediaQuery.of(context).size.width * 0.03,
                           height: MediaQuery.of(context).size.height * 0.025,
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(195, 155, 211, 1),
+                            color: const Color.fromRGBO(195, 155, 211, 1),
                             borderRadius: BorderRadius.circular(8),
                             
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 5),
+                              const Padding(
+                                padding: EdgeInsets.only(bottom: 5),
                                 child: Icon(Icons.login_rounded,
                                 color:Color.fromRGBO(245, 6, 213, 1),),
                               ),
                               Text(
                                 provider.numCheckInSMI.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold),

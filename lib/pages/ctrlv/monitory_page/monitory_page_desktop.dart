@@ -1,6 +1,4 @@
 // ignore_for_file: unrelated_type_equality_checks
-
-import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -602,6 +600,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                   monitoryProvider
                                                       .initializeViewPopup();
 
+                                                  // ignore: use_build_context_synchronously
                                                   await showDialog(
                                                       context: context,
                                                       builder: (context) {
@@ -613,14 +612,15 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                         );
                                                       });
                                                 } else {
+                                                  // ignore: use_build_context_synchronously
                                                   await showDialog(
                                                       context: context,
                                                       builder: (context) {
-                                                        return Container(
+                                                        return const SizedBox(
                                                           height: 200,
                                                           width: 200,
                                                           child:
-                                                              const Center(
+                                                              Center(
                                                             child: Text(
                                                                 "No issues found"),
                                                           ),

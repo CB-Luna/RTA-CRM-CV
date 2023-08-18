@@ -277,7 +277,7 @@ class MonitoryProvider extends ChangeNotifier {
         return;
       }
     } catch (e) {
-      print("erro en: MonitoryProvider: getMonitory() $e");
+      //print("erro en: MonitoryProvider: getMonitory() $e");
     }
   }
 
@@ -300,7 +300,7 @@ class MonitoryProvider extends ChangeNotifier {
         .select();
 
     if (res == null) {
-      print(res.error!.message);
+      //print(res.error!.message);
       return false;
     }
     return true;
@@ -311,7 +311,6 @@ class MonitoryProvider extends ChangeNotifier {
     apellidosController.text = usuario.apellidos;
     correoController.text = usuario.email;
     webImage = null;
-    //TODO: revisar roles e inicializar
     isProveedor = false;
     isTesoreroLocal = false;
     proveedorId = null;
@@ -775,7 +774,7 @@ class MonitoryProvider extends ChangeNotifier {
               startTime: event.dateAddedD!.add(const Duration(hours: -1)),
               endTime: event.dateAddedD!,
               subject: "${event.employee.name} ${event.employee.lastName}",
-              color: Color.fromRGBO(255, 138, 0, 1),
+              color: const Color.fromRGBO(255, 138, 0, 1),
               id: event.idControlForm,
             ));
             if ((today.day == event.dateAddedD!.day) &
@@ -825,7 +824,7 @@ class MonitoryProvider extends ChangeNotifier {
               startTime: event.dateAddedR,
               endTime: event.dateAddedR.add(const Duration(hours: 1)),
               subject: "${event.employee.name} ${event.employee.lastName}",
-              color: Color.fromRGBO(255, 138, 0, 1),
+              color: const Color.fromRGBO(255, 138, 0, 1),
               id: event.idControlForm,
             ));
 
@@ -1819,7 +1818,7 @@ class MonitoryProvider extends ChangeNotifier {
         return false;
       }
     } catch (e) {
-      print("error ${e}");
+      //print("error ${e}");
       return false;
     }
   }

@@ -399,7 +399,7 @@ class QuotesProvider extends ChangeNotifier {
       final channel = GrpcWebClientChannel.xhr(Uri.parse('http://34.130.182.108:9093'));
       final service = QuotesRetrieverClient(channel);
       var result = await service.returnData(DataRequest());
-      print(result.message);
+      // print(result.message);
 
       var res = jsonDecode(result.message);
       final x2crmQuotes = (res as List<dynamic>).map((quote) => ModelX2MysqlQuotes.fromJson(jsonEncode(quote))).toList();
@@ -434,7 +434,7 @@ class QuotesProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 

@@ -50,7 +50,7 @@ class _BucketCommentsImagesIssuesState
                         alignment: Alignment.centerLeft,
                         padding: const EdgeInsets.all(20),
                         child: CustomTextIconButton(
-                          icon: Icon(Icons.arrow_back, color: Colors.white),
+                          icon: const Icon(Icons.arrow_back, color: Colors.white),
                           text: "",
                           isLoading: false,
                           onTap: () {
@@ -68,8 +68,8 @@ class _BucketCommentsImagesIssuesState
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: provider.actualDetailField!.status
-                                ? Color.fromARGB(200, 65, 155, 23)
-                                : Color.fromARGB(200, 210, 0, 48),
+                                ? const Color.fromARGB(200, 65, 155, 23)
+                                : const Color.fromARGB(200, 210, 0, 48),
                           ),
                         ),
                       ),
@@ -86,7 +86,7 @@ class _BucketCommentsImagesIssuesState
                           child: Center(
                             child: Text(
                               provider.monitoryActual!.vehicle.licesensePlates,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                               ),
                             ),
@@ -142,7 +142,7 @@ class _BucketCommentsImagesIssuesState
                       ),
                       child: Column(
                         children: [
-                          Text("COMMENTS"),
+                          const Text("COMMENTS"),
                           SingleChildScrollView(
                             child: Text(
                                 provider.actualDetailField?.comments != ""
@@ -155,6 +155,7 @@ class _BucketCommentsImagesIssuesState
                   ],
                 ),
                 provider.actualDetailField?.listImages?.length == null ||
+                        // ignore: prefer_is_empty
                         provider.actualDetailField?.listImages?.length == 0
                     ? SizedBox(
                         height: MediaQuery.of(context).size.height * 0.30,

@@ -37,7 +37,7 @@ class ExtraPopUp extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
                     child: CustomTextIconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                        icon: const Icon(Icons.arrow_back, color: Colors.white),
                       text: "",
                       isLoading: false,
                       onTap: () {
@@ -56,7 +56,7 @@ class ExtraPopUp extends StatelessWidget {
                     child: Center(
                       child: Text(
                         provider.monitoryActual!.vehicle.licesensePlates,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
@@ -101,10 +101,10 @@ class ExtraPopUp extends StatelessWidget {
                           ),
                           InkWell(
                           child: provider.actualIssuesComments[index].status
-                            ? Icon(Icons.remove_red_eye,
+                            ? const Icon(Icons.remove_red_eye,
                                 size: 30,
                                 color: Color.fromARGB(200, 65, 155, 23))
-                            : Icon(Icons.remove_red_eye,
+                            : const Icon(Icons.remove_red_eye,
                               size: 30,
                                 color: Color.fromARGB(200, 210, 0, 48)),
                           onTap: () {

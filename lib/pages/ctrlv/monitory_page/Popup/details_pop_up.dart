@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/Popup/parts.dart';
-import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/cuadro.dart';
 
 import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';

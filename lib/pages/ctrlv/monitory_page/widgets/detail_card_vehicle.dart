@@ -214,6 +214,7 @@ class DetailVehicleCard extends StatelessWidget {
                               ),
                             ),
                             Text(
+                              // ignore: unrelated_type_equality_checks
                               vehicle.mileageD == "" ? NumberFormat('#,###').format(vehicle.mileageR) : NumberFormat('#,###').format(vehicle.mileageD),
                               style: TextStyle(
                                 color: AppTheme.of(context).primaryText,

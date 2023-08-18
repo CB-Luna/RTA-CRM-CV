@@ -111,6 +111,7 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
                       await provider.excelActivityReports(
                           provider.newDate,
                           provider.companySel);
+                      // ignore: use_build_context_synchronously
                       if (context.canPop()) context.pop();
                     }),
                 

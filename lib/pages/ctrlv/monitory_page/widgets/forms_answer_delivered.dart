@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/detail_form.dart';
-
 import '../../../../providers/ctrlv/monitory_provider.dart';
-import '../../../../public/colors.dart';
 
 class AnswerFormDelivered extends StatelessWidget {
   const AnswerFormDelivered({super.key});
@@ -14,8 +12,8 @@ class AnswerFormDelivered extends StatelessWidget {
     return Container(
       height: 100,
       decoration: BoxDecoration(
-        color: Color.fromRGBO(195, 155, 211, 1),
-        border: Border.all(color: Color.fromRGBO(245, 6, 213, 1), width: 2),
+        color: const Color.fromRGBO(195, 155, 211, 1),
+        border: Border.all(color: const Color.fromRGBO(245, 6, 213, 1), width: 2),
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Row(

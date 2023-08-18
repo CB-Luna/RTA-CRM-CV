@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -14,8 +14,8 @@ class CustomAgenda extends StatelessWidget {
     MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
     provider.getWeekDay();
     provider.getMonth();
-    Color color = Colors.white;
-    DateTime checkIn = DateTime.now();
+    //Color color = Colors.white;
+    // DateTime checkIn = DateTime.now();
     //Controlador para compartir entre scrollbar y singlechild
     ScrollController _scrollController = ScrollController();
 
@@ -25,13 +25,13 @@ class CustomAgenda extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             provider.calendarController.selectedDate == null
-                ? Text('No date selected yet',
+                ? const Text('No date selected yet',
                     style: TextStyle(
                       fontSize: 30,
                     ))
                 : Text(
                     '${provider.selectedDay}, ${provider.selectedMonth}/${provider.calendarController.selectedDate?.day}/${provider.calendarController.selectedDate?.year}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 30,
                     )),
           ],
@@ -54,7 +54,8 @@ class CustomAgenda extends StatelessWidget {
                         children:
                             List.generate(provider.idEventos.length, (index) {
                           if (provider.idEventos[index].dateAddedD != null) {
-                            checkIn = provider.idEventos[index].dateAddedD!;
+                            //Revisar bien esto
+                            // checkIn = provider.idEventos[index].dateAddedD!;
                           }
                           return Padding(
                             padding: const EdgeInsets.all(15.0),
@@ -82,7 +83,7 @@ class CustomAgenda extends StatelessWidget {
                                                 Container(
                                                   width: 400,
                                                   height: 79,
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                       color: Color(0xFFD20030)),
                                                 ),
                                               ],
@@ -98,7 +99,7 @@ class CustomAgenda extends StatelessWidget {
                                                             .spaceAround,
                                                     children: [
                                                       Text(
-                                                        '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                        provider.idEventos[index].vehicle.licesensePlates,
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: const TextStyle(
@@ -308,7 +309,7 @@ class CustomAgenda extends StatelessWidget {
                                                                 .spaceAround,
                                                         children: [
                                                           Text(
-                                                            '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                            provider.idEventos[index].vehicle.licesensePlates,
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: TextStyle(
@@ -510,7 +511,7 @@ class CustomAgenda extends StatelessWidget {
                                                           width: 400,
                                                           height: 79,
                                                           decoration:
-                                                              BoxDecoration(
+                                                              const BoxDecoration(
                                                                   color: Color
                                                                       .fromRGBO(
                                                                           255,
@@ -531,12 +532,12 @@ class CustomAgenda extends StatelessWidget {
                                                                     .spaceAround,
                                                             children: [
                                                               Text(
-                                                                '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                                provider.idEventos[index].vehicle.licesensePlates,
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
                                                                 style:
-                                                                    TextStyle(
+                                                                    const TextStyle(
                                                                   color: Color
                                                                       .fromRGBO(
                                                                           255,
@@ -633,7 +634,7 @@ class CustomAgenda extends StatelessWidget {
                                                                 '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
                                                                 style:
                                                                     TextStyle(
-                                                                  color: Color
+                                                                  color: const Color
                                                                       .fromRGBO(
                                                                           255,
                                                                           138,
@@ -729,7 +730,7 @@ class CustomAgenda extends StatelessWidget {
                                                 Container(
                                                   width: 400,
                                                   height: 79,
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                       color: Color(0xFFD20030)),
                                                 ),
                                               ],
@@ -745,7 +746,7 @@ class CustomAgenda extends StatelessWidget {
                                                             .spaceAround,
                                                     children: [
                                                       Text(
-                                                        '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                        provider.idEventos[index].vehicle.licesensePlates,
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: const TextStyle(
@@ -848,7 +849,7 @@ class CustomAgenda extends StatelessWidget {
                                                                 vertical: 5),
                                                         decoration:
                                                             ShapeDecoration(
-                                                          color: Color.fromRGBO(
+                                                          color: const Color.fromRGBO(
                                                               195, 155, 211, 1),
                                                           shape:
                                                               RoundedRectangleBorder(
@@ -860,7 +861,7 @@ class CustomAgenda extends StatelessWidget {
                                                         ),
                                                         child: Column(
                                                           children: [
-                                                            Row(
+                                                            const Row(
                                                               mainAxisSize:
                                                                   MainAxisSize
                                                                       .min,
@@ -904,7 +905,7 @@ class CustomAgenda extends StatelessWidget {
                                                                             index]
                                                                         .dateAddedD!),
                                                                     style:
-                                                                        TextStyle(
+                                                                        const TextStyle(
                                                                       color: Color
                                                                           .fromRGBO(
                                                                               245,
@@ -1042,10 +1043,10 @@ class CustomAgenda extends StatelessWidget {
                                                                 .spaceAround,
                                                         children: [
                                                           Text(
-                                                            '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                            provider.idEventos[index].vehicle.licesensePlates,
                                                             textAlign: TextAlign
                                                                 .center,
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                               color: Color
                                                                   .fromRGBO(
                                                                       195,
@@ -1157,7 +1158,7 @@ class CustomAgenda extends StatelessWidget {
                                                                         5),
                                                             decoration:
                                                                 ShapeDecoration(
-                                                              color: Color
+                                                              color: const Color
                                                                   .fromRGBO(
                                                                       195,
                                                                       155,
@@ -1173,7 +1174,7 @@ class CustomAgenda extends StatelessWidget {
                                                             ),
                                                             child: Column(
                                                               children: [
-                                                                Row(
+                                                                const Row(
                                                                   mainAxisSize:
                                                                       MainAxisSize
                                                                           .min,
@@ -1218,7 +1219,7 @@ class CustomAgenda extends StatelessWidget {
                                                                             .idEventos[index]
                                                                             .dateAddedD!),
                                                                         style:
-                                                                            TextStyle(
+                                                                            const TextStyle(
                                                                           color: Color.fromRGBO(
                                                                               245,
                                                                               6,
@@ -1338,7 +1339,7 @@ class CustomAgenda extends StatelessWidget {
                                                           width: 400,
                                                           height: 79,
                                                           decoration:
-                                                              BoxDecoration(
+                                                              const BoxDecoration(
                                                                   color: Color
                                                                       .fromRGBO(
                                                                           255,
@@ -1359,12 +1360,12 @@ class CustomAgenda extends StatelessWidget {
                                                                     .spaceAround,
                                                             children: [
                                                               Text(
-                                                                '${provider.idEventos[index].vehicle.licesensePlates}',
+                                                                provider.idEventos[index].vehicle.licesensePlates,
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
                                                                 style:
-                                                                    TextStyle(
+                                                                    const TextStyle(
                                                                   color: Color
                                                                       .fromRGBO(
                                                                           255,
@@ -1461,7 +1462,7 @@ class CustomAgenda extends StatelessWidget {
                                                                         5),
                                                                 decoration:
                                                                     ShapeDecoration(
-                                                                  color: Color
+                                                                  color: const Color
                                                                       .fromRGBO(
                                                                           195,
                                                                           155,
@@ -1476,7 +1477,7 @@ class CustomAgenda extends StatelessWidget {
                                                                 ),
                                                                 child: Column(
                                                                   children: [
-                                                                    Row(
+                                                                    const Row(
                                                                       mainAxisSize:
                                                                           MainAxisSize
                                                                               .min,
@@ -1513,7 +1514,7 @@ class CustomAgenda extends StatelessWidget {
                                                                             .idEventos[index]
                                                                             .dateAddedD!),
                                                                         style:
-                                                                            TextStyle(
+                                                                            const TextStyle(
                                                                           color: Color.fromRGBO(245, 6, 213, 1),
                                                                           fontSize:
                                                                               12,
@@ -1538,7 +1539,7 @@ class CustomAgenda extends StatelessWidget {
                                                                 '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
                                                                 style:
                                                                     TextStyle(
-                                                                  color: Color
+                                                                  color: const Color
                                                                       .fromRGBO(
                                                                           255,
                                                                           138,
