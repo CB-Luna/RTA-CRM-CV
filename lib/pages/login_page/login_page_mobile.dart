@@ -16,31 +16,35 @@ class _LoginPageMobileState extends State<LoginPageMobile> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
 
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: AppTheme.of(context).primaryColor,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-               Padding(
-                 padding: 
-                  const EdgeInsetsDirectional.fromSTEB(0, 25, 0, 25),
-                 child: LoginForm(
-                  height: size.height * 0.65, 
-                  width: size.width * 0.8,
+        child: const Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                   Padding(
+                     padding: 
+                      EdgeInsetsDirectional.fromSTEB(0, 25, 0, 25),
+                     child: LoginForm(
+                      height: 500, 
+                      width: 500,
+                      ),
+                   ),
+                  Padding(
+                    padding: 
+                      EdgeInsetsDirectional.fromSTEB(0, 25, 0, 25),
+                    child: BottomBar(),
                   ),
-               ),
-              const Padding(
-                padding: 
-                  EdgeInsetsDirectional.fromSTEB(0, 25, 0, 25),
-                child: BottomBar(),
+                ]
               ),
-            ]
-          ),
+            ),
+          ],
         ),
       ),
     );

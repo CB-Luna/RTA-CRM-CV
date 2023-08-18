@@ -21,18 +21,18 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
 
-    return ResponsiveApp(
-      builder: (context) {
-        return ScreenTypeLayout.builder(
-          mobile: (BuildContext context) => LoginPageMobile(
-              key: UniqueKey()),
-          tablet: (BuildContext context) => LoginPageDesktop(
-              key: UniqueKey()),
-          desktop: (BuildContext context) => LoginPageDesktop(
-              key: UniqueKey()),
-          watch: (BuildContext context) => Container(color: Colors.green),
+    return LayoutBuilder(builder: ((context, constraints) {
+      if (constraints.maxWidth >= 1000) {
+        const LoginPageDesktop();
+      }
+      if (constraints.maxWidth < 1000 && constraints.maxWidth > 200) {
+        return const LoginPageMobile();
+      } else{
+        return Container(
+          color: Colors.green,
         );
-      },
-    );
+      }
+    }));
+    
   }
 }
