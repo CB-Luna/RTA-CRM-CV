@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
@@ -146,8 +148,8 @@ class UsersProvider extends ChangeNotifier {
   void selectVehicleUpdates(String vehicle) {
     selectedVehicleUpdate =
         vehicles.firstWhere((element) => element.licesensePlates == vehicle);
-    print("-----------");
-    print("selectedVehicleUpdate: ${selectedVehicleUpdate?.licesensePlates}");
+    //print("-----------");
+    //print("selectedVehicleUpdate: ${selectedVehicleUpdate?.licesensePlates}");
     notifyListeners();
   }
 
@@ -167,16 +169,16 @@ class UsersProvider extends ChangeNotifier {
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
           .toList();
 
-      print("entro a getActualVehicle: $res");
+      //print("entro a getActualVehicle: $res");
     } catch (e) {
-      print("Error in getActualVehicle() $e");
+      //print("Error in getActualVehicle() $e");
     }
   }
 
   void selectVehicleActual(User users, {bool notify = true}) {
     actualVehicle =
         vehicles.firstWhere((element) => element.idVehicle == users.idVehicle);
-    print('ActualVehicle: ${actualVehicle?.licesensePlates}');
+    //print('ActualVehicle: ${actualVehicle?.licesensePlates}');
     if (notify) notifyListeners();
   }
 
@@ -224,16 +226,15 @@ class UsersProvider extends ChangeNotifier {
     try {
       final res = await supabaseCtrlV.from('vehicle').update(
           {'id_status_fk': 1}).eq('id_vehicle', selectedVehicle?.idVehicle);
-      print("entro a updateVehicle: $res");
+      //print("entro a updateVehicle: $res");
     } catch (e) {
-      print("Error in updateVehiclestatus $e");
+      //print("Error in updateVehiclestatus $e");
     }
   }
 
   void updateVehiclestatusUpdate(User users) async {
     try {
-      print(
-          "Id del SelectedVehicleUpdate: ${selectedVehicleUpdate?.idVehicle}");
+      //print("Id del SelectedVehicleUpdate: ${selectedVehicleUpdate?.idVehicle}");
       // Aqui cambiamos el status del vehiculo que seleccionamos a Assignado
       final res = await supabaseCtrlV
           .from('vehicle')
@@ -251,10 +252,10 @@ class UsersProvider extends ChangeNotifier {
       //     .update({'id_vehicle_fk': selectedVehicleUpdate!.idVehicle}).eq(
       //         'sequential_id', users.sequentialId);
 
-      print("entro a updateVehiclestatusUpdate: $res");
-      print("Entro en el cambio del vehiculo viejo $res2");
+      //print("entro a updateVehiclestatusUpdate: $res");
+      //print("Entro en el cambio del vehiculo viejo $res2");
     } catch (e) {
-      print("Error in updateVehiclestatusUpdate $e");
+      //print("Error in updateVehiclestatusUpdate $e");
     }
     notifyListeners();
   }
@@ -317,9 +318,9 @@ class UsersProvider extends ChangeNotifier {
       vehiclexUser = (resC as List<dynamic>)
           .map((vehiclexUser) => Vehicle.fromJson(jsonEncode(vehiclexUser)))
           .toList();
-      print("Entro a getVehicleUser");
+      //print("Entro a getVehicleUser");
     } catch (e) {
-      print("getVehicleUser $e");
+      //print("getVehicleUser $e");
     }
     if (notify) notifyListeners();
   }
@@ -343,9 +344,9 @@ class UsersProvider extends ChangeNotifier {
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
           .toList();
-      print("Entro a getVehicles");
+      //print("Entro a getVehicles");
     } catch (e) {
-      print("getVehicleActive $e");
+      //print("getVehicleActive $e");
     }
     if (notify) notifyListeners();
   }
@@ -366,9 +367,9 @@ class UsersProvider extends ChangeNotifier {
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
           .toList();
-      print("Entro a getVehicles");
+      //print("Entro a getVehicles");
     } catch (e) {
-      print("getVehicleActive $e");
+      //print("getVehicleActive $e");
     }
     if (notify) notifyListeners();
   }
@@ -585,10 +586,10 @@ class UsersProvider extends ChangeNotifier {
         'certification': certificationControllerUpdate.text
       }).eq('user_profile_id', users.id);
 
-      print("Certification: ${certificationControllerUpdate.text}");
+      //print("Certification: ${certificationControllerUpdate.text}");
       return true;
     } catch (e) {
-      print('Error in UpdateUser() - $e');
+      //print('Error in UpdateUser() - $e');
       return false;
     }
   }

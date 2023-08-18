@@ -23,7 +23,13 @@ class _DeletePopUpState extends State<DeletePopUp> {
       content: Container(
         width: 300,
         height: 300,
-        decoration: BoxDecoration(gradient: whiteGradient, boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))], borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(
+            gradient: whiteGradient,
+            boxShadow: const [
+              BoxShadow(
+                  blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
+            ],
+            borderRadius: BorderRadius.circular(10)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -79,11 +85,14 @@ class _DeletePopUpState extends State<DeletePopUp> {
               ElevatedButton(
                   onPressed: () {
                     provider.deleteUser(widget.users);
-                    print("Entro aqui");
-                    print("ID DEL Usuario: ${widget.users.sequentialId}");
+                    //print("Entro aqui");
+                    //print("ID DEL Usuario: ${widget.users.sequentialId}");
                     provider.updateState();
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: secondaryColor, elevation: 20, shadowColor: secondaryColor),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: secondaryColor,
+                      elevation: 20,
+                      shadowColor: secondaryColor),
                   child: const Text(
                     "ACCEPT",
                     style: TextStyle(fontSize: 20),
@@ -92,7 +101,10 @@ class _DeletePopUpState extends State<DeletePopUp> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue, elevation: 20, shadowColor: Colors.blue),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      elevation: 20,
+                      shadowColor: Colors.blue),
                   child: const Text(
                     "CANCEL",
                     style: TextStyle(fontSize: 20),

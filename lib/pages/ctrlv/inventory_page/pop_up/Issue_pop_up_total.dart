@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

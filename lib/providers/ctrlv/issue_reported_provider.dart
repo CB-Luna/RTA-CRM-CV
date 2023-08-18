@@ -130,7 +130,7 @@ class IssueReportedProvider extends ChangeNotifier {
     rows.clear();
     if (statePrueba = true) {
       clearListasdegetIssues();
-      print("Entro aqui updatestate");
+      //print("Entro aqui updatestate");
       rows.clear();
       // await selectIssuesXUser(0);
       await getIssuesAll(actualVehicle!);
@@ -257,9 +257,9 @@ class IssueReportedProvider extends ChangeNotifier {
       for (var element in resList) {
         issuesxUser.add(IssuesXUser.fromJson(jsonEncode(element)));
       }
-      print(issuesxUser.length);
+      //print(issuesxUser.length);
     } catch (e) {
-      print("Error en getIssuesxUsers - $e");
+      //print("Error en getIssuesxUsers - $e");
     }
     if (notify) notifyListeners();
   }
@@ -271,45 +271,45 @@ class IssueReportedProvider extends ChangeNotifier {
       if (contador == 1) {
         cambiovistaMeasures = true;
         getIssuesFluidsCheckComments(issuesComments); //Listo
-        print("getIssuesFluidCheckComments");
+        //print("getIssuesFluidCheckComments");
       }
       if (contador == 2) {
         cambiovistaMeasures = true;
         getIssuesLightsComments(issuesComments); //Listo
-        print("getIssuesLightsComments");
+        //print("getIssuesLightsComments");
       }
       if (contador == 3) {
         cambiovistaMeasures = true;
         getIssueCarBodyWorkComments(issuesComments); //Listo
-        print("getCarbodyworkComments");
+        //print("getCarbodyworkComments");
       }
       if (contador == 4) {
         cambiovistaMeasures = true;
         getIssuesSecurityComments(issuesComments); //Listo
-        print("getIssuesSecurityComments");
+        //print("getIssuesSecurityComments");
       }
       if (contador == 5) {
         cambiovistaMeasures = true;
         getIssuesExtraComments(issuesComments); //Listo
-        print("getextraComments");
+        //print("getextraComments");
       }
       if (contador == 6) {
         cambiovistaMeasures = true;
         getIssuesEquipmentComments(issuesComments); //Listo
-        print("getequipmentComments");
+        //print("getequipmentComments");
       }
       if (contador == 7) {
         cambiovistaMeasures = false;
         getIssuesBucketInspectionComments(issuesComments); //Listo
-        print("getBucketInspectionComments");
+        //print("getBucketInspectionComments");
       }
       if (contador == 8) {
         cambiovistaMeasures = true;
         getIssuesMeasuresComments(issuesComments); //Listo
-        print("getIssuesMeasureComments");
+        //print("getIssuesMeasureComments");
       }
     } catch (e) {
-      print("error in get IssuseComments() $e");
+      //print("error in get IssuseComments() $e");
     }
   }
 
@@ -333,7 +333,7 @@ class IssueReportedProvider extends ChangeNotifier {
     listaTotalR.clear();
     listaTotalD.clear();
 
-    print("Entro a clearListasdegetIssues");
+    //print("Entro a clearListasdegetIssues");
     notifyListeners();
   }
 
@@ -372,10 +372,10 @@ class IssueReportedProvider extends ChangeNotifier {
       listaTotalD.addAll(bucketInspectionDD);
       listaTotalD.addAll(measureDD);
 
-      print("----------------------");
-      print("ListaTotalD :${listaTotalD.length}");
+      //print("----------------------");
+      //print("ListaTotalD :${listaTotalD.length}");
       if (listaTotalD.isEmpty) {
-        print("El issueD es nulo");
+        //print("El issueD es nulo");
         rows.add(PlutoRow(
           cells: {
             "totalIssues": PlutoCell(value: listaTotalR.length.toString()),
@@ -423,7 +423,7 @@ class IssueReportedProvider extends ChangeNotifier {
 
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
-      print('Error en getIssues() - $e');
+      //print('Error en getIssues() - $e');
     }
     notifyListeners();
   }
@@ -445,10 +445,10 @@ class IssueReportedProvider extends ChangeNotifier {
       await getIssuesEquipmentAll(vehicle);
       await getIssuesBasicsAll(vehicle);
 
-      print("------------------------");
-      print("ActualIssueXuser: ${actualIssueXUser?.name}");
-      print("ID_Vehicle: ${vehicle.idVehicle}");
-      print("------------------------");
+      //print("------------------------");
+      //print("ActualIssueXuser: ${actualIssueXUser?.name}");
+      //print("ID_Vehicle: ${vehicle.idVehicle}");
+      //print("------------------------");
 
       List<dynamic> listaTotalR = [];
       listaTotalR.addAll(fluidCheckRR);
@@ -469,13 +469,13 @@ class IssueReportedProvider extends ChangeNotifier {
       listaTotalD.addAll(equipmentDD);
       listaTotalD.addAll(bucketInspectionDD);
       listaTotalD.addAll(measureDD);
-      print("----------------------");
-      print("Length de listaTotalD: ${listaTotalD.length}");
+      //print("----------------------");
+      //print("Length de listaTotalD: ${listaTotalD.length}");
 
       if (listaTotalD.isEmpty) {
-        print("El issueD es nulo");
+        //print("El issueD es nulo");
         if (listaTotalR.isEmpty) {
-          print("Entro al NUlo");
+          //print("Entro al NUlo");
           nuloNOnulo = false;
           rows.add(PlutoRow(
             cells: {
@@ -493,8 +493,8 @@ class IssueReportedProvider extends ChangeNotifier {
           ));
         } else {
           nuloNOnulo = true;
-          print("---------------------");
-          print("Entro aqui donde listaTotalD esta vacia, pero ListaTotalR no");
+          //print("---------------------");
+          //print("Entro aqui donde listaTotalD esta vacia, pero ListaTotalR no");
           rows.add(PlutoRow(
             cells: {
               "totalIssues": PlutoCell(value: listaTotalD.length.toString()),
@@ -512,9 +512,9 @@ class IssueReportedProvider extends ChangeNotifier {
         }
       } else {
         nuloNOnulo = true;
-        print("---------------------");
+        //print("---------------------");
 
-        print("Entro aqui Donde hay listaTotalD no esta VACIA");
+        //print("Entro aqui Donde hay listaTotalD no esta VACIA");
         rows.add(PlutoRow(
           cells: {
             "totalIssues": PlutoCell(value: listaTotalD.length.toString()),
@@ -547,18 +547,18 @@ class IssueReportedProvider extends ChangeNotifier {
 
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
-      print('Error en getIssueAll() - $e');
+      //print('Error en getIssueAll() - $e');
     }
     notifyListeners();
   }
 
   // Función para cerrar los Issue
   Future<bool> closeIssue() async {
-    // print(res);
+    // //print(res);
     try {
       switch (contadorSeccion) {
         case 1:
-          print(contadorSeccion);
+          //print(contadorSeccion);
           await supabaseCtrlV.from('fluids_check').update({
             actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
@@ -570,7 +570,7 @@ class IssueReportedProvider extends ChangeNotifier {
 
           return true;
         case 2:
-          print(contadorSeccion);
+          //print(contadorSeccion);
           await supabaseCtrlV.from('lights').update({
             actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
@@ -579,7 +579,7 @@ class IssueReportedProvider extends ChangeNotifier {
           }).eq("id_lights", actualIssueOpenClose!.idIssue);
           return true;
         case 3:
-          print(contadorSeccion);
+          //print(contadorSeccion);
           await supabaseCtrlV.from('car_bodywork').update({
             actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
@@ -587,10 +587,10 @@ class IssueReportedProvider extends ChangeNotifier {
                 dateTimeClosedIssueController.text,
           }).eq("car_bodywork.id_car_bodywork", actualIssueOpenClose!.idIssue);
 
-          print("ISSUE: ${actualIssueOpenClose?.nameIssue}");
+          //print("ISSUE: ${actualIssueOpenClose?.nameIssue}");
           return true;
         case 4:
-          print(contadorSeccion);
+          //print(contadorSeccion);
           await supabaseCtrlV.from('security').update({
             actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
@@ -600,7 +600,7 @@ class IssueReportedProvider extends ChangeNotifier {
           return true;
 
         case 5:
-          print(contadorSeccion);
+          //print(contadorSeccion);
           await supabaseCtrlV.from('extra').update({
             actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
@@ -609,7 +609,7 @@ class IssueReportedProvider extends ChangeNotifier {
           }).eq("id_extra", actualIssueOpenClose!.idIssue);
           return true;
         case 6:
-          print(contadorSeccion);
+          //print(contadorSeccion);
           await supabaseCtrlV.from('equipment').update({
             actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
@@ -619,7 +619,7 @@ class IssueReportedProvider extends ChangeNotifier {
           return true;
 
         case 7:
-          print(contadorSeccion);
+          //print(contadorSeccion);
           await supabaseCtrlV.from('bucket_inspection').update({
             actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
@@ -629,7 +629,7 @@ class IssueReportedProvider extends ChangeNotifier {
           return true;
 
         case 8:
-          print(contadorSeccion);
+          //print(contadorSeccion);
           await supabaseCtrlV.from('measures').update({
             actualIssueOpenClose!.nameIssue.toLowerCase().replaceAll(" ", "_"):
                 "Closed",
@@ -642,7 +642,7 @@ class IssueReportedProvider extends ChangeNotifier {
           return true;
       }
     } catch (e) {
-      print('Error in closeIssue() - $e');
+      //print('Error in closeIssue() - $e');
       return false;
     }
   }
@@ -685,7 +685,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               bucketInspectionRR, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionRR");
+            //print("Nuevo elemento Agregado bucketInspectionRR");
             bucketInspectionRR.add(newIssueComments);
           }
         }
@@ -696,7 +696,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               bucketInspectionRR, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionRR");
+            //print("Nuevo elemento Agregado bucketInspectionRR");
             bucketInspectionRR.add(newIssueComments);
           }
         }
@@ -707,7 +707,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               bucketInspectionRR, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionRR");
+            //print("Nuevo elemento Agregado bucketInspectionRR");
 
             bucketInspectionRR.add(newIssueComments);
           }
@@ -723,7 +723,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               bucketInspectionDD, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionDD");
+            //print("Nuevo elemento Agregado bucketInspectionDD");
 
             bucketInspectionDD.add(newIssueComments);
           }
@@ -735,7 +735,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               bucketInspectionDD, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionDD");
+            //print("Nuevo elemento Agregado bucketInspectionDD");
 
             bucketInspectionDD.add(newIssueComments);
           }
@@ -747,15 +747,15 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               bucketInspectionDD, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionDD");
+            //print("Nuevo elemento Agregado bucketInspectionDD");
 
             bucketInspectionDD.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssuesBasics");
+      //print("Entro a getIssuesBasics");
     } catch (e) {
-      print("Error in getIssuesBasics() - $e");
+      //print("Error in getIssuesBasics() - $e");
     }
     notifyListeners();
   }
@@ -797,7 +797,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               bucketInspectionRR, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionRR");
+            //print("Nuevo elemento Agregado bucketInspectionRR");
 
             bucketInspectionRR.add(newIssueComments);
           }
@@ -809,7 +809,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               bucketInspectionRR, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionRR");
+            //print("Nuevo elemento Agregado bucketInspectionRR");
 
             bucketInspectionRR.add(newIssueComments);
           }
@@ -821,7 +821,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               bucketInspectionRR, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionRR");
+            //print("Nuevo elemento Agregado bucketInspectionRR");
 
             bucketInspectionRR.add(newIssueComments);
           }
@@ -837,7 +837,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               bucketInspectionDD, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionDD");
+            //print("Nuevo elemento Agregado bucketInspectionDD");
 
             bucketInspectionDD.add(newIssueComments);
           }
@@ -849,7 +849,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               bucketInspectionDD, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionDD");
+            //print("Nuevo elemento Agregado bucketInspectionDD");
 
             bucketInspectionDD.add(newIssueComments);
           }
@@ -861,15 +861,15 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               bucketInspectionDD, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionDD");
+            //print("Nuevo elemento Agregado bucketInspectionDD");
 
             bucketInspectionDD.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssuesBucketInspectionAll()");
+      //print("Entro a getIssuesBucketInspectionAll()");
     } catch (e) {
-      print("Error in getIssuesBucketInspectionAll() - $e");
+      //print("Error in getIssuesBucketInspectionAll() - $e");
     }
     notifyListeners();
   }
@@ -879,7 +879,7 @@ class IssueReportedProvider extends ChangeNotifier {
   // Función para traer el nombre de los issues de BucketInspection closed
   Future<void> getIssueBucketInspectionClosed(
       IssuesXUser issuesXUser, bool statePrueba) async {
-    print("Entro a getIssueBucketInspectionClosed");
+    //print("Entro a getIssueBucketInspectionClosed");
     try {
       if (statePrueba = false) {
         final res = await supabaseCtrlV
@@ -927,19 +927,19 @@ class IssueReportedProvider extends ChangeNotifier {
             .map((issuePartDClosed) =>
                 BucketInspection.fromJson(jsonEncode(issuePartDClosed)))
             .toList();
-        print("statePrueba es True");
+        //print("statePrueba es True");
       }
 
       // BucketInspectionR
       for (BucketInspection issue in issuePart1Closed) {
-        print("Valor: ${issuePart1Closed.length}");
+        //print("Valor: ${issuePart1Closed.length}");
         if (issue.holesDrilled == "Closed") {
           final resHolesDrilledClose = await supabaseCtrlV
                   .from('closed_view')
                   .select('bucket_inspection_r->holes_drilled_dateclosed')
                   .eq('id_bucket_inspection_r_fk', issue.idBucketInspection)
               as List<dynamic>;
-          print("respuesta de HolesDrilled $resHolesDrilledClose");
+          //print("respuesta de HolesDrilled $resHolesDrilledClose");
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idBucketInspection!,
               nameIssue: "Holes Drilled",
@@ -950,7 +950,7 @@ class IssueReportedProvider extends ChangeNotifier {
 
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionRR");
+            //print("Nuevo elemento Agregado bucketInspectionRR");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -969,7 +969,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionRR");
+            //print("Nuevo elemento Agregado bucketInspectionRR");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -988,8 +988,8 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idBucketInspection!)) {
-            print("dateAddedClose: ${newIssueComments.dateAddedClose}");
-            print("Nuevo elemento Agregado bucketInspectionRR");
+            //print("dateAddedClose: ${newIssueComments.dateAddedClose}");
+            //print("Nuevo elemento Agregado bucketInspectionRR");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -1012,7 +1012,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionDD");
+            //print("Nuevo elemento Agregado bucketInspectionDD");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -1031,7 +1031,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionDD");
+            //print("Nuevo elemento Agregado bucketInspectionDD");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -1050,14 +1050,14 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idBucketInspection!)) {
-            print("Nuevo elemento Agregado bucketInspectionDD");
+            //print("Nuevo elemento Agregado bucketInspectionDD");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssueBucketInspectionClosed");
+      //print("Entro a getIssueBucketInspectionClosed");
     } catch (e) {
-      print("Error in getIssueBucketInspectionClosed() - $e");
+      //print("Error in getIssueBucketInspectionClosed() - $e");
     }
     notifyListeners();
   }
@@ -1128,9 +1128,9 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: DateTime.parse(resInsulated.first['date_added']));
         }
       }
-      print("Entro a getIssuesBucketInspectionComments");
+      //print("Entro a getIssuesBucketInspectionComments");
     } catch (e) {
-      print("Error in getIssuesBucketInspectionComments() - $e");
+      //print("Error in getIssuesBucketInspectionComments() - $e");
     }
     notifyListeners();
   }
@@ -1139,7 +1139,7 @@ class IssueReportedProvider extends ChangeNotifier {
   Future<void> getIssueCarBodyWorkComments(
       IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
-    print("Entro a  getIssueCarBodyWorkComment");
+    //print("Entro a  getIssueCarBodyWorkComment");
     try {
       if (issueOpenClose.nameIssue == "Wiper Blades Front") {
         final res = await supabaseCtrlV
@@ -1162,7 +1162,7 @@ class IssueReportedProvider extends ChangeNotifier {
               listImages: listImage,
               dateAddedOpen:
                   DateTime.parse(resWiperBladeF.first['date_added']));
-          print("RegistroIssueCommentsCar: ${actualIssueOpenClose!.nameIssue}");
+          //print("RegistroIssueCommentsCar: ${actualIssueOpenClose!.nameIssue}");
         }
 
         notifyListeners();
@@ -1374,9 +1374,9 @@ class IssueReportedProvider extends ChangeNotifier {
         }
         notifyListeners();
       }
-      print("Entro a getIssueCarBodyWorkComments");
+      //print("Entro a getIssueCarBodyWorkComments");
     } catch (e) {
-      print("Error in getIssueCarBodyWorkComments() - $e");
+      //print("Error in getIssueCarBodyWorkComments() - $e");
     }
     notifyListeners();
   }
@@ -1419,7 +1419,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Wiper Blades Front",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1430,7 +1430,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Wiper Blades Back",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1441,7 +1441,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "WindShield Wiper Front",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1452,7 +1452,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "WindShield Wiper Back",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1463,7 +1463,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "General Body",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
             carBodyWorkRR.add(newIssueComments);
           }
         }
@@ -1473,7 +1473,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Decaling",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
             carBodyWorkRR.add(newIssueComments);
           }
         }
@@ -1483,7 +1483,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Tires",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1494,7 +1494,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Glass",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1505,7 +1505,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Mirrors",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
             carBodyWorkRR.add(newIssueComments);
           }
         }
@@ -1515,7 +1515,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Parking",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
             carBodyWorkRR.add(newIssueComments);
           }
         }
@@ -1525,7 +1525,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Brakes",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1536,7 +1536,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Emg Brakes",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1547,7 +1547,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Horn",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1562,7 +1562,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Wiper Blades Front",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1573,7 +1573,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Wiper Blades Back",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1584,7 +1584,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "WindShield Wiper Front",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1595,7 +1595,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "WindShield Wiper Back",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1606,7 +1606,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "General Body",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1617,7 +1617,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Decaling",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1628,7 +1628,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Tires",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1639,7 +1639,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Glass",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1650,7 +1650,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Mirrors",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1661,7 +1661,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Parking",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1672,7 +1672,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Brakes",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1683,7 +1683,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Emg Brakes",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1694,16 +1694,16 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Horn",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
         }
       }
 
-      print("Entro a getIssuesCarBodywork");
+      //print("Entro a getIssuesCarBodywork");
     } catch (e) {
-      print("Error in getIssuesCarBodywork() - $e");
+      //print("Error in getIssuesCarBodywork() - $e");
     }
     notifyListeners();
   }
@@ -1745,7 +1745,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Wiper Blades Front",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1756,7 +1756,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Wiper Blades Back",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1767,7 +1767,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "WindShield Wiper Front",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1778,7 +1778,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "WindShield Wiper Back",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1789,7 +1789,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "General Body",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1800,7 +1800,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Decaling",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1811,7 +1811,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Tires",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1822,7 +1822,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Glass",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1833,7 +1833,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Mirrors",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1844,7 +1844,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Parking",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
             carBodyWorkRR.add(newIssueComments);
           }
         }
@@ -1854,7 +1854,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Brakes",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1865,7 +1865,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Emg Brakes",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1876,7 +1876,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Horn",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkRR, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRR");
+            //print("Nuevo elemento Agregado carBodyWorkRR");
 
             carBodyWorkRR.add(newIssueComments);
           }
@@ -1891,7 +1891,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Wiper Blades Front",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1902,7 +1902,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Wiper Blades Back",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1913,7 +1913,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "WindShield Wiper Front",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1924,7 +1924,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "WindShield Wiper Back",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1935,7 +1935,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "General Body",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1946,7 +1946,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Decaling",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1957,7 +1957,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Tires",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1968,7 +1968,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Glass",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1979,7 +1979,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Mirrors",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -1990,7 +1990,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Parking",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -2001,7 +2001,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Brakes",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -2012,7 +2012,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Emg Brakes",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
@@ -2023,16 +2023,16 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Horn",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(carBodyWorkDD, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDD");
+            //print("Nuevo elemento Agregado carBodyWorkDD");
 
             carBodyWorkDD.add(newIssueComments);
           }
         }
       }
 
-      print("Entro a getIssuesCarBodyworkAll");
+      //print("Entro a getIssuesCarBodyworkAll");
     } catch (e) {
-      print("Error in getIssuesCarBodyworkAll() - $e");
+      //print("Error in getIssuesCarBodyworkAll() - $e");
     }
     notifyListeners();
   }
@@ -2111,7 +2111,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2129,7 +2129,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2147,7 +2147,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2165,7 +2165,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2183,7 +2183,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2201,7 +2201,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2219,7 +2219,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2237,7 +2237,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2255,7 +2255,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2273,7 +2273,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2291,7 +2291,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2309,7 +2309,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2327,7 +2327,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkRRClosed");
+            //print("Nuevo elemento Agregado carBodyWorkRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2349,7 +2349,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2367,7 +2367,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2385,7 +2385,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2403,7 +2403,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2421,7 +2421,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2439,7 +2439,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2457,7 +2457,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2475,7 +2475,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2493,7 +2493,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2511,7 +2511,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2529,7 +2529,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2547,7 +2547,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -2565,14 +2565,14 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idCarBodywork!)) {
-            print("Nuevo elemento Agregado carBodyWorkDDClosed");
+            //print("Nuevo elemento Agregado carBodyWorkDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssuesCarBodyworkClosed");
+      //print("Entro a getIssuesCarBodyworkClosed");
     } catch (e) {
-      print("Error in getIssuesCarBodyworkClosed() - $e");
+      //print("Error in getIssuesCarBodyworkClosed() - $e");
     }
     notifyListeners();
   }
@@ -2580,7 +2580,7 @@ class IssueReportedProvider extends ChangeNotifier {
   // Función para traer los comentarios de los issues de Equipment
   Future<void> getIssuesEquipmentComments(IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
-    print("Entro a  getIssuesEquipmentComments");
+    //print("Entro a  getIssuesEquipmentComments");
     try {
       if (issueOpenClose.nameIssue == "ignition key") {
         final res = await supabaseCtrlV
@@ -2599,8 +2599,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resIgnitionK.first['ignition_key_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resIgnitionK.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -2621,8 +2620,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resBinsBoxKey.first['bins_box_key_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resBinsBoxKey.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -2648,8 +2646,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resVehicleRC.first['vehicle_registration_copy_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resVehicleRC.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -2674,8 +2671,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resVehicleIC.first['vehicle_insurance_copy_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resVehicleIC.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -2702,14 +2698,13 @@ class IssueReportedProvider extends ChangeNotifier {
               listImages: listImage,
               dateAddedOpen:
                   DateTime.parse(resBucketLiftOM.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
-      print("Entro a getIssuesEquipmentComments");
+      //print("Entro a getIssuesEquipmentComments");
     } catch (e) {
-      print("Error in getIssuesEquipmentComments() - $e");
+      //print("Error in getIssuesEquipmentComments() - $e");
     }
     notifyListeners();
   }
@@ -2753,7 +2748,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
 
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRR");
+            //print("Nuevo elemento Agregado equipmentRR");
 
             equipmentRR.add(newIssueComments);
           }
@@ -2764,7 +2759,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Bins Box Key",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRR");
+            //print("Nuevo elemento Agregado equipmentRR");
 
             equipmentRR.add(newIssueComments);
           }
@@ -2775,7 +2770,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Vehicle Registration Copy",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRR");
+            //print("Nuevo elemento Agregado equipmentRR");
 
             equipmentRR.add(newIssueComments);
           }
@@ -2786,7 +2781,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Vehicle Insurance Copy",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRR");
+            //print("Nuevo elemento Agregado equipmentRR");
 
             equipmentRR.add(newIssueComments);
           }
@@ -2797,7 +2792,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Bucket Lift Operator Manual",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRR");
+            //print("Nuevo elemento Agregado equipmentRR");
 
             equipmentRR.add(newIssueComments);
           }
@@ -2813,7 +2808,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
 
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDD");
+            //print("Nuevo elemento Agregado equipmentDD");
 
             equipmentDD.add(newIssueComments);
           }
@@ -2824,7 +2819,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Bins Box Key",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDD");
+            //print("Nuevo elemento Agregado equipmentDD");
 
             equipmentDD.add(newIssueComments);
           }
@@ -2835,7 +2830,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Vehicle Registration Copy",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDD");
+            //print("Nuevo elemento Agregado equipmentDD");
 
             equipmentDD.add(newIssueComments);
           }
@@ -2846,7 +2841,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Vehicle Insurance Copy",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDD");
+            //print("Nuevo elemento Agregado equipmentDD");
 
             equipmentDD.add(newIssueComments);
           }
@@ -2857,16 +2852,16 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Bucket Lift Operator Manual",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDD");
+            //print("Nuevo elemento Agregado equipmentDD");
 
             equipmentDD.add(newIssueComments);
           }
         }
       }
 
-      print("Entro a getIssuesEquipment");
+      //print("Entro a getIssuesEquipment");
     } catch (e) {
-      print("Error in getIssuesEquipment() - $e");
+      //print("Error in getIssuesEquipment() - $e");
     }
     //clearListgetIssues();
 
@@ -2911,7 +2906,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
 
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRR");
+            //print("Nuevo elemento Agregado equipmentRR");
 
             equipmentRR.add(newIssueComments);
           }
@@ -2922,7 +2917,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Bins Box Key",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRR");
+            //print("Nuevo elemento Agregado equipmentRR");
 
             equipmentRR.add(newIssueComments);
           }
@@ -2933,7 +2928,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Vehicle Registration Copy",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRR");
+            //print("Nuevo elemento Agregado equipmentRR");
 
             equipmentRR.add(newIssueComments);
           }
@@ -2944,7 +2939,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Vehicle Insurance Copy",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRR");
+            //print("Nuevo elemento Agregado equipmentRR");
 
             equipmentRR.add(newIssueComments);
           }
@@ -2955,7 +2950,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Bucket Lift Operator Manual",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentRR, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRR");
+            //print("Nuevo elemento Agregado equipmentRR");
 
             equipmentRR.add(newIssueComments);
           }
@@ -2971,7 +2966,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
 
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDD");
+            //print("Nuevo elemento Agregado equipmentDD");
 
             equipmentDD.add(newIssueComments);
           }
@@ -2982,7 +2977,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Bins Box Key",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDD");
+            //print("Nuevo elemento Agregado equipmentDD");
 
             equipmentDD.add(newIssueComments);
           }
@@ -2993,7 +2988,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Vehicle Registration Copy",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDD");
+            //print("Nuevo elemento Agregado equipmentDD");
 
             equipmentDD.add(newIssueComments);
           }
@@ -3004,7 +2999,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Vehicle Insurance Copy",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDD");
+            //print("Nuevo elemento Agregado equipmentDD");
 
             equipmentDD.add(newIssueComments);
           }
@@ -3015,16 +3010,16 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Bucket Lift Operator Manual",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(equipmentDD, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDD");
+            //print("Nuevo elemento Agregado equipmentDD");
 
             equipmentDD.add(newIssueComments);
           }
         }
       }
 
-      print("Entro a getIssuesEquipmentAll()");
+      //print("Entro a getIssuesEquipmentAll()");
     } catch (e) {
-      print("Error in getIssuesEquipmentAll() - $e");
+      //print("Error in getIssuesEquipmentAll() - $e");
     }
     //clearListgetIssues();
 
@@ -3104,7 +3099,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRRClosed");
+            //print("Nuevo elemento Agregado equipmentRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3122,7 +3117,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRRClosed");
+            //print("Nuevo elemento Agregado equipmentRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3141,7 +3136,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRRClosed");
+            //print("Nuevo elemento Agregado equipmentRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3160,7 +3155,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRRClosed");
+            //print("Nuevo elemento Agregado equipmentRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3179,7 +3174,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentRRClosed");
+            //print("Nuevo elemento Agregado equipmentRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3201,7 +3196,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDDClosed");
+            //print("Nuevo elemento Agregado equipmentDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3219,7 +3214,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDDClosed");
+            //print("Nuevo elemento Agregado equipmentDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3238,7 +3233,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDDClosed");
+            //print("Nuevo elemento Agregado equipmentDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3257,7 +3252,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDDClosed");
+            //print("Nuevo elemento Agregado equipmentDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3275,14 +3270,14 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idEquipment!)) {
-            print("Nuevo elemento Agregado equipmentDDClosed");
+            //print("Nuevo elemento Agregado equipmentDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssuesEquipmentClosed");
+      //print("Entro a getIssuesEquipmentClosed");
     } catch (e) {
-      print("Error in getIssuesEquipmentClosed() - $e");
+      //print("Error in getIssuesEquipmentClosed() - $e");
     }
     //clearListgetIssues();
 
@@ -3310,7 +3305,7 @@ class IssueReportedProvider extends ChangeNotifier {
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      //// print(res);
+      //// //print(res);
 
       issueExtraR = (res as List<dynamic>)
           .map((issueExtraR) => Extra.fromJson(jsonEncode(issueExtraR)))
@@ -3327,7 +3322,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Ladder",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3338,7 +3333,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Step Ladder",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3349,7 +3344,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Ladder Straps",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3360,7 +3355,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Hydraulic Fluid for Bucket",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3371,7 +3366,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Fiber Reel Rack",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3382,7 +3377,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Bins Locked and Secure",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3393,7 +3388,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Safety Harness",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3404,7 +3399,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Lanyard Safety Harness",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3418,7 +3413,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Ladder",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3429,7 +3424,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Step Ladder",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3440,7 +3435,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Ladder Straps",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3451,7 +3446,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Hydraulic Fluid for Bucket",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3462,7 +3457,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Fiber Reel Rack",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3473,7 +3468,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Bins Locked and Secure",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3484,7 +3479,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Safety Harness",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3495,15 +3490,15 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Lanyard Safety Harness",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssuesExtra");
+      //print("Entro a getIssuesExtra");
     } catch (e) {
-      print("Error in getIssuesExtra() - $e");
+      //print("Error in getIssuesExtra() - $e");
     }
     //clearListgetIssues();
 
@@ -3530,7 +3525,7 @@ class IssueReportedProvider extends ChangeNotifier {
           .eq('id_vehicle', vehicle.idVehicle)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      //// print(res);
+      //// //print(res);
 
       issueExtraR = (res as List<dynamic>)
           .map((issueExtraR) => Extra.fromJson(jsonEncode(issueExtraR)))
@@ -3547,7 +3542,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Ladder",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3558,7 +3553,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Step Ladder",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3569,7 +3564,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Ladder Straps",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3580,7 +3575,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Hydraulic Fluid for Bucket",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3591,7 +3586,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Fiber Reel Rack",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3602,7 +3597,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Bins Locked and Secure",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3613,7 +3608,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Safety Harness",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3624,7 +3619,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Lanyard Safety Harness",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraRR, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRR");
+            //print("Nuevo elemento Agregado extraRR");
 
             extraRR.add(newIssueComments);
           }
@@ -3638,7 +3633,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Ladder",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3649,7 +3644,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Step Ladder",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3660,7 +3655,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Ladder Straps",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3671,7 +3666,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Hydraulic Fluid for Bucket",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3682,7 +3677,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Fiber Reel Rack",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3693,7 +3688,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Bins Locked and Secure",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3704,7 +3699,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Safety Harness",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
@@ -3715,15 +3710,15 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Lanyard Safety Harness",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(extraDD, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraDD");
+            //print("Nuevo elemento Agregado extraDD");
 
             extraDD.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssuesExtraAll");
+      //print("Entro a getIssuesExtraAll");
     } catch (e) {
-      print("Error in getIssuesExtraAll() - $e");
+      //print("Error in getIssuesExtraAll() - $e");
     }
     //clearListgetIssues();
 
@@ -3802,7 +3797,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   DateTime.parse(resladderClose.first["ladder_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3819,7 +3814,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resstepLadderClose.first["step_ladder_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3836,7 +3831,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resladderStrapsClose.first["ladder_straps_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3853,7 +3848,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["hydraulic_fluid_for_bucket_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3870,7 +3865,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resfiberReelRackClose.first["fiber_reel_rack"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3887,7 +3882,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["bins_locked_and_secure_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3904,7 +3899,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   DateTime.parse(ressafetyharnessClose.first["safety_harness"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3921,7 +3916,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["lanyard_harness_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3941,7 +3936,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   DateTime.parse(resladderClose.first["ladder_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3958,7 +3953,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resstepLadderClose.first["step_ladder_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3975,7 +3970,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resladderStrapsClose.first["ladder_straps_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -3992,7 +3987,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["hydraulic_fluid_for_bucket_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4009,7 +4004,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resfiberReelRackClose.first["fiber_reel_rack"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4026,7 +4021,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["bins_locked_and_secure_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4043,7 +4038,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   DateTime.parse(ressafetyharnessClose.first["safety_harness"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4060,14 +4055,14 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["lanyard_harness_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idExtra!)) {
-            print("Nuevo elemento Agregado extraRRClosed");
+            //print("Nuevo elemento Agregado extraRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssuesExtraClosed");
+      //print("Entro a getIssuesExtraClosed");
     } catch (e) {
-      print("Error in getIssuesExtraClosed() - $e");
+      //print("Error in getIssuesExtraClosed() - $e");
     }
     //clearListgetIssues();
 
@@ -4077,7 +4072,7 @@ class IssueReportedProvider extends ChangeNotifier {
   // Función para traer los comentarios de los issues de Extra
   Future<void> getIssuesExtraComments(IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
-    print("Entro a  getIssuesExtraComments");
+    //print("Entro a  getIssuesExtraComments");
     try {
       if (issueOpenClose.nameIssue == "Ladder") {
         final res = await supabaseCtrlV
@@ -4096,8 +4091,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resLadder.first['ladder_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resLadder.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -4119,8 +4113,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resStepLadder.first['step_ladder_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resStepLadder.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -4142,8 +4135,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resLadderS.first['ladder_straps_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resLadderS.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -4169,8 +4161,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resHydraFFB.first['hydraulic_fluid_for_bucket_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resHydraFFB.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -4193,8 +4184,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resFiberRR.first['fiber_reel_rack_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resFiberRR.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -4219,8 +4209,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resBinsLAS.first['bins_locked_and_secure_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resBinsLAS.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -4242,8 +4231,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resSafetyH.first['safety_harness_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resSafetyH.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -4268,14 +4256,13 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resLanyardSH.first['lanyard_safety_harness_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resLanyardSH.first['date_added']));
-          print(
-              "getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesEquipmentComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
-      print("Entro a getIssuesEquipmentComments");
+      //print("Entro a getIssuesEquipmentComments");
     } catch (e) {
-      print("Error in getIssuesEquipmentComments() - $e");
+      //print("Error in getIssuesEquipmentComments() - $e");
     }
     notifyListeners();
   }
@@ -4320,7 +4307,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
 
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheck");
+            //print("Nuevo elemento Agregado FluidCheck");
             fluidCheckRR.add(newIssueComments);
           }
         }
@@ -4332,7 +4319,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
 
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheck");
+            //print("Nuevo elemento Agregado FluidCheck");
 
             fluidCheckRR.add(newIssueComments);
           }
@@ -4343,7 +4330,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Coolant",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheck");
+            //print("Nuevo elemento Agregado FluidCheck");
 
             fluidCheckRR.add(newIssueComments);
           }
@@ -4354,7 +4341,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Power Steering",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheck");
+            //print("Nuevo elemento Agregado FluidCheck");
 
             fluidCheckRR.add(newIssueComments);
           }
@@ -4365,7 +4352,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Diesel Exhaust Fluid",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheck");
+            //print("Nuevo elemento Agregado FluidCheck");
 
             fluidCheckRR.add(newIssueComments);
           }
@@ -4376,7 +4363,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Windshield Washer Fluid ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheck");
+            //print("Nuevo elemento Agregado FluidCheck");
             fluidCheckRR.add(newIssueComments);
           }
         }
@@ -4389,7 +4376,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Engine Oil",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDD");
+            //print("Nuevo elemento Agregado FluidCheckDD");
             fluidCheckDD.add(newIssueComments);
           }
         }
@@ -4400,7 +4387,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Transmission",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDD");
+            //print("Nuevo elemento Agregado FluidCheckDD");
             fluidCheckDD.add(newIssueComments);
           }
         }
@@ -4410,7 +4397,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Coolant",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDD");
+            //print("Nuevo elemento Agregado FluidCheckDD");
             fluidCheckDD.add(newIssueComments);
           }
         }
@@ -4420,7 +4407,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Power Steering",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDD");
+            //print("Nuevo elemento Agregado FluidCheckDD");
             fluidCheckDD.add(newIssueComments);
           }
         }
@@ -4430,7 +4417,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Diesel Exhaust Fluid",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDD");
+            //print("Nuevo elemento Agregado FluidCheckDD");
             fluidCheckDD.add(newIssueComments);
           }
         }
@@ -4440,14 +4427,14 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Windshield Washer Fluid ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDD");
+            //print("Nuevo elemento Agregado FluidCheckDD");
             fluidCheckDD.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssuesFluidCheck");
+      //print("Entro a getIssuesFluidCheck");
     } catch (e) {
-      print("Error in getIssuesFluidCheck() - $e");
+      //print("Error in getIssuesFluidCheck() - $e");
     }
 
     notifyListeners();
@@ -4492,7 +4479,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
 
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheck");
+            //print("Nuevo elemento Agregado FluidCheck");
             fluidCheckRR.add(newIssueComments);
           }
         }
@@ -4504,7 +4491,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
 
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheck");
+            //print("Nuevo elemento Agregado FluidCheck");
 
             fluidCheckRR.add(newIssueComments);
           }
@@ -4515,7 +4502,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Coolant",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheck");
+            //print("Nuevo elemento Agregado FluidCheck");
 
             fluidCheckRR.add(newIssueComments);
           }
@@ -4526,7 +4513,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Power Steering",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheck");
+            //print("Nuevo elemento Agregado FluidCheck");
 
             fluidCheckRR.add(newIssueComments);
           }
@@ -4537,7 +4524,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Diesel Exhaust Fluid",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheck");
+            //print("Nuevo elemento Agregado FluidCheck");
 
             fluidCheckRR.add(newIssueComments);
           }
@@ -4548,7 +4535,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Windshield Washer Fluid ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckRR, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheck");
+            //print("Nuevo elemento Agregado FluidCheck");
             fluidCheckRR.add(newIssueComments);
           }
         }
@@ -4561,7 +4548,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Engine Oil",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDD");
+            //print("Nuevo elemento Agregado FluidCheckDD");
             fluidCheckDD.add(newIssueComments);
           }
         }
@@ -4572,7 +4559,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Transmission",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDD");
+            //print("Nuevo elemento Agregado FluidCheckDD");
             fluidCheckDD.add(newIssueComments);
           }
         }
@@ -4582,7 +4569,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Coolant",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDD");
+            //print("Nuevo elemento Agregado FluidCheckDD");
             fluidCheckDD.add(newIssueComments);
           }
         }
@@ -4592,7 +4579,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Power Steering",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDD");
+            //print("Nuevo elemento Agregado FluidCheckDD");
             fluidCheckDD.add(newIssueComments);
           }
         }
@@ -4602,7 +4589,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Diesel Exhaust Fluid",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDD");
+            //print("Nuevo elemento Agregado FluidCheckDD");
             fluidCheckDD.add(newIssueComments);
           }
         }
@@ -4612,14 +4599,14 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Windshield Washer Fluid ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(fluidCheckDD, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDD");
+            //print("Nuevo elemento Agregado FluidCheckDD");
             fluidCheckDD.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssuesFluidCheckAll");
+      //print("Entro a getIssuesFluidCheckAll");
     } catch (e) {
-      print("Error in getIssuesFluidCheckAll() - $e");
+      //print("Error in getIssuesFluidCheckAll() - $e");
     }
 
     notifyListeners();
@@ -4700,7 +4687,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckClosed");
+            //print("Nuevo elemento Agregado FluidCheckClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4719,7 +4706,7 @@ class IssueReportedProvider extends ChangeNotifier {
 
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckClosed");
+            //print("Nuevo elemento Agregado FluidCheckClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4737,7 +4724,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckClosed");
+            //print("Nuevo elemento Agregado FluidCheckClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4755,7 +4742,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckClosed");
+            //print("Nuevo elemento Agregado FluidCheckClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4773,7 +4760,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckClosed");
+            //print("Nuevo elemento Agregado FluidCheckClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4791,7 +4778,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckClosed");
+            //print("Nuevo elemento Agregado FluidCheckClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4812,7 +4799,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDDClosed");
+            //print("Nuevo elemento Agregado FluidCheckDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4830,7 +4817,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDDClosed");
+            //print("Nuevo elemento Agregado FluidCheckDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4848,7 +4835,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDDClosed");
+            //print("Nuevo elemento Agregado FluidCheckDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4866,7 +4853,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDDClosed");
+            //print("Nuevo elemento Agregado FluidCheckDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4884,7 +4871,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDDClosed");
+            //print("Nuevo elemento Agregado FluidCheckDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -4901,14 +4888,14 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(
               listTotalClosedIssue, issue.idFluidsCheck!)) {
-            print("Nuevo elemento Agregado FluidCheckDDClosed");
+            //print("Nuevo elemento Agregado FluidCheckDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssuesFluidCheckClosed");
+      //print("Entro a getIssuesFluidCheckClosed");
     } catch (e) {
-      print("Error in getIssuesFluidCheckClosed() - $e");
+      //print("Error in getIssuesFluidCheckClosed() - $e");
     }
 
     notifyListeners();
@@ -4918,7 +4905,7 @@ class IssueReportedProvider extends ChangeNotifier {
   Future<void> getIssuesFluidsCheckComments(
       IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
-    print("Entro a getIssuesFluidsCheckComments");
+    //print("Entro a getIssuesFluidsCheckComments");
     try {
       if (issueOpenClose.nameIssue == "engine_oil") {
         final res = await supabaseCtrlV
@@ -4937,8 +4924,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resEngineOil.first['engine_oil_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resEngineOil.first['date_added']));
-          print(
-              "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -4961,8 +4947,7 @@ class IssueReportedProvider extends ChangeNotifier {
               listImages: listImage,
               dateAddedOpen:
                   DateTime.parse(resTransmission.first['date_added']));
-          print(
-              "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -4984,8 +4969,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resCoolant.first['coolant_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resCoolant.first['date_added']));
-          print(
-              "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -5007,8 +4991,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resPowerS.first['power_steering_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resPowerS.first['date_added']));
-          print(
-              "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -5033,8 +5016,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resDieselExF.first['diesel_exhaust_fluid_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resDieselExF.first['date_added']));
-          print(
-              "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -5061,15 +5043,14 @@ class IssueReportedProvider extends ChangeNotifier {
               listImages: listImage,
               dateAddedOpen:
                   DateTime.parse(resWindshieldWF.first['date_added']));
-          print(
-              "getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesFluidsCheckComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
 
-      print("Entro a getIssuesFluidsCheckComments");
+      //print("Entro a getIssuesFluidsCheckComments");
     } catch (e) {
-      print("Error in getIssuesFluidsCheckComments() - $e");
+      //print("Error in getIssuesFluidsCheckComments() - $e");
     }
     notifyListeners();
   }
@@ -5095,7 +5076,7 @@ class IssueReportedProvider extends ChangeNotifier {
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      // print(res);
+      // //print(res);
 
       issueLightsR = (res as List<dynamic>)
           .map((issueLightsR) => Lights.fromJson(jsonEncode(issueLightsR)))
@@ -5112,7 +5093,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Headlights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
             lightsRR.add(newIssueComments);
           }
         }
@@ -5122,7 +5103,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Brake Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5133,7 +5114,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Reverse Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5144,7 +5125,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Warning Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
             lightsRR.add(newIssueComments);
           }
         }
@@ -5154,7 +5135,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Turn Signals",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5165,7 +5146,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "4 way Flashers ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5176,7 +5157,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Dash Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5187,7 +5168,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Strobe Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5198,7 +5179,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Cab Roof Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5209,7 +5190,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Clearance Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5223,7 +5204,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Headlights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
             lightsDD.add(newIssueComments);
           }
         }
@@ -5233,7 +5214,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Brake Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5244,7 +5225,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Reverse Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5255,7 +5236,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Warning Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
             lightsDD.add(newIssueComments);
           }
         }
@@ -5265,7 +5246,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Turn Signals",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5276,7 +5257,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "4 way Flashers ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5287,7 +5268,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Dash Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5298,7 +5279,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Strobe Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5309,7 +5290,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Cab Roof Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5320,15 +5301,15 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Clearance Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssuesLights");
+      //print("Entro a getIssuesLights");
     } catch (e) {
-      print("Error in getIssuesLights() - $e");
+      //print("Error in getIssuesLights() - $e");
     }
 
     notifyListeners();
@@ -5354,7 +5335,7 @@ class IssueReportedProvider extends ChangeNotifier {
           .eq('id_vehicle', vehicle.idVehicle)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      // print(res);
+      // //print(res);
 
       issueLightsR = (res as List<dynamic>)
           .map((issueLightsR) => Lights.fromJson(jsonEncode(issueLightsR)))
@@ -5371,7 +5352,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Headlights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
             lightsRR.add(newIssueComments);
           }
         }
@@ -5381,7 +5362,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Brake Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5392,7 +5373,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Reverse Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5403,7 +5384,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Warning Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
             lightsRR.add(newIssueComments);
           }
         }
@@ -5413,7 +5394,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Turn Signals",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5424,7 +5405,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "4 way Flashers ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5435,7 +5416,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Dash Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5446,7 +5427,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Strobe Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5457,7 +5438,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Cab Roof Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5468,7 +5449,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Clearance Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsRR, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRR");
+            //print("Nuevo elemento Agregado lightsRR");
 
             lightsRR.add(newIssueComments);
           }
@@ -5482,7 +5463,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Headlights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
             lightsDD.add(newIssueComments);
           }
         }
@@ -5492,7 +5473,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Brake Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5503,7 +5484,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Reverse Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5514,7 +5495,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Warning Lights",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
             lightsDD.add(newIssueComments);
           }
         }
@@ -5524,7 +5505,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Turn Signals",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5535,7 +5516,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "4 way Flashers ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5546,7 +5527,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Dash Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5557,7 +5538,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Strobe Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5568,7 +5549,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Cab Roof Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
@@ -5579,15 +5560,15 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Clearance Lights ",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(lightsDD, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDD");
+            //print("Nuevo elemento Agregado lightsDD");
 
             lightsDD.add(newIssueComments);
           }
         }
       }
-      print("Entro a getIssuesLightsAll");
+      //print("Entro a getIssuesLightsAll");
     } catch (e) {
-      print("Error in getIssuesLightsAll() - $e");
+      //print("Error in getIssuesLightsAll() - $e");
     }
 
     notifyListeners();
@@ -5618,7 +5599,7 @@ class IssueReportedProvider extends ChangeNotifier {
             .eq('id_user_fk', issuesXUser.userProfileId)
             .or('issues_r.neq.0,issues_d.neq.0');
 
-        // print(res);
+        // //print(res);
 
         issueLightsRClosed = (res as List<dynamic>)
             .map((issueLightsRClosed) =>
@@ -5644,7 +5625,7 @@ class IssueReportedProvider extends ChangeNotifier {
             .eq('id_vehicle', actualVehicle?.idVehicle)
             .or('issues_r.neq.0,issues_d.neq.0');
 
-        // print(res);
+        // //print(res);
 
         issueLightsRClosed = (res as List<dynamic>)
             .map((issueLightsRClosed) =>
@@ -5662,8 +5643,8 @@ class IssueReportedProvider extends ChangeNotifier {
               .from('closed_view')
               .select('lights_r->headlights_dateclosed')
               .eq('id_lights_r_fk', issue.idLights) as List<dynamic>;
-          // print(resHeadlightsClose);
-          // print(resHeadlightsClose.first["headlights_dateclosed"]);
+          // //print(resHeadlightsClose);
+          // //print(resHeadlightsClose.first["headlights_dateclosed"]);
           IssueOpenclose newIssueComments = IssueOpenclose(
               idIssue: issue.idLights!,
               nameIssue: "Headlights",
@@ -5672,7 +5653,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resHeadlightsClose.first["headlights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRRClosed");
+            //print("Nuevo elemento Agregado lightsRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5689,7 +5670,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resBrakelightsClose.first["brake_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRRClosed");
+            //print("Nuevo elemento Agregado lightsRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5706,7 +5687,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resReverseLightsClose.first["reverse_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRRClosed");
+            //print("Nuevo elemento Agregado lightsRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5723,7 +5704,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resWarningLightsClose.first["warning_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRRClosed");
+            //print("Nuevo elemento Agregado lightsRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5740,7 +5721,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resTurnSignalsClose.first["turn_signals_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRRClosed");
+            //print("Nuevo elemento Agregado lightsRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5757,7 +5738,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   res4wayFlashers.first["4_way_flashers_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRRClosed");
+            //print("Nuevo elemento Agregado lightsRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5774,7 +5755,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resDashLightsClosed.first["dash_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRRClosed");
+            //print("Nuevo elemento Agregado lightsRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5791,7 +5772,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resStrobeLightsClose.first["strobe_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRRClosed");
+            //print("Nuevo elemento Agregado lightsRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5808,7 +5789,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resCabRoofLightsClose.first["cab_roof_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRRClosed");
+            //print("Nuevo elemento Agregado lightsRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5825,7 +5806,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["clearance_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsRRClosed");
+            //print("Nuevo elemento Agregado lightsRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5846,7 +5827,7 @@ class IssueReportedProvider extends ChangeNotifier {
               dateAddedOpen: issue.dateAdded!);
 
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDDClosed");
+            //print("Nuevo elemento Agregado lightsDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5863,7 +5844,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resBrakelightsClose.first["brake_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDDClosed");
+            //print("Nuevo elemento Agregado lightsDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5880,7 +5861,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resReverseLightsClose.first["reverse_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDDClosed");
+            //print("Nuevo elemento Agregado lightsDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5897,7 +5878,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resWarningLightsClose.first["warning_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDDClosed");
+            //print("Nuevo elemento Agregado lightsDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5914,7 +5895,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resTurnSignalsClose.first["turn_signals_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDDClosed");
+            //print("Nuevo elemento Agregado lightsDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5931,7 +5912,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   res4wayFlashers.first["4_way_flashers_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDDClosed");
+            //print("Nuevo elemento Agregado lightsDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5948,7 +5929,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resDashLightsClosed.first["dash_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDDClosed");
+            //print("Nuevo elemento Agregado lightsDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5965,7 +5946,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resStrobeLightsClose.first["strobe_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDDClosed");
+            //print("Nuevo elemento Agregado lightsDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5982,7 +5963,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resCabRoofLightsClose.first["cab_roof_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDDClosed");
+            //print("Nuevo elemento Agregado lightsDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -5999,15 +5980,15 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["clearance_lights_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idLights!)) {
-            print("Nuevo elemento Agregado lightsDDClosed");
+            //print("Nuevo elemento Agregado lightsDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
       }
 
-      print("Entro a getIssuesLightsClosed");
+      //print("Entro a getIssuesLightsClosed");
     } catch (e) {
-      print("Error in getIssuesLightsClosed() - $e");
+      //print("Error in getIssuesLightsClosed() - $e");
     }
 
     notifyListeners();
@@ -6016,7 +5997,7 @@ class IssueReportedProvider extends ChangeNotifier {
   // Función para traer los comentarios de los issues de Lights
   Future<void> getIssuesLightsComments(IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
-    print("Entro a getIssuesLightsComments");
+    //print("Entro a getIssuesLightsComments");
     try {
       if (issueOpenClose.nameIssue == "Headlights") {
         final res = await supabaseCtrlV
@@ -6035,7 +6016,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resLights.first['headlights_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resLights.first['date_added']));
-          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
+          //print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6058,7 +6039,7 @@ class IssueReportedProvider extends ChangeNotifier {
               listImages: listImage,
               dateAddedOpen:
                   DateTime.parse(resBrakeLights.first['date_added']));
-          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
+          //print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6080,7 +6061,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resReverseL.first['reverse_lights_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resReverseL.first['date_added']));
-          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
+          //print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6102,7 +6083,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resWarningL.first['warning_lights_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resWarningL.first['date_added']));
-          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
+          //print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6124,7 +6105,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resTurnS.first['turn_signals_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resTurnS.first['date_added']));
-          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
+          //print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6146,7 +6127,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: res4WayF.first['4_way_flashers_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(res4WayF.first['date_added']));
-          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
+          //print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6168,7 +6149,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resDashL.first['dash_lights_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resDashL.first['date_added']));
-          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
+          //print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6190,7 +6171,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resStrobeL.first['strobe_lights_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resStrobeL.first['date_added']));
-          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
+          //print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6213,7 +6194,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resCabRoofL.first['cab_roof_lights_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resCabRoofL.first['date_added']));
-          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
+          //print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6237,13 +6218,13 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resClearanceL.first['clearance_lights_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resClearanceL.first['date_added']));
-          print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
+          //print("getIssuesLightsComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
-      print("Entro a getIssuesLightsComments");
+      //print("Entro a getIssuesLightsComments");
     } catch (e) {
-      print("Error in getIssuesLightsComments() - $e");
+      //print("Error in getIssuesLightsComments() - $e");
     }
     notifyListeners();
   }
@@ -6269,7 +6250,7 @@ class IssueReportedProvider extends ChangeNotifier {
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      // print(res);
+      // //print(res);
 
       issueMeasureR = (res as List<dynamic>)
           .map((issueMeasureR) => Measure.fromJson(jsonEncode(issueMeasureR)))
@@ -6287,7 +6268,7 @@ class IssueReportedProvider extends ChangeNotifier {
               percentage: issue.gas,
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(measureRR, issue.idMeasure!)) {
-            print("Nuevo elemento Agregado measureRR");
+            //print("Nuevo elemento Agregado measureRR");
             measureRR.add(newIssueComments);
           }
         }
@@ -6298,7 +6279,7 @@ class IssueReportedProvider extends ChangeNotifier {
             percentage: issue.mileage.toString(),
             dateAddedOpen: issue.dateAdded!);
         if (!validateElementAtList(measureRR, issue.idMeasure!)) {
-          print("Nuevo elemento Agregado measureRR");
+          //print("Nuevo elemento Agregado measureRR");
           measureRR.add(newIssueComments);
         }
       }
@@ -6311,7 +6292,7 @@ class IssueReportedProvider extends ChangeNotifier {
               percentage: issue.gas,
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(measureDD, issue.idMeasure!)) {
-            print("Nuevo elemento Agregado measureDD");
+            //print("Nuevo elemento Agregado measureDD");
             measureDD.add(newIssueComments);
           }
         }
@@ -6322,14 +6303,14 @@ class IssueReportedProvider extends ChangeNotifier {
             percentage: issue.mileage.toString(),
             dateAddedOpen: issue.dateAdded!);
         if (!validateElementAtList(measureDD, issue.idMeasure!)) {
-          print("Nuevo elemento Agregado measureDD");
+          //print("Nuevo elemento Agregado measureDD");
           measureDD.add(newIssueComments);
         }
       }
 
-      print("Entro a getIssueMeasure");
+      //print("Entro a getIssueMeasure");
     } catch (e) {
-      print("Error in getIssueMeasure() - $e");
+      //print("Error in getIssueMeasure() - $e");
     }
 
     notifyListeners();
@@ -6374,7 +6355,7 @@ class IssueReportedProvider extends ChangeNotifier {
               percentage: issue.gas,
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(measureRR, issue.idMeasure!)) {
-            print("Nuevo elemento Agregado measureRR");
+            //print("Nuevo elemento Agregado measureRR");
             measureRR.add(newIssueComments);
           }
         }
@@ -6385,7 +6366,7 @@ class IssueReportedProvider extends ChangeNotifier {
             percentage: issue.mileage.toString(),
             dateAddedOpen: issue.dateAdded!);
         if (!validateElementAtList(measureRR, issue.idMeasure!)) {
-          print("Nuevo elemento Agregado measureRR");
+          //print("Nuevo elemento Agregado measureRR");
           measureRR.add(newIssueComments);
         }
       }
@@ -6398,7 +6379,7 @@ class IssueReportedProvider extends ChangeNotifier {
               percentage: issue.gas,
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(measureDD, issue.idMeasure!)) {
-            print("Nuevo elemento Agregado measureDD");
+            //print("Nuevo elemento Agregado measureDD");
             measureDD.add(newIssueComments);
           }
         }
@@ -6409,14 +6390,14 @@ class IssueReportedProvider extends ChangeNotifier {
             percentage: issue.mileage.toString(),
             dateAddedOpen: issue.dateAdded!);
         if (!validateElementAtList(measureDD, issue.idMeasure!)) {
-          print("Nuevo elemento Agregado measureDD");
+          //print("Nuevo elemento Agregado measureDD");
           measureDD.add(newIssueComments);
         }
       }
 
-      print("Entro a getIssueMeasure");
+      //print("Entro a getIssueMeasure");
     } catch (e) {
-      print("Error in getIssueMeasure() - $e");
+      //print("Error in getIssueMeasure() - $e");
     }
 
     notifyListeners();
@@ -6425,7 +6406,7 @@ class IssueReportedProvider extends ChangeNotifier {
   // Función para traer los comentarios de los issues de Measures
   Future<void> getIssuesMeasuresComments(IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
-    print("Entro a getIssuesMeasuresComments");
+    //print("Entro a getIssuesMeasuresComments");
     try {
       if (issueOpenClose.nameIssue == "Gas") {
         final res = await supabaseCtrlV
@@ -6444,8 +6425,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resGas.first['gas_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resGas.first['date_added']));
-          print(
-              "getIssuesMeasuresComments: ${registroIssueComments!.nameIssue}");
+          //print("getIssuesMeasuresComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
@@ -6467,15 +6447,14 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resMileage.first['gas_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resMileage.first['date_added']));
-          print(
-              "getIssuesMeasuresComments: ${registroIssueComments!.nameIssue}");
+          //print( "getIssuesMeasuresComments: ${registroIssueComments!.nameIssue}");
         }
         notifyListeners();
       }
 
-      print("Entro a getIssuesMeasuresComments");
+      //print("Entro a getIssuesMeasuresComments");
     } catch (e) {
-      print("Error in getIssuesMeasuresComments() - $e");
+      //print("Error in getIssuesMeasuresComments() - $e");
     }
     notifyListeners();
   }
@@ -6501,7 +6480,7 @@ class IssueReportedProvider extends ChangeNotifier {
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      // print(res);
+      // //print(res);
 
       issueSecurityR = (res as List<dynamic>)
           .map(
@@ -6520,7 +6499,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "RTA Magnet",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRR");
+            //print("Nuevo elemento Agregado securityRR");
 
             securityRR.add(newIssueComments);
           }
@@ -6531,7 +6510,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Triangle Reflectors",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRR");
+            //print("Nuevo elemento Agregado securityRR");
 
             securityRR.add(newIssueComments);
           }
@@ -6542,7 +6521,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Wheel Chocks",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRR");
+            //print("Nuevo elemento Agregado securityRR");
 
             securityRR.add(newIssueComments);
           }
@@ -6553,7 +6532,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Fire Extinguisher",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRR");
+            //print("Nuevo elemento Agregado securityRR");
 
             securityRR.add(newIssueComments);
           }
@@ -6564,7 +6543,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "First Aid Kit Safety Vest",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRR");
+            //print("Nuevo elemento Agregado securityRR");
 
             securityRR.add(newIssueComments);
           }
@@ -6575,7 +6554,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Back Up Alarm",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRR");
+            //print("Nuevo elemento Agregado securityRR");
 
             securityRR.add(newIssueComments);
           }
@@ -6590,7 +6569,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "RTA Magnet",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDD");
+            //print("Nuevo elemento Agregado securityDD");
 
             securityDD.add(newIssueComments);
           }
@@ -6601,7 +6580,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Triangle Reflectors",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDD");
+            //print("Nuevo elemento Agregado securityDD");
 
             securityDD.add(newIssueComments);
           }
@@ -6612,7 +6591,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Wheel Chocks",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDD");
+            //print("Nuevo elemento Agregado securityDD");
 
             securityDD.add(newIssueComments);
           }
@@ -6623,7 +6602,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Fire Extinguisher",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDD");
+            //print("Nuevo elemento Agregado securityDD");
 
             securityDD.add(newIssueComments);
           }
@@ -6634,7 +6613,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "First Aid Kit Safety Vest",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDD");
+            //print("Nuevo elemento Agregado securityDD");
 
             securityDD.add(newIssueComments);
           }
@@ -6645,16 +6624,16 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Back Up Alarm",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDD");
+            //print("Nuevo elemento Agregado securityDD");
 
             securityDD.add(newIssueComments);
           }
         }
       }
 
-      print("Entro a getIssuesSecuurity");
+      //print("Entro a getIssuesSecuurity");
     } catch (e) {
-      print("Error in getIssuesSecuurity() - $e");
+      //print("Error in getIssuesSecuurity() - $e");
     }
 
     notifyListeners();
@@ -6679,7 +6658,7 @@ class IssueReportedProvider extends ChangeNotifier {
           .eq('id_vehicle', vehicle.idVehicle)
           .or('issues_r.neq.0,issues_d.neq.0');
 
-      // print(res);
+      // //print(res);
 
       issueSecurityR = (res as List<dynamic>)
           .map(
@@ -6698,7 +6677,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "RTA Magnet",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRR");
+            //print("Nuevo elemento Agregado securityRR");
 
             securityRR.add(newIssueComments);
           }
@@ -6709,7 +6688,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Triangle Reflectors",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRR");
+            //print("Nuevo elemento Agregado securityRR");
 
             securityRR.add(newIssueComments);
           }
@@ -6720,7 +6699,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Wheel Chocks",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRR");
+            //print("Nuevo elemento Agregado securityRR");
 
             securityRR.add(newIssueComments);
           }
@@ -6731,7 +6710,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Fire Extinguisher",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRR");
+            //print("Nuevo elemento Agregado securityRR");
 
             securityRR.add(newIssueComments);
           }
@@ -6742,7 +6721,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "First Aid Kit Safety Vest",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRR");
+            //print("Nuevo elemento Agregado securityRR");
 
             securityRR.add(newIssueComments);
           }
@@ -6753,7 +6732,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Back Up Alarm",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityRR, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRR");
+            //print("Nuevo elemento Agregado securityRR");
 
             securityRR.add(newIssueComments);
           }
@@ -6768,7 +6747,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "RTA Magnet",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDD");
+            //print("Nuevo elemento Agregado securityDD");
 
             securityDD.add(newIssueComments);
           }
@@ -6779,7 +6758,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Triangle Reflectors",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDD");
+            //print("Nuevo elemento Agregado securityDD");
 
             securityDD.add(newIssueComments);
           }
@@ -6790,7 +6769,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Wheel Chocks",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDD");
+            //print("Nuevo elemento Agregado securityDD");
 
             securityDD.add(newIssueComments);
           }
@@ -6801,7 +6780,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Fire Extinguisher",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDD");
+            //print("Nuevo elemento Agregado securityDD");
 
             securityDD.add(newIssueComments);
           }
@@ -6812,7 +6791,7 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "First Aid Kit Safety Vest",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDD");
+            //print("Nuevo elemento Agregado securityDD");
 
             securityDD.add(newIssueComments);
           }
@@ -6823,16 +6802,16 @@ class IssueReportedProvider extends ChangeNotifier {
               nameIssue: "Back Up Alarm",
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(securityDD, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDD");
+            //print("Nuevo elemento Agregado securityDD");
 
             securityDD.add(newIssueComments);
           }
         }
       }
 
-      print("Entro a getIssuesSecurityAll");
+      //print("Entro a getIssuesSecurityAll");
     } catch (e) {
-      print("Error in getIssuesSecurityAll() - $e");
+      //print("Error in getIssuesSecurityAll() - $e");
     }
 
     notifyListeners();
@@ -6861,7 +6840,7 @@ class IssueReportedProvider extends ChangeNotifier {
             .eq('id_user_fk', issuesXUser.userProfileId)
             .or('issues_r.neq.0,issues_d.neq.0');
 
-        // print(res);
+        // //print(res);
 
         issueSecurityRClosed = (res as List<dynamic>)
             .map((issueSecurityRClosed) =>
@@ -6887,7 +6866,7 @@ class IssueReportedProvider extends ChangeNotifier {
             .eq('id_vehicle', actualVehicle?.idVehicle)
             .or('issues_r.neq.0,issues_d.neq.0');
 
-        // print(res);
+        // //print(res);
 
         issueSecurityRClosed = (res as List<dynamic>)
             .map((issueSecurityRClosed) =>
@@ -6913,7 +6892,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resRTAMagnetClose.first["rta_magnet_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRRClosed");
+            //print("Nuevo elemento Agregado securityRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -6930,7 +6909,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["triangle_reflectors_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRRClosed");
+            //print("Nuevo elemento Agregado securityRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -6947,7 +6926,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   reswheelChocksClose.first["wheel_chocks_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRRClosed");
+            //print("Nuevo elemento Agregado securityRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -6964,7 +6943,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["fire_extinguisher_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRRClosed");
+            //print("Nuevo elemento Agregado securityRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -6981,7 +6960,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["first_aid_kit_safety_vest_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRRClosed");
+            //print("Nuevo elemento Agregado securityRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -6998,7 +6977,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resbackUpAlarmClose.first["back_up_alarm_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityRRClosed");
+            //print("Nuevo elemento Agregado securityRRClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -7019,7 +6998,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   resRTAMagnetClose.first["rta_magnet_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDDClosed");
+            //print("Nuevo elemento Agregado securityDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -7036,7 +7015,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["triangle_reflectors_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDDClosed");
+            //print("Nuevo elemento Agregado securityDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -7053,7 +7032,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   reswheelChocksClose.first["wheel_chocks_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDDClosed");
+            //print("Nuevo elemento Agregado securityDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -7070,7 +7049,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["fire_extinguisher_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDDClosed");
+            //print("Nuevo elemento Agregado securityDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -7087,7 +7066,7 @@ class IssueReportedProvider extends ChangeNotifier {
                   .first["first_aid_kit_safety_vest_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDDClosed");
+            //print("Nuevo elemento Agregado securityDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
@@ -7104,15 +7083,15 @@ class IssueReportedProvider extends ChangeNotifier {
                   resbackUpAlarmClose.first["back_up_alarm_dateclosed"]),
               dateAddedOpen: issue.dateAdded!);
           if (!validateElementAtList(listTotalClosedIssue, issue.idSecurity!)) {
-            print("Nuevo elemento Agregado securityDDClosed");
+            //print("Nuevo elemento Agregado securityDDClosed");
             listTotalClosedIssue.add(newIssueComments);
           }
         }
       }
 
-      print("Entro a getIssuesSecurityClosed");
+      //print("Entro a getIssuesSecurityClosed");
     } catch (e) {
-      print("Error in getIssuesSecurityClosed() - $e");
+      //print("Error in getIssuesSecurityClosed() - $e");
     }
 
     notifyListeners();
@@ -7121,7 +7100,7 @@ class IssueReportedProvider extends ChangeNotifier {
   // Función para traer los comentarios de los issues de Security
   Future<void> getIssuesSecurityComments(IssueOpenclose issueOpenClose) async {
     // clearListgetIssues();
-    print("Entro a getIssuesSecurityComments");
+    //print("Entro a getIssuesSecurityComments");
     try {
       if (issueOpenClose.nameIssue == "RTA Magnet") {
         final res = await supabaseCtrlV
@@ -7140,8 +7119,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resRTAM.first['rta_magnet_commnets'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resRTAM.first['date_added']));
-          print(
-              "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
+          //print( "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -7166,8 +7144,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resTriangleR.first['triangle_reflectors_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resTriangleR.first['date_added']));
-          print(
-              "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
+          //print("getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -7190,8 +7167,7 @@ class IssueReportedProvider extends ChangeNotifier {
               listImages: listImage,
               dateAddedOpen:
                   DateTime.parse(resWheelChocks.first['date_added']));
-          print(
-              "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
+          //print( "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -7216,8 +7192,7 @@ class IssueReportedProvider extends ChangeNotifier {
               comments: resFireExting.first['fire_extinguisher_comments'],
               listImages: listImage,
               dateAddedOpen: DateTime.parse(resFireExting.first['date_added']));
-          print(
-              "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
+          //print( "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -7244,8 +7219,7 @@ class IssueReportedProvider extends ChangeNotifier {
               listImages: listImage,
               dateAddedOpen:
                   DateTime.parse(resFirstAidKSV.first['date_added']));
-          print(
-              "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
+          //print("getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
@@ -7268,15 +7242,14 @@ class IssueReportedProvider extends ChangeNotifier {
               listImages: listImage,
               dateAddedOpen:
                   DateTime.parse(resBackUpAlarm.first['date_added']));
-          print(
-              "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
+          //print( "getIssuesSecurityComments: ${actualIssueOpenClose!.nameIssue}");
         }
         notifyListeners();
       }
 
-      print("Entro a getIssuesSecurityComments");
+      //print("Entro a getIssuesSecurityComments");
     } catch (e) {
-      print("Error in getIssuesSecurityComments() - $e");
+      //print("Error in getIssuesSecurityComments() - $e");
     }
     notifyListeners();
   }

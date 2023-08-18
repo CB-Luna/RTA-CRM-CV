@@ -88,7 +88,7 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   Future<void> updateStateService() async {
-    print("Se hizo el updateStateService");
+    ////print("Se hizo el updateStateService");
     rowsService.clear();
     await getServicesPage();
   }
@@ -430,9 +430,7 @@ class InventoryProvider extends ChangeNotifier {
     if (pickedImage == null) return;
 
     webImage = await pickedImage.readAsBytes();
-    print("-------------------------");
-    print(imageUrl);
-    print("-------------------------");
+
     notifyListeners();
     placeHolderImage = "${uuid.v4()}${pickedImage.name}";
 
@@ -466,9 +464,7 @@ class InventoryProvider extends ChangeNotifier {
     if (pickedImage == null) return;
 
     webImage = await pickedImage.readAsBytes();
-    print("-------------------------");
-    print(imageUrl);
-    print("-------------------------");
+
     notifyListeners();
     placeHolderImage = "${uuid.v4()}${pickedImage.name}";
 
@@ -499,7 +495,7 @@ class InventoryProvider extends ChangeNotifier {
         if (oldImage.isEmpty) return;
       }
     } catch (e) {
-      print("Error in deleteImage $e");
+      //print("Error in deleteImage $e");
     }
   }
 
@@ -523,7 +519,7 @@ class InventoryProvider extends ChangeNotifier {
         .from('services')
         .select()
         .order('service', ascending: true);
-    print("Entro a getServices()");
+    //print("Entro a getServices()");
     service = (res as List<dynamic>)
         .map((service) => Services.fromJson(jsonEncode(service)))
         .toList();
@@ -628,7 +624,7 @@ class InventoryProvider extends ChangeNotifier {
       }).eq("id_vehicle", vehicle.idVehicle);
       return true;
     } catch (e) {
-      print('Error in updatevehicle() - $e');
+      //print('Error in updatevehicle() - $e');
       return false;
     }
   }
@@ -660,8 +656,8 @@ class InventoryProvider extends ChangeNotifier {
 
       return true;
     } catch (e) {
-      print("Error in createVehicleService() - $e");
-      print(actualVehicle!.idVehicle);
+      //print("Error in createVehicleService() - $e");
+      //print(actualVehicle!.idVehicle);
       return false;
     }
   }
@@ -694,9 +690,9 @@ class InventoryProvider extends ChangeNotifier {
           ),
         );
       }
-      print("Entro a getServicesPage()");
+      //print("Entro a getServicesPage()");
     } catch (e) {
-      print("Error in getServicesPage() - $e");
+      //print("Error in getServicesPage() - $e");
     }
     notifyListeners();
   }
@@ -740,7 +736,7 @@ class InventoryProvider extends ChangeNotifier {
       );
       return true;
     } catch (e) {
-      print('Error in createVehicleInventory() - $e');
+      //print('Error in createVehicleInventory() - $e');
       return false;
     }
   }
@@ -752,7 +748,7 @@ class InventoryProvider extends ChangeNotifier {
           .select()
           .eq('id_vehicle', vehicle.idVehicle);
     } catch (e) {
-      print("Error in GetVehicle() $e");
+      //print("Error in GetVehicle() $e");
     }
   }
 
@@ -768,7 +764,7 @@ class InventoryProvider extends ChangeNotifier {
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
           .toList();
     } catch (e) {
-      print("Error in changeStatusInventory() - $e");
+      //print("Error in changeStatusInventory() - $e");
     }
     notifyListeners();
   }
@@ -982,7 +978,7 @@ class InventoryProvider extends ChangeNotifier {
           .from('vehicle')
           .select()
           .match({'id_status_fk': 4.toString()});
-      // print(res);
+      // //print(res);
 
       // AQUI está el fallo
       vehicleArchive = (res as List<dynamic>)
@@ -990,7 +986,7 @@ class InventoryProvider extends ChangeNotifier {
               VehicleDash.fromJson(jsonEncode(vehicleArchive)))
           .toList();
     } catch (e) {
-      print("Error en getArchiveVehicle - $e");
+      //print("Error en getArchiveVehicle - $e");
     }
   }
 
@@ -1482,7 +1478,7 @@ class InventoryProvider extends ChangeNotifier {
           .order('date_added_r', ascending: true)
           .limit(1);
 
-      print("El res Es: $res");
+      //print("El res Es: $res");
 
       if (res != null) {
         final listData = res as List<dynamic>;
@@ -1665,7 +1661,7 @@ class InventoryProvider extends ChangeNotifier {
         return false;
       }
     } catch (e) {
-      print("error ${e}");
+      //print("error ${e}");
       return false;
     }
   }
@@ -1877,13 +1873,14 @@ class InventoryProvider extends ChangeNotifier {
     var cell28 = sheet.cell(CellIndex.indexByString("T4"));
     cell28.value = "Equipment";
     cell28.cellStyle = cellStyle;
-    
+
     // Consultar la base de datos para obtener el historial del vehículo entre las fechas
     // Aquí asumiré que tienes una función para obtener los datos desde tu base de datos.
     DateTime date = initial;
 
-    if(date.day <= finish.day && date.month <= finish.month && date.year <= finish.year){
-
+    if (date.day <= finish.day &&
+        date.month <= finish.month &&
+        date.year <= finish.year) {
       // dynamic resCTRLV;
       final resCTRLV = await supabaseCtrlV
           .from('dashboards_cv_view')
@@ -1892,14 +1889,15 @@ class InventoryProvider extends ChangeNotifier {
           .lt('date_added_r', lastSel)
           .eq('license_plates', vehicleSel)
           .order('date_added_r', ascending: true);
-      
+
       if (resCTRLV == null) {
         log('Error en getIssuesByRange()');
       } else {
         issuesDashboards = (resCTRLV as List<dynamic>)
-          .map((issue) => issue_dashboard.IssuesDashboards.fromJson(jsonEncode(issue)))
-          .toList();
-        
+            .map((issue) =>
+                issue_dashboard.IssuesDashboards.fromJson(jsonEncode(issue)))
+            .toList();
+
         for (issue_dashboard.IssuesDashboards issue in issuesDashboards) {
           bucketInspectR = true;
           bucketInspectD = null;
@@ -1925,7 +1923,7 @@ class InventoryProvider extends ChangeNotifier {
           });
           // Car Bodywork
           issue.carBodyworkR.toMap().forEach((key, value) {
-            if(key != "date_added"){
+            if (key != "date_added") {
               if (value == false) {
                 carBodyInspectR = false;
               }
@@ -1933,7 +1931,7 @@ class InventoryProvider extends ChangeNotifier {
           });
           // Equipment
           issue.equipmentR.toMap().forEach((key, value) {
-            if(key != "date_added"){
+            if (key != "date_added") {
               if (value == false) {
                 equipmentInspectR = false;
               }
@@ -1941,7 +1939,7 @@ class InventoryProvider extends ChangeNotifier {
           });
           // Extra
           issue.extraR.toMap().forEach((key, value) {
-            if(key != "date_added"){
+            if (key != "date_added") {
               if (value == false) {
                 extraInspectR = false;
               }
@@ -1949,7 +1947,7 @@ class InventoryProvider extends ChangeNotifier {
           });
           // Fluid Check
           issue.fluidCheckR.toMap().forEach((key, value) {
-            if(key != "date_added"){
+            if (key != "date_added") {
               if (value == false) {
                 fluidCheckInspectR = false;
               }
@@ -1957,7 +1955,7 @@ class InventoryProvider extends ChangeNotifier {
           });
           // Lights
           issue.lightsR.toMap().forEach((key, value) {
-            if(key != "date_added"){
+            if (key != "date_added") {
               if (value == false) {
                 ligthsInspectR = false;
               }
@@ -1965,7 +1963,7 @@ class InventoryProvider extends ChangeNotifier {
           });
           // Security
           issue.securityR.toMap().forEach((key, value) {
-            if(key != "date_added"){
+            if (key != "date_added") {
               if (value == false) {
                 securityInspectR = false;
               }
@@ -1990,7 +1988,7 @@ class InventoryProvider extends ChangeNotifier {
             });
             // Car Bodywork
             issue.carBodyworkD.toMap().forEach((key, value) {
-              if(key != "date_added"){
+              if (key != "date_added") {
                 if (value == false) {
                   carBodyInspectD = false;
                 }
@@ -1998,7 +1996,7 @@ class InventoryProvider extends ChangeNotifier {
             });
             // Equipment
             issue.equipmentD.toMap().forEach((key, value) {
-              if(key != "date_added"){
+              if (key != "date_added") {
                 if (value == false) {
                   equipmentInspectD = false;
                 }
@@ -2006,7 +2004,7 @@ class InventoryProvider extends ChangeNotifier {
             });
             // Extra
             issue.extraD.toMap().forEach((key, value) {
-              if(key != "date_added"){
+              if (key != "date_added") {
                 if (value == false) {
                   extraInspectD = false;
                 }
@@ -2014,7 +2012,7 @@ class InventoryProvider extends ChangeNotifier {
             });
             // Fluid Check
             issue.fluidCheckD.toMap().forEach((key, value) {
-              if(key != "date_added"){
+              if (key != "date_added") {
                 if (value == false) {
                   fluidCheckInspectD = false;
                 }
@@ -2022,7 +2020,7 @@ class InventoryProvider extends ChangeNotifier {
             });
             // Lights
             issue.lightsD.toMap().forEach((key, value) {
-              if(key != "date_added"){
+              if (key != "date_added") {
                 if (value == false) {
                   ligthsInspectD = false;
                 }
@@ -2030,7 +2028,7 @@ class InventoryProvider extends ChangeNotifier {
             });
             // Security
             issue.securityD.toMap().forEach((key, value) {
-              if(key != "date_added"){
+              if (key != "date_added") {
                 if (value == false) {
                   securityInspectD = false;
                 }
@@ -2039,9 +2037,11 @@ class InventoryProvider extends ChangeNotifier {
           }
           List<dynamic> row = [
             issue.licensePlates,
-            "${issue.userProfile.name} ${issue.userProfile.lastName}", 
+            "${issue.userProfile.name} ${issue.userProfile.lastName}",
             DateFormat('dd/MMM/yyy hh:mm:ss').format(issue.dateAddedR),
-            issue.dateAddedD == null ? null : DateFormat('dd/MMM/yyy hh:mm:ss').format(issue.dateAddedR),
+            issue.dateAddedD == null
+                ? null
+                : DateFormat('dd/MMM/yyy hh:mm:ss').format(issue.dateAddedR),
             issue.issuesR,
             issue.issuesD,
             ligthsInspectR ? "✅" : "❌",
@@ -2051,13 +2051,41 @@ class InventoryProvider extends ChangeNotifier {
             securityInspectR ? "✅" : "❌",
             extraInspectR ? "✅" : "❌",
             equipmentInspectR ? "✅" : "❌",
-            ligthsInspectD == null ? null : ligthsInspectD == true ? "✅" : "❌",
-            carBodyInspectD == null ? null : carBodyInspectD == true ? "✅" : "❌",
-            fluidCheckInspectD == null ? null : fluidCheckInspectD == true ? "✅" : "❌",
-            bucketInspectD == null ? null : bucketInspectD == true ? "✅" : "❌",
-            securityInspectD == null ? null: securityInspectD == true ? "✅" : "❌",
-            extraInspectD == null ? null : extraInspectD == true ? "✅" : "❌",
-            equipmentInspectD == null ? null : equipmentInspectD == true ? "✅" : "❌",
+            ligthsInspectD == null
+                ? null
+                : ligthsInspectD == true
+                    ? "✅"
+                    : "❌",
+            carBodyInspectD == null
+                ? null
+                : carBodyInspectD == true
+                    ? "✅"
+                    : "❌",
+            fluidCheckInspectD == null
+                ? null
+                : fluidCheckInspectD == true
+                    ? "✅"
+                    : "❌",
+            bucketInspectD == null
+                ? null
+                : bucketInspectD == true
+                    ? "✅"
+                    : "❌",
+            securityInspectD == null
+                ? null
+                : securityInspectD == true
+                    ? "✅"
+                    : "❌",
+            extraInspectD == null
+                ? null
+                : extraInspectD == true
+                    ? "✅"
+                    : "❌",
+            equipmentInspectD == null
+                ? null
+                : equipmentInspectD == true
+                    ? "✅"
+                    : "❌",
           ];
           sheet.appendRow(row);
         }
@@ -2075,7 +2103,7 @@ class InventoryProvider extends ChangeNotifier {
   // Future<void> getIssuesByRange(Sheet? sheet) async {
   //   try {
   //     if (sheet != null) {
-       
+
   //     }
   //   } catch (e) {
   //     log('Error en getIssues() - $e');

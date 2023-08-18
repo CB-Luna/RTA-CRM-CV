@@ -101,7 +101,7 @@ class SmiCard extends StatelessWidget {
                 Text(
                   "Assigned: $totalAssignedSMI",
                   style: TextStyle(
-                    color: Color.fromRGBO(255, 138, 0, 1),
+                    color: const Color.fromRGBO(255, 138, 0, 1),
                     fontFamily: 'Bicyclette-Thin',
                     fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                   ),
@@ -109,7 +109,7 @@ class SmiCard extends StatelessWidget {
                 Text(
                   "Repair: $totalRepairSMI",
                   style: TextStyle(
-                    color: Color.fromRGBO(255, 138, 0, 1),
+                    color: const Color.fromRGBO(255, 138, 0, 1),
                     fontFamily: 'Bicyclette-Thin',
                     fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                   ),
@@ -117,7 +117,7 @@ class SmiCard extends StatelessWidget {
                 Text(
                   "Available: $totalAvailableSMI ",
                   style: TextStyle(
-                    color: Color.fromRGBO(255, 138, 0, 1),
+                    color: const Color.fromRGBO(255, 138, 0, 1),
                     fontFamily: 'Bicyclette-Thin',
                     fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                   ),

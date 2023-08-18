@@ -204,7 +204,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         onChanged: (val) {
                           if (val == null) return;
                           provider.dropdownvalue = val;
-                          print(val);
+                          //print(val);
                         },
                       ),
                     ),
@@ -220,7 +220,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                             provider.selectedVehicle?.licesensePlates,
                         onChanged: (val) {
                           if (val == null) return;
-                          print(val);
+                          //print(val);
                           provider.selectedVehiclee(val);
                         },
                       ),
