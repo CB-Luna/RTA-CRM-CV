@@ -131,12 +131,11 @@ class _ServicePopUpState extends State<ServicePopUp> {
                               renderer: (rendererContext) {
                                 return Container(
                                   height: rowHeight,
-                                  // width: rendererContext
-                                  //.cell.column.width,                                                    .cell.column.width,
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  alignment: Alignment.centerLeft,
                                   decoration:
                                       BoxDecoration(gradient: whiteGradient),
-                                  child: Center(
-                                      child: Text(
+                                  child: Text(
                                     rendererContext.cell.value ?? '-',
                                     style: AppTheme.of(context)
                                         .contenidoTablas
@@ -145,7 +144,7 @@ class _ServicePopUpState extends State<ServicePopUp> {
                                             useGoogleFonts: false,
                                             color: AppTheme.of(context)
                                                 .primaryColor),
-                                  )),
+                                  ),
                                 );
                               },
                               footerRenderer: (context) {

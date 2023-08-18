@@ -337,21 +337,35 @@ class GeneralInformationCard extends StatelessWidget {
               ),
               // Imagen
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.12,
-                  height: MediaQuery.of(context).size.height * 0.13,
-                  alignment: Alignment.center,
-                  decoration: ShapeDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                            issueReportedProvider.actualVehicle!.image!)),
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(width: 2.50, color: Colors.white),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
+                issueReportedProvider.actualVehicle?.image == null
+                    ? Container(
+                        width: MediaQuery.of(context).size.width * 0.12,
+                        height: MediaQuery.of(context).size.height * 0.13,
+                        alignment: Alignment.center,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                width: 2.50, color: Colors.white),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: Image.asset('assets/images/fadeInAnimation.gif'))
+                    : Container(
+                        width: MediaQuery.of(context).size.width * 0.12,
+                        height: MediaQuery.of(context).size.height * 0.13,
+                        alignment: Alignment.center,
+                        decoration: ShapeDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                  issueReportedProvider.actualVehicle!.image!)),
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                width: 2.50, color: Colors.white),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
                 Container(
                     margin: const EdgeInsets.only(left: 30),
                     decoration: BoxDecoration(
