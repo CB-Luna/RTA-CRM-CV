@@ -992,6 +992,9 @@ class InventoryProvider extends ChangeNotifier {
 
   // EXCEL
   Future<bool> excelActivityReports(DateTime dateSelected, String comp) async {
+
+    
+  
     //Crear excel
     Excel excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
@@ -1384,6 +1387,11 @@ class InventoryProvider extends ChangeNotifier {
 
     //Descargar
     final List<int>? fileBytes = excel.save(fileName: "Vehicle_Inventory.xlsx");
+    //Limpiar controladores y variables
+    dateExportDataController.text = "";
+    companySel = "All";
+    newDate = DateTime.now();
+
     if (fileBytes == null) return false;
 
     return true;
@@ -1744,6 +1752,8 @@ class InventoryProvider extends ChangeNotifier {
 
   Future<bool> exportVehicleData(
       DateTime initial, DateTime finish, String? plate) async {
+   
+
     Excel excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
 
@@ -2107,6 +2117,12 @@ class InventoryProvider extends ChangeNotifier {
     // Guardar el archivo Excel en la ubicación deseada
 
     final List<int>? fileBytes = excel.save(fileName: "Vehicle_Inventory.xlsx");
+     // Limpiar controladores
+    dateExportVehicleDataFirstController = TextEditingController();
+    dateExportVehicleDataLastController = TextEditingController();
+    plates = [];
+    firstSel = DateTime.now();
+    lastSel = DateTime.now();
     if (fileBytes == null) return false;
     return true;
   }
