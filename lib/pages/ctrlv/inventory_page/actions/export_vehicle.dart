@@ -151,7 +151,9 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
                     onTap: () async {
                       await provider.exportVehicleData(
                           provider.firstSel, provider.lastSel,provider.vehicleSel);
-                      if (context.canPop()) context.pop();
+                          
+                      if (mounted) return;
+                      Navigator.pop(context);
                     }),
               ],
             )
