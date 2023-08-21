@@ -23,9 +23,8 @@ class _LoginPageState extends State<LoginPage> {
 
     return LayoutBuilder(builder: ((context, constraints) {
       if (constraints.maxWidth >= 1000) {
-        const LoginPageDesktop();
-      }
-      if (constraints.maxWidth < 1000 && constraints.maxWidth > 200) {
+        return const LoginPageDesktop();
+      } else if (constraints.maxWidth < 1000 && constraints.maxWidth > 200) {
         return const LoginPageMobile();
       } else{
         return Container(
