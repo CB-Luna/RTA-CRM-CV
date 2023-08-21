@@ -616,107 +616,107 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                             MainAxisAlignment.spaceAround,
                                         children: [
                                           // Issue
-                                          // Padding(
-                                          //   padding: const EdgeInsets.only(
-                                          //       left: 8.0, right: 8.0),
-                                          //   child: CustomTextIconButton(
-                                          //     mainAxisAlignment:
-                                          //         MainAxisAlignment.center,
-                                          //     width: MediaQuery.of(context)
-                                          //             .size
-                                          //             .width *
-                                          //         0.08,
-                                          //     isLoading: false,
-                                          //     icon: Icon(
-                                          //         Icons.remove_red_eye_outlined,
-                                          //         color: AppTheme.of(context)
-                                          //             .primaryBackground),
-                                          //     text: 'Issue',
-                                          //     style: AppTheme.of(context)
-                                          //         .contenidoTablas
-                                          //         .override(
-                                          //           fontFamily:
-                                          //               'Gotham-Regular',
-                                          //           useGoogleFonts: false,
-                                          //           color: AppTheme.of(context)
-                                          //               .primaryBackground,
-                                          //         ),
-                                          //     color: AppTheme.of(context)
-                                          //         .primaryColor,
-                                          //     onTap: () async {
-                                          //       await isssueReportedProvider
-                                          //           .getIssuesxUsers(
-                                          //         rendererContext.cell.value,
-                                          //         notify: false,
-                                          //       );
-                                          //       isssueReportedProvider
-                                          //           .selectVehicle(
-                                          //         rendererContext.cell.value,
-                                          //         notify: false,
-                                          //       );
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0, right: 8.0),
+                                            child: CustomTextIconButton(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.08,
+                                              isLoading: false,
+                                              icon: Icon(
+                                                  Icons.remove_red_eye_outlined,
+                                                  color: AppTheme.of(context)
+                                                      .primaryBackground),
+                                              text: 'Issue',
+                                              style: AppTheme.of(context)
+                                                  .contenidoTablas
+                                                  .override(
+                                                    fontFamily:
+                                                        'Gotham-Regular',
+                                                    useGoogleFonts: false,
+                                                    color: AppTheme.of(context)
+                                                        .primaryBackground,
+                                                  ),
+                                              color: AppTheme.of(context)
+                                                  .primaryColor,
+                                              onTap: () async {
+                                                await isssueReportedProvider
+                                                    .getIssuesxUsers(
+                                                  rendererContext.cell.value,
+                                                  notify: false,
+                                                );
+                                                isssueReportedProvider
+                                                    .selectVehicle(
+                                                  rendererContext.cell.value,
+                                                  notify: false,
+                                                );
 
-                                          //       if (!mounted) return;
-                                          //       context.pushReplacement(
-                                          //           routeDetailsInventory,
-                                          //           extra: rendererContext
-                                          //               .cell.value);
-                                          //     },
-                                          //   ),
-                                          // ),
-                                          // CustomTextIconButton(
-                                          //   mainAxisAlignment:
-                                          //       MainAxisAlignment.center,
-                                          //   width: MediaQuery.of(context)
-                                          //           .size
-                                          //           .width *
-                                          //       0.06,
-                                          //   isLoading: false,
-                                          //   icon: Icon(
-                                          //     Icons.fact_check_outlined,
-                                          //     color: AppTheme.of(context)
-                                          //         .primaryBackground,
-                                          //   ),
-                                          //   text: 'Edit',
-                                          //   style: AppTheme.of(context)
-                                          //       .contenidoTablas
-                                          //       .override(
-                                          //         fontFamily: 'Gotham-Regular',
-                                          //         useGoogleFonts: false,
-                                          //         color: AppTheme.of(context)
-                                          //             .primaryBackground,
-                                          //       ),
-                                          //   onTap: () async {
-                                          //     //provider.clearControllers();
-                                          //     await provider.getCompanies(
-                                          //         notify: false);
-                                          //     await provider.getStatus(
-                                          //         notify: false);
-                                          //     provider.inicializeColor(
-                                          //         rendererContext.cell.value);
+                                                if (!mounted) return;
+                                                context.pushReplacement(
+                                                    routeDetailsInventory,
+                                                    extra: rendererContext
+                                                        .cell.value);
+                                              },
+                                            ),
+                                          ),
+                                          CustomTextIconButton(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.06,
+                                            isLoading: false,
+                                            icon: Icon(
+                                              Icons.fact_check_outlined,
+                                              color: AppTheme.of(context)
+                                                  .primaryBackground,
+                                            ),
+                                            text: 'Edit',
+                                            style: AppTheme.of(context)
+                                                .contenidoTablas
+                                                .override(
+                                                  fontFamily: 'Gotham-Regular',
+                                                  useGoogleFonts: false,
+                                                  color: AppTheme.of(context)
+                                                      .primaryBackground,
+                                                ),
+                                            onTap: () async {
+                                              //provider.clearControllers();
+                                              await provider.getCompanies(
+                                                  notify: false);
+                                              await provider.getStatus(
+                                                  notify: false);
+                                              provider.inicializeColor(
+                                                  rendererContext.cell.value);
 
-                                          //     provider.inicializeImage(
-                                          //         rendererContext.cell.value);
-                                          //     provider
-                                          //         .updateInventoryControllers(
-                                          //             rendererContext
-                                          //                 .cell.value);
-                                          //     // ignore: use_build_context_synchronously
-                                          //     await showDialog(
-                                          //         context: context,
-                                          //         builder:
-                                          //             (BuildContext context) {
-                                          //           return StatefulBuilder(
-                                          //               builder: (context,
-                                          //                   setState) {
-                                          //             return UpdateVehiclePopUp(
-                                          //               vehicle: rendererContext
-                                          //                   .cell.value,
-                                          //             );
-                                          //           });
-                                          //         });
-                                          //     await provider.updateState();
-                                          //   },
-                                          // ),
+                                              provider.inicializeImage(
+                                                  rendererContext.cell.value);
+                                              provider
+                                                  .updateInventoryControllers(
+                                                      rendererContext
+                                                          .cell.value);
+                                              // ignore: use_build_context_synchronously
+                                              await showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return StatefulBuilder(
+                                                        builder: (context,
+                                                            setState) {
+                                                      return UpdateVehiclePopUp(
+                                                        vehicle: rendererContext
+                                                            .cell.value,
+                                                      );
+                                                    });
+                                                  });
+                                              await provider.updateState();
+                                            },
+                                          ),
                                           CustomTextIconButton(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
