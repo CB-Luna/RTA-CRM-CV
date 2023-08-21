@@ -89,6 +89,7 @@ class DetailVehicleCard extends StatelessWidget {
                                 fontSize: AppTheme.of(context)
                                     .encabezadoTablas
                                     .fontSize,
+                                    fontWeight: FontWeight.bold
                               ),
                             ),
                             Text(
@@ -117,6 +118,7 @@ class DetailVehicleCard extends StatelessWidget {
                                 fontSize: AppTheme.of(context)
                                     .encabezadoTablas
                                     .fontSize,
+                                    fontWeight: FontWeight.bold
                               ),
                             ),
                             Text(
@@ -147,6 +149,7 @@ class DetailVehicleCard extends StatelessWidget {
                                     fontSize: AppTheme.of(context)
                                         .encabezadoTablas
                                         .fontSize,
+                                        fontWeight: FontWeight.bold
                                   ),
                                 ),
                                 Text(
@@ -182,6 +185,7 @@ class DetailVehicleCard extends StatelessWidget {
                                 fontSize: AppTheme.of(context)
                                     .encabezadoTablas
                                     .fontSize,
+                                    fontWeight: FontWeight.bold
                               ),
                             ),
                             Text(
@@ -212,6 +216,7 @@ class DetailVehicleCard extends StatelessWidget {
                                 fontSize: AppTheme.of(context)
                                     .encabezadoTablas
                                     .fontSize,
+                                    fontWeight: FontWeight.bold
                               ),
                             ),
                             Text(
@@ -250,6 +255,7 @@ class DetailVehicleCard extends StatelessWidget {
                                 fontSize: AppTheme.of(context)
                                     .encabezadoTablas
                                     .fontSize,
+                                    fontWeight: FontWeight.bold
                               ),
                             ),
                             Text(
@@ -280,6 +286,7 @@ class DetailVehicleCard extends StatelessWidget {
                                 fontSize: AppTheme.of(context)
                                     .encabezadoTablas
                                     .fontSize,
+                                    fontWeight: FontWeight.bold
                               ),
                             ),
                             Text(
@@ -312,6 +319,7 @@ class DetailVehicleCard extends StatelessWidget {
                                 fontSize: AppTheme.of(context)
                                     .encabezadoTablas
                                     .fontSize,
+                                    fontWeight: FontWeight.bold
                               ),
                             ),
                             Text(

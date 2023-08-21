@@ -47,8 +47,11 @@ class MonitoryProvider extends ChangeNotifier {
 
   //Variables y Controladores para Exportar Excel
   TextEditingController dateExportDataController = TextEditingController();
-  String companySel = "All";
+  TextEditingController dateFinalExportDataController = TextEditingController();
+  String? companySel = "All";
   DateTime? newDate;
+  DateTime? lastFilter;
+  int company = 0, dateInitial = 0, dateFinal = 0;
 
   //List<RolApi> roles = [];
   List<String> dropdownMenuItems = [];
@@ -359,192 +362,186 @@ class MonitoryProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  Future<bool> excelActivityReports(DateTime? dateSelected, String comp) async {
+  bool excelActivityReports() {
     //Limpuar variables y Controladores
     dateExportDataController = TextEditingController();
-    companySel = "All";
-    newDate = DateTime.now();
     //Crear excel
     var excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
     List<Monitory> selectedComp = [];
-    DateTime? startDateSelected;
-    DateTime? endDateSelected;
 
-    
     if (sheet == null) return false;
 
-    CellStyle titulo = CellStyle(
-      fontFamily: getFontFamily(FontFamily.Calibri),
-      fontSize: 16,
-      bold: true,
-      horizontalAlign: HorizontalAlign.Center,
-      verticalAlign: VerticalAlign.Center,
-    );
-    sheet.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
-    sheet.merge(CellIndex.indexByString("E1"), CellIndex.indexByString("F1"));
+    try {
+      CellStyle titulo = CellStyle(
+        fontFamily: getFontFamily(FontFamily.Calibri),
+        fontSize: 16,
+        bold: true,
+        horizontalAlign: HorizontalAlign.Center,
+        verticalAlign: VerticalAlign.Center,
+      );
+      sheet.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
+      sheet.merge(CellIndex.indexByString("E1"), CellIndex.indexByString("F1"));
+      sheet.merge(CellIndex.indexByString("H1"), CellIndex.indexByString("I1"));
 
-    sheet.setColWidth(0, 25);
-    sheet.setColWidth(2, 20);
-    sheet.setColWidth(4, 25);
-    sheet.setColWidth(5, 20);
-    sheet.setColWidth(9, 25);
-    sheet.setColWidth(10, 20);
+      sheet.setColWidth(0, 25);
+      sheet.setColWidth(2, 20);
+      sheet.setColWidth(3,20);
+      sheet.setColWidth(4, 25);
+      sheet.setColWidth(5, 20);
+      sheet.setColWidth(6, 20);
+      sheet.setColWidth(9, 25);
+      sheet.setColWidth(10, 20);
 
-    var cellT = sheet.cell(CellIndex.indexByString("A1"));
-    cellT.value = "Title:";
-    cellT.cellStyle = titulo;
+      var cellT = sheet.cell(CellIndex.indexByString("A1"));
+      cellT.value = "Title:";
+      cellT.cellStyle = titulo;
 
-    var cellT2 = sheet.cell(CellIndex.indexByString("B1"));
-    cellT2.value = "Monitory Reports";
-    cellT2.cellStyle = titulo;
+      var cellT2 = sheet.cell(CellIndex.indexByString("B1"));
+      cellT2.value = "Monitory Reports";
+      cellT2.cellStyle = titulo;
 
-    var cellD = sheet.cell(CellIndex.indexByString("D1"));
-    cellD.value = "Date:";
-    cellD.cellStyle = titulo;
+      var cellD = sheet.cell(CellIndex.indexByString("D1"));
+      cellD.value = "Initial Date:";
+      cellD.cellStyle = titulo;
 
-    var cellD2 = sheet.cell(CellIndex.indexByString("E1"));
-    cellD2.value = dateFormat(DateTime.now());
-    cellD2.cellStyle = titulo;
+      var cellD2 = sheet.cell(CellIndex.indexByString("E1"));
+      cellD2.value = dateFormat(newDate);
+      cellD2.cellStyle = titulo;
 
-    var cellD3 = sheet.cell(CellIndex.indexByString("G1"));
-    cellD3.value = "Company:";
-    cellD3.cellStyle = titulo;
+      var cellD3 = sheet.cell(CellIndex.indexByString("G1"));
+      cellD3.value = "Final Date:";
+      cellD3.cellStyle = titulo;
 
-    var cellD4 = sheet.cell(CellIndex.indexByString("H1"));
-    cellD4.value = comp;
-    cellD4.cellStyle = titulo;
-    //Agregar linea vacia
-    sheet.appendRow(['']);
+      var cellD5 = sheet.cell(CellIndex.indexByString("H1"));
+      cellD5.value = dateFormat(lastFilter);
+      cellD5.cellStyle = titulo;
 
-    //blanco, bold y mas grande
-    CellStyle cellStyle = CellStyle(
-      backgroundColorHex: "#1E90FF",
-      fontColorHex: Colors.white.value.toRadixString(16),
-      fontFamily: getFontFamily(FontFamily.Calibri),
-      fontSize: 16,
-      bold: true,
-      horizontalAlign: HorizontalAlign.Center,
-      verticalAlign: VerticalAlign.Center,
-    );
-    var cell = sheet.cell(CellIndex.indexByString("A3"));
-    cell.value = "Id Control Form";
-    cell.cellStyle = cellStyle;
+      var cellD7 = sheet.cell(CellIndex.indexByString("J1"));
+      cellD7.value = "Company:";
+      cellD7.cellStyle = titulo;
 
-    var cell2 = sheet.cell(CellIndex.indexByString("B3"));
-    cell2.value = "Id Vehicle";
-    cell2.cellStyle = cellStyle;
+      var cellD4 = sheet.cell(CellIndex.indexByString("K1"));
+      cellD4.value = companySel;
+      cellD4.cellStyle = titulo;
+      //Agregar linea vacia
+      sheet.appendRow(['']);
 
-    var cell3 = sheet.cell(CellIndex.indexByString("C3"));
-    cell3.value = "Employee";
-    cell3.cellStyle = cellStyle;
+      //blanco, bold y mas grande
+      CellStyle cellStyle = CellStyle(
+        backgroundColorHex: "#1E90FF",
+        fontColorHex: Colors.white.value.toRadixString(16),
+        fontFamily: getFontFamily(FontFamily.Calibri),
+        fontSize: 16,
+        bold: true,
+        horizontalAlign: HorizontalAlign.Center,
+        verticalAlign: VerticalAlign.Center,
+      );
+      var cell = sheet.cell(CellIndex.indexByString("A3"));
+      cell.value = "Id Control Form";
+      cell.cellStyle = cellStyle;
 
-    var cell4 = sheet.cell(CellIndex.indexByString("D3"));
-    cell4.value = "Status";
-    cell4.cellStyle = cellStyle;
+      var cell2 = sheet.cell(CellIndex.indexByString("B3"));
+      cell2.value = "Id Vehicle";
+      cell2.cellStyle = cellStyle;
 
-    var cell5 = sheet.cell(CellIndex.indexByString("E3"));
-    cell5.value = "VIN";
-    cell5.cellStyle = cellStyle;
+      var cell3 = sheet.cell(CellIndex.indexByString("C3"));
+      cell3.value = "Employee";
+      cell3.cellStyle = cellStyle;
 
-    var cell6 = sheet.cell(CellIndex.indexByString("F3"));
-    cell6.value = "License Plates";
-    cell6.cellStyle = cellStyle;
+      var cell4 = sheet.cell(CellIndex.indexByString("D3"));
+      cell4.value = "Status";
+      cell4.cellStyle = cellStyle;
 
-    var cell7 = sheet.cell(CellIndex.indexByString("G3"));
-    cell7.value = "Company";
-    cell7.cellStyle = cellStyle;
+      var cell5 = sheet.cell(CellIndex.indexByString("E3"));
+      cell5.value = "VIN";
+      cell5.cellStyle = cellStyle;
 
-    var cell8 = sheet.cell(CellIndex.indexByString("H3"));
-    cell8.value = "Gas";
-    cell8.cellStyle = cellStyle;
+      var cell6 = sheet.cell(CellIndex.indexByString("F3"));
+      cell6.value = "License Plates";
+      cell6.cellStyle = cellStyle;
 
-    var cell9 = sheet.cell(CellIndex.indexByString("I3"));
-    cell9.value = "Mileage";
-    cell9.cellStyle = cellStyle;
+      var cell7 = sheet.cell(CellIndex.indexByString("G3"));
+      cell7.value = "Company";
+      cell7.cellStyle = cellStyle;
 
-    var cell10 = sheet.cell(CellIndex.indexByString("J3"));
-    cell10.value = "Check In";
-    cell10.cellStyle = cellStyle;
+      var cell8 = sheet.cell(CellIndex.indexByString("H3"));
+      cell8.value = "Gas";
+      cell8.cellStyle = cellStyle;
 
-    var cell11 = sheet.cell(CellIndex.indexByString("K3"));
-    cell11.value = "Check Out";
-    cell11.cellStyle = cellStyle;
+      var cell9 = sheet.cell(CellIndex.indexByString("I3"));
+      cell9.value = "Mileage";
+      cell9.cellStyle = cellStyle;
 
-    //sortear por id
-    monitory.sort((a, b) => b.idControlForm.compareTo(a.idControlForm));
+      var cell10 = sheet.cell(CellIndex.indexByString("J3"));
+      cell10.value = "Check In";
+      cell10.cellStyle = cellStyle;
 
-    if(dateSelected != null){
-       startDateSelected =
-        DateTime(dateSelected.year, dateSelected.month, dateSelected.day);
+      var cell11 = sheet.cell(CellIndex.indexByString("K3"));
+      cell11.value = "Check Out";
+      cell11.cellStyle = cellStyle;
 
-    endDateSelected = DateTime(
-        dateSelected.year, dateSelected.month, dateSelected.day, 23, 59, 59);
+      //sortear por id
+      monitory.sort((a, b) => b.idControlForm.compareTo(a.idControlForm));
 
-        if (comp != "All") {
       for (Monitory vehicle in monitory) {
-        if (vehicle.company.company == comp) {
-          if (vehicle.dateAddedR.isAfter(startDateSelected) &&
-              vehicle.dateAddedR.isBefore(endDateSelected)) {
+        if (companySel != "All") {
+          if (vehicle.company.company == companySel) {
+            if (vehicle.dateAddedR.day >= newDate!.day &&
+                vehicle.dateAddedR.month >= newDate!.month &&
+                vehicle.dateAddedR.year >= newDate!.year &&
+                vehicle.dateAddedR.day <= lastFilter!.day &&
+                vehicle.dateAddedR.month <= lastFilter!.month &&
+                vehicle.dateAddedR.year <= lastFilter!.year) {
+              selectedComp.add(vehicle);
+            }
+          }
+        } else {
+          if (vehicle.dateAddedR.day >= newDate!.day &&
+              vehicle.dateAddedR.month >= newDate!.month &&
+              vehicle.dateAddedR.year >= newDate!.year &&
+              vehicle.dateAddedR.day <= lastFilter!.day &&
+              vehicle.dateAddedR.month <= lastFilter!.month &&
+              vehicle.dateAddedR.year <= lastFilter!.year) {
             selectedComp.add(vehicle);
           }
         }
       }
-    } else {
-      for (Monitory vehicle in monitory) {
-        if (vehicle.dateAddedR.isAfter(startDateSelected) &&
-            vehicle.dateAddedR.isBefore(endDateSelected)) {
-          selectedComp.add(vehicle);
-        }
+
+      //Agregar datos
+      for (int i = 0; i < selectedComp.length; i++) {
+        Monitory report = selectedComp[i];
+
+        final List<dynamic> row = [
+          report.idControlForm,
+          report.idVehicle,
+          "${report.employee.name} ${report.employee.lastName}",
+          report.vehicle.status.status,
+          report.vin,
+          report.licensePlates,
+          report.company.company,
+          report.gasR,
+          report.mileageD == null
+              ? NumberFormat('#,###').format(report.mileageR)
+              : NumberFormat('#,###').format(report.mileageD),
+          DateFormat("MMM-dd-yyyy hh:mm:ss").format(report.dateAddedR),
+          report.dateAddedD != null
+              ? DateFormat("MMM-dd-yyyy hh:mm:ss").format(report.dateAddedD!)
+              : "NA",
+        ];
+        sheet.appendRow(row);
       }
+
+      //Descargar
+      final List<int>? fileBytes = excel.save(fileName: "Vehicle_Status.xlsx");
+
+      if (fileBytes == null) return false;
+
+      return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
     }
-    }else{
-      if (comp != "All") {
-      for (Monitory vehicle in monitory) {
-        if (vehicle.company.company == comp) {
-          selectedComp.add(vehicle);
-        }
-      }
-    } else {
-      for (Monitory vehicle in monitory) {
-        selectedComp.add(vehicle);
-      }
-    }
-    }
-
-    
-
-    //Agregar datos
-    for (int i = 0; i < selectedComp.length; i++) {
-      Monitory report = selectedComp[i];
-
-      final List<dynamic> row = [
-        report.idControlForm,
-        report.idVehicle,
-        "${report.employee.name} ${report.employee.lastName}",
-        report.vehicle.status.status,
-        report.vin,
-        report.licensePlates,
-        report.company.company,
-        report.gasR,
-        // ignore: unrelated_type_equality_checks
-        report.mileageD == ""
-            ? NumberFormat('#,###').format(report.mileageR)
-            : NumberFormat('#,###').format(report.mileageD),
-        DateFormat("MMM-dd-yyyy hh:mm:ss").format(report.dateAddedR),
-        report.dateAddedD != null
-            ? DateFormat("MMM-dd-yyyy hh:mm:ss").format(report.dateAddedD!)
-            : "NA",
-      ];
-      sheet.appendRow(row);
-    }
-
-    //Descargar
-    final List<int>? fileBytes = excel.save(fileName: "Vehicle_Status.xlsx");
-    
-    if (fileBytes == null) return false;
-
-    return true;
   }
 
   void updateViewPopup(int value) {
@@ -1898,11 +1895,27 @@ class MonitoryProvider extends ChangeNotifier {
 
   void getCompanyFilter(String comp) {
     companySel = comp;
+    company = 1;
     notifyListeners();
   }
 
   void getDateFilter(DateTime? date) {
     newDate = date;
+    dateInitial = 1;
     notifyListeners();
+  }
+
+  void getLastFilter(DateTime lastDate) {
+    lastFilter = lastDate;
+    dateFinal = 1;
+    notifyListeners();
+  }
+
+  bool enableButton() {
+    if (dateInitial+dateFinal+company == 3) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
