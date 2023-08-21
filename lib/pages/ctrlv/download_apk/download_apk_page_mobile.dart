@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/warning_toast.dart';
 import 'package:rta_crm_cv/providers/ctrlv/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
@@ -27,7 +28,6 @@ class DownloadAPKPageMobile extends StatefulWidget {
 
 class _DownloadAPKPageMobileState extends State<DownloadAPKPageMobile> {
   FToast fToast = FToast();
-  final Uri _urlFMTAPK = Uri.parse("https://drive.google.com/file/d/1BdtCmh91_2uMwBvO5ixbNooxyGii-pqp/view?usp=sharing");
 
   @override
   void initState() {
@@ -174,7 +174,7 @@ class _DownloadAPKPageMobileState extends State<DownloadAPKPageMobile> {
                                                                   onPressed: () async {
                                                                     final html = window.navigator.userAgent.toLowerCase();
                                                                     if (html.contains("android")) {
-                                                                      await launchInBrowser(_urlFMTAPK);
+                                                                      await launchInBrowser(urlFMTAPK);
                                                                     } else {
                                                                       fToast.showToast(
                                                                         child: const WarningToast(
