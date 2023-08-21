@@ -57,8 +57,8 @@ class InventoryProvider extends ChangeNotifier {
 
   String companySel = "All";
   DateTime newDate = DateTime.now();
-
   String? vehicleSel;
+  String? motorSel;
   List<String> plates = [];
   DateTime firstSel = DateTime.now();
   DateTime lastSel = DateTime.now();
@@ -98,9 +98,16 @@ class InventoryProvider extends ChangeNotifier {
     serviceDateController.clear();
   }
 
+  void clearControllerExportData({bool notify = true}) {
+    dateExportDataController.clear();
+    companySel = "All";
+    if (notify) notifyListeners();
+  }
+
   // Variables Individuales
   String? imageName;
   String? imageUrl;
+
   String? imageUrlUpdate;
   Uint8List? webImage;
   Uint8List? webImageClear;
@@ -221,18 +228,6 @@ class InventoryProvider extends ChangeNotifier {
   int issueR = 0;
   int issueD = 0;
 
-//------------------------------------------
-  // TITULO LISTAS
-  List<String> titulosIssue = [
-    "Bucket Inspection",
-    "Car BodyWork",
-    "Equipment",
-    "Extra",
-    "Fluid Check",
-    "Lights",
-    "Measures",
-    "Security"
-  ];
 //------------------------------------------
 
   // Variables para las tarjetas de los vehiculos
@@ -553,6 +548,11 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void selectMotor(String motor) {
+    motorSel = motor;
+    notifyListeners();
+  }
+
   // Función para cuando actualizamos la compania en la actualización del vehiculo
   void selectCompanyUpdate(String companys) {
     companySelectedUpdate =
@@ -707,16 +707,17 @@ class InventoryProvider extends ChangeNotifier {
           'year': yearController.text,
           'vin': vinController.text,
           'license_plates': plateNumberController.text,
-          'motor': motorController.text,
+          'motor': '$motorSel ' ' ${motorController.text}',
           'color': colorString,
-          'image': imageUrl,
+          'image': imageUrl ??
+              "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/fadeInAnimation.gif",
           'id_status_fk': statusSelected?.statusId,
           'id_company_fk': companySelected?.companyId,
           'date_added': DateTime.now().toIso8601String(),
           'oil_change_due': dateTimeControllerOil.text,
           'last_radiator_fluid_change': dateTimeControllerRFC.text,
           'last_transmission_fluid_change': dateTimeControllerLTFC.text,
-          'mileage': mileageController.text,
+          'mileage': mileageController.text.replaceAll(",", ""),
           // 'rule_oil_change': {
           //   "value: 300000",
           //   "Registered: false",
@@ -736,7 +737,7 @@ class InventoryProvider extends ChangeNotifier {
       );
       return true;
     } catch (e) {
-      //print('Error in createVehicleInventory() - $e');
+      print('Error in createVehicleInventory() - $e');
       return false;
     }
   }
@@ -940,25 +941,17 @@ class InventoryProvider extends ChangeNotifier {
         rows.add(
           PlutoRow(
             cells: {
-              // "id_vehicle": PlutoCell(value: vehicle.idVehicle),
-              // "image": PlutoCell(value: vehicle.image),
               "make": PlutoCell(value: vehicle.make),
-              "model": PlutoCell(value: vehicle.fullName),
+              "model": PlutoCell(value: vehicle.model),
               "year": PlutoCell(value: vehicle.year),
               "vin": PlutoCell(value: vehicle.vin),
               "license_plates": PlutoCell(value: vehicle.licesensePlates),
               "motor": PlutoCell(value: vehicle.motor),
-              // "color": PlutoCell(value: vehicle.color),
               "status": PlutoCell(value: vehicle.status.status),
               "company": PlutoCell(value: vehicle.company.company),
-              // "date_added": PlutoCell(
-              //     value: DateFormat("MMM/dd/yyyy")
-              //         .format(vehicle.dateAdded)
-              //         .toString()),
-              "mileage": PlutoCell(value: vehicle.mileage.toString()),
-              //"details": PlutoCell(value: vehicle),
+              "mileage": PlutoCell(
+                  value: NumberFormat('#,###').format(vehicle.mileage)),
               "actions": PlutoCell(value: vehicle),
-              //"issues": PlutoCell(value: vehicle)
             },
           ),
         );
@@ -966,7 +959,7 @@ class InventoryProvider extends ChangeNotifier {
 
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
-      log('Error en getInventory() - $e');
+      log('Error en getInventoryNotActive() - $e');
     }
     notifyListeners();
   }
@@ -992,9 +985,6 @@ class InventoryProvider extends ChangeNotifier {
 
   // EXCEL
   Future<bool> excelActivityReports(DateTime dateSelected, String comp) async {
-
-    
-  
     //Crear excel
     Excel excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
@@ -1416,7 +1406,7 @@ class InventoryProvider extends ChangeNotifier {
     vinController.clear();
     plateNumberController.clear();
     statusSelected = null;
-    motorController.clear();
+    motorSel = null;
     colorController = 0xffffffff;
     dateTimeControllerOil.clear();
     dateTimeControllerRFC.clear();
@@ -1682,9 +1672,9 @@ class InventoryProvider extends ChangeNotifier {
     }
   }
 
-  void getCompanyFilter(String comp) {
+  void getCompanyFilter(String comp, {bool notify = true}) {
     companySel = comp;
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   void getDateFilter(DateTime date) {
@@ -1697,7 +1687,7 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getLicenses() {
+  void getLicenses({bool notify = true}) {
     plates.clear();
 
     switch (companySel) {
@@ -1736,8 +1726,7 @@ class InventoryProvider extends ChangeNotifier {
         }
         break;
     }
-
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   void getFirstDate(DateTime selection) {
@@ -1752,8 +1741,6 @@ class InventoryProvider extends ChangeNotifier {
 
   Future<bool> exportVehicleData(
       DateTime initial, DateTime finish, String? plate) async {
-   
-
     Excel excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
 
@@ -2117,7 +2104,7 @@ class InventoryProvider extends ChangeNotifier {
     // Guardar el archivo Excel en la ubicación deseada
 
     final List<int>? fileBytes = excel.save(fileName: "Vehicle_Inventory.xlsx");
-     // Limpiar controladores
+    // Limpiar controladores
     dateExportVehicleDataFirstController = TextEditingController();
     dateExportVehicleDataLastController = TextEditingController();
     plates = [];

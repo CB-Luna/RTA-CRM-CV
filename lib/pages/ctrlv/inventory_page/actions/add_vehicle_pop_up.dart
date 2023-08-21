@@ -35,8 +35,17 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
     DateTime date = DateTime.now();
     DateTime selectedDate = DateTime.now();
     var cardMask = MaskTextInputFormatter(
-        mask: '###-%%%%',
-        filter: {"#": RegExp(r'[a-zA-Z]'), "%": RegExp(r'[0-9]')});
+        mask: '####-######', filter: {"#": RegExp(r'[A-Za-z0-9]')});
+    var cardMaskVIN = MaskTextInputFormatter(
+        mask: '##################', filter: {"#": RegExp(r'[A-Za-z0-9]')});
+    var cardMaskModel = MaskTextInputFormatter(
+        mask: '###############', filter: {"#": RegExp(r'[A-Za-z0-9]')});
+    var cardMaskMotor =
+        MaskTextInputFormatter(mask: '#.#', filter: {"#": RegExp(r'[0-9]')});
+    var cardMaskMileage = MaskTextInputFormatter(
+        mask: '#,###,###', filter: {"#": RegExp(r'[0-9]')});
+
+    List<String> motors = ["Gas", "Diesel"];
 
     Color pickerColor = const Color(0xff2196f3);
     Color colors = Colors.white;
@@ -96,6 +105,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        inputFormatters: [cardMaskModel],
                       ),
                     ),
                     Padding(
@@ -106,6 +116,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        inputFormatters: [cardMaskModel],
                       ),
                     ),
                     Padding(
@@ -155,6 +166,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        inputFormatters: [cardMaskVIN],
                       ),
                     ),
                     Padding(
@@ -182,15 +194,41 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      child: CustomTextFieldForm(
-                        label: '8. Motor*',
-                        controller: provider.motorController,
-                        enabled: true,
-                        width: 350,
-                        keyboardType: TextInputType.name,
-                      ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomDropDownInventory(
+                            label: '8. Motor*',
+                            hint: 'Choose the Motor',
+                            width: 187,
+                            list: motors,
+                            dropdownValue: provider.motorSel,
+                            onChanged: (val) {
+                              if (val == null) return;
+                              provider.selectMotor(val);
+                            },
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: CustomTextFieldForm(
+                                label: 'Version',
+                                controller: provider.motorController,
+                                enabled: true,
+                                width: 100,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [cardMaskMotor],
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                     Row(
                       children: [
@@ -296,7 +334,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                       child: CustomTextFieldForm(
                         label: '13. Mileage*',
                         controller: provider.mileageController,
-                        //inputFormatters: [cardMaskMil],
+                        inputFormatters: [cardMaskMileage],
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,

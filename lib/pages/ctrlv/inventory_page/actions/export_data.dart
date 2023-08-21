@@ -92,7 +92,6 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
                                   DateFormat("MM/dd/yyyy").format(newDate);
                               provider.getDateFilter(newDate);
                             }
-                            
                           }),
                     ),
                   ],
@@ -108,13 +107,12 @@ class _ExportDataFilterState extends State<ExportDataFilter> {
                         color: AppTheme.of(context).primaryBackground),
                     text: 'Export',
                     onTap: () async {
-                      await provider.excelActivityReports(
-                          provider.newDate,
-                          provider.companySel);
-                      // ignore: use_build_context_synchronously
                       if (context.canPop()) context.pop();
+
+                      await provider.excelActivityReports(
+                          provider.newDate, provider.companySel);
+                      // ignore: use_build_context_synchronously
                     }),
-                
               ],
             )
           ],
