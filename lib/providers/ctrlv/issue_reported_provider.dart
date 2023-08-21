@@ -497,7 +497,7 @@ class IssueReportedProvider extends ChangeNotifier {
           //print("Entro aqui donde listaTotalD esta vacia, pero ListaTotalR no");
           rows.add(PlutoRow(
             cells: {
-              "totalIssues": PlutoCell(value: listaTotalD.length.toString()),
+              "totalIssues": PlutoCell(value: listaTotalR.length.toString()),
               "Status": PlutoCell(value: "Check Out "),
               "FluidsCheck": PlutoCell(value: fluidCheckRR),
               "Lights": PlutoCell(value: lightsRR),

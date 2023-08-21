@@ -16,7 +16,8 @@ class ExportMonitoryDataFilter extends StatefulWidget {
   const ExportMonitoryDataFilter({super.key});
 
   @override
-  State<ExportMonitoryDataFilter> createState() => _ExportMonitoryDataFilterState();
+  State<ExportMonitoryDataFilter> createState() =>
+      _ExportMonitoryDataFilterState();
 }
 
 class _ExportMonitoryDataFilterState extends State<ExportMonitoryDataFilter> {
@@ -93,7 +94,6 @@ class _ExportMonitoryDataFilterState extends State<ExportMonitoryDataFilter> {
                                   DateFormat("MM/dd/yyyy").format(newDate);
                               provider.getDateFilter(newDate);
                             }
-                            
                           }),
                     ),
                   ],
@@ -109,12 +109,11 @@ class _ExportMonitoryDataFilterState extends State<ExportMonitoryDataFilter> {
                         color: AppTheme.of(context).primaryBackground),
                     text: 'Export',
                     onTap: () async {
-                      await provider.excelActivityReports(
-                          provider.newDate,
-                          provider.companySel);
                       if (context.canPop()) context.pop();
+
+                      await provider.excelActivityReports(
+                          provider.newDate, provider.companySel);
                     }),
-                
               ],
             )
           ],

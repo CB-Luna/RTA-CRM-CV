@@ -28,7 +28,7 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
 
     List<String> companies = ["All", "ODE", "SMI", "CRY"];
 
-    provider.getLicenses();
+    provider.getLicenses(notify: false);
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
@@ -84,7 +84,7 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
                         onChanged: (val) {
                           if (val == null) return;
                           provider.getVehicleExport(val);
-                          provider.getLicenses();
+                          provider.getLicenses(notify: false);
                         },
                       ),
                     ),
@@ -149,9 +149,9 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
                         color: AppTheme.of(context).primaryBackground),
                     text: 'Export',
                     onTap: () async {
-                      await provider.exportVehicleData(
-                          provider.firstSel, provider.lastSel,provider.vehicleSel);
-                          
+                      await provider.exportVehicleData(provider.firstSel,
+                          provider.lastSel, provider.vehicleSel);
+
                       if (mounted) return;
                       Navigator.pop(context);
                     }),
