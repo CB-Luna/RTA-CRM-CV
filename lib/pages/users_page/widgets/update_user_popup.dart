@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/widgets/get_image_widget.dart';
@@ -46,6 +47,9 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
     final List<String> vehicleNames = provider.vehicles
         .map((vehicleNames) => vehicleNames.licesensePlates)
         .toList();
+    final List<String> statusName = ["Not Active", "Active"];
+    var cardMaskNumber = MaskTextInputFormatter(
+        mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
 
     return Dialog(
       shape: const RoundedRectangleBorder(
@@ -109,6 +113,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        maxLength: 25,
                       ),
                     ),
                     Padding(
@@ -120,6 +125,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        maxLength: 25,
                       ),
                     ),
                     Padding(
@@ -131,6 +137,19 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.phone,
+                        inputFormatters: [cardMaskNumber],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextField(
+                        label: 'Address*',
+                        icon: Icons.home_outlined,
+                        controller: provider.addressControllerUpdate,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.text,
+                        maxLength: 25,
                       ),
                     ),
                     Padding(
@@ -188,7 +207,24 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDDownMenu(
-                        hint: 'Choose a Vehicle [${widget.users.idVehicle}]',
+                        hint: 'Choose a status',
+                        label: 'Status',
+                        icon: Icons.settings_backup_restore_outlined,
+                        width: 350,
+                        list: statusName,
+                        dropdownValue: provider.dropdownvalueUpdate,
+                        onChanged: (val) {
+                          if (val == null) return;
+                          provider.getStatusupdate(val);
+                          //print(val);
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomDDownMenu(
+                        hint:
+                            'Choose a Vehicle [${widget.users.vehicle?.licesensePlates}]',
                         label: 'Vehicle',
                         icon: Icons.warehouse_outlined,
                         width: 350,
@@ -204,23 +240,13 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
-                        label: 'Status',
-                        icon: Icons.settings_backup_restore_outlined,
-                        controller: provider.statusControllerUpdate,
-                        enabled: true,
-                        width: 350,
-                        keyboardType: TextInputType.text,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomTextField(
                         label: 'License',
                         icon: Icons.settings_backup_restore_outlined,
                         controller: provider.licenseControllerUpdate,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.text,
+                        maxLength: 10,
                       ),
                     ),
                     Padding(
@@ -232,6 +258,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.text,
+                        maxLength: 5,
                       ),
                     ),
                   ],

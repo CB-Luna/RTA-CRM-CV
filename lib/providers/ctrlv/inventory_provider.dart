@@ -107,7 +107,6 @@ class InventoryProvider extends ChangeNotifier {
   // Variables Individuales
   String? imageName;
   String? imageUrl;
-
   String? imageUrlUpdate;
   Uint8List? webImage;
   Uint8List? webImageClear;
@@ -1412,6 +1411,8 @@ class InventoryProvider extends ChangeNotifier {
     dateTimeControllerRFC.clear();
     dateTimeControllerLTFC.clear();
     mileageController.clear();
+    webImage = null;
+
     if (notify) notifyListeners();
   }
 

@@ -10,7 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rive/rive.dart';
 import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as p;
 
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
@@ -46,6 +45,7 @@ class UsersProvider extends ChangeNotifier {
   Company? selectedCompanyUpdate;
   List<State> states = [];
   String? dropdownvalue = "Active";
+  String? dropdownvalueUpdate;
   State? selectedState;
   State? selectedStateUpdate;
   Vehicle? selectedVehicle;
@@ -53,6 +53,9 @@ class UsersProvider extends ChangeNotifier {
   String? imageName;
   Uint8List? webImage;
   Vehicle? actualVehicle;
+  String? imageUrl;
+  String? imageUrlUpdate;
+  Uuid uuid = const Uuid();
 
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -64,6 +67,7 @@ class UsersProvider extends ChangeNotifier {
   final statusController = TextEditingController();
   final licenseController = TextEditingController();
   final certificationController = TextEditingController();
+  final addressController = TextEditingController();
 
   // EDIT
   final nameControllerUpdate = TextEditingController();
@@ -76,6 +80,7 @@ class UsersProvider extends ChangeNotifier {
   final statusControllerUpdate = TextEditingController();
   final licenseControllerUpdate = TextEditingController();
   final certificationControllerUpdate = TextEditingController();
+  final addressControllerUpdate = TextEditingController();
 
   void updateControllers(User users) {
     nameControllerUpdate.text = users.name;
@@ -86,7 +91,8 @@ class UsersProvider extends ChangeNotifier {
     selectedRoleUpdate = selectedRole;
     selectedCompanyUpdate = selectedCompany;
     selectedVehicleUpdate = null;
-    statusControllerUpdate.text = users.status ?? "-";
+    addressControllerUpdate.text = users.address;
+    dropdownvalueUpdate = users.status ?? "-";
     licenseControllerUpdate.text = users.license ?? "-";
     certificationControllerUpdate.text = users.certification ?? "-";
   }
@@ -106,7 +112,7 @@ class UsersProvider extends ChangeNotifier {
     statusController.clear();
     licenseController.clear();
     certificationController.clear();
-
+    webImage = null;
     if (notify) notifyListeners();
   }
 
@@ -145,6 +151,16 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void getStatus(String status, {bool notify = true}) {
+    dropdownvalue = status;
+    if (notify) notifyListeners();
+  }
+
+  void getStatusupdate(String status, {bool notify = true}) {
+    dropdownvalueUpdate = status;
+    if (notify) notifyListeners();
+  }
+
   void selectVehicleUpdates(String vehicle) {
     selectedVehicleUpdate =
         vehicles.firstWhere((element) => element.licesensePlates == vehicle);
@@ -163,7 +179,7 @@ class UsersProvider extends ChangeNotifier {
       final res = await supabaseCtrlV
           .from('vehicle')
           .select()
-          .eq('id_vehicle', users.idVehicle);
+          .eq('id_vehicle', users.vehicle?.idVehicle);
 
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
@@ -176,8 +192,8 @@ class UsersProvider extends ChangeNotifier {
   }
 
   void selectVehicleActual(User users, {bool notify = true}) {
-    actualVehicle =
-        vehicles.firstWhere((element) => element.idVehicle == users.idVehicle);
+    actualVehicle = vehicles
+        .firstWhere((element) => element.idVehicle == users.vehicle?.idVehicle);
     //print('ActualVehicle: ${actualVehicle?.licesensePlates}');
     if (notify) notifyListeners();
   }
@@ -242,9 +258,8 @@ class UsersProvider extends ChangeNotifier {
               'id_vehicle', selectedVehicleUpdate?.idVehicle);
 
       // Aqui cambiamos el vehiculo viejo a disponible
-      final res2 = await supabaseCtrlV
-          .from('vehicle')
-          .update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
+      final res2 = await supabaseCtrlV.from('vehicle').update(
+          {'id_status_fk': 3}).eq('id_vehicle', users.vehicle?.idVehicle);
 
       // Aqui cambiamos el id del vehiculo donde el id_sequential sea el mismo que el del usuario
       // final cambioVehiculo = await supabase
@@ -313,7 +328,7 @@ class UsersProvider extends ChangeNotifier {
       final resC = await supabaseCtrlV
           .from('inventory_view')
           .select()
-          .eq('id_vehicle', users.idVehicle);
+          .eq('id_vehicle', users.vehicle?.idVehicle);
 
       vehiclexUser = (resC as List<dynamic>)
           .map((vehiclexUser) => Vehicle.fromJson(jsonEncode(vehiclexUser)))
@@ -372,6 +387,21 @@ class UsersProvider extends ChangeNotifier {
       //print("getVehicleActive $e");
     }
     if (notify) notifyListeners();
+  }
+
+  // -----------------------------------------------
+  Future<void> changeStatusUser(User users) async {
+    try {
+      final res = await supabase.from("user_profile").update(
+          {'status': 'Not Active'}).eq('sequential_id', users.sequentialId);
+
+      vehicles = (res as List<dynamic>)
+          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
+          .toList();
+    } catch (e) {
+      print("Error in changeStatusUser() - $e");
+    }
+    notifyListeners();
   }
 
   // -----------------------------------------------
@@ -518,7 +548,7 @@ class UsersProvider extends ChangeNotifier {
             'home_phone': phoneController.text,
             'mobile_phone': phoneController.text,
             'address': '123 Main St.',
-            'image': imageName,
+            'image': imageUrl,
             'birthdate': DateTime.now().toIso8601String(),
             'id_role_fk': selectedRole!.id,
             'state_fk': selectedState!.id,
@@ -532,8 +562,8 @@ class UsersProvider extends ChangeNotifier {
             'last_name': lastNameController.text,
             'home_phone': phoneController.text,
             'mobile_phone': phoneController.text,
-            'address': '123 Main St.',
-            'image': imageName,
+            'address': addressController.text,
+            'image': imageUrl,
             'birthdate': DateTime.now().toIso8601String(),
             'id_role_fk': selectedRole!.id,
             'state_fk': selectedState!.id,
@@ -579,9 +609,10 @@ class UsersProvider extends ChangeNotifier {
         'birthdate': DateTime.now().toIso8601String(),
         'id_role_fk': selectedRoleUpdate?.id ?? users.role.id,
         'state_fk': selectedStateUpdate?.id ?? users.state.id,
-        'id_vehicle_fk': selectedVehicleUpdate?.idVehicle ?? users.idVehicle,
+        'id_vehicle_fk':
+            selectedVehicleUpdate?.idVehicle ?? users.vehicle?.idVehicle,
         'id_company_fk': selectedCompanyUpdate?.id ?? users.company.id,
-        'status': statusControllerUpdate.text,
+        'status': dropdownvalueUpdate,
         'license': licenseControllerUpdate.text,
         'certification': certificationControllerUpdate.text
       }).eq('user_profile_id', users.id);
@@ -601,16 +632,30 @@ class UsersProvider extends ChangeNotifier {
       source: ImageSource.gallery,
     );
 
-    if (pickedImage == null) return;
+    final String? placeHolderImage;
 
-    final String fileExtension = p.extension(pickedImage.name);
-    const uuid = Uuid();
-    final String fileName = uuid.v1();
-    imageName = 'avatar-$fileName$fileExtension';
+    if (pickedImage == null) return;
 
     webImage = await pickedImage.readAsBytes();
 
     notifyListeners();
+    placeHolderImage = "${uuid.v4()}${pickedImage.name}";
+
+    final storageResponse =
+        await supabase.storage.from('assets/Vehicles').uploadBinary(
+              placeHolderImage,
+              webImage!,
+              fileOptions: const FileOptions(
+                cacheControl: '3600',
+                upsert: false,
+              ),
+            );
+
+    if (storageResponse.isNotEmpty) {
+      imageUrl = supabase.storage.from('assets/Vehicles').getPublicUrl(
+            placeHolderImage,
+          );
+    }
   }
 
   void clearImage() {

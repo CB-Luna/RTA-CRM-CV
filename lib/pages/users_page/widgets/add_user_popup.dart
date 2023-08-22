@@ -1,6 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
@@ -43,6 +45,10 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
     final List<String> vehicleNames = provider.vehicles
         .map((vehicleNames) => vehicleNames.licesensePlates)
         .toList();
+    var cardMaskNumber = MaskTextInputFormatter(
+        mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
+    // var cardMaskEmial =
+    //     MaskTextInputFormatter(filter: {RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$')});
 
     return Dialog(
       shape: const RoundedRectangleBorder(
@@ -101,34 +107,46 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
-                        label: 'Name',
+                        label: 'Name*',
                         icon: Icons.person_outline,
                         controller: provider.nameController,
                         enabled: true,
                         width: 350,
+                        height: 35,
                         keyboardType: TextInputType.name,
+                        maxLength: 25,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
-                        label: 'Last Name',
+                        label: 'Last Name*',
                         icon: Icons.person_outline,
                         controller: provider.lastNameController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        maxLength: 25,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
-                        label: 'Email',
+                        label: 'Email*',
                         icon: Icons.alternate_email,
                         controller: provider.emailController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.emailAddress,
+                        maxLength: 25,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'The email is required';
+                          } else if (!EmailValidator.validate(value)) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     Padding(
@@ -140,12 +158,25 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.phone,
+                        inputFormatters: [cardMaskNumber],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextField(
+                        label: 'Address',
+                        icon: Icons.home_outlined,
+                        controller: provider.addressController,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.text,
+                        maxLength: 25,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDDownMenu(
-                        hint: 'Choose a state',
+                        hint: 'Choose a state*',
                         label: 'State',
                         icon: Icons.location_on_outlined,
                         width: 350,
@@ -160,7 +191,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDDownMenu(
-                        hint: 'Choose a role',
+                        hint: 'Choose a role*',
                         label: 'Role',
                         icon: Icons.local_offer_outlined,
                         width: 350,
@@ -176,7 +207,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: CustomDDownMenu(
-                          hint: 'Choose a Company',
+                          hint: 'Choose a Company*',
                           label: 'Company',
                           icon: Icons.warehouse_outlined,
                           width: 350,
@@ -195,7 +226,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDDownMenu(
-                        hint: 'Choose a status',
+                        hint: 'Choose a status*',
                         label: 'Status',
                         icon: Icons.settings_backup_restore_outlined,
                         width: 350,
@@ -203,7 +234,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         dropdownValue: provider.dropdownvalue,
                         onChanged: (val) {
                           if (val == null) return;
-                          provider.dropdownvalue = val;
+                          provider.getStatus(val);
                           //print(val);
                         },
                       ),
@@ -234,6 +265,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.text,
+                        maxLength: 10,
                       ),
                     ),
                     Padding(
@@ -245,6 +277,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.text,
+                        maxLength: 5,
                       ),
                     ),
                   ],
