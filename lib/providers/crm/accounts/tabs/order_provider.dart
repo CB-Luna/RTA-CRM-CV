@@ -96,26 +96,26 @@ class OrdersProvider extends ChangeNotifier {
       //Datos Form
       if ((typesSelectedValue.text == 'Migration' || typesSelectedValue.text == 'New Circuit' || typesSelectedValue.text == 'Upgrade') &&
           (circuitTypeSelectedValue.text == 'ASEoD' || circuitTypeSelectedValue.text == 'PTP')) {
-        circuitAddressController.text = quote.circuitInfo!.location!;
+        circuitAddressController.text = quote.orderInfo!.address!;
         circuitDetailController.text = quote.description!;
         portSizeSelectedValue.text = quote.circuitInfo!.portSize!;
         cirSelectedValue.text = quote.circuitInfo!.cir!;
       }
       if (circuitTypeSelectedValue.text == 'DIA') {
-        circuitAddressController.text = quote.circuitInfo!.location!;
-        bandwidthController.text = 'BandWidth pending'; //quote.circuitInfo!.bandwidth!;
+        circuitAddressController.text = quote.orderInfo!.address!;
+        bandwidthController.text = quote.circuitInfo!.bandwidth!;
       }
       if (typesSelectedValue.text != 'Circuit Removal' && (circuitTypeSelectedValue.text == 'ASEoD' || circuitTypeSelectedValue.text == 'PTP')) {
         handoffSelectedValue.text = quote.orderInfo!.handoff!;
         demarcationPointController.text = quote.orderInfo!.demarcationPoint!;
-        circuitAddressController.text = quote.circuitInfo!.location!;
+        circuitAddressController.text = quote.orderInfo!.address!;
       }
       if (circuitTypeSelectedValue.text == 'NNI' || circuitTypeSelectedValue.text == 'X-Connect') {
-        circuitAddressController.text = quote.circuitInfo!.location!;
+        circuitAddressController.text = quote.orderInfo!.address!;
         rackLocationController.text = quote.orderInfo!.rackLocation!;
       }
       if (circuitTypeSelectedValue.text == 'X-Connect') {
-        circuitAddressController.text = quote.circuitInfo!.location!;
+        circuitAddressController.text = quote.orderInfo!.address!;
         detailController.text = quote.comments!.first.comment!; //quote.description!;
       }
       dataCenterSelectedValue.text = quote.orderInfo!.dataCenterLocation!;
