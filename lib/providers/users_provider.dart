@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart' hide State;
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,6 +19,7 @@ import 'package:rta_crm_cv/models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 import 'package:uuid/uuid.dart';
 
+import '../functions/date_format.dart';
 import '../models/vehicle.dart';
 
 class UsersProvider extends ChangeNotifier {
@@ -64,6 +66,10 @@ class UsersProvider extends ChangeNotifier {
   final statusController = TextEditingController();
   final licenseController = TextEditingController();
   final certificationController = TextEditingController();
+
+  //Variables para Exportar
+  String companySel = "All";
+  int confirmacion = 0;
 
   // EDIT
   final nameControllerUpdate = TextEditingController();
@@ -656,6 +662,158 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
     setIndex(0); */
   }
+
+   void clearControllerExportData({bool notify = true}) {
+    companySel = "All";
+    if (notify) notifyListeners();
+  }
+  void getCompanyFilter(String comp, {bool notify = true}) {
+    companySel = comp;
+    confirmacion++;
+    if (notify) notifyListeners();
+  }
+
+   Future<bool> excelActivityReports() async {
+    //Crear excel
+    Excel excel = Excel.createExcel();
+    Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
+    List<User> selectedComp = [];
+
+    //TITULO
+    sheet?.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
+    //Headers para secciones
+
+    sheet?.setColWidth(4, 25);
+    sheet?.setColWidth(5, 30);
+
+    if (sheet == null) return false;
+    CellStyle titulo = CellStyle(
+      fontFamily: getFontFamily(FontFamily.Calibri),
+      fontSize: 16,
+      bold: true,
+      horizontalAlign: HorizontalAlign.Center,
+      verticalAlign: VerticalAlign.Center,
+    );
+    var cellT = sheet.cell(CellIndex.indexByString("A1"));
+    cellT.value = "Title";
+    cellT.cellStyle = titulo;
+
+    var cellT2 = sheet.cell(CellIndex.indexByString("B1"));
+    cellT2.value = "Users";
+    cellT2.cellStyle = titulo;
+
+    var cellD = sheet.cell(CellIndex.indexByString("D1"));
+    cellD.value = "Date";
+    cellD.cellStyle = titulo;
+
+    var cellD2 = sheet.cell(CellIndex.indexByString("E1"));
+    cellD2.value = dateFormat(DateTime.now());
+    cellD2.cellStyle = titulo;
+
+    //Agregar primera linea
+    sheet.appendRow(['']);
+    //Agregar linea vacia
+
+    //blanco, bold y mas grande
+    CellStyle cellStyle = CellStyle(
+      backgroundColorHex: "#1E90FF",
+      fontColorHex: Colors.white.value.toRadixString(16),
+      fontFamily: getFontFamily(FontFamily.Calibri),
+      fontSize: 16,
+      bold: true,
+      horizontalAlign: HorizontalAlign.Center,
+      verticalAlign: VerticalAlign.Center,
+    );
+    var cell = sheet.cell(CellIndex.indexByString("A3"));
+    cell.value = "Id";
+    cell.cellStyle = cellStyle;
+
+    var cell2 = sheet.cell(CellIndex.indexByString("B3"));
+    cell2.value = "Name";
+    cell2.cellStyle = cellStyle;
+
+    var cell3 = sheet.cell(CellIndex.indexByString("C3"));
+    cell3.value = "Last Name";
+    cell3.cellStyle = cellStyle;
+
+    var cell4 = sheet.cell(CellIndex.indexByString("D3"));
+    cell4.value = "Role";
+    cell4.cellStyle = cellStyle;
+
+    var cell5 = sheet.cell(CellIndex.indexByString("E3"));
+    cell5.value = "Email";
+    cell5.cellStyle = cellStyle;
+
+    var cell6 = sheet.cell(CellIndex.indexByString("F3"));
+    cell6.value = "Mobile Phone";
+    cell6.cellStyle = cellStyle;
+
+    var cell7 = sheet.cell(CellIndex.indexByString("G3"));
+    cell7.value = "State";
+    cell7.cellStyle = cellStyle;
+
+    var cell8 = sheet.cell(CellIndex.indexByString("H3"));
+    cell8.value = "Company";
+    cell8.cellStyle = cellStyle;
+
+    var cell9 = sheet.cell(CellIndex.indexByString("I3"));
+    cell9.value = "Status";
+    cell9.cellStyle = cellStyle;
+
+    var cell10 = sheet.cell(CellIndex.indexByString("J3"));
+    cell10.value = "License";
+    cell10.cellStyle = cellStyle;
+
+    var cell11 = sheet.cell(CellIndex.indexByString("K3"));
+    cell11.value = "Certification";
+    cell11.cellStyle = cellStyle;
+
+    //sortear por su Id
+    users.sort((a, b) => a.sequentialId.compareTo(b.sequentialId));
+
+    //Filtrat por compania
+    if (companySel != "All") {
+      for (int x = 0; x < users.length; x++) {
+        if (users[x].company.company == companySel) {
+          selectedComp.add(users[x]);
+        }
+      }
+    } else {
+      selectedComp = users;
+    }
+    //Agregar datos
+    for (int i = 0; i < selectedComp.length; i++) {
+
+      //Sortear por Compania
+
+      User report = selectedComp[i];
+
+      final List<dynamic> row = [
+        report.sequentialId,
+        report.name,
+        report.lastName,
+        report.role.roleName,
+        report.email,
+        report.mobilePhone,
+        report.state.name,
+        report.company.company,
+        report.status,
+        report.license,
+        report.certification
+      ];
+      sheet.appendRow(row);
+    }
+
+    //Descargar
+    final List<int>? fileBytes = excel.save(fileName: "Users.xlsx");
+    //Limpiar controladores y variables
+    companySel = "All";
+
+    if (fileBytes == null) return false;
+
+    return true;
+  }
+
 
   setABSelected() {
     //iSelectedDashboards?.change(indexSelected[0]);

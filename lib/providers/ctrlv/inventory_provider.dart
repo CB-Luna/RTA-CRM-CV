@@ -62,6 +62,7 @@ class InventoryProvider extends ChangeNotifier {
   List<String> plates = [];
   DateTime firstSel = DateTime.now();
   DateTime lastSel = DateTime.now();
+  int confirmacion = 0;
 
   List<issue_dashboard.IssuesDashboards> issuesDashboards = [];
 
@@ -1674,6 +1675,7 @@ class InventoryProvider extends ChangeNotifier {
 
   void getCompanyFilter(String comp, {bool notify = true}) {
     companySel = comp;
+    confirmacion++;
     if (notify) notifyListeners();
   }
 
@@ -1683,6 +1685,7 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   void getVehicleExport(String plate) {
+    confirmacion++;
     vehicleSel = plate;
     notifyListeners();
   }
@@ -1730,11 +1733,13 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   void getFirstDate(DateTime selection) {
+    confirmacion++;
     firstSel = selection;
     notifyListeners();
   }
 
   void getLastDate(DateTime select) {
+    confirmacion++;
     lastSel = select;
     notifyListeners();
   }
@@ -2112,6 +2117,14 @@ class InventoryProvider extends ChangeNotifier {
     lastSel = DateTime.now();
     if (fileBytes == null) return false;
     return true;
+  }
+
+  bool enableButton(){
+    if(confirmacion == 4){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   // Future<void> getIssuesByRange(Sheet? sheet) async {

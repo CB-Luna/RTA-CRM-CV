@@ -20,6 +20,7 @@ import 'package:rta_crm_cv/widgets/pluto_grid_cells/pluto_grid_company_cell.dart
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 import '../../widgets/pluto_grid_cells/pluto_grid_status_user_cell.dart';
+import 'PopUps/export_users.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
@@ -108,6 +109,37 @@ class _UsersPageState extends State<UsersPage> {
                                 color: AppTheme.of(context).primaryColor,
                                 onTap: () async {
                                   await provider.updateState();
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10, top: 10),
+                              child: CustomTextIconButton(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                width: MediaQuery.of(context).size.width * 0.10,
+                                isLoading: false,
+                                icon: Icon(Icons.download_for_offline_outlined,
+                                    color:
+                                        AppTheme.of(context).primaryBackground),
+                                text: 'Export Data',
+                                style: AppTheme.of(context)
+                                    .contenidoTablas
+                                    .override(
+                                      fontFamily: 'Gotham-Regular',
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context)
+                                          .primaryBackground,
+                                    ),
+                                color: AppTheme.of(context).primaryColor,
+                                onTap: () async {
+                                  provider.clearControllerExportData(
+                                      notify: false);
+                                  if (!mounted) return;
+                                  await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return const ExportUsers();
+                                      });
                                 },
                               ),
                             ),
