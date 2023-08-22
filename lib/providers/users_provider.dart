@@ -768,6 +768,10 @@ class UsersProvider extends ChangeNotifier {
     cell11.value = "Certification";
     cell11.cellStyle = cellStyle;
 
+    var cell12 = sheet.cell(CellIndex.indexByString("L3"));
+    cell12.value = "Adress";
+    cell12.cellStyle = cellStyle;
+
     //sortear por su Id
     users.sort((a, b) => a.sequentialId.compareTo(b.sequentialId));
 
@@ -799,7 +803,8 @@ class UsersProvider extends ChangeNotifier {
         report.company.company,
         report.status,
         report.license,
-        report.certification
+        report.certification,
+        report.address
       ];
       sheet.appendRow(row);
     }
