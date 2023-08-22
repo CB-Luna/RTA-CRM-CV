@@ -3,12 +3,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/warning_toast.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_dropdown_inventory.dart';
 import 'package:rta_crm_cv/widgets/custom_text_fieldForm.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
+
+import '../../../../widgets/success_toast.dart';
+import '../../download_apk/widgets/failed_toast.dart';
 
 class ExportVehicleFilter extends StatefulWidget {
   const ExportVehicleFilter({super.key});
@@ -149,11 +153,40 @@ class _ExportVehicleFilterState extends State<ExportVehicleFilter> {
                         color: AppTheme.of(context).primaryBackground),
                     text: 'Export',
                     onTap: () async {
-                      await provider.exportVehicleData(provider.firstSel,
-                          provider.lastSel, provider.vehicleSel);
-
-                      if (mounted) return;
-                      Navigator.pop(context);
+                      if (provider.enableButton() == true) {
+                        context.pop();
+                        final validation = await provider.exportVehicleData(
+                            provider.firstSel,
+                            provider.lastSel,
+                            provider.vehicleSel);
+                        if (validation == true) {
+                          fToast.showToast(
+                            child: const SuccessToast(
+                              message: 'Document Downloaded',
+                            ),
+                            gravity: ToastGravity.BOTTOM,
+                            toastDuration: const Duration(seconds: 2),
+                          );
+                        } else {
+                          fToast.showToast(
+                            child: const FailedToast(
+                              message: 'Error Downloading Document',
+                            ),
+                            gravity: ToastGravity.BOTTOM,
+                            toastDuration: const Duration(seconds: 3),
+                          );
+                        }
+                      } else {
+                        fToast.showToast(
+                          child: const WarningToast(
+                            message:
+                                'Error Downloading Document. Please Fill All Fields',
+                          ),
+                          gravity: ToastGravity.BOTTOM,
+                          toastDuration: const Duration(seconds: 5),
+                        );
+                      }
+                     
                     }),
               ],
             )
