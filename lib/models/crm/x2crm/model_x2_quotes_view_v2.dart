@@ -113,7 +113,7 @@ class ModelX2V2QuotesView {
         currency: json["currency"],
         total: json["total"]?.toDouble(),
         subtotal: json["subtotal"]?.toDouble(),
-        margin: json["margin"],
+        margin: json["margin"]?.toDouble(),
         idvendor: json["idvendor"],
         vendor: json["vendor"],
         order: json["order"],
@@ -193,16 +193,17 @@ class ModelX2V2QuotesView {
 }
 
 class CircuitInfo {
-  dynamic cir;
+  String? cir;
   String? ipType;
   String? bgpType;
   String? location;
+  String? bandwidth;
   bool? ddosType;
   bool? multicast;
-  dynamic portSize;
-  dynamic subnetType;
+  String? portSize;
+  String? subnetType;
   String? circuitType;
-  dynamic evcCircuitId;
+  String? evcCircuitId;
   String? interfaceType;
 
   CircuitInfo({
@@ -210,6 +211,7 @@ class CircuitInfo {
     this.ipType,
     this.bgpType,
     this.location,
+    this.bandwidth,
     this.ddosType,
     this.multicast,
     this.portSize,
@@ -228,6 +230,7 @@ class CircuitInfo {
         ipType: json["ip_type"],
         bgpType: json["bgp_type"],
         location: json["location"],
+        bandwidth: json["bandwidth"],
         ddosType: json["ddos_type"],
         multicast: json["multicast"],
         portSize: json["port_size"],
@@ -242,6 +245,7 @@ class CircuitInfo {
         "ip_type": ipType,
         "bgp_type": bgpType,
         "location": location,
+        "bandwidth": bandwidth,
         "ddos_type": ddosType,
         "multicast": multicast,
         "port_size": portSize,
@@ -253,12 +257,14 @@ class CircuitInfo {
 }
 
 class Comment {
+  int? id;
   String? name;
   String? role;
   DateTime? sended;
   String? comment;
 
   Comment({
+    this.id,
     this.name,
     this.role,
     this.sended,
@@ -270,6 +276,7 @@ class Comment {
   String toJson() => json.encode(toMap());
 
   factory Comment.fromMap(Map<String, dynamic> json) => Comment(
+        id: json["id"],
         name: json["name"],
         role: json["role"],
         sended: json["sended"] == null ? null : DateTime.parse(json["sended"]),
@@ -277,6 +284,7 @@ class Comment {
       );
 
   Map<String, dynamic> toMap() => {
+        "id": id,
         "name": name,
         "role": role,
         "sended": sended?.toIso8601String(),
@@ -354,17 +362,19 @@ class Item {
 
 class OrderInfo {
   String? type;
-  dynamic handoff;
+  String? address;
+  String? handoff;
   String? orderType;
-  dynamic rackLocation;
-  dynamic newCircuitId;
+  String? rackLocation;
+  String? newCircuitId;
   String? dataCenterType;
-  dynamic demarcationPoint;
-  dynamic existingCircuitId;
+  String? demarcationPoint;
+  String? existingCircuitId;
   String? dataCenterLocation;
 
   OrderInfo({
     this.type,
+    this.address,
     this.handoff,
     this.orderType,
     this.rackLocation,
@@ -381,6 +391,7 @@ class OrderInfo {
 
   factory OrderInfo.fromMap(Map<String, dynamic> json) => OrderInfo(
         type: json["type"],
+        address: json["address"],
         handoff: json["handoff"],
         orderType: json["order_type"],
         rackLocation: json["rack_location"],
@@ -393,6 +404,7 @@ class OrderInfo {
 
   Map<String, dynamic> toMap() => {
         "type": type,
+        "address": address,
         "handoff": handoff,
         "order_type": orderType,
         "rack_location": rackLocation,
@@ -432,7 +444,7 @@ class Totals {
         cost: json["cost"],
         items: json["items"],
         total: json["total"]?.toDouble(),
-        margin: json["margin"],
+        margin: json["margin"]?.toDouble(),
         subtotal: json["subtotal"]?.toDouble(),
         totalTax: json["total_tax"]?.toDouble(),
       );

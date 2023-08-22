@@ -118,6 +118,45 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomTextField(
+                                            key: const Key('address'),
+                                            required: true,
+                                            enabled: false,
+                                            width: txfFieldWidth,
+                                            controller: provider.addressController,
+                                            label: 'Address',
+                                            icon: Icons.map_outlined,
+                                            keyboardType: TextInputType.text,
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'Please enter some text';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                        if (currentUser!.isOpperations)
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
+                                            child: CustomTextField(
+                                              key: const Key('bandwidth'),
+                                              required: true,
+                                              enabled: true,
+                                              width: txfFieldWidth,
+                                              controller: provider.bandwidthController,
+                                              label: 'Bandwidth',
+                                              icon: Icons.cable_outlined,
+                                              keyboardType: TextInputType.text,
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Please enter some text';
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                          ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomDDownMenu(
                                             enabled: false,
                                             list: provider.dataCentersList.map((dataCenter) => dataCenter.name!).toList(),

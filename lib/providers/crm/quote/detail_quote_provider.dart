@@ -36,6 +36,7 @@ class DetailQuoteProvider extends ChangeNotifier {
 
     existingCircuitIDController.clear();
     newCircuitIDController.clear();
+    addressController.clear();
     newDataCenterController.clear();
     rackLocationController.clear();
     demarcationPointController.clear();
@@ -84,7 +85,7 @@ class DetailQuoteProvider extends ChangeNotifier {
           "role": currentUser!.role.roleName,
           "name": currentUser!.name,
           "comment": commentController.text,
-          "sended": DateTime.now(),
+          "sended": DateTime.now().toIso8601String(),
         },
       );
       comments.add(
@@ -138,6 +139,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   late String typesSelectedValue;
   final existingCircuitIDController = TextEditingController();
   final newCircuitIDController = TextEditingController();
+  final addressController = TextEditingController();
   List<GenericCat> dataCentersList = [GenericCat(name: 'New')];
   late String dataCenterSelectedValue;
   final newDataCenterController = TextEditingController();
@@ -154,6 +156,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   late String circuitTypeSelectedValue;
   //List<String> ddosList = ['Yes', 'No'];
   //late String ddosSelectedValue;
+  final bandwidthController = TextEditingController();
   bool ddosSelectedValue = false;
   List<String> evcodList = ['No', 'New', 'Existing EVC'];
   late String evcodSelectedValue;
@@ -660,6 +663,8 @@ class DetailQuoteProvider extends ChangeNotifier {
         existingCircuitIDController.text = quote.orderInfo!.existingCircuitId ?? '';
       }
 
+      addressController.text = quote.orderInfo!.address!;
+
       if (quote.orderInfo!.dataCenterType == 'New') {
         dataCenterSelectedValue = 'New';
         newDataCenterController.text = quote.orderInfo!.dataCenterLocation!;
@@ -695,6 +700,8 @@ class DetailQuoteProvider extends ChangeNotifier {
       if (parameter.parameters.portSize) {
         portSizeSelectedValue = quote.circuitInfo!.portSize!;
       }
+
+      bandwidthController.text = quote.circuitInfo!.bandwidth!;
 
       ddosSelectedValue = quote.circuitInfo!.ddosType!;
       if (quote.circuitInfo!.circuitType == 'DIA') {

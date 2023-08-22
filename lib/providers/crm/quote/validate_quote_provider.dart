@@ -38,6 +38,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
     existingCircuitIDController.clear();
     newCircuitIDController.clear();
     newDataCenterController.clear();
+    addressController.clear();
     rackLocationController.clear();
     demarcationPointController.clear();
 
@@ -130,6 +131,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
   late String typesSelectedValue;
   final existingCircuitIDController = TextEditingController();
   final newCircuitIDController = TextEditingController();
+  final addressController = TextEditingController();
   List<GenericCat> dataCentersList = [GenericCat(name: 'New')];
   late String dataCenterSelectedValue;
   final newDataCenterController = TextEditingController();
@@ -146,6 +148,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
   late String circuitTypeSelectedValue;
   //List<String> ddosList = ['Yes', 'No'];
   //late String ddosSelectedValue;
+  final bandwidthController = TextEditingController();
   bool ddosSelectedValue = false;
   List<String> evcodList = ['No', 'New', 'Existing EVC'];
   late String evcodSelectedValue;
@@ -275,6 +278,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "demarcation_point": demarcationPointController.text,
             "existing_circuit_id": existingCircuitIDController.text,
             "new_circuit_id": newCircuitIDController.text,
+            "bandwidth": bandwidthController.text,
           }).eq('id', quote.idOrders!);
 
           await supabaseCRM.from('leads_history').insert({
@@ -516,6 +520,8 @@ class ValidateQuoteProvider extends ChangeNotifier {
       if (parameter.parameters.existingCircuitId) {
         existingCircuitIDController.text = quote.orderInfo!.existingCircuitId ?? '';
       } */
+
+      addressController.text = quote.orderInfo!.address!;
 
       if (quote.orderInfo!.dataCenterType == 'New') {
         dataCenterSelectedValue = 'New';

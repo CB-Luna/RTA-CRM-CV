@@ -40,6 +40,7 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     existingCircuitIDController.clear();
     newCircuitIDController.clear();
+    addressController.clear();
     newDataCenterController.clear();
     rackLocationController.clear();
     demarcationPointController.clear();
@@ -119,6 +120,7 @@ class CreateQuoteProvider extends ChangeNotifier {
   late String typesSelectedValue;
   final existingCircuitIDController = TextEditingController();
   final newCircuitIDController = TextEditingController();
+  final addressController = TextEditingController();
   List<GenericCat> dataCentersList = [GenericCat(name: 'New')];
   late String dataCenterSelectedValue;
   final newDataCenterController = TextEditingController();
@@ -1171,6 +1173,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "type": typesSelectedValue,
           "existing_circuit_id": null,
           "new_circuit_id": null,
+          "address": addressController.text,
           "data_center_type": dataCenterSelectedValue == 'New' ? 'New' : 'Existing',
           "data_center_location": dataCenterSelectedValue == 'New' ? newDataCenterController.text : dataCenterSelectedValue,
           "handoff": null,
@@ -1188,6 +1191,7 @@ class CreateQuoteProvider extends ChangeNotifier {
               ? evcCircuitIdController.text
               : null,
           "ddos_type": ddosSelectedValue,
+          "bandwidth": null,
           "bgp_type": circuitTypeSelectedValue == "DIA" ? bgpSelectedValue : null,
           "ip_type": ipAdressSelectedValue,
           "interface_type": ipAdressSelectedValue == 'Interface' ? ipInterfaceSelectedValue : null,
