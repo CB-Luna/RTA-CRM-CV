@@ -28,6 +28,7 @@ class _CustomDetailsState extends State<CustomDetails> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
+            width: widget.width,
             height: 30,
             decoration: BoxDecoration(
               color: AppTheme.of(context).primaryColor,

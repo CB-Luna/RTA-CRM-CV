@@ -29,11 +29,12 @@ class _CreateOrderState extends State<CreateOrder> {
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
-        title: '${provider.typesSelectedValue.text} - ${provider.circuitAddressController.text} - ${provider.circuitTypeSelectedValue.text} ', //${provider.circuitAddressController}
+        title:
+            '${provider.typesSelectedValue.text} - ${provider.circuitAddressController.text} - ${provider.circuitTypeSelectedValue.text}', //${provider.circuitAddressController.text} 1400 Broadfield Blvd #200, Houston
         height: provider.circuitTypeSelectedValue.text == 'DIA' || provider.circuitTypeSelectedValue.text == 'NNI'
-            ? getHeight(300, context)
+            ? getHeight(280, context)
             : provider.circuitTypeSelectedValue.text == 'X-Connect'
-                ? getHeight(500, context)
+                ? getHeight(495, context)
                 : getHeight(800, context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -242,7 +243,9 @@ class _CreateOrderState extends State<CreateOrder> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CustomTextIconButton(
                     isLoading: false,
@@ -255,6 +258,7 @@ class _CreateOrderState extends State<CreateOrder> {
                       Navigator.pop(context);
                     },
                   ),
+                  SizedBox(width: getWidth(56, context)),
                   CustomTextIconButton(
                     isLoading: false,
                     icon: Icon(Icons.add, color: AppTheme.of(context).tertiaryColor),

@@ -42,18 +42,21 @@ class CardHeader extends StatelessWidget {
             ),
             gradient: gradient ?? blueRadial,
           ),
-          child: Center(
-            child: Text(text,
-                style: TextStyle(
-                    fontFamily: 'UniNeue',
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.of(context)
-                        .primaryBackground) /*  GoogleFonts.poppins(
-                color: AppTheme.of(context).primaryBackground,
-                fontSize: 25,
-                fontWeight: FontWeight.w600, */
-                ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Center(
+              child: Text(text,
+                  style: TextStyle(
+                      fontFamily: 'UniNeue',
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.of(context)
+                          .primaryBackground) /*  GoogleFonts.poppins(
+                  color: AppTheme.of(context).primaryBackground,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600, */
+                  ),
+            ),
           ),
         ),
       ),
