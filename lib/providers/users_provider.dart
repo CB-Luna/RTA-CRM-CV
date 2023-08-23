@@ -47,7 +47,7 @@ class UsersProvider extends ChangeNotifier {
   Company? selectedCompanyUpdate;
   List<State> states = [];
   String? dropdownvalue = "Active";
-  String? dropdownvalueUpdate;
+  String? dropdownvalueUpdate = "Not Active";
   State? selectedState;
   State? selectedStateUpdate;
   Vehicle? selectedVehicle;
@@ -98,7 +98,7 @@ class UsersProvider extends ChangeNotifier {
     selectedCompanyUpdate = selectedCompany;
     selectedVehicleUpdate = null;
     addressControllerUpdate.text = users.address;
-    dropdownvalueUpdate = users.status ?? "-";
+    dropdownvalueUpdate = users.status ?? "Not Active";
     licenseControllerUpdate.text = users.license ?? "-";
     certificationControllerUpdate.text = users.certification ?? "-";
   }
@@ -137,6 +137,18 @@ class UsersProvider extends ChangeNotifier {
   void selectedVehiclee(String vehicle) {
     selectedVehicle =
         vehicles.firstWhere((element) => element.licesensePlates == vehicle);
+    notifyListeners();
+  }
+
+  void clearVehicle() {
+    selectedVehicle = null;
+    log("Entro aqui");
+    notifyListeners();
+  }
+
+  void clearVehicleUpdate() {
+    selectedVehicleUpdate = null;
+    log("Entro aqui Update");
     notifyListeners();
   }
 
@@ -185,7 +197,7 @@ class UsersProvider extends ChangeNotifier {
       final res = await supabaseCtrlV
           .from('vehicle')
           .select()
-          .eq('id_vehicle', users.vehicle?.idVehicle);
+          .eq('id_vehicle', users.idVehicle);
 
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
@@ -198,8 +210,8 @@ class UsersProvider extends ChangeNotifier {
   }
 
   void selectVehicleActual(User users, {bool notify = true}) {
-    actualVehicle = vehicles
-        .firstWhere((element) => element.idVehicle == users.vehicle?.idVehicle);
+    actualVehicle =
+        vehicles.firstWhere((element) => element.idVehicle == users.idVehicle);
     //print('ActualVehicle: ${actualVehicle?.licesensePlates}');
     if (notify) notifyListeners();
   }
@@ -264,8 +276,9 @@ class UsersProvider extends ChangeNotifier {
               'id_vehicle', selectedVehicleUpdate?.idVehicle);
 
       // Aqui cambiamos el vehiculo viejo a disponible
-      final res2 = await supabaseCtrlV.from('vehicle').update(
-          {'id_status_fk': 3}).eq('id_vehicle', users.vehicle?.idVehicle);
+      final res2 = await supabaseCtrlV
+          .from('vehicle')
+          .update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
 
       // Aqui cambiamos el id del vehiculo donde el id_sequential sea el mismo que el del usuario
       // final cambioVehiculo = await supabase
@@ -334,7 +347,7 @@ class UsersProvider extends ChangeNotifier {
       final resC = await supabaseCtrlV
           .from('inventory_view')
           .select()
-          .eq('id_vehicle', users.vehicle?.idVehicle);
+          .eq('id_vehicle', users.idVehicle);
 
       vehiclexUser = (resC as List<dynamic>)
           .map((vehiclexUser) => Vehicle.fromJson(jsonEncode(vehiclexUser)))
@@ -376,7 +389,6 @@ class UsersProvider extends ChangeNotifier {
   Future<void> getVehicleActive(String val, {bool notify = true}) async {
     try {
       final resC = await supabase.from('company').select().eq('company', val);
-
       final company = (resC as List<dynamic>);
 
       final res = await supabaseCtrlV
@@ -443,9 +455,11 @@ class UsersProvider extends ChangeNotifier {
               'ROLE_Column': PlutoCell(value: user.role.roleName),
               'EMAIL_Column': PlutoCell(value: user.email),
               'MOBILE_Column': PlutoCell(value: user.mobilePhone),
+              'ADDRESS_Column': PlutoCell(value: user.address),
               'STATE_Column': PlutoCell(value: user.state.name),
               'COMPANY_Column': PlutoCell(value: user.company.company),
               'STATUS_Column': PlutoCell(value: user.status),
+              'LicenseP_Column': PlutoCell(value: user.licensePlates),
               'LICENSE_Column': PlutoCell(value: user.license),
               'CERTIFICATION_Column': PlutoCell(value: user.certification),
               'ACTIONS_Column': PlutoCell(value: user),
@@ -495,9 +509,11 @@ class UsersProvider extends ChangeNotifier {
               'ROLE_Column': PlutoCell(value: user.role.roleName),
               'EMAIL_Column': PlutoCell(value: user.email),
               'MOBILE_Column': PlutoCell(value: user.mobilePhone),
+              'ADDRESS_Column': PlutoCell(value: user.address),
               'STATE_Column': PlutoCell(value: user.state.name),
               'COMPANY_Column': PlutoCell(value: user.company.company),
               'STATUS_Column': PlutoCell(value: user.status),
+              'LicenseP_Column': PlutoCell(value: user.licensePlates),
               'LICENSE_Column': PlutoCell(value: user.license),
               'CERTIFICATION_Column': PlutoCell(value: user.certification),
               'ACTIONS_Column': PlutoCell(value: user),
@@ -610,13 +626,12 @@ class UsersProvider extends ChangeNotifier {
         'last_name': lastNameControllerUpdate.text,
         'home_phone': phoneControllerUpdate.text,
         'mobile_phone': phoneControllerUpdate.text,
-        'address': '124 Main St.',
-        'image': imageName,
+        'address': addressControllerUpdate.text,
+        'image': imageUrl,
         'birthdate': DateTime.now().toIso8601String(),
         'id_role_fk': selectedRoleUpdate?.id ?? users.role.id,
         'state_fk': selectedStateUpdate?.id ?? users.state.id,
-        'id_vehicle_fk':
-            selectedVehicleUpdate?.idVehicle ?? users.vehicle?.idVehicle,
+        'id_vehicle_fk': selectedVehicleUpdate?.idVehicle ?? users.idVehicle,
         'id_company_fk': selectedCompanyUpdate?.id ?? users.company.id,
         'status': dropdownvalueUpdate,
         'license': licenseControllerUpdate.text,
@@ -708,17 +723,18 @@ class UsersProvider extends ChangeNotifier {
     setIndex(0); */
   }
 
-   void clearControllerExportData({bool notify = true}) {
+  void clearControllerExportData({bool notify = true}) {
     companySel = "All";
     if (notify) notifyListeners();
   }
+
   void getCompanyFilter(String comp, {bool notify = true}) {
     companySel = comp;
     confirmacion++;
     if (notify) notifyListeners();
   }
 
-   Future<bool> excelActivityReports() async {
+  Future<bool> excelActivityReports() async {
     //Crear excel
     Excel excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
@@ -832,7 +848,6 @@ class UsersProvider extends ChangeNotifier {
     }
     //Agregar datos
     for (int i = 0; i < selectedComp.length; i++) {
-
       //Sortear por Compania
 
       User report = selectedComp[i];
@@ -863,7 +878,6 @@ class UsersProvider extends ChangeNotifier {
 
     return true;
   }
-
 
   setABSelected() {
     //iSelectedDashboards?.change(indexSelected[0]);

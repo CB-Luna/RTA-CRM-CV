@@ -47,8 +47,6 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
         .toList();
     var cardMaskNumber = MaskTextInputFormatter(
         mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
-    // var cardMaskEmial =
-    //     MaskTextInputFormatter(filter: {RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$')});
 
     return Dialog(
       shape: const RoundedRectangleBorder(
@@ -239,28 +237,53 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomDDownMenu(
-                        hint: 'Choose a Vehicle',
-                        label: 'Vehicle',
-                        icon: Icons.car_repair_outlined,
-                        width: 350,
-                        list: vehicleNames,
-                        dropdownValue:
-                            provider.selectedVehicle?.licesensePlates,
-                        onChanged: (val) {
-                          if (val == null) return;
-                          //print(val);
-                          provider.selectedVehiclee(val);
-                        },
-                      ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomDDownMenu(
+                            hint: 'Choose a Vehicle',
+                            label: 'Vehicle',
+                            icon: Icons.credit_card_outlined,
+                            width: 190,
+                            list: vehicleNames,
+                            dropdownValue:
+                                provider.selectedVehicle?.licesensePlates,
+                            onChanged: (val) {
+                              if (val == null) return;
+                              //print(val);
+                              provider.selectedVehiclee(val);
+                            },
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: CustomTextIconButton(
+                                isLoading: false,
+                                icon: Icon(
+                                  Icons.cleaning_services_outlined,
+                                  color: AppTheme.of(context).primaryBackground,
+                                ),
+                                text: 'Clear Plates',
+                                onTap: () async {
+                                  provider.clearVehicle();
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
                         label: 'License',
-                        icon: Icons.settings_backup_restore_outlined,
+                        icon: Icons.card_membership_outlined,
                         controller: provider.licenseController,
                         enabled: true,
                         width: 350,
@@ -272,7 +295,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
                         label: 'Certification',
-                        icon: Icons.settings_backup_restore_outlined,
+                        icon: Icons.workspace_premium_outlined,
                         controller: provider.certificationController,
                         enabled: true,
                         width: 350,
