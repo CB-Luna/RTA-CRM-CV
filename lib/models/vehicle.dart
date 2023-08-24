@@ -17,9 +17,9 @@ class Vehicle {
       required this.status,
       required this.company,
       required this.dateAdded,
-      required this.oilChangeDue,
-      required this.lastRadiatorFluidChange,
-      required this.lastTransmissionFluidChange,
+      this.oilChangeDue,
+      this.lastRadiatorFluidChange,
+      this.lastTransmissionFluidChange,
       required this.issuesR,
       required this.mileage,
       this.issuesD});

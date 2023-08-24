@@ -208,8 +208,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                             hint: 'Choose the Motor',
                             width: 187,
                             list: motors,
-                            dropdownValue: '${provider.motorSel}'
-                                ' ${provider.motorController.text}',
+                            dropdownValue: provider.motorSel,
                             onChanged: (val) {
                               if (val == null) return;
                               provider.selectMotor(val);
@@ -225,7 +224,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                               padding: const EdgeInsets.only(left: 10),
                               child: CustomTextFieldForm(
                                 label: 'Version',
-                                controller: provider.motorController,
+                                controller: provider.motorControllerUpadte,
                                 enabled: true,
                                 width: 100,
                                 keyboardType: TextInputType.number,

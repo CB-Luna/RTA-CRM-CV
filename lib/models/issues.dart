@@ -189,14 +189,11 @@ class BucketInspection {
   final String? insulated;
   final String? insulatedComments;
   final String? insulatedImage;
-  final DateTime? insulatedDateclosed;
   final String? holesDrilled;
   final String? holesDrilledComments;
   final String? holesDrilledImage;
-  final DateTime? holesDrilledDateclosed;
   final String? bucketLiner;
   final String? bucketLinerComments;
-  final DateTime? bucketLinerDateclosed;
   final String? bucketLinerImage;
   final DateTime? dateAdded;
   bool? state;
@@ -206,14 +203,11 @@ class BucketInspection {
     this.insulated,
     this.insulatedComments,
     this.insulatedImage,
-    this.insulatedDateclosed,
     this.holesDrilled,
     this.holesDrilledComments,
     this.holesDrilledImage,
-    this.holesDrilledDateclosed,
     this.bucketLiner,
     this.bucketLinerComments,
-    this.bucketLinerDateclosed,
     this.bucketLinerImage,
     this.dateAdded,
     this.state,
@@ -230,21 +224,12 @@ class BucketInspection {
         insulated: json["insulated"],
         insulatedComments: json["insulated_comments"],
         insulatedImage: json["insulated_image"],
-        insulatedDateclosed: json["insulated_dateclosed"] == null
-            ? null
-            : DateTime.parse(json["insulated_dateclosed"]),
         holesDrilled: json["holes_drilled"],
         holesDrilledComments: json["holes_drilled_comments"],
         holesDrilledImage: json["holes_drilled_image"],
-        holesDrilledDateclosed: json["holes_drilled_dateclosed"] == null
-            ? null
-            : DateTime.parse(json["holes_drilled_dateclosed"]),
         bucketLiner: json["bucket_liner"],
         bucketLinerComments: json["bucket_liner_comments"],
         bucketLinerImage: json["bucket_liner_image"],
-        bucketLinerDateclosed: json["bucket_liner_dateclosed"] == null
-            ? null
-            : DateTime.parse(json["date_added"]),
         dateAdded: json["date_added"] == null
             ? null
             : DateTime.parse(json["date_added"]),
@@ -262,8 +247,6 @@ class BucketInspection {
         "bucket_liner_comments": bucketLinerComments,
         "bucket_liner_image": bucketLinerImage,
         "date_added": dateAdded?.toIso8601String(),
-        "bucket_liner_dateclosed": bucketLinerDateclosed?.toIso8601String(),
-        "insulated_dateclosed": insulatedDateclosed?.toIso8601String(),
       };
 }
 
@@ -276,7 +259,11 @@ class CarBodywork {
   final String? wiperBladesBackComments;
   final String? wiperBladesBackImage;
   final String? windshieldWiperFront;
+  final String? windshieldWiperFrontComments;
+  final String? windshieldWiperFrontImage;
   final String? windshieldWiperBack;
+  final String? windshieldWiperBackComments;
+  final String? windshieldWiperBackImage;
   final String? generalBody;
   final String? generalBodyComments;
   final String? generalBodyImage;
@@ -314,6 +301,10 @@ class CarBodywork {
     this.wiperBladesFrontComments,
     this.wiperBladesFrontImage,
     this.wiperBladesBack,
+    this.windshieldWiperFrontComments,
+    this.windshieldWiperFrontImage,
+    this.windshieldWiperBackComments,
+    this.windshieldWiperBackImage,
     this.wiperBladesBackComments,
     this.wiperBladesBackImage,
     this.windshieldWiperFront,
@@ -364,7 +355,11 @@ class CarBodywork {
         wiperBladesBackComments: json["wiper_blades_back_comments"],
         wiperBladesBackImage: json["wiper_blades_back_image"],
         windshieldWiperFront: json["windshield_wiper_front"],
+        windshieldWiperFrontComments: json["windshield_wiper_front_comments"],
+        windshieldWiperFrontImage: json["windshield_wiper_front_image"],
         windshieldWiperBack: json["windshield_wiper_back"],
+        windshieldWiperBackComments: json["windshield_wiper_back_comments"],
+        windshieldWiperBackImage: json["windshield_wiper_back_image"],
         generalBody: json["general_body"],
         generalBodyComments: json["general_body_comments"],
         generalBodyImage: json["general_body_image"],
@@ -407,7 +402,11 @@ class CarBodywork {
         "wiper_blades_back_comments": wiperBladesBackComments,
         "wiper_blades_back_image": wiperBladesBackImage,
         "windshield_wiper_front": windshieldWiperFront,
+        "windshield_wiper_front_comments": windshieldWiperFrontComments,
+        "windshield_wiper_front_image": windshieldWiperFrontImage,
         "windshield_wiper_back": windshieldWiperBack,
+        "windshield_wiper_back_comments": windshieldWiperBackComments,
+        "windshield_wiper_back_image": windshieldWiperBackImage,
         "general_body": generalBody,
         "general_body_comments": generalBodyComments,
         "general_body_image": generalBodyImage,
