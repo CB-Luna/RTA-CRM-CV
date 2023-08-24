@@ -11,7 +11,7 @@ class Monitory {
       required this.idVehicle,
       required this.dateAddedR,
        this.dateAddedD,
-      required this.employee,
+      required this.worker,
       required this.vin,
       required this.licensePlates,
       required this.company,
@@ -26,7 +26,7 @@ class Monitory {
   int idVehicle;
   DateTime dateAddedR;
   DateTime? dateAddedD;
-  Employee employee;
+  Worker worker;
   String vin;
   String licensePlates;
   CompanyApi company;
@@ -43,7 +43,7 @@ class Monitory {
       idVehicle: json["id_vehicle"],
       dateAddedR: DateTime.parse(json["date_added_r"]),
       dateAddedD: json["date_added_d"] == null ? null: DateTime.parse(json["date_added_d"]),
-      employee: Employee.fromJson(jsonEncode(json['employee'])),
+      worker: Worker.fromJson(jsonEncode(json['worker'])),
       vin: json["vin"],
       licensePlates: json["license_plates"],
       company: CompanyApi.fromJson(jsonEncode(json['company'])),
@@ -59,7 +59,7 @@ class Monitory {
         "id_vehicle": idVehicle,
         "date_added_r": dateAddedR.toIso8601String(), //check in
         "date_added_d": dateAddedD?.toIso8601String(), //check out
-        "employee": employee.toMap(),
+        "worker": worker.toMap(),
         "vin": vin,
         "license_plates": licensePlates,
         "company": company.toMap(),

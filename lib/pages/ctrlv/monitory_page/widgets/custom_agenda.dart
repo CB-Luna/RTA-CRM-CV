@@ -200,7 +200,7 @@ class CustomAgenda extends StatelessWidget {
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                                        '${provider.idEventos[index].worker.name} ${provider.idEventos[index].worker.lastName}',
                                                         style: TextStyle(
                                                           color: AppTheme.of(
                                                                   context)
@@ -417,7 +417,7 @@ class CustomAgenda extends StatelessWidget {
                                                                 .center,
                                                         children: [
                                                           Text(
-                                                            '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                                            '${provider.idEventos[index].worker.name} ${provider.idEventos[index].worker.lastName}',
                                                             style: TextStyle(
                                                               color: AppTheme.of(
                                                                       context)
@@ -631,7 +631,7 @@ class CustomAgenda extends StatelessWidget {
                                                                     .center,
                                                             children: [
                                                               Text(
-                                                                '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                                                '${provider.idEventos[index].worker.name} ${provider.idEventos[index].worker.lastName}',
                                                                 style:
                                                                     TextStyle(
                                                                   color: const Color
@@ -933,7 +933,7 @@ class CustomAgenda extends StatelessWidget {
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                                        '${provider.idEventos[index].worker.name} ${provider.idEventos[index].worker.lastName}',
                                                         style: TextStyle(
                                                           color: AppTheme.of(
                                                                   context)
@@ -1245,7 +1245,7 @@ class CustomAgenda extends StatelessWidget {
                                                                 .center,
                                                         children: [
                                                           Text(
-                                                            '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                                            '${provider.idEventos[index].worker.name} ${provider.idEventos[index].worker.lastName}',
                                                             style: TextStyle(
                                                               color: AppTheme.of(
                                                                       context)
@@ -1536,7 +1536,7 @@ class CustomAgenda extends StatelessWidget {
                                                                     .center,
                                                             children: [
                                                               Text(
-                                                                '${provider.idEventos[index].employee.name} ${provider.idEventos[index].employee.lastName}',
+                                                                '${provider.idEventos[index].worker.name} ${provider.idEventos[index].worker.lastName}',
                                                                 style:
                                                                     TextStyle(
                                                                   color: const Color

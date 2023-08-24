@@ -86,9 +86,7 @@ class _ExportUsersState extends State<ExportUsers> {
                     text: 'Export',
                     onTap: () async {
                       if (context.canPop()) context.pop();
-
                       await provider.excelActivityReports();
-                      // ignore: use_build_context_synchronously
                     }),
               ],
             )
