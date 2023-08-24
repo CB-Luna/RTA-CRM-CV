@@ -65,26 +65,15 @@ class OrdersProvider extends ChangeNotifier {
 
   Future<void> updateState() async {
     await clearAll();
+    print(ordercreate);
   }
 
 ////////////////////////////////////////////////////////////////////////////
-  Future<bool> getDemarkationImage(String x2quoteid) async {
-    try {
-      dynamic response = await supabaseCRM.from('order_info').select('demarcation_url').eq('x2_quote_nameId', x2quoteid);
-      demarcationImage = DemarcationImage.fromJson(jsonEncode(response[0]));
-      titulo = demarcationImage.demarcationUrl.toString();
-      notifyListeners();
-      return true;
-    } catch (e) {
-      log('Error getDemarkationImage() : e');
-      return false;
-    }
-  }
+ 
 
-  Future<void> getData(int idQuote, String x2quoteid) async {
+  Future<void> getData(int idQuote) async {
     try {
       await clearAll();
-      await getDemarkationImage(x2quoteid);
       var response = await supabaseCRM.from('x2_quotes_view_v2').select().eq('quoteid', idQuote);
       quote = ModelX2V2QuotesView.fromJson(jsonEncode(response[0]));
       //print(jsonEncode(response[0]));
@@ -92,6 +81,7 @@ class OrdersProvider extends ChangeNotifier {
       typesSelectedValue.text = quote.orderInfo!.type!;
       orderTypesSelectedValue.text = quote.orderInfo!.orderType!;
       circuitTypeSelectedValue.text = quote.circuitInfo!.circuitType!;
+      titulo = quote.demarcationUrl!.toString();
       
       //Datos Form
       if ((typesSelectedValue.text == 'Migration' || typesSelectedValue.text == 'New Circuit' || typesSelectedValue.text == 'Upgrade') &&

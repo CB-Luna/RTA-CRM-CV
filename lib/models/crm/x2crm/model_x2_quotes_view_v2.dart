@@ -45,6 +45,8 @@ class ModelX2V2QuotesView {
   Totals? totals;
   List<Comment>? comments;
   List<Item>? items;
+  String? demarcationUrl;
+  String? demarcationName;
 
   ModelX2V2QuotesView({
     this.quoteid,
@@ -91,6 +93,8 @@ class ModelX2V2QuotesView {
     this.totals,
     this.comments,
     this.items,
+    this.demarcationUrl,
+    this.demarcationName,
   });
 
   factory ModelX2V2QuotesView.fromJson(String str) => ModelX2V2QuotesView.fromMap(json.decode(str));
@@ -142,6 +146,8 @@ class ModelX2V2QuotesView {
         totals: json["totals"] == null ? null : Totals.fromMap(json["totals"]),
         comments: json["comments"] == null ? [] : List<Comment>.from(json["comments"]!.map((x) => Comment.fromMap(x))),
         items: json["items"] == null ? [] : List<Item>.from(json["items"]!.map((x) => Item.fromMap(x))),
+        demarcationUrl: json["demarcation_url"],
+        demarcationName: json["demarcation_name"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -189,6 +195,8 @@ class ModelX2V2QuotesView {
         "totals": totals?.toMap(),
         "comments": comments == null ? [] : List<dynamic>.from(comments!.map((x) => x.toMap())),
         "items": items == null ? [] : List<dynamic>.from(items!.map((x) => x.toMap())),
+        "demarcation_url": demarcationUrl,
+        "demarcation_name": demarcationName,
       };
 }
 

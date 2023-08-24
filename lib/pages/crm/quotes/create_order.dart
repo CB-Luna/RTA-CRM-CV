@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/providers/crm/accounts/tabs/order_provider.dart';
+import 'package:rta_crm_cv/providers/crm/quote/quotes_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_details.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -13,7 +14,8 @@ import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/success_toast.dart';
 
 class CreateOrder extends StatefulWidget {
-  const CreateOrder({super.key});
+  CreateOrder({super.key, required this.id});
+  int id;
 
   @override
   State<CreateOrder> createState() => _CreateOrderState();
@@ -268,6 +270,7 @@ class _CreateOrderState extends State<CreateOrder> {
                     color: AppTheme.of(context).primaryBackground,
                     onTap: () async {
                       provider.ordercreate = true;
+                      await (QuotesProvider()).insertPowerCode(widget.id);
                       fToast.showToast(
                         child: const SuccessToast(
                           message: 'Succes Lead Creat',
@@ -275,7 +278,6 @@ class _CreateOrderState extends State<CreateOrder> {
                         gravity: ToastGravity.BOTTOM,
                         toastDuration: const Duration(seconds: 2),
                       );
-
                       if (context.canPop()) context.pop();
                     },
                   ),

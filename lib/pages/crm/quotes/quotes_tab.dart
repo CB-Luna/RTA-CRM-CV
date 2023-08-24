@@ -512,22 +512,15 @@ class _QuotesTabState extends State<QuotesTab> {
                               color: AppTheme.of(context).primaryBackground,
                               text: 'Create Order',
                               onTap: () async {
-                                /* await supabaseCRM.rpc(
-                                  'update_quote_status',
-                                  params: {"id_status": 8, "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id}, //Order Created
-                                );*/
                                 //await provider.getQuotes(null);
-                                await ordersProvider.getData(rendererContext.row.cells['ID_Column']!.value, rendererContext.row.cells['X2_QUOTE_Column']!.value);
+                                await ordersProvider.getData(rendererContext.row.cells['ID_Column']!.value);
                                 // ignore: use_build_context_synchronously
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return const CreateOrder();
+                                    return CreateOrder(id: rendererContext.row.cells["ID_Column"]!.value);
                                   },
                                 );
-                                if (ordersProvider.ordercreate == true) {
-                                  await provider.insertPowerCode(rendererContext.row.cells["ID_Column"]!.value);
-                                }
                               },
                             ),
                           if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 8) //Order Created

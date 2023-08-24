@@ -414,6 +414,37 @@ class QuotesProvider extends ChangeNotifier {
           },
         );
       }
+      String typesSelectedValue = quote.orderInfo!.type!;
+      String circuitTypeSelectedValue = quote.circuitInfo!.circuitType!;
+      var ticket = {
+        "type": typesSelectedValue, //Ticket ID
+        "circuit_type": circuitTypeSelectedValue, //Ticket Price
+
+        if ((typesSelectedValue == 'Migration' || typesSelectedValue == 'New Circuit' || typesSelectedValue == 'Upgrade') && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP'))
+          "address": quote.orderInfo!.address!,
+        if ((typesSelectedValue == 'Migration' || typesSelectedValue == 'New Circuit' || typesSelectedValue == 'Upgrade') && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP'))
+          "description": quote.description!,
+        if ((typesSelectedValue == 'Migration' || typesSelectedValue == 'New Circuit' || typesSelectedValue == 'Upgrade') && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP'))
+          "port_size": quote.circuitInfo!.portSize!,
+        if ((typesSelectedValue == 'Migration' || typesSelectedValue == 'New Circuit' || typesSelectedValue == 'Upgrade') && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP'))
+          "cir": quote.circuitInfo!.cir!,
+
+        if (circuitTypeSelectedValue == 'DIA') "address": quote.orderInfo!.address!,
+        if (circuitTypeSelectedValue == 'DIA') "bandwidth": quote.circuitInfo!.bandwidth!,
+
+        if (typesSelectedValue != 'Circuit Removal' && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP')) "address": quote.orderInfo!.address!,
+        if (typesSelectedValue != 'Circuit Removal' && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP')) "handoff": quote.orderInfo!.handoff!,
+        if (typesSelectedValue != 'Circuit Removal' && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP')) "demarcationPoint": quote.orderInfo!.demarcationPoint!,
+        if (typesSelectedValue != 'Circuit Removal' && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP')) "demarcationURL": quote.demarcationUrl,
+
+        if (circuitTypeSelectedValue == 'NNI' || circuitTypeSelectedValue == 'X-Connect') "address": quote.orderInfo!.address!,
+        if (circuitTypeSelectedValue == 'NNI' || circuitTypeSelectedValue == 'X-Connect') "rackLocation": quote.orderInfo!.rackLocation!,
+
+        if (circuitTypeSelectedValue == 'X-Connect') "address": quote.orderInfo!.address!,
+        if (circuitTypeSelectedValue == 'X-Connect') "comment": quote.comments!.first.comment!, //quote.description!;
+
+        "datacenterLocation": quote.orderInfo!.dataCenterLocation!,
+      };
 
       var json = {
         "apiKey": "3cBEFVR4qQleIRO2yWu0FcOCDdyZbuaU", //Fijo
@@ -439,10 +470,11 @@ class QuotesProvider extends ChangeNotifier {
           "physicalState": quote.accountstate, //Account State
           "physicalZip": quote.accountzipcode, //Account Postal Code
         },
-        "services": servicesList
+        "services": servicesList,
+        "ticket": ticket,
       };
 
-      print(json);
+      print(jsonEncode(json));
 
       var request = http.Request('POST', Uri.parse("https://supa43.rtatel.com/planbuilder/wop/api"));
       var headers = {'Content-Type': 'application/json'};
@@ -453,6 +485,10 @@ class QuotesProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         dynamic resp = await response.stream.bytesToString();
+        await supabaseCRM.rpc(
+          'update_quote_status',
+          params: {"id_status": 8, "id": id, "user_uuid": currentUser!.id}, //Order Created
+        );
         print(resp);
       }
 
