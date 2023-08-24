@@ -417,43 +417,33 @@ class QuotesProvider extends ChangeNotifier {
       String typesSelectedValue = quote.orderInfo!.type!;
       String circuitTypeSelectedValue = quote.circuitInfo!.circuitType!;
       var ticket = {
-        "type": typesSelectedValue, //Ticket ID
-        "circuit_type": circuitTypeSelectedValue, //Ticket Price
+        "title": '$typesSelectedValue - ${quote.orderInfo!.address!} - $circuitTypeSelectedValue ', //titulo type+circuitType+address
 
-        if ((typesSelectedValue == 'Migration' || typesSelectedValue == 'New Circuit' || typesSelectedValue == 'Upgrade') && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP'))
-          "address": quote.orderInfo!.address!,
-        if ((typesSelectedValue == 'Migration' || typesSelectedValue == 'New Circuit' || typesSelectedValue == 'Upgrade') && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP'))
-          "description": quote.description!,
-        if ((typesSelectedValue == 'Migration' || typesSelectedValue == 'New Circuit' || typesSelectedValue == 'Upgrade') && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP'))
-          "port_size": quote.circuitInfo!.portSize!,
-        if ((typesSelectedValue == 'Migration' || typesSelectedValue == 'New Circuit' || typesSelectedValue == 'Upgrade') && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP'))
-          "cir": quote.circuitInfo!.cir!,
+        if (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP')
+          "body":
+              "Circuit Address:${quote.orderInfo!.address!}\nCircuit Details:${quote.description!}\nData Center Location:${quote.orderInfo!.dataCenterLocation!}\nPort Size:${quote.circuitInfo!.portSize!}\nCIR:${quote.circuitInfo!.cir!}",
 
-        if (circuitTypeSelectedValue == 'DIA') "address": quote.orderInfo!.address!,
-        if (circuitTypeSelectedValue == 'DIA') "bandwidth": quote.circuitInfo!.bandwidth!,
+        if (circuitTypeSelectedValue == 'DIA') "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}\nBandwidth:${quote.circuitInfo!.bandwidth!}",
 
-        if (typesSelectedValue != 'Circuit Removal' && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP')) "address": quote.orderInfo!.address!,
-        if (typesSelectedValue != 'Circuit Removal' && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP')) "handoff": quote.orderInfo!.handoff!,
-        if (typesSelectedValue != 'Circuit Removal' && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP')) "demarcationPoint": quote.orderInfo!.demarcationPoint!,
-        if (typesSelectedValue != 'Circuit Removal' && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP')) "demarcationURL": quote.demarcationUrl,
+        if (typesSelectedValue != 'Removal' && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP'))
+          "body":
+              "Circuit Address:${quote.orderInfo!.address!}\nCircuit Details:${quote.description!}\nData Center Location:${quote.orderInfo!.dataCenterLocation!}\nPort Size:${quote.circuitInfo!.portSize!}\nCIR:${quote.circuitInfo!.cir!}\nHandoff:${quote.orderInfo!.handoff!}\nDemarcation Point:${quote.orderInfo!.demarcationPoint!}\nImage of Demarcation Point:${quote.demarcationUrl} ",
 
-        if (circuitTypeSelectedValue == 'NNI' || circuitTypeSelectedValue == 'X-Connect') "address": quote.orderInfo!.address!,
-        if (circuitTypeSelectedValue == 'NNI' || circuitTypeSelectedValue == 'X-Connect') "rackLocation": quote.orderInfo!.rackLocation!,
+        if (circuitTypeSelectedValue == 'NNI' || circuitTypeSelectedValue == 'X-Connect')
+          "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}\nRack Location:${quote.orderInfo!.rackLocation!}",
 
-        if (circuitTypeSelectedValue == 'X-Connect') "address": quote.orderInfo!.address!,
-        if (circuitTypeSelectedValue == 'X-Connect') "comment": quote.comments!.first.comment!, //quote.description!;
-
-        "datacenterLocation": quote.orderInfo!.dataCenterLocation!,
+        if (circuitTypeSelectedValue == 'X-Connect')
+          "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}\nRack Location:${quote.orderInfo!.rackLocation!}\nDetails:${quote.description!}",
       };
 
       var json = {
         "apiKey": "3cBEFVR4qQleIRO2yWu0FcOCDdyZbuaU", //Fijo
         "action": "createLead", //Fijo
-        "customerId": pcCustomer?.customerId,
         "existingCustomer": existInPowerCode,
         "customerType": "Wholesale", //Fijo
         "locationGroup": "SAN", //Fijo
         "customer": {
+          "customerId": pcCustomer?.customerId,
           "firstName": quote.contactfirstname, //Contact Name
           "lastName": quote.contactlastname, //Contact LastName
           "emailAddress": quote.contactemail, //Contact Email
