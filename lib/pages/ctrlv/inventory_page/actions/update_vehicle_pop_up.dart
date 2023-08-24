@@ -208,7 +208,8 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                             hint: 'Choose the Motor',
                             width: 187,
                             list: motors,
-                            dropdownValue: provider.motorSel,
+                            dropdownValue: '${provider.motorSel}'
+                                ' ${provider.motorController.text}',
                             onChanged: (val) {
                               if (val == null) return;
                               provider.selectMotor(val);
@@ -286,7 +287,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                                 lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerOil.text =
+                              provider.dateTimeControllerOilUpdate.text =
                                   DateFormat("MMM/dd/yyyy").format(newDate);
                             }
                           }),

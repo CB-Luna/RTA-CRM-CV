@@ -75,22 +75,30 @@ Widget? getAddImageV(dynamic image,
   }
 }
 
-Widget? getImageUpdate(Vehicle vehicle, Uint8List? newImage,
+Widget? getImageUpdate(Vehicle vehicle, dynamic newImage,
     {double height = 180, BoxFit boxFit = BoxFit.cover}) {
-  if (newImage == null) {
-    if (vehicle.image != null) {
-      return Image.network(
-        vehicle.image!,
-        height: height,
-        width: double.infinity,
-        filterQuality: FilterQuality.high,
-        fit: boxFit,
-      );
-    }
+  print("------------");
+  print(vehicle.image);
+  if (vehicle.image == null || vehicle.image == "") {
     return Image.asset('assets/images/fadeInAnimation.gif');
-  } else {
+  } else if (newImage is Uint8List) {
     return Image.memory(
       newImage,
+      height: height,
+      width: double.infinity,
+      fit: boxFit,
+    );
+  } else if (newImage is String) {
+    return Image.network(
+      newImage,
+      height: height,
+      width: double.infinity,
+      filterQuality: FilterQuality.high,
+      fit: boxFit,
+    );
+  } else {
+    return Image.network(
+      vehicle.image!,
       height: height,
       width: double.infinity,
       filterQuality: FilterQuality.high,

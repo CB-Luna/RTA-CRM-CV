@@ -547,7 +547,7 @@ class IssueReportedProvider extends ChangeNotifier {
 
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
-      //print('Error en getIssueAll() - $e');
+      print('Error en getIssueAll() - $e');
     }
     notifyListeners();
   }
