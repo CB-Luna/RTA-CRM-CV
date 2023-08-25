@@ -9,7 +9,6 @@ class OrdersProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<String> vendorsList = [];
   bool editmode = false;
-  bool ordercreate = false;
   late int? id;
   DateTime create = DateTime.now();
   late ModelX2V2QuotesView quote;
@@ -41,7 +40,6 @@ class OrdersProvider extends ChangeNotifier {
   clearAll() {
     id = 0;
     editmode = false;
-    ordercreate = false;
     create = DateTime.now();
     titulo = '';
     //Nombre popup
@@ -65,11 +63,9 @@ class OrdersProvider extends ChangeNotifier {
 
   Future<void> updateState() async {
     await clearAll();
-    print(ordercreate);
   }
 
 ////////////////////////////////////////////////////////////////////////////
- 
 
   Future<void> getData(int idQuote) async {
     try {
@@ -82,10 +78,9 @@ class OrdersProvider extends ChangeNotifier {
       orderTypesSelectedValue.text = quote.orderInfo!.orderType!;
       circuitTypeSelectedValue.text = quote.circuitInfo!.circuitType!;
       titulo = quote.demarcationUrl!.toString();
-      
+
       //Datos Form
-      if ((typesSelectedValue.text == 'Migration' || typesSelectedValue.text == 'New Circuit' || typesSelectedValue.text == 'Upgrade') &&
-          (circuitTypeSelectedValue.text == 'ASEoD' || circuitTypeSelectedValue.text == 'PTP')) {
+      if (circuitTypeSelectedValue.text == 'ASEoD' || circuitTypeSelectedValue.text == 'PTP') {
         circuitAddressController.text = quote.orderInfo!.address!;
         circuitDetailController.text = quote.description!;
         portSizeSelectedValue.text = quote.circuitInfo!.portSize!;
@@ -95,7 +90,7 @@ class OrdersProvider extends ChangeNotifier {
         circuitAddressController.text = quote.orderInfo!.address!;
         bandwidthController.text = quote.circuitInfo!.bandwidth!;
       }
-      if (typesSelectedValue.text != 'Circuit Removal' && (circuitTypeSelectedValue.text == 'ASEoD' || circuitTypeSelectedValue.text == 'PTP')) {
+      if (typesSelectedValue.text != 'Removal' && (circuitTypeSelectedValue.text == 'ASEoD' || circuitTypeSelectedValue.text == 'PTP')) {
         handoffSelectedValue.text = quote.orderInfo!.handoff!;
         demarcationPointController.text = quote.orderInfo!.demarcationPoint!;
         circuitAddressController.text = quote.orderInfo!.address!;

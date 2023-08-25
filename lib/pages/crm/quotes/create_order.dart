@@ -269,7 +269,6 @@ class _CreateOrderState extends State<CreateOrder> {
                     border: Border.all(color: AppTheme.of(context).tertiaryColor),
                     color: AppTheme.of(context).primaryBackground,
                     onTap: () async {
-                      provider.ordercreate = true;
                       await (QuotesProvider()).insertPowerCode(widget.id);
                       fToast.showToast(
                         child: const SuccessToast(
