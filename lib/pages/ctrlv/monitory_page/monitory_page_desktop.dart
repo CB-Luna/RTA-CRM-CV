@@ -24,9 +24,7 @@ import '../../../widgets/side_menu/sidemenu.dart';
 import 'Popup/details_pop_up.dart';
 
 class MonitoryPageDesktop extends StatefulWidget {
-  const MonitoryPageDesktop(
-      {Key? key})
-      : super(key: key);
+  const MonitoryPageDesktop({Key? key}) : super(key: key);
   // final AdvancedDrawerController drawerController;
   // final GlobalKey<ScaffoldState> scaffoldKey;
 
@@ -50,7 +48,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
     });
   }
 
- // TextEditingController searchController = TextEditingController();
+  // TextEditingController searchController = TextEditingController();
 
   // late PlutoGridStateManager stateManager;
 
@@ -62,7 +60,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
     sideM.setIndex(8);
 
     return Material(
-        child:Container(
+        child: Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(gradient: whiteGradient),
@@ -90,15 +88,15 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                       height: 20,
                     ),
                     Container(
-                      padding: const EdgeInsets.only(
-                          top: 10, bottom: 40, right: 10),
+                      padding:
+                          const EdgeInsets.only(top: 10, bottom: 40, right: 10),
                       //color: Colors.red,
                       height: MediaQuery.of(context).size.height * 0.5,
                       child: const Calendario(),
                     ),
                     Container(
-                      padding: const EdgeInsets.only(
-                          top: 10, bottom: 40, right: 10),
+                      padding:
+                          const EdgeInsets.only(top: 10, bottom: 40, right: 10),
                       //color: Colors.red,
                       height: MediaQuery.of(context).size.height * 0.4,
                       child: CustomAgenda(
@@ -121,8 +119,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                 key: UniqueKey(),
                                 configuration: PlutoGridConfiguration(
                                   localeText: const PlutoGridLocaleText(),
-                                  scrollbar:
-                                      plutoGridScrollbarConfig(context),
+                                  scrollbar: plutoGridScrollbarConfig(context),
                                   style: plutoGridStyleConfig(context),
                                   columnFilter: PlutoGridColumnFilterConfig(
                                     filters: const [
@@ -130,8 +127,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                     ],
                                     resolveDefaultColumnFilter:
                                         (column, resolver) {
-                                      return resolver<
-                                              PlutoFilterTypeContains>()
+                                      return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
                                     },
                                   ),
@@ -160,17 +156,14 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 fontSize: 22)),
                                       ],
                                     ),
-                                    width:
-                                        MediaQuery.of(context).size.width *
-                                            0.16,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.16,
                                     cellPadding: EdgeInsets.zero,
-                                    titleTextAlign:
-                                        PlutoColumnTextAlign.center,
+                                    titleTextAlign: PlutoColumnTextAlign.center,
                                     textAlign: PlutoColumnTextAlign.center,
                                     type: PlutoColumnType.text(),
                                     enableEditingMode: false,
-                                    backgroundColor:
-                                        const Color(0XFF6491F7),
+                                    backgroundColor: const Color(0XFF6491F7),
                                     renderer: (rendererContext) {
                                       return PlutoGridLicenseCellCV(
                                         text: rendererContext.cell.value,
@@ -237,81 +230,81 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 fontSize: 22)),
                                       ],
                                     ),
-                                    width:
-                                        MediaQuery.of(context).size.width *
-                                            0.11,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.11,
                                     cellPadding: EdgeInsets.zero,
-                                    titleTextAlign:
-                                        PlutoColumnTextAlign.center,
+                                    titleTextAlign: PlutoColumnTextAlign.center,
                                     textAlign: PlutoColumnTextAlign.center,
                                     type: PlutoColumnType.text(),
                                     enableEditingMode: false,
-                                    backgroundColor:
-                                        const Color(0XFF6491F7),
+                                    backgroundColor: const Color(0XFF6491F7),
                                     renderer: (rendererContext) {
-                                      return PlutoGridStatusCellCV(text: rendererContext
-                                                .cell.value); 
-                                      
+                                      return PlutoGridStatusCellCV(
+                                          text: rendererContext.cell.value);
                                     },
                                     footerRenderer: (context) {
-                                    return SizedBox(
-                                      height: 50,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          CustomIconButton(
-                                            icon: Icons
-                                                .keyboard_double_arrow_left,
-                                            toolTip: 'start',
-                                            onTap: () {
-                                              monitoryProvider.setPage('start');
-                                            },
-                                          ),
-                                          const SizedBox(width: 2),
-                                          CustomIconButton(
-                                            icon: Icons
-                                                .keyboard_arrow_left_outlined,
-                                            toolTip: 'previous',
-                                            onTap: () {
-                                              monitoryProvider.setPage('previous');
-                                            },
-                                          ),
-                                          const SizedBox(width: 5),
-                                          SizedBox(
-                                            width: 30,
-                                            child: Center(
-                                              child: Text(
-                                                monitoryProvider.page.toString(),
-                                                style: const TextStyle(
-                                                  color: Colors.white,
+                                      return SizedBox(
+                                        height: 50,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            CustomIconButton(
+                                              icon: Icons
+                                                  .keyboard_double_arrow_left,
+                                              toolTip: 'start',
+                                              onTap: () {
+                                                monitoryProvider
+                                                    .setPage('start');
+                                              },
+                                            ),
+                                            const SizedBox(width: 2),
+                                            CustomIconButton(
+                                              icon: Icons
+                                                  .keyboard_arrow_left_outlined,
+                                              toolTip: 'previous',
+                                              onTap: () {
+                                                monitoryProvider
+                                                    .setPage('previous');
+                                              },
+                                            ),
+                                            const SizedBox(width: 5),
+                                            SizedBox(
+                                              width: 30,
+                                              child: Center(
+                                                child: Text(
+                                                  monitoryProvider.page
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(width: 5),
-                                          CustomIconButton(
-                                            icon: Icons
-                                                .keyboard_arrow_right_outlined,
-                                            toolTip: 'next',
-                                            onTap: () {
-                                              monitoryProvider.setPage('next');
-                                            },
-                                          ),
-                                          const SizedBox(width: 2),
-                                          CustomIconButton(
-                                            icon: Icons
-                                                .keyboard_double_arrow_right,
-                                            toolTip: 'end',
-                                            onTap: () {
-                                              monitoryProvider.setPage('end');
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    //PlutoPagination(context.stateManager);
-                                  },
+                                            const SizedBox(width: 5),
+                                            CustomIconButton(
+                                              icon: Icons
+                                                  .keyboard_arrow_right_outlined,
+                                              toolTip: 'next',
+                                              onTap: () {
+                                                monitoryProvider
+                                                    .setPage('next');
+                                              },
+                                            ),
+                                            const SizedBox(width: 2),
+                                            CustomIconButton(
+                                              icon: Icons
+                                                  .keyboard_double_arrow_right,
+                                              toolTip: 'end',
+                                              onTap: () {
+                                                monitoryProvider.setPage('end');
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                      //PlutoPagination(context.stateManager);
+                                    },
                                   ),
                                   PlutoColumn(
                                     title: 'employee',
@@ -338,16 +331,13 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       ],
                                     ),
                                     width:
-                                        MediaQuery.of(context).size.width *
-                                            0.1,
+                                        MediaQuery.of(context).size.width * 0.1,
                                     cellPadding: EdgeInsets.zero,
-                                    titleTextAlign:
-                                        PlutoColumnTextAlign.center,
+                                    titleTextAlign: PlutoColumnTextAlign.center,
                                     textAlign: PlutoColumnTextAlign.center,
                                     type: PlutoColumnType.text(),
                                     enableEditingMode: false,
-                                    backgroundColor:
-                                        const Color(0XFF6491F7),
+                                    backgroundColor: const Color(0XFF6491F7),
                                     renderer: (rendererContext) {
                                       return PlutoGridRoleUserCellCV(
                                           text: rendererContext.cell.value,
@@ -378,17 +368,14 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 fontSize: 22)),
                                       ],
                                     ),
-                                    width:
-                                        MediaQuery.of(context).size.width *
-                                            0.12,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.12,
                                     cellPadding: EdgeInsets.zero,
-                                    titleTextAlign:
-                                        PlutoColumnTextAlign.center,
+                                    titleTextAlign: PlutoColumnTextAlign.center,
                                     textAlign: PlutoColumnTextAlign.center,
                                     type: PlutoColumnType.text(),
                                     enableEditingMode: false,
-                                    backgroundColor:
-                                        const Color(0XFF6491F7),
+                                    backgroundColor: const Color(0XFF6491F7),
                                     renderer: (rendererContext) {
                                       return Container(
                                         height: rowHeight,
@@ -396,8 +383,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                         decoration: BoxDecoration(
                                             gradient: whiteGradient),
                                         child: Center(
-                                            child: Text(rendererContext
-                                                .cell.value)),
+                                            child: Text(
+                                                rendererContext.cell.value)),
                                       );
                                     },
                                   ),
@@ -424,17 +411,14 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 fontSize: 22)),
                                       ],
                                     ),
-                                    width:
-                                        MediaQuery.of(context).size.width *
-                                            0.11,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.11,
                                     cellPadding: EdgeInsets.zero,
-                                    titleTextAlign:
-                                        PlutoColumnTextAlign.center,
+                                    titleTextAlign: PlutoColumnTextAlign.center,
                                     textAlign: PlutoColumnTextAlign.center,
                                     type: PlutoColumnType.text(),
                                     enableEditingMode: false,
-                                    backgroundColor:
-                                        const Color(0XFF6491F7),
+                                    backgroundColor: const Color(0XFF6491F7),
                                     renderer: (rendererContext) {
                                       return PlutoGridCompanyCellCV(
                                         text: rendererContext.cell.value,
@@ -464,17 +448,14 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                 fontSize: 22)),
                                       ],
                                     ),
-                                    width:
-                                        MediaQuery.of(context).size.width *
-                                            0.13,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.13,
                                     cellPadding: EdgeInsets.zero,
-                                    titleTextAlign:
-                                        PlutoColumnTextAlign.center,
+                                    titleTextAlign: PlutoColumnTextAlign.center,
                                     textAlign: PlutoColumnTextAlign.center,
                                     type: PlutoColumnType.text(),
                                     enableEditingMode: false,
-                                    backgroundColor:
-                                        const Color(0XFF6491F7),
+                                    backgroundColor: const Color(0XFF6491F7),
                                     renderer: (rendererContext) {
                                       return Container(
                                         height: rowHeight,
@@ -482,8 +463,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                         decoration: BoxDecoration(
                                             gradient: whiteGradient),
                                         child: Center(
-                                            child: Text(rendererContext
-                                                .cell.value)),
+                                            child: Text(
+                                                rendererContext.cell.value)),
                                       );
                                     },
                                   ),
@@ -511,16 +492,13 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       ],
                                     ),
                                     width:
-                                        MediaQuery.of(context).size.width *
-                                            0.1,
+                                        MediaQuery.of(context).size.width * 0.1,
                                     cellPadding: EdgeInsets.zero,
-                                    titleTextAlign:
-                                        PlutoColumnTextAlign.center,
+                                    titleTextAlign: PlutoColumnTextAlign.center,
                                     textAlign: PlutoColumnTextAlign.center,
                                     type: PlutoColumnType.text(),
                                     enableEditingMode: false,
-                                    backgroundColor:
-                                        const Color(0XFF6491F7),
+                                    backgroundColor: const Color(0XFF6491F7),
                                     renderer: (rendererContext) {
                                       return Container(
                                         height: rowHeight,
@@ -528,16 +506,15 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                         decoration: BoxDecoration(
                                             gradient: whiteGradient),
                                         child: Center(
-                                            child: Text(rendererContext
-                                                .cell.value)),
+                                            child: Text(
+                                                rendererContext.cell.value)),
                                       );
                                     },
                                   ),
                                   PlutoColumn(
                                     title: 'Details',
                                     field: 'details',
-                                    backgroundColor:
-                                        const Color(0XFF6491F7),
+                                    backgroundColor: const Color(0XFF6491F7),
                                     titleSpan: const TextSpan(
                                       children: [
                                         WidgetSpan(
@@ -558,8 +535,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                     ),
                                     width: 200,
                                     cellPadding: EdgeInsets.zero,
-                                    titleTextAlign:
-                                        PlutoColumnTextAlign.center,
+                                    titleTextAlign: PlutoColumnTextAlign.center,
                                     textAlign: PlutoColumnTextAlign.center,
                                     type: PlutoColumnType.text(),
                                     enableEditingMode: false,
@@ -576,18 +552,15 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                             CustomTextIconButton(
                                               isLoading: false,
                                               icon: Icon(
-                                                  Icons
-                                                      .remove_red_eye_outlined,
-                                                  color: AppTheme.of(
-                                                          context)
+                                                  Icons.remove_red_eye_outlined,
+                                                  color: AppTheme.of(context)
                                                       .primaryBackground),
                                               text: "Details",
                                               onTap: () async {
                                                 if (await monitoryProvider
                                                         .getIssues(
                                                             rendererContext
-                                                                .cell
-                                                                .value) ==
+                                                                .cell.value) ==
                                                     true) {
                                                   monitoryProvider
                                                       .getMonitoryVehicle(
@@ -603,8 +576,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                         return DetailsPop(
                                                           vehicle:
                                                               rendererContext
-                                                                  .cell
-                                                                  .value,
+                                                                  .cell.value,
                                                         );
                                                       });
                                                 } else {
@@ -615,8 +587,7 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                         return const SizedBox(
                                                           height: 200,
                                                           width: 200,
-                                                          child:
-                                                              Center(
+                                                          child: Center(
                                                             child: Text(
                                                                 "No issues found"),
                                                           ),
@@ -635,10 +606,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                 createFooter: (stateManager) {
                                   stateManager.setPageSize(
                                       monitoryProvider.pageRowCount);
-                                  stateManager
-                                      .setPage(monitoryProvider.page);
-                                  return const SizedBox(
-                                      height: 0, width: 0);
+                                  stateManager.setPage(monitoryProvider.page);
+                                  return const SizedBox(height: 0, width: 0);
                                 },
                                 onLoaded: (event) async {
                                   monitoryProvider.stateManager =

@@ -224,7 +224,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                               padding: const EdgeInsets.only(left: 10),
                               child: CustomTextFieldForm(
                                 label: 'Version',
-                                controller: provider.motorController,
+                                controller: provider.motorControllerUpadte,
                                 enabled: true,
                                 width: 100,
                                 keyboardType: TextInputType.number,
@@ -286,7 +286,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                                 lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerOil.text =
+                              provider.dateTimeControllerOilUpdate.text =
                                   DateFormat("MMM/dd/yyyy").format(newDate);
                             }
                           }),

@@ -612,8 +612,7 @@ class InventoryProvider extends ChangeNotifier {
             statusSelectedUpdate?.statusId ?? vehicle.status.statusId,
         'id_company_fk':
             companySelectedUpdate?.companyId ?? vehicle.company.companyId,
-        'image': imageUrl,
-
+        'image': imageUrl ?? vehicle.image,
         'date_added': DateTime.now().toIso8601String(),
         'oil_change_due': dateTimeControllerOilUpdate.text,
         'last_radiator_fluid_change': dateTimeControllerRFCUpadte.text,
@@ -624,7 +623,7 @@ class InventoryProvider extends ChangeNotifier {
       }).eq("id_vehicle", vehicle.idVehicle);
       return true;
     } catch (e) {
-      //print('Error in updatevehicle() - $e');
+      print('Error in updatevehicle() - $e');
       return false;
     }
   }
@@ -2120,10 +2119,10 @@ class InventoryProvider extends ChangeNotifier {
     return true;
   }
 
-  bool enableButton(){
-    if(confirmacion == 4){
+  bool enableButton() {
+    if (confirmacion == 4) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }

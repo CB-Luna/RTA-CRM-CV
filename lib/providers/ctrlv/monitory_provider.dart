@@ -160,7 +160,7 @@ class MonitoryProvider extends ChangeNotifier {
   int hasta = 20;
 
   //---------------Variable para color de roles-----------
-  String rol ="";
+  String rol = "";
 
   //----------------------------------------------
 
@@ -254,8 +254,7 @@ class MonitoryProvider extends ChangeNotifier {
               // "id_vehicle": PlutoCell(value: monitory.idVehicle),
               // "date_added": PlutoCell(value: DateFormat("MMM-dd-yyyy").format(monitory.dateAdded)),
               "employee": PlutoCell(
-                  value:
-                      "${monitory.worker.name} ${monitory.worker.lastName}"),
+                  value: "${monitory.worker.name} ${monitory.worker.lastName}"),
               "vin": PlutoCell(value: monitory.vin),
               "license_plates": PlutoCell(value: monitory.licensePlates),
               "company": PlutoCell(value: monitory.company.company),
@@ -389,7 +388,7 @@ class MonitoryProvider extends ChangeNotifier {
 
       sheet.setColWidth(0, 25);
       sheet.setColWidth(2, 20);
-      sheet.setColWidth(3,20);
+      sheet.setColWidth(3, 20);
       sheet.setColWidth(4, 25);
       sheet.setColWidth(5, 20);
       sheet.setColWidth(6, 20);
@@ -1801,7 +1800,7 @@ class MonitoryProvider extends ChangeNotifier {
         return false;
       }
     } catch (e) {
-      //print("error ${e}");
+      print("error ${e}");
       return false;
     }
   }
@@ -1892,7 +1891,7 @@ class MonitoryProvider extends ChangeNotifier {
   }
 
   bool enableButton() {
-    if (dateInitial+dateFinal+company == 3) {
+    if (dateInitial + dateFinal + company == 3) {
       return true;
     } else {
       return false;
