@@ -782,7 +782,8 @@ class InventoryProvider extends ChangeNotifier {
       final res = await supabaseCtrlV
           .from('inventory_view')
           .select()
-          .not('namestatus', 'eq', 'Not Active');
+          .not('namestatus', 'eq', 'Not Active')
+          .order('license_plates', ascending: true);
 
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))

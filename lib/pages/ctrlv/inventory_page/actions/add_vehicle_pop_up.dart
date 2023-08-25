@@ -42,8 +42,8 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
         mask: '###############', filter: {"#": RegExp(r'[A-Za-z0-9]')});
     var cardMaskMotor =
         MaskTextInputFormatter(mask: '#.#', filter: {"#": RegExp(r'[0-9]')});
-    var cardMaskMileage = MaskTextInputFormatter(
-        mask: '#,###,###', filter: {"#": RegExp(r'[0-9]')});
+    var cardMaskMileage =
+        MaskTextInputFormatter(mask: '##,###', filter: {"#": RegExp(r'[0-9]')});
 
     List<String> motors = ["Gas", "Diesel"];
 
