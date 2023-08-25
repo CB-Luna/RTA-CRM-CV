@@ -248,7 +248,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
       notifyListeners();
       if (validate) {
         if (currentUser!.isSenExec) {
-          await updateRegister(3, quote.quoteid!, quote.idOrders!);
+          await updateRegister(3, quote.quoteid!);
 
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,
@@ -259,7 +259,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
         } else if (currentUser!.isFinance) {
-          await updateRegister(4, quote.quoteid!, quote.idOrders!);
+          await updateRegister(4, quote.quoteid!);
 
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,
@@ -270,7 +270,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "name": "${currentUser!.name} ${currentUser!.lastName}",
           });
         } else if (currentUser!.isOpperations) {
-          await updateRegister(7, quote.quoteid!, quote.idOrders!);
+          await updateRegister(7, quote.quoteid!);
 
           await supabaseCRM.from('order_info').update({
             "handoff": handoffSelectedValue,
@@ -292,7 +292,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
         }
         returning = true;
       } else {
-        await updateRegister(5, quote.quoteid!, quote.idOrders!);
+        await updateRegister(5, quote.quoteid!);
 
         await supabaseCRM.from('order_info').update({
           "handoff": handoffSelectedValue,
@@ -322,8 +322,13 @@ class ValidateQuoteProvider extends ChangeNotifier {
     return returning;
   }
 
-  Future<void> updateRegister(int idStatus, int quoteId, int orderId) async {
-    await supabaseCRM.from('x2_quotes').update({
+  Future<void> updateRegister(int idStatus, int quoteId) async {
+    await supabaseCRM.rpc(
+      'update_quote_status',
+      params: {"id_status": idStatus, "id": quoteId, "user_uuid": currentUser!.id}, //Network Cross Connected
+    );
+
+    /* await supabaseCRM.from('x2_quotes').update({
       'id_status': idStatus,
     }).eq('id', quoteId);
     await supabaseCRM.from('order_info').update(
@@ -331,7 +336,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
         'updated_at': DateTime.now().toIso8601String(),
         'updated_by': currentUser!.id,
       },
-    ).eq('id', orderId);
+    ).eq('id', orderId); */
   }
 
 /*   Future<void> getData() async {
