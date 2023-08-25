@@ -83,8 +83,8 @@ class CustomAgenda extends StatelessWidget {
                                                 Container(
                                                   width: 400,
                                                   height: 79,
-                                                  decoration: const BoxDecoration(
-                                                      color: Color(0xFFD20030)),
+                                                  decoration: BoxDecoration(
+                                                      color: AppTheme.of(context).odePrimary),
                                                 ),
                                               ],
                                             ),
@@ -292,9 +292,7 @@ class CustomAgenda extends StatelessWidget {
                                                       width: 400,
                                                       height: 79,
                                                       decoration: BoxDecoration(
-                                                          color: AppTheme.of(
-                                                                  context)
-                                                              .primaryColor),
+                                                          color: AppTheme.of(context).cryPrimary),
                                                     ),
                                                   ],
                                                 ),
@@ -510,14 +508,8 @@ class CustomAgenda extends StatelessWidget {
                                                         Container(
                                                           width: 400,
                                                           height: 79,
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          255,
-                                                                          138,
-                                                                          0,
-                                                                          1)),
+                                                          decoration: BoxDecoration(
+                                                                  color: AppTheme.of(context).smiPrimary),
                                                         ),
                                                       ],
                                                     ),
@@ -730,8 +722,8 @@ class CustomAgenda extends StatelessWidget {
                                                 Container(
                                                   width: 400,
                                                   height: 79,
-                                                  decoration: const BoxDecoration(
-                                                      color: Color(0xFFD20030)),
+                                                  decoration:  BoxDecoration(
+                                                      color: AppTheme.of(context).odePrimary),
                                                 ),
                                               ],
                                             ),
@@ -1026,9 +1018,7 @@ class CustomAgenda extends StatelessWidget {
                                                       width: 400,
                                                       height: 79,
                                                       decoration: BoxDecoration(
-                                                          color: AppTheme.of(
-                                                                  context)
-                                                              .primaryColor),
+                                                          color: AppTheme.of(context).cryPrimary),
                                                     ),
                                                   ],
                                                 ),
@@ -1339,13 +1329,8 @@ class CustomAgenda extends StatelessWidget {
                                                           width: 400,
                                                           height: 79,
                                                           decoration:
-                                                              const BoxDecoration(
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          255,
-                                                                          138,
-                                                                          0,
-                                                                          1)),
+                                                               BoxDecoration(
+                                                                  color: AppTheme.of(context).smiPrimary),
                                                         ),
                                                       ],
                                                     ),

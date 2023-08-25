@@ -1,9 +1,11 @@
+
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
+import '../../../../theme/theme.dart';
 import '../../../../widgets/card_header.dart';
 import '../../../../widgets/custom_text_icon_button.dart';
 
@@ -52,7 +54,7 @@ class BucketExtraPopUp extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.03,
                     decoration: BoxDecoration(
                       color: statusColor(
-                          provider.monitoryActual!.vehicle.company.company),
+                          provider.monitoryActual!.vehicle.company.company,context),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
@@ -136,18 +138,18 @@ class BucketExtraPopUp extends StatelessWidget {
   }
 }
 
-Color statusColor(String status) {
+Color statusColor(String status,BuildContext context) {
   late Color color;
 
   switch (status) {
     case "ODE": //Sales Form
-      color = const Color(0XFFB2333A);
+      color = AppTheme.of(context).odePrimary;
       break;
     case "SMI": //Sen. Exec. Validate
-      color = const Color.fromRGBO(255, 138, 0, 1);
+      color = AppTheme.of(context).smiPrimary;
       break;
     case "CRY": //Finance Validate
-      color = const Color(0XFF345694);
+      color = AppTheme.of(context).cryPrimary;
       break;
 
     default:

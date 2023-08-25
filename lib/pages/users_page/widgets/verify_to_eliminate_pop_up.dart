@@ -94,7 +94,7 @@ class _DeletePopUpState extends State<DeletePopUp> {
                       width: MediaQuery.of(context).size.width * 0.1,
                       height: MediaQuery.of(context).size.height * 0.03,
                       decoration: BoxDecoration(
-                        color: statusColor(widget.users.company.company),
+                        color: statusColor(widget.users.company.company,context),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
@@ -145,18 +145,18 @@ class _DeletePopUpState extends State<DeletePopUp> {
   }
 }
 
-Color statusColor(String status) {
+Color statusColor(String status,BuildContext context) {
   late Color color;
 
   switch (status) {
     case "ODE": //Sales Form
-      color = const Color(0XFFB2333A);
+      color = AppTheme.of(context).odePrimary;
       break;
     case "SMI": //Sen. Exec. Validate
-      color = const Color.fromRGBO(255, 138, 0, 1);
+      color = AppTheme.of(context).smiPrimary;
       break;
     case "CRY": //Finance Validate
-      color = const Color(0XFF345694);
+      color = AppTheme.of(context).cryPrimary;
       break;
 
     default:

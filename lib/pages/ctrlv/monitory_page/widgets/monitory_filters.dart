@@ -137,7 +137,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                                 width: MediaQuery.of(context).size.width * 0.03,
                                 height: MediaQuery.of(context).size.height * 0.05,
                                 decoration: BoxDecoration(
-                                    color: AppTheme.lightTheme.primaryColor,
+                                    color: AppTheme.of(context).cryPrimary,
                                     borderRadius: BorderRadius.circular(15),
                                     border: Border.all(
                                         color: Colors.white, width: 2)),
@@ -249,7 +249,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                                   width: MediaQuery.of(context).size.width * 0.03,
                                   height: MediaQuery.of(context).size.height * 0.05,
                                   decoration: BoxDecoration(
-                                      color: AppTheme.of(context).secondaryColor,
+                                      color: AppTheme.of(context).odePrimary,
                                       borderRadius: BorderRadius.circular(15),
                                       border: Border.all(
                                           color: Colors.white, width: 2)),
@@ -358,7 +358,7 @@ class _MonitoryFiltersWidgetState extends State<MonitoryFiltersWidget> {
                                   width: MediaQuery.of(context).size.width * 0.03,
                                   height: MediaQuery.of(context).size.height * 0.05,
                                   decoration: BoxDecoration(
-                                      color: const Color.fromRGBO(255, 138, 0, 1),
+                                      color: AppTheme.of(context).smiPrimary,
                                       borderRadius: BorderRadius.circular(15),
                                       border: Border.all(
                                           color: Colors.white, width: 2)),

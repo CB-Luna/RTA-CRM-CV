@@ -33,7 +33,7 @@ class GeneralInformationCard extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.1,
                 decoration: BoxDecoration(
                     color: companyColor(
-                        issueReportedProvider.actualVehicle!.company.company)),
+                        issueReportedProvider.actualVehicle!.company.company,context)),
               ),
             ],
           ),
@@ -52,7 +52,7 @@ class GeneralInformationCard extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: ShapeDecoration(
                       color: companyColor(
-                          issueReportedProvider.actualVehicle!.company.company),
+                          issueReportedProvider.actualVehicle!.company.company,context),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
                       ),
@@ -447,18 +447,18 @@ class GeneralInformationCard extends StatelessWidget {
   }
 }
 
-Color companyColor(String status) {
+Color companyColor(String status,BuildContext context) {
   late Color color;
 
   switch (status) {
     case "ODE": //Sales Form
-      color = const Color(0XFFB2333A);
+      color = AppTheme.of(context).odePrimary;
       break;
     case "SMI": //Sen. Exec. Validate
-      color = const Color.fromRGBO(255, 138, 0, 1);
+      color = AppTheme.of(context).smiPrimary;
       break;
     case "CRY": //Finance Validate
-      color = const Color(0XFF345694);
+      color = AppTheme.of(context).cryPrimary;
       break;
 
     default:

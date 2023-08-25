@@ -30,13 +30,14 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width*0.5,
+            width: MediaQuery.of(context).size.width * 0.5,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextIconButton(
                   isLoading: false,
-                  icon: Icon(Icons.download_outlined, color: AppTheme.of(context).primaryBackground),
+                  icon: Icon(Icons.download_outlined,
+                      color: AppTheme.of(context).primaryBackground),
                   text: 'Export Data',
                   onTap: () {
                     showDialog(
@@ -48,11 +49,13 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
                   },
                 ),
                 CustomTextIconButton(
-                              isLoading: false,
-                              icon: Icon(Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                              text: 'Filter',
-                              onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
-                            ),
+                  isLoading: false,
+                  icon: Icon(Icons.filter_alt_outlined,
+                      color: AppTheme.of(context).primaryBackground),
+                  text: 'Filter',
+                  onTap: () => provider.stateManager!.setShowColumnFilter(
+                      !provider.stateManager!.showColumnFilter),
+                ),
                 Column(
                   children: [
                     Container(
@@ -74,12 +77,54 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
                     Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left:30,right:30),
+                          padding: EdgeInsets.only(left: 30, right: 30),
                           child: Container(
                             height: 35,
                             width: 150,
                             decoration: BoxDecoration(
-                              color: Colors.green,
+                              color: AppTheme.of(context).managerPrimary,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Manager',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 30, right: 30),
+                          child: Container(
+                            height: 35,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              color: AppTheme.of(context).techSupPrimary,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Tech Supervisor',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 30, right: 30),
+                          child: Container(
+                            height: 35,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              color: AppTheme.of(context).employeePrimary,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Center(
@@ -94,53 +139,10 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
                             ),
                           ),
                         ),
-                        Padding(
-                  padding: EdgeInsets.only(left:30,right:30),
-                  child: Container(
-                    height: 35,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.purple,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Tech Supervisor',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left:30,right:30),
-                  child: Container(
-                    height: 35,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.indigo,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Manager',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
                       ],
                     ),
                   ],
                 ),
-                
               ],
             ),
           )

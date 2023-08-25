@@ -34,8 +34,8 @@ class SmiCard extends StatelessWidget {
               Container(
                 width: MediaQuery.of(context).size.width * 0.2,
                 height: MediaQuery.of(context).size.height * 0.1,
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(255, 138, 0, 1),
+                decoration: BoxDecoration(
+                  color: AppTheme.of(context).smiPrimary,
                 ),
               ),
             ],
@@ -57,12 +57,12 @@ class SmiCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(100),
                     ),
                   ),
-                  child: const Opacity(
+                  child:  Opacity(
                     opacity: 0.65,
                     child: Text(
                       '● VEHICLES',
                       style: TextStyle(
-                        color: Color.fromRGBO(255, 138, 0, 1),
+                        color: AppTheme.of(context).smiPrimary,
                         fontSize: 12,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w400,
@@ -75,8 +75,8 @@ class SmiCard extends StatelessWidget {
                   child: Text(
                     "Total: $totalVehicleSMI",
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color.fromRGBO(255, 138, 0, 1),
+                    style:  TextStyle(
+                      color: AppTheme.of(context).smiPrimary,
                       fontSize: 16,
                       fontFamily: 'Plus Jakarta Sans',
                       fontWeight: FontWeight.w400,
@@ -88,11 +88,11 @@ class SmiCard extends StatelessWidget {
             // Body
             Column(
               children: [
-                const Text(
+                 Text(
                   'SMI',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color.fromRGBO(255, 138, 0, 1),
+                    color: AppTheme.of(context).smiPrimary,
                     fontSize: 22,
                     fontFamily: 'Plus Jakarta Sans',
                     fontWeight: FontWeight.w800,
@@ -101,7 +101,7 @@ class SmiCard extends StatelessWidget {
                 Text(
                   "Assigned: $totalAssignedSMI",
                   style: TextStyle(
-                    color: const Color.fromRGBO(255, 138, 0, 1),
+                    color: AppTheme.of(context).smiPrimary,
                     fontFamily: 'Bicyclette-Thin',
                     fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                   ),
@@ -109,7 +109,7 @@ class SmiCard extends StatelessWidget {
                 Text(
                   "Repair: $totalRepairSMI",
                   style: TextStyle(
-                    color: const Color.fromRGBO(255, 138, 0, 1),
+                    color: AppTheme.of(context).smiPrimary,
                     fontFamily: 'Bicyclette-Thin',
                     fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                   ),
@@ -117,7 +117,7 @@ class SmiCard extends StatelessWidget {
                 Text(
                   "Available: $totalAvailableSMI ",
                   style: TextStyle(
-                    color: const Color.fromRGBO(255, 138, 0, 1),
+                    color: AppTheme.of(context).smiPrimary,
                     fontFamily: 'Bicyclette-Thin',
                     fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                   ),

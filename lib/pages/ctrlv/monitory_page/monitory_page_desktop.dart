@@ -18,6 +18,7 @@ import '../../../widgets/custom_icon_button.dart';
 import '../../../widgets/custom_text_icon_button.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_company_cell.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_license_cell.dart';
+import '../../../widgets/pluto_grid_cells/pluto_grid_role_user_cell.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_status_cellCV.dart';
 import '../../../widgets/side_menu/sidemenu.dart';
 import 'Popup/details_pop_up.dart';
@@ -348,15 +349,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                     backgroundColor:
                                         const Color(0XFF6491F7),
                                     renderer: (rendererContext) {
-                                      return Container(
-                                        height: rowHeight,
-                                        //// width: rendererContext.cell.column.width,Context.cell.column.width,
-                                        decoration: BoxDecoration(
-                                            gradient: whiteGradient),
-                                        child: Center(
-                                            child: Text(rendererContext
-                                                .cell.value)),
-                                      );
+                                      return PlutoGridRoleUserCellCV(
+                                          text: rendererContext.cell.value,
+                                        );
+                                      
                                     },
                                   ),
                                   PlutoColumn(

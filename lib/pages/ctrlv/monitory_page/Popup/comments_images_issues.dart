@@ -79,7 +79,7 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
                           height: MediaQuery.of(context).size.height * 0.04,
                           decoration: BoxDecoration(
                             color: statusColor(provider
-                                .monitoryActual!.vehicle.company.company),
+                                .monitoryActual!.vehicle.company.company,context),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
@@ -175,195 +175,14 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
                           layout: SwiperLayout.STACK,
                         ),
                       )
-                // ? SizedBox(
-                //     height: MediaQuery.of(context).size.height * 0.3,
-                //     width: MediaQuery.of(context).size.width * 0.2,
-                //     child: CarouselSlider.builder(
-                //       itemCount: 1,
-                //       itemBuilder: (context, index, realIndex) {
-                //         const urlImage =
-                //             "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
-
-                //         return buildImage(urlImage, index);
-                //       },
-                //       options: CarouselOptions(height: 200),
-                //     ),
-                //   )
-                // : SizedBox(
-                //     height: MediaQuery.of(context).size.height * 0.3,
-                //     width: MediaQuery.of(context).size.width * 0.2,
-                //     child: CarouselSlider.builder(
-                //       itemCount:
-                //           provider.actualDetailField?.listImages?.length,
-                //       itemBuilder: (context, index, realIndex) {
-                //         final urlImage =
-                //             provider.actualDetailField!.listImages![index];
-
-                //         return buildImage(urlImage, index);
-                //       },
-                //       options: CarouselOptions(height: 200),
-                //     ),
-                //   )
+                
               ],
             )
           ],
         ),
       ),
     );
-    // AlertDialog(
-    //   backgroundColor: Colors.transparent,
-    //   content: Container(
-    //     width: 700,
-    //     height: 750,
-    //     decoration: BoxDecoration(
-    //         gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //       children: [
-    //         Padding(
-    //           padding: const EdgeInsets.all(8.0),
-    //           child: CardHeader(
-    //               text:
-    //                   "${provider.actualDetailField?.nameIssue.capitalize.replaceAll("_", ' ')}"),
-    //         ),
-    //         Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             Container(
-    //               alignment: Alignment.centerLeft,
-    //               padding: const EdgeInsets.all(20),
-    //               child: CustomTextIconButton(
-    //                 icon: Icon(Icons.arrow_back, color: Colors.white),
-    //                 text: "",
-    //                 isLoading: false,
-    //                 onTap: () {
-    //                   provider.updateViewPopup(provider.popUpExtra);
-    //                 },
-    //               ),
-    //             ),
-    //  Padding(
-    //    padding: const EdgeInsets.only(right: 15),
-    //    child: Container(
-    //       width: MediaQuery.of(context).size.width * 0.1,
-    //       height: MediaQuery.of(context).size.height * 0.04,
-    //       decoration: BoxDecoration(
-    //         color: statusColor(
-    //             provider.monitoryActual!.vehicle.company.company),
-    //         borderRadius: BorderRadius.circular(10),
-    //       ),
-    //       child: Center(
-    //         child: Text(
-    //           provider.monitoryActual!.vehicle.licesensePlates,
-    //           style: TextStyle(
-    //             color: Colors.white,
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //  ),
-    //           ],
-    //         ),
-    //         //
-    //         Row(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: [
-    //             Padding(
-    //               padding: EdgeInsets.only(bottom: 15),
-    //               child: Text(
-    //                 provider.actualDetailField!.status ? "Good" : "Bad",
-    //                 style: TextStyle(
-    //                   fontSize: 20,
-    //                   fontWeight: FontWeight.bold,
-    //                   color: provider.actualDetailField!.status
-    //                       ? Color.fromARGB(200, 65, 155, 23)
-    //                       : Color.fromARGB(200, 210, 0, 48),
-    //                 ),
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-
-    //         Container(
-    //           padding: const EdgeInsets.all(15.0),
-    //           alignment: Alignment.center,
-    //           width: 200,
-    //           decoration: BoxDecoration(
-    //             color: Colors.white,
-    //             boxShadow: const [
-    //               BoxShadow(
-    //                   blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
-    //             ],
-    //             borderRadius: BorderRadius.circular(20),
-    //           ),
-    //           child: Text(
-    //             DateFormat("MMM/dd/yyyy")
-    //                 .format(provider.actualDetailField!.dateAdded),
-    //             style: TextStyle(
-    //                 color: AppTheme.of(context).contenidoTablas.color,
-    //                 fontFamily: 'Bicyclette-Thin',
-    //                 fontSize: AppTheme.of(context).contenidoTablas.fontSize,
-    //                 fontWeight: FontWeight.bold),
-    //           ),
-    //         ),
-    //         Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             Container(
-    //           padding: const EdgeInsets.all(8.0),
-    //           height: MediaQuery.of(context).size.height * 0.3,
-    //           alignment: Alignment.center,
-    //           width: MediaQuery.of(context).size.width * 0.2,
-    //           decoration: BoxDecoration(
-    //             color: Colors.white,
-    //             borderRadius: BorderRadius.circular(20),
-    //             boxShadow: const [
-    //               BoxShadow(
-    //                   blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
-    //             ],
-    //           ),
-    //           child: SingleChildScrollView(
-    //               child: Text(provider.actualDetailField?.comments != ""
-    //                   ? "${provider.actualDetailField?.comments}"
-    //                   : "No Comments")),
-    //         ),
-    //         provider.actualDetailField?.listImages?.length == null ||
-    //                 provider.actualDetailField?.listImages?.length == 0
-    //             ? SizedBox(
-    //                 height: MediaQuery.of(context).size.height * 0.3,
-    //                 width: MediaQuery.of(context).size.width * 0.2,
-    //                 child: CarouselSlider.builder(
-    //                   itemCount: 1,
-    //                   itemBuilder: (context, index, realIndex) {
-    //                     const urlImage =
-    //                         "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
-
-    //                     return buildImage(urlImage, index);
-    //                   },
-    //                   options: CarouselOptions(height: 200),
-    //                 ),
-    //               )
-    //             : SizedBox(
-    //                 height: MediaQuery.of(context).size.height * 0.3,
-    //                 width: MediaQuery.of(context).size.width * 0.2,
-    //                 child: CarouselSlider.builder(
-    //                   itemCount: provider.actualDetailField?.listImages?.length,
-    //                   itemBuilder: (context, index, realIndex) {
-    //                     final urlImage =
-    //                         provider.actualDetailField!.listImages![index];
-
-    //                     return buildImage(urlImage, index);
-    //                   },
-    //                   options: CarouselOptions(height: 200),
-    //                 ),
-    //               )
-
-    //           ],
-    //         ),
-
-    //       ],
-    //     ),
-    //   ),
-    // );
+    
   }
 }
 
@@ -382,18 +201,18 @@ Widget buildImage(String urlImage, int index) => Container(
       ),
     );
 
-Color statusColor(String status) {
+Color statusColor(String status,BuildContext context) {
   late Color color;
 
   switch (status) {
     case "ODE": //Sales Form
-      color = const Color(0XFFB2333A);
+      color = AppTheme.of(context).odePrimary;
       break;
     case "SMI": //Sen. Exec. Validate
-      color = const Color.fromRGBO(255, 138, 0, 1);
+      color = AppTheme.of(context).smiPrimary;
       break;
     case "CRY": //Finance Validate
-      color = const Color(0XFF345694);
+      color = AppTheme.of(context).cryPrimary;
       break;
 
     default:

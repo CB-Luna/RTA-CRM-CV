@@ -1,9 +1,11 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
+import '../../models/monitory.dart';
 import '../../providers/ctrlv/monitory_provider.dart';
 
 class PlutoGridRoleUserCellCV extends StatelessWidget {
@@ -17,6 +19,15 @@ class PlutoGridRoleUserCellCV extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
+    String role = "";
+    
+    for(Monitory row in provider.lista){
+      String complete = "${row.worker.name} ${row.worker.lastName}";
+
+      if(text == complete){
+        role = row.worker.role;
+      }
+    }
     return Container(
       height: rowHeight,
       // // width: rendererContext.cell.column.width,
@@ -25,7 +36,7 @@ class PlutoGridRoleUserCellCV extends StatelessWidget {
         child: Container(
           width: 120,
           decoration: BoxDecoration(
-            color: statusColor(text),
+            color: statusColor(role,context),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Padding(
@@ -46,18 +57,18 @@ class PlutoGridRoleUserCellCV extends StatelessWidget {
   }
 }
 
-Color statusColor(String status) {
+Color statusColor(String status,BuildContext context) {
   late Color color;
 
   switch (status) {
-    case "ODE": //Sales Form
-      color = const Color(0XFFB2333A);
+    case "Employee": //Sales Form
+      color = AppTheme.of(context).employeePrimary;
       break;
-    case "SMI": //Sen. Exec. Validate
-      color = const Color.fromRGBO(255, 138, 0, 1);
+    case "Manager": //Sen. Exec. Validate
+      color = AppTheme.of(context).managerPrimary;
       break;
-    case "CRY": //Finance Validate
-      color = const Color(0XFF345694);
+    case "Tech Supervisor": //Finance Validate
+      color = AppTheme.of(context).techSupPrimary;
       break;
 
     default:

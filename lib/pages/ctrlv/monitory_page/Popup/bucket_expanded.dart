@@ -80,7 +80,7 @@ class _BucketCommentsImagesIssuesState
                           height: MediaQuery.of(context).size.height * 0.04,
                           decoration: BoxDecoration(
                             color: statusColor(provider
-                                .monitoryActual!.vehicle.company.company),
+                                .monitoryActual!.vehicle.company.company,context),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
@@ -200,18 +200,18 @@ Widget buildImage(String urlImage, int index) => Container(
       ),
     );
 
-Color statusColor(String status) {
+Color statusColor(String status,BuildContext context) {
   late Color color;
 
   switch (status) {
     case "ODE": //Sales Form
-      color = const Color(0XFFB2333A);
+      color = AppTheme.of(context).odePrimary;
       break;
     case "SMI": //Sen. Exec. Validate
-      color = const Color.fromRGBO(255, 138, 0, 1);
+      color = AppTheme.of(context).smiPrimary;
       break;
     case "CRY": //Finance Validate
-      color = const Color(0XFF345694);
+      color = AppTheme.of(context).cryPrimary;
       break;
 
     default:

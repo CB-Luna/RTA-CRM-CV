@@ -40,6 +40,12 @@ abstract class AppTheme {
   abstract Color primaryText;
   abstract Color secondaryText;
   abstract Color gris;
+  abstract Color managerPrimary;
+  abstract Color techSupPrimary;
+  abstract Color employeePrimary;
+  abstract Color smiPrimary;
+  abstract Color odePrimary;
+  abstract Color cryPrimary;
 
   String get title1Family => typography.title1Family;
   TextStyle get title1 => typography.title1;
@@ -87,6 +93,18 @@ class LightModeTheme extends AppTheme {
   Color secondaryText = const Color(0XFFE6E5E6);
   @override
   Color gris = Colors.grey.shade200;
+  @override
+  Color managerPrimary = const Color(0xFF2EE6DA);
+  @override
+  Color techSupPrimary = const Color(0xFF5830F2);
+  @override
+  Color employeePrimary = const Color(0xFFE6C535);
+  @override
+  Color smiPrimary = const Color.fromRGBO(255, 138, 0, 1);
+  @override
+  Color odePrimary = const Color(0XFFB2333A);
+  @override
+  Color cryPrimary = const Color(0XFF345694);
 
   LightModeTheme({Mode? mode}) {
     if (mode != null) {
@@ -118,6 +136,18 @@ class DarkModeTheme extends AppTheme {
   Color secondaryText = const Color(0XFFE6E5E6);
   @override
   Color gris = const Color(0XFF262626);
+   @override
+  Color managerPrimary = const Color(0xFF2F9992);
+  @override
+  Color techSupPrimary = const Color(0xFF3128FC);
+  @override
+  Color employeePrimary = const Color(0xFFE6C535);
+  @override
+  Color smiPrimary = const Color.fromRGBO(255, 138, 0, 1);
+  @override
+  Color odePrimary = const Color(0XFFB2333A);
+  @override
+  Color cryPrimary = const Color(0XFF345694);
 
   DarkModeTheme({Mode? mode}) {
     if (mode != null) {
