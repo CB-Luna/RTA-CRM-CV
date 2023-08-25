@@ -139,6 +139,7 @@ class IssueReportedProvider extends ChangeNotifier {
   }
 
   Future<void> updateStateUser() async {
+    clearListasdegetIssues();
     rows.clear();
   }
 
@@ -5066,6 +5067,8 @@ class IssueReportedProvider extends ChangeNotifier {
           .eq('id_vehicle', issuesXUser.idVehicleFk)
           .eq('id_user_fk', issuesXUser.userProfileId)
           .or('issues_r.neq.0,issues_d.neq.0');
+
+      print(res);
 
       // getIssuesLightsD
       final resD = await supabaseCtrlV

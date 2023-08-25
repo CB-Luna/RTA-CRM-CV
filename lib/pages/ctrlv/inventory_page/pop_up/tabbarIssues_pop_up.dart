@@ -41,6 +41,7 @@ class _TabbarIssuePopUpState extends State<TabbarIssuePopUp> {
               ),
               child: TabBar(
                 onTap: (value) async {
+                  issueReportedProvider.rows.clear();
                   issueReportedProvider.selectIssuesXUser(value);
                   if (value == 0) {
                     issueReportedProvider.selectIssuesXUser(0);

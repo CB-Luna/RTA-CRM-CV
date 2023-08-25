@@ -1096,7 +1096,9 @@ class UserProfile {
         homePhone: json["home_phone"],
         mobilePhone: json["mobile_phone"],
         address: json["address"],
-        birthdate: DateTime.parse(json["birthdate"]),
+        birthdate: json["birthdate"] == null
+            ? null
+            : DateTime.parse(json["birthdate"]),
         middleName: json["middle_name"],
         image: json["image"],
         sequentialId: json["sequential_id"],
