@@ -389,9 +389,12 @@ class InventoryProvider extends ChangeNotifier {
     motorControllerUpadte.text = vehicle.motor;
     yearControllerUpdate.text = vehicle.year.toString();
     statusSelectedUpdate = statusSelected;
-    imageUrlUpdate = vehicle.image!.replaceAll(
-        "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/",
-        "");
+    imageUrlUpdate = vehicle.image == null
+        ? "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/"
+        : vehicle.image!.replaceAll(
+            "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/",
+            "");
+
     colorControllerUpdate = colorController;
     colorControllers.text = colorController.toString();
     companySelectedUpdate = companySelected;
