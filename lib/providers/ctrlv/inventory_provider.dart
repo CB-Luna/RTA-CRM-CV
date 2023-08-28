@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -37,7 +38,7 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController modelController = TextEditingController();
   TextEditingController vinController = TextEditingController();
   TextEditingController plateNumberController = TextEditingController();
-  TextEditingController motorController = TextEditingController();
+  TextEditingController versionMotorController = TextEditingController();
   int colorController = 0xffffffff;
   TextEditingController dateTimeControllerOil = TextEditingController();
   TextEditingController dateTimeControllerRFC = TextEditingController();
@@ -55,6 +56,9 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController dateExportVehicleDataLastController =
       TextEditingController();
 
+  var cardMaskMileage =
+      CurrencyTextInputFormatter(symbol: '', name: '', decimalDigits: 0);
+
   String companySel = "All";
   DateTime newDate = DateTime.now();
   String? vehicleSel;
@@ -63,7 +67,7 @@ class InventoryProvider extends ChangeNotifier {
   DateTime firstSel = DateTime.now();
   DateTime lastSel = DateTime.now();
   int confirmacion = 0;
-
+  bool archivardesarchivar = true;
   List<issue_dashboard.IssuesDashboards> issuesDashboards = [];
 
   // Controllers para el Update Inventario
@@ -72,6 +76,8 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController vinControllerUpdate = TextEditingController();
   TextEditingController plateNumberControllerUpdate = TextEditingController();
   TextEditingController motorControllerUpadte = TextEditingController();
+  TextEditingController versionControllerUpdate = TextEditingController();
+
   int colorControllerUpdate = 0xffffffff;
   TextEditingController dateTimeControllerOilUpdate = TextEditingController();
   TextEditingController dateTimeControllerRFCUpadte = TextEditingController();
@@ -86,6 +92,11 @@ class InventoryProvider extends ChangeNotifier {
   Future<void> updateState() async {
     rows.clear();
     await getInventory();
+  }
+
+  Future<void> updateStateNotActive() async {
+    rows.clear();
+    await updateStatusVehicle();
   }
 
   Future<void> updateStateService() async {
@@ -386,7 +397,11 @@ class InventoryProvider extends ChangeNotifier {
     modelControllerUpdate.text = vehicle.model;
     vinControllerUpdate.text = vehicle.vin;
     plateNumberControllerUpdate.text = vehicle.licesensePlates;
-    motorControllerUpadte.text = vehicle.motor;
+
+    final splitvehicle = vehicle.motor.split(" ");
+    motorControllerUpadte.text = splitvehicle[0];
+    versionControllerUpdate.text =
+        splitvehicle.length == 1 ? '' : splitvehicle[1];
     yearControllerUpdate.text = vehicle.year.toString();
     statusSelectedUpdate = statusSelected;
     imageUrlUpdate = vehicle.image == null
@@ -603,13 +618,14 @@ class InventoryProvider extends ChangeNotifier {
   // Función para hacerle update al Vehiculo
   Future<bool> updateVehicle(Vehicle vehicle) async {
     try {
+      final motorVer = motorSel ?? motorControllerUpadte.text;
       await supabaseCtrlV.from('vehicle').update({
         'make': makeControllerUpdate.text,
         'model': modelControllerUpdate.text,
         'year': yearControllerUpdate.text,
         'vin': vinControllerUpdate.text,
         'license_plates': plateNumberControllerUpdate.text,
-        'motor': motorControllerUpadte.text,
+        'motor': '$motorVer ${versionControllerUpdate.text}',
         'color': colorString ?? vehicle.color,
         'id_status_fk':
             statusSelectedUpdate?.statusId ?? vehicle.status.statusId,
@@ -702,6 +718,21 @@ class InventoryProvider extends ChangeNotifier {
   // Función para crear un vehiculo
   Future<bool> createVehicleInventory() async {
     try {
+      Map<String, dynamic> lastMileageService = {
+        "Value": "300000",
+        "Registered": "False",
+        "Last Mileage Service": mileageController.text
+      };
+      Map<String, dynamic> ruleTransmissionService = {
+        "Value": "100000",
+        "Registered": "False",
+        "Last Mileage Service": mileageController.text
+      };
+      Map<String, dynamic> ruleRadiatorService = {
+        "Value": "20000",
+        "Registered": "False",
+        "Last Mileage Service": mileageController.text
+      };
       await supabaseCtrlV.from('vehicle').insert(
         {
           'make': brandController.text,
@@ -709,10 +740,9 @@ class InventoryProvider extends ChangeNotifier {
           'year': yearController.text,
           'vin': vinController.text,
           'license_plates': plateNumberController.text,
-          'motor': '$motorSel ' ' ${motorController.text}',
+          'motor': '$motorSel ${versionMotorController.text}',
           'color': colorString,
-          'image': imageUrl ??
-              "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/fadeInAnimation.gif",
+          'image': imageUrl,
           'id_status_fk': statusSelected?.statusId,
           'id_company_fk': companySelected?.companyId,
           'date_added': DateTime.now().toIso8601String(),
@@ -720,21 +750,9 @@ class InventoryProvider extends ChangeNotifier {
           'last_radiator_fluid_change': dateTimeControllerRFC.text,
           'last_transmission_fluid_change': dateTimeControllerLTFC.text,
           'mileage': mileageController.text.replaceAll(",", ""),
-          // 'rule_oil_change': {
-          //   "value: 300000",
-          //   "Registered: false",
-          //   "Last Mileage Service: ${mileageController.text}"
-          // },
-          // 'rule_transmission_fluid_change': {
-          //   "value: 100000",
-          //   "Registered: false",
-          //   "Last Mileage Service: ${mileageController.text}"
-          // },
-          // 'rule_radiator_fluid_change': {
-          //   "value: 20000",
-          //   "Registered: false",
-          //   "Last Mileage Service: ${mileageController.text}"
-          // },
+          'rule_oil_change': lastMileageService,
+          'rule_transmission_fluid_change': ruleTransmissionService,
+          'rule_radiator_fluid_change': ruleRadiatorService,
         },
       );
       return true;
@@ -768,6 +786,21 @@ class InventoryProvider extends ChangeNotifier {
           .toList();
     } catch (e) {
       //print("Error in changeStatusInventory() - $e");
+    }
+    notifyListeners();
+  }
+
+  Future<void> changeStatusInventoryBackToActive(Vehicle vehicle) async {
+    try {
+      final res = await supabaseCtrlV
+          .from("vehicle")
+          .update({'id_status_fk': 3}).eq('id_vehicle', vehicle.idVehicle);
+
+      vehicles = (res as List<dynamic>)
+          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
+          .toList();
+    } catch (e) {
+      //print("Error in changeStatusInventoryBackToActive() - $e");
     }
     notifyListeners();
   }
@@ -858,7 +891,7 @@ class InventoryProvider extends ChangeNotifier {
               "status": PlutoCell(value: vehicle.status.status),
               "company": PlutoCell(value: vehicle.company.company),
               "mileage": PlutoCell(
-                  value: NumberFormat('#,###').format(vehicle.mileage)),
+                  value: cardMaskMileage.format(vehicle.mileage.toString())),
               "actions": PlutoCell(value: vehicle),
             },
           ),
@@ -888,6 +921,7 @@ class InventoryProvider extends ChangeNotifier {
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
           .toList();
+
       rows.clear();
       totalVehicleODE = 0;
       totalVehicleCRY = 0;
@@ -1408,6 +1442,7 @@ class InventoryProvider extends ChangeNotifier {
     yearController.clear();
     vinController.clear();
     plateNumberController.clear();
+    versionMotorController.clear();
     statusSelected = null;
     motorSel = null;
     colorController = 0xffffffff;
@@ -1416,7 +1451,6 @@ class InventoryProvider extends ChangeNotifier {
     dateTimeControllerLTFC.clear();
     mileageController.clear();
     webImage = null;
-
     if (notify) notifyListeners();
   }
 
@@ -1441,7 +1475,7 @@ class InventoryProvider extends ChangeNotifier {
     modelController.dispose();
     vinController.dispose();
     plateNumberController.dispose();
-    motorController.dispose();
+    versionMotorController.dispose();
     // colorController.dispose();
 
     super.dispose();

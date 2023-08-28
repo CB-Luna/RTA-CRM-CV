@@ -1,4 +1,5 @@
 import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
@@ -43,7 +44,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
     var cardMaskMotor =
         MaskTextInputFormatter(mask: '#.#', filter: {"#": RegExp(r'[0-9]')});
     var cardMaskMileage =
-        MaskTextInputFormatter(mask: '##,###', filter: {"#": RegExp(r'[0-9]')});
+        CurrencyTextInputFormatter(symbol: '', name: '', decimalDigits: 0);
 
     List<String> motors = ["Gas", "Diesel"];
 
@@ -219,7 +220,7 @@ class _AddVehiclePopUpState extends State<AddVehiclePopUp> {
                               padding: const EdgeInsets.only(left: 10),
                               child: CustomTextFieldForm(
                                 label: 'Version',
-                                controller: provider.motorController,
+                                controller: provider.versionMotorController,
                                 enabled: true,
                                 width: 100,
                                 keyboardType: TextInputType.number,
