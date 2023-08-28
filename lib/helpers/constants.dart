@@ -12,6 +12,15 @@ const redirectUrl =
     'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 
+//////// PROD ////////
+// final Uri urlFMTAPK = Uri.parse("https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
+// const String supabaseUrl = 'https://supa41.rtatel.com';
+// const String anonKey =
+//     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';
+// const redirectUrl =
+//     'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
+// const themeId = String.fromEnvironment('themeId', defaultValue: '2');
+
 PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
   return PlutoGridScrollbarConfig(
     isAlwaysShown: true,

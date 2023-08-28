@@ -11,11 +11,11 @@ class User {
       required this.name,
       required this.middleName,
       required this.lastName,
-      required this.homePhone,
-      required this.mobilePhone,
+      this.homePhone,
+      this.mobilePhone,
       required this.address,
       this.image,
-      required this.birthDate,
+      this.birthDate,
       required this.role,
       required this.company,
       required this.state,
@@ -34,7 +34,7 @@ class User {
   String? middleName;
   String lastName;
   String? homePhone;
-  String mobilePhone;
+  String? mobilePhone;
   String address;
   String? image;
   DateTime? birthDate;

@@ -108,9 +108,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                         padding: const EdgeInsets.only(bottom: 10),
                         child: MonitoryPageHeader()),
 
-                    monitoryProvider.monitory.isEmpty
-                        ? const CircularProgressIndicator()
-                        : Padding(
+                    // monitoryProvider.monitory.isEmpty
+                    //     ? const CircularProgressIndicator()
+                    //     :
+                         Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Container(
                               padding: const EdgeInsets.only(bottom: 40),
