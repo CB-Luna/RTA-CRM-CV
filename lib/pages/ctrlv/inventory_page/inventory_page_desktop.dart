@@ -754,7 +754,6 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                       );
                                                     });
                                                   });
-                                              await provider.getInventory();
                                             },
                                           ),
                                           CustomTextIconButton(

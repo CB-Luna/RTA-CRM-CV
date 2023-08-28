@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -44,8 +45,8 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
         mask: '###############', filter: {"#": RegExp(r'[A-Za-z0-9]')});
     var cardMaskMotor =
         MaskTextInputFormatter(mask: '#.#', filter: {"#": RegExp(r'[0-9]')});
-    var cardMaskMileage = MaskTextInputFormatter(
-        mask: '#,###,###', filter: {"#": RegExp(r'[0-9]')});
+    var cardMaskMileage =
+        CurrencyTextInputFormatter(symbol: '', name: '', decimalDigits: 0);
     DateTime date = DateTime.now();
     DateTime selectedDate = DateTime.now();
     Color pickerColor = Colors.white;
@@ -205,7 +206,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: CustomDropDownInventory(
                             label: '8. Motor*',
-                            hint: 'Choose the Motor',
+                            hint: provider.motorControllerUpadte.text,
                             width: 187,
                             list: motors,
                             dropdownValue: provider.motorSel,
@@ -224,7 +225,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                               padding: const EdgeInsets.only(left: 10),
                               child: CustomTextFieldForm(
                                 label: 'Version',
-                                controller: provider.motorControllerUpadte,
+                                controller: provider.versionControllerUpdate,
                                 enabled: true,
                                 width: 100,
                                 keyboardType: TextInputType.number,

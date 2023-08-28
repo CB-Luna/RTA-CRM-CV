@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 
@@ -80,7 +81,7 @@ class _DeletePopUpState extends State<DeletePopUp> {
                           height: MediaQuery.of(context).size.height * 0.03,
                           decoration: BoxDecoration(
                             color: statusColorCompany(
-                                widget.vehicle.company.company,context),
+                                widget.vehicle.company.company, context),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
@@ -101,7 +102,8 @@ class _DeletePopUpState extends State<DeletePopUp> {
                       width: MediaQuery.of(context).size.width * 0.1,
                       height: MediaQuery.of(context).size.height * 0.03,
                       decoration: BoxDecoration(
-                        color: statusColor(widget.vehicle.company.company,context),
+                        color: statusColor(
+                            widget.vehicle.company.company, context),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
@@ -128,6 +130,7 @@ class _DeletePopUpState extends State<DeletePopUp> {
                 onTap: () async {
                   provider.deleteVehicle(widget.vehicle);
                   provider.updateState();
+                  context.pop();
                 },
               ),
               CustomTextIconButton(
@@ -138,7 +141,18 @@ class _DeletePopUpState extends State<DeletePopUp> {
                 text: 'Archive',
                 color: AppTheme.of(context).primaryColor,
                 onTap: () async {
-                  provider.changeStatusInventory(widget.vehicle);
+                  if (provider.archivardesarchivar == true) {
+                    await provider.changeStatusInventory(widget.vehicle);
+                    await provider.updateState();
+                    if (!mounted) return;
+                    Navigator.pop(context);
+                  } else {
+                    await provider
+                        .changeStatusInventoryBackToActive(widget.vehicle);
+                    await provider.updateStateNotActive();
+                    if (!mounted) return;
+                    Navigator.pop(context);
+                  }
                 },
               ),
             ]),
@@ -149,7 +163,7 @@ class _DeletePopUpState extends State<DeletePopUp> {
   }
 }
 
-Color statusColor(String status,BuildContext context) {
+Color statusColor(String status, BuildContext context) {
   late Color color;
 
   switch (status) {
@@ -169,7 +183,7 @@ Color statusColor(String status,BuildContext context) {
   return color;
 }
 
-Color statusColorCompany(String status,BuildContext context) {
+Color statusColorCompany(String status, BuildContext context) {
   late Color color;
 
   switch (status) {

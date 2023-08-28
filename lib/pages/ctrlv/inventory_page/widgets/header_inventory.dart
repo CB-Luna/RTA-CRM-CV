@@ -155,6 +155,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   ),
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
+                provider.archivardesarchivar = false;
                 await provider.updateStatusVehicle();
               },
             ),
@@ -175,6 +176,7 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                   ),
               color: AppTheme.of(context).primaryColor,
               onTap: () async {
+                provider.archivardesarchivar = true;
                 await provider.updateState();
               },
             ),
