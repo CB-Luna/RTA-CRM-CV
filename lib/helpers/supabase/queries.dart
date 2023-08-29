@@ -24,6 +24,7 @@ class SupabaseQueries {
 
       return usuario;
     } catch (e) {
+      log('Error aqui');
       log('Error en getCurrentUserData() - $e');
       return null;
     }
@@ -52,7 +53,7 @@ class SupabaseQueries {
       //print(res.toString());
       Configuration config =
           Configuration.fromJson(jsonEncode(res[0]['configuracion']));
-      
+
       return config;
     } catch (e) {
       log('Error en getUserTheme() - $e');

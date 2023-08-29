@@ -1,16 +1,19 @@
+
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
+import '../../../../theme/theme.dart';
 import '../../../../widgets/card_header.dart';
-import 'comments_images_issues.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 
 class BucketExtraPopUp extends StatelessWidget {
-  
+  final int popUp;
   const BucketExtraPopUp({
     super.key,
+    required this.popUp,
   });
   //pedir ID de control form para conectar con als demas
 
@@ -26,23 +29,43 @@ class BucketExtraPopUp extends StatelessWidget {
             gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
-            CardHeader(text: "Bucket Inspection"),
+            const CardHeader(text: "Bucket Inspection"),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          provider.updateViewPopup(0);
-                        },
-                        child: const Text(
-                          "BACK",
-                          style: TextStyle(fontSize: 20),
-                        )),
+                    child: CustomTextIconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      text: "",
+                      isLoading: false,
+                      onTap: () {
+                        provider.updateViewPopup(0);
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right:15.0),
+                    child: Container(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.03,
+                    decoration: BoxDecoration(
+                      color: statusColor(
+                          provider.monitoryActual!.vehicle.company.company,context),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        provider.monitoryActual!.vehicle.licesensePlates,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                                  ),
                   ),
                 ],
               ),
@@ -62,7 +85,9 @@ class BucketExtraPopUp extends StatelessWidget {
                             width: 250,
                             // color: Colors.red,
                             child: Text(
-                              provider.actualIssuesComments[index].nameIssue.capitalize.replaceAll("_", ' '),
+                              provider.actualIssuesComments[index].nameIssue
+                                  .capitalize
+                                  .replaceAll("_", ' '),
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
@@ -72,37 +97,64 @@ class BucketExtraPopUp extends StatelessWidget {
                             //color: Colors.yellow,
                             //alignment: Alignment.center,
                             child: Text(
-                              provider.actualIssuesComments[index].status ? "Yes" : "No",
-                              style:  TextStyle(
+                              provider.actualIssuesComments[index].status
+                                  ? "Yes"
+                                  : "No",
+                              style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: provider.actualIssuesComments[index].status ? Color.fromARGB(200, 65, 155, 23) : Color.fromARGB(200, 210, 0, 48), 
+                                color:
+                                    provider.actualIssuesComments[index].status
+                                        ? const Color.fromARGB(200, 65, 155, 23)
+                                        : const Color.fromARGB(200, 210, 0, 48),
                               ),
                             ),
                           ),
                           InkWell(
-                          child: provider.actualIssuesComments[index].status
-                            ? Icon(Icons.check_circle,
-                                size: 30,
-                                color: Color.fromARGB(200, 65, 155, 23))
-                            : Icon(Icons.cancel,
-                              size: 30,
-                                color: Color.fromARGB(200, 210, 0, 48)),
-                          onTap: () {
-                            provider.getActualDetailField(provider.actualIssuesComments[index]);
+                            child: provider.actualIssuesComments[index].status
+                                ? const Icon(Icons.remove_red_eye,
+                                    size: 30,
+                                    color: Color.fromARGB(200, 65, 155, 23))
+                                : const Icon(Icons.remove_red_eye,
+                                    size: 30,
+                                    color: Color.fromARGB(200, 210, 0, 48)),
+                            onTap: () {
+                              provider.getActualDetailField(
+                                  provider.actualIssuesComments[index]);
+                              
                             provider.updateViewPopup(10);
-                          },
-                          
-                        ),
+                            provider.updatePopUpExtra(popUp);
+                            },
+                          ),
                         ],
                       ),
                     );
                   }),
             ),
-            
           ],
         ),
       ),
     );
   }
 }
+
+Color statusColor(String status,BuildContext context) {
+  late Color color;
+
+  switch (status) {
+    case "ODE": //Sales Form
+      color = AppTheme.of(context).odePrimary;
+      break;
+    case "SMI": //Sen. Exec. Validate
+      color = AppTheme.of(context).smiPrimary;
+      break;
+    case "CRY": //Finance Validate
+      color = AppTheme.of(context).cryPrimary;
+      break;
+
+    default:
+      return Colors.black;
+  }
+  return color;
+}
+

@@ -11,18 +11,21 @@ class User {
       required this.name,
       required this.middleName,
       required this.lastName,
-      required this.homePhone,
-      required this.mobilePhone,
+      this.homePhone,
+      this.mobilePhone,
       required this.address,
       this.image,
-      required this.birthDate,
+      this.birthDate,
       required this.role,
       required this.company,
       required this.state,
       required this.idtema,
       required this.status,
       required this.license,
-      required this.certification});
+      required this.certification,
+      this.idVehicle,
+      this.licensePlates,
+      this.userID});
 
   String id;
   int sequentialId;
@@ -31,7 +34,7 @@ class User {
   String? middleName;
   String lastName;
   String? homePhone;
-  String mobilePhone;
+  String? mobilePhone;
   String address;
   String? image;
   DateTime? birthDate;
@@ -42,6 +45,9 @@ class User {
   String? status;
   String? license;
   String? certification;
+  int? userID;
+  int? idVehicle;
+  String? licensePlates;
 
   String get fullName => '$name $lastName';
 
@@ -49,7 +55,12 @@ class User {
   bool get isAdmin => currentUser!.isAdminCrm || currentUser!.isAdminCv;
 
   // CRM
-  bool get isCRM => currentUser!.isAdminCrm || currentUser!.isSales || currentUser!.isSenExec || currentUser!.isFinance || currentUser!.isOpperations;
+  bool get isCRM =>
+      currentUser!.isAdminCrm ||
+      currentUser!.isSales ||
+      currentUser!.isSenExec ||
+      currentUser!.isFinance ||
+      currentUser!.isOpperations;
   bool get isAdminCrm => role.id == 4;
   bool get isSales => role.id == 6;
   bool get isSenExec => role.id == 9;
@@ -88,7 +99,11 @@ class User {
         idtema: json["id_tema_fk"],
         status: json["status"],
         license: json["license"],
-        certification: json["certification"]);
+        certification: json["certification"],
+        idVehicle: json["id_vehicle_fk"],
+        licensePlates: json['license_plates'],
+        userID: json["id_user"]);
+
     return usuario;
   }
 }

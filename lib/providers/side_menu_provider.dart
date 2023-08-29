@@ -37,6 +37,7 @@ class SideMenuProvider extends ChangeNotifier {
     false, //Users 10
     false, //Configuration 11
     false, //Logout 12
+    false, //DownloadAPK 13
   ];
 
   Future<void> loadRiveMenuAssets() async {
@@ -49,6 +50,7 @@ class SideMenuProvider extends ChangeNotifier {
     await usersIconRive();
     await inventoriesIconRive();
     await monitoryIconRive();
+    await downloadAPKIconRive();
     notifyListeners();
     setIndex(0);
   }
@@ -296,5 +298,30 @@ class SideMenuProvider extends ChangeNotifier {
     }
 
     aRMonitory = artboard;
+  }
+
+  Artboard? aRDownloadAPK;
+  StateMachineController? sMCDownloadAPK;
+  SMIInput<bool>? iHoverDownloadAPK;
+  SMIInput<bool>? iSelectedDownloadAPK;
+  Future<void> downloadAPKIconRive() async {
+    final ByteData data =
+        await rootBundle.load('assets/rive/accounts_icon.riv');
+
+    final file = RiveFile.import(data);
+
+    final artboard = file.mainArtboard;
+
+    sMCDownloadAPK =
+        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+
+    if (sMCDownloadAPK != null) {
+      artboard.addController(sMCDownloadAPK!);
+
+      iHoverDownloadAPK = sMCDownloadAPK!.findInput('isHovered');
+      iSelectedDownloadAPK = sMCDownloadAPK!.findInput('isSelected');
+    }
+
+    aRDownloadAPK = artboard;
   }
 }

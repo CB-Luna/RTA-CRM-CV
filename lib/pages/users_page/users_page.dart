@@ -16,7 +16,11 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
+import 'package:rta_crm_cv/widgets/pluto_grid_cells/pluto_grid_company_cell.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
+
+import '../../widgets/pluto_grid_cells/pluto_grid_status_user_cell.dart';
+import 'PopUps/export_users.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
@@ -64,7 +68,7 @@ class _UsersPageState extends State<UsersPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 30),
+                            vertical: 0, horizontal: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -74,6 +78,14 @@ class _UsersPageState extends State<UsersPage> {
                                   color:
                                       AppTheme.of(context).primaryBackground),
                               text: 'Filter',
+                              style: AppTheme.of(context)
+                                  .contenidoTablas
+                                  .override(
+                                    fontFamily: 'Gotham-Regular',
+                                    useGoogleFonts: false,
+                                    color:
+                                        AppTheme.of(context).primaryBackground,
+                                  ),
                               onTap: () => provider.stateManager!
                                   .setShowColumnFilter(
                                       !provider.stateManager!.showColumnFilter),
@@ -81,12 +93,20 @@ class _UsersPageState extends State<UsersPage> {
                             Padding(
                               padding: const EdgeInsets.only(left: 10, top: 10),
                               child: CustomTextIconButton(
-                                width: 96,
+                                width: MediaQuery.of(context).size.width * 0.06,
                                 isLoading: false,
                                 icon: Icon(Icons.archive_outlined,
                                     color:
                                         AppTheme.of(context).primaryBackground),
                                 text: 'Archive',
+                                style: AppTheme.of(context)
+                                    .contenidoTablas
+                                    .override(
+                                      fontFamily: 'Gotham-Regular',
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context)
+                                          .primaryBackground,
+                                    ),
                                 color: AppTheme.of(context).primaryColor,
                                 onTap: () async {
                                   await provider.getUsersNotActive();
@@ -96,15 +116,54 @@ class _UsersPageState extends State<UsersPage> {
                             Padding(
                               padding: const EdgeInsets.only(left: 10, top: 10),
                               child: CustomTextIconButton(
-                                width: 96,
+                                width: MediaQuery.of(context).size.width * 0.06,
                                 isLoading: false,
                                 icon: Icon(Icons.open_in_browser_outlined,
                                     color:
                                         AppTheme.of(context).primaryBackground),
                                 text: 'Active',
+                                style: AppTheme.of(context)
+                                    .contenidoTablas
+                                    .override(
+                                      fontFamily: 'Gotham-Regular',
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context)
+                                          .primaryBackground,
+                                    ),
                                 color: AppTheme.of(context).primaryColor,
                                 onTap: () async {
                                   await provider.updateState();
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10, top: 10),
+                              child: CustomTextIconButton(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                width: MediaQuery.of(context).size.width * 0.10,
+                                isLoading: false,
+                                icon: Icon(Icons.download_for_offline_outlined,
+                                    color:
+                                        AppTheme.of(context).primaryBackground),
+                                text: 'Export Data',
+                                style: AppTheme.of(context)
+                                    .contenidoTablas
+                                    .override(
+                                      fontFamily: 'Gotham-Regular',
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context)
+                                          .primaryBackground,
+                                    ),
+                                color: AppTheme.of(context).primaryColor,
+                                onTap: () async {
+                                  provider.clearControllerExportData(
+                                      notify: false);
+                                  if (!mounted) return;
+                                  await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return const ExportUsers();
+                                      });
                                 },
                               ),
                             ),
@@ -124,12 +183,19 @@ class _UsersPageState extends State<UsersPage> {
                                     color:
                                         AppTheme.of(context).primaryBackground),
                                 text: 'Add User',
+                                style: AppTheme.of(context)
+                                    .contenidoTablas
+                                    .override(
+                                      fontFamily: 'Gotham-Regular',
+                                      useGoogleFonts: false,
+                                      color: AppTheme.of(context)
+                                          .primaryBackground,
+                                    ),
                                 onTap: () async {
                                   provider.clearControllers(notify: false);
                                   await provider.getRoles(notify: false);
                                   await provider.getCompany(notify: false);
                                   await provider.getStates(notify: false);
-
                                   if (!mounted) return;
                                   await showDialog(
                                     context: context,
@@ -176,10 +242,27 @@ class _UsersPageState extends State<UsersPage> {
                                   } else if (column.field == 'MOBILE_Column') {
                                     return resolver<PlutoFilterTypeContains>()
                                         as PlutoFilterType;
+                                  } else if (column.field == 'ADDRESS_Column') {
+                                    return resolver<PlutoFilterTypeContains>()
+                                        as PlutoFilterType;
                                   } else if (column.field == 'STATE_Column') {
                                     return resolver<PlutoFilterTypeContains>()
                                         as PlutoFilterType;
                                   } else if (column.field == 'COMPANY_Column') {
+                                    return resolver<PlutoFilterTypeContains>()
+                                        as PlutoFilterType;
+                                  } else if (column.field == 'STATUS_Column') {
+                                    return resolver<PlutoFilterTypeContains>()
+                                        as PlutoFilterType;
+                                  } else if (column.field ==
+                                      'LicenseP_Column') {
+                                    return resolver<PlutoFilterTypeContains>()
+                                        as PlutoFilterType;
+                                  } else if (column.field == 'LICENSE_Column') {
+                                    return resolver<PlutoFilterTypeContains>()
+                                        as PlutoFilterType;
+                                  } else if (column.field ==
+                                      'CERTIFICATION_Column') {
                                     return resolver<PlutoFilterTypeContains>()
                                         as PlutoFilterType;
                                   }
@@ -520,6 +603,45 @@ class _UsersPageState extends State<UsersPage> {
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
                                   WidgetSpan(
+                                      child: Icon(Icons.home_outlined,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(
+                                      text: 'ADDRESS',
+                                      style:
+                                          AppTheme.of(context).encabezadoTablas)
+                                ]),
+                                backgroundColor: const Color(0XFF6491F7),
+                                title: 'ADDRESS',
+                                field: 'ADDRESS_Column',
+                                width: 200,
+                                titleTextAlign: PlutoColumnTextAlign.start,
+                                textAlign: PlutoColumnTextAlign.center,
+                                type: PlutoColumnType.text(),
+                                enableEditingMode: false,
+                                cellPadding: EdgeInsets.zero,
+                                renderer: (rendererContext) {
+                                  return Container(
+                                    height: rowHeight,
+                                    // width: rendererContext.cell.column.width,
+                                    decoration:
+                                        BoxDecoration(gradient: whiteGradient),
+                                    child: Center(
+                                        child: Text(
+                                      rendererContext.cell.value ?? '-',
+                                      style: AppTheme.of(context)
+                                          .contenidoTablas
+                                          .override(
+                                              fontFamily: 'Gotham-Regular',
+                                              useGoogleFonts: false),
+                                    )),
+                                  );
+                                },
+                              ),
+                              PlutoColumn(
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(
                                       child: Icon(Icons.location_on_outlined,
                                           color: AppTheme.of(context)
                                               .primaryBackground)),
@@ -578,21 +700,54 @@ class _UsersPageState extends State<UsersPage> {
                                 enableEditingMode: false,
                                 cellPadding: EdgeInsets.zero,
                                 renderer: (rendererContext) {
+                                  return PlutoGridCompanyCellCV(
+                                      text: rendererContext.cell.value ?? "-");
+                                },
+                              ),
+                              PlutoColumn(
+                                titleSpan: TextSpan(children: [
+                                  WidgetSpan(
+                                      child: Icon(Icons.credit_card_outlined,
+                                          color: AppTheme.of(context)
+                                              .primaryBackground)),
+                                  const WidgetSpan(child: SizedBox(width: 10)),
+                                  TextSpan(
+                                      text: 'License Plates',
+                                      style:
+                                          AppTheme.of(context).encabezadoTablas)
+                                ]),
+                                backgroundColor: const Color(0XFF6491F7),
+                                title: 'License Plates',
+                                field: 'LicenseP_Column',
+                                width: 200,
+                                titleTextAlign: PlutoColumnTextAlign.start,
+                                textAlign: PlutoColumnTextAlign.center,
+                                type: PlutoColumnType.text(),
+                                enableEditingMode: false,
+                                cellPadding: EdgeInsets.zero,
+                                renderer: (rendererContext) {
                                   return Container(
                                     height: rowHeight,
-                                    width: rendererContext.cell.column.width,
+                                    // width: rendererContext.cell.column.width,
                                     decoration:
                                         BoxDecoration(gradient: whiteGradient),
                                     child: Center(
                                         child: Text(
-                                            rendererContext.cell.value ?? '-')),
+                                      rendererContext.cell.value ?? '-',
+                                      style: AppTheme.of(context)
+                                          .contenidoTablas
+                                          .override(
+                                              fontFamily: 'Gotham-Regular',
+                                              useGoogleFonts: false),
+                                    )),
                                   );
                                 },
                               ),
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
                                   WidgetSpan(
-                                      child: Icon(Icons.warehouse_outlined,
+                                      child: Icon(
+                                          Icons.manage_accounts_outlined,
                                           color: AppTheme.of(context)
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
@@ -611,21 +766,15 @@ class _UsersPageState extends State<UsersPage> {
                                 enableEditingMode: false,
                                 cellPadding: EdgeInsets.zero,
                                 renderer: (rendererContext) {
-                                  return Container(
-                                    height: rowHeight,
-                                    width: rendererContext.cell.column.width,
-                                    decoration:
-                                        BoxDecoration(gradient: whiteGradient),
-                                    child: Center(
-                                        child: Text(
-                                            rendererContext.cell.value ?? '-')),
-                                  );
+                                  return PlutoGridStatusCellUserCV(
+                                      text: rendererContext.cell.value ?? "-");
                                 },
                               ),
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
                                   WidgetSpan(
-                                      child: Icon(Icons.warehouse_outlined,
+                                      child: Icon(
+                                          Icons.card_membership_outlined,
                                           color: AppTheme.of(context)
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
@@ -658,7 +807,8 @@ class _UsersPageState extends State<UsersPage> {
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
                                   WidgetSpan(
-                                      child: Icon(Icons.warehouse_outlined,
+                                      child: Icon(
+                                          Icons.workspace_premium_outlined,
                                           color: AppTheme.of(context)
                                               .primaryBackground)),
                                   const WidgetSpan(child: SizedBox(width: 10)),
@@ -735,15 +885,32 @@ class _UsersPageState extends State<UsersPage> {
                                                 .primaryBackground,
                                           ),
                                           text: 'Edit',
+                                          style: AppTheme.of(context)
+                                              .contenidoTablas
+                                              .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false,
+                                                color: AppTheme.of(context)
+                                                    .primaryBackground,
+                                              ),
                                           onTap: () async {
+                                            // provider.vehicles.clear();
+
                                             await provider.getCompany(
                                                 notify: false);
                                             await provider.getStates(
                                                 notify: false);
                                             await provider.getRoles(
                                                 notify: false);
+                                            await provider.getVehicleUser(
+                                                rendererContext.cell.value,
+                                                notify: false);
                                             provider.updateControllers(
                                                 rendererContext.cell.value);
+                                            await provider.getVehicleActiveInit(
+                                                rendererContext.cell.value,
+                                                notify: false);
+
                                             // ignore: use_build_context_synchronously
                                             await showDialog(
                                                 context: context,
@@ -769,6 +936,14 @@ class _UsersPageState extends State<UsersPage> {
                                           ),
                                           color: secondaryColor,
                                           text: 'Delete',
+                                          style: AppTheme.of(context)
+                                              .contenidoTablas
+                                              .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false,
+                                                color: AppTheme.of(context)
+                                                    .primaryBackground,
+                                              ),
                                           onTap: () async {
                                             await showDialog(
                                                 context: context,

@@ -54,7 +54,7 @@ Widget? getUserImage(dynamic image,
 Widget? getAddImageV(dynamic image,
     {double height = 180, BoxFit boxFit = BoxFit.cover}) {
   if (image == null) {
-    return Image.asset('assets/images/default-user-profile-picture.png');
+    return Image.asset('assets/images/fadeInAnimation.gif');
   } else if (image is Uint8List) {
     return Image.memory(
       image,
@@ -71,19 +71,34 @@ Widget? getAddImageV(dynamic image,
       fit: boxFit,
     );
   } else {
-    return Image.asset('assets/images/default-user-profile-picture.png');
+    return Image.asset('assets/images/fadeInAnimation.gif');
   }
 }
 
-Widget? getImageUpdate(Vehicle vehicle, dynamic image,
+Widget? getImageUpdate(Vehicle vehicle, dynamic newImage,
     {double height = 180, BoxFit boxFit = BoxFit.cover}) {
-  if (vehicle.image == null) {
-    return Image.asset('assets/images/default-user-profile-picture.png');
-  } else {
-    print("ENTRO AQUI STRING");
-    print(vehicle.image);
+  print("------------");
+  print(vehicle.image);
+  if (vehicle.image == null || vehicle.image == "") {
+    return Image.asset('assets/images/fadeInAnimation.gif');
+  } else if (newImage is Uint8List) {
+    return Image.memory(
+      newImage,
+      height: height,
+      width: double.infinity,
+      fit: boxFit,
+    );
+  } else if (newImage is String) {
     return Image.network(
-      image!,
+      newImage,
+      height: height,
+      width: double.infinity,
+      filterQuality: FilterQuality.high,
+      fit: boxFit,
+    );
+  } else {
+    return Image.network(
+      vehicle.image!,
       height: height,
       width: double.infinity,
       filterQuality: FilterQuality.high,

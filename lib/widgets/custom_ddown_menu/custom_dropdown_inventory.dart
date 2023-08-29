@@ -30,7 +30,6 @@ class _CustomDropDownInventoryState extends State<CustomDropDownInventory> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //TODO: Change color
         Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Text(
@@ -66,7 +65,6 @@ class _CustomDropDownInventoryState extends State<CustomDropDownInventory> {
                   icon: Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      //TODO: Change color
                       children: [
                         Icon(
                           Icons.arrow_drop_down,
@@ -79,7 +77,6 @@ class _CustomDropDownInventoryState extends State<CustomDropDownInventory> {
                   borderRadius: BorderRadius.circular(5),
                   elevation: 0,
                   dropdownColor: AppTheme.of(context).primaryBackground,
-                  //TODO: Change color
                   style: TextStyle(color: AppTheme.of(context).primaryColor),
                   underline: const SizedBox.shrink(),
                   onChanged: widget.onChanged,

@@ -21,7 +21,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
     'assets/images/background3.png',
     'assets/images/background4.png',
   ];
-  List<String> AssetsImages = [
+  List<String> assetsImages = [
     assets.background,
     assets.background2,
     assets.background3,
@@ -66,7 +66,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
           right: 250,
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: AssetsImages.isEmpty
+            children: assetsImages.isEmpty
                 ? List.generate(
                     images.length,
                     (index) => GestureDetector(
@@ -85,7 +85,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
                     ),
                   )
                 : List.generate(
-                    AssetsImages.length,
+                    assetsImages.length,
                     (index) => GestureDetector(
                       onTap: () => carouselController.animateToPage(index),
                       child: Container(

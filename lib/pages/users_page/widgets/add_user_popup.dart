@@ -1,6 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
@@ -38,8 +40,13 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
     final List<String> rolesNames =
         provider.roles.map((role) => role.roleName).toList();
     final List<String> statusName = ["Not Active", "Active"];
-    final List<String> CompanyNames =
+    final List<String> companyNames =
         provider.companys.map((companyName) => companyName.company).toList();
+    final List<String> vehicleNames = provider.vehicles
+        .map((vehicleNames) => vehicleNames.licesensePlates)
+        .toList();
+    var cardMaskNumber = MaskTextInputFormatter(
+        mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
 
     return Dialog(
       shape: const RoundedRectangleBorder(
@@ -67,6 +74,20 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomTextIconButton(
+                          isLoading: false,
+                          icon: Icon(Icons.arrow_back_outlined,
+                              color: AppTheme.of(context).primaryBackground),
+                          text: '',
+                          onTap: () {
+                            context.pop();
+                          },
+                        ),
+                      ],
+                    ),
                     InkWell(
                       onTap: () async {
                         await provider.selectImage();
@@ -84,34 +105,46 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
-                        label: 'Name',
+                        label: 'Name*',
                         icon: Icons.person_outline,
                         controller: provider.nameController,
                         enabled: true,
                         width: 350,
+                        height: 35,
                         keyboardType: TextInputType.name,
+                        maxLength: 25,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
-                        label: 'Last Name',
+                        label: 'Last Name*',
                         icon: Icons.person_outline,
                         controller: provider.lastNameController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        maxLength: 25,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
-                        label: 'Email',
+                        label: 'Email*',
                         icon: Icons.alternate_email,
                         controller: provider.emailController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.emailAddress,
+                        maxLength: 25,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'The email is required';
+                          } else if (!EmailValidator.validate(value)) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     Padding(
@@ -123,12 +156,25 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.phone,
+                        inputFormatters: [cardMaskNumber],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextField(
+                        label: 'Address',
+                        icon: Icons.home_outlined,
+                        controller: provider.addressController,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.text,
+                        maxLength: 25,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDDownMenu(
-                        hint: 'Choose a state',
+                        hint: 'Choose a state*',
                         label: 'State',
                         icon: Icons.location_on_outlined,
                         width: 350,
@@ -143,7 +189,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDDownMenu(
-                        hint: 'Choose a role',
+                        hint: 'Choose a role*',
                         label: 'Role',
                         icon: Icons.local_offer_outlined,
                         width: 350,
@@ -159,22 +205,26 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: CustomDDownMenu(
-                          hint: 'Choose a Company',
+                          hint: 'Choose a Company*',
                           label: 'Company',
                           icon: Icons.warehouse_outlined,
                           width: 350,
-                          list: CompanyNames,
+                          list: companyNames,
                           dropdownValue: provider.selectedCompany?.company,
-                          onChanged: (val) {
+                          onChanged: (val) async {
                             if (val == null) return;
                             provider.selectCompany(val);
+                            if (val != "RTA") {
+                              await provider.getVehicleActive(val,
+                                  notify: true);
+                            }
                           },
                         ),
                       ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDDownMenu(
-                        hint: 'Choose a status',
+                        hint: 'Choose a status*',
                         label: 'Status',
                         icon: Icons.settings_backup_restore_outlined,
                         width: 350,
@@ -182,109 +232,134 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         dropdownValue: provider.dropdownvalue,
                         onChanged: (val) {
                           if (val == null) return;
-                          provider.dropdownvalue = val;
-                          print(val);
-                          provider.notifyListeners();
+                          provider.getStatus(val);
+                          //print(val);
                         },
                       ),
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomDDownMenu(
+                            hint: 'Choose a Vehicle',
+                            label: 'Vehicle',
+                            icon: Icons.credit_card_outlined,
+                            width: 190,
+                            list: vehicleNames,
+                            dropdownValue:
+                                provider.selectedVehicle?.licesensePlates,
+                            onChanged: (val) {
+                              if (val == null) return;
+                              //print(val);
+                              provider.selectedVehiclee(val);
+                            },
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: CustomTextIconButton(
+                                isLoading: false,
+                                icon: Icon(
+                                  Icons.cleaning_services_outlined,
+                                  color: AppTheme.of(context).primaryBackground,
+                                ),
+                                text: 'Clear Plates',
+                                onTap: () async {
+                                  provider.clearVehicle();
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
                         label: 'License',
-                        icon: Icons.settings_backup_restore_outlined,
+                        icon: Icons.card_membership_outlined,
                         controller: provider.licenseController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.text,
+                        maxLength: 10,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
                         label: 'Certification',
-                        icon: Icons.settings_backup_restore_outlined,
+                        icon: Icons.workspace_premium_outlined,
                         controller: provider.certificationController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.text,
+                        maxLength: 5,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
-                  text: 'Save User',
-                  onTap: () async {
-                    if (!formKey.currentState!.validate()) {
-                      return;
-                    }
+            CustomTextIconButton(
+              mainAxisAlignment: MainAxisAlignment.center,
+              isLoading: false,
+              icon: Icon(Icons.save_outlined,
+                  color: AppTheme.of(context).primaryBackground),
+              text: 'Save User',
+              width: MediaQuery.of(context).size.width * 0.1,
+              onTap: () async {
+                if (!formKey.currentState!.validate()) {
+                  return;
+                }
+                //Registrar usuario
+                final Map<String, String>? result =
+                    await provider.registerUser();
 
-                    // if (provider.webImage != null) {
-                    //   final res = await provider.uploadImage();
-                    //   if (res == null) {
-                    //     ApiErrorHandler.callToast('Error al subir imagen');
-                    //   }
-                    // }
+                if (result == null) {
+                  await ApiErrorHandler.callToast('Error registering user');
+                  return;
+                } else {
+                  if (result['Error'] != null) {
+                    await ApiErrorHandler.callToast(result['Error']!);
+                    return;
+                  }
+                }
 
-                    //Registrar usuario
-                    final Map<String, String>? result =
-                        await provider.registerUser();
+                final String? userId = result['userId'];
 
-                    if (result == null) {
-                      await ApiErrorHandler.callToast('Error registering user');
-                      return;
-                    } else {
-                      if (result['Error'] != null) {
-                        await ApiErrorHandler.callToast(result['Error']!);
-                        return;
-                      }
-                    }
+                if (userId == null) {
+                  await ApiErrorHandler.callToast('Error registering user');
+                  return;
+                }
 
-                    final String? userId = result['userId'];
+                //Crear perfil de usuario
+                bool res = await provider.createUserProfile(userId);
 
-                    if (userId == null) {
-                      await ApiErrorHandler.callToast('Error registering user');
-                      return;
-                    }
+                if (!res) {
+                  await ApiErrorHandler.callToast(
+                      'Error creating user profile');
+                  return;
+                }
 
-                    //Crear perfil de usuario
-                    bool res = await provider.createUserProfile(userId);
+                if (!mounted) return;
+                fToast.showToast(
+                  child: const SuccessToast(
+                    message: 'User Created',
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                  toastDuration: const Duration(seconds: 2),
+                );
+                provider.updateVehiclestatus();
 
-                    if (!res) {
-                      await ApiErrorHandler.callToast(
-                          'Error creating user profile');
-                      return;
-                    }
-
-                    if (!mounted) return;
-                    fToast.showToast(
-                      child: const SuccessToast(
-                        message: 'Usuario creado',
-                      ),
-                      gravity: ToastGravity.BOTTOM,
-                      toastDuration: const Duration(seconds: 2),
-                    );
-
-                    if (context.canPop()) context.pop();
-                  },
-                ),
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.exit_to_app_outlined,
-                      color: AppTheme.of(context).primaryBackground),
-                  text: 'Exit',
-                  onTap: () {
-                    context.pop();
-                  },
-                ),
-              ],
+                if (context.canPop()) context.pop();
+              },
             )
           ],
         ),

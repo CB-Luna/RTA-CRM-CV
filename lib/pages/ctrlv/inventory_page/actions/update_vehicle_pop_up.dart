@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -37,25 +38,48 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
 
     final formKey = GlobalKey<FormState>();
     var cardMask = MaskTextInputFormatter(
-        mask: '###-%%%%',
-        filter: {"#": RegExp(r'[a-zA-Z]'), "%": RegExp(r'[0-9]')});
+        mask: '####-######', filter: {"#": RegExp(r'[A-Za-z0-9]')});
+    var cardMaskVIN = MaskTextInputFormatter(
+        mask: '##################', filter: {"#": RegExp(r'[A-Za-z0-9]')});
+    var cardMaskModel = MaskTextInputFormatter(
+        mask: '###############', filter: {"#": RegExp(r'[A-Za-z0-9]')});
+    var cardMaskMotor =
+        MaskTextInputFormatter(mask: '#.#', filter: {"#": RegExp(r'[0-9]')});
+    var cardMaskMileage =
+        CurrencyTextInputFormatter(symbol: '', name: '', decimalDigits: 0);
     DateTime date = DateTime.now();
     DateTime selectedDate = DateTime.now();
-    Color pickerColor = const Color(0xff2196f3);
+    Color pickerColor = Colors.white;
     Color colors = Colors.white;
     final List<String> companyName =
         provider.company.map((companies) => companies.company).toList();
     final List<String> statusName =
         provider.status.map((statu) => statu.status).toList();
+    List<String> motors = ["Gas", "Diesel"];
+
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
         title: 'Update Vehicle',
-        height: 634,
-        width: 380,
+        height: MediaQuery.of(context).size.height * 0.7, //634
+        width: 380, // 380
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CustomTextIconButton(
+                  isLoading: false,
+                  icon: Icon(Icons.arrow_back_outlined,
+                      color: AppTheme.of(context).primaryBackground),
+                  text: '',
+                  onTap: () {
+                    context.pop();
+                  },
+                ),
+              ],
+            ),
             Form(
               key: formKey,
               child: SingleChildScrollView(
@@ -84,6 +108,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        inputFormatters: [cardMaskModel],
                       ),
                     ),
                     Padding(
@@ -94,12 +119,13 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        inputFormatters: [cardMaskModel],
                       ),
                     ),
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         child: CustomTextFieldForm(
-                            label: '4. year',
+                            label: '4. Year',
                             controller: provider.yearControllerUpdate,
                             enabled: true,
                             onTapCheck: true,
@@ -143,6 +169,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        inputFormatters: [cardMaskVIN],
                       ),
                     ),
                     Padding(
@@ -160,7 +187,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
                         hint: widget.vehicle.status.status,
-                        label: '7. status',
+                        label: '7. Status',
                         width: 350,
                         list: statusName,
                         dropdownValue: provider.statusSelectedUpdate?.status,
@@ -173,41 +200,80 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      child: CustomTextFieldForm(
-                        label: '8. Motor',
-                        controller: provider.motorControllerUpadte,
-                        enabled: true,
-                        width: 350,
-                        keyboardType: TextInputType.name,
-                      ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomDropDownInventory(
+                            label: '8. Motor*',
+                            hint: provider.motorControllerUpadte.text,
+                            width: 187,
+                            list: motors,
+                            dropdownValue: provider.motorSel,
+                            onChanged: (val) {
+                              if (val == null) return;
+                              provider.selectMotor(val);
+                            },
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: CustomTextFieldForm(
+                                label: 'Version',
+                                controller: provider.versionControllerUpdate,
+                                enabled: true,
+                                width: 100,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [cardMaskMotor],
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          child: CustomTextFieldForm(
+                            label: '9. Color',
+                            enabled: true,
+                            controller: TextEditingController(),
+                            onTapCheck: true,
+                            width: 150,
+                            keyboardType: TextInputType.name,
+                            //designColor: int.parse(widget.vehicle.color!),
+                            onTap: () async {
+                              colors = await showColorPickerDialog(
+                                  context, pickerColor);
+                              String colorString =
+                                  "0x${colors.hexAlpha.toLowerCase()}";
+                              provider.updateColor(
+                                  int.parse(colorString), colorString);
+                            },
+                            //designColor: provider.colorController,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 70, right: 10),
+                          width: 50,
+                          height: 35,
+                          decoration: BoxDecoration(
+                            color: Color(provider.colorController),
+                            shape: BoxShape.circle,
+                          ),
+                        )
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                        label: '9. Color',
-                        enabled: true,
-                        controller: TextEditingController(),
-                        onTapCheck: true,
-                        width: 350,
-                        keyboardType: TextInputType.name,
-                        //designColor: int.parse(widget.vehicle.color!),
-                        onTap: () async {
-                          colors =
-                              await showColorPickerDialog(context, pickerColor);
-                          String colorString =
-                              "0x${colors.hexAlpha.toLowerCase()}";
-                          provider.updateColor(
-                              int.parse(colorString), colorString);
-                        },
-                        designColor: provider.colorController,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      child: CustomTextFieldForm(
-                          label: '10. oil change due',
+                          label: '10. Last Oil Change',
                           controller: provider.dateTimeControllerOilUpdate,
                           enabled: true,
                           onTapCheck: true,
@@ -221,7 +287,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                                 lastDate: DateTime(2050));
 
                             if (newDate != null) {
-                              provider.dateTimeControllerOil.text =
+                              provider.dateTimeControllerOilUpdate.text =
                                   DateFormat("MMM/dd/yyyy").format(newDate);
                             }
                           }),
@@ -251,7 +317,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                          label: '12. Last Transimission Fluid Change',
+                          label: '12. Last Transmission Fluid Change',
                           controller: provider.dateTimeControllerLTFCUpadte,
                           enabled: true,
                           onTapCheck: true,
@@ -274,85 +340,80 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
                         label: '13. Initial Mileage',
+                        inputFormatters: [cardMaskMileage],
                         controller: provider.mileageControllerUpdate,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
                       ),
                     ),
-                    Column(
-                      children: [
-                        Text(
-                          "14. Update Vehicle Image",
-                          style: TextStyle(
-                            color: AppTheme.of(context).primaryColor,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            await provider.updateImage();
-                          },
-                          child: Container(
-                            width: 105,
-                            height: 105,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      child: Column(
+                        children: [
+                          Text(
+                            "14. Update Vehicle Image",
+                            style: TextStyle(
+                              color: AppTheme.of(context).primaryColor,
                             ),
-                            child: getImageUpdate(
-                                widget.vehicle, provider.imageUrlUpdate),
                           ),
-                        ),
-                      ],
+                          InkWell(
+                            onTap: () async {
+                              await provider.updateImage();
+                            },
+                            child: Container(
+                              width: 105,
+                              height: 105,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: getImageUpdate(
+                                  widget.vehicle, provider.webImage),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomTextIconButton(
-                    isLoading: false,
-                    icon: Icon(Icons.save_outlined,
-                        color: AppTheme.of(context).primaryBackground),
-                    text: 'Update Vehicle',
-                    onTap: () async {
-                      if (!formKey.currentState!.validate()) {
-                        return;
-                      }
-                      //Crear perfil de usuario
-                      bool res = await provider.updateVehicle(widget.vehicle);
+            CustomTextIconButton(
+                mainAxisAlignment: MainAxisAlignment.center,
+                width: MediaQuery.of(context).size.width * 0.1,
+                isLoading: false,
+                icon: Icon(Icons.save_outlined,
+                    color: AppTheme.of(context).primaryBackground),
+                text: 'Update Vehicle',
+                onTap: () async {
+                  if (!formKey.currentState!.validate()) {
+                    return;
+                  }
+                  await provider.deleteImage();
 
-                      if (!res) {
-                        await ApiErrorHandler.callToast(
-                            'Error al actualizar el vehiculo');
-                        return;
-                      }
+                  //Crear perfil de usuario
+                  bool res = await provider.updateVehicle(widget.vehicle);
 
-                      if (!mounted) return;
-                      fToast.showToast(
-                        child: const SuccessToast(
-                          message: 'updated vehicle',
-                        ),
-                        gravity: ToastGravity.BOTTOM,
-                        toastDuration: const Duration(seconds: 2),
-                      );
+                  if (!res) {
+                    await ApiErrorHandler.callToast(
+                        'Error al actualizar el vehiculo');
+                    return;
+                  }
 
-                      if (context.canPop()) context.pop();
-                      await provider.updateState();
-                    }),
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.exit_to_app_outlined,
-                      color: AppTheme.of(context).primaryBackground),
-                  text: 'Exit',
-                  onTap: () {
-                    context.pop();
-                  },
-                ),
-              ],
-            )
+                  if (!mounted) return;
+                  fToast.showToast(
+                    child: const SuccessToast(
+                      message: 'updated vehicle',
+                    ),
+                    gravity: ToastGravity.BOTTOM,
+                    toastDuration: const Duration(seconds: 2),
+                  );
+
+                  if (context.canPop()) context.pop();
+                  await provider.updateState();
+                })
           ],
         ),
       ),

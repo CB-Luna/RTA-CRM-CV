@@ -79,7 +79,6 @@ class UserState extends ChangeNotifier {
     }
   }
 
-  //TODO: agregar info de perfil
   // void initPerfilUsuario() {
   //   if (currentUser == null) return;
   //   nombrePerfil.text = currentUser!.nombre;

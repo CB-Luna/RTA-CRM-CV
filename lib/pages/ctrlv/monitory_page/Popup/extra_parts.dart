@@ -4,14 +4,16 @@ import 'package:provider/provider.dart';
 
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
+import '../../../../theme/theme.dart';
 import '../../../../widgets/card_header.dart';
-import 'comments_images_issues.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
 
 class ExtraPopUp extends StatelessWidget {
   final String catalog;
+  final int popUp;
   const ExtraPopUp({
     super.key,
-    required this.catalog,
+    required this.catalog, required this.popUp,
   });
   //pedir ID de control form para conectar con als demas
 
@@ -22,7 +24,7 @@ class ExtraPopUp extends StatelessWidget {
       backgroundColor: Colors.transparent,
       content: Container(
         width: 700,
-        height: 670,
+        height: 750,
         decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
@@ -30,25 +32,44 @@ class ExtraPopUp extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     padding: const EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          provider.updateViewPopup(0);
-                        },
-                        child: const Text(
-                          "BACK",
-                          style: TextStyle(fontSize: 20),
-                        )),
+                    child: CustomTextIconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      text: "",
+                      isLoading: false,
+                      onTap: () {
+                        provider.updateViewPopup(0);
+                      },),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right:15.0),
+                    child: Container(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.03,
+                    decoration: BoxDecoration(
+                      color: statusColor(provider.monitoryActual!.vehicle.company.company,context),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        provider.monitoryActual!.vehicle.licesensePlates,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                                  ),
                   ),
                 ],
               ),
             ),
+            
             SizedBox(
-              height: 550,
+              height: MediaQuery.of(context).size.height * 0.5,
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
                   itemCount: provider.actualIssuesComments.length,
@@ -81,15 +102,17 @@ class ExtraPopUp extends StatelessWidget {
                           ),
                           InkWell(
                           child: provider.actualIssuesComments[index].status
-                            ? Icon(Icons.check_circle,
+                            ? const Icon(Icons.remove_red_eye,
                                 size: 30,
                                 color: Color.fromARGB(200, 65, 155, 23))
-                            : Icon(Icons.cancel,
+                            : const Icon(Icons.remove_red_eye,
                               size: 30,
                                 color: Color.fromARGB(200, 210, 0, 48)),
                           onTap: () {
                             provider.getActualDetailField(provider.actualIssuesComments[index]);
+                            // provider.getSection(index);
                             provider.updateViewPopup(9);
+                            provider.updatePopUpExtra(popUp);
                           },
                           
                         ),
@@ -104,3 +127,24 @@ class ExtraPopUp extends StatelessWidget {
     );
   }
 }
+
+Color statusColor(String status,BuildContext context) {
+  late Color color;
+
+  switch (status) {
+    case "ODE": //Sales Form
+      color = AppTheme.of(context).odePrimary;
+      break;
+    case "SMI": //Sen. Exec. Validate
+      color = AppTheme.of(context).smiPrimary;
+      break;
+    case "CRY": //Finance Validate
+      color = AppTheme.of(context).cryPrimary;
+      break;
+
+    default:
+      return Colors.black;
+  }
+  return color;
+}
+

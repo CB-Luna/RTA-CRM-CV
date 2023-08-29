@@ -5,8 +5,12 @@ import 'package:rta_crm_cv/pages/crm/campaigns/campaigns_page.dart';
 import 'package:rta_crm_cv/pages/crm/reports_page.dart';
 import 'package:rta_crm_cv/pages/crm/schedulings_page.dart';
 import 'package:rta_crm_cv/pages/crm/tickets_page.dart';
-import 'package:rta_crm_cv/pages/ctrlv/dashboards_page.dart';
-import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page.dart';
+import 'package:rta_crm_cv/pages/ctrlv/dashboard/dashboards_page_ctrlv.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/download_apk_page.dart';
+import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
+import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
+import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
+import 'package:rta_crm_cv/pages/login_page/login_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
 import 'package:rta_crm_cv/helpers/constants.dart';
@@ -17,7 +21,7 @@ import 'package:rta_crm_cv/pages/crm/quotes/quotes_page.dart';
 import 'package:rta_crm_cv/pages/crm/quotes/validate_quote.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 
-import '../pages/ctrlv/inventory_page/inventory_page.dart';
+import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 
 /// The route configuration.
 final GoRouter router = GoRouter(
@@ -47,8 +51,10 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         if (currentUser!.isCRM) {
           return const QuotesPage();
-        } else if (currentUser!.isCV) {
-          return const MonitoryPage();
+        } else if (currentUser!.isAdminCv || currentUser!.isManager) {
+          return const MonitoryPageDesktop();
+        } else if (currentUser!.isEmployee) {
+          return const DownloadAPKPage();
         } else {
           return const PageNotFoundPage();
         }
@@ -57,8 +63,10 @@ final GoRouter router = GoRouter(
         key: state.pageKey,
         child: currentUser!.isCRM
             ? const QuotesPage()
-            : currentUser!.isCV
-                ? const MonitoryPage()
+            : currentUser!.isAdminCv || currentUser!.isManager
+                ? const MonitoryPageDesktop()
+                : currentUser!.isEmployee
+                ? const DownloadAPKPage()
                 : const PageNotFoundPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             FadeTransition(
@@ -218,19 +226,47 @@ final GoRouter router = GoRouter(
       path: '/vehicle_status',
       name: 'Vehicle_Status',
       builder: (BuildContext context, GoRouterState state) {
-        return const MonitoryPage();
+        return const MonitoryPageDesktop();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const MonitoryPage()),
+          pageTransition(context, state, const MonitoryPageDesktop()),
     ),
     GoRoute(
       path: '/inventory',
       name: 'Inventory',
       builder: (BuildContext context, GoRouterState state) {
-        return const InventoryPage();
+        return const InventoryPageDesktop();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const InventoryPage()),
+          pageTransition(context, state, const InventoryPageDesktop()),
+    ),
+    GoRoute(
+      path: routeDetailsInventory,
+      name: 'Details_Inventory',
+      builder: (BuildContext context, GoRouterState state) {
+        if (state.extra == null) return const InventoryPageDesktop();
+        // return ReportedIssues(vehicle: state.extra as Vehicle);
+        return const ReportedIssues();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeService,
+      name: 'Services',
+      builder: (BuildContext context, GoRouterState state) {
+        if (state.extra == null) return const InventoryPageDesktop();
+        // return ReportedIssues(vehicle: state.extra as Vehicle);
+        return const ServicePopUp();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeDownloadAPK,
+      name: 'Download APK',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
     ),
     /////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////

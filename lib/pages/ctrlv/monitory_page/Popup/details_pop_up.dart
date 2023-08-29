@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/Popup/parts.dart';
-import 'package:rta_crm_cv/pages/ctrlv/monitory_page/widgets/cuadro.dart';
 
 import '../../../../models/monitory.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
+import '../../../../theme/theme.dart';
+import '../../../../widgets/custom_text_icon_button.dart';
+import '../widgets/detail_card_vehicle.dart';
 import '../widgets/forms_answer_delivered.dart';
 import '../widgets/forms_answer_received.dart';
 import 'bucket_expanded.dart';
@@ -14,6 +15,8 @@ import 'comments_images_issues.dart';
 import 'extra_parts.dart';
 import 'measures.dart';
 import 'package:rta_crm_cv/widgets/card_header.dart';
+
+import 'measures_inspect.dart';
 
 class DetailsPop extends StatelessWidget {
   final Monitory vehicle;
@@ -28,8 +31,10 @@ class DetailsPop extends StatelessWidget {
       content: provider.viewPopup == 0
           ? Container(
               width: 1300,
-              height: 670,
-              decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
+              height: 760,
+              decoration: BoxDecoration(
+                  gradient: whiteGradient,
+                  borderRadius: BorderRadius.circular(20)),
               child: Column(
                 children: [
                   const Padding(
@@ -44,328 +49,105 @@ class DetailsPop extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: const EdgeInsets.only(left: 20),
-                          alignment: Alignment.centerLeft,
-                          child: ElevatedButton(
-                              onPressed: () {
+                            padding: const EdgeInsets.only(left: 20),
+                            alignment: Alignment.centerLeft,
+                            child: CustomTextIconButton(
+                              icon: const Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ),
+                              text: "",
+                              isLoading: false,
+                              onTap: () {
                                 Navigator.pop(context);
                               },
-                              child: const Text(
-                                "Exit",
-                                style: TextStyle(fontSize: 20),
-                              )),
-                        ),
+                            )),
                       ],
                     ),
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        height: (460 * 0.7586633663366337).toDouble(),
-                        width: 700,
-                        padding: const EdgeInsets.all(8.0),
-                        child: CustomPaint(
-                          size: Size(400, (450 * 0.7586633663366337).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                          painter: RPSCustomPainterMon(),
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20, top: 20, left: 20, right: 20),
-                            child: Row(
+                  DetailVehicleCard(vehicle: vehicle),
+                  
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                    child: Text(
-                                      " Employee: ",
-                                      style: TextStyle(color: Colors.white),
+                                Container(
+                                    height:
+                                        MediaQuery.of(context).size.height * 0.03,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.07,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: const Color.fromRGBO(171, 235, 198, 1),
+                                      border: Border.all(
+                                          color:
+                                              AppTheme.lightTheme.tertiaryColor,
+                                          width: 3),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                    child: Text(" Vehicle Id: ", style: TextStyle(color: Colors.white)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                    child: Text(" Gas: ", style: TextStyle(color: Colors.white)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                    child: Text(" Mileage: ", style: TextStyle(color: Colors.white)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                    child: Text(" Plate Number: ", style: TextStyle(color: Colors.white)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                    child: Text(" VIN: ", style: TextStyle(color: Colors.white)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                    child: Text(
-                                      " Last Transmission Fluid Change: ",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                    child: Text(" Last Radiator Fluid Change: ", style: TextStyle(color: Colors.white)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                    child: Text(" Oil Change Due: ", style: TextStyle(color: Colors.white)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                    child: Text(" Date Added: ", style: TextStyle(color: Colors.white)),
-                                  )
-                                ]),
-                                const Spacer(),
+                                    child: Center(
+                                      child: Text(
+                                        "Check Out",
+                                        style: TextStyle(
+                                            color:
+                                                AppTheme.lightTheme.tertiaryColor,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    )),
+                              ]),
+                        ),
+                        const AnswerFormReceived(),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        
+                        vehicle.dateAddedD != null
+                            ?Column(
+                              children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 80),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height:
+                                          MediaQuery.of(context).size.height * 0.03,
+                                      width: MediaQuery.of(context).size.width * 0.07,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: const Color.fromRGBO(195, 155, 211, 1),
+                                        border: Border.all(
+                                            color: const Color.fromRGBO(245, 6, 213, 1),
+                                            width: 2),
+                                      ),
+                                      child: const Center(
                                         child: Text(
-                                          "${vehicle.employee.name} ${vehicle.employee.lastName}",
-                                          style: const TextStyle(color: Colors.white),
+                                          "Check In",
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(245, 6, 213, 1),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          "${vehicle.idVehicle}",
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          vehicle.gasR,
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          "${vehicle.mileageR}",
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          vehicle.licensePlates,
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          vehicle.vin,
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          DateFormat("MMM-dd-yyyy").format(vehicle.vehicle.lastTransmissionFluidChange!).toString(),
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                        child: Text(
-                                          DateFormat("MMM-dd-yyyy").format(vehicle.vehicle.oilChangeDue!).toString(),
-                                          //"${vehicle.vehicle.oilChangeDue.month}-${vehicle.vehicle.oilChangeDue.day}-${vehicle.vehicle.oilChangeDue.year}",
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Spacer(),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 80),
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                      child: Text(
-                                        "${vehicle.employee.name} ${vehicle.employee.lastName}",
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                      child: Text(
-                                        "${vehicle.idVehicle}",
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                      child: Text(
-                                        vehicle.gasR,
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                      child: Text(
-                                        "${vehicle.mileageR}",
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                      child: Text(
-                                        vehicle.licensePlates,
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                      child: Text(
-                                        vehicle.vin,
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                      child: Text(
-                                        vehicle.vehicle.lastTransmissionFluidChange == null ? "" : DateFormat("MMM/dd/yyyy").format(vehicle.vehicle.lastTransmissionFluidChange!),
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                      child: Text(
-                                        vehicle.vehicle.lastRadiatorFluidChange == null ? "" : DateFormat("MMM/dd/yyyy").format(vehicle.vehicle.lastRadiatorFluidChange!),
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                      child: Text(
-                                        vehicle.vehicle.oilChangeDue == null ? "" : " ${DateFormat("MMM/dd/yyyy").format(vehicle.vehicle.oilChangeDue!)}",
-                                        //"${vehicle.vehicle.oilChangeDue.month}-${vehicle.vehicle.oilChangeDue.day}-${vehicle.vehicle.oilChangeDue.year}",
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                                      child: Text(
-                                        DateFormat("MMM-dd-yyyy").format(vehicle.dateAddedR).toString(),
-                                        style: const TextStyle(color: Colors.white),
                                       ),
                                     ),
                                   ]),
                                 ),
+                                const AnswerFormDelivered(),
                               ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      Column(
-                        children: [
-                          Container(
-                              alignment: Alignment.center,
-                              width: 300,
-                              height: 250,
-                              child: Image.network(
-                                vehicle.vehicle.image!,
-                                fit: BoxFit.cover,
-                                height: 250,
-                                width: 540,
-                              )),
-                          Container(
-                            margin: const EdgeInsets.all(20.0),
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.black, width: 2.0)),
-                            width: 400,
-                            height: 80,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  vehicle.vehicle.make,
-                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                            ) 
+                            : Container(
+                                decoration: BoxDecoration(
+                                  gradient: blueRadial,
+                                  borderRadius: const BorderRadius.vertical(
+                                      bottom: Radius.circular(10)),
                                 ),
-                                Text(
-                                  vehicle.vehicle.model,
-                                  style: const TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  vehicle.vehicle.year,
-                                  style: const TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Container(
-                                  width: 50,
-                                  height: 100,
-                                  margin: const EdgeInsets.all(20.0),
-                                  decoration:
-                                      BoxDecoration(color: Color(int.parse(vehicle.vehicle.color!)), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.black, width: 2.0)),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                  const Spacer(),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    height: 150,
-                    child: DefaultTabController(
-                      length: 2,
-                      initialIndex: 0,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 30,
-                            child: TabBar(
-                              labelStyle: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
                               ),
-                              unselectedLabelColor: Colors.black,
-                              indicator: BoxDecoration(
-                                gradient: blueRadial,
-                                borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-                              ),
-                              tabs: const [
-                                Tab(
-                                  height: 30,
-                                  text: "Check Out",
-                                ),
-                                Tab(
-                                  height: 30,
-                                  text: "Check In",
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: TabBarView(
-                              children: [
-                                const AnswerFormReceived(),
-                                vehicle.dateAddedD != null
-                                    ? const AnswerFormDelivered()
-                                    : Container(
-                                        decoration: BoxDecoration(
-                                          gradient: blueRadial,
-                                          borderRadius: const BorderRadius.vertical(bottom: Radius.circular(10)),
-                                        ),
-                                      ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
                   )
                 ],
@@ -375,25 +157,30 @@ class DetailsPop extends StatelessWidget {
           //cambio de PopUp
           //Id enviarle el de control form para tomar todos los datos de las diferntes tablas.
           provider.viewPopup == 1
-              ? MeasuresPopUp(row: vehicle)
+              ? MeasuresPopUp(row: vehicle, popUp:1)
               : provider.viewPopup == 2
-                  ? const ExtraPopUp(catalog: "Lights")
+                  ? const ExtraPopUp(catalog: "Lights", popUp: 2)
                   : provider.viewPopup == 3
-                      ? const ExtraPopUp(catalog: "Car Bodywork")
+                      ? const ExtraPopUp(catalog: "Car Bodywork", popUp: 3)
                       : provider.viewPopup == 4
-                          ? const ExtraPopUp(catalog: "Fluid Check")
+                          ? const ExtraPopUp(catalog: "Fluid Check", popUp: 4)
                           : provider.viewPopup == 5
-                              ? BucketExtraPopUp()
+                              ? const BucketExtraPopUp(popUp: 5)
                               : provider.viewPopup == 6
-                                  ? const ExtraPopUp(catalog: "Security")
+                                  ? const ExtraPopUp(
+                                      catalog: "Security", popUp: 6)
                                   : provider.viewPopup == 7
-                                      ? const ExtraPopUp(catalog: "Extra")
+                                      ? const ExtraPopUp(
+                                          catalog: "Extra", popUp: 7)
                                       : provider.viewPopup == 8
-                                          ? ExtraPopUp(catalog: "Equipment")
+                                          ? const ExtraPopUp(
+                                              catalog: "Equipment", popUp: 8)
                                           : provider.viewPopup == 9
-                                              ? CommentsImagesIssues()
+                                              ?  CommentsImagesIssues( popUp: provider.popUpExtra)
                                               : provider.viewPopup == 10
-                                                  ? BucketCommentsImagesIssues()
+                                                  ? const BucketCommentsImagesIssues()
+                                                  :  provider.viewPopup == 11
+                                                  ? const MeasuresInspect()
                                                   : Container(),
     );
   }
