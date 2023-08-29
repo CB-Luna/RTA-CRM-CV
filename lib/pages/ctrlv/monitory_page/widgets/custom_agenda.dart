@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +14,8 @@ class CustomAgenda extends StatelessWidget {
     MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
     provider.getWeekDay();
     provider.getMonth();
-    Color color = Colors.white;
-    DateTime checkIn = DateTime.now();
+    //Color color = Colors.white;
+    // DateTime checkIn = DateTime.now();
     //Controlador para compartir entre scrollbar y singlechild
     ScrollController _scrollController = ScrollController();
 
@@ -29,7 +30,7 @@ class CustomAgenda extends StatelessWidget {
                       fontSize: 30,
                     ))
                 : Text('${provider.selectedDay}, ${provider.selectedMonth}/${provider.calendarController.selectedDate?.day}/${provider.calendarController.selectedDate?.year}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 30,
                     )),
           ],
@@ -40,7 +41,7 @@ class CustomAgenda extends StatelessWidget {
               )
             : Expanded(
                 child: SizedBox(
-                  height: 300,
+                  height: MediaQuery.of(context).size.height * 0.35,
                   child: Scrollbar(
                     thumbVisibility: true,
                     controller: _scrollController,
@@ -50,7 +51,8 @@ class CustomAgenda extends StatelessWidget {
                       child: Row(
                         children: List.generate(provider.idEventos.length, (index) {
                           if (provider.idEventos[index].dateAddedD != null) {
-                            checkIn = provider.idEventos[index].dateAddedD!;
+                            //Revisar bien esto
+                            // checkIn = provider.idEventos[index].dateAddedD!;
                           }
                           return Padding(
                             padding: const EdgeInsets.all(15.0),
@@ -68,7 +70,7 @@ class CustomAgenda extends StatelessWidget {
                                             width: 5,
                                           ),
                                         ),
-                                        padding: const EdgeInsets.all(10),
+                                        padding: EdgeInsets.all(10),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
@@ -77,7 +79,7 @@ class CustomAgenda extends StatelessWidget {
                                                   color: color,
                                                 )),
                                             Text(
-                                              provider.idEventos[index].vehicle.licesensePlates,
+                                              '${provider.idEventos[index].vehicle.licesensePlates}',
                                               style: TextStyle(
                                                 color: color,
                                               ),
@@ -85,7 +87,7 @@ class CustomAgenda extends StatelessWidget {
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                const Text(
+                                                Text(
                                                   'Check Out: ',
                                                   style: TextStyle(
                                                     color: Colors.black,
@@ -122,7 +124,7 @@ class CustomAgenda extends StatelessWidget {
                                                 width: 5,
                                               ),
                                             ),
-                                            padding: const EdgeInsets.all(10),
+                                            padding: EdgeInsets.all(10),
                                             child: Column(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
@@ -133,7 +135,7 @@ class CustomAgenda extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Text(
-                                                  provider.idEventos[index].vehicle.licesensePlates,
+                                                  '${provider.idEventos[index].vehicle.licesensePlates}',
                                                   style: TextStyle(
                                                     color: color,
                                                   ),
@@ -141,7 +143,7 @@ class CustomAgenda extends StatelessWidget {
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    const Text(
+                                                    Text(
                                                       'Check Out: ',
                                                       style: TextStyle(
                                                         color: Colors.black,
@@ -166,14 +168,14 @@ class CustomAgenda extends StatelessWidget {
                                             ? Container(
                                                 width: 400,
                                                 decoration: BoxDecoration(
-                                                  color: const Color.fromRGBO(255, 138, 0, 1),
+                                                  color: Color.fromRGBO(255, 138, 0, 1),
                                                   borderRadius: BorderRadius.circular(8.0),
                                                   border: Border.all(
                                                     color: AppTheme.of(context).tertiaryColor,
                                                     width: 5,
                                                   ),
                                                 ),
-                                                padding: const EdgeInsets.all(10),
+                                                padding: EdgeInsets.all(10),
                                                 child: Column(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
@@ -184,7 +186,7 @@ class CustomAgenda extends StatelessWidget {
                                                       ),
                                                     ),
                                                     Text(
-                                                      provider.idEventos[index].vehicle.licesensePlates,
+                                                      '${provider.idEventos[index].vehicle.licesensePlates}',
                                                       style: TextStyle(
                                                         color: color,
                                                       ),
@@ -192,7 +194,7 @@ class CustomAgenda extends StatelessWidget {
                                                     Row(
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
-                                                        const Text(
+                                                        Text(
                                                           'Check Out: ',
                                                           style: TextStyle(
                                                             color: Colors.black,
@@ -223,11 +225,11 @@ class CustomAgenda extends StatelessWidget {
                                           color: AppTheme.of(context).secondaryColor,
                                           borderRadius: BorderRadius.circular(8.0),
                                           border: Border.all(
-                                            color: const Color.fromRGBO(245, 6, 213, 1),
+                                            color: Color.fromRGBO(245, 6, 213, 1),
                                             width: 5,
                                           ),
                                         ),
-                                        padding: const EdgeInsets.all(10),
+                                        padding: EdgeInsets.all(10),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
@@ -236,7 +238,7 @@ class CustomAgenda extends StatelessWidget {
                                                   color: color,
                                                 )),
                                             Text(
-                                              provider.idEventos[index].vehicle.licesensePlates,
+                                              '${provider.idEventos[index].vehicle.licesensePlates}',
                                               style: TextStyle(
                                                 color: color,
                                               ),
@@ -244,7 +246,7 @@ class CustomAgenda extends StatelessWidget {
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                const Text(
+                                                Text(
                                                   'Check Out: ',
                                                   style: TextStyle(
                                                     color: Colors.black,
@@ -261,7 +263,7 @@ class CustomAgenda extends StatelessWidget {
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                const Text(
+                                                Text(
                                                   'Check In: ',
                                                   style: TextStyle(
                                                     color: Colors.black,
@@ -290,11 +292,11 @@ class CustomAgenda extends StatelessWidget {
                                               color: AppTheme.of(context).primaryColor,
                                               borderRadius: BorderRadius.circular(8.0),
                                               border: Border.all(
-                                                color: const Color.fromRGBO(245, 6, 213, 1),
+                                                color: Color.fromRGBO(245, 6, 213, 1),
                                                 width: 5,
                                               ),
                                             ),
-                                            padding: const EdgeInsets.all(10),
+                                            padding: EdgeInsets.all(10),
                                             child: Column(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
@@ -305,7 +307,7 @@ class CustomAgenda extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Text(
-                                                  provider.idEventos[index].vehicle.licesensePlates,
+                                                  '${provider.idEventos[index].vehicle.licesensePlates}',
                                                   style: TextStyle(
                                                     color: color,
                                                   ),
@@ -313,7 +315,7 @@ class CustomAgenda extends StatelessWidget {
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    const Text(
+                                                    Text(
                                                       'Check Out: ',
                                                       style: TextStyle(
                                                         color: Colors.black,
@@ -330,7 +332,7 @@ class CustomAgenda extends StatelessWidget {
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    const Text(
+                                                    Text(
                                                       'Check In: ',
                                                       style: TextStyle(
                                                         color: Colors.black,
@@ -355,14 +357,14 @@ class CustomAgenda extends StatelessWidget {
                                             ? Container(
                                                 width: 400,
                                                 decoration: BoxDecoration(
-                                                  color: const Color.fromRGBO(255, 138, 0, 1),
+                                                  color: Color.fromRGBO(255, 138, 0, 1),
                                                   borderRadius: BorderRadius.circular(8.0),
                                                   border: Border.all(
-                                                    color: const Color.fromRGBO(245, 6, 213, 1),
+                                                    color: Color.fromRGBO(245, 6, 213, 1),
                                                     width: 5,
                                                   ),
                                                 ),
-                                                padding: const EdgeInsets.all(10),
+                                                padding: EdgeInsets.all(10),
                                                 child: Column(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
@@ -373,7 +375,7 @@ class CustomAgenda extends StatelessWidget {
                                                       ),
                                                     ),
                                                     Text(
-                                                      provider.idEventos[index].vehicle.licesensePlates,
+                                                      '${provider.idEventos[index].vehicle.licesensePlates}',
                                                       style: TextStyle(
                                                         color: color,
                                                       ),
@@ -381,7 +383,7 @@ class CustomAgenda extends StatelessWidget {
                                                     Row(
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
-                                                        const Text(
+                                                        Text(
                                                           'Check Out: ',
                                                           style: TextStyle(
                                                             color: Colors.black,
@@ -398,7 +400,7 @@ class CustomAgenda extends StatelessWidget {
                                                     Row(
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
-                                                        const Text(
+                                                        Text(
                                                           'Check In: ',
                                                           style: TextStyle(
                                                             color: Colors.black,

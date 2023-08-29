@@ -16,6 +16,7 @@ class CustomTextField extends StatefulWidget {
     this.inputFormatters,
     this.onDone,
     this.onChanged,
+    this.maxLength,
     this.validator,
   });
 
@@ -31,6 +32,8 @@ class CustomTextField extends StatefulWidget {
   final Function(String)? onDone;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
+
+  final int? maxLength;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();

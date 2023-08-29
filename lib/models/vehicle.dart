@@ -12,14 +12,14 @@ class Vehicle {
       required this.vin,
       required this.licesensePlates,
       required this.motor,
-      this.color,
+      required this.color,
       this.image,
       required this.status,
       required this.company,
       required this.dateAdded,
-      required this.oilChangeDue,
-      required this.lastRadiatorFluidChange,
-      required this.lastTransmissionFluidChange,
+      this.oilChangeDue,
+      this.lastRadiatorFluidChange,
+      this.lastTransmissionFluidChange,
       required this.issuesR,
       required this.mileage,
       this.issuesD});
@@ -31,7 +31,7 @@ class Vehicle {
   String vin;
   String licesensePlates;
   String motor;
-  String? color;
+  String color;
   String? image;
   DateTime dateAdded;
   DateTime? oilChangeDue;

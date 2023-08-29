@@ -48,16 +48,40 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                        height: 45,
-                        width: 200,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.only(bottom: 10.0, top: 10.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomTextIconButton(
+                          isLoading: false,
+                          icon: Icon(Icons.arrow_back_outlined,
+                              color: AppTheme.of(context).primaryBackground),
+                          text: '',
+                          onTap: () {
+                            context.pop();
+                          },
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.1,
+                        height: MediaQuery.of(context).size.height * 0.03,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Text(
-                            "License Plates: ${provider.actualVehicle!.licesensePlates}")),
+                          color: statusColor(
+                              provider.actualVehicle!.company.company,context),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Text(
+                            provider.actualVehicle!.licesensePlates,
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
@@ -115,7 +139,7 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
 
                       if (!res) {
                         await ApiErrorHandler.callToast(
-                            'Error al agregar el Servicio');
+                            'Error creating service');
                         return;
                       }
 
@@ -129,16 +153,8 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
                       );
 
                       if (context.canPop()) context.pop();
+                      provider.getServicesPage();
                     }),
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.exit_to_app_outlined,
-                      color: AppTheme.of(context).primaryBackground),
-                  text: 'Exit',
-                  onTap: () {
-                    context.pop();
-                  },
-                ),
               ],
             )
           ],
@@ -146,4 +162,24 @@ class _AddServicePopUpState extends State<AddServicePopUp> {
       ),
     );
   }
+}
+
+Color statusColor(String status,BuildContext context) {
+  late Color color;
+
+  switch (status) {
+    case "ODE": //Sales Form
+      color = AppTheme.of(context).odePrimary;
+      break;
+    case "SMI": //Sen. Exec. Validate
+      color = AppTheme.of(context).smiPrimary;
+      break;
+    case "CRY": //Finance Validate
+      color = AppTheme.of(context).cryPrimary;
+      break;
+
+    default:
+      return Colors.black;
+  }
+  return color;
 }

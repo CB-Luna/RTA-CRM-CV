@@ -24,7 +24,6 @@ class _ListIssuesCardState extends State<ListIssuesCard> {
 
     setState(() {
       context.read<IssueReportedProvider>();
-      context.read<IssueReportedProvider>().clearListgetIssues();
       if (widget.contador == 1) {
         context.read<IssueReportedProvider>().cambiovistaMeasures = true;
 

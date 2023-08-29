@@ -36,9 +36,22 @@ class MonitoryProvider extends ChangeNotifier {
   String headerText = 'Nuevo usuario';
   String? imageName;
   Uint8List? webImage;
+  int pageRowCount = 9;
+  int page = 1;
 
   //int para popUp
   int viewPopup = 0;
+
+  //Lista para color en placas
+  List<Monitory> lista = [];
+
+  //Variables y Controladores para Exportar Excel
+  TextEditingController dateExportDataController = TextEditingController();
+  TextEditingController dateFinalExportDataController = TextEditingController();
+  String? companySel = "All";
+  DateTime? newDate;
+  DateTime? lastFilter;
+  int company = 0, dateInitial = 0, dateFinal = 0;
 
   //List<RolApi> roles = [];
   List<String> dropdownMenuItems = [];
@@ -109,6 +122,10 @@ class MonitoryProvider extends ChangeNotifier {
   //IssuesCommentsActual
   List<IssuesComments> actualIssuesComments = [];
   IssuesComments? actualDetailField;
+  late int popUpExtra;
+
+  String section = "";
+  Monitory? monitoryActual;
 
   //List<RolApi> rolesSeleccionados = [];
   List<String> areaNames = [];
@@ -142,6 +159,9 @@ class MonitoryProvider extends ChangeNotifier {
   int from = 0;
   int hasta = 20;
 
+  //---------------Variable para color de roles-----------
+  String rol = "";
+
   //----------------------------------------------
 
   CalendarController calendarController = CalendarController();
@@ -155,6 +175,12 @@ class MonitoryProvider extends ChangeNotifier {
   MonitoryProvider() {
     getMonitory();
     filasController = TextEditingController(text: countF.toString());
+  }
+
+  //-----------------------------------------------
+  Future<void> updateState() async {
+    rows.clear();
+    await getMonitory();
   }
 
 //---------------------------------------------
@@ -171,6 +197,42 @@ class MonitoryProvider extends ChangeNotifier {
     return;
   }
 
+  void setPageSize(String x) {
+    switch (x) {
+      case 'more':
+        if (pageRowCount < rows.length) pageRowCount++;
+        break;
+      case 'less':
+        if (pageRowCount > 1) pageRowCount--;
+        break;
+      default:
+        return;
+    }
+    stateManager!.createFooter;
+    notifyListeners();
+  }
+
+  void setPage(String x) {
+    switch (x) {
+      case 'next':
+        if (page < stateManager!.totalPage) page++;
+        break;
+      case 'previous':
+        if (page > 1) page--;
+        break;
+      case 'start':
+        page = 1;
+        break;
+      case 'end':
+        page = stateManager!.totalPage;
+        break;
+      default:
+        return;
+    }
+    stateManager!.setPage(page);
+    notifyListeners();
+  }
+
   Future<void> getMonitory() async {
     try {
       final res = await supabaseCtrlV.from('monitory_view').select();
@@ -179,16 +241,20 @@ class MonitoryProvider extends ChangeNotifier {
           .map((monitory) => Monitory.fromJson(jsonEncode(monitory)))
           .toList();
 
+      monitory.sort((a, b) => b.dateAddedR.compareTo(a.dateAddedR));
+
       rows.clear();
 
       for (Monitory monitory in monitory) {
+        lista.add(monitory);
         rows.add(
           PlutoRow(
             cells: {
               // "id_control_form": PlutoCell(value: monitory.idControlForm),
               // "id_vehicle": PlutoCell(value: monitory.idVehicle),
               // "date_added": PlutoCell(value: DateFormat("MMM-dd-yyyy").format(monitory.dateAdded)),
-              "employee": PlutoCell(value: monitory.employee.name),
+              "employee": PlutoCell(
+                  value: "${monitory.worker.name} ${monitory.worker.lastName}"),
               "vin": PlutoCell(value: monitory.vin),
               "license_plates": PlutoCell(value: monitory.licensePlates),
               "company": PlutoCell(value: monitory.company.company),
@@ -218,7 +284,7 @@ class MonitoryProvider extends ChangeNotifier {
         return;
       }
     } catch (e) {
-      print("erro en: MonitoryProvider: getMonitory() $e");
+      //print("erro en: MonitoryProvider: getMonitory() $e");
     }
   }
 
@@ -241,7 +307,7 @@ class MonitoryProvider extends ChangeNotifier {
         .select();
 
     if (res == null) {
-      print(res.error!.message);
+      //print(res.error!.message);
       return false;
     }
     return true;
@@ -252,7 +318,6 @@ class MonitoryProvider extends ChangeNotifier {
     apellidosController.text = usuario.apellidos;
     correoController.text = usuario.email;
     webImage = null;
-    //TODO: revisar roles e inicializar
     isProveedor = false;
     isTesoreroLocal = false;
     proveedorId = null;
@@ -299,145 +364,186 @@ class MonitoryProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  // int getNumAppoint(int index, Appointment event) {
-  //   if(event.startTime.day == selected)
-  //   switch (index) {
-  //     case 1:
-  //       break;
-  //       case 2:
-  //       break;
-  //       case 3:
-  //       break;
-  //       case 4:
-  //       break;
-  //       case 5:
-  //       break;
-  //       case 6:
-  //       break;
-  //     default:
-  //   }
-  // }
-
-  Future<bool> excelActivityReports() async {
+  bool excelActivityReports() {
+    //Limpuar variables y Controladores
+    dateExportDataController = TextEditingController();
     //Crear excel
     var excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
+    List<Monitory> selectedComp = [];
 
     if (sheet == null) return false;
 
-    CellStyle titulo = CellStyle(
-      fontFamily: getFontFamily(FontFamily.Calibri),
-      fontSize: 16,
-      bold: true,
-      horizontalAlign: HorizontalAlign.Center,
-      verticalAlign: VerticalAlign.Center,
-    );
-    //Agregar primera linea
-    //mas grande y en bold
-    // sheet.appendRow([
-    //   'Títle',
-    //   'Monitory Reports',
-    //   '',
-    //   'Fecha',
-    //   dateFormat(DateTime.now()),
-    // ]);
-    var cellT = sheet.cell(CellIndex.indexByString("A1"));
-    cellT.value = "Title";
-    cellT.cellStyle = titulo;
+    try {
+      CellStyle titulo = CellStyle(
+        fontFamily: getFontFamily(FontFamily.Calibri),
+        fontSize: 16,
+        bold: true,
+        horizontalAlign: HorizontalAlign.Center,
+        verticalAlign: VerticalAlign.Center,
+      );
+      sheet.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
+      sheet.merge(CellIndex.indexByString("E1"), CellIndex.indexByString("F1"));
+      sheet.merge(CellIndex.indexByString("H1"), CellIndex.indexByString("I1"));
 
-    var cellT2 = sheet.cell(CellIndex.indexByString("B1"));
-    cellT2.value = "Monitory Reports";
-    cellT2.cellStyle = titulo;
+      sheet.setColWidth(0, 25);
+      sheet.setColWidth(2, 20);
+      sheet.setColWidth(3, 20);
+      sheet.setColWidth(4, 25);
+      sheet.setColWidth(5, 20);
+      sheet.setColWidth(6, 20);
+      sheet.setColWidth(9, 25);
+      sheet.setColWidth(10, 20);
 
-    var cellD = sheet.cell(CellIndex.indexByString("D1"));
-    cellD.value = "Date";
-    cellD.cellStyle = titulo;
+      var cellT = sheet.cell(CellIndex.indexByString("A1"));
+      cellT.value = "Title:";
+      cellT.cellStyle = titulo;
 
-    var cellD2 = sheet.cell(CellIndex.indexByString("E1"));
-    cellD2.value = dateFormat(DateTime.now());
-    cellD2.cellStyle = titulo;
-    //Agregar linea vacia
-    sheet.appendRow(['']);
+      var cellT2 = sheet.cell(CellIndex.indexByString("B1"));
+      cellT2.value = "Monitory Reports";
+      cellT2.cellStyle = titulo;
 
-    //blanco, bold y mas grande
-    CellStyle cellStyle = CellStyle(
-      backgroundColorHex: "#1E90FF",
-      fontColorHex: Colors.white.value.toRadixString(16),
-      fontFamily: getFontFamily(FontFamily.Calibri),
-      fontSize: 16,
-      bold: true,
-      horizontalAlign: HorizontalAlign.Center,
-      verticalAlign: VerticalAlign.Center,
-    );
-    var cell = sheet.cell(CellIndex.indexByString("A3"));
-    cell.value = "Id Control Form";
-    cell.cellStyle = cellStyle;
+      var cellD = sheet.cell(CellIndex.indexByString("D1"));
+      cellD.value = "Initial Date:";
+      cellD.cellStyle = titulo;
 
-    var cell2 = sheet.cell(CellIndex.indexByString("B3"));
-    cell2.value = "Id Vehicle";
-    cell2.cellStyle = cellStyle;
+      var cellD2 = sheet.cell(CellIndex.indexByString("E1"));
+      cellD2.value = dateFormat(newDate);
+      cellD2.cellStyle = titulo;
 
-    var cell3 = sheet.cell(CellIndex.indexByString("C3"));
-    cell3.value = "Employee";
-    cell3.cellStyle = cellStyle;
+      var cellD3 = sheet.cell(CellIndex.indexByString("G1"));
+      cellD3.value = "Final Date:";
+      cellD3.cellStyle = titulo;
 
-    var cell4 = sheet.cell(CellIndex.indexByString("D3"));
-    cell4.value = "Status";
-    cell4.cellStyle = cellStyle;
+      var cellD5 = sheet.cell(CellIndex.indexByString("H1"));
+      cellD5.value = dateFormat(lastFilter);
+      cellD5.cellStyle = titulo;
 
-    var cell5 = sheet.cell(CellIndex.indexByString("E3"));
-    cell5.value = "VIN";
-    cell5.cellStyle = cellStyle;
+      var cellD7 = sheet.cell(CellIndex.indexByString("J1"));
+      cellD7.value = "Company:";
+      cellD7.cellStyle = titulo;
 
-    var cell6 = sheet.cell(CellIndex.indexByString("F3"));
-    cell6.value = "License Plates";
-    cell6.cellStyle = cellStyle;
+      var cellD4 = sheet.cell(CellIndex.indexByString("K1"));
+      cellD4.value = companySel;
+      cellD4.cellStyle = titulo;
+      //Agregar linea vacia
+      sheet.appendRow(['']);
 
-    var cell7 = sheet.cell(CellIndex.indexByString("G3"));
-    cell7.value = "Company";
-    cell7.cellStyle = cellStyle;
+      //blanco, bold y mas grande
+      CellStyle cellStyle = CellStyle(
+        backgroundColorHex: "#1E90FF",
+        fontColorHex: Colors.white.value.toRadixString(16),
+        fontFamily: getFontFamily(FontFamily.Calibri),
+        fontSize: 16,
+        bold: true,
+        horizontalAlign: HorizontalAlign.Center,
+        verticalAlign: VerticalAlign.Center,
+      );
+      var cell = sheet.cell(CellIndex.indexByString("A3"));
+      cell.value = "Id Control Form";
+      cell.cellStyle = cellStyle;
 
-    var cell8 = sheet.cell(CellIndex.indexByString("H3"));
-    cell8.value = "Gas";
-    cell8.cellStyle = cellStyle;
+      var cell2 = sheet.cell(CellIndex.indexByString("B3"));
+      cell2.value = "Id Vehicle";
+      cell2.cellStyle = cellStyle;
 
-    var cell9 = sheet.cell(CellIndex.indexByString("I3"));
-    cell9.value = "Mileage";
-    cell9.cellStyle = cellStyle;
+      var cell3 = sheet.cell(CellIndex.indexByString("C3"));
+      cell3.value = "Employee";
+      cell3.cellStyle = cellStyle;
 
-    var cell10 = sheet.cell(CellIndex.indexByString("J3"));
-    cell10.value = "Check In";
-    cell10.cellStyle = cellStyle;
+      var cell4 = sheet.cell(CellIndex.indexByString("D3"));
+      cell4.value = "Status";
+      cell4.cellStyle = cellStyle;
 
-    var cell11 = sheet.cell(CellIndex.indexByString("K3"));
-    cell11.value = "Check Out";
-    cell11.cellStyle = cellStyle;
+      var cell5 = sheet.cell(CellIndex.indexByString("E3"));
+      cell5.value = "VIN";
+      cell5.cellStyle = cellStyle;
 
-    //Agregar datos
-    for (var vehicle in monitory) {
-      final List<dynamic> row = [
-        vehicle.idControlForm,
-        vehicle.idVehicle,
-        "${vehicle.employee.name} ${vehicle.employee.lastName}",
-        vehicle.vehicle.status.status,
-        vehicle.vin,
-        vehicle.licensePlates,
-        vehicle.company.company,
-        vehicle.gasR,
-        vehicle.mileageR,
-        DateFormat("MMM-dd-yyyy").format(vehicle.dateAddedR),
-        vehicle.dateAddedD != null
-            ? DateFormat("MMM-dd-yyyy").format(vehicle.dateAddedD!)
-            : "NA",
-      ];
-      sheet.appendRow(row);
+      var cell6 = sheet.cell(CellIndex.indexByString("F3"));
+      cell6.value = "License Plates";
+      cell6.cellStyle = cellStyle;
+
+      var cell7 = sheet.cell(CellIndex.indexByString("G3"));
+      cell7.value = "Company";
+      cell7.cellStyle = cellStyle;
+
+      var cell8 = sheet.cell(CellIndex.indexByString("H3"));
+      cell8.value = "Gas";
+      cell8.cellStyle = cellStyle;
+
+      var cell9 = sheet.cell(CellIndex.indexByString("I3"));
+      cell9.value = "Mileage";
+      cell9.cellStyle = cellStyle;
+
+      var cell10 = sheet.cell(CellIndex.indexByString("J3"));
+      cell10.value = "Check In";
+      cell10.cellStyle = cellStyle;
+
+      var cell11 = sheet.cell(CellIndex.indexByString("K3"));
+      cell11.value = "Check Out";
+      cell11.cellStyle = cellStyle;
+
+      //sortear por id
+      monitory.sort((a, b) => b.idControlForm.compareTo(a.idControlForm));
+
+      for (Monitory vehicle in monitory) {
+        if (companySel != "All") {
+          if (vehicle.company.company == companySel) {
+            if (vehicle.dateAddedR.day >= newDate!.day &&
+                vehicle.dateAddedR.month >= newDate!.month &&
+                vehicle.dateAddedR.year >= newDate!.year &&
+                vehicle.dateAddedR.day <= lastFilter!.day &&
+                vehicle.dateAddedR.month <= lastFilter!.month &&
+                vehicle.dateAddedR.year <= lastFilter!.year) {
+              selectedComp.add(vehicle);
+            }
+          }
+        } else {
+          if (vehicle.dateAddedR.day >= newDate!.day &&
+              vehicle.dateAddedR.month >= newDate!.month &&
+              vehicle.dateAddedR.year >= newDate!.year &&
+              vehicle.dateAddedR.day <= lastFilter!.day &&
+              vehicle.dateAddedR.month <= lastFilter!.month &&
+              vehicle.dateAddedR.year <= lastFilter!.year) {
+            selectedComp.add(vehicle);
+          }
+        }
+      }
+
+      //Agregar datos
+      for (int i = 0; i < selectedComp.length; i++) {
+        Monitory report = selectedComp[i];
+
+        final List<dynamic> row = [
+          report.idControlForm,
+          report.idVehicle,
+          "${report.worker.name} ${report.worker.lastName}",
+          report.vehicle.status.status,
+          report.vin,
+          report.licensePlates,
+          report.company.company,
+          report.gasR,
+          report.mileageD == null
+              ? NumberFormat('#,###').format(report.mileageR)
+              : NumberFormat('#,###').format(report.mileageD),
+          DateFormat("MMM-dd-yyyy hh:mm:ss").format(report.dateAddedR),
+          report.dateAddedD != null
+              ? DateFormat("MMM-dd-yyyy hh:mm:ss").format(report.dateAddedD!)
+              : "NA",
+        ];
+        sheet.appendRow(row);
+      }
+
+      //Descargar
+      final List<int>? fileBytes = excel.save(fileName: "Vehicle_Status.xlsx");
+
+      if (fileBytes == null) return false;
+
+      return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
     }
-
-    //Descargar
-    final List<int>? fileBytes = excel.save(fileName: "Vehicle_Status.xlsx");
-    if (fileBytes == null) return false;
-
-    return true;
   }
 
   void updateViewPopup(int value) {
@@ -458,6 +564,11 @@ class MonitoryProvider extends ChangeNotifier {
 
   void updateActualDate(DateTime selectedDate) {
     actualDate = selectedDate;
+    notifyListeners();
+  }
+
+  void getMonitoryVehicle(Monitory vehicleSel) {
+    monitoryActual = vehicleSel;
     notifyListeners();
   }
 
@@ -491,7 +602,7 @@ class MonitoryProvider extends ChangeNotifier {
                 (calendarController.selectedDate!.year ==
                     event.dateAddedD!.year)) {
               idEventos.add(event);
-              numCheckOutCRY -= 1;
+              // numCheckOutCRY -= 1;
               numCheckInCRY += 1;
             }
             continue;
@@ -512,7 +623,7 @@ class MonitoryProvider extends ChangeNotifier {
                 (calendarController.selectedDate!.year ==
                     event.dateAddedD!.year)) {
               idEventos.add(event);
-              numCheckOutODE -= 1;
+              // numCheckOutODE -= 1;
               numCheckInODE += 1;
             }
             continue;
@@ -533,7 +644,7 @@ class MonitoryProvider extends ChangeNotifier {
                 (calendarController.selectedDate!.year ==
                     event.dateAddedD!.year)) {
               idEventos.add(event);
-              numCheckOutSMI -= 1;
+              // numCheckOutSMI -= 1;
               numCheckInSMI += 1;
             }
             continue;
@@ -596,15 +707,6 @@ class MonitoryProvider extends ChangeNotifier {
       if (event.dateAddedD != null) {
         switch (event.company.company) {
           case "CRY":
-            // meet.add(Appointment(
-            //   startTime: event.dateAddedR,
-            //   endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            //   subject: "${event.employee.name} ${event.employee.lastName}",
-            //   color: const Color(0XFF345694),
-            //   id: event.idControlForm,
-            //   // recurrenceRule: 'FREQ=DAILY;COUNT=10',
-            //   // isAllDay: true,
-            // ));
             if ((today.day == event.dateAddedR.day) &
                 (today.month == event.dateAddedR.month) &
                 (today.year == event.dateAddedR.year)) {
@@ -614,7 +716,7 @@ class MonitoryProvider extends ChangeNotifier {
             meet.add(Appointment(
               startTime: event.dateAddedD!.add(const Duration(hours: -1)),
               endTime: event.dateAddedD!,
-              subject: "${event.employee.name} ${event.employee.lastName}",
+              subject: "${event.worker.name} ${event.worker.lastName}",
               color: const Color(0XFF345694),
               id: event.idControlForm,
               // recurrenceRule: 'FREQ=DAILY;COUNT=10',
@@ -627,13 +729,6 @@ class MonitoryProvider extends ChangeNotifier {
             }
             break;
           case "ODE":
-            // meet.add(Appointment(
-            //   startTime: event.dateAddedR,
-            //   endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            //   subject: "${event.employee.name} ${event.employee.lastName} R",
-            //   color: const Color(0XFFB2333A),
-            //   id: event.idControlForm,
-            // ));
             if ((today.day == event.dateAddedR.day) &
                 (today.month == event.dateAddedR.month) &
                 (today.year == event.dateAddedR.year)) {
@@ -642,7 +737,7 @@ class MonitoryProvider extends ChangeNotifier {
             meet.add(Appointment(
               startTime: event.dateAddedD!.add(const Duration(hours: -1)),
               endTime: event.dateAddedD!,
-              subject: "${event.employee.name} ${event.employee.lastName} D",
+              subject: "${event.worker.name} ${event.worker.lastName} D",
               color: const Color(0XFFB2333A),
               id: event.idControlForm,
             ));
@@ -653,13 +748,6 @@ class MonitoryProvider extends ChangeNotifier {
             }
             break;
           case "SMI":
-            // meet.add(Appointment(
-            //   startTime: event.dateAddedR,
-            //   endTime: event.dateAddedR.add(const Duration(hours: 1)),
-            //   subject: "${event.employee.name} ${event.employee.lastName}",
-            //   color: Color.fromRGBO(255, 138, 0, 1),
-            //   id: event.idControlForm,
-            // ));
             if ((today.day == event.dateAddedR.day) &
                 (today.month == event.dateAddedR.month) &
                 (today.year == event.dateAddedR.year)) {
@@ -669,8 +757,8 @@ class MonitoryProvider extends ChangeNotifier {
             meet.add(Appointment(
               startTime: event.dateAddedD!.add(const Duration(hours: -1)),
               endTime: event.dateAddedD!,
-              subject: "${event.employee.name} ${event.employee.lastName}",
-              color: Color.fromRGBO(255, 138, 0, 1),
+              subject: "${event.worker.name} ${event.worker.lastName}",
+              color: const Color.fromRGBO(255, 138, 0, 1),
               id: event.idControlForm,
             ));
             if ((today.day == event.dateAddedD!.day) &
@@ -689,7 +777,7 @@ class MonitoryProvider extends ChangeNotifier {
             meet.add(Appointment(
               startTime: event.dateAddedR,
               endTime: event.dateAddedR.add(const Duration(hours: 1)),
-              subject: "${event.employee.name} ${event.employee.lastName}",
+              subject: "${event.worker.name} ${event.worker.lastName}",
               color: const Color(0XFF345694),
               id: event.idControlForm,
               // recurrenceRule: 'FREQ=DAILY;COUNT=10',
@@ -705,7 +793,7 @@ class MonitoryProvider extends ChangeNotifier {
             meet.add(Appointment(
               startTime: event.dateAddedR,
               endTime: event.dateAddedR.add(const Duration(hours: 1)),
-              subject: "${event.employee.name} ${event.employee.lastName} R",
+              subject: "${event.worker.name} ${event.worker.lastName} R",
               color: const Color(0XFFB2333A),
               id: event.idControlForm,
             ));
@@ -719,8 +807,8 @@ class MonitoryProvider extends ChangeNotifier {
             meet.add(Appointment(
               startTime: event.dateAddedR,
               endTime: event.dateAddedR.add(const Duration(hours: 1)),
-              subject: "${event.employee.name} ${event.employee.lastName}",
-              color: Color.fromRGBO(255, 138, 0, 1),
+              subject: "${event.worker.name} ${event.worker.lastName}",
+              color: const Color.fromRGBO(255, 138, 0, 1),
               id: event.idControlForm,
             ));
 
@@ -748,6 +836,11 @@ class MonitoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updatePopUpExtra(int value) {
+    popUpExtra = value;
+    notifyListeners();
+  }
+
   Future<bool> getIssues(Monitory monitory) async {
     // Limpiar listas
     issue = null;
@@ -768,6 +861,7 @@ class MonitoryProvider extends ChangeNotifier {
     securityInspectR = true;
     securityInspectD = true;
 
+    //Checar si existe el registro en la lista, si existe  no integrar, si no esta, integrarlo
     bucketInspectionR.clear();
     bucketInspectionD.clear();
     carBodyWorkR.clear();
@@ -805,6 +899,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.bucketInspectionR.toMap()["date_added"]);
@@ -826,6 +921,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded = DateTime.parse(
                   issue!.bucketInspectionR.toMap()["date_added"]);
@@ -862,6 +958,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.bucketInspectionD.toMap()["date_added"]);
@@ -883,6 +980,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded = DateTime.parse(
                   issue!.bucketInspectionD.toMap()["date_added"]);
@@ -920,6 +1018,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.carBodyworkR.toMap()["date_added"]);
@@ -940,6 +1039,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.carBodyworkR.toMap()["date_added"]);
@@ -977,6 +1077,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.carBodyworkD.toMap()["date_added"]);
@@ -997,6 +1098,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.carBodyworkD.toMap()["date_added"]);
@@ -1025,7 +1127,7 @@ class MonitoryProvider extends ChangeNotifier {
 
         // Equipment R
         issue!.equimentR.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
+          if (value == 'No' && !(key.contains("_comments"))) {
             equipmentInspectR = false;
             String nameIssue = key;
             String? comments =
@@ -1034,6 +1136,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.equimentR.toMap()["date_added"]);
@@ -1045,7 +1148,7 @@ class MonitoryProvider extends ChangeNotifier {
                 dateAdded: dateAdded);
             equipmentR.add(newIssuesComments);
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
+          if (value == 'Yes' && !(key.contains("_comments"))) {
             String nameIssue = key;
             String? comments =
                 issue!.equimentR.toMap()["${nameIssue}_comments"];
@@ -1054,6 +1157,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.equimentR.toMap()["date_added"]);
@@ -1082,7 +1186,7 @@ class MonitoryProvider extends ChangeNotifier {
 
         //Equipment R
         issue!.equimentD.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
+          if (value == 'No' && !(key.contains("_comments"))) {
             equipmentInspectD = false;
             String nameIssue = key;
             String? comments =
@@ -1091,6 +1195,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.equimentD.toMap()["date_added"]);
@@ -1102,7 +1207,7 @@ class MonitoryProvider extends ChangeNotifier {
                 dateAdded: dateAdded);
             equipmentD.add(newIssuesComments);
           }
-          if (value == 'Good' && !(key.contains("_comments"))) {
+          if (value == 'Yes' && !(key.contains("_comments"))) {
             String nameIssue = key;
             String? comments =
                 issue!.equimentD.toMap()["${nameIssue}_comments"];
@@ -1111,6 +1216,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.equimentD.toMap()["date_added"]);
@@ -1147,6 +1253,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.extraR.toMap()["date_added"]);
@@ -1166,6 +1273,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.extraR.toMap()["date_added"]);
@@ -1202,6 +1310,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.extraD.toMap()["date_added"]);
@@ -1221,6 +1330,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.extraD.toMap()["date_added"]);
@@ -1258,6 +1368,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.fluidCheckR.toMap()["date_added"]);
@@ -1278,6 +1389,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.fluidCheckR.toMap()["date_added"]);
@@ -1315,6 +1427,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.fluidCheckD.toMap()["date_added"]);
@@ -1335,6 +1448,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.fluidCheckD.toMap()["date_added"]);
@@ -1371,6 +1485,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.lightsR.toMap()["date_added"]);
@@ -1390,6 +1505,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.lightsR.toMap()["date_added"]);
@@ -1426,6 +1542,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.lightsD.toMap()["date_added"]);
@@ -1445,6 +1562,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.lightsD.toMap()["date_added"]);
@@ -1473,33 +1591,16 @@ class MonitoryProvider extends ChangeNotifier {
 
         //Measure R
         issue!.measureR.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            measureInspectR = false;
-            String nameIssue = key;
-            String? comments = issue!.measureR.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue!.measureR
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
+          String nameIssue = key;
 
-            DateTime dateAdded =
-                DateTime.parse(issue!.measureR.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: 0,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            measureR.add(newIssuesComments);
-          }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            String nameIssue = key;
+          if (nameIssue == "gas" || nameIssue == "mileage") {
             String? comments = issue!.measureR.toMap()["${nameIssue}_comments"];
             if (issue!.measureR.toMap()["${nameIssue}_image"] != null) {
               List<String> listImage = issue!.measureR
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.measureR.toMap()["date_added"]);
@@ -1509,7 +1610,10 @@ class MonitoryProvider extends ChangeNotifier {
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
-                  status: true);
+                  status: true,
+                  measure: nameIssue == "gas" ? issue?.measureR.gas : null,
+                  mileage:
+                      nameIssue == "mileage" ? issue?.measureR.mileage : null);
               measureR.add(newIssuesComments);
             } else {
               DateTime dateAdded =
@@ -1520,7 +1624,10 @@ class MonitoryProvider extends ChangeNotifier {
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
-                  status: true);
+                  status: true,
+                  measure: nameIssue == "gas" ? issue?.measureR.gas : null,
+                  mileage:
+                      nameIssue == "mileage" ? issue?.measureR.mileage : null);
               measureR.add(newIssuesComments);
             }
           }
@@ -1528,33 +1635,16 @@ class MonitoryProvider extends ChangeNotifier {
 
         //Measure D
         issue!.measureD.toMap().forEach((key, value) {
-          if (value == 'Bad' && !(key.contains("_comments"))) {
-            measureInspectD = false;
-            String nameIssue = key;
-            String? comments = issue!.measureD.toMap()["${nameIssue}_comments"];
-            List<String> listImage = issue!.measureD
-                .toMap()["${nameIssue}_image"]
-                .toString()
-                .split('|');
+          String nameIssue = key;
 
-            DateTime dateAdded =
-                DateTime.parse(issue!.measureD.toMap()["date_added"]);
-            IssuesComments newIssuesComments = IssuesComments(
-                nameIssue: nameIssue,
-                idIssue: 0,
-                comments: comments,
-                listImages: listImage,
-                dateAdded: dateAdded);
-            measureD.add(newIssuesComments);
-          }
-          if (value == 'Good' && !(key.contains("_comments"))) {
-            String nameIssue = key;
+          if (nameIssue == "gas" || nameIssue == "mileage") {
             String? comments = issue!.measureD.toMap()["${nameIssue}_comments"];
             if (issue!.measureD.toMap()["${nameIssue}_image"] != null) {
               List<String> listImage = issue!.measureD
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.measureD.toMap()["date_added"]);
@@ -1564,7 +1654,10 @@ class MonitoryProvider extends ChangeNotifier {
                   comments: comments,
                   listImages: listImage,
                   dateAdded: dateAdded,
-                  status: true);
+                  status: true,
+                  measure: nameIssue == "gas" ? issue?.measureD.gas : null,
+                  mileage:
+                      nameIssue == "mileage" ? issue?.measureD.mileage : null);
               measureD.add(newIssuesComments);
             } else {
               DateTime dateAdded =
@@ -1575,7 +1668,10 @@ class MonitoryProvider extends ChangeNotifier {
                   comments: comments,
                   listImages: null,
                   dateAdded: dateAdded,
-                  status: true);
+                  status: true,
+                  measure: nameIssue == "gas" ? issue?.measureD.gas : null,
+                  mileage:
+                      nameIssue == "mileage" ? issue?.measureD.mileage : null);
               measureD.add(newIssuesComments);
             }
           }
@@ -1592,6 +1688,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.securityR.toMap()["date_added"]);
@@ -1612,6 +1709,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.securityR.toMap()["date_added"]);
@@ -1649,6 +1747,7 @@ class MonitoryProvider extends ChangeNotifier {
                 .toMap()["${nameIssue}_image"]
                 .toString()
                 .split('|');
+            listImage.removeLast();
 
             DateTime dateAdded =
                 DateTime.parse(issue!.securityD.toMap()["date_added"]);
@@ -1669,6 +1768,7 @@ class MonitoryProvider extends ChangeNotifier {
                   .toMap()["${nameIssue}_image"]
                   .toString()
                   .split('|');
+              listImage.removeLast();
 
               DateTime dateAdded =
                   DateTime.parse(issue!.securityD.toMap()["date_added"]);
@@ -1769,6 +1869,32 @@ class MonitoryProvider extends ChangeNotifier {
       case 12:
         selectedMonth = "Dec";
         break;
+    }
+  }
+
+  void getCompanyFilter(String comp) {
+    companySel = comp;
+    company = 1;
+    notifyListeners();
+  }
+
+  void getDateFilter(DateTime? date) {
+    newDate = date;
+    dateInitial = 1;
+    notifyListeners();
+  }
+
+  void getLastFilter(DateTime lastDate) {
+    lastFilter = lastDate;
+    dateFinal = 1;
+    notifyListeners();
+  }
+
+  bool enableButton() {
+    if (dateInitial + dateFinal + company == 3) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

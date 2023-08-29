@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/widgets/get_image_widget.dart';
@@ -36,10 +37,20 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
     UsersProvider provider = Provider.of<UsersProvider>(context);
     final formKey = GlobalKey<FormState>();
 
-    final List<String> statesNames = provider.states.map((state) => state.name).toList();
+    final List<String> statesNames =
+        provider.states.map((state) => state.name).toList();
 
-    final List<String> rolesNames = provider.roles.map((role) => role.roleName).toList();
-    final List<String> CompanyNames = provider.companys.map((companyName) => companyName.company).toList();
+    final List<String> rolesNames =
+        provider.roles.map((role) => role.roleName).toList();
+    final List<String> companyNames =
+        provider.companys.map((companyName) => companyName.company).toList();
+
+    final List<String> vehicleNames = provider.vehicles
+        .map((vehicleNames) => vehicleNames.licesensePlates)
+        .toList();
+    final List<String> statusName = ["Not Active", "Active"];
+    var cardMaskNumber = MaskTextInputFormatter(
+        mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
 
     return Dialog(
       shape: const RoundedRectangleBorder(
@@ -66,6 +77,20 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomTextIconButton(
+                          isLoading: false,
+                          icon: Icon(Icons.arrow_back_outlined,
+                              color: AppTheme.of(context).primaryBackground),
+                          text: '',
+                          onTap: () {
+                            context.pop();
+                          },
+                        ),
+                      ],
+                    ),
                     InkWell(
                       onTap: () async {
                         await provider.selectImage();
@@ -89,6 +114,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        maxLength: 25,
                       ),
                     ),
                     Padding(
@@ -100,19 +126,9 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
+                        maxLength: 25,
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(vertical: 10),
-                    //   child: CustomTextField(
-                    //     label: 'Email',
-                    //     icon: Icons.alternate_email,
-                    //     controller: provider.emailControllerUpdate,
-                    //     enabled: true,
-                    //     width: 350,
-                    //     keyboardType: TextInputType.emailAddress,
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
@@ -122,6 +138,19 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.phone,
+                        inputFormatters: [cardMaskNumber],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomTextField(
+                        label: 'Address*',
+                        icon: Icons.home_outlined,
+                        controller: provider.addressControllerUpdate,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.text,
+                        maxLength: 25,
                       ),
                     ),
                     Padding(
@@ -158,104 +187,150 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: CustomDDownMenu(
-                          hint: 'Choose a Company [${widget.users.company.company}]',
+                          hint:
+                              'Choose a Company [${widget.users.company.company}]',
                           label: 'Company',
                           icon: Icons.warehouse_outlined,
                           width: 350,
-                          list: CompanyNames,
-                          dropdownValue: provider.selectedCompanyUpdate?.company,
-                          onChanged: (val) {
+                          list: companyNames,
+                          dropdownValue:
+                              provider.selectedCompanyUpdate?.company,
+                          onChanged: (val) async {
                             if (val == null) return;
                             provider.selectCompanyUpdate(val);
+                            if (val != "RTA") {
+                              await provider.getVehicleActive(val,
+                                  notify: true);
+                            }
                           },
                         ),
                       ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomTextField(
+                      child: CustomDDownMenu(
+                        hint: 'Choose a status',
                         label: 'Status',
                         icon: Icons.settings_backup_restore_outlined,
-                        controller: provider.statusControllerUpdate,
-                        enabled: true,
                         width: 350,
-                        keyboardType: TextInputType.text,
+                        list: statusName,
+                        dropdownValue: provider.dropdownvalueUpdate,
+                        onChanged: (val) {
+                          if (val == null) return;
+                          provider.getStatusupdate(val);
+                          //print(val);
+                        },
                       ),
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomDDownMenu(
+                            hint:
+                                'Choose a Vehicle [${widget.users.licensePlates ?? 'No Vehicle '}]',
+                            label: 'Vehicle',
+                            icon: Icons.credit_card_outlined,
+                            width: MediaQuery.of(context).size.width * 0.145,
+                            list: vehicleNames,
+                            dropdownValue:
+                                provider.selectedVehicleUpdate?.licesensePlates,
+                            onChanged: (val) {
+                              if (val == null) return;
+                              provider.selectVehicleUpdates(val);
+                            },
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: CustomTextIconButton(
+                                isLoading: false,
+                                icon: Icon(
+                                  Icons.cleaning_services_outlined,
+                                  color: AppTheme.of(context).primaryBackground,
+                                ),
+                                text: '',
+                                onTap: () async {
+                                  provider.clearVehicleUpdate();
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
                         label: 'License',
-                        icon: Icons.settings_backup_restore_outlined,
+                        icon: Icons.card_membership_outlined,
                         controller: provider.licenseControllerUpdate,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.text,
+                        maxLength: 10,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomTextField(
                         label: 'Certification',
-                        icon: Icons.settings_backup_restore_outlined,
+                        icon: Icons.workspace_premium_outlined,
                         controller: provider.certificationControllerUpdate,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.text,
+                        maxLength: 5,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
-                  text: 'Save User',
-                  onTap: () async {
-                    if (!formKey.currentState!.validate()) {
-                      return;
-                    }
+            CustomTextIconButton(
+              isLoading: false,
+              icon: Icon(Icons.save_outlined,
+                  color: AppTheme.of(context).primaryBackground),
+              text: 'Save User',
+              mainAxisAlignment: MainAxisAlignment.center,
+              width: MediaQuery.of(context).size.width * 0.1,
+              onTap: () async {
+                if (!formKey.currentState!.validate()) {
+                  return;
+                }
 
-                    // if (provider.webImage != null) {
-                    //   final res = await provider.uploadImage();
-                    //   if (res == null) {
-                    //     ApiErrorHandler.callToast('Error al subir imagen');
-                    //   }
-                    // }
+                // if (provider.webImage != null) {
+                //   final res = await provider.uploadImage();
+                //   if (res == null) {
+                //     ApiErrorHandler.callToast('Error al subir imagen');
+                //   }
+                // }
 
-                    //Crear perfil de usuario
-                    bool res = await provider.updateUser(widget.users);
+                //Crear perfil de usuario
+                bool res = await provider.updateUser(widget.users);
 
-                    if (!res) {
-                      await ApiErrorHandler.callToast('Error Updating user profile');
-                      return;
-                    }
+                if (!res) {
+                  await ApiErrorHandler.callToast(
+                      'Error Updating user profile');
+                  return;
+                }
 
-                    if (!mounted) return;
-                    fToast.showToast(
-                      child: const SuccessToast(
-                        message: 'Usuario Actualizado',
-                      ),
-                      gravity: ToastGravity.BOTTOM,
-                      toastDuration: const Duration(seconds: 2),
-                    );
+                if (!mounted) return;
+                fToast.showToast(
+                  child: const SuccessToast(
+                    message: 'User Updated',
+                  ),
+                  gravity: ToastGravity.BOTTOM,
+                  toastDuration: const Duration(seconds: 2),
+                );
+                provider.updateVehiclestatusUpdate(widget.users);
 
-                    if (context.canPop()) context.pop();
-                  },
-                ),
-                CustomTextIconButton(
-                  isLoading: false,
-                  icon: Icon(Icons.exit_to_app_outlined,
-                      color: AppTheme.of(context).primaryBackground),
-                  text: 'Exit',
-                  onTap: () {
-                    context.pop();
-                  },
-                ),
-              ],
+                if (context.canPop()) context.pop();
+              },
             )
           ],
         ),

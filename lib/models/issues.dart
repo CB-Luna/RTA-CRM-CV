@@ -8,6 +8,8 @@ class Issues {
   final int idVehicle;
   final int issuesR;
   final int idControlForm;
+  final DateTime dateAddedR;
+  final DateTime? dateAddedD;
   final int? issuesD;
   final int idBucketInspectionRFk;
   final int? idBucketInspectionDFk;
@@ -21,7 +23,7 @@ class Issues {
   final Equiment equimentR;
   final int? idEquipmentDFk;
   final Equiment equimentD;
-  final String idUserFk;
+  final String? idUserFk;
   final UserProfile userProfile;
   final int idExtraRFk;
   final Extra extraR;
@@ -45,6 +47,8 @@ class Issues {
   final Security securityD;
 
   Issues({
+    required this.dateAddedR,
+    this.dateAddedD,
     required this.idVehicle,
     required this.issuesR,
     this.issuesD,
@@ -61,7 +65,7 @@ class Issues {
     required this.equimentR,
     this.idEquipmentDFk,
     required this.equimentD,
-    required this.idUserFk,
+    this.idUserFk,
     required this.userProfile,
     required this.idExtraRFk,
     required this.extraR,
@@ -93,6 +97,10 @@ class Issues {
         idVehicle: json["id_vehicle"],
         issuesR: json["issues_r"],
         idControlForm: json["id_control_form"],
+        dateAddedR: DateTime.parse(json["date_added_r"]),
+        dateAddedD: json["date_added_d"] == null
+            ? null
+            : DateTime.parse(json["date_added_d"]),
         issuesD: json["issues_d"],
         idBucketInspectionRFk: json["id_bucket_inspection_r_fk"],
         idBucketInspectionDFk: json["id_bucket_inspection_d_fk"],
@@ -137,6 +145,8 @@ class Issues {
         "issues_r": issuesR,
         "issues_d": issuesD,
         "id_control_form": idControlForm,
+        "date_added_r": dateAddedR.toIso8601String(), //check out
+        "date_added_d": dateAddedD?.toIso8601String(), //cehck in
         "id_bucket_inspection_r_fk": idBucketInspectionRFk,
         "id_bucket_inspection_d_fk": idBucketInspectionDFk,
         "bucket_inspection_r": bucketInspectionR.toMap(),
@@ -186,6 +196,7 @@ class BucketInspection {
   final String? bucketLinerComments;
   final String? bucketLinerImage;
   final DateTime? dateAdded;
+  bool? state;
 
   BucketInspection({
     this.idBucketInspection,
@@ -199,6 +210,7 @@ class BucketInspection {
     this.bucketLinerComments,
     this.bucketLinerImage,
     this.dateAdded,
+    this.state,
   });
 
   factory BucketInspection.fromJson(String str) =>
@@ -247,7 +259,11 @@ class CarBodywork {
   final String? wiperBladesBackComments;
   final String? wiperBladesBackImage;
   final String? windshieldWiperFront;
+  final String? windshieldWiperFrontComments;
+  final String? windshieldWiperFrontImage;
   final String? windshieldWiperBack;
+  final String? windshieldWiperBackComments;
+  final String? windshieldWiperBackImage;
   final String? generalBody;
   final String? generalBodyComments;
   final String? generalBodyImage;
@@ -277,6 +293,7 @@ class CarBodywork {
   final String? hornImage;
   final DateTime? dateAdded;
   final int? idCarBodywork;
+  bool? state;
 
   CarBodywork({
     this.idCarBodyworkD,
@@ -284,6 +301,10 @@ class CarBodywork {
     this.wiperBladesFrontComments,
     this.wiperBladesFrontImage,
     this.wiperBladesBack,
+    this.windshieldWiperFrontComments,
+    this.windshieldWiperFrontImage,
+    this.windshieldWiperBackComments,
+    this.windshieldWiperBackImage,
     this.wiperBladesBackComments,
     this.wiperBladesBackImage,
     this.windshieldWiperFront,
@@ -317,6 +338,7 @@ class CarBodywork {
     this.hornImage,
     this.dateAdded,
     this.idCarBodywork,
+    this.state,
   });
 
   factory CarBodywork.fromJson(String str) =>
@@ -333,7 +355,11 @@ class CarBodywork {
         wiperBladesBackComments: json["wiper_blades_back_comments"],
         wiperBladesBackImage: json["wiper_blades_back_image"],
         windshieldWiperFront: json["windshield_wiper_front"],
+        windshieldWiperFrontComments: json["windshield_wiper_front_comments"],
+        windshieldWiperFrontImage: json["windshield_wiper_front_image"],
         windshieldWiperBack: json["windshield_wiper_back"],
+        windshieldWiperBackComments: json["windshield_wiper_back_comments"],
+        windshieldWiperBackImage: json["windshield_wiper_back_image"],
         generalBody: json["general_body"],
         generalBodyComments: json["general_body_comments"],
         generalBodyImage: json["general_body_image"],
@@ -376,7 +402,11 @@ class CarBodywork {
         "wiper_blades_back_comments": wiperBladesBackComments,
         "wiper_blades_back_image": wiperBladesBackImage,
         "windshield_wiper_front": windshieldWiperFront,
+        "windshield_wiper_front_comments": windshieldWiperFrontComments,
+        "windshield_wiper_front_image": windshieldWiperFrontImage,
         "windshield_wiper_back": windshieldWiperBack,
+        "windshield_wiper_back_comments": windshieldWiperBackComments,
+        "windshield_wiper_back_image": windshieldWiperBackImage,
         "general_body": generalBody,
         "general_body_comments": generalBodyComments,
         "general_body_image": generalBodyImage,
@@ -427,6 +457,7 @@ class Equiment {
   final String? bucketLiftOperatorManualComments;
   final String? bucketLiftOperatorManualImage;
   final DateTime? dateAdded;
+  bool? state;
 
   Equiment({
     this.idEquipment,
@@ -445,6 +476,7 @@ class Equiment {
     this.bucketLiftOperatorManual,
     this.bucketLiftOperatorManualComments,
     this.bucketLiftOperatorManualImage,
+    this.state,
     this.dateAdded,
   });
 
@@ -526,6 +558,7 @@ class Extra {
   final String? lanyardSafetyHarnessComments;
   final String? lanyardSafetyHarnessImage;
   final DateTime? dateAdded;
+  bool? state;
 
   Extra({
     this.idExtra,
@@ -553,6 +586,7 @@ class Extra {
     this.lanyardSafetyHarness,
     this.lanyardSafetyHarnessComments,
     this.lanyardSafetyHarnessImage,
+    this.state,
     this.dateAdded,
   });
 
@@ -643,6 +677,7 @@ class FluidCheck {
   final String? windshieldWasherFluidComments;
   final String? windshieldWasherFluidImage;
   final DateTime? dateAdded;
+  bool? state;
 
   FluidCheck({
     this.idFluidsCheck,
@@ -665,6 +700,7 @@ class FluidCheck {
     this.windshieldWasherFluidComments,
     this.windshieldWasherFluidImage,
     this.dateAdded,
+    this.state,
   });
 
   factory FluidCheck.fromJson(String str) =>
@@ -726,6 +762,7 @@ class Lights {
   final String? headlights;
   final String? headlightsComments;
   final String? headlightsImage;
+  // final String? headlightsdateclsoed;
   final String? brakeLights;
   final String? brakeLightsComments;
   final String? brakeLightsImage;
@@ -754,6 +791,7 @@ class Lights {
   final String? clearanceLightsComments;
   final String? clearanceLightsImage;
   final DateTime? dateAdded;
+  bool? state;
 
   Lights({
     this.idLights,
@@ -787,6 +825,7 @@ class Lights {
     this.clearanceLights,
     this.clearanceLightsComments,
     this.clearanceLightsImage,
+    this.state,
     this.dateAdded,
   });
 
@@ -876,6 +915,7 @@ class Measure {
   final String? mileageComments;
   final String? mileageImage;
   final DateTime? dateAdded;
+  bool? state;
 
   Measure({
     this.idMeasure,
@@ -886,6 +926,7 @@ class Measure {
     this.mileageComments,
     this.mileageImage,
     this.dateAdded,
+    this.state,
   });
 
   factory Measure.fromJson(String str) => Measure.fromMap(json.decode(str));
@@ -938,6 +979,7 @@ class Security {
   final String? backUpAlarmComments;
   final String? backUpAlarmImage;
   final DateTime? dateAdded;
+  bool? state;
 
   Security({
     this.idSecurity,
@@ -960,6 +1002,7 @@ class Security {
     this.backUpAlarmComments,
     this.backUpAlarmImage,
     this.dateAdded,
+    this.state,
   });
 
   factory Security.fromJson(String str) => Security.fromMap(json.decode(str));
@@ -1017,28 +1060,28 @@ class Security {
 }
 
 class UserProfile {
-  final String idUserFk;
-  final String name;
-  final String lastName;
-  final String homePhone;
-  final String mobilePhone;
-  final String address;
-  final DateTime birthdate;
+  final String? idUserFk;
+  final String? name;
+  final String? lastName;
+  final String? homePhone;
+  final String? mobilePhone;
+  final String? address;
+  final DateTime? birthdate;
   final String? middleName;
   final String? image;
-  final int sequentialId;
+  final int? sequentialId;
 
   UserProfile({
-    required this.idUserFk,
-    required this.name,
-    required this.lastName,
-    required this.homePhone,
-    required this.mobilePhone,
-    required this.address,
-    required this.birthdate,
+    this.idUserFk,
+    this.name,
+    this.lastName,
+    this.homePhone,
+    this.mobilePhone,
+    this.address,
+    this.birthdate,
     this.middleName,
     this.image,
-    required this.sequentialId,
+    this.sequentialId,
   });
 
   factory UserProfile.fromJson(String str) =>
@@ -1053,7 +1096,9 @@ class UserProfile {
         homePhone: json["home_phone"],
         mobilePhone: json["mobile_phone"],
         address: json["address"],
-        birthdate: DateTime.parse(json["birthdate"]),
+        birthdate: json["birthdate"] == null
+            ? null
+            : DateTime.parse(json["birthdate"]),
         middleName: json["middle_name"],
         image: json["image"],
         sequentialId: json["sequential_id"],
@@ -1067,7 +1112,7 @@ class UserProfile {
         "mobile_phone": mobilePhone,
         "address": address,
         "birthdate":
-            "${birthdate.year.toString().padLeft(4, '0')}-${birthdate.month.toString().padLeft(2, '0')}-${birthdate.day.toString().padLeft(2, '0')}",
+            "${birthdate?.year.toString().padLeft(4, '0')}-${birthdate?.month.toString().padLeft(2, '0')}-${birthdate?.day.toString().padLeft(2, '0')}",
         "middle_name": middleName,
         "image": image,
         "sequential_id": sequentialId,
