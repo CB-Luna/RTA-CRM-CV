@@ -30,9 +30,8 @@ class IssuesPopUpTotal extends StatefulWidget {
 
 class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
   @override
-  Widget build(BuildContext context) {
-    IssueReportedProvider issueReportedProvider =
-        Provider.of<IssueReportedProvider>(context);
+  build(BuildContext context) {
+    IssueReportedProvider issueReportedProvider = Provider.of<IssueReportedProvider>(context);
     return AlertDialog(
         backgroundColor: Colors.transparent,
         content: CustomCard(
@@ -64,8 +63,7 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
                       width: MediaQuery.of(context).size.width * 0.1,
                       height: MediaQuery.of(context).size.height * 0.03,
                       decoration: BoxDecoration(
-                        color: statusColor(issueReportedProvider
-                            .actualVehicle!.company.company,context),
+                        color: statusColor(issueReportedProvider.actualVehicle!.company.company, context),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
@@ -103,9 +101,7 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
                                   style: TextStyle(
                                     color: Colors.orange,
                                     fontFamily: 'Bicyclette-Thin',
-                                    fontSize: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .fontSize,
+                                    fontSize: AppTheme.of(context).contenidoTablas.fontSize,
                                   ),
                                 ),
                               ],
@@ -119,17 +115,11 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
                             child: Row(
                               children: [
                                 Text(
-                                  DateFormat("MMM/dd/yyyy hh:mm:ss").format(
-                                      widget
-                                          .issueComments[index].dateAddedOpen),
+                                  DateFormat("MMM/dd/yyyy hh:mm:ss").format(widget.issueComments[index].dateAddedOpen),
                                   style: TextStyle(
-                                    color: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .color,
+                                    color: AppTheme.of(context).contenidoTablas.color,
                                     fontFamily: 'Bicyclette-Thin',
-                                    fontSize: AppTheme.of(context)
-                                        .contenidoTablas
-                                        .fontSize,
+                                    fontSize: AppTheme.of(context).contenidoTablas.fontSize,
                                   ),
                                 ),
                               ],
@@ -142,27 +132,17 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               width: 80,
                               isLoading: false,
-                              icon: Icon(Icons.remove_red_eye_outlined,
-                                  color:
-                                      AppTheme.of(context).primaryBackground),
+                              icon: Icon(Icons.remove_red_eye_outlined, color: AppTheme.of(context).primaryBackground),
                               text: '',
                               color: AppTheme.of(context).primaryColor,
                               onTap: () {
-                                issueReportedProvider.selectIssueOpenClose(
-                                    index, widget.issueComments);
+                                issueReportedProvider.selectIssueOpenClose(index, widget.issueComments);
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                          builder: (context, setState) {
-                                        issueReportedProvider.setContador(
-                                            widget.contador,
-                                            notify: false);
-                                        issueReportedProvider
-                                            .getIssuePhotosComments(
-                                                widget.contador,
-                                                widget.issueComments[index],
-                                                notify: true);
+                                      return StatefulBuilder(builder: (context, setState) {
+                                        issueReportedProvider.setContador(widget.contador, notify: false);
+                                        issueReportedProvider.getIssuePhotosComments(widget.contador, widget.issueComments[index], notify: true);
                                         return const CommentsPhotosPopUp();
                                       });
                                     });
@@ -181,7 +161,7 @@ class _IssuesPopUpTotalState extends State<IssuesPopUpTotal> {
   }
 }
 
-Color statusColor(String status,BuildContext context) {
+Color statusColor(String status, BuildContext context) {
   late Color color;
 
   switch (status) {
