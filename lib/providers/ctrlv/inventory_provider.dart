@@ -1713,7 +1713,6 @@ class InventoryProvider extends ChangeNotifier {
 
   void getCompanyFilter(String comp, {bool notify = true}) {
     companySel = comp;
-    confirmacion++;
     if (notify) notifyListeners();
   }
 
@@ -2158,7 +2157,7 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   bool enableButton() {
-    if (confirmacion == 4) {
+    if (confirmacion == 3) {
       return true;
     } else {
       return false;
