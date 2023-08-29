@@ -32,9 +32,7 @@ class DetailsPop extends StatelessWidget {
           ? Container(
               width: 1300,
               height: 760,
-              decoration: BoxDecoration(
-                  gradient: whiteGradient,
-                  borderRadius: BorderRadius.circular(20)),
+              decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
               child: Column(
                 children: [
                   const Padding(
@@ -66,85 +64,63 @@ class DetailsPop extends StatelessWidget {
                     ),
                   ),
                   DetailVehicleCard(vehicle: vehicle),
-                  
                   Container(
                     padding: const EdgeInsets.all(10),
                     child: Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.03,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.07,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      color: const Color.fromRGBO(171, 235, 198, 1),
-                                      border: Border.all(
-                                          color:
-                                              AppTheme.lightTheme.tertiaryColor,
-                                          width: 3),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "Check Out",
-                                        style: TextStyle(
-                                            color:
-                                                AppTheme.lightTheme.tertiaryColor,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    )),
-                              ]),
+                          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                            Container(
+                                height: MediaQuery.of(context).size.height * 0.03,
+                                width: MediaQuery.of(context).size.width * 0.07,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: const Color.fromRGBO(171, 235, 198, 1),
+                                  border: Border.all(color: AppTheme.lightTheme.tertiaryColor, width: 3),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Check Out",
+                                    style: TextStyle(color: AppTheme.lightTheme.tertiaryColor, fontSize: 12, fontWeight: FontWeight.bold),
+                                  ),
+                                )),
+                          ]),
                         ),
                         const AnswerFormReceived(),
                         const SizedBox(
                           height: 10,
                         ),
-                        
                         vehicle.dateAddedD != null
-                            ?Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height * 0.03,
-                                      width: MediaQuery.of(context).size.width * 0.07,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30),
-                                        color: const Color.fromRGBO(195, 155, 211, 1),
-                                        border: Border.all(
-                                            color: const Color.fromRGBO(245, 6, 213, 1),
-                                            width: 2),
-                                      ),
-                                      child: const Center(
-                                        child: Text(
-                                          "Check In",
-                                          style: TextStyle(
-                                              color: Color.fromRGBO(245, 6, 213, 1),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold),
+                            ? Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                      Container(
+                                        height: MediaQuery.of(context).size.height * 0.03,
+                                        width: MediaQuery.of(context).size.width * 0.07,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(30),
+                                          color: const Color.fromRGBO(195, 155, 211, 1),
+                                          border: Border.all(color: const Color.fromRGBO(245, 6, 213, 1), width: 2),
+                                        ),
+                                        child: const Center(
+                                          child: Text(
+                                            "Check In",
+                                            style: TextStyle(color: Color.fromRGBO(245, 6, 213, 1), fontSize: 12, fontWeight: FontWeight.bold),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ]),
-                                ),
-                                const AnswerFormDelivered(),
-                              ],
-                            ) 
+                                    ]),
+                                  ),
+                                  const AnswerFormDelivered(),
+                                ],
+                              )
                             : Container(
                                 decoration: BoxDecoration(
                                   gradient: blueRadial,
-                                  borderRadius: const BorderRadius.vertical(
-                                      bottom: Radius.circular(10)),
+                                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(10)),
                                 ),
                               ),
                       ],
@@ -157,7 +133,7 @@ class DetailsPop extends StatelessWidget {
           //cambio de PopUp
           //Id enviarle el de control form para tomar todos los datos de las diferntes tablas.
           provider.viewPopup == 1
-              ? MeasuresPopUp(row: vehicle, popUp:1)
+              ? MeasuresPopUp(row: vehicle, popUp: 1)
               : provider.viewPopup == 2
                   ? const ExtraPopUp(catalog: "Lights", popUp: 2)
                   : provider.viewPopup == 3
@@ -167,21 +143,18 @@ class DetailsPop extends StatelessWidget {
                           : provider.viewPopup == 5
                               ? const BucketExtraPopUp(popUp: 5)
                               : provider.viewPopup == 6
-                                  ? const ExtraPopUp(
-                                      catalog: "Security", popUp: 6)
+                                  ? const ExtraPopUp(catalog: "Security", popUp: 6)
                                   : provider.viewPopup == 7
-                                      ? const ExtraPopUp(
-                                          catalog: "Extra", popUp: 7)
+                                      ? const ExtraPopUp(catalog: "Extra", popUp: 7)
                                       : provider.viewPopup == 8
-                                          ? const ExtraPopUp(
-                                              catalog: "Equipment", popUp: 8)
+                                          ? const ExtraPopUp(catalog: "Equipment", popUp: 8)
                                           : provider.viewPopup == 9
-                                              ?  CommentsImagesIssues( popUp: provider.popUpExtra)
+                                              ? CommentsImagesIssues(popUp: provider.popUpExtra)
                                               : provider.viewPopup == 10
                                                   ? const BucketCommentsImagesIssues()
-                                                  :  provider.viewPopup == 11
-                                                  ? const MeasuresInspect()
-                                                  : Container(),
+                                                  : provider.viewPopup == 11
+                                                      ? const MeasuresInspect()
+                                                      : Container(),
     );
   }
 }

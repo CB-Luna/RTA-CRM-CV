@@ -429,20 +429,13 @@ class UsersProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      final res = await supabase
-          .from('users')
-          .select()
-          .like('name', '%${searchController.text}%')
-          .eq('status', 'Not Active')
-          .order('sequential_id', ascending: true);
+      final res = await supabase.from('users').select().like('name', '%${searchController.text}%').eq('status', 'Not Active').order('sequential_id', ascending: true);
 
       if (res == null) {
         log('Error en getUsuarios()');
         return;
       }
-      users = (res as List<dynamic>)
-          .map((usuario) => User.fromJson(jsonEncode(usuario)))
-          .toList();
+      users = (res as List<dynamic>).map((usuario) => User.fromJson(jsonEncode(usuario))).toList();
 
       rows.clear();
       for (User user in users) {

@@ -6,7 +6,7 @@ import 'package:rta_crm_cv/pages/crm/accounts/tabs/accounts_tab.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/tabs/campaigns_tab.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/tabs/leads_tab.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/tabs/opportunity_tab.dart';
-import 'package:rta_crm_cv/pages/crm/accounts/tabs/quotes_tab.dart';
+import 'package:rta_crm_cv/pages/crm/quotes/quotes_tab.dart';
 
 import 'package:rta_crm_cv/providers/crm/accounts/account_page_provider.dart';
 import 'package:rta_crm_cv/providers/providers.dart';

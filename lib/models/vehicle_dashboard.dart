@@ -1,23 +1,24 @@
 import 'dart:convert';
 
 class VehicleDash {
-  VehicleDash(
-      {required this.idVehicle,
-      required this.make,
-      required this.model,
-      required this.year,
-      required this.vin,
-      required this.licesensePlates,
-      required this.motor,
-      this.color,
-      required this.image,
-      required this.status,
-      required this.company,
-      required this.dateAdded,
-      required this.oilChangeDue,
-      required this.lastRadiatorFluidChange,
-      required this.lastTransmissionFluidChange,
-      required this.mileage,});
+  VehicleDash({
+    required this.idVehicle,
+    required this.make,
+    required this.model,
+    required this.year,
+    required this.vin,
+    required this.licesensePlates,
+    required this.motor,
+    this.color,
+    required this.image,
+    required this.status,
+    required this.company,
+    required this.dateAdded,
+    required this.oilChangeDue,
+    required this.lastRadiatorFluidChange,
+    required this.lastTransmissionFluidChange,
+    required this.mileage,
+  });
 
   int idVehicle;
   String make;
@@ -51,10 +52,8 @@ class VehicleDash {
       company: json['id_company_fk'],
       dateAdded: DateTime.parse(json["date_added"]),
       oilChangeDue: DateTime.parse(json["oil_change_due"]),
-      lastRadiatorFluidChange:
-          DateTime.parse(json["last_radiator_fluid_change"]),
-      lastTransmissionFluidChange:
-          DateTime.parse(json["last_transmission_fluid_change"]),
+      lastRadiatorFluidChange: DateTime.parse(json["last_radiator_fluid_change"]),
+      lastTransmissionFluidChange: DateTime.parse(json["last_transmission_fluid_change"]),
       mileage: json["mileage"]);
 
   Map<String, dynamic> toMap() => {
@@ -72,8 +71,7 @@ class VehicleDash {
         "date_added": dateAdded.toIso8601String(),
         "oil_change_due": oilChangeDue.toIso8601String(),
         "last_radiator_fluid_change": lastRadiatorFluidChange.toIso8601String(),
-        "last_transmission_fluid_change":
-            lastTransmissionFluidChange.toIso8601String(),
+        "last_transmission_fluid_change": lastTransmissionFluidChange.toIso8601String(),
         "mileage": mileage
       };
 }

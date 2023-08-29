@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/pages/crm/accounts/tabs/quotes_tab.dart';
+import 'package:rta_crm_cv/pages/crm/quotes/quotes_tab.dart';
 //import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
-import 'package:rta_crm_cv/providers/crm/accounts/tabs/quotes_provider.dart';
+import 'package:rta_crm_cv/providers/crm/quote/quotes_provider.dart';
 
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/public/colors.dart';
@@ -162,18 +162,17 @@ class _QuotesPageState extends State<QuotesPage> {
                                   labelStyle: const TextStyle(
                                     fontFamily: 'UniNeue',
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 25,
+                                    fontSize: 30,
                                   ),
                                   unselectedLabelColor: AppTheme.of(context).primaryColor,
                                   unselectedLabelStyle: const TextStyle(
                                     fontFamily: 'UniNeue',
                                     fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                    fontSize: 15,
+                                    fontSize: 20,
                                   ),
                                   tabs: const [
                                     Tab(text: 'All'),
-                                    Tab(text: 'Form'),
+                                    Tab(text: 'Presented'),
                                     Tab(text: 'Validate'),
                                     Tab(text: 'Canceled'),
                                     Tab(text: 'Closed'),
@@ -265,14 +264,13 @@ class _QuotesPageState extends State<QuotesPage> {
                                   labelStyle: const TextStyle(
                                     fontFamily: 'UniNeue',
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 25,
+                                    fontSize: 30,
                                   ),
                                   unselectedLabelColor: AppTheme.of(context).primaryColor,
                                   unselectedLabelStyle: const TextStyle(
                                     fontFamily: 'UniNeue',
                                     fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                    fontSize: 15,
+                                    fontSize: 20,
                                   ),
                                   tabs: const [
                                     Tab(text: 'All'),

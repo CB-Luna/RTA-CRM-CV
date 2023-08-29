@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class CustomTextCell extends StatelessWidget {
-  const CustomTextCell({Key? key, required this.text, required this.textAlign}) : super(key: key);
-  final String text;
+  const CustomTextCell({Key? key, this.text, required this.textAlign}) : super(key: key);
+  final String? text;
   final TextAlign textAlign;
 
   @override
@@ -15,10 +15,8 @@ class CustomTextCell extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Text(
-              text,
-              style: AppTheme.of(context)
-                  .contenidoTablas
-                  .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+              text ?? '-',
+              style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               textAlign: textAlign,
