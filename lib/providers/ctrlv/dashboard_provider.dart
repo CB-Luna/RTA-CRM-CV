@@ -9,7 +9,6 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/issues_dashboards.dart';
 
-import 'package:rta_crm_cv/models/x2crm/x2crm_quote_model.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -17,7 +16,6 @@ class DashboardCVProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<PlutoRow> rows = [], rows2 = [];
   List<IssuesDashboards> issuesDashboards = [];
-  List<X2CrmQuote> x2crmQuotes = [];
   PlutoGridStateManager? stateManager;
   bool editmode = false;
   int pageRowCount = 10;
@@ -73,13 +71,12 @@ class DashboardCVProvider extends ChangeNotifier {
   double tenMonthsAgoEndSmi = 0;
   double elevenMonthsAgoEndSmi = 0;
 
-
   DashboardCVProvider() {
     touchedValue = -1;
     updateState();
     clearAll();
   }
-  
+
   var titleGroup = AutoSizeGroup();
   Future<void> updateState() async {
     await getVehicles();
@@ -144,7 +141,6 @@ class DashboardCVProvider extends ChangeNotifier {
     getIssues(null);
     notifyListeners();
   }
-
 
   Future<void> getIssues(String? status) async {
     if (stateManager != null) {
@@ -213,8 +209,7 @@ class DashboardCVProvider extends ChangeNotifier {
         issue.bucketInspectionR.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.bucketInspectionR.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.bucketInspectionR.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -228,57 +223,56 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
         issue.bucketInspectionD.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.bucketInspectionD.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.bucketInspectionD.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -292,49 +286,49 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
@@ -342,8 +336,7 @@ class DashboardCVProvider extends ChangeNotifier {
         issue.carBodyworkR.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.carBodyworkR.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.carBodyworkR.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -357,57 +350,56 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
         issue.carBodyworkD.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.carBodyworkD.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.carBodyworkD.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -421,49 +413,49 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
@@ -471,8 +463,7 @@ class DashboardCVProvider extends ChangeNotifier {
         issue.equipmentR.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.equipmentR.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.equipmentR.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -486,57 +477,56 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
         issue.equipmentD.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.equipmentD.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.equipmentD.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -550,49 +540,49 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
@@ -600,8 +590,7 @@ class DashboardCVProvider extends ChangeNotifier {
         issue.extraR.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.extraR.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.extraR.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -615,57 +604,56 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
         issue.extraD.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.extraD.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.extraD.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -679,49 +667,49 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
@@ -729,8 +717,7 @@ class DashboardCVProvider extends ChangeNotifier {
         issue.fluidCheckR.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.fluidCheckR.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.fluidCheckR.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -744,57 +731,56 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
         issue.fluidCheckD.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.fluidCheckD.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.fluidCheckD.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -808,49 +794,49 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
@@ -858,8 +844,7 @@ class DashboardCVProvider extends ChangeNotifier {
         issue.lightsR.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.lightsR.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.lightsR.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -873,57 +858,56 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
         issue.lightsD.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.lightsD.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.lightsD.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -937,49 +921,49 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
@@ -987,8 +971,7 @@ class DashboardCVProvider extends ChangeNotifier {
         issue.securityR.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.securityR.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.securityR.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -1002,57 +985,56 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
         issue.securityD.toMap().forEach((key, value) {
           if (value == false) {
             String nameIssue = key.replaceAll("_", " ").capitalize;
-            DateTime dateAdded =
-                DateTime.parse(issue.securityD.toMap()["date_added"]);
+            DateTime dateAdded = DateTime.parse(issue.securityD.toMap()["date_added"]);
             rows2.add(
               PlutoRow(
                 cells: {
@@ -1066,49 +1048,49 @@ class DashboardCVProvider extends ChangeNotifier {
               ),
             );
             if (issue.company == "CRY") {
-             cry++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++; 
+              cry++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndCry++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndCry++;
             }
             if (issue.company == "ODE") {
-             ode++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++; 
+              ode++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndOde++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndOde++;
             }
             if (issue.company == "SMI") {
-             smi++;
-             if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++; 
-             if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++; 
+              smi++;
+              if (dateAdded.month == dateRange.end.month && dateAdded.isBefore(dateRange.end)) actualMonthEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 1) && dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 2) && dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 3) && dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 4) && dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 5) && dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 6) && dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 7) && dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 8) && dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 9) && dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 10) && dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSmi++;
+              if (dateAdded.month == (dateRange.end.month - 11) && dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSmi++;
             }
           }
         });
@@ -1123,7 +1105,6 @@ class DashboardCVProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
 
   Future<void> getVehicles() async {
     if (stateManager != null) {
@@ -1147,31 +1128,29 @@ class DashboardCVProvider extends ChangeNotifier {
 
       if (resCRY.isNotEmpty) {
         vehiclesCRY = await supabaseCtrlV.from('vehicle').select().eq('id_company_fk', resCRY.first['id_company']).select<PostgrestList>('id_vehicle').then((value) {
-         return value.toList().length;
+          return value.toList().length;
         });
       }
 
       if (resODE.isNotEmpty) {
         vehiclesODE = await supabaseCtrlV.from('vehicle').select().eq('id_company_fk', resODE.first['id_company']).select<PostgrestList>('id_vehicle').then((value) {
-         return value.toList().length;
+          return value.toList().length;
         });
       }
 
       if (resSMI.isNotEmpty) {
         vehiclesSMI = await supabaseCtrlV.from('vehicle').select().eq('id_company_fk', resSMI.first['id_company']).select<PostgrestList>('id_vehicle').then((value) {
-         return value.toList().length;
+          return value.toList().length;
         });
       }
 
       if (stateManager != null) stateManager!.notifyListeners();
-
     } catch (e) {
       log('Error en getVehicles() - $e');
     }
 
     notifyListeners();
   }
-
 
   //Graficas
   //totales
@@ -1580,8 +1559,8 @@ class DashboardCVProvider extends ChangeNotifier {
         FlSpot(7, fourMonthsAgoEndCry + fourMonthsAgoEndOde + fourMonthsAgoEndSmi),
         FlSpot(8, threeMonthsAgoEndCry + threeMonthsAgoEndOde + threeMonthsAgoEndSmi),
         FlSpot(9, twoMonthsAgoEndCry + twoMonthsAgoEndOde + twoMonthsAgoEndSmi),
-        FlSpot(10,oneMonthAgoEndCry + oneMonthAgoEndOde + oneMonthAgoEndSmi),
-        FlSpot(11,actualMonthEndCry + actualMonthEndOde + actualMonthEndSmi),
+        FlSpot(10, oneMonthAgoEndCry + oneMonthAgoEndOde + oneMonthAgoEndSmi),
+        FlSpot(11, actualMonthEndCry + actualMonthEndOde + actualMonthEndSmi),
       ],
       isCurved: false,
       barWidth: 5,
@@ -1605,8 +1584,8 @@ class DashboardCVProvider extends ChangeNotifier {
         FlSpot(7, fourMonthsAgoEndCry),
         FlSpot(8, threeMonthsAgoEndCry),
         FlSpot(9, twoMonthsAgoEndCry),
-        FlSpot(10,oneMonthAgoEndCry),
-        FlSpot(11,actualMonthEndCry),
+        FlSpot(10, oneMonthAgoEndCry),
+        FlSpot(11, actualMonthEndCry),
       ],
       isCurved: false,
       barWidth: 5,
@@ -1630,8 +1609,8 @@ class DashboardCVProvider extends ChangeNotifier {
         FlSpot(7, fourMonthsAgoEndOde),
         FlSpot(8, threeMonthsAgoEndOde),
         FlSpot(9, twoMonthsAgoEndOde),
-        FlSpot(10,oneMonthAgoEndOde),
-        FlSpot(11,actualMonthEndOde),
+        FlSpot(10, oneMonthAgoEndOde),
+        FlSpot(11, actualMonthEndOde),
       ],
       isCurved: false,
       barWidth: 5,
@@ -1655,8 +1634,8 @@ class DashboardCVProvider extends ChangeNotifier {
         FlSpot(7, fourMonthsAgoEndSmi),
         FlSpot(8, threeMonthsAgoEndSmi),
         FlSpot(9, twoMonthsAgoEndSmi),
-        FlSpot(10,oneMonthAgoEndSmi),
-        FlSpot(11,actualMonthEndSmi),
+        FlSpot(10, oneMonthAgoEndSmi),
+        FlSpot(11, actualMonthEndSmi),
       ],
       isCurved: false,
       barWidth: 5,
@@ -1668,7 +1647,7 @@ class DashboardCVProvider extends ChangeNotifier {
   }
 
   //pie chart
-  
+
   List<PieChartSectionData> showingSections() {
     double pcry = (cry / (cry + ode + smi)) * 100, pode = (ode / (cry + ode + smi)) * 100, psmi = (smi / (cry + ode + smi)) * 100;
     String rcry = pcry.toStringAsFixed(2), rode = pode.toStringAsFixed(2), rsmi = psmi.toStringAsFixed(2);
@@ -1752,7 +1731,7 @@ class DashboardCVProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void load() { 
+  void load() {
     stateManager!.setShowLoading(true);
   }
 }
