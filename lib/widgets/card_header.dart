@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
@@ -43,18 +42,21 @@ class CardHeader extends StatelessWidget {
             ),
             gradient: gradient ?? blueRadial,
           ),
-          child: Center(
-            child: Text(text,
-                style: TextStyle(
-                    fontFamily: 'UniNeue',
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.of(context)
-                        .primaryBackground) /*  GoogleFonts.poppins(
-                color: AppTheme.of(context).primaryBackground,
-                fontSize: 25,
-                fontWeight: FontWeight.w600, */
-                ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Center(
+              child: Text(text,
+                  style: TextStyle(
+                      fontFamily: 'UniNeue',
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.of(context)
+                          .primaryBackground) /*  GoogleFonts.poppins(
+                  color: AppTheme.of(context).primaryBackground,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600, */
+                  ),
+            ),
           ),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
@@ -8,6 +9,8 @@ import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown_das
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
+import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
+import 'package:rta_crm_cv/widgets/dateranges.dart';
 import 'package:rta_crm_cv/widgets/indicator.dart';
 
 class GraficaDashboard extends StatefulWidget {
@@ -39,91 +42,34 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
     }
 
     Widget bottomTitles(double value, TitleMeta meta) {
-      String text;
-      switch (value.toInt()) {
-        case 0:
-          text = 'Jul';
-
-          break;
-        case 1:
-          text = 'Ago';
-          break;
-        case 2:
-          text = 'Sep';
-
-          break;
-        case 3:
-          text = 'Oct';
-          break;
-        case 4:
-          text = 'Nov';
-
-          break;
-        case 5:
-          text = 'Dec';
-          break;
-        case 6:
-          text = 'Jan';
-
-          break;
-        case 7:
-          text = 'Feb';
-          break;
-        case 8:
-          text = 'Mar';
-
-          break;
-        case 9:
-          text = 'Apr';
-          break;
-        case 10:
-          text = 'May';
-
-          break;
-        case 11:
-          text = 'Jun';
-          break;
-        default:
-          text = '\$';
-          break;
-      }
+      final isTouched = value == provider.touchedIndex;
+      final style = TextStyle(
+        fontFamily: 'UniNeue',
+        fontWeight: isTouched ? FontWeight.bold : FontWeight.normal,
+        color: isTouched ? AppTheme.of(context).primaryColor : AppTheme.of(context).primaryText,
+        fontSize: 15,
+      );
       return SideTitleWidget(
         axisSide: meta.axisSide,
-        child: TextButton(
-          onPressed: (() {
-            switch (value.toInt()) {
-              case 0:
-                break;
-              case 1:
-                break;
-              case 2:
-                break;
-              case 3:
-                break;
-              case 4:
-                break;
-            }
-          }),
-          child: Text(
-            text,
+        //angle: 11,
+        //angle: provider.dateList[0].length > 5 ? 7 : 0,
+        space: 40,
+        child: Text(
+            provider.range.start == findFirstDateOfTheYear(DateTime.now()) || provider.range.start == findFirstDateOfTheYear(DateTime(DateTime.now().year - 1, 1))
+                ? provider.weekList[value.toInt()]
+                : 'Week: ${provider.weekList[value.toInt()]}',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 15,
-              fontFamily: 'UniNeue',
-              fontWeight: FontWeight.normal,
-              color: AppTheme.of(context).primaryText,
-            ),
-          ),
-        ),
+            style: style),
       );
     }
 
     return CustomCard(
-      width: getWidth(670, context),
+      width: getWidth(1030, context),
       height: getHeight(432.91, context),
       title: 'Overview',
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
@@ -140,9 +86,7 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                               text: 'Orders',
                               isSquare: false,
                               size: provider.touchedIndex == 0 ? 18 : 16,
-                              textColor: provider.touchedIndex == 0
-                                  ? Colors.black
-                                  : Colors.grey,
+                              textColor: provider.touchedIndex == 0 ? Colors.black : Colors.grey,
                             ),
                             SizedBox(width: getWidth(10, context)),
                             Indicator(
@@ -150,9 +94,7 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                               text: 'Quotes',
                               isSquare: false,
                               size: provider.touchedIndex == 1 ? 18 : 16,
-                              textColor: provider.touchedIndex == 1
-                                  ? Colors.black
-                                  : Colors.grey,
+                              textColor: provider.touchedIndex == 1 ? Colors.black : Colors.grey,
                             ),
                             SizedBox(width: getWidth(10, context)),
                             Indicator(
@@ -160,15 +102,40 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                               text: 'Canceled',
                               isSquare: false,
                               size: provider.touchedIndex == 2 ? 18 : 16,
-                              textColor: provider.touchedIndex == 2
-                                  ? Colors.black
-                                  : Colors.grey,
+                              textColor: provider.touchedIndex == 2 ? Colors.black : Colors.grey,
                             ),
                             SizedBox(width: getWidth(56, context)),
                           ],
                         )
                       : SizedBox(width: getWidth(56, context)),
-                  CustomeDDownMenuDashboard(
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: CustomTextIconButton(
+                      isLoading: false,
+                      icon: Icon(Icons.calendar_month, color: AppTheme.of(context).primaryBackground),
+                      text: '${dateFormat(provider.range.start)} - ${dateFormat(provider.range.end)}',
+                      onTap: () {
+                        showDialog(
+                          barrierColor: Colors.transparent,
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            shadowColor: Colors.transparent,
+                            backgroundColor: Colors.transparent,
+                            alignment: Alignment.centerLeft,
+                            content: Container(
+                                color: AppTheme.of(context).primaryBackground,
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                height: MediaQuery.of(context).size.height * 0.32,
+                                child: provider.datePickerBuilder(
+                                  context,
+                                  (p0) {},
+                                )),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  /* CustomeDDownMenuDashboard(
                     icon: Icons.calendar_month,
                     width: 170,
                     list: provider.timeList,
@@ -178,7 +145,7 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                         provider.selectTime(p0);
                       }
                     },
-                  ),
+                  ), */
                   SizedBox(width: getWidth(56, context)),
                   CustomeDDownMenuDashboard(
                     icon: Icons.bar_chart,
@@ -196,350 +163,36 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
             ),
           ),
           SizedBox(
-            width: getWidth(670, context), //670
+            width: getWidth(1440, context), //670
             height: getHeight(300, context), //350
             child: provider.selectChartValue == 'Totals Barchart'
-                ? BarChart(
-                    BarChartData(
-                      alignment: BarChartAlignment.spaceAround,
-                      barTouchData: BarTouchData(
-                        enabled: true,
-                        touchTooltipData: BarTouchTooltipData(
-                            tooltipBgColor:
-                                const Color.fromARGB(255, 204, 204, 204),
-                            getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                              String ace;
-                              switch (group.x.toInt()) {
-                                case 0:
-                                  ace = '2300';
-                                  break;
-                                case 1:
-                                  ace = '180';
-                                  break;
-                                case 2:
-                                  ace = '644';
-                                  break;
-                                case 3:
-                                  ace = '420';
-                                  break;
-                                case 4:
-                                  ace = '1594';
-                                  break;
-                                case 5:
-                                  ace = '792';
-                                  break;
-                                case 6:
-                                  ace = '1573';
-                                  break;
-                                case 7:
-                                  ace = '266';
-                                  break;
-                                case 8:
-                                  ace = '1512';
-                                  break;
-                                case 9:
-                                  ace = '726';
-                                  break;
-                                case 10:
-                                  ace = '570';
-                                  break;
-                                case 11:
-                                  ace = '1862';
-                                  break;
-                                default:
-                                  throw Error();
-                              }
-                              return BarTooltipItem(
-                                'Totals: \$$ace',
-                                TextStyle(
-                                  color: AppTheme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              );
-                            }),
-                        touchCallback: (FlTouchEvent event, barTouchResponse) {
-                          setState(() {
-                            if (!event.isInterestedForInteractions ||
-                                barTouchResponse == null ||
-                                barTouchResponse.spot == null) {
-                              provider.touchedIndex = -1;
-                              return;
-                            }
-                            provider.touchedIndex =
-                                barTouchResponse.spot!.touchedBarGroupIndex;
-                          });
-                        },
-                      ),
-                      titlesData: FlTitlesData(
-                        show: true,
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 30,
-                            getTitlesWidget: bottomTitles,
-                          ),
-                        ),
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 80,
-                            getTitlesWidget: leftTitleWidgets,
-                          ),
-                        ),
-                        topTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        rightTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                      ),
-                      gridData: FlGridData(
-                        show: true,
-                        checkToShowHorizontalLine: (value) => value % 10 == 0,
-                        getDrawingHorizontalLine: (value) => FlLine(
-                          color: const Color(0xffe7e8ec),
-                          strokeWidth: 1,
-                        ),
-                        drawVerticalLine: false,
-                      ),
-                      borderData: FlBorderData(
-                        show: true,
-                      ),
-                      groupsSpace: 50,
-                      barGroups: [
-                        provider.puntos(0, 2300, azul),
-                        provider.puntos(1, 180, azul),
-                        provider.puntos(2, 644, azul), //Color(0xFFE7C037)
-                        provider.puntos(3, 420, azul),
-                        provider.puntos(4, 1594, azul),
-                        provider.puntos(5, 792, azul),
-                        provider.puntos(6, 1573, azul),
-                        provider.puntos(7, 266, azul),
-                        provider.puntos(8, 1512, azul),
-                        provider.puntos(9, 726, azul),
-                        provider.puntos(10, 570, azul),
-                        provider.puntos(11, 1862, azul),
-                      ],
-                    ),
-                  )
-                : provider.selectChartValue == 'Barchart'
-                    ? BarChart(
+                ? provider.weekList.isEmpty
+                    ? const CircularProgressIndicator()
+                    : BarChart(
                         BarChartData(
                           alignment: BarChartAlignment.spaceAround,
                           barTouchData: BarTouchData(
                             enabled: true,
                             touchTooltipData: BarTouchTooltipData(
-                                getTooltipItem:
-                                    (group, groupIndex, rod, rodIndex) {
-                                  String? n1;
-                                  if (group.x == 0) {
-                                    switch (rodIndex) {
-                                      case 0:
-                                        n1 = '\$1500';
-                                        break;
-                                      case 1:
-                                        n1 = '\$800';
-                                        break;
-                                      case 2:
-                                        n1 = '\$134';
-                                        break;
-                                      default:
-                                        throw Error();
-                                    }
-                                  } else if (group.x == 1) {
-                                    switch (rodIndex) {
-                                      case 0:
-                                        n1 = '\$120';
-                                        break;
-                                      case 1:
-                                        n1 = '\$60';
-                                        break;
-                                      case 2:
-                                        n1 = '\$35';
-                                        break;
-                                      default:
-                                        throw Error();
-                                    }
-                                  } else if (group.x == 2) {
-                                    switch (rodIndex) {
-                                      case 0:
-                                        n1 = '\$245';
-                                        break;
-                                      case 1:
-                                        n1 = '\$400';
-                                        break;
-                                      case 2:
-                                        n1 = '\$120';
-                                        break;
-
-                                      default:
-                                        throw Error();
-                                    }
-                                  } else if (group.x == 3) {
-                                    switch (rodIndex) {
-                                      case 0:
-                                        n1 = '\$293';
-                                        break;
-                                      case 1:
-                                        n1 = '\$127';
-                                        break;
-                                      case 2:
-                                        n1 = '\$80';
-                                        break;
-
-                                      default:
-                                        throw Error();
-                                    }
-                                  } else if (group.x == 4) {
-                                    switch (rodIndex) {
-                                      case 0:
-                                        n1 = '\$800';
-                                        break;
-                                      case 1:
-                                        n1 = '\$784';
-                                        break;
-                                      case 2:
-                                        n1 = '\$116';
-                                        break;
-
-                                      default:
-                                        throw Error();
-                                    }
-                                  } else if (group.x == 5) {
-                                    switch (rodIndex) {
-                                      case 0:
-                                        n1 = '\$617';
-                                        break;
-                                      case 1:
-                                        n1 = '\$175';
-                                        break;
-                                      case 2:
-                                        n1 = '\$148';
-                                        break;
-
-                                      default:
-                                        throw Error();
-                                    }
-                                  } else if (group.x == 6) {
-                                    switch (rodIndex) {
-                                      case 0:
-                                        n1 = '\$679';
-                                        break;
-                                      case 1:
-                                        n1 = '\$894';
-                                        break;
-                                      case 2:
-                                        n1 = '\$327';
-                                        break;
-                                      default:
-                                        throw Error();
-                                    }
-                                  } else if (group.x == 7) {
-                                    switch (rodIndex) {
-                                      case 0:
-                                        n1 = '\$171';
-                                        break;
-                                      case 1:
-                                        n1 = '\$95';
-                                        break;
-                                      case 2:
-                                        n1 = '\$184';
-                                        break;
-
-                                      default:
-                                        throw Error();
-                                    }
-                                  } else if (group.x == 8) {
-                                    switch (rodIndex) {
-                                      case 0:
-                                        n1 = '\$764';
-                                        break;
-                                      case 1:
-                                        n1 = '\$748';
-                                        break;
-                                      case 2:
-                                        n1 = '\$488';
-                                        break;
-
-                                      default:
-                                        throw Error();
-                                    }
-                                  } else if (group.x == 9) {
-                                    switch (rodIndex) {
-                                      case 0:
-                                        n1 = '\$542';
-                                        break;
-                                      case 1:
-                                        n1 = '\$184';
-                                        break;
-                                      case 2:
-                                        n1 = '\$27';
-                                        break;
-
-                                      default:
-                                        throw Error();
-                                    }
-                                  } else if (group.x == 10) {
-                                    switch (rodIndex) {
-                                      case 0:
-                                        n1 = '\$483';
-                                        break;
-                                      case 1:
-                                        n1 = '\$96';
-                                        break;
-                                      case 2:
-                                        n1 = '\$108';
-                                        break;
-
-                                      default:
-                                        throw Error();
-                                    }
-                                  } else if (group.x == 11) {
-                                    switch (rodIndex) {
-                                      case 0:
-                                        n1 = '\$1682';
-                                        break;
-                                      case 1:
-                                        n1 = '\$181';
-                                        break;
-                                      case 2:
-                                        n1 = '\$112';
-                                        break;
-
-                                      default:
-                                        throw Error();
-                                    }
-                                  }
-                                  return BarTooltipItem(
-                                      rodIndex == 0
-                                          ? 'Order: $n1'
-                                          : rodIndex == 1
-                                              ? 'Quote: $n1'
-                                              : 'Canceled: $n1',
-                                      TextStyle(
-                                        color: rodIndex == 0
-                                            ? provider.verde
-                                            : rodIndex == 1
-                                                ? provider.amarillo
-                                                : provider.rojo,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                      ));
-                                },
-                                tooltipBgColor:
-                                    const Color.fromARGB(255, 204, 204, 204)),
-                            touchCallback:
-                                (FlTouchEvent event, barTouchResponse) {
+                              tooltipBgColor: const Color.fromARGB(255, 204, 204, 204),
+                              getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                                return BarTooltipItem(
+                                  'Totals: \$${provider.totalList[group.x]}',
+                                  TextStyle(
+                                    color: AppTheme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                );
+                              },
+                            ),
+                            touchCallback: (FlTouchEvent event, barTouchResponse) {
                               setState(() {
-                                if (!event.isInterestedForInteractions ||
-                                    barTouchResponse == null ||
-                                    barTouchResponse.spot == null) {
+                                if (!event.isInterestedForInteractions || barTouchResponse == null || barTouchResponse.spot == null) {
                                   provider.touchedIndex = -1;
                                   return;
                                 }
-                                provider.touchedIndex =
-                                    barTouchResponse.spot!.touchedBarGroupIndex;
+                                provider.touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
                               });
                             },
                           ),
@@ -548,7 +201,7 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                             bottomTitles: AxisTitles(
                               sideTitles: SideTitles(
                                 showTitles: true,
-                                reservedSize: 30,
+                                reservedSize: 80,
                                 getTitlesWidget: bottomTitles,
                               ),
                             ),
@@ -563,13 +216,18 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                               sideTitles: SideTitles(showTitles: false),
                             ),
                             rightTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 80,
+                                getTitlesWidget: (value, meta) {
+                                  return const Text('');
+                                },
+                              ),
                             ),
                           ),
                           gridData: FlGridData(
                             show: true,
-                            checkToShowHorizontalLine: (value) =>
-                                value % 10 == 0,
+                            checkToShowHorizontalLine: (value) => value % 10 == 0,
                             getDrawingHorizontalLine: (value) => FlLine(
                               color: const Color(0xffe7e8ec),
                               strokeWidth: 1,
@@ -580,90 +238,60 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                             show: true,
                           ),
                           groupsSpace: 50,
-                          barGroups: provider.getData(),
+                          barGroups: [for (int i = 0; i < provider.totalList.length; i++) provider.puntos(i, provider.totalList[i], azul)],
                         ),
                       )
-                    : provider.selectChartValue == 'Linechart'
-                        ? LineChart(
-                            LineChartData(
-                              borderData: FlBorderData(
-                                  show: true,
-                                  border: Border(
-                                      top: BorderSide(
-                                          color:
-                                              AppTheme.of(context).primaryText,
-                                          width: 1,
-                                          style: BorderStyle.solid),
-                                      bottom: BorderSide(
-                                          color:
-                                              AppTheme.of(context).primaryText,
-                                          width: 1,
-                                          style: BorderStyle.solid),
-                                      left: BorderSide(
-                                          color:
-                                              AppTheme.of(context).primaryText,
-                                          width: 1,
-                                          style: BorderStyle.solid),
-                                      right: BorderSide(
-                                          color:
-                                              AppTheme.of(context).primaryText,
-                                          width: 1,
-                                          style: BorderStyle.solid))),
-                              lineTouchData: LineTouchData(
+                : provider.selectChartValue == 'Barchart'
+                    ? provider.weekList.isEmpty
+                        ? const CircularProgressIndicator()
+                        : BarChart(
+                            BarChartData(
+                              alignment: BarChartAlignment.spaceAround,
+                              barTouchData: BarTouchData(
                                 enabled: true,
-                                touchTooltipData: LineTouchTooltipData(
-                                  maxContentWidth: 300,
-                                  tooltipBgColor:
-                                      const Color.fromARGB(255, 204, 204, 204),
-                                  getTooltipItems:
-                                      (List<LineBarSpot> touchedBarSpots) {
-                                    return touchedBarSpots.map(
-                                      (barSpot) {
-                                        final flSpot = barSpot;
-                                        return LineTooltipItem(
-                                          flSpot.barIndex == 0
-                                              ? 'Total: \$ ${moneyFormat(flSpot.y)}'
-                                              : flSpot.barIndex == 1
-                                                  ? 'Order: \$ ${moneyFormat(flSpot.y)} '
-                                                  : flSpot.barIndex == 2
-                                                      ? 'Quotes: \$ ${moneyFormat(flSpot.y)} '
-                                                      : 'Canceled: \$ ${moneyFormat(flSpot.y)} ',
+                                touchTooltipData: BarTouchTooltipData(
+                                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                                      return BarTooltipItem(
+                                          rodIndex == 0
+                                              ? 'Order: ${provider.orderList[group.x]}'
+                                              : rodIndex == 1
+                                                  ? 'Quote: ${provider.quotesList[group.x]}'
+                                                  : 'Canceled: ${provider.canceledList[group.x]}',
                                           TextStyle(
-                                            color: flSpot.barIndex == 0
-                                                ? azul
-                                                : flSpot.barIndex == 1
-                                                    ? provider.verde
-                                                    : flSpot.barIndex == 2
-                                                        ? provider.amarillo
-                                                        : provider.rojo,
+                                            color: rodIndex == 0
+                                                ? provider.verde
+                                                : rodIndex == 1
+                                                    ? provider.amarillo
+                                                    : provider.rojo,
                                             fontWeight: FontWeight.bold,
-                                          ),
-                                        );
-                                      },
-                                    ).toList();
-                                  },
-                                ),
+                                            fontSize: 18,
+                                          ));
+                                    },
+                                    tooltipBgColor: const Color.fromARGB(255, 204, 204, 204)),
+                                touchCallback: (FlTouchEvent event, barTouchResponse) {
+                                  setState(() {
+                                    if (!event.isInterestedForInteractions || barTouchResponse == null || barTouchResponse.spot == null) {
+                                      provider.touchedIndex = -1;
+                                      return;
+                                    }
+                                    provider.touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+                                  });
+                                },
                               ),
-                              lineBarsData: [
-                                provider.totals(azul),
-                                provider.order(),
-                                provider.quotes(),
-                                provider.canceled(),
-                              ],
-                              minY: 0,
                               titlesData: FlTitlesData(
+                                show: true,
                                 bottomTitles: AxisTitles(
                                   sideTitles: SideTitles(
-                                      showTitles: true,
-                                      interval: 1,
-                                      getTitlesWidget: bottomTitles,
-                                      reservedSize: 30),
+                                    showTitles: true,
+                                    reservedSize: 100,
+                                    getTitlesWidget: bottomTitles,
+                                  ),
                                 ),
                                 leftTitles: AxisTitles(
                                   sideTitles: SideTitles(
                                     showTitles: true,
-                                    getTitlesWidget: leftTitleWidgets,
                                     reservedSize: 80,
+                                    getTitlesWidget: leftTitleWidgets,
                                   ),
                                 ),
                                 topTitles: AxisTitles(
@@ -675,42 +303,147 @@ class _GraficaDashboardState extends State<GraficaDashboard> {
                               ),
                               gridData: FlGridData(
                                 show: true,
-                                drawVerticalLine: false,
+                                checkToShowHorizontalLine: (value) => value % 10 == 0,
                                 getDrawingHorizontalLine: (value) => FlLine(
                                   color: const Color(0xffe7e8ec),
                                   strokeWidth: 1,
                                 ),
+                                drawVerticalLine: false,
                               ),
-                              //maxY: providertablero.puntos.first.septiembre.ahorro,
+                              borderData: FlBorderData(
+                                show: true,
+                              ),
+                              groupsSpace: 50,
+                              barGroups: [
+                                for (int i = 0; i < provider.orderList.length; i++)
+                                  provider.getData(
+                                    i,
+                                    provider.orderList[i],
+                                    provider.quotesList[i],
+                                    provider.canceledList[i],
+                                  ),
+                              ], // provider.getData(),
                             ),
                           )
-                        : provider.selectChartValue == 'PieChart'
-                            ? PieChart(
-                                PieChartData(
-                                    pieTouchData: PieTouchData(touchCallback:
-                                        (FlTouchEvent event, pieTouchResponse) {
-                                      setState(() {
-                                        if (!event
-                                                .isInterestedForInteractions ||
-                                            pieTouchResponse == null ||
-                                            pieTouchResponse.touchedSection ==
-                                                null) {
+                    : provider.selectChartValue == 'Linechart'
+                        ? provider.weekList.isEmpty
+                            ? const CircularProgressIndicator()
+                            : LineChart(
+                                LineChartData(
+                                  borderData: FlBorderData(
+                                      show: true,
+                                      border: Border(
+                                          top: BorderSide(color: AppTheme.of(context).primaryText, width: 1, style: BorderStyle.solid),
+                                          bottom: BorderSide(color: AppTheme.of(context).primaryText, width: 1, style: BorderStyle.solid),
+                                          left: BorderSide(color: AppTheme.of(context).primaryText, width: 1, style: BorderStyle.solid),
+                                          right: BorderSide(color: AppTheme.of(context).primaryText, width: 1, style: BorderStyle.solid))),
+                                  lineTouchData: LineTouchData(
+                                    enabled: true,
+                                    touchCallback: (FlTouchEvent event, lineTouch) {
+                                      if (!event.isInterestedForInteractions || lineTouch == null || lineTouch.lineBarSpots == null) {
+                                        setState(() {
                                           provider.touchedIndex = -1;
-                                          return;
-                                        }
-                                        provider.touchedIndex = pieTouchResponse
-                                            .touchedSection!
-                                            .touchedSectionIndex;
+                                        });
+                                        return;
+                                      }
+                                      final value = lineTouch.lineBarSpots![0].x;
+                                      setState(() {
+                                        provider.touchedIndex = value.toInt();
                                       });
-                                    }),
-                                    borderData: FlBorderData(
-                                      show: false,
+                                    },
+                                    touchTooltipData: LineTouchTooltipData(
+                                      maxContentWidth: 300,
+                                      tooltipBgColor: const Color.fromARGB(255, 204, 204, 204),
+                                      getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
+                                        return touchedBarSpots.map(
+                                          (barSpot) {
+                                            final flSpot = barSpot;
+                                            return LineTooltipItem(
+                                              flSpot.barIndex == 0
+                                                  ? 'Total: \$ ${moneyFormat(flSpot.y)}'
+                                                  : flSpot.barIndex == 1
+                                                      ? 'Order: \$ ${moneyFormat(flSpot.y)} '
+                                                      : flSpot.barIndex == 2
+                                                          ? 'Quotes: \$ ${moneyFormat(flSpot.y)} '
+                                                          : 'Canceled: \$ ${moneyFormat(flSpot.y)} ',
+                                              TextStyle(
+                                                color: flSpot.barIndex == 0
+                                                    ? azul
+                                                    : flSpot.barIndex == 1
+                                                        ? provider.verde
+                                                        : flSpot.barIndex == 2
+                                                            ? provider.amarillo
+                                                            : provider.rojo,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            );
+                                          },
+                                        ).toList();
+                                      },
                                     ),
-                                    sectionsSpace: 0,
-                                    centerSpaceRadius: 60,
-                                    sections: provider.showingSections()),
+                                  ),
+                                  lineBarsData: [
+                                    provider.lineTotals(azul),
+                                    provider.order(),
+                                    provider.quotes(),
+                                    provider.canceled(),
+                                  ],
+                                  minY: 0,
+                                  titlesData: FlTitlesData(
+                                    bottomTitles: AxisTitles(
+                                      sideTitles: SideTitles(showTitles: true, interval: 1, getTitlesWidget: bottomTitles, reservedSize: 80),
+                                    ),
+                                    leftTitles: AxisTitles(
+                                      sideTitles: SideTitles(
+                                        showTitles: true,
+                                        getTitlesWidget: leftTitleWidgets,
+                                        reservedSize: 90,
+                                      ),
+                                    ),
+                                    topTitles: AxisTitles(
+                                      sideTitles: SideTitles(showTitles: false),
+                                    ),
+                                    rightTitles: AxisTitles(
+                                      sideTitles: SideTitles(
+                                        showTitles: true,
+                                        reservedSize: 90,
+                                        getTitlesWidget: (value, meta) => const Text(''),
+                                      ),
+                                    ),
+                                  ),
+                                  gridData: FlGridData(
+                                    show: true,
+                                    drawVerticalLine: false,
+                                    getDrawingHorizontalLine: (value) => FlLine(
+                                      color: const Color(0xffe7e8ec),
+                                      strokeWidth: 1,
+                                    ),
+                                  ),
+                                  //maxY: providertablero.puntos.first.septiembre.ahorro,
+                                ),
                               )
-                            : Container(),
+                        : provider.weekList.isEmpty
+                            ? const CircularProgressIndicator()
+                            : provider.selectChartValue == 'PieChart'
+                                ? PieChart(
+                                    PieChartData(
+                                        pieTouchData: PieTouchData(touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                                          setState(() {
+                                            if (!event.isInterestedForInteractions || pieTouchResponse == null || pieTouchResponse.touchedSection == null) {
+                                              provider.touchedIndex = -1;
+                                              return;
+                                            }
+                                            provider.touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
+                                          });
+                                        }),
+                                        borderData: FlBorderData(
+                                          show: false,
+                                        ),
+                                        sectionsSpace: 0,
+                                        centerSpaceRadius: 60,
+                                        sections: provider.showingSections()),
+                                  )
+                                : Container(),
           ),
         ],
       ),

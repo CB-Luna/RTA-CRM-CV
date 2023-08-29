@@ -546,7 +546,7 @@ class _LeadsTabState extends State<LeadsTab> {
                               );
                             },
                           ),
-                          if (currentUser!.isSales)
+                          /* if (currentUser!.isSales)
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
@@ -558,7 +558,7 @@ class _LeadsTabState extends State<LeadsTab> {
                                 await providerCreate.getLead(rendererContext.row.cells["ID_Column"]!.value, null);
                                 context.pushReplacement(routeQuoteCreation);
                               },
-                            )
+                            ) */
                           /* CustomTextIconButton(
                             isLoading: false,
                             icon: Icon(

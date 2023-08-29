@@ -13,7 +13,8 @@ class ExtraPopUp extends StatelessWidget {
   final int popUp;
   const ExtraPopUp({
     super.key,
-    required this.catalog, required this.popUp,
+    required this.catalog,
+    required this.popUp,
   });
   //pedir ID de control form para conectar con als demas
 
@@ -38,36 +39,36 @@ class ExtraPopUp extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
                     child: CustomTextIconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
                       text: "",
                       isLoading: false,
                       onTap: () {
                         provider.updateViewPopup(0);
-                      },),
+                      },
+                    ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right:15.0),
+                    padding: const EdgeInsets.only(right: 15.0),
                     child: Container(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: MediaQuery.of(context).size.height * 0.03,
-                    decoration: BoxDecoration(
-                      color: statusColor(provider.monitoryActual!.vehicle.company.company,context),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        provider.monitoryActual!.vehicle.licesensePlates,
-                        style: const TextStyle(
-                          color: Colors.white,
+                      width: MediaQuery.of(context).size.width * 0.1,
+                      height: MediaQuery.of(context).size.height * 0.03,
+                      decoration: BoxDecoration(
+                        color: statusColor(provider.monitoryActual!.vehicle.company.company, context),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          provider.monitoryActual!.vehicle.licesensePlates,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                                  ),
                   ),
                 ],
               ),
             ),
-            
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.5,
               child: ListView.builder(
@@ -101,21 +102,16 @@ class ExtraPopUp extends StatelessWidget {
                             ),
                           ),
                           InkWell(
-                          child: provider.actualIssuesComments[index].status
-                            ? const Icon(Icons.remove_red_eye,
-                                size: 30,
-                                color: Color.fromARGB(200, 65, 155, 23))
-                            : const Icon(Icons.remove_red_eye,
-                              size: 30,
-                                color: Color.fromARGB(200, 210, 0, 48)),
-                          onTap: () {
-                            provider.getActualDetailField(provider.actualIssuesComments[index]);
-                            // provider.getSection(index);
-                            provider.updateViewPopup(9);
-                            provider.updatePopUpExtra(popUp);
-                          },
-                          
-                        ),
+                            child: provider.actualIssuesComments[index].status
+                                ? const Icon(Icons.remove_red_eye, size: 30, color: Color.fromARGB(200, 65, 155, 23))
+                                : const Icon(Icons.remove_red_eye, size: 30, color: Color.fromARGB(200, 210, 0, 48)),
+                            onTap: () {
+                              provider.getActualDetailField(provider.actualIssuesComments[index]);
+                              // provider.getSection(index);
+                              provider.updateViewPopup(9);
+                              provider.updatePopUpExtra(popUp);
+                            },
+                          ),
                         ],
                       ),
                     );
@@ -128,7 +124,7 @@ class ExtraPopUp extends StatelessWidget {
   }
 }
 
-Color statusColor(String status,BuildContext context) {
+Color statusColor(String status, BuildContext context) {
   late Color color;
 
   switch (status) {
@@ -147,4 +143,3 @@ Color statusColor(String status,BuildContext context) {
   }
   return color;
 }
-

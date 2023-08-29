@@ -49,7 +49,7 @@ class CustomTabButtonState extends State<CustomTabButton> {
           Row(
             children: [
               GestureDetector(
-                onTap: widget.onTap,
+                onTap: widget.enabled ? widget.onTap : null,
                 onTapDown: (details) {
                   setState(() {
                     if (widget.enabled) {
@@ -124,7 +124,7 @@ class CustomTabButtonState extends State<CustomTabButton> {
                 ),
               ),
               GestureDetector(
-                onTap: widget.onTap,
+                onTap: widget.enabled ? widget.onTap : null,
                 onTapDown: (details) {
                   setState(() {
                     if (widget.enabled) {
@@ -148,11 +148,11 @@ class CustomTabButtonState extends State<CustomTabButton> {
                     duration: const Duration(milliseconds: 100),
                     decoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
-                        color: widget.on
-                            ? AppTheme.of(context).primaryBackground
-                            : widget.enabled
-                                ? AppTheme.of(context).hintText.color
-                                : AppTheme.of(context).primaryColor,
+                        color: !widget.on
+                            ? widget.enabled
+                                ? AppTheme.of(context).primaryColor
+                                : AppTheme.of(context).hintText.color
+                            : AppTheme.of(context).primaryBackground,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
@@ -175,11 +175,11 @@ class CustomTabButtonState extends State<CustomTabButton> {
                           widget.option2,
                           style: TextStyle(
                               fontSize: 14,
-                              color: widget.on
-                                  ? widget.enabled
+                              color: !widget.on
+                                  ? AppTheme.of(context).primaryBackground
+                                  : widget.enabled
                                       ? AppTheme.of(context).primaryColor
-                                      : AppTheme.of(context).hintText.color
-                                  : AppTheme.of(context).primaryBackground),
+                                      : AppTheme.of(context).hintText.color),
                         ),
                       ),
                     ),

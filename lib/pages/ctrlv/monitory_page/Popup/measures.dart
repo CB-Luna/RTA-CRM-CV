@@ -24,33 +24,31 @@ class MeasuresPopUp extends StatelessWidget {
         width: 700,
         height: 650,
         decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
-        child: 
-        Column(
+        child: Column(
           children: [
             const CardHeader(text: "Measures"),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.only(left: 20,top:20),
+                  padding: const EdgeInsets.only(left: 20, top: 20),
                   alignment: Alignment.centerLeft,
                   child: CustomTextIconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.white),
-                      text: "",
-                      isLoading: false,
-                      onTap: () {
-                        provider.updateViewPopup(0);
-                      },
-                    ),
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    text: "",
+                    isLoading: false,
+                    onTap: () {
+                      provider.updateViewPopup(0);
+                    },
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right:15.0),
+                  padding: const EdgeInsets.only(right: 15.0),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.1,
                     height: MediaQuery.of(context).size.height * 0.03,
                     decoration: BoxDecoration(
-                      color: statusColor(
-                          provider.monitoryActual!.vehicle.company.company,context),
+                      color: statusColor(provider.monitoryActual!.vehicle.company.company, context),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
@@ -65,9 +63,8 @@ class MeasuresPopUp extends StatelessWidget {
                 ),
               ],
             ),
-             
             SizedBox(
-              height: MediaQuery.of(context).size.height *.5,
+              height: MediaQuery.of(context).size.height * .5,
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
                   itemCount: provider.actualIssuesComments.length,
@@ -90,7 +87,9 @@ class MeasuresPopUp extends StatelessWidget {
                             //color: Colors.yellow,
                             //alignment: Alignment.center,
                             child: Text(
-                              provider.actualIssuesComments[index].nameIssue == "mileage" ? NumberFormat('#,###').format(provider.actualIssuesComments[index].mileage) : "${provider.actualIssuesComments[index].measure}",
+                              provider.actualIssuesComments[index].nameIssue == "mileage"
+                                  ? NumberFormat('#,###').format(provider.actualIssuesComments[index].mileage)
+                                  : "${provider.actualIssuesComments[index].measure}",
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -99,24 +98,19 @@ class MeasuresPopUp extends StatelessWidget {
                             ),
                           ),
                           InkWell(
-                          child: 
-                            const Icon(Icons.remove_red_eye,
-                                size: 30,
-                                color: Color.fromARGB(200, 65, 155, 23)),
-                          onTap: () {
-                            provider.getActualDetailField(provider.actualIssuesComments[index]);
-                            // provider.getSection(index);
-                            provider.updateViewPopup(11);
-                            provider.updatePopUpExtra(popUp);
-                          },
-                          
-                        ),
+                            child: const Icon(Icons.remove_red_eye, size: 30, color: Color.fromARGB(200, 65, 155, 23)),
+                            onTap: () {
+                              provider.getActualDetailField(provider.actualIssuesComments[index]);
+                              // provider.getSection(index);
+                              provider.updateViewPopup(11);
+                              provider.updatePopUpExtra(popUp);
+                            },
+                          ),
                         ],
                       ),
                     );
                   }),
             ),
-            
           ],
         ),
       ),
@@ -124,7 +118,7 @@ class MeasuresPopUp extends StatelessWidget {
   }
 }
 
-Color statusColor(String status,BuildContext context) {
+Color statusColor(String status, BuildContext context) {
   late Color color;
 
   switch (status) {
@@ -143,4 +137,3 @@ Color statusColor(String status,BuildContext context) {
   }
   return color;
 }
-

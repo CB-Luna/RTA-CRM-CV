@@ -10,13 +10,16 @@ import 'package:rta_crm_cv/pages/crm/accounts/tabs/table_top_text.dart';
 import 'package:rta_crm_cv/providers/crm/quote/detail_quote_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
+//import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown.dart';
+import 'package:rta_crm_cv/widgets/captura/custom_switch.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_tab_button.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
+
+import '../../../widgets/captura/custom_ddown_menu/custom_dropdown_v2.dart';
 
 class DetailQuotePage extends StatefulWidget {
   const DetailQuotePage({super.key});
@@ -26,19 +29,6 @@ class DetailQuotePage extends StatefulWidget {
 }
 
 class _DetailQuotePageState extends State<DetailQuotePage> {
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(
-        context,
-        listen: false,
-      );
-      await provider.getData();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     double txfFieldWidth = (MediaQuery.of(context).size.width / 7);
@@ -50,7 +40,6 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
     DetailQuoteProvider provider = Provider.of<DetailQuoteProvider>(context);
     //print('id = ${provider.id} / rows = ${provider.globalRows.length}');
     if (provider.id == 0) {
-      //print('returning');
       context.pushReplacement(routeQuotes);
     }
 
@@ -68,7 +57,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: CustomCard(
-                    title: 'Order Edit',
+                    title: 'Order Detail - ${provider.quote.x2Quoteid}',
                     height: MediaQuery.of(context).size.height - 20,
                     width: MediaQuery.of(context).size.width,
                     child: Column(
@@ -91,82 +80,166 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(bottom: 10),
-                                        child: CustomDDownMenu(
-                                          enabled: false,
-                                          list: provider.orderTypesList,
-                                          label: 'Order Type',
-                                          onChanged: (p0) {
-                                            // if (p0 != null) provider.selectOT(p0);
-                                          },
-                                          dropdownValue: provider.orderTypesSelectedValue,
-                                          icon: Icons.file_copy_outlined,
-                                          width: txfFieldWidth,
-                                        ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 10),
+                                            child: CustomDDownMenu(
+                                              enabled: false,
+                                              list: provider.orderTypesList.map((type) => type.name!).toList(),
+                                              //provider.sadasdasda.map((comment) => comment.comment).toList(),
+                                              label: 'Order Type',
+                                              onChanged: (p0) {
+                                                //if (p0 != null) provider.selectOT(p0);
+                                              },
+                                              dropdownValue: provider.orderTypesSelectedValue,
+                                              icon: Icons.file_copy_outlined,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomDDownMenu(
                                           enabled: false,
-                                          list: provider.typesList,
+                                          list: provider.typesList.map((type) => type.name!).toList(),
                                           dropdownValue: provider.typesSelectedValue,
                                           onChanged: (p0) {
-                                            // if (p0 != null) provider.selectType(p0);
+                                            //if (p0 != null) provider.selectType(p0);
                                           },
                                           icon: Icons.file_copy_outlined,
                                           label: 'Type',
-                                          width: txfFieldWidth,
                                         ),
                                       ),
-                                      if (provider.typesSelectedValue == 'Disconnect' || provider.typesSelectedValue == 'Upgrade')
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: 10),
-                                          child: CustomTextField(
-                                            enabled: false,
-                                            width: txfFieldWidth,
-                                            controller: provider.existingCircuitIDController,
-                                            label: 'Existing Circuit ID',
-                                            icon: Icons.cable_outlined,
-                                            keyboardType: TextInputType.text,
-                                          ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 10),
+                                        child: CustomTextField(
+                                          key: const Key('address'),
+                                          required: true,
+                                          enabled: false,
+                                          width: txfFieldWidth,
+                                          controller: provider.addressController,
+                                          label: 'Address',
+                                          icon: Icons.map_outlined,
+                                          keyboardType: TextInputType.text,
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'Please enter some text';
+                                            }
+                                            return null;
+                                          },
                                         ),
-                                      if (provider.typesSelectedValue == 'Upgrade' || provider.typesSelectedValue == 'New')
+                                      ),
+                                      if (provider.quote.circuitInfo!.bandwidth != null)
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
+                                            key: const Key('bandwidth'),
+                                            required: true,
                                             enabled: false,
                                             width: txfFieldWidth,
-                                            controller: provider.newCircuitIDController,
-                                            label: 'New Circuit ID',
+                                            controller: provider.bandwidthController,
+                                            label: 'Bandwidth',
                                             icon: Icons.cable_outlined,
                                             keyboardType: TextInputType.text,
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'Please enter some text';
+                                              }
+                                              return null;
+                                            },
                                           ),
                                         ),
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 10),
                                         child: CustomDDownMenu(
                                           enabled: false,
-                                          list: provider.dataCentersList,
+                                          list: provider.dataCentersList.map((dataCenter) => dataCenter.name!).toList(),
                                           dropdownValue: provider.dataCenterSelectedValue,
                                           onChanged: (p0) {
-                                            // if (p0 != null) provider.selectDataCenter(p0);
+                                            //if (p0 != null) provider.selectDataCenter(p0);
                                           },
                                           icon: Icons.location_on_outlined,
                                           label: 'Data Center Location',
-                                          width: txfFieldWidth,
                                         ),
                                       ),
                                       if (provider.dataCenterSelectedValue == 'New')
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
+                                            key: const Key('new_dataCenter'),
+                                            required: true,
                                             enabled: false,
                                             width: txfFieldWidth,
                                             controller: provider.newDataCenterController,
                                             label: 'New Data Center',
                                             icon: Icons.location_on_outlined,
                                             keyboardType: TextInputType.text,
+                                            /* validator: (value) {
+                                              if (provider.dataCenterSelectedValue == 'New') {
+                                                if (value == null || value.isEmpty) {
+                                                  print('aqui3');
+                                                  return 'Please enter some text';
+                                                }
+                                                return null;
+                                              }
+                                              return null;
+                                            }, */
+                                          ),
+                                        ),
+                                      if (provider.quote.orderInfo!.rackLocation != null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomTextField(
+                                            key: const Key('rack_location'),
+                                            required: true,
+                                            enabled: false,
+                                            width: txfFieldWidth,
+                                            controller: provider.rackLocationController,
+                                            label: 'Rack Location',
+                                            icon: Icons.not_listed_location_outlined,
+                                            keyboardType: TextInputType.text,
+                                            /* validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              print('aqui4');
+                                              return 'Please enter some text';
+                                            }
+                                            return null;
+                                          }, */
+                                          ),
+                                        ),
+                                      if (provider.quote.orderInfo!.handoff != null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomDDownMenu(
+                                            enabled: false,
+                                            list: provider.handoffList.map((location) => location.name!).toList(),
+                                            dropdownValue: provider.handoffSelectedValue,
+                                            onChanged: (p0) {
+                                              //if (p0 != null) provider.selectHandoff(p0);
+                                            },
+                                            icon: Icons.waving_hand_outlined,
+                                            label: 'Handoff',
+                                          ),
+                                        ),
+                                      if (provider.quote.orderInfo!.demarcationPoint != null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomTextField(
+                                            key: const Key('demarcation_point'),
+                                            required: true,
+                                            enabled: false,
+                                            width: txfFieldWidth,
+                                            controller: provider.demarcationPointController,
+                                            label: 'Demarcation Point',
+                                            icon: Icons.fork_left_sharp,
+                                            keyboardType: TextInputType.text,
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'Please enter some text';
+                                              }
+                                              return null;
+                                            },
                                           ),
                                         ),
                                     ],
@@ -183,117 +256,265 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(bottom: 10),
+                                          padding: const EdgeInsets.symmetric(vertical: 10),
                                           child: CustomDDownMenu(
                                             enabled: false,
-                                            list: provider.vendorsList,
+                                            list: provider.vendorsList.map((vendor) => vendor.vendorName!).toList(),
                                             dropdownValue: provider.vendorSelectedValue,
                                             onChanged: (p0) {
                                               /* if (provider.idVendor == null) {
-                                                if (p0 != null) provider.selectVendor(p0);
-                                              } */
+                                                    if (p0 != null) provider.selectVendor(p0);
+                                                  } */
+                                              //if (p0 != null) provider.selectVendor(p0);
                                             },
                                             icon: Icons.location_city_outlined,
                                             label: 'Vendor',
-                                            width: txfFieldWidth,
                                           ),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
-                                          child: CustomDDownMenu(
+                                          child: CustomSwitch(
                                             enabled: false,
-                                            list: provider.circuitInfosList,
-                                            dropdownValue: provider.circuitTypeSelectedValue,
+                                            value: provider.multicastRequired,
+                                            label: 'Multicast Required',
                                             onChanged: (p0) {
-                                              // if (p0 != null) provider.selectCircuitInfo(p0);
+                                              //provider.selectMulticastRequired();
                                             },
-                                            icon: Icons.info_outline,
-                                            label: 'Circuit Type',
-                                            width: txfFieldWidth,
                                           ),
                                         ),
-                                        if (provider.circuitTypeSelectedValue == 'EVCoD')
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomTextField(
+                                            key: const Key('location'),
+                                            required: true,
+                                            enabled: false,
+                                            width: txfFieldWidth,
+                                            controller: provider.locationController,
+                                            label: 'Location',
+                                            icon: Icons.location_city_outlined,
+                                            keyboardType: TextInputType.text,
+                                            /* validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                print('aqui6');
+                                                return 'Please enter some text';
+                                              }
+                                              return null;
+                                            }, */
+                                          ),
+                                        ),
+                                        if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
+                                                .parameters!.existingCircuitId! &&
+                                            provider.quote.orderInfo!.existingCircuitId != null)
                                           Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
+                                            child: CustomTextField(
+                                              key: const Key('existing_circuit_id'),
+                                              required: true,
+                                              enabled: false,
+                                              width: txfFieldWidth,
+                                              controller: provider.existingCircuitIDController,
+                                              label: 'Existing Circuit ID',
+                                              icon: Icons.cable_outlined,
+                                              keyboardType: TextInputType.text,
+                                              validator: (value) {
+                                                if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
+                                                    .parameters!.existingCircuitId!) {
+                                                  if (value == null || value.isEmpty) {
+                                                    print('aqui1');
+                                                    return 'Please enter some text';
+                                                  }
+                                                  return null;
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                          ),
+                                        if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
+                                                .parameters!.newCircuitId! &&
+                                            provider.quote.orderInfo!.newCircuitId != null)
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
+                                            child: CustomTextField(
+                                              key: const Key('new_circuit_id'),
+                                              required: true,
+                                              enabled: false,
+                                              width: txfFieldWidth,
+                                              controller: provider.newCircuitIDController,
+                                              label: 'New Circuit ID',
+                                              icon: Icons.cable_outlined,
+                                              keyboardType: TextInputType.text,
+                                              validator: (value) {
+                                                if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
+                                                    .parameters!.newCircuitId!) {
+                                                  if (value == null || value.isEmpty) {
+                                                    print('aqui2');
+                                                    return 'Please enter some text';
+                                                  }
+                                                  return null;
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                          ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomDDownMenu(
+                                            enabled: false,
+                                            list: provider.circuitTypeList.map((type) => type.name!).toList(),
+                                            dropdownValue: provider.circuitTypeSelectedValue,
+                                            onChanged: (p0) {
+                                              //if (p0 != null) provider.selectCircuitInfo(p0);
+                                            },
+                                            icon: Icons.info_outline,
+                                            label: 'Service Type',
+                                          ),
+                                        ),
+                                        if (provider
+                                                .circuitTypeList[
+                                                    provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                .parameters!
+                                                .cir! ||
+                                            provider
+                                                .circuitTypeList[
+                                                    provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                .parameters!
+                                                .portSize!)
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
+                                            child: Row(
+                                              children: [
+                                                if (provider
+                                                    .circuitTypeList[
+                                                        provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                    .parameters!
+                                                    .cir!)
+                                                  CustomDDownMenu(
+                                                    enabled: false,
+                                                    list: provider.cirList.map((type) => type.name!).toList(),
+                                                    dropdownValue: provider.cirSelectedValue,
+                                                    onChanged: (p0) {
+                                                      //if (p0 != null) provider.selectCIR(p0);
+                                                    },
+                                                    icon: Icons.send_outlined,
+                                                    label: 'CIR',
+                                                  ),
+                                                if (provider
+                                                    .circuitTypeList[
+                                                        provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                    .parameters!
+                                                    .portSize!)
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 20),
+                                                    child: CustomDDownMenu(
+                                                      enabled: false,
+                                                      list: provider.portSizeList.map((type) => type.name!).toList(),
+                                                      dropdownValue: provider.portSizeSelectedValue,
+                                                      onChanged: (p0) {
+                                                        //if (p0 != null) provider.selectPortSize(p0);
+                                                      },
+                                                      icon: Icons.lan_outlined,
+                                                      label: 'Port Size',
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
+                                        if (provider.circuitTypeSelectedValue == 'EVCoD')
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 15, bottom: 15),
                                             child: CustomDDownMenu(
                                               enabled: false,
                                               list: provider.evcodList,
                                               dropdownValue: provider.evcodSelectedValue,
                                               onChanged: (p0) {
-                                                // if (p0 != null) provider.selectEVCOD(p0);
+                                                //if (p0 != null) provider.selectEVCOD(p0);
                                               },
                                               icon: Icons.electrical_services,
                                               label: 'EVCoD',
-                                              width: txfFieldWidth,
                                             ),
                                           ),
-                                        if (provider.evcodSelectedValue == 'Existing EVC')
+                                        if (provider
+                                            .circuitTypeList[provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                            .parameters!
+                                            .evcod!)
                                           Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
                                             child: CustomTextField(
+                                              key: const Key('existing_evc'),
+                                              required: true,
                                               enabled: false,
                                               width: txfFieldWidth,
-                                              controller: provider.existingEVCController,
-                                              label: 'Circuit ID',
+                                              controller: provider.evcCircuitIdController,
+                                              label: 'EVC Circuit ID',
                                               icon: Icons.electrical_services,
                                               keyboardType: TextInputType.text,
+                                              /* validator: (value) {
+                                                if (provider
+                                                    .circuitTypeList[
+                                                        provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                    .parameters!
+                                                    .evcod!) {
+                                                  if (value == null || value.isEmpty) {
+                                                    print('aqui7');
+                                                    return 'Please enter some text';
+                                                  }
+                                                  return null;
+                                                }
+                                                return null;
+                                              }, */
+                                            ),
+                                          ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomSwitch(
+                                            enabled: false,
+                                            value: provider.ddosSelectedValue,
+                                            label: 'DDoS Migration',
+                                            onChanged: (p0) {
+                                              //provider.selectDDOS(/*p0*/);
+                                            },
+                                          ),
+                                        ),
+                                        if (provider.circuitTypeSelectedValue == 'DIA')
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
+                                            child: CustomDDownMenu(
+                                              enabled: false,
+                                              list: provider.bgpList.map((type) => type.name!).toList(),
+                                              dropdownValue: provider.bgpSelectedValue,
+                                              onChanged: (p0) {
+                                                //if (p0 != null) provider.selectBGP(p0);
+                                              },
+                                              icon: Icons.bug_report_outlined,
+                                              label: 'BGP Peering',
                                             ),
                                           ),
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: Row(
                                             children: [
-                                              CustomTabButton(
+                                              CustomDDownMenu(
                                                 enabled: false,
-                                                on: provider.ddosSelectedValue == 'Yes',
-                                                //icon: Icons.security_outlined,
-                                                label: 'DDoS Migration',
-                                                option1: 'Yes',
-                                                option2: 'No',
-                                                width: txfFieldWidth / 1.7,
-                                                // onTap: () => provider.selectDDOS(),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(left: 10),
-                                                child: CustomDDownMenu(
-                                                  enabled: false,
-                                                  list: provider.bgpList,
-                                                  dropdownValue: provider.bgpSelectedValue,
-                                                  onChanged: (p0) {
-                                                    // if (p0 != null) provider.selectBGP(p0);
-                                                  },
-                                                  icon: Icons.bug_report_outlined,
-                                                  label: 'BGP Peering',
-                                                  width: txfFieldWidth / 1.6,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: 10),
-                                          child: Row(
-                                            children: [
-                                              CustomTabButton(
-                                                enabled: false,
-                                                on: provider.ipAdressSelectedValue == 'Interface',
-                                                label: 'IP Adresses',
-                                                option1: 'Interface',
-                                                option2: 'IP Subnet',
-                                                width: txfFieldWidth / 1.7,
-                                                // onTap: () => provider.selectIPAdress(),
+                                                list: provider.ipAdressList,
+                                                dropdownValue: provider.ipAdressSelectedValue,
+                                                onChanged: (p0) {
+                                                  //if (p0 != null) provider.selectIPAdress(p0);
+                                                },
+                                                icon: Icons.bug_report_outlined,
+                                                label: 'IP Adresess',
                                               ),
                                               if (provider.ipAdressSelectedValue == 'Interface')
                                                 Padding(
                                                   padding: const EdgeInsets.only(left: 10),
-                                                  child: CustomTabButton(
+                                                  child: CustomDDownMenu(
                                                     enabled: false,
-                                                    on: provider.ipInterfaceSelectedValue == 'IPv4',
+                                                    list: provider.ipInterfaceList,
+                                                    dropdownValue: provider.ipInterfaceSelectedValue,
+                                                    onChanged: (p0) {
+                                                      //if (p0 != null) provider.selectIPInterface(p0);
+                                                    },
+                                                    icon: Icons.bug_report_outlined,
                                                     label: 'IP Interface',
-                                                    option1: 'IPv4',
-                                                    option2: 'IPv6',
-                                                    width: txfFieldWidth / 2,
-                                                    // onTap: () => provider.selectIPInterface(),
                                                   ),
                                                 ),
                                               if (provider.ipAdressSelectedValue == 'IP Subnet')
@@ -304,11 +525,10 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                     list: provider.subnetList,
                                                     dropdownValue: provider.subnetSelectedValue,
                                                     onChanged: (p0) {
-                                                      // if (p0 != null) provider.selectSubnet(p0);
+                                                      //if (p0 != null) provider.selectSubnet(p0);
                                                     },
                                                     icon: Icons.signal_cellular_alt,
                                                     label: 'IP Subnet',
-                                                    width: txfFieldWidth / 1.6,
                                                   ),
                                                 ),
                                             ],
@@ -1012,7 +1232,7 @@ class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
                                     padding: const EdgeInsets.all(5),
                                     child: CustomScrollBar(
                                       scrollDirection: Axis.vertical,
-                                      child: Text(provider.comments[index].comment),
+                                      child: Text(provider.comments[index].comment!),
                                     ),
                                   ),
                                 ),

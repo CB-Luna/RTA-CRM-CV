@@ -24,7 +24,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
     DashboardCRMProvider provider = Provider.of<DashboardCRMProvider>(context);
     return CustomCard(
       title: 'Transaction History',
-      //width: getWidth(790, context),
+      width: getWidth(1030, context),
       //height: getHeight(280, context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

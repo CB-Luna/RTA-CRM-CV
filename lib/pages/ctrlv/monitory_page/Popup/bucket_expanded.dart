@@ -13,17 +13,14 @@ class BucketCommentsImagesIssues extends StatefulWidget {
   const BucketCommentsImagesIssues({super.key});
 
   @override
-  State<BucketCommentsImagesIssues> createState() =>
-      _BucketCommentsImagesIssuesState();
+  State<BucketCommentsImagesIssues> createState() => _BucketCommentsImagesIssuesState();
 }
 
-class _BucketCommentsImagesIssuesState
-    extends State<BucketCommentsImagesIssues> {
+class _BucketCommentsImagesIssuesState extends State<BucketCommentsImagesIssues> {
   @override
   Widget build(BuildContext context) {
     MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
-    const urlImage =
-        "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
+    const urlImage = "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
@@ -40,9 +37,7 @@ class _BucketCommentsImagesIssuesState
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: CardHeader(
-                        text:
-                            "${provider.actualDetailField?.nameIssue.capitalize.replaceAll("_", ' ')}"),
+                    child: CardHeader(text: "${provider.actualDetailField?.nameIssue.capitalize.replaceAll("_", ' ')}"),
                   ),
                   Row(
                     children: [
@@ -67,9 +62,7 @@ class _BucketCommentsImagesIssuesState
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: provider.actualDetailField!.status
-                                ? const Color.fromARGB(200, 65, 155, 23)
-                                : const Color.fromARGB(200, 210, 0, 48),
+                            color: provider.actualDetailField!.status ? const Color.fromARGB(200, 65, 155, 23) : const Color.fromARGB(200, 210, 0, 48),
                           ),
                         ),
                       ),
@@ -79,8 +72,7 @@ class _BucketCommentsImagesIssuesState
                           width: MediaQuery.of(context).size.width * 0.1,
                           height: MediaQuery.of(context).size.height * 0.04,
                           decoration: BoxDecoration(
-                            color: statusColor(provider
-                                .monitoryActual!.vehicle.company.company,context),
+                            color: statusColor(provider.monitoryActual!.vehicle.company.company, context),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
@@ -104,14 +96,8 @@ class _BucketCommentsImagesIssuesState
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          DateFormat("MMM/dd/yyyy")
-                              .format(provider.actualDetailField!.dateAdded),
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontFamily: 'Bicyclette-Thin',
-                              fontSize:
-                                  AppTheme.of(context).contenidoTablas.fontSize,
-                              fontWeight: FontWeight.bold),
+                          DateFormat("MMM/dd/yyyy").format(provider.actualDetailField!.dateAdded),
+                          style: TextStyle(color: Colors.blue, fontFamily: 'Bicyclette-Thin', fontSize: AppTheme.of(context).contenidoTablas.fontSize, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -133,21 +119,13 @@ class _BucketCommentsImagesIssuesState
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        boxShadow: const [
-                          BoxShadow(
-                              blurRadius: 4,
-                              color: Colors.grey,
-                              offset: Offset(10, 10))
-                        ],
+                        boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))],
                       ),
                       child: Column(
                         children: [
                           const Text("COMMENTS"),
                           SingleChildScrollView(
-                            child: Text(
-                                provider.actualDetailField?.comments != ""
-                                    ? "${provider.actualDetailField?.comments}"
-                                    : "No Comments"),
+                            child: Text(provider.actualDetailField?.comments != "" ? "${provider.actualDetailField?.comments}" : "No Comments"),
                           ),
                         ],
                       ),
@@ -157,19 +135,14 @@ class _BucketCommentsImagesIssuesState
                 provider.actualDetailField?.listImages?.length == null ||
                         // ignore: prefer_is_empty
                         provider.actualDetailField?.listImages?.length == 0
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.30,
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        child: Image.network(urlImage, fit: BoxFit.contain))
+                    ? SizedBox(height: MediaQuery.of(context).size.height * 0.30, width: MediaQuery.of(context).size.width * 0.15, child: Image.network(urlImage, fit: BoxFit.contain))
                     : SizedBox(
                         height: MediaQuery.of(context).size.height * 0.5,
                         width: MediaQuery.of(context).size.width * 0.25,
                         child: Swiper(
-                          itemCount:
-                              provider.actualDetailField!.listImages!.length,
+                          itemCount: provider.actualDetailField!.listImages!.length,
                           itemBuilder: (context, index) {
-                            final urlImage =
-                                provider.actualDetailField!.listImages![index];
+                            final urlImage = provider.actualDetailField!.listImages![index];
                             return Image.network(urlImage, fit: BoxFit.fill);
                           },
                           itemWidth: 300.0,
@@ -189,9 +162,7 @@ Widget buildImage(String urlImage, int index) => Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.grey,
-        boxShadow: const [
-          BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))
-        ],
+        boxShadow: const [BoxShadow(blurRadius: 4, color: Colors.grey, offset: Offset(10, 10))],
       ),
       margin: const EdgeInsets.symmetric(horizontal: 12),
       child: Image.network(
@@ -200,7 +171,7 @@ Widget buildImage(String urlImage, int index) => Container(
       ),
     );
 
-Color statusColor(String status,BuildContext context) {
+Color statusColor(String status, BuildContext context) {
   late Color color;
 
   switch (status) {

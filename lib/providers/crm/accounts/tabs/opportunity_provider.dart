@@ -8,8 +8,8 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/accounts/opportunity_model.dart';
-import 'package:rta_crm_cv/models/accounts/quotes_model.dart';
+import 'package:rta_crm_cv/models/crm/accounts/opportunity_model.dart';
+import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/models/models.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
@@ -18,10 +18,7 @@ class OpportunityProvider extends ChangeNotifier {
   List<PlutoRow> rows = [];
   PlutoGridStateManager? stateManager;
   //checks box pop up
-  bool timeline = false,
-      decisionmaker = false,
-      techspec = false,
-      budget = false;
+  bool timeline = false, decisionmaker = false, techspec = false, budget = false;
 
   bool editmode = false;
   late int? id;
@@ -90,8 +87,7 @@ class OpportunityProvider extends ChangeNotifier {
             data: Theme.of(context).copyWith(
               colorScheme: ColorScheme.light(
                 primary: AppTheme.of(context).primaryColor, // color Appbar
-                onPrimary:
-                    AppTheme.of(context).primaryBackground, // Color letras
+                onPrimary: AppTheme.of(context).primaryBackground, // Color letras
                 onSurface: AppTheme.of(context).primaryColor, // Color Meses
               ),
               dialogBackgroundColor: AppTheme.of(context).primaryBackground,
@@ -110,10 +106,7 @@ class OpportunityProvider extends ChangeNotifier {
   }
 
   //listas Drop Menu
-  late String selectSaleStoreValue,
-      selectAssignedTValue,
-      selectLeadSourceValue,
-      selectContactValue;
+  late String selectSaleStoreValue, selectAssignedTValue, selectLeadSourceValue, selectContactValue;
   List<String> saleStoreList = [
     '',
     'Mike Haddock',
@@ -176,9 +169,7 @@ class OpportunityProvider extends ChangeNotifier {
         log('Error en getOpportunity()');
         return;
       }
-      List<Opportunity> opportunity = (res as List<dynamic>)
-          .map((usuario) => Opportunity.fromJson(jsonEncode(usuario)))
-          .toList();
+      List<Opportunity> opportunity = (res as List<dynamic>).map((usuario) => Opportunity.fromJson(jsonEncode(usuario))).toList();
 
       rows.clear();
       for (Opportunity user in opportunity) {
@@ -219,8 +210,7 @@ class OpportunityProvider extends ChangeNotifier {
         "expected_close": create.toString(),
         "assigned_to": selectAssignedTValue,
         "status": "In process",
-        "organitation_name":
-            accountController.text, //company en quotes account en leads
+        "organitation_name": accountController.text, //company en quotes account en leads
         "sales_stage": selectSaleStoreValue,
         "account": accountController.text,
         "lead_source": selectLeadSourceValue,
@@ -247,8 +237,7 @@ class OpportunityProvider extends ChangeNotifier {
 
   Future<void> getData() async {
     if (id != null) {
-      var response =
-          await supabaseCRM.from('opportunities_view').select().eq('id', id);
+      var response = await supabaseCRM.from('opportunities_view').select().eq('id', id);
 
       if (response == null) {
         log('Error en getData()');
@@ -382,12 +371,9 @@ class OpportunityProvider extends ChangeNotifier {
   ////////////////////////////////////////////////////////
 
   Future<void> exportData() async {
-    var res =
-        await supabaseCRM.from('quotes_view').select().neq('status', 'Closed');
+    var res = await supabaseCRM.from('quotes_view').select().neq('status', 'Closed');
 
-    List<Quotes> quotes = (res as List<dynamic>)
-        .map((quote) => Quotes.fromJson(jsonEncode(quote)))
-        .toList();
+    List<Quotes> quotes = (res as List<dynamic>).map((quote) => Quotes.fromJson(jsonEncode(quote))).toList();
 
     Excel excel = Excel.createExcel();
     Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
@@ -488,8 +474,6 @@ class OpportunityProvider extends ChangeNotifier {
     }
 
     //Descargar
-    excel.save(
-        fileName:
-            "Opportunities_Report_${DateFormat('MMMM_dd_yyyy').format(DateTime.now())}.xlsx");
+    excel.save(fileName: "Opportunities_Report_${DateFormat('MMMM_dd_yyyy').format(DateTime.now())}.xlsx");
   }
 }

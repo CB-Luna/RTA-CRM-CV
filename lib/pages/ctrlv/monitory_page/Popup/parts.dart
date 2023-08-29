@@ -1,4 +1,3 @@
-
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,8 +24,7 @@ class BucketExtraPopUp extends StatelessWidget {
       content: Container(
         width: 700,
         height: 670,
-        decoration: BoxDecoration(
-            gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
+        decoration: BoxDecoration(gradient: whiteGradient, borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
             const CardHeader(text: "Bucket Inspection"),
@@ -48,24 +46,23 @@ class BucketExtraPopUp extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right:15.0),
+                    padding: const EdgeInsets.only(right: 15.0),
                     child: Container(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: MediaQuery.of(context).size.height * 0.03,
-                    decoration: BoxDecoration(
-                      color: statusColor(
-                          provider.monitoryActual!.vehicle.company.company,context),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        provider.monitoryActual!.vehicle.licesensePlates,
-                        style: const TextStyle(
-                          color: Colors.white,
+                      width: MediaQuery.of(context).size.width * 0.1,
+                      height: MediaQuery.of(context).size.height * 0.03,
+                      decoration: BoxDecoration(
+                        color: statusColor(provider.monitoryActual!.vehicle.company.company, context),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          provider.monitoryActual!.vehicle.licesensePlates,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                                  ),
                   ),
                 ],
               ),
@@ -85,11 +82,8 @@ class BucketExtraPopUp extends StatelessWidget {
                             width: 250,
                             // color: Colors.red,
                             child: Text(
-                              provider.actualIssuesComments[index].nameIssue
-                                  .capitalize
-                                  .replaceAll("_", ' '),
-                              style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                              provider.actualIssuesComments[index].nameIssue.capitalize.replaceAll("_", ' '),
+                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(
@@ -97,33 +91,23 @@ class BucketExtraPopUp extends StatelessWidget {
                             //color: Colors.yellow,
                             //alignment: Alignment.center,
                             child: Text(
-                              provider.actualIssuesComments[index].status
-                                  ? "Yes"
-                                  : "No",
+                              provider.actualIssuesComments[index].status ? "Yes" : "No",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color:
-                                    provider.actualIssuesComments[index].status
-                                        ? const Color.fromARGB(200, 65, 155, 23)
-                                        : const Color.fromARGB(200, 210, 0, 48),
+                                color: provider.actualIssuesComments[index].status ? const Color.fromARGB(200, 65, 155, 23) : const Color.fromARGB(200, 210, 0, 48),
                               ),
                             ),
                           ),
                           InkWell(
                             child: provider.actualIssuesComments[index].status
-                                ? const Icon(Icons.remove_red_eye,
-                                    size: 30,
-                                    color: Color.fromARGB(200, 65, 155, 23))
-                                : const Icon(Icons.remove_red_eye,
-                                    size: 30,
-                                    color: Color.fromARGB(200, 210, 0, 48)),
+                                ? const Icon(Icons.remove_red_eye, size: 30, color: Color.fromARGB(200, 65, 155, 23))
+                                : const Icon(Icons.remove_red_eye, size: 30, color: Color.fromARGB(200, 210, 0, 48)),
                             onTap: () {
-                              provider.getActualDetailField(
-                                  provider.actualIssuesComments[index]);
-                              
-                            provider.updateViewPopup(10);
-                            provider.updatePopUpExtra(popUp);
+                              provider.getActualDetailField(provider.actualIssuesComments[index]);
+
+                              provider.updateViewPopup(10);
+                              provider.updatePopUpExtra(popUp);
                             },
                           ),
                         ],
@@ -138,7 +122,7 @@ class BucketExtraPopUp extends StatelessWidget {
   }
 }
 
-Color statusColor(String status,BuildContext context) {
+Color statusColor(String status, BuildContext context) {
   late Color color;
 
   switch (status) {
@@ -157,4 +141,3 @@ Color statusColor(String status,BuildContext context) {
   }
   return color;
 }
-
