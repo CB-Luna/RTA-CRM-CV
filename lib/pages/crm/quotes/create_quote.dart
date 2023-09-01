@@ -486,7 +486,35 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                               padding: const EdgeInsets.only(bottom: 10),
                                               child: Row(
                                                 children: [
-                                                  CustomDDownMenu(
+                                                  if (provider.circuitTypeSelectedValue == 'DIA' && provider.bgpSelectedValue == 'No')
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 0),
+                                                      child: CustomDDownMenu(
+                                                        enabled: true,
+                                                        list: provider.ipBlockList.map((type) => type.name!).toList(),
+                                                        dropdownValue: provider.ipBlockSelectedValue,
+                                                        onChanged: (p0) {
+                                                          if (p0 != null) provider.selectIpBlock(p0);
+                                                        },
+                                                        icon: Icons.bug_report_outlined,
+                                                        label: 'IP Block',
+                                                      ),
+                                                    ),
+                                                  if (provider.circuitTypeSelectedValue == 'DIA' && provider.bgpSelectedValue == 'Current ASN(s)')
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 0),
+                                                      child: CustomDDownMenu(
+                                                        enabled: true,
+                                                        list: provider.peeringTypeList.map((type) => type.name!).toList(),
+                                                        dropdownValue: provider.peeringTypeSelectedValue,
+                                                        onChanged: (p0) {
+                                                          if (p0 != null) provider.selectPeeringType(p0);
+                                                        },
+                                                        icon: Icons.signal_cellular_alt,
+                                                        label: 'Peering Type',
+                                                      ),
+                                                    ),
+                                                  /* CustomDDownMenu(
                                                     enabled: true,
                                                     list: provider.ipAdressList,
                                                     dropdownValue: provider.ipAdressSelectedValue,
@@ -523,7 +551,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         icon: Icons.signal_cellular_alt,
                                                         label: 'IP Subnet',
                                                       ),
-                                                    ),
+                                                    ), */
                                                 ],
                                               ),
                                             ),
