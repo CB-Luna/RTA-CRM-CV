@@ -34,9 +34,9 @@ class _CreateOrderState extends State<CreateOrder> {
         title:
             '${provider.typesSelectedValue.text} - ${provider.circuitAddressController.text} - ${provider.circuitTypeSelectedValue.text}', //${provider.circuitAddressController.text} 1400 Broadfield Blvd #200, Houston
         height: provider.circuitTypeSelectedValue.text == 'DIA' || provider.circuitTypeSelectedValue.text == 'NNI'
-            ? getHeight(280, context)
+            ? getHeight(300, context)
             : provider.circuitTypeSelectedValue.text == 'X-Connect'
-                ? getHeight(495, context)
+                ? getHeight(500, context)
                 : getHeight(800, context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -206,7 +206,7 @@ class _CreateOrderState extends State<CreateOrder> {
                           ),
                         ),
                       //rack location
-                      if (provider.circuitTypeSelectedValue.text == 'NNI' || provider.circuitTypeSelectedValue.text == 'X-Connect')
+                      /* if (provider.circuitTypeSelectedValue.text == 'NNI' || provider.circuitTypeSelectedValue.text == 'X-Connect')
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: CustomTextField(
@@ -217,14 +217,14 @@ class _CreateOrderState extends State<CreateOrder> {
                             icon: Icons.not_listed_location_outlined,
                             keyboardType: TextInputType.name,
                           ),
-                        ),
+                        ), */
                       if (provider.circuitTypeSelectedValue.text == 'X-Connect')
                         CustomDetails(
                           title: 'Detail',
                           icon: Icons.details_outlined,
                           description: provider.detailController.text,
                         ),
-                      if (provider.circuitTypeSelectedValue.text == 'DIA')
+                      /* if (provider.circuitTypeSelectedValue.text == 'DIA')
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: CustomTextField(
@@ -235,7 +235,7 @@ class _CreateOrderState extends State<CreateOrder> {
                             icon: Icons.wifi_tethering_outlined,
                             keyboardType: TextInputType.name,
                           ),
-                        ),
+                        ), */
                     ],
                   ),
                 ),
