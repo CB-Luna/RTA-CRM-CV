@@ -204,6 +204,8 @@ class CircuitInfo {
   String? cir;
   String? ipType;
   String? bgpType;
+  String? ipBlock;
+  String? peeringType;
   String? location;
   String? bandwidth;
   bool? ddosType;
@@ -218,6 +220,8 @@ class CircuitInfo {
     this.cir,
     this.ipType,
     this.bgpType,
+    this.ipBlock,
+    this.peeringType,
     this.location,
     this.bandwidth,
     this.ddosType,
@@ -237,6 +241,8 @@ class CircuitInfo {
         cir: json["cir"],
         ipType: json["ip_type"],
         bgpType: json["bgp_type"],
+        ipBlock: json["ip_block"],
+        peeringType: json["peering_type"],
         location: json["location"],
         bandwidth: json["bandwidth"],
         ddosType: json["ddos_type"],
@@ -252,6 +258,8 @@ class CircuitInfo {
         "cir": cir,
         "ip_type": ipType,
         "bgp_type": bgpType,
+        "ip_block": ipBlock,
+        "peering_type": peeringType,
         "location": location,
         "bandwidth": bandwidth,
         "ddos_type": ddosType,

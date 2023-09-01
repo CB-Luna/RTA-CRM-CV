@@ -270,9 +270,10 @@ class _CreateOrderState extends State<CreateOrder> {
                     color: AppTheme.of(context).primaryBackground,
                     onTap: () async {
                       await (QuotesProvider()).insertPowerCode(widget.id);
+                      await (QuotesProvider()).getX2Quotes(null);
                       fToast.showToast(
                         child: const SuccessToast(
-                          message: 'Succes Lead Creat',
+                          message: 'Order Created Successfully',
                         ),
                         gravity: ToastGravity.BOTTOM,
                         toastDuration: const Duration(seconds: 2),
@@ -291,10 +292,9 @@ class _CreateOrderState extends State<CreateOrder> {
 
   Widget buildSideLabel(double value) => SizedBox(
         width: 40,
-        child:
-            Text('${value.round().toString()}%', style: TextStyle(color: AppTheme.of(context).primaryColor) /* const TextStyle(
+        child: Text('${value.round().toString()}%', style: TextStyle(color: AppTheme.of(context).primaryColor) /* const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold, */
-                ),
+            ),
       );
 }
