@@ -13,7 +13,7 @@ class Company {
 
   factory Company.fromMap(Map<String, dynamic> json) {
     return Company(
-      id: json['id'],
+      id: json['id_company'],
       company: json['company'],
     );
   }

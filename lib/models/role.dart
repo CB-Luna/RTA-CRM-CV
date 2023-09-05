@@ -14,7 +14,7 @@ class Role {
   factory Role.fromJson(String str) => Role.fromMap(json.decode(str));
 
   factory Role.fromMap(Map<String, dynamic> json) => Role(
-        id: json["id"],
+        id: json["id"] ?? json['role_id'],
         roleName: json["name"],
         permissions: Permissions.fromMap(json["permissions"]),
       );
@@ -32,39 +32,17 @@ class Role {
 class Permissions {
   Permissions({
     required this.home,
-    required this.homeProveedor,
-    required this.extraccionDeFacturas,
-    required this.seguimientoDeFacturas,
-    required this.pagos,
-    required this.seguimientoProveedor,
-    required this.seguimientoNC,
-    required this.solicitudDppCBC,
-    required this.solicitudDppProveedor,
-    required this.cargaNc,
-    required this.validacionNC,
-    required this.notificaciones,
-    required this.administracionDeProveedores,
-    required this.administracionDeUsuarios,
-    required this.reportes,
-    required this.perfilDeUsuario,
+    required this.employees,
+    required this.prospects,
+    required this.userProfile,
+    required this.usersAdministration,
   });
 
   String? home;
-  String? homeProveedor;
-  String? extraccionDeFacturas;
-  String? seguimientoDeFacturas;
-  String? pagos;
-  String? seguimientoProveedor;
-  String? seguimientoNC;
-  String? solicitudDppCBC;
-  String? solicitudDppProveedor;
-  String? cargaNc;
-  String? validacionNC;
-  String? notificaciones;
-  String? administracionDeProveedores;
-  String? administracionDeUsuarios;
-  String? reportes;
-  String? perfilDeUsuario;
+  String? employees;
+  String? prospects;
+  String? userProfile;
+  String? usersAdministration;
 
   factory Permissions.fromJson(String str) =>
       Permissions.fromMap(json.decode(str));
@@ -73,35 +51,17 @@ class Permissions {
 
   factory Permissions.fromMap(Map<String, dynamic> json) => Permissions(
         home: json['Home'],
-        homeProveedor: json['HomeProveedor'],
-        extraccionDeFacturas: json["Extraccion de Facturas"],
-        seguimientoDeFacturas: json["Seguimiento de Facturas"],
-        pagos: json["Pagos"],
-        seguimientoProveedor: json["Seguimiento Proveedor"],
-        seguimientoNC: json["Seguimiento NC"],
-        solicitudDppCBC: json['SolicitudDPPCBC'],
-        solicitudDppProveedor: json['SolicitudDPPProveedor'],
-        cargaNc: json['CargaNC'],
-        validacionNC: json["Validacion NC"],
-        notificaciones: json["Notificaciones"],
-        administracionDeProveedores: json["Administracion de Proveedores"],
-        administracionDeUsuarios: json["Administracion de Usuarios"],
-        reportes: json["Reportes"],
-        perfilDeUsuario: json["Perfil de Usuario"],
+        employees: json['Employees'],
+        prospects: json['Prospects'],
+        userProfile: json['User Profile'],
+        usersAdministration: json['Users Administration'],
       );
 
   Map<String, dynamic> toMap() => {
         "Home": home,
-        "Extraccion de Facturas": extraccionDeFacturas,
-        "Seguimiento de Facturas": seguimientoDeFacturas,
-        "Pagos": pagos,
-        "Seguimiento Proveedor": seguimientoProveedor,
-        "Seguimiento NC": seguimientoNC,
-        "Validacion NC": validacionNC,
-        "Notificaciones": notificaciones,
-        "Administracion de Proveedores": administracionDeProveedores,
-        "Administracion de Usuarios": administracionDeUsuarios,
-        "Reportes": reportes,
-        "Perfil de Usuario": perfilDeUsuario,
+        "Employees": employees,
+        "Prospects": prospects,
+        "User Profile": userProfile,
+        "Users Administration": usersAdministration,
       };
 }

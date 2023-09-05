@@ -6,9 +6,7 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/visual_state_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_buttom.dart';
-import 'package:rta_crm_cv/widgets/succes_toast.dart';
-
-
+import 'package:rta_crm_cv/widgets/success_toast.dart';
 
 class ImageSelectionPanel extends StatefulWidget {
   const ImageSelectionPanel({Key? key}) : super(key: key);
@@ -49,11 +47,11 @@ class _ImageSelectionPanelState extends State<ImageSelectionPanel> {
                       imageUrl: assets.logoBlanco,
                       bgColor: Colors.black,
                     ),
-                    SelectImageWidget(
+                    /* SelectImageWidget(
                       title: 'Fondo',
                       assetName: 'bg1',
                       imageUrl: assets.bg1,
-                    ),
+                    ), */
                   ],
                 ),
               )
@@ -64,7 +62,8 @@ class _ImageSelectionPanelState extends State<ImageSelectionPanel> {
             alignment: Alignment.center,
             child: CustomButton(
               onPressed: () async {
-                final res = await visualState.actualizarImagenes();
+                final res =
+                    await visualState.actualizarImagenes(currentUser!.idtema);
                 if (!res) {
                   Fluttertoast.showToast(
                     msg: 'Error al actualizar las imágenes',

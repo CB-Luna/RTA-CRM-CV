@@ -29,12 +29,24 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   auto_size_text: ^3.0.0
+  avatar_glow: ^2.0.2
+  card_swiper: ^3.0.1
   carousel_slider: ^4.2.1
+  csv: ^5.0.2
   cupertino_icons: ^1.0.2
+  currency_text_input_formatter: ^2.1.10
   email_validator: ^2.1.17
+  excel: ^2.1.0
+  file_picker: ^5.3.2
+  file_saver: ^0.2.4
+  fl_chart: ^0.62.0
   flex_color_picker: ^3.2.2
   flutter:
     sdk: flutter
+  flutter_advanced_drawer: ^1.3.5
+  flutter_animated_button: ^2.0.3
+  flutter_colorpicker: ^1.0.3
+  flutter_file_downloader: ^1.1.2
   flutter_portal: ^1.1.3
   flutter_secure_storage: ^8.0.0
   flutter_svg: ^2.0.6
@@ -42,17 +54,31 @@ dependencies:
   font_awesome_flutter: ^10.4.0
   go_router: ^7.0.1
   google_fonts: ^4.0.3
+  grpc: ^3.2.2
+  http: ^0.13.4
+  http2: ^2.2.0
   image_picker: ^0.8.7+5
   intl: ^0.18.1
+  mask_text_input_formatter: ^2.4.0
   path: ^1.8.3
+  path_provider: ^2.0.15
+  pdfx: ^2.4.0
   photo_view: ^0.14.0
   pluto_grid: ^7.0.2
+  pluto_grid_export: ^1.0.6
+  protobuf: ^3.0.0
   provider: ^6.0.5
+  responsive_builder: ^0.7.0
   rive: ^0.11.0
   shared_preferences: ^2.1.1
-  supabase_flutter: ^1.9.2
+  speech_to_text: ^6.1.1
+  supabase_flutter: ^1.10.0
+  syncfusion_flutter_calendar: ^21.2.6
+  url_launcher: ^6.1.12
   url_strategy: ^0.2.0
   uuid: ^3.0.7
+  flutter_date_range_picker: ^0.0.14
+  animated_toggle_switch: ^0.7.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -72,6 +98,7 @@ flutter:
   assets:
     - assets/images/
     - assets/rive/
+    - assets/rive_animations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -100,6 +127,13 @@ flutter:
         - asset: assets/fonts/Gotham-Light.otf
         - asset: assets/fonts/Gotham-Regular.ttf
         - asset: assets/fonts/Gotham-Thin.otf
+    - family: UniNeue
+      fonts:
+        - asset: assets/fonts/UniNeue-Black.otf
+        - asset: assets/fonts/UniNeue-Bold.otf
+        - asset: assets/fonts/UniNeue-Light.otf
+        - asset: assets/fonts/UniNeue-Regular.otf
+        - asset: assets/fonts/UniNeue-Thin.otf
     - family: Segoe
       fonts:
         - asset: assets/fonts/Segoe-Ui.ttf

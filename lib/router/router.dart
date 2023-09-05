@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:rta_crm_cv/pages/crm/campaigns/campaigns_page.dart';
+import 'package:rta_crm_cv/pages/crm/reports_page.dart';
+import 'package:rta_crm_cv/pages/crm/schedulings_page.dart';
+import 'package:rta_crm_cv/pages/crm/tickets_page.dart';
+import 'package:rta_crm_cv/pages/ctrlv/dashboard/dashboards_page_ctrlv.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/download_apk_page.dart';
+import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
+import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
+import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
+import 'package:rta_crm_cv/pages/login_page/login_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
+
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/pages/crm/quotes/create_quote.dart';
+import 'package:rta_crm_cv/pages/crm/quotes/detail_quote.dart';
+import 'package:rta_crm_cv/pages/crm/quotes/quotes_page.dart';
+import 'package:rta_crm_cv/pages/crm/quotes/validate_quote.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
+
+import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 
 /// The route configuration.
 final GoRouter router = GoRouter(
@@ -21,6 +38,7 @@ final GoRouter router = GoRouter(
     if (!loggedIn && !isLoggingIn) return '/login';
 
     //if user is logged in and in the login page
+
     if (loggedIn && isLoggingIn) return '/';
 
     return null;
@@ -31,13 +49,30 @@ final GoRouter router = GoRouter(
       path: '/',
       name: 'root',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsPage();
+        if (currentUser!.isCRM) {
+          return const QuotesPage();
+        } else if (currentUser!.isAdminCv || currentUser!.isManager) {
+          return const MonitoryPageDesktop();
+        } else if (currentUser!.isEmployee) {
+          return const DownloadAPKPage();
+        } else {
+          return const PageNotFoundPage();
+        }
       },
       pageBuilder: (context, state) => CustomTransitionPage<void>(
         key: state.pageKey,
-        child: const DashboardsPage(),
+        child: currentUser!.isCRM
+            ? const QuotesPage()
+            : currentUser!.isAdminCv || currentUser!.isManager
+                ? const MonitoryPageDesktop()
+                : currentUser!.isEmployee
+                ? const DownloadAPKPage()
+                : const PageNotFoundPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            FadeTransition(opacity: animation, child: child),
+            FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
       ),
     ),
     GoRoute(
@@ -69,19 +104,59 @@ final GoRouter router = GoRouter(
       path: '/dashboards',
       name: 'Dashboards',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsPage();
+        if (currentUser!.isCRM) {
+          return const DashboardsCRMPage();
+        } else if (currentUser!.isCV) {
+          return const DashboardsCTRLVPage();
+        } else {
+          return const PageNotFoundPage();
+        }
       },
-      pageBuilder: (context, state) =>
-          pageTransition(context, state, const DashboardsPage()),
+      pageBuilder: (context, state) {
+        if (currentUser!.isCRM) {
+          return pageTransition(context, state, const DashboardsCRMPage());
+        } else if (currentUser!.isCV) {
+          return pageTransition(context, state, const DashboardsCTRLVPage());
+        } else {
+          return pageTransition(context, state, const PageNotFoundPage());
+        }
+      },
     ),
     GoRoute(
-      path: '/accounts',
-      name: 'Accounts',
+      path: routeProspects,
+      name: 'Prospects',
       builder: (BuildContext context, GoRouterState state) {
         return const AccountsPage();
       },
       pageBuilder: (context, state) =>
           pageTransition(context, state, const AccountsPage()),
+    ),
+    GoRoute(
+      path: routeQuoteCreation,
+      name: 'Quote Creation',
+      builder: (BuildContext context, GoRouterState state) {
+        return const CreateQuotePage();
+      },
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const CreateQuotePage()),
+    ),
+    GoRoute(
+      path: routeQuoteDetail,
+      name: 'Quote Detail',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DetailQuotePage();
+      },
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const DetailQuotePage()),
+    ),
+    GoRoute(
+      path: routeQuoteValidation,
+      name: 'Quote Validation',
+      builder: (BuildContext context, GoRouterState state) {
+        return const ValidateQuotePage();
+      },
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const ValidateQuotePage()),
     ),
     GoRoute(
       path: '/schedulings',
@@ -111,13 +186,23 @@ final GoRouter router = GoRouter(
           pageTransition(context, state, const TicketsPage()),
     ),
     GoRoute(
-      path: '/inventory',
-      name: 'Inventory',
+      path: routeQuotes,
+      name: 'Quotes',
       builder: (BuildContext context, GoRouterState state) {
-        return const InventoryPage();
+        return const QuotesPage();
       },
       pageBuilder: (context, state) =>
-          pageTransition(context, state, const InventoryPage()),
+          pageTransition(context, state, const QuotesPage()),
+    ),
+
+    GoRoute(
+      path: routeCampaigns,
+      name: 'Campaigns',
+      builder: (BuildContext context, GoRouterState state) {
+        return const CampaignsPage();
+      },
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const CampaignsPage()),
     ),
     GoRoute(
       path: '/reports',
@@ -137,7 +222,52 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) =>
           pageTransition(context, state, const UsersPage()),
     ),
-
+    GoRoute(
+      path: '/vehicle_status',
+      name: 'Vehicle_Status',
+      builder: (BuildContext context, GoRouterState state) {
+        return const MonitoryPageDesktop();
+      },
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const MonitoryPageDesktop()),
+    ),
+    GoRoute(
+      path: '/inventory',
+      name: 'Inventory',
+      builder: (BuildContext context, GoRouterState state) {
+        return const InventoryPageDesktop();
+      },
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const InventoryPageDesktop()),
+    ),
+    GoRoute(
+      path: routeDetailsInventory,
+      name: 'Details_Inventory',
+      builder: (BuildContext context, GoRouterState state) {
+        if (state.extra == null) return const InventoryPageDesktop();
+        // return ReportedIssues(vehicle: state.extra as Vehicle);
+        return const ReportedIssues();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeService,
+      name: 'Services',
+      builder: (BuildContext context, GoRouterState state) {
+        if (state.extra == null) return const InventoryPageDesktop();
+        // return ReportedIssues(vehicle: state.extra as Vehicle);
+        return const ServicePopUp();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeDownloadAPK,
+      name: 'Download APK',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
     /////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////

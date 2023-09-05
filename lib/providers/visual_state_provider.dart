@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/helpers/supabase/queries.dart';
 import 'package:rta_crm_cv/models/configuration.dart';
 import 'package:rta_crm_cv/models/modelo_pantalla/tema_descargado.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
@@ -49,9 +50,21 @@ class VisualStateProvider extends ChangeNotifier {
   Uint8List? logoBlanco;
   Uint8List? bg1;
   Uint8List? bgLogin;
+  Uint8List? background;
+  Uint8List? background2;
+  Uint8List? background3;
+  Uint8List? background4;
+
+  late int idtema;
+  late String assetsname;
 
   Future<void> updateState() async {
+   // await SupabaseQueries.getUserTheme();
     await descargarTemas();
+    //await getUserTheme();
+    //getCurrentConfiguration();
+    // setColors();
+    notifyListeners();
   }
 
   VisualStateProvider(BuildContext context) {
@@ -93,6 +106,20 @@ class VisualStateProvider extends ChangeNotifier {
     primaryBackgroundDarkController = TextEditingController(
         text: primaryBackgroundColorDark.value.toRadixString(16).toUpperCase());
   }
+
+  /*  void setColors() {
+    print(primaryColorLight);
+    setPrimaryColorLight(primaryColorLight);
+    setSecondaryColorLight(secondaryColorLight);
+    setTerciaryColorLight(tertiaryColorLight);
+    setPrimaryTextColorLight(primaryTextColorLight);
+    setPrimaryBackgroundColorLight(primaryBackgroundColorLight);
+    setPrimaryColorDark(primaryColorDark);
+    setSecondaryColorDark(secondaryColorDark);
+    setTerciaryColorDark(tertiaryColorDark);
+    setPrimaryTextColorDark(primaryTextColorDark);
+    setPrimaryBackgroundColorDark(primaryBackgroundColorDark);
+  } */
 
   void setPrimaryColorLight(Color color) {
     primaryColorLight = color;
@@ -183,28 +210,34 @@ class VisualStateProvider extends ChangeNotifier {
           int.parse(primaryBackgroundDarkController.text, radix: 16),
     );
     final Logos logo = Logos(
-        logoColor: 'logoColor',
-        logoBlanco: 'logoBlanco',
-        backgroundImage: 'backgroundImage',
-        animationBackground: 'animationBackground');
+        logoColor: logoColor.toString(),
+        logoBlanco: logoBlanco.toString(),
+        backgroundImage: bg1.toString(),
+        animationBackground: bgLogin.toString());
+    final Carrusel carrusel = Carrusel(
+        background: background.toString(),
+        background2: background2.toString(),
+        background3: background3.toString(),
+        background4: background4.toString());
 
-    return Configuration(light: light, dark: dark, logos: logo);
+    return Configuration(
+        light: light, dark: dark, logos: logo, carrusel: carrusel);
   }
 
 //Actualizar tema por usuario
   Future<bool> actualizarTema({Configuration? tema}) async {
-    late final Configuration conf;
+    /* late final Configuration conf;
 
     if (tema != null) {
       conf = tema;
     } else {
       conf = getCurrentConfiguration();
-    }
+    } */
 
     final res = await supabase
         .from('user_profile')
         .update({
-          'configuracion': conf.toMap(),
+          'id_tema_fk': idtema,
         })
         .eq('user_profile_id', currentUser!.id)
         .select();
@@ -213,11 +246,57 @@ class VisualStateProvider extends ChangeNotifier {
       log('Error en actualizarTemas()');
       return false;
     }
+/* 
+    primaryColorLightController.text = temas
+        .first.configuracion.light.primaryColor
+        .toRadixString(16)
+        .toUpperCase();
+    secondaryColorLightController.text = temas
+        .first.configuracion.light.secondaryColor
+        .toRadixString(16)
+        .toUpperCase();
+    tertiaryColorLightController.text = temas
+        .first.configuracion.light.primaryColor
+        .toRadixString(16)
+        .toUpperCase();
+    primaryTextLightController.text = temas
+        .first.configuracion.light.primaryText
+        .toRadixString(16)
+        .toUpperCase();
+    primaryBackgroundLightController.text = temas
+        .first.configuracion.light.primaryBackground
+        .toRadixString(16)
+        .toUpperCase();
+
+    primaryColorDarkController.text = temas
+        .first.configuracion.dark.primaryColor
+        .toRadixString(16)
+        .toUpperCase();
+    secondaryColorDarkController.text = temas
+        .first.configuracion.dark.secondaryColor
+        .toRadixString(16)
+        .toUpperCase();
+    tertiaryColorDarkController.text = temas
+        .first.configuracion.dark.primaryColor
+        .toRadixString(16)
+        .toUpperCase();
+    primaryTextDarkController.text = temas.first.configuracion.dark.primaryText
+        .toRadixString(16)
+        .toUpperCase();
+    primaryBackgroundDarkController.text = temas
+        .first.configuracion.dark.primaryBackground
+        .toRadixString(16)
+        .toUpperCase();
 
     AppTheme.initConfiguration(conf);
+    updateState();
+ */
+    var config = await SupabaseQueries.getUserTheme();
+    AppTheme.initConfiguration(config);
     notifyListeners();
     return true;
   }
+
   //crear nuevo tema en la base de datos
   Future<bool> creatTema() async {
     try {
@@ -243,10 +322,7 @@ class VisualStateProvider extends ChangeNotifier {
 //seleccionar el tema de la base de datos
   Future<void> descargarTemas() async {
     try {
-      final res = await supabase
-          .from('temas')
-          .select('nombre_tema');
-          
+      final res = await supabase.from('temas').select();
 
       if (res == null) {
         log('Error en descargarTemas()');
@@ -256,7 +332,6 @@ class VisualStateProvider extends ChangeNotifier {
       temas = (res as List<dynamic>)
           .map((usuario) => TemaDescargado.fromJson(jsonEncode(usuario)))
           .toList();
-
       notifyListeners();
       return;
     } catch (e) {
@@ -298,6 +373,18 @@ class VisualStateProvider extends ChangeNotifier {
       case 'bgLogin':
         bgLogin = await pickedImage.readAsBytes();
         break;
+      case 'background':
+        background = await pickedImage.readAsBytes();
+        break;
+      case 'background2':
+        background2 = await pickedImage.readAsBytes();
+        break;
+      case 'background3':
+        background3 = await pickedImage.readAsBytes();
+        break;
+      case 'background4':
+        background4 = await pickedImage.readAsBytes();
+        break;
       default:
         return;
     }
@@ -315,37 +402,139 @@ class VisualStateProvider extends ChangeNotifier {
         return bg1;
       case 'bgLogin':
         return bgLogin;
+      case 'background':
+        return background;
+      case 'background2':
+        return background2;
+      case 'background3':
+        return background3;
+      case 'background4':
+        return background4;
       default:
         return null;
     }
   }
 
-  Future<bool> actualizarImagenes() async {
+  Future<bool> actualizarImagenes(int tema) async {
+    switch (tema) {
+      case 1:
+        assetsname = 'RTA_tema/';
+        break;
+      case 2:
+        assetsname = 'cbluna_tema/';
+    }
     if (logoColor != null) {
-      final res = await supabase.storage.from('assets').updateBinary(
-            'LogoColor.png',
+      await supabase.storage.from('assets').updateBinary(
+            '${assetsname}LogoColor.png',
             logoColor!,
           );
     }
     if (logoBlanco != null) {
-      final res = await supabase.storage.from('assets').updateBinary(
-            'LogoBlanco.png',
-            logoBlanco!,
+      await supabase.storage.from('assets').updateBinary(
+            '${assetsname}LogoBlanco.png',
+            logoColor!,
           );
     }
-    if (bg1 != null) {
-      final res = await supabase.storage.from('assets').updateBinary(
-            'bg1.png',
-            bg1!,
-          );
-    }
-    if (bgLogin != null) {
-      final res = await supabase.storage.from('assets').updateBinary(
-            'bgLogin.png',
-            bgLogin!,
-          );
-    }
+    notifyListeners();
     return true;
+  }
+
+  Future<bool> actualizarImagenesLogIn(int tema) async {
+    switch (tema) {
+      case 1:
+        assetsname = 'RTA_tema/';
+        break;
+      case 2:
+        assetsname = 'cbluna_tema/';
+    }
+    if (background != null) {
+      await supabase.storage.from('assets').updateBinary(
+            '${assetsname}background.png',
+            background!,
+          );
+    }
+    if (background2 != null) {
+      await supabase.storage.from('assets').updateBinary(
+            '${assetsname}background2.png',
+            background2!,
+          );
+    }
+    if (background3 != null) {
+      await supabase.storage.from('assets').updateBinary(
+            '${assetsname}background3.png',
+            background3!,
+          );
+    }
+    if (background4 != null) {
+      await supabase.storage.from('assets').updateBinary(
+            '${assetsname}background4.png',
+            background4!,
+          );
+    }
+    notifyListeners();
+    return true;
+  }
+
+  /* static Future<User?> getCurrentUserData() async {
+    try {
+      final user = supabase.auth.currentUser;
+      if (user == null) return null;
+
+      final PostgrestFilterBuilder query =
+          supabase.from('users').select().eq('user_profile_id', user.id);
+
+      final res = await query;
+
+      final userProfile = res[0];
+      userProfile['id'] = user.id;
+      userProfile['email'] = user.email!;
+
+      final usuario = User.fromJson(jsonEncode(userProfile));
+      return usuario;
+    } catch (e) {
+      log('Error en getCurrentUserData() - $e');
+      return null;
+    }
+  } */
+
+  Future<Configuration?> getUserTheme() async {
+    try {
+      if (currentUser == null) return null;
+      final res = await supabase
+          .from('users')
+          .select('configuracion')
+          .eq('id', currentUser!.id)
+          .select();
+      //print(res.toString());
+      Configuration config =
+          Configuration.fromJson(jsonEncode(res[0]['configuracion']));
+      primaryColorLightController.text =
+          config.light.primaryColor.toRadixString(16).toUpperCase();
+      secondaryColorLightController.text =
+          config.light.secondaryColor.toRadixString(16).toUpperCase();
+      tertiaryColorLightController.text =
+          config.light.primaryColor.toRadixString(16).toUpperCase();
+      primaryTextLightController.text =
+          config.light.primaryText.toRadixString(16).toUpperCase();
+      primaryBackgroundLightController.text =
+          config.light.primaryBackground.toRadixString(16).toUpperCase();
+
+      primaryColorDarkController.text =
+          config.dark.primaryColor.toRadixString(16).toUpperCase();
+      secondaryColorDarkController.text =
+          config.dark.secondaryColor.toRadixString(16).toUpperCase();
+      tertiaryColorDarkController.text =
+          config.dark.primaryColor.toRadixString(16).toUpperCase();
+      primaryTextDarkController.text =
+          config.dark.primaryText.toRadixString(16).toUpperCase();
+      primaryBackgroundDarkController.text =
+          config.dark.primaryBackground.toRadixString(16).toUpperCase();
+
+      return config;
+    } catch (e) {
+      log('Error en getUserTheme() - $e');
+      return null;
+    }
   }
 
   @override

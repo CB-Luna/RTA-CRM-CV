@@ -15,7 +15,7 @@ class State {
 
   factory State.fromMap(Map<String, dynamic> json) {
     return State(
-      id: json['id'],
+      id: json['id'] ?? json['state_id'],
       name: json['name'],
       code: json['code'],
     );

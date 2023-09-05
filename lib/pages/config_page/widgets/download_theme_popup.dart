@@ -7,9 +7,10 @@ import 'package:rta_crm_cv/providers/visual_state_provider.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/animated_hover_buttom.dart';
-import 'package:rta_crm_cv/widgets/succes_toast.dart';
-
-
+import 'package:rta_crm_cv/widgets/success_toast.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 
 class DownloadThemePopup extends StatefulWidget {
   const DownloadThemePopup({Key? key}) : super(key: key);
@@ -22,6 +23,12 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
   final formKey = GlobalKey<FormState>();
   FToast fToast = FToast();
 
+  void reloadPage(){
+    html.window.location.reload();
+    //html.window.caches?.delete('cacheName');
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -31,7 +38,7 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
         context,
         listen: false,
       );
-      await provider.descargarTemas();
+      await provider.updateState();
     });
   }
 
@@ -69,7 +76,8 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.175,
                 height: MediaQuery.of(context).size.height * 0.3,
-                child: SingleChildScrollView(
+                child: CustomScrollBar(
+                  scrollDirection: Axis.vertical,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -97,7 +105,8 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                                 horizontal: 30,
                                 vertical: 10,
                               ),
-                              child: SingleChildScrollView(
+                              child: CustomScrollBar(
+                                scrollDirection: Axis.vertical,
                                 child: ListView.builder(
                                   padding: EdgeInsets.zero,
                                   primary: true,
@@ -107,8 +116,8 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                                   itemBuilder: (context, index) {
                                     final TemaDescargado tema =
                                         provider.temas[index];
-                                    final bool seleccionado = tema.id ==
-                                        provider.temaSeleccionado?.id;
+                                    final bool seleccionado = tema.idTema ==
+                                        provider.temaSeleccionado?.idTema;
                                     return ThemeCardWidget(
                                       tema: tema,
                                       seleccionado: seleccionado,
@@ -129,9 +138,11 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                             );
                             return;
                           }
+                          provider.idtema = provider.temaSeleccionado!.idTema;
                           final res = await provider.actualizarTema(
-                            tema: provider.temaSeleccionado!.tema,
+                            tema: provider.temaSeleccionado!.configuracion,
                           );
+
                           if (!res) {
                             await ApiErrorHandler.callToast(
                               'Error al actualizar los temas',
@@ -144,6 +155,8 @@ class _DownloadThemePopupState extends State<DownloadThemePopup> {
                               gravity: ToastGravity.BOTTOM,
                               toastDuration: const Duration(seconds: 2),
                             );
+                            reloadPage();
+                            //context.pushReplacement('/config');
                           }
                         },
                       ),
@@ -216,18 +229,21 @@ class _ThemeCardWidgetState extends State<ThemeCardWidget> {
             child: Row(
               children: [
                 Text(
-                  widget.tema.nombre,
+                  widget.tema.nombreTema,
                   style: AppTheme.of(context).bodyText1,
                 ),
                 const Spacer(),
-                ColorContainer(colorValue: widget.tema.tema.light.primaryColor),
                 ColorContainer(
-                    colorValue: widget.tema.tema.light.secondaryColor),
+                    colorValue: widget.tema.configuracion.light.primaryColor),
                 ColorContainer(
-                    colorValue: widget.tema.tema.light.tertiaryColor),
-                ColorContainer(colorValue: widget.tema.tema.light.primaryText),
+                    colorValue: widget.tema.configuracion.light.secondaryColor),
                 ColorContainer(
-                    colorValue: widget.tema.tema.light.primaryBackground),
+                    colorValue: widget.tema.configuracion.light.tertiaryColor),
+                ColorContainer(
+                    colorValue: widget.tema.configuracion.light.primaryText),
+                ColorContainer(
+                    colorValue:
+                        widget.tema.configuracion.light.primaryBackground),
               ],
             ),
           ),

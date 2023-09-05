@@ -8,9 +8,9 @@ String dateFormat(
   if (x == null) return '-';
   String formattedDate = '';
   if (!includeTime) {
-    formattedDate = DateFormat('dd-MM-yyyy').format(x);
+    formattedDate = DateFormat('MMMM, MM-dd-yyyy').format(x);
   } else {
-    formattedDate = DateFormat('dd-MM-yyyy H:m').format(x);
+    formattedDate = DateFormat('MMMM, MM-dd-yyyy H:m').format(x);
   }
   if (includeTimeAgo) {
     final Duration difference = DateTime.now().toUtc().difference(x);

@@ -8,11 +8,13 @@ class Configuration {
     required this.light,
     required this.dark,
     required this.logos,
+    required this.carrusel,
   });
 
   Mode light;
   Mode dark;
-   Logos logos;
+  Logos logos;
+  Carrusel carrusel;
 
   factory Configuration.fromJson(String str) =>
       Configuration.fromMap(json.decode(str));
@@ -22,13 +24,15 @@ class Configuration {
   factory Configuration.fromMap(Map<String, dynamic> json) => Configuration(
         light: Mode.fromMap(json["light"]),
         dark: Mode.fromMap(json["dark"]),
-         logos: Logos.fromMap(json["logos"]),
+        logos: Logos.fromMap(json["logos"]),
+        carrusel:Carrusel.fromMap(json["carrusel"]),
       );
 
   Map<String, dynamic> toMap() => {
         "light": light.toMap(),
         "dark": dark.toMap(),
         "logos": logos.toMap(),
+        "carrusel":carrusel.toMap(),
       };
 }
 
@@ -72,33 +76,65 @@ class Mode {
 }
 
 class Logos {
-    Logos({
-        required this.logoColor,
-        required this.logoBlanco,
-        required this.backgroundImage,
-        required this.animationBackground,
-    });
+  Logos({
+    required this.logoColor,
+    required this.logoBlanco,
+    required this.backgroundImage,
+    required this.animationBackground,
+  });
 
-    final String logoColor;
-    final String logoBlanco;
-    final String backgroundImage;
-    final String animationBackground;
+  final String logoColor;
+  final String logoBlanco;
+  final String backgroundImage;
+  final String animationBackground;
 
-    factory Logos.fromJson(String str) => Logos.fromMap(json.decode(str));
+  factory Logos.fromJson(String str) => Logos.fromMap(json.decode(str));
 
-    String toJson() => json.encode(toMap());
+  String toJson() => json.encode(toMap());
 
-    factory Logos.fromMap(Map<String, dynamic> json) => Logos(
+  factory Logos.fromMap(Map<String, dynamic> json) => Logos(
         logoColor: json["logoColor"],
         logoBlanco: json["LogoBlanco"],
         backgroundImage: json["backgroundImage"],
         animationBackground: json["animationBackground"],
-    );
+      );
 
-    Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap() => {
         "logoColor": logoColor,
         "LogoBlanco": logoBlanco,
         "backgroundImage": backgroundImage,
         "animationBackground": animationBackground,
+      };
+}
+
+class Carrusel {
+    final String background;
+    final String background2;
+    final String background3;
+    final String background4;
+
+    Carrusel({
+        required this.background,
+        required this.background2,
+        required this.background3,
+        required this.background4,
+    });
+
+    factory Carrusel.fromJson(String str) => Carrusel.fromMap(json.decode(str));
+
+    String toJson() => json.encode(toMap());
+
+    factory Carrusel.fromMap(Map<String, dynamic> json) => Carrusel(
+        background: json["background"],
+        background2: json["background2"],
+        background3: json["background3"],
+        background4: json["background4"],
+    );
+
+    Map<String, dynamic> toMap() => {
+        "background": background,
+        "background2": background2,
+        "background3": background3,
+        "background4": background4,
     };
 }
