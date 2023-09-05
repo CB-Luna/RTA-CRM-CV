@@ -47,6 +47,8 @@ class DetailQuoteProvider extends ChangeNotifier {
     evcCircuitIdController.clear();
     //ddosSelectedValue = ddosList.first;
     ddosSelectedValue = false;
+    ipBlockSelectedValue = ipBlockList.first.name!;
+    peeringTypeSelectedValue = peeringTypeList.first.name!;
     ipAdressSelectedValue = ipAdressList.first;
     ipInterfaceSelectedValue = ipInterfaceList.first;
     subnetSelectedValue = subnetList.first;
@@ -163,6 +165,10 @@ class DetailQuoteProvider extends ChangeNotifier {
   final evcCircuitIdController = TextEditingController();
   List<GenericCat> bgpList = [GenericCat(name: 'No')];
   late String bgpSelectedValue;
+  List<GenericCat> ipBlockList = [GenericCat(name: 'IPv4'), GenericCat(name: 'IPv4 & IPv6')];
+  late String ipBlockSelectedValue;
+  List<GenericCat> peeringTypeList = [GenericCat(name: 'IPv4'), GenericCat(name: 'IPv4 & IPv6')];
+  late String peeringTypeSelectedValue;
   List<String> ipAdressList = ['Interface', 'IP Subnet'];
   late String ipAdressSelectedValue;
   List<String> ipInterfaceList = ['IPv4', 'IPv6'];
@@ -701,19 +707,25 @@ class DetailQuoteProvider extends ChangeNotifier {
         portSizeSelectedValue = quote.circuitInfo!.portSize!;
       }
 
-      bandwidthController.text = quote.circuitInfo!.bandwidth!;
+      //bandwidthController.text = quote.circuitInfo!.bandwidth!;
 
       ddosSelectedValue = quote.circuitInfo!.ddosType!;
       if (quote.circuitInfo!.circuitType == 'DIA') {
         bgpSelectedValue = quote.circuitInfo!.bgpType!;
+
+        if (bgpSelectedValue == 'No') {
+          ipBlockSelectedValue = quote.circuitInfo!.ipBlock!;
+        } else if (bgpSelectedValue == 'Current ASN(s)') {
+          peeringTypeSelectedValue = quote.circuitInfo!.peeringType!;
+        }
       }
 
-      ipAdressSelectedValue = quote.circuitInfo!.ipType!;
+      /* ipAdressSelectedValue = quote.circuitInfo!.ipType!;
       if (quote.circuitInfo!.ipType == 'Interface') {
         ipInterfaceSelectedValue = quote.circuitInfo!.interfaceType!;
       } else {
         subnetSelectedValue = quote.circuitInfo!.subnetType!;
-      }
+      } */
 
       ///////////////Customer Info////////////////////////////////////////////////////////////////////
 

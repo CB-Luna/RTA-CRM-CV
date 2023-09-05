@@ -28,9 +28,9 @@ class OrdersProvider extends ChangeNotifier {
   final cirSelectedValue = TextEditingController();
   final handoffSelectedValue = TextEditingController();
   final demarcationPointController = TextEditingController();
-  final rackLocationController = TextEditingController();
+  //final rackLocationController = TextEditingController();
   final detailController = TextEditingController();
-  final bandwidthController = TextEditingController();
+  //final bandwidthController = TextEditingController();
 
 ////////////////////////////////////////////////////////////////////////////
   OrdersProvider() {
@@ -56,9 +56,9 @@ class OrdersProvider extends ChangeNotifier {
     cirSelectedValue.clear();
     handoffSelectedValue.clear();
     demarcationPointController.clear();
-    rackLocationController.clear();
+    //rackLocationController.clear();
     detailController.clear();
-    bandwidthController.clear();
+    //bandwidthController.clear();
   }
 
   Future<void> updateState() async {
@@ -88,7 +88,7 @@ class OrdersProvider extends ChangeNotifier {
       }
       if (circuitTypeSelectedValue.text == 'DIA') {
         circuitAddressController.text = quote.orderInfo!.address!;
-        bandwidthController.text = quote.circuitInfo!.bandwidth!;
+        //bandwidthController.text = quote.circuitInfo!.bandwidth!;
       }
       if (typesSelectedValue.text != 'Removal' && (circuitTypeSelectedValue.text == 'ASEoD' || circuitTypeSelectedValue.text == 'PTP')) {
         handoffSelectedValue.text = quote.orderInfo!.handoff!;
@@ -97,7 +97,7 @@ class OrdersProvider extends ChangeNotifier {
       }
       if (circuitTypeSelectedValue.text == 'NNI' || circuitTypeSelectedValue.text == 'X-Connect') {
         circuitAddressController.text = quote.orderInfo!.address!;
-        rackLocationController.text = quote.orderInfo!.rackLocation!;
+        //rackLocationController.text = quote.orderInfo!.rackLocation!;
       }
       if (circuitTypeSelectedValue.text == 'X-Connect') {
         circuitAddressController.text = quote.orderInfo!.address!;

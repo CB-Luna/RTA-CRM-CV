@@ -9,6 +9,7 @@ import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 //import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_%20generic_cat.dart';
@@ -37,23 +38,6 @@ class CreateQuoteProvider extends ChangeNotifier {
     margin = 0;
 
     await getCatalogData();
-
-    existingCircuitIDController.clear();
-    newCircuitIDController.clear();
-    addressController.clear();
-    newDataCenterController.clear();
-    rackLocationController.clear();
-    demarcationPointController.clear();
-
-    multicastRequired = false;
-    locationController.clear();
-    evcodSelectedValue = evcodList.first;
-    evcCircuitIdController.clear();
-    //ddosSelectedValue = ddosList.first;
-    ddosSelectedValue = false;
-    ipAdressSelectedValue = ipAdressList.first;
-    ipInterfaceSelectedValue = ipInterfaceList.first;
-    subnetSelectedValue = subnetList.first;
 
     //idVendor = null;
 
@@ -143,6 +127,10 @@ class CreateQuoteProvider extends ChangeNotifier {
   final evcCircuitIdController = TextEditingController();
   List<GenericCat> bgpList = [GenericCat(name: 'No')];
   late String bgpSelectedValue;
+  List<GenericCat> ipBlockList = [GenericCat(name: 'IPv4'), GenericCat(name: 'IPv4 & IPv6')];
+  late String ipBlockSelectedValue;
+  List<GenericCat> peeringTypeList = [GenericCat(name: 'IPv4'), GenericCat(name: 'IPv4 & IPv6')];
+  late String peeringTypeSelectedValue;
   List<String> ipAdressList = ['Interface', 'IP Subnet'];
   late String ipAdressSelectedValue;
   List<String> ipInterfaceList = ['IPv4', 'IPv6'];
@@ -244,6 +232,16 @@ class CreateQuoteProvider extends ChangeNotifier {
 
   void selectPortSize(String selected) {
     portSizeSelectedValue = selected;
+    notifyListeners();
+  }
+
+  void selectIpBlock(String selected) {
+    ipBlockSelectedValue = selected;
+    notifyListeners();
+  }
+
+  void selectPeeringType(String selected) {
+    peeringTypeSelectedValue = selected;
     notifyListeners();
   }
 
@@ -979,6 +977,26 @@ class CreateQuoteProvider extends ChangeNotifier {
       bgpList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
       bgpSelectedValue = bgpList.first.name!;
 
+      existingCircuitIDController.clear();
+      newCircuitIDController.clear();
+      addressController.clear();
+      newDataCenterController.clear();
+      rackLocationController.clear();
+      demarcationPointController.clear();
+
+      multicastRequired = false;
+      locationController.clear();
+      evcodSelectedValue = evcodList.first;
+      evcCircuitIdController.clear();
+      //ddosSelectedValue = ddosList.first;
+
+      ddosSelectedValue = false;
+      ipBlockSelectedValue = ipBlockList.first.name!;
+      peeringTypeSelectedValue = peeringTypeList.first.name!;
+      ipAdressSelectedValue = ipAdressList.first;
+      ipInterfaceSelectedValue = ipInterfaceList.first;
+      subnetSelectedValue = subnetList.first;
+
       notifyListeners();
       return true;
     } catch (e) {
@@ -1193,9 +1211,11 @@ class CreateQuoteProvider extends ChangeNotifier {
           "ddos_type": ddosSelectedValue,
           "bandwidth": null,
           "bgp_type": circuitTypeSelectedValue == "DIA" ? bgpSelectedValue : null,
-          "ip_type": ipAdressSelectedValue,
-          "interface_type": ipAdressSelectedValue == 'Interface' ? ipInterfaceSelectedValue : null,
-          "subnet_type": ipAdressSelectedValue == 'IP Subnet' ? subnetSelectedValue : null,
+          //"ip_type": ipAdressSelectedValue,
+          //"interface_type": ipAdressSelectedValue == 'Interface' ? ipInterfaceSelectedValue : null,
+          //"subnet_type": ipAdressSelectedValue == 'IP Subnet' ? subnetSelectedValue : null,
+          "ip_block": circuitTypeSelectedValue == 'DIA' && bgpSelectedValue == 'No' ? ipBlockSelectedValue : null,
+          "peering_type": circuitTypeSelectedValue == 'DIA' && bgpSelectedValue == 'Current ASN(s)' ? peeringTypeSelectedValue : null,
           "contact_id": quote.contactid,
           "items": totalItems,
           "subtotal": subtotal,

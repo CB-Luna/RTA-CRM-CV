@@ -423,17 +423,17 @@ class QuotesProvider extends ChangeNotifier {
           "body":
               "Circuit Address:${quote.orderInfo!.address!}\nCircuit Details:${quote.description!}\nData Center Location:${quote.orderInfo!.dataCenterLocation!}\nPort Size:${quote.circuitInfo!.portSize!}\nCIR:${quote.circuitInfo!.cir!}",
 
-        if (circuitTypeSelectedValue == 'DIA') "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}\nBandwidth:${quote.circuitInfo!.bandwidth!}",
+        if (circuitTypeSelectedValue == 'DIA') "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}}",
 
         if (typesSelectedValue != 'Removal' && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP'))
           "body":
               "Circuit Address:${quote.orderInfo!.address!}\nCircuit Details:${quote.description!}\nData Center Location:${quote.orderInfo!.dataCenterLocation!}\nPort Size:${quote.circuitInfo!.portSize!}\nCIR:${quote.circuitInfo!.cir!}\nHandoff:${quote.orderInfo!.handoff!}\nDemarcation Point:${quote.orderInfo!.demarcationPoint!}\nImage of Demarcation Point:${quote.demarcationUrl} ",
 
         if (circuitTypeSelectedValue == 'NNI' || circuitTypeSelectedValue == 'X-Connect')
-          "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}\nRack Location:${quote.orderInfo!.rackLocation!}",
+          "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}",
 
         if (circuitTypeSelectedValue == 'X-Connect')
-          "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}\nRack Location:${quote.orderInfo!.rackLocation!}\nDetails:${quote.description!}",
+          "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}\nDetails:${quote.description!}",
       };
 
       var json = {
