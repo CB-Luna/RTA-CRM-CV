@@ -18,6 +18,7 @@ import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
+import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/pluto_grid_cells/custom_textcell.dart';
 import 'package:rta_crm_cv/widgets/pluto_grid_cells/pluto_grid_status_cell.dart';
@@ -94,197 +95,203 @@ class _QuotesTabState extends State<QuotesTab> {
                   label: 'Search',
                   keyboardType: TextInputType.text,
                 ),
-                SizedBox(
-                  width: 800,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      //filtros validate
-                      if (provider.indexSelected[13] || provider.indexSelected[2] || provider.indexSelected[3] || provider.indexSelected[4] && currentUser!.isSales)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: CustomTextIconButton(
-                                  width: 100,
-                                  isLoading: false,
-                                  icon: Icon(provider.indexSelected[13] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                                  text: 'All',
-                                  color: AppTheme.of(context).primaryColor,
-                                  onTap: () async {
-                                    provider.setIndex(13);
-                                  },
-                                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20,left: 20),
+                  child: SizedBox(
+                    width: getWidth(580, context),
+                    child: CustomScrollBar(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          //filtros validate
+                          if (provider.indexSelected[13] || provider.indexSelected[2] || provider.indexSelected[3] || provider.indexSelected[4] && currentUser!.isSales)
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: CustomTextIconButton(
+                                      width: 100,
+                                      isLoading: false,
+                                      icon: Icon(provider.indexSelected[13] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                      text: 'All',
+                                      color: AppTheme.of(context).primaryColor,
+                                      onTap: () async {
+                                        provider.setIndex(13);
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: CustomTextIconButton(
+                                      width: 165,
+                                      isLoading: false,
+                                      icon: Icon(provider.indexSelected[2] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                      text: 'Sen. Exec. Validate',
+                                      color: Colors.orangeAccent,
+                                      onTap: () async {
+                                        provider.setIndex(2);
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: CustomTextIconButton(
+                                      width: 150,
+                                      isLoading: false,
+                                      icon: Icon(provider.indexSelected[3] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                      text: 'Finance Validate',
+                                      color: Colors.orangeAccent,
+                                      onTap: () async {
+                                        provider.setIndex(3);
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: CustomTextIconButton(
+                                      width: 160,
+                                      isLoading: false,
+                                      icon: Icon(provider.indexSelected[4] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                      text: 'Engineer Validate',
+                                      color: Colors.orangeAccent,
+                                      onTap: () async {
+                                        provider.setIndex(4);
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: CustomTextIconButton(
-                                  width: 165,
-                                  isLoading: false,
-                                  icon: Icon(provider.indexSelected[2] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                                  text: 'Sen. Exec. Validate',
-                                  color: Colors.orangeAccent,
-                                  onTap: () async {
-                                    provider.setIndex(2);
-                                  },
-                                ),
+                            ),
+                          //filtros canceled y rejected
+                          if (provider.indexSelected[14] || provider.indexSelected[5] || provider.indexSelected[12])
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: CustomTextIconButton(
+                                      width: 100,
+                                      isLoading: false,
+                                      icon: Icon(provider.indexSelected[14] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                      text: 'All',
+                                      color: AppTheme.of(context).primaryColor,
+                                      onTap: () async {
+                                        provider.setIndex(14);
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: CustomTextIconButton(
+                                      width: 150,
+                                      isLoading: false,
+                                      icon: Icon(provider.indexSelected[12] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                      text: 'Canceled',
+                                      color: Colors.red,
+                                      onTap: () async {
+                                        provider.setIndex(12);
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: CustomTextIconButton(
+                                      width: 165,
+                                      isLoading: false,
+                                      icon: Icon(provider.indexSelected[5] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                      text: 'Rejected',
+                                      color: Colors.red,
+                                      onTap: () async {
+                                        provider.setIndex(5);
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: CustomTextIconButton(
-                                  width: 150,
-                                  isLoading: false,
-                                  icon: Icon(provider.indexSelected[3] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                                  text: 'Finance Validate',
-                                  color: Colors.orangeAccent,
-                                  onTap: () async {
-                                    provider.setIndex(3);
-                                  },
-                                ),
+                            ),
+                          if (provider.indexSelected[15] || provider.indexSelected[9] || provider.indexSelected[10])
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: CustomTextIconButton(
+                                      width: 100,
+                                      isLoading: false,
+                                      icon: Icon(provider.indexSelected[15] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                      text: 'All',
+                                      color: AppTheme.of(context).primaryColor,
+                                      onTap: () async {
+                                        provider.setIndex(15);
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: CustomTextIconButton(
+                                      width: 210,
+                                      isLoading: false,
+                                      icon: Icon(provider.indexSelected[9] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                      text: 'Network Cross-Connected',
+                                      color: Colors.black,
+                                      onTap: () async {
+                                        provider.setIndex(9);
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: CustomTextIconButton(
+                                      width: 150,
+                                      isLoading: false,
+                                      icon: Icon(provider.indexSelected[10] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
+                                      text: 'Network Issues',
+                                      color: Colors.black,
+                                      onTap: () async {
+                                        provider.setIndex(10);
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: CustomTextIconButton(
-                                  width: 160,
-                                  isLoading: false,
-                                  icon: Icon(provider.indexSelected[4] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                                  text: 'Engineer Validate',
-                                  color: Colors.orangeAccent,
-                                  onTap: () async {
-                                    provider.setIndex(4);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      //filtros canceled y rejected
-                      if (provider.indexSelected[14] || provider.indexSelected[5] || provider.indexSelected[12])
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: CustomTextIconButton(
-                                  width: 100,
-                                  isLoading: false,
-                                  icon: Icon(provider.indexSelected[14] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                                  text: 'All',
-                                  color: AppTheme.of(context).primaryColor,
-                                  onTap: () async {
-                                    provider.setIndex(14);
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: CustomTextIconButton(
-                                  width: 150,
-                                  isLoading: false,
-                                  icon: Icon(provider.indexSelected[12] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                                  text: 'Canceled',
-                                  color: Colors.red,
-                                  onTap: () async {
-                                    provider.setIndex(12);
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: CustomTextIconButton(
-                                  width: 165,
-                                  isLoading: false,
-                                  icon: Icon(provider.indexSelected[5] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                                  text: 'Rejected',
-                                  color: Colors.red,
-                                  onTap: () async {
-                                    provider.setIndex(5);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      if (provider.indexSelected[15] || provider.indexSelected[9] || provider.indexSelected[10])
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: CustomTextIconButton(
-                                  width: 100,
-                                  isLoading: false,
-                                  icon: Icon(provider.indexSelected[15] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                                  text: 'All',
-                                  color: AppTheme.of(context).primaryColor,
-                                  onTap: () async {
-                                    provider.setIndex(15);
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: CustomTextIconButton(
-                                  width: 210,
-                                  isLoading: false,
-                                  icon: Icon(provider.indexSelected[9] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                                  text: 'Network Cross-Connected',
-                                  color: Colors.black,
-                                  onTap: () async {
-                                    provider.setIndex(9);
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: CustomTextIconButton(
-                                  width: 150,
-                                  isLoading: false,
-                                  icon: Icon(provider.indexSelected[10] ? Icons.filter_alt : Icons.filter_alt_outlined, color: AppTheme.of(context).primaryBackground),
-                                  text: 'Network Issues',
-                                  color: Colors.black,
-                                  onTap: () async {
-                                    provider.setIndex(10);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                      CustomTextIconButton(
-                        width: 90,
-                        isLoading: false,
-                        icon: Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryBackground),
-                        text: 'Export',
-                        color: AppTheme.of(context).primaryColor,
-                        onTap: () async {
-                          await provider.exportData();
-                        },
-                      ),
-
-                      /* if (currentUser!.isSales)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: CustomTextIconButton(
-                            width: 131,
+                            ),
+                                    
+                          CustomTextIconButton(
+                            width: 90,
                             isLoading: false,
-                            icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
-                            text: 'Create Order',
-                            color: AppTheme.of(context).tertiaryColor,
+                            icon: Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryBackground),
+                            text: 'Export',
+                            color: AppTheme.of(context).primaryColor,
                             onTap: () async {
-                              await providerCreate.clearAll();
-                              providerCreate.idLead = null;
-                              // ignore: use_build_context_synchronously
-                              context.pushReplacement(routeQuoteCreation);
+                              await provider.exportData();
                             },
                           ),
-                        ), */
-                    ],
+                                    
+                          /* if (currentUser!.isSales)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: CustomTextIconButton(
+                                width: 131,
+                                isLoading: false,
+                                icon: Icon(Icons.add, color: AppTheme.of(context).primaryBackground),
+                                text: 'Create Order',
+                                color: AppTheme.of(context).tertiaryColor,
+                                onTap: () async {
+                                  await providerCreate.clearAll();
+                                  providerCreate.idLead = null;
+                                  // ignore: use_build_context_synchronously
+                                  context.pushReplacement(routeQuoteCreation);
+                                },
+                              ),
+                            ), */
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],
