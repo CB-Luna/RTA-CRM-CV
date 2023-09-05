@@ -633,9 +633,16 @@ class InventoryProvider extends ChangeNotifier {
             companySelectedUpdate?.companyId ?? vehicle.company.companyId,
         'image': imageUrl ?? vehicle.image,
         'date_added': DateTime.now().toIso8601String(),
-        'oil_change_due': dateTimeControllerOilUpdate.text,
-        'last_radiator_fluid_change': dateTimeControllerRFCUpadte.text,
-        'last_transmission_fluid_change': dateTimeControllerLTFCUpadte.text,
+        'oil_change_due': dateTimeControllerOilUpdate.text == ""
+            ? null
+            : dateTimeControllerOilUpdate.text,
+        'last_radiator_fluid_change': dateTimeControllerRFCUpadte.text == ""
+            ? null
+            : dateTimeControllerRFCUpadte.text,
+        'last_transmission_fluid_change':
+            dateTimeControllerLTFCUpadte.text == ""
+                ? null
+                : dateTimeControllerLTFCUpadte.text,
         'mileage': int.parse(mileageControllerUpdate.text.replaceAll(",", "")),
 
         //(registroIssueComments!.nameIssue)
