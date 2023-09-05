@@ -17,6 +17,7 @@ class CustomAgenda extends StatelessWidget {
     // DateTime checkIn = DateTime.now();
     //Controlador para compartir entre scrollbar y singlechild
     ScrollController _scrollController = ScrollController();
+    const urlImage = "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
 
     return Column(
       children: [
@@ -159,29 +160,47 @@ class CustomAgenda extends StatelessWidget {
                                               ),
                                               // Spacer(),
 
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    width: MediaQuery.of(context).size.width * 0.12,
-                                                    height: MediaQuery.of(context).size.height * 0.13,
-                                                    alignment: Alignment.topCenter,
-                                                    decoration: ShapeDecoration(
-                                                      image: DecorationImage(
-                                                        image: NetworkImage(
-                                                          provider.idEventos[index].vehicle.image!,
-                                                        ),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                      shape: RoundedRectangleBorder(
-                                                        side: const BorderSide(width: 2.50, color: Colors.white),
-                                                        borderRadius: BorderRadius.circular(20),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  //
-                                                ],
-                                              ),
+                                              provider.idEventos[index].vehicle.image != null ?
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width * 0.12,
+                                                            height: MediaQuery.of(context).size.height * 0.13,
+                                                            alignment: Alignment.topCenter,
+                                                            decoration: ShapeDecoration(
+                                                              image: DecorationImage(
+                                                                image: NetworkImage(
+                                                                  provider.idEventos[index].vehicle.image!,
+                                                                ),
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                              shape: RoundedRectangleBorder(
+                                                                side: const BorderSide(width: 2.50, color: Colors.white),
+                                                                borderRadius: BorderRadius.circular(20),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ):
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width * 0.12,
+                                                            height: MediaQuery.of(context).size.height * 0.13,
+                                                            alignment: Alignment.topCenter,
+                                                            decoration: ShapeDecoration(
+                                                              shape: RoundedRectangleBorder(
+                                                                side: const BorderSide(width: 2.50, color: Colors.white),
+                                                                borderRadius: BorderRadius.circular(20),
+                                                              ),
+                                                            ),
+                                                            child: Image.network(urlImage, fit: BoxFit.contain),
+                                                          ),
+                                                          //
+                                                        ],
+                                                      )
                                             ]),
                                           ],
                                         ),
@@ -285,29 +304,47 @@ class CustomAgenda extends StatelessWidget {
                                                   ),
                                                   // Spacer(),
 
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      Container(
-                                                        width: MediaQuery.of(context).size.width * 0.12,
-                                                        height: MediaQuery.of(context).size.height * 0.13,
-                                                        alignment: Alignment.topCenter,
-                                                        decoration: ShapeDecoration(
-                                                          image: DecorationImage(
-                                                            image: NetworkImage(
-                                                              provider.idEventos[index].vehicle.image!,
+                                                 provider.idEventos[index].vehicle.image != null ?
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width * 0.12,
+                                                            height: MediaQuery.of(context).size.height * 0.13,
+                                                            alignment: Alignment.topCenter,
+                                                            decoration: ShapeDecoration(
+                                                              image: DecorationImage(
+                                                                image: NetworkImage(
+                                                                  provider.idEventos[index].vehicle.image!,
+                                                                ),
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                              shape: RoundedRectangleBorder(
+                                                                side: const BorderSide(width: 2.50, color: Colors.white),
+                                                                borderRadius: BorderRadius.circular(20),
+                                                              ),
                                                             ),
-                                                            fit: BoxFit.cover,
                                                           ),
-                                                          shape: RoundedRectangleBorder(
-                                                            side: const BorderSide(width: 2.50, color: Colors.white),
-                                                            borderRadius: BorderRadius.circular(20),
+                                                        ],
+                                                      ):
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width * 0.12,
+                                                            height: MediaQuery.of(context).size.height * 0.13,
+                                                            alignment: Alignment.topCenter,
+                                                            decoration: ShapeDecoration(
+                                                              shape: RoundedRectangleBorder(
+                                                                side: const BorderSide(width: 2.50, color: Colors.white),
+                                                                borderRadius: BorderRadius.circular(20),
+                                                              ),
+                                                            ),
+                                                            child: Image.network(urlImage, fit: BoxFit.contain),
                                                           ),
-                                                        ),
-                                                      ),
-                                                      //
-                                                    ],
-                                                  ),
+                                                          //
+                                                        ],
+                                                      )
                                                 ]),
                                               ],
                                             ),
@@ -411,6 +448,7 @@ class CustomAgenda extends StatelessWidget {
                                                       ),
                                                       // Spacer(),
 
+                                                      provider.idEventos[index].vehicle.image != null ?
                                                       Row(
                                                         mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
@@ -431,9 +469,26 @@ class CustomAgenda extends StatelessWidget {
                                                               ),
                                                             ),
                                                           ),
+                                                        ],
+                                                      ):
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width * 0.12,
+                                                            height: MediaQuery.of(context).size.height * 0.13,
+                                                            alignment: Alignment.topCenter,
+                                                            decoration: ShapeDecoration(
+                                                              shape: RoundedRectangleBorder(
+                                                                side: const BorderSide(width: 2.50, color: Colors.white),
+                                                                borderRadius: BorderRadius.circular(20),
+                                                              ),
+                                                            ),
+                                                            child: Image.network(urlImage, fit: BoxFit.contain),
+                                                          ),
                                                           //
                                                         ],
-                                                      ),
+                                                      )
                                                     ]),
                                                   ],
                                                 ),
@@ -586,29 +641,47 @@ class CustomAgenda extends StatelessWidget {
                                               ),
                                               // Spacer(),
 
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    width: MediaQuery.of(context).size.width * 0.12,
-                                                    height: MediaQuery.of(context).size.height * 0.13,
-                                                    alignment: Alignment.topCenter,
-                                                    decoration: ShapeDecoration(
-                                                      image: DecorationImage(
-                                                        image: NetworkImage(
-                                                          provider.idEventos[index].vehicle.image!,
-                                                        ),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                      shape: RoundedRectangleBorder(
-                                                        side: const BorderSide(width: 2.50, color: Colors.white),
-                                                        borderRadius: BorderRadius.circular(20),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  //
-                                                ],
-                                              ),
+                                              provider.idEventos[index].vehicle.image != null ?
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width * 0.12,
+                                                            height: MediaQuery.of(context).size.height * 0.13,
+                                                            alignment: Alignment.topCenter,
+                                                            decoration: ShapeDecoration(
+                                                              image: DecorationImage(
+                                                                image: NetworkImage(
+                                                                  provider.idEventos[index].vehicle.image!,
+                                                                ),
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                              shape: RoundedRectangleBorder(
+                                                                side: const BorderSide(width: 2.50, color: Colors.white),
+                                                                borderRadius: BorderRadius.circular(20),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ):
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width * 0.12,
+                                                            height: MediaQuery.of(context).size.height * 0.13,
+                                                            alignment: Alignment.topCenter,
+                                                            decoration: ShapeDecoration(
+                                                              shape: RoundedRectangleBorder(
+                                                                side: const BorderSide(width: 2.50, color: Colors.white),
+                                                                borderRadius: BorderRadius.circular(20),
+                                                              ),
+                                                            ),
+                                                            child: Image.network(urlImage, fit: BoxFit.contain),
+                                                          ),
+                                                          //
+                                                        ],
+                                                      )
                                             ]),
                                           ],
                                         ),
@@ -759,29 +832,47 @@ class CustomAgenda extends StatelessWidget {
                                                   ),
                                                   // Spacer(),
 
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      Container(
-                                                        width: MediaQuery.of(context).size.width * 0.12,
-                                                        height: MediaQuery.of(context).size.height * 0.13,
-                                                        alignment: Alignment.topCenter,
-                                                        decoration: ShapeDecoration(
-                                                          image: DecorationImage(
-                                                            image: NetworkImage(
-                                                              provider.idEventos[index].vehicle.image!,
+                                                  provider.idEventos[index].vehicle.image != null ?
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width * 0.12,
+                                                            height: MediaQuery.of(context).size.height * 0.13,
+                                                            alignment: Alignment.topCenter,
+                                                            decoration: ShapeDecoration(
+                                                              image: DecorationImage(
+                                                                image: NetworkImage(
+                                                                  provider.idEventos[index].vehicle.image!,
+                                                                ),
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                              shape: RoundedRectangleBorder(
+                                                                side: const BorderSide(width: 2.50, color: Colors.white),
+                                                                borderRadius: BorderRadius.circular(20),
+                                                              ),
                                                             ),
-                                                            fit: BoxFit.cover,
                                                           ),
-                                                          shape: RoundedRectangleBorder(
-                                                            side: const BorderSide(width: 2.50, color: Colors.white),
-                                                            borderRadius: BorderRadius.circular(20),
+                                                        ],
+                                                      ):
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width * 0.12,
+                                                            height: MediaQuery.of(context).size.height * 0.13,
+                                                            alignment: Alignment.topCenter,
+                                                            decoration: ShapeDecoration(
+                                                              shape: RoundedRectangleBorder(
+                                                                side: const BorderSide(width: 2.50, color: Colors.white),
+                                                                borderRadius: BorderRadius.circular(20),
+                                                              ),
+                                                            ),
+                                                            child: Image.network(urlImage, fit: BoxFit.contain),
                                                           ),
-                                                        ),
-                                                      ),
-                                                      //
-                                                    ],
-                                                  ),
+                                                          //
+                                                        ],
+                                                      )
                                                 ]),
                                               ],
                                             ),
@@ -930,7 +1021,7 @@ class CustomAgenda extends StatelessWidget {
                                                         ],
                                                       ),
                                                       // Spacer(),
-
+                                                      provider.idEventos[index].vehicle.image != null ?
                                                       Row(
                                                         mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
@@ -951,9 +1042,28 @@ class CustomAgenda extends StatelessWidget {
                                                               ),
                                                             ),
                                                           ),
+                                                        ],
+                                                      ):
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: MediaQuery.of(context).size.width * 0.12,
+                                                            height: MediaQuery.of(context).size.height * 0.13,
+                                                            alignment: Alignment.topCenter,
+                                                            decoration: ShapeDecoration(
+                                                              shape: RoundedRectangleBorder(
+                                                                side: const BorderSide(width: 2.50, color: Colors.white),
+                                                                borderRadius: BorderRadius.circular(20),
+                                                              ),
+                                                            ),
+                                                            child: Image.network(urlImage, fit: BoxFit.contain),
+                                                          ),
                                                           //
                                                         ],
-                                                      ),
+                                                      )
+
+
                                                     ]),
                                                   ],
                                                 ),
