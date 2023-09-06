@@ -43,8 +43,6 @@ class Vehicle {
   int? issuesD;
   int mileage;
 
-  String get fullName => '$model $year';
-
   factory Vehicle.fromJson(String str) => Vehicle.fromMap(json.decode(str));
 
   factory Vehicle.fromMap(Map<String, dynamic> json) => Vehicle(
