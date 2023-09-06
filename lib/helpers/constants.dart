@@ -20,7 +20,8 @@ const redirectUrl = 'https://supabase.cbluna-dev.com/arux-change-pass/#/change-p
 const themeId = String.fromEnvironment('themeId', defaultValue: '2'); */
 
 //String apiGatewayURL = "http://10.5.24.43:8082/x2/api"; //DEV
-String apiGatewayURL = "https://apps.cblsrv43.rtatel.com/wop_x2/api"; //PROD
+String apiGatewayURL = "https://apps.cblsrv43.rtatel.com/wop_x2/api"; //DEV
+// String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api"; //PROD
 
 PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
   return PlutoGridScrollbarConfig(
