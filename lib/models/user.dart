@@ -71,10 +71,12 @@ class User {
   bool get isCV =>
       currentUser!.isAdminCv ||
       currentUser!.isManager ||
-      currentUser!.isEmployee;
+      currentUser!.isEmployee ||
+      currentUser!.isTechSupervisor;
   bool get isAdminCv => role.roleName == 'Admin CV';
   bool get isManager => role.roleName == 'Manager';
   bool get isEmployee => role.roleName == 'Employee';
+  bool get isTechSupervisor => role.roleName == 'Tech Supervisor';
 
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 

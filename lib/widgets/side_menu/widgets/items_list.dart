@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
@@ -30,22 +31,24 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             // Sección CRM
-             if (currentUser!.isCRM || currentUser!.isAdminCrm)
-            SideMenuItem(
-              selected: provider.indexSelected[0],
-              leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
-              isOpen: widget.isOpen,
-              title: 'Dashboards',
-              onTap: () async {
-                context.pushReplacement('/dashboards');
-              },
-              onEnter: (event) {
-                provider.iHoverDashboards?.change(true);
-              },
-              onExit: (event) {
-                provider.iHoverDashboards?.change(false);
-              },
-            ),
+            if (currentUser!.isCRM || currentUser!.isAdminCrm)
+              SideMenuItem(
+                selected: provider.indexSelected[0],
+                leading: provider.aRDashboards != null
+                    ? Rive(artboard: provider.aRDashboards!)
+                    : const CircularProgressIndicator(),
+                isOpen: widget.isOpen,
+                title: 'Dashboards',
+                onTap: () async {
+                  context.pushReplacement('/dashboards');
+                },
+                onEnter: (event) {
+                  provider.iHoverDashboards?.change(true);
+                },
+                onExit: (event) {
+                  provider.iHoverDashboards?.change(false);
+                },
+              ),
             /* if (currentUser!.isCRM || currentUser!.isAdminCrm)
               SideMenuItem(
                 selected: provider.indexSelected[1],
@@ -169,7 +172,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               ),
 
             // Sección CONTROL VEHICULAR
-            if (currentUser!.isAdminCv || currentUser!.isManager)
+            if (currentUser!.isAdminCv ||
+                currentUser!.isManager ||
+                currentUser!.isTechSupervisor)
               SideMenuItem(
                 selected: provider.indexSelected[8],
                 leading: provider.aRMonitory != null
@@ -187,7 +192,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverMonitory?.change(false);
                 },
               ),
-            if (currentUser!.isAdminCv || currentUser!.isManager)
+            if (currentUser!.isAdminCv ||
+                currentUser!.isManager ||
+                currentUser!.isTechSupervisor)
               SideMenuItem(
                 selected: provider.indexSelected[7],
                 leading: provider.aRInventories != null
@@ -205,7 +212,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverInventories?.change(false);
                 },
               ),
-            if (currentUser!.isEmployee)
+            if (currentUser!.isEmployee ||
+                currentUser!.isTechSupervisor ||
+                currentUser!.isManager)
               SideMenuItem(
                 selected: provider.indexSelected[13],
                 leading: provider.aRDownloadAPK != null
@@ -223,8 +232,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverDownloadAPK?.change(false);
                 },
               ),
-
-              
 
             if (currentUser!.isAdmin)
               SideMenuItem(
@@ -244,22 +251,26 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverUsers?.change(false);
                 },
               ),
-              if (currentUser!.isAdminCv)
+            if (currentUser!.isAdminCv ||
+                currentUser!.isManager ||
+                currentUser!.isTechSupervisor)
               SideMenuItem(
-              selected: provider.indexSelected[9],
-              leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
-              isOpen: widget.isOpen,
-              title: 'Dashboards',
-              onTap: () async {
-                context.pushReplacement('/dashboards');
-              },
-              onEnter: (event) {
-                provider.iHoverDashboards?.change(true);
-              },
-              onExit: (event) {
-                provider.iHoverDashboards?.change(false);
-              },
-            ),
+                selected: provider.indexSelected[9],
+                leading: provider.aRDashboards != null
+                    ? Rive(artboard: provider.aRDashboards!)
+                    : const CircularProgressIndicator(),
+                isOpen: widget.isOpen,
+                title: 'Dashboards',
+                onTap: () async {
+                  context.pushReplacement('/dashboards');
+                },
+                onEnter: (event) {
+                  provider.iHoverDashboards?.change(true);
+                },
+                onExit: (event) {
+                  provider.iHoverDashboards?.change(false);
+                },
+              ),
             if (currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[11],
