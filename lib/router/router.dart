@@ -63,11 +63,13 @@ final GoRouter router = GoRouter(
         key: state.pageKey,
         child: currentUser!.isCRM
             ? const QuotesPage()
-            : currentUser!.isAdminCv || currentUser!.isManager
+            : currentUser!.isAdminCv ||
+                    currentUser!.isManager ||
+                    currentUser!.isTechSupervisor
                 ? const MonitoryPageDesktop()
                 : currentUser!.isEmployee
-                ? const DownloadAPKPage()
-                : const PageNotFoundPage(),
+                    ? const DownloadAPKPage()
+                    : const PageNotFoundPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             FadeTransition(
           opacity: animation,
