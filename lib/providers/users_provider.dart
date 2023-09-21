@@ -52,6 +52,7 @@ class UsersProvider extends ChangeNotifier {
   State? selectedStateUpdate;
   Vehicle? selectedVehicle;
   Vehicle? selectedVehicleUpdate;
+  String? selectVehiclePlates;
   String? imageName;
   Uint8List? webImage;
   Vehicle? actualVehicle;
@@ -101,6 +102,7 @@ class UsersProvider extends ChangeNotifier {
     dropdownvalueUpdate = users.status ?? "Not Active";
     licenseControllerUpdate.text = users.license ?? "-";
     certificationControllerUpdate.text = users.certification ?? "-";
+    selectVehiclePlates = users.licensePlates;
   }
 
   void clearControllers({bool notify = true}) {
@@ -146,8 +148,14 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearVehicleLicense({bool notify = true}) {
+    selectVehiclePlates = null;
+    if (notify) notifyListeners();
+  }
+
   void clearVehicleUpdate() {
     selectedVehicleUpdate = null;
+
     log("Entro aqui Update");
     notifyListeners();
   }
@@ -294,6 +302,25 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateVehiclestatusClear(User users) async {
+    try {
+      // Aqui cambiamos el vehiculo viejo a disponible
+      final res2 = await supabaseCtrlV
+          .from('vehicle')
+          .update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
+
+      // Aqui cambiamos el id del vehiculo donde el id_sequential sea el mismo que el del usuario
+      final cambioVehiculo = await supabase.from('user_profile').update(
+          {'id_vehicle_fk': null}).eq('sequential_id', users.sequentialId);
+
+      //print("entro a updateVehiclestatusUpdate: $res");
+      //print("Entro en el cambio del vehiculo viejo $res2");
+    } catch (e) {
+      //print("Error in updateVehiclestatusUpdate $e");
+    }
+    notifyListeners();
+  }
+
   Future<void> getStates({bool notify = true}) async {
     try {
       final res = await supabase.from('state').select().order(
@@ -429,13 +456,20 @@ class UsersProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      final res = await supabase.from('users').select().like('name', '%${searchController.text}%').eq('status', 'Not Active').order('sequential_id', ascending: true);
+      final res = await supabase
+          .from('users')
+          .select()
+          .like('name', '%${searchController.text}%')
+          .eq('status', 'Not Active')
+          .order('sequential_id', ascending: true);
 
       if (res == null) {
         log('Error en getUsuarios()');
         return;
       }
-      users = (res as List<dynamic>).map((usuario) => User.fromJson(jsonEncode(usuario))).toList();
+      users = (res as List<dynamic>)
+          .map((usuario) => User.fromJson(jsonEncode(usuario)))
+          .toList();
 
       rows.clear();
       for (User user in users) {
