@@ -728,17 +728,17 @@ class InventoryProvider extends ChangeNotifier {
       Map<String, dynamic> lastMileageService = {
         "Value": "300000",
         "Registered": "False",
-        "Last Mileage Service": mileageController.text
+        "Last Mileage Service": mileageController.text.replaceAll(",", ""),
       };
       Map<String, dynamic> ruleTransmissionService = {
         "Value": "100000",
         "Registered": "False",
-        "Last Mileage Service": mileageController.text
+        "Last Mileage Service": mileageController.text.replaceAll(",", ""),
       };
       Map<String, dynamic> ruleRadiatorService = {
         "Value": "20000",
         "Registered": "False",
-        "Last Mileage Service": mileageController.text
+        "Last Mileage Service": mileageController.text.replaceAll(",", ""),
       };
       await supabaseCtrlV.from('vehicle').insert(
         {
@@ -753,9 +753,15 @@ class InventoryProvider extends ChangeNotifier {
           'id_status_fk': statusSelected?.statusId,
           'id_company_fk': companySelected?.companyId,
           'date_added': DateTime.now().toIso8601String(),
-          'oil_change_due': dateTimeControllerOil.text,
-          'last_radiator_fluid_change': dateTimeControllerRFC.text,
-          'last_transmission_fluid_change': dateTimeControllerLTFC.text,
+          'oil_change_due': dateTimeControllerOil.text == ""
+              ? null
+              : dateTimeControllerOil.text,
+          'last_radiator_fluid_change': dateTimeControllerRFC.text == ""
+              ? null
+              : dateTimeControllerRFC.text,
+          'last_transmission_fluid_change': dateTimeControllerLTFC.text == ""
+              ? null
+              : dateTimeControllerLTFC.text,
           'mileage': mileageController.text.replaceAll(",", ""),
           'rule_oil_change': lastMileageService,
           'rule_transmission_fluid_change': ruleTransmissionService,
@@ -1449,13 +1455,13 @@ class InventoryProvider extends ChangeNotifier {
     yearController.clear();
     vinController.clear();
     plateNumberController.clear();
-    versionMotorController.clear();
+    versionMotorController?.clear();
     statusSelected = null;
     motorSel = null;
     colorController = 0xffffffff;
-    dateTimeControllerOil.clear();
-    dateTimeControllerRFC.clear();
-    dateTimeControllerLTFC.clear();
+    dateTimeControllerOil?.clear();
+    dateTimeControllerRFC?.clear();
+    dateTimeControllerLTFC?.clear();
     mileageController.clear();
     webImage = null;
     if (notify) notifyListeners();
@@ -1482,7 +1488,7 @@ class InventoryProvider extends ChangeNotifier {
     modelController.dispose();
     vinController.dispose();
     plateNumberController.dispose();
-    versionMotorController.dispose();
+    versionMotorController?.dispose();
     // colorController.dispose();
 
     super.dispose();
