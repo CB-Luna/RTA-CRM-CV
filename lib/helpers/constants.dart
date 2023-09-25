@@ -4,20 +4,25 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 //////// DEV ////////
-final Uri urlFMTAPK = Uri.parse("https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
+final Uri urlFMTAPK = Uri.parse(
+    "https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
 const String supabaseUrl = 'https://supa43.rtatel.com';
 const String anonKey =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';
-const redirectUrl = 'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
+const redirectUrl =
+    'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 
 //////// PROD ////////
-/* final Uri urlFMTAPK = Uri.parse("https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
-const String supabaseUrl = 'https://supa41.rtatel.com';
-const String anonKey =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';
-const redirectUrl = 'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
-const themeId = String.fromEnvironment('themeId', defaultValue: '2'); */
+// final Uri urlFMTAPK = Uri.parse(
+//     "https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
+// const String supabaseUrl = 'https://supa41.rtatel.com';
+// const String anonKey =
+//     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';
+// const redirectUrl =
+//     'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
+// const themeId = String.fromEnvironment('themeId', defaultValue: '2');
+
 
 //String apiGatewayURL = "http://10.5.24.43:8082/x2/api"; //DEV
 String apiGatewayURL = "https://apps.cblsrv43.rtatel.com/wop_x2/api"; //DEV
@@ -40,7 +45,9 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           //columnContextIcon: Icons.more_horiz,
           rowHeight: rowHeight,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light
+              ? const Color(0xFFC7D8ED)
+              : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
@@ -61,7 +68,9 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
       : PlutoGridStyleConfig.dark(
           rowHeight: rowHeight,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light
+              ? const Color(0xFFC7D8ED)
+              : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
@@ -81,11 +90,13 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
         );
 }
 
-CustomTransitionPage<void> pageTransition(BuildContext context, GoRouterState state, Widget page) {
+CustomTransitionPage<void> pageTransition(
+    BuildContext context, GoRouterState state, Widget page) {
   return CustomTransitionPage<void>(
     key: state.pageKey,
     child: page,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+        FadeTransition(opacity: animation, child: child),
   );
 }
 
