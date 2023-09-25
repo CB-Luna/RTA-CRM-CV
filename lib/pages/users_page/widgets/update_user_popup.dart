@@ -36,7 +36,6 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
     fToast.init(context);
     UsersProvider provider = Provider.of<UsersProvider>(context);
     final formKey = GlobalKey<FormState>();
-
     final List<String> statesNames =
         provider.states.map((state) => state.name).toList();
 
@@ -227,7 +226,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: CustomDDownMenu(
                             hint:
-                                'Choose a Vehicle [${widget.users.licensePlates ?? 'No Vehicle '}]',
+                                'Choose a Vehicle [${provider.selectVehiclePlates ?? 'No Vehicle'}]',
                             label: 'Vehicle',
                             icon: Icons.credit_card_outlined,
                             width: MediaQuery.of(context).size.width * 0.145,
@@ -255,6 +254,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                                 ),
                                 text: '',
                                 onTap: () async {
+                                  provider.clearVehicleLicense(notify: false);
                                   provider.clearVehicleUpdate();
                                 },
                               ),
@@ -310,6 +310,11 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                 //   }
                 // }
 
+                // Cambio del vehiculo del usuario a disponible
+                if (provider.selectedVehicleUpdate == null) {
+                  provider.updateVehiclestatusClear(widget.users);
+                }
+
                 //Crear perfil de usuario
                 bool res = await provider.updateUser(widget.users);
 
@@ -328,7 +333,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                   toastDuration: const Duration(seconds: 2),
                 );
                 provider.updateVehiclestatusUpdate(widget.users);
-
+                provider.updateState();
                 if (context.canPop()) context.pop();
               },
             )

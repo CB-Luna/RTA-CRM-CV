@@ -20,6 +20,7 @@ const redirectUrl = 'https://supabase.cbluna-dev.com/arux-change-pass/#/change-p
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 
 //String apiGatewayURL = "http://10.5.24.43:8082/x2/api"; //DEV
+//String apiGatewayURL = "https://apps.cblsrv43.rtatel.com/wop_x2/api"; //DEV
 String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api"; //PROD
 
 PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
@@ -39,7 +40,9 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           //columnContextIcon: Icons.more_horiz,
           rowHeight: rowHeight,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light
+              ? const Color(0xFFC7D8ED)
+              : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
@@ -60,7 +63,9 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
       : PlutoGridStyleConfig.dark(
           rowHeight: rowHeight,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light
+              ? const Color(0xFFC7D8ED)
+              : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
@@ -80,11 +85,13 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
         );
 }
 
-CustomTransitionPage<void> pageTransition(BuildContext context, GoRouterState state, Widget page) {
+CustomTransitionPage<void> pageTransition(
+    BuildContext context, GoRouterState state, Widget page) {
   return CustomTransitionPage<void>(
     key: state.pageKey,
     child: page,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+        FadeTransition(opacity: animation, child: child),
   );
 }
 
