@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/models/user.dart';
 import 'package:rta_crm_cv/models/vehicle.dart';
 
 Widget? getImage(String? image, {double height = 180}) {
@@ -26,7 +27,38 @@ Widget? getImage(String? image, {double height = 180}) {
   );
 }
 
-Widget? getUserImage(dynamic image,
+//     return Image.asset('assets/images/default-user-profile-picture.png');
+Widget? getUserImage(User users, dynamic image,
+    {double height = 180, BoxFit boxFit = BoxFit.cover}) {
+  if (users.image == null || users.image == "") {
+    return Image.asset('assets/images/default-user-profile-picture.png');
+  } else if (image is Uint8List) {
+    return Image.memory(
+      image,
+      height: height,
+      width: double.infinity,
+      fit: boxFit,
+    );
+  } else if (image is String) {
+    return Image.network(
+      image,
+      height: height,
+      width: double.infinity,
+      filterQuality: FilterQuality.high,
+      fit: boxFit,
+    );
+  } else {
+    return Image.network(
+      users.image!,
+      height: height,
+      width: double.infinity,
+      filterQuality: FilterQuality.high,
+      fit: boxFit,
+    );
+  }
+}
+
+Widget? getAddImageU(dynamic image,
     {double height = 180, BoxFit boxFit = BoxFit.cover}) {
   if (image == null) {
     return Image.asset('assets/images/default-user-profile-picture.png');

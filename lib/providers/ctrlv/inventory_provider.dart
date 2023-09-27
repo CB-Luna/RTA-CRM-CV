@@ -122,6 +122,8 @@ class InventoryProvider extends ChangeNotifier {
   String? imageUrlUpdate;
   Uint8List? webImage;
   Uint8List? webImageClear;
+  String? placeHolderImage;
+
   String? imagepicked;
   IssuesXUser? actualIssueXUser;
   IssuesComments? actualissuesComments;
@@ -430,7 +432,7 @@ class InventoryProvider extends ChangeNotifier {
   }
 
   // Función para hacerle update a la Imagen
-  Future<void> updateImage() async {
+  Future<bool> updateImage() async {
     // Enviar la segunda
     final ImagePicker picker = ImagePicker();
 
@@ -438,63 +440,97 @@ class InventoryProvider extends ChangeNotifier {
       source: ImageSource.gallery,
     );
 
-    final String? placeHolderImage;
+    webImage = await pickedImage?.readAsBytes();
 
-    if (pickedImage == null) return;
+    if (pickedImage != null) {
+      if (await pickedImage.length() <= 1000000) {
+        final String? placeHolderImage;
+        notifyListeners();
+        placeHolderImage = "${uuid.v4()}${pickedImage.name}";
 
-    webImage = await pickedImage.readAsBytes();
+        final storageResponse =
+            await supabase.storage.from('assets/Vehicles').uploadBinary(
+                  placeHolderImage,
+                  webImage!,
+                  fileOptions: const FileOptions(
+                    cacheControl: '3600',
+                    upsert: false,
+                  ),
+                );
 
-    notifyListeners();
-    placeHolderImage = "${uuid.v4()}${pickedImage.name}";
-
-    final storageResponse =
-        await supabase.storage.from('assets/Vehicles').uploadBinary(
-              placeHolderImage,
-              webImage!,
-              fileOptions: const FileOptions(
-                cacheControl: '3600',
-                upsert: false,
-              ),
-            );
-
-    if (storageResponse.isNotEmpty) {
-      imageUrl = supabase.storage.from('assets/Vehicles').getPublicUrl(
-            placeHolderImage,
-          );
+        if (storageResponse.isNotEmpty) {
+          imageUrl = supabase.storage.from('assets/Vehicles').getPublicUrl(
+                placeHolderImage,
+              );
+        }
+        return true;
+      } else {
+        return false;
+      }
     }
+    return false;
   }
 
   // Función para seleccionar la imagen
-  Future<void> selectImage() async {
+  Future<bool> selectImage() async {
     final ImagePicker picker = ImagePicker();
 
-    final XFile? pickedImage = await picker.pickImage(
+    XFile? pickedImage = await picker.pickImage(
       source: ImageSource.gallery,
     );
 
-    final String? placeHolderImage;
+    webImage = await pickedImage?.readAsBytes();
 
-    if (pickedImage == null) return;
+    if (pickedImage != null) {
+      if (await pickedImage.length() <= 1000000) {
+        notifyListeners();
+        placeHolderImage = "${uuid.v4()}${pickedImage.name}";
 
-    webImage = await pickedImage.readAsBytes();
+        // final storageResponse =
+        //     await supabase.storage.from('assets/Vehicles').uploadBinary(
+        //           placeHolderImage,
+        //           webImage!,
+        //           fileOptions: const FileOptions(
+        //             cacheControl: '3600',
+        //             upsert: false,
+        //           ),
+        //         );
 
-    notifyListeners();
-    placeHolderImage = "${uuid.v4()}${pickedImage.name}";
+        // if (storageResponse.isNotEmpty) {
+        //   imageUrl = supabase.storage.from('assets/Vehicles').getPublicUrl(
+        //         placeHolderImage,
+        //       );
+        // }
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
 
-    final storageResponse =
-        await supabase.storage.from('assets/Vehicles').uploadBinary(
-              placeHolderImage,
-              webImage!,
-              fileOptions: const FileOptions(
-                cacheControl: '3600',
-                upsert: false,
-              ),
+  Future<void> uploadImage() async {
+    try {
+      final storageResponse =
+          await supabase.storage.from('assets/Vehicles').uploadBinary(
+                placeHolderImage!,
+                webImage!,
+                fileOptions: const FileOptions(
+                  cacheControl: '3600',
+                  upsert: false,
+                ),
+              );
+
+      if (storageResponse.isNotEmpty) {
+        imageUrl = supabase.storage.from('assets/Vehicles').getPublicUrl(
+              placeHolderImage!,
             );
+      }
 
-    if (storageResponse.isNotEmpty) {
-      imageUrl = supabase.storage.from('assets/Vehicles').getPublicUrl(
-            placeHolderImage,
-          );
+      // return imageName;
+    } catch (e) {
+      log('Error in uploadImage() - $e');
+      // return null;
     }
   }
 
@@ -611,7 +647,6 @@ class InventoryProvider extends ChangeNotifier {
   // Función para inicializar la imagen
   void inicializeImage(Vehicle vehicle) {
     webImage = null;
-
     notifyListeners();
   }
 
