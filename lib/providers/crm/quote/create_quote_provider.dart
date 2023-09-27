@@ -265,9 +265,10 @@ class CreateQuoteProvider extends ChangeNotifier {
       return false;
     } else if (globalRows.isEmpty) {
       return false;
-    } else if (imageBytes == null) {
+    } /* else if (imageBytes == null) {
       return false;
-    } else {
+    } */
+    else {
       return true;
     }
   }
@@ -819,7 +820,8 @@ class CreateQuoteProvider extends ChangeNotifier {
     if (totalPlusTax == 0 && subtotal == 0) {
       margin = 0;
     } else {
-      margin = ((totalPlusTax-cost)/totalPlusTax) * 100;
+      margin = (totalPlusTax / subtotal) * 100;
+      //margin = ((totalPlusTax - cost) / totalPlusTax) * 100;
     }
     notifyListeners();
     return null;
@@ -1253,30 +1255,30 @@ class CreateQuoteProvider extends ChangeNotifier {
         );
       }
 
-      var responseImage = await supabase.storage.from('demarcation-points').uploadBinary('orderInfo_${resp["id"].toString()}_demarcationPoint.png', imageBytes!);
+      if (imageBytes != null) {
+        var responseImage = await supabase.storage.from('demarcation-points').uploadBinary('orderInfo_${resp["id"].toString()}_demarcationPoint.png', imageBytes!);
 
-      if (responseImage.isNotEmpty) {
-        responseImage = supabase.storage.from('demarcation-points').getPublicUrl(
-              'orderInfo_${resp["id"].toString()}_demarcationPoint.png',
-            );
-        await supabaseCRM.from('order_info').update(
-          {'demarcation_url': responseImage, 'demarcation_doc': 'orderInfo_${resp["id"].toString()}_demarcationPoint.png'},
-        ).eq('id', resp["id"]);
-      } else{
-        
+        if (responseImage.isNotEmpty) {
+          responseImage = supabase.storage.from('demarcation-points').getPublicUrl(
+                'orderInfo_${resp["id"].toString()}_demarcationPoint.png',
+              );
+          await supabaseCRM.from('order_info').update(
+            {'demarcation_url': responseImage, 'demarcation_doc': 'orderInfo_${resp["id"].toString()}_demarcationPoint.png'},
+          ).eq('id', resp["id"]);
+        }
       }
 
-        //History
-        await supabaseCRM.from('leads_history').insert(
-          {
-            "action": 'INSERT',
-            "description": 'OrderCreated - Order Inserted',
-            "table": 'order_info',
-            "id_table": resp["id"].toString(),
-            "user": currentUser!.id,
-            "name": "${currentUser!.name} ${currentUser!.lastName}"
-          },
-        );
+      //History
+      await supabaseCRM.from('leads_history').insert(
+        {
+          "action": 'INSERT',
+          "description": 'OrderCreated - Order Inserted',
+          "table": 'order_info',
+          "id_table": resp["id"].toString(),
+          "user": currentUser!.id,
+          "name": "${currentUser!.name} ${currentUser!.lastName}"
+        },
+      );
 
       //Update Status
       if (margin > 20) {

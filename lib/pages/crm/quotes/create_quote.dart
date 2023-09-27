@@ -2095,7 +2095,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
           titleTextAlign: PlutoColumnTextAlign.start,
           textAlign: PlutoColumnTextAlign.center,
           type: PlutoColumnType.number(),
-          enableEditingMode: false,
+          enableEditingMode: true,
           cellPadding: EdgeInsets.zero,
           renderer: (rendererContext) {
             return Container(
@@ -2183,6 +2183,9 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
       rows: provider.globalRows,
       onLoaded: (event) async {
         provider.listStateManager.add(event.stateManager);
+      },
+      onChanged: (event) {
+        provider.countRowsPlutoGrid();
       },
     );
   }
