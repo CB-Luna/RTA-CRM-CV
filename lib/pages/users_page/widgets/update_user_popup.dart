@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toastJA.dart';
 import 'package:rta_crm_cv/widgets/get_image_widget.dart';
 
 import 'package:rta_crm_cv/providers/providers.dart';
@@ -92,7 +93,16 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                     ),
                     InkWell(
                       onTap: () async {
-                        await provider.selectImage();
+                        bool valorImage = await provider.selectImage();
+                        if (!valorImage) {
+                          if (!mounted) return;
+                          fToast.showToast(
+                            child: const FailedToastJA(
+                                message: 'The User image is larger than 1 MB'),
+                            gravity: ToastGravity.BOTTOM,
+                            toastDuration: const Duration(seconds: 2),
+                          );
+                        }
                       },
                       child: Container(
                         width: 105,
@@ -101,7 +111,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                         ),
-                        child: getUserImage(provider.webImage),
+                        child: getUserImage(widget.users, provider.webImage),
                       ),
                     ),
                     Padding(
@@ -302,6 +312,8 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                 if (!formKey.currentState!.validate()) {
                   return;
                 }
+                await provider.deleteImage();
+                await provider.uploadImage();
 
                 // if (provider.webImage != null) {
                 //   final res = await provider.uploadImage();

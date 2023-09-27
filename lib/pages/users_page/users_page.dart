@@ -905,6 +905,7 @@ class _UsersPageState extends State<UsersPage> {
                                             await provider.getVehicleUser(
                                                 rendererContext.cell.value,
                                                 notify: false);
+                                            provider.inicializeImage();
                                             provider.updateControllers(
                                                 rendererContext.cell.value);
                                             await provider.getVehicleActiveInit(
