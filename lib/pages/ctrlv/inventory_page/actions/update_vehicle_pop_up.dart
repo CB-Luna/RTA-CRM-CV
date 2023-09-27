@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toast.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toastJA.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_dropdown_inventory.dart';
 import 'package:rta_crm_cv/widgets/custom_text_fieldForm.dart';
@@ -360,7 +362,17 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                           ),
                           InkWell(
                             onTap: () async {
-                              await provider.updateImage();
+                              bool valorImage = await provider.selectImage();
+                              if (!valorImage) {
+                                if (!mounted) return;
+                                fToast.showToast(
+                                  child: const FailedToastJA(
+                                      message:
+                                          'The Vehicle image is larger than 1 MB'),
+                                  gravity: ToastGravity.BOTTOM,
+                                  toastDuration: const Duration(seconds: 2),
+                                );
+                              }
                             },
                             child: Container(
                               width: 105,
@@ -392,7 +404,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     return;
                   }
                   await provider.deleteImage();
-
+                  await provider.uploadImage();
                   //Crear perfil de usuario
                   bool res = await provider.updateVehicle(widget.vehicle);
 
