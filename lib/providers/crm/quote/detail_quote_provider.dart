@@ -42,7 +42,7 @@ class DetailQuoteProvider extends ChangeNotifier {
     demarcationPointController.clear();
 
     multicastRequired = false;
-    locationController.clear();
+    //locationController.clear();
     evcodSelectedValue = evcodList.first;
     evcCircuitIdController.clear();
     //ddosSelectedValue = ddosList.first;
@@ -153,7 +153,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   List<Vendor> vendorsList = [Vendor(vendorName: 'ATT')];
   String vendorSelectedValue = '';
   bool multicastRequired = false;
-  final locationController = TextEditingController();
+  //final locationController = TextEditingController();
   List<CatCircuitTypes> circuitTypeList = [CatCircuitTypes(name: 'NNI')];
   late String circuitTypeSelectedValue;
   //List<String> ddosList = ['Yes', 'No'];
@@ -686,7 +686,7 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       vendorSelectedValue = quote.vendor!;
       multicastRequired = quote.circuitInfo!.multicast!;
-      locationController.text = quote.circuitInfo!.location!;
+      //locationController.text = quote.circuitInfo!.location!;
       parameter = (await supabaseCRM.from('cat_circuit_types').select().eq('name', quote.circuitInfo!.circuitType!))[0];
       parameter = CatCircuitTypes.fromRawJson(jsonEncode(parameter));
       circuitTypeSelectedValue = quote.circuitInfo!.circuitType!;

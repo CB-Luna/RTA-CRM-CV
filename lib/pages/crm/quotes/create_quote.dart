@@ -78,7 +78,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            height: MediaQuery.of(context).size.height / cardHeight + 20,
+                            height: MediaQuery.of(context).size.height / cardHeight + 150,
                             width: MediaQuery.of(context).size.width - 30,
                             child: CustomScrollBar(
                               clipBehavior: Clip.antiAlias,
@@ -88,7 +88,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                 child: Row(
                                   children: [
                                     CustomCard(
-                                      height: MediaQuery.of(context).size.height / cardHeight,
+                                      height: MediaQuery.of(context).size.height / cardHeight + 130,
                                       width: MediaQuery.of(context).size.width / 5,
                                       title: 'Order Info',
                                       child: Column(
@@ -239,7 +239,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 20),
                                       child: CustomCard(
-                                        height: MediaQuery.of(context).size.height / cardHeight,
+                                        height: MediaQuery.of(context).size.height / cardHeight + 130,
                                         width: MediaQuery.of(context).size.width / 5,
                                         title: 'Circuit Info',
                                         child: Column(
@@ -273,7 +273,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                 },
                                               ),
                                             ),
-                                            Padding(
+                                            /* Padding(
                                               padding: const EdgeInsets.only(bottom: 10),
                                               child: CustomTextField(
                                                 key: const Key('location'),
@@ -291,7 +291,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                   return null;
                                                 },
                                               ),
-                                            ),
+                                            ), */
                                             /* if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
                                                 .parameters!.existingCircuitId!)
                                               Padding(
@@ -562,7 +562,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 20),
                                       child: CustomCard(
-                                        height: MediaQuery.of(context).size.height / cardHeight,
+                                        height: MediaQuery.of(context).size.height / cardHeight + 130,
                                         width: MediaQuery.of(context).size.width / 5,
                                         title: 'Customer Info',
                                         child: Column(
@@ -648,7 +648,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 20),
                                       child: CustomCard(
-                                        height: MediaQuery.of(context).size.height / cardHeight,
+                                        height: MediaQuery.of(context).size.height / cardHeight + 130,
                                         width: MediaQuery.of(context).size.width / 5,
                                         title: 'Totals',
                                         child: Column(
@@ -1401,7 +1401,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height / 2.25,
+                                  height: MediaQuery.of(context).size.height / 3,
                                   width: MediaQuery.of(context).size.width / 1.6 - 10,
                                   child: const PlutoGridCotizador(),
                                 ),
@@ -1437,14 +1437,14 @@ class Comments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      height: MediaQuery.of(context).size.height / 2.25,
+      height: MediaQuery.of(context).size.height / 3,
       width: MediaQuery.of(context).size.width / 5,
       title: 'Comments',
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            height: MediaQuery.of(context).size.height / 2.25 - 150,
+            height: MediaQuery.of(context).size.height / 3 - 150,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppTheme.of(context).primaryBackground, boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
