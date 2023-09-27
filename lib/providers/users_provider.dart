@@ -46,6 +46,7 @@ class UsersProvider extends ChangeNotifier {
   Company? selectedCompany;
   Company? selectedCompanyUpdate;
   List<State> states = [];
+
   String? dropdownvalue = "Active";
   String? dropdownvalueUpdate = "Not Active";
   State? selectedState;
@@ -56,6 +57,7 @@ class UsersProvider extends ChangeNotifier {
   String? imageName;
   Uint8List? webImage;
   Vehicle? actualVehicle;
+  String? placeHolderImage;
   String? imageUrl;
   String? imageUrlUpdate;
   Uuid uuid = const Uuid();
@@ -103,6 +105,11 @@ class UsersProvider extends ChangeNotifier {
     licenseControllerUpdate.text = users.license ?? "-";
     certificationControllerUpdate.text = users.certification ?? "-";
     selectVehiclePlates = users.licensePlates;
+    imageUrlUpdate = users.image == null
+        ? "https://supa43.rtatel.com/storage/v1/object/public/assets/user_profile/"
+        : users.image!.replaceAll(
+            "https://supa43.rtatel.com/storage/v1/object/public/assets/user_profile/",
+            "");
   }
 
   void clearControllers({bool notify = true}) {
@@ -145,6 +152,12 @@ class UsersProvider extends ChangeNotifier {
   void clearVehicle() {
     selectedVehicle = null;
     log("Entro aqui");
+    notifyListeners();
+  }
+
+  // Función para inicializar la imagen
+  void inicializeImage() {
+    webImage = null;
     notifyListeners();
   }
 
@@ -271,6 +284,20 @@ class UsersProvider extends ChangeNotifier {
       //print("entro a updateVehicle: $res");
     } catch (e) {
       //print("Error in updateVehiclestatus $e");
+    }
+  }
+
+  Future<void> deleteImage() async {
+    // Eliminar la imagen Anterior
+    try {
+      if (imageUrlUpdate != null) {
+        final List<FileObject> oldImage = await supabase.storage
+            .from('assets')
+            .remove(['user_profile/${imageUrlUpdate!}']);
+        if (oldImage.isEmpty) return;
+      }
+    } catch (e) {
+      //print("Error in deleteImage $e");
     }
   }
 
@@ -673,37 +700,43 @@ class UsersProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> selectImage() async {
+  // Función para seleccionar la imagen
+  Future<bool> selectImage() async {
     final ImagePicker picker = ImagePicker();
 
-    final XFile? pickedImage = await picker.pickImage(
+    XFile? pickedImage = await picker.pickImage(
       source: ImageSource.gallery,
     );
 
-    final String? placeHolderImage;
+    webImage = await pickedImage?.readAsBytes();
 
-    if (pickedImage == null) return;
+    if (pickedImage != null) {
+      if (await pickedImage.length() <= 1000000) {
+        // String? placeHolderImage;
+        notifyListeners();
+        placeHolderImage = "${uuid.v4()}${pickedImage.name}";
 
-    webImage = await pickedImage.readAsBytes();
+        // final storageResponse =
+        //     await supabase.storage.from('assets/user_profile').uploadBinary(
+        //           placeHolderImage!,
+        //           webImage!,
+        //           fileOptions: const FileOptions(
+        //             cacheControl: '3600',
+        //             upsert: false,
+        //           ),
+        //         );
 
-    notifyListeners();
-    placeHolderImage = "${uuid.v4()}${pickedImage.name}";
-
-    final storageResponse =
-        await supabase.storage.from('assets/Vehicles').uploadBinary(
-              placeHolderImage,
-              webImage!,
-              fileOptions: const FileOptions(
-                cacheControl: '3600',
-                upsert: false,
-              ),
-            );
-
-    if (storageResponse.isNotEmpty) {
-      imageUrl = supabase.storage.from('assets/Vehicles').getPublicUrl(
-            placeHolderImage,
-          );
+        // if (storageResponse.isNotEmpty) {
+        //   imageUrl = supabase.storage.from('assets/user_profile').getPublicUrl(
+        //         placeHolderImage,
+        //       );
+        // }
+        return true;
+      } else {
+        return false;
+      }
     }
+    return false;
   }
 
   void clearImage() {
@@ -712,26 +745,32 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String?> uploadImage() async {
-    if (webImage != null && imageName != null) {
-      try {
-        await supabase.storage.from('avatars').uploadBinary(
-              imageName!,
-              webImage!,
-              fileOptions: const FileOptions(
-                cacheControl: '3600',
-                upsert: false,
-              ),
-            );
+  Future<void> uploadImage() async {
+    try {
+      final storageResponse =
+          await supabase.storage.from('assets/user_profile').uploadBinary(
+                placeHolderImage!,
+                webImage!,
+                fileOptions: const FileOptions(
+                  cacheControl: '3600',
+                  upsert: false,
+                ),
+              );
 
-        return imageName;
-      } catch (e) {
-        log('Error in uploadImage() - $e');
-        return null;
+      if (storageResponse.isNotEmpty) {
+        imageUrl = supabase.storage.from('assets/user_profile').getPublicUrl(
+              placeHolderImage!,
+            );
       }
+
+      // return imageName;
+    } catch (e) {
+      log('Error in uploadImage() - $e');
+      // return null;
     }
-    return null;
   }
+
+  // Retorno nulo
 
   ////////////////////////////////////////////////////////
   //////////////////////////RIVE//////////////////////////
