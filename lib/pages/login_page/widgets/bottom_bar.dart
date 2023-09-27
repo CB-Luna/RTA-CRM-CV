@@ -16,8 +16,7 @@ class _BottomBarState extends State<BottomBar> {
 
   List<Map<String, String>> reviews = [
     {
-      'text':
-          'Great Experience working with this CRM.\nEasy and intuitive interface.',
+      'text': 'Great Experience working with this CRM.\nEasy and intuitive interface.',
       'image': 'assets/images/avatar.png',
     },
     {
@@ -52,6 +51,8 @@ class _BottomBarState extends State<BottomBar> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    if (size.height < 790) return Container();
+
     return Stack(
       children: [
         Container(
@@ -81,9 +82,7 @@ class _BottomBarState extends State<BottomBar> {
                       margin: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: index == currentReview
-                            ? AppTheme.of(context).primaryColor
-                            : Colors.white,
+                        color: index == currentReview ? AppTheme.of(context).primaryColor : Colors.white,
                         border: Border.all(
                           color: AppTheme.of(context).primaryColor,
                         ),
