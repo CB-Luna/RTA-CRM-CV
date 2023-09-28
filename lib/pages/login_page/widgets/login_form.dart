@@ -12,10 +12,11 @@ import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 class LoginForm extends StatefulWidget {
   final double height;
   final double width;
-  const LoginForm({Key? key, 
-    required this.height, 
+  const LoginForm({
+    Key? key,
+    required this.height,
     required this.width,
-    }) : super(key: key);
+  }) : super(key: key);
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -26,13 +27,19 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    //TODO: agregar flutter toast
     final UserState userState = Provider.of<UserState>(context);
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
+        borderRadius: size.height > 790
+            ? const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                bottomLeft: Radius.circular(10),
+              )
+            : BorderRadius.circular(10),
       ),
       height: widget.height,
       width: widget.width,
