@@ -20,6 +20,10 @@ class _LoginPageDesktopState extends State<LoginPageDesktop> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    bool isNormalSize = true;
+
+    if (size.height < 790) isNormalSize = false;
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: AppTheme.of(context).primaryColor,
@@ -29,17 +33,22 @@ class _LoginPageDesktopState extends State<LoginPageDesktop> {
           children: [
             Positioned(
               left: size.width * 0.0222,
-              top: 98,
+              top: isNormalSize ? size.height * (0.000098 * size.height) : size.height / 6,
+              // top: size.height * 0.0952,
               child: Row(
                 children: [
-                  const LoginForm(height: 642, width: 487,),
-                  Transform.translate(
-                    offset: const Offset(-17, 0),
-                    child: CustomPaint(
-                      size: const Size(143, 642),
-                      painter: CustomShapeBottom(),
-                    ),
+                  LoginForm(
+                    height: isNormalSize ? 642 : 550,
+                    width: 487,
                   ),
+                  if (isNormalSize)
+                    Transform.translate(
+                      offset: const Offset(-17, 0),
+                      child: CustomPaint(
+                        size: const Size(143, 642),
+                        painter: CustomShapeBottom(),
+                      ),
+                    ),
                 ],
               ),
             ),
