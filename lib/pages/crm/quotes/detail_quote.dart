@@ -65,7 +65,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: MediaQuery.of(context).size.height / cardHeight + 20,
+                          height: MediaQuery.of(context).size.height / cardHeight + 150,
                           width: MediaQuery.of(context).size.width - 30,
                           child: CustomScrollBar(
                             clipBehavior: Clip.antiAlias,
@@ -73,7 +73,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                             child: Row(
                               children: [
                                 CustomCard(
-                                  height: MediaQuery.of(context).size.height / cardHeight,
+                                  height: MediaQuery.of(context).size.height / cardHeight + 130,
                                   width: MediaQuery.of(context).size.width / 5,
                                   title: 'Order Info',
                                   child: Column(
@@ -248,7 +248,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20),
                                   child: CustomCard(
-                                    height: MediaQuery.of(context).size.height / cardHeight,
+                                    height: MediaQuery.of(context).size.height / cardHeight + 130,
                                     width: MediaQuery.of(context).size.width / 5,
                                     title: 'Circuit Info',
                                     child: Column(
@@ -282,7 +282,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             },
                                           ),
                                         ),
-                                        Padding(
+                                        /* Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
                                             key: const Key('location'),
@@ -301,7 +301,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                               return null;
                                             }, */
                                           ),
-                                        ),
+                                        ), */
                                         if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
                                                 .parameters!.existingCircuitId! &&
                                             provider.quote.orderInfo!.existingCircuitId != null)
@@ -569,7 +569,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20),
                                   child: CustomCard(
-                                    height: MediaQuery.of(context).size.height / cardHeight,
+                                    height: MediaQuery.of(context).size.height / cardHeight + 130,
                                     width: MediaQuery.of(context).size.width / 5,
                                     title: 'Customer Info',
                                     child: Column(
@@ -638,7 +638,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20),
                                   child: CustomCard(
-                                    height: MediaQuery.of(context).size.height / cardHeight,
+                                    height: MediaQuery.of(context).size.height / cardHeight + 130,
                                     width: MediaQuery.of(context).size.width / 5,
                                     title: 'Totals',
                                     child: Column(
