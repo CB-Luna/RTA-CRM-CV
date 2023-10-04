@@ -93,7 +93,7 @@ class _UsersPageState extends State<UsersPage> {
                             Padding(
                               padding: const EdgeInsets.only(left: 10, top: 10),
                               child: CustomTextIconButton(
-                                width: MediaQuery.of(context).size.width * 0.06,
+                                width: MediaQuery.of(context).size.width * 0.08,
                                 isLoading: false,
                                 icon: Icon(Icons.archive_outlined,
                                     color:
@@ -116,7 +116,7 @@ class _UsersPageState extends State<UsersPage> {
                             Padding(
                               padding: const EdgeInsets.only(left: 10, top: 10),
                               child: CustomTextIconButton(
-                                width: MediaQuery.of(context).size.width * 0.06,
+                                width: MediaQuery.of(context).size.width * 0.08,
                                 isLoading: false,
                                 icon: Icon(Icons.open_in_browser_outlined,
                                     color:

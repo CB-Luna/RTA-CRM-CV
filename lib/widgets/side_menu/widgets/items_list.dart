@@ -21,6 +21,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
   @override
   Widget build(BuildContext context) {
     SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
+    UsersProvider userProvider = Provider.of<UsersProvider>(context);
     final UserState userState = Provider.of<UserState>(context);
     return Padding(
       padding: EdgeInsets.only(left: widget.isOpen ? 40 : 0),
@@ -233,7 +234,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 },
               ),
 
-            if (currentUser!.isAdmin)
+            if (currentUser!.isAdmin ||
+                currentUser!.isManager)
               SideMenuItem(
                 selected: provider.indexSelected[10],
                 leading: provider.aRUsers != null
@@ -243,6 +245,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 title: 'Users',
                 onTap: () async {
                   context.pushReplacement('/users');
+                  userProvider.company = currentUser!.company.company;
                 },
                 onEnter: (event) {
                   provider.iHoverUsers?.change(true);

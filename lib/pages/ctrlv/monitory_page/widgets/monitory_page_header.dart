@@ -30,7 +30,7 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.5,
+            width: MediaQuery.of(context).size.width * 0.6,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -122,7 +122,7 @@ class _MonitoryPageHeaderState extends State<MonitoryPageHeader> {
                           padding: EdgeInsets.only(left: 30, right: 30),
                           child: Container(
                             height: 35,
-                            width: 150,
+                            width: 170,
                             decoration: BoxDecoration(
                               color: AppTheme.of(context).employeePrimary,
                               borderRadius: BorderRadius.circular(10),
