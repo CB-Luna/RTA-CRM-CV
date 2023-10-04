@@ -552,7 +552,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       vendorSelectedValue = quote.vendor!;
       multicastRequired = quote.circuitInfo!.multicast!;
-      locationController.text = quote.circuitInfo!.location!;
+      //locationController.text = quote.circuitInfo!.location!;
       parameter = (await supabaseCRM.from('cat_circuit_types').select().eq('name', quote.circuitInfo!.circuitType!))[0];
       parameter = CatCircuitTypes.fromRawJson(jsonEncode(parameter));
       circuitTypeSelectedValue = quote.circuitInfo!.circuitType!;

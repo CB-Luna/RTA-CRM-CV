@@ -286,7 +286,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                               },
                                             ),
                                           ),
-                                          Padding(
+                                          /* Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
                                             child: CustomTextField(
                                               key: const Key('location'),
@@ -305,7 +305,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 return null;
                                               }, */
                                             ),
-                                          ),
+                                          ), */
                                           if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
                                                   .parameters!.existingCircuitId! &&
                                               currentUser!.isOpperations)

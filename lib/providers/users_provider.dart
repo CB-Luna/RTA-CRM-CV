@@ -78,6 +78,9 @@ class UsersProvider extends ChangeNotifier {
   String companySel = "All";
   int confirmacion = 0;
 
+  //Empresa del Manager
+  String company = '';
+
   // EDIT
   final nameControllerUpdate = TextEditingController();
   final lastNameControllerUpdate = TextEditingController();

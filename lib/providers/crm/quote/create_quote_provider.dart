@@ -116,7 +116,7 @@ class CreateQuoteProvider extends ChangeNotifier {
   List<Vendor> vendorsList = [Vendor(vendorName: 'ATT')];
   String vendorSelectedValue = '';
   bool multicastRequired = false;
-  final locationController = TextEditingController();
+  //final locationController = TextEditingController();
   List<CatCircuitTypes> circuitTypeList = [CatCircuitTypes(name: 'NNI')];
   late String circuitTypeSelectedValue;
   //List<String> ddosList = ['Yes', 'No'];
@@ -265,9 +265,10 @@ class CreateQuoteProvider extends ChangeNotifier {
       return false;
     } else if (globalRows.isEmpty) {
       return false;
-    } else if (imageBytes == null) {
+    } /* else if (imageBytes == null) {
       return false;
-    } else {
+    } */
+    else {
       return true;
     }
   }
@@ -466,7 +467,7 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     circuitType.addAll({
       'multicast': multicastRequired,
-      'location': locationController.text,
+      //'location': locationController.text,
       'circuit_type': circuitTypeSelectedValue,
       if (circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.cir!) 'cir': cirSelectedValue,
       if (circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.portSize!)
@@ -819,7 +820,8 @@ class CreateQuoteProvider extends ChangeNotifier {
     if (totalPlusTax == 0 && subtotal == 0) {
       margin = 0;
     } else {
-      margin = totalPlusTax * 100 / subtotal;
+      margin = (totalPlusTax / cost) * 100;
+      //margin = ((totalPlusTax - cost) / totalPlusTax) * 100;
     }
     notifyListeners();
     return null;
@@ -985,7 +987,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       demarcationPointController.clear();
 
       multicastRequired = false;
-      locationController.clear();
+      //locationController.clear();
       evcodSelectedValue = evcodList.first;
       evcCircuitIdController.clear();
       //ddosSelectedValue = ddosList.first;
@@ -1199,7 +1201,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "demarcation_point": null,
           "vendor_id": vendor.id,
           "multicast": multicastRequired,
-          "location": locationController.text,
+          //"location": locationController.text,
           "circuit_type": circuitTypeSelectedValue,
           "cir": circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.cir! ? cirSelectedValue : null,
           "port_size": circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.portSize!
@@ -1253,15 +1255,17 @@ class CreateQuoteProvider extends ChangeNotifier {
         );
       }
 
-      var responseImage = await supabase.storage.from('demarcation-points').uploadBinary('orderInfo_${resp["id"].toString()}_demarcationPoint.png', imageBytes!);
+      if (imageBytes != null) {
+        var responseImage = await supabase.storage.from('demarcation-points').uploadBinary('orderInfo_${resp["id"].toString()}_demarcationPoint.png', imageBytes!);
 
-      if (responseImage.isNotEmpty) {
-        responseImage = supabase.storage.from('demarcation-points').getPublicUrl(
-              'orderInfo_${resp["id"].toString()}_demarcationPoint.png',
-            );
-        await supabaseCRM.from('order_info').update(
-          {'demarcation_url': responseImage, 'demarcation_doc': 'orderInfo_${resp["id"].toString()}_demarcationPoint.png'},
-        ).eq('id', resp["id"]);
+        if (responseImage.isNotEmpty) {
+          responseImage = supabase.storage.from('demarcation-points').getPublicUrl(
+                'orderInfo_${resp["id"].toString()}_demarcationPoint.png',
+              );
+          await supabaseCRM.from('order_info').update(
+            {'demarcation_url': responseImage, 'demarcation_doc': 'orderInfo_${resp["id"].toString()}_demarcationPoint.png'},
+          ).eq('id', resp["id"]);
+        }
       }
 
       //History
