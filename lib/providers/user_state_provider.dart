@@ -162,7 +162,7 @@ class UserState extends ChangeNotifier {
     currentUser = null;
     await prefs.remove('currentPais');
     await prefs.remove('currentRol');
-    router.pushReplacement('/');
+    router.pushReplacement('/login');
   }
 
   @override
