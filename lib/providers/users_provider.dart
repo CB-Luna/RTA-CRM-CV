@@ -544,7 +544,7 @@ class UsersProvider extends ChangeNotifier {
           .from('users')
           .select()
           .like('name', '%${searchController.text}%')
-          //.not('status', 'eq', 'Not Active')
+          .not('status', 'eq', 'Not Active')
           .order('sequential_id', ascending: true);
 
       if (res == null) {

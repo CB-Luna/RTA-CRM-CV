@@ -109,6 +109,7 @@ class _UsersPageState extends State<UsersPage> {
                                     ),
                                 color: AppTheme.of(context).primaryColor,
                                 onTap: () async {
+                                  provider.page = 1;
                                   await provider.getUsersNotActive();
                                 },
                               ),
