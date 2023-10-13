@@ -122,6 +122,7 @@ class UsersProvider extends ChangeNotifier {
     phoneController.clear();
     stateController.clear();
     roleController.clear();
+    addressController.clear();
     selectedCompany = null;
     selectedState = null;
     selectedRole = null;
@@ -671,6 +672,21 @@ class UsersProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       log('Error in deleteUser() - $e');
+      return false;
+    }
+  }
+
+  Future<bool> deleteUserAuth(User users) async {
+    try {
+      final res =
+          await supabase.rpc('borrar_usuario', params: {'correo': users.email});
+      if (res == null) {
+        log('Error in res null, deleteUserAuth');
+        return false;
+      }
+      return true;
+    } catch (e) {
+      log('Error in deleteUserAuth() - $e');
       return false;
     }
   }
