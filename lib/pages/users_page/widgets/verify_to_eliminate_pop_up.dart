@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/success_toast.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -17,8 +19,12 @@ class DeletePopUp extends StatefulWidget {
 }
 
 class _DeletePopUpState extends State<DeletePopUp> {
+  FToast fToast = FToast();
+
   @override
   Widget build(BuildContext context) {
+    fToast.init(context);
+
     UsersProvider provider = Provider.of<UsersProvider>(context);
 
     return AlertDialog(
@@ -94,7 +100,8 @@ class _DeletePopUpState extends State<DeletePopUp> {
                       width: MediaQuery.of(context).size.width * 0.1,
                       height: MediaQuery.of(context).size.height * 0.03,
                       decoration: BoxDecoration(
-                        color: statusColor(widget.users.company.company,context),
+                        color:
+                            statusColor(widget.users.company.company, context),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
@@ -119,8 +126,17 @@ class _DeletePopUpState extends State<DeletePopUp> {
                 text: 'Delete',
                 color: AppTheme.of(context).secondaryColor,
                 onTap: () async {
+                  if (!mounted) return;
+                  fToast.showToast(
+                    child: const SuccessToast(
+                      message: 'User Deleted',
+                    ),
+                    gravity: ToastGravity.BOTTOM,
+                    toastDuration: const Duration(seconds: 2),
+                  );
                   context.pop();
-                  provider.deleteUser(widget.users);
+                  provider.deleteUserAuth(widget.users);
+                  //provider.deleteUser(widget.users);
                   provider.updateState();
                 },
               ),
@@ -132,9 +148,17 @@ class _DeletePopUpState extends State<DeletePopUp> {
                 text: 'Archive',
                 color: AppTheme.of(context).primaryColor,
                 onTap: () async {
-                  context.pop();
+                  if (!mounted) return;
+                  fToast.showToast(
+                    child: const SuccessToast(
+                      message: 'The user has been successfully archived',
+                    ),
+                    gravity: ToastGravity.BOTTOM,
+                    toastDuration: const Duration(seconds: 2),
+                  );
                   provider.changeStatusUser(widget.users);
                   provider.updateState();
+                  context.pop();
                 },
               ),
             ]),
@@ -145,7 +169,7 @@ class _DeletePopUpState extends State<DeletePopUp> {
   }
 }
 
-Color statusColor(String status,BuildContext context) {
+Color statusColor(String status, BuildContext context) {
   late Color color;
 
   switch (status) {

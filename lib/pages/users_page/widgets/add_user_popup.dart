@@ -328,7 +328,11 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                 if (!formKey.currentState!.validate()) {
                   return;
                 }
-                await provider.uploadImage();
+
+                if (provider.placeHolderImage != null) {
+                  await provider.uploadImage();
+                }
+
                 //Registrar usuario
                 final Map<String, String>? result =
                     await provider.registerUser();
