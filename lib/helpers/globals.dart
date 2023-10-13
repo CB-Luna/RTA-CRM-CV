@@ -7,7 +7,8 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 import 'package:rta_crm_cv/models/models.dart';
 
-final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> snackbarKey =
+    GlobalKey<ScaffoldMessengerState>();
 
 const storage = FlutterSecureStorage();
 
