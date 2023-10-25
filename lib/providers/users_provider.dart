@@ -650,8 +650,11 @@ class UsersProvider extends ChangeNotifier {
             'id_company_fk': selectedCompany!.id,
             'id_vehicle_fk': selectedVehicle?.idVehicle,
             'status': dropdownvalue,
-            'license': licenseController.text,
-            'certification': certificationController.text
+            'license':
+                licenseController.text.isEmpty ? null : licenseController.text,
+            'certification': certificationController.text.isEmpty
+                ? null
+                : licenseController.text
           },
         );
       }
