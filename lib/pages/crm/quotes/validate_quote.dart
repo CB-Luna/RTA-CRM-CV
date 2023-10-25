@@ -666,12 +666,10 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       if (currentUser!.role.roleName == 'Sen. Exec.') {
                                                         await provider.senExecAcceptsQuote();
                                                         await provider.senExecAcceptsQuoteSales();
-                                                      }
-                                                      if (currentUser!.role.roleName == 'Finance') {
+                                                      } else if (currentUser!.role.roleName == 'Finance') {
                                                         await provider.financeAcceptsQuote();
                                                         await provider.financeAcceptsQuoteSales();
-                                                      }
-                                                     else{
+                                                      } else {
                                                         await provider.opperationsAcceptQuoteSales();
                                                       }
 
@@ -695,13 +693,12 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     onTap: () async {
                                                       if (currentUser!.role.roleName == 'Sen. Exec.') {
                                                         await provider.senExecRejectsQuote();
-                                                      }
-                                                      if (currentUser!.role.roleName == 'Finance') {
+                                                      } else if (currentUser!.role.roleName == 'Finance') {
                                                         await provider.financeRejectsQuote();
-                                                      }
-                                                      else {
+                                                      } else {
                                                         await provider.opperationsRejectsQuote();
                                                       }
+
                                                       if (formKey.currentState!.validate()) {
                                                         if (await provider.validateV2(false)) {
                                                           context.pushReplacement(routeQuotes);

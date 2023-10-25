@@ -245,7 +245,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
           "action": "rtaMail",
           "template": "FinanceAcceptsQuote",
           "subject": "Validate quote - RTA WHOLESALE",
-          "mailto": "kevin.ramos@cbluna.com", //Operations erich.kaiser@rtatel.com
+          "mailto": "kevin.ramos@cbluna.com", //Operations erich.kaiser@rtatel.com  "kevin.ramos@cbluna.com"
           "variables": [
             {"name": "quote.quote", "value": quote.quote},
             {"name": "quote.quoteid", "value": "${quote.quoteid}"},
@@ -286,7 +286,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
           "action": "rtaMail",
           "template": "SenExecAcceptsQuoteSales",
           "subject": "Quote accepted by Sen Exec - RTA WHOLESALE",
-          "mailto": "nestor.lopez@cbluna.com", //sales frank.befera@rtatel.com
+          "mailto": "nestor.lopez@cbluna.com", //sales frank.befera@rtatel.com  "nestor.lopez@cbluna.com"
           "variables": [
             {"name": "quote.quote", "value": quote.quote},
             {"name": "quote.quoteid", "value": "${quote.quoteid}"},
@@ -364,7 +364,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
       String body = jsonEncode(
         {
           "action": "rtaMail",
-          "template": "OperationsAcceptQuoteSales",
+          "template": "OpperationsAcceptQuoteSales",
           "subject": "Quote Accepted by Operations - RTA WHOLESALE",
           "mailto": "nestor.lopez@cbluna.com", //sales frank.befera@rtatel.com
           "variables": [
