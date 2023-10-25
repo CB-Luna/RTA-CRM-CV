@@ -5,6 +5,7 @@ import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 //import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
@@ -192,6 +193,330 @@ class ValidateQuoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+//////////////////////////////////////////////////
+  /// finanzas y operations
+  Future<bool> senExecAcceptsQuote() async {
+    try {
+      //URL Servidor apis
+      String url = 'https://supa43.rtatel.com/notifications/api';
+      //Json del correo;
+      String body = jsonEncode(
+        {
+          "action": "rtaMail",
+          "template": "SenExecAcceptsQuote",
+          "subject": "Validate quote - RTA WHOLESALE",
+          "mailto": "kevin.14985@gmail.com", //Finance
+          "variables": [
+            {"name": "quote.quote", "value": quote.quote},
+            {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.account", "value": quote.account},
+            {"name": "currentUser!.id", "value": currentUser!.name}
+          ]
+        },
+      );
+      var urlAutomatizacion = Uri.parse(url);
+      //headers
+      final headers = ({
+        "Content-Type": "application/json",
+      });
+      var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+      if (responseAutomatizacion.statusCode == 200) {
+        //Se marca como ejecutada la instrucción en Bitacora
+        log('Se envio correo con exito');
+        notifyListeners();
+        return true;
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> financeAcceptsQuote() async {
+    try {
+      //URL Servidor apis
+      String url = 'https://supa43.rtatel.com/notifications/api';
+      //Json del correo;
+      String body = jsonEncode(
+        {
+          "action": "rtaMail",
+          "template": "FinanceAcceptsQuote",
+          "subject": "Validate quote - RTA WHOLESALE",
+          "mailto": "kevin.ramos@cbluna.com", //Operations erich.kaiser@rtatel.com
+          "variables": [
+            {"name": "quote.quote", "value": quote.quote},
+            {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.account", "value": quote.account},
+            {"name": "currentUser!.id", "value": currentUser!.name}
+          ]
+        },
+      );
+      var urlAutomatizacion = Uri.parse(url);
+      //headers
+      final headers = ({
+        "Content-Type": "application/json",
+      });
+      var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+      if (responseAutomatizacion.statusCode == 200) {
+        //Se marca como ejecutada la instrucción en Bitacora
+        log('Se envio correo con exito');
+        notifyListeners();
+        return true;
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  ////////Aceepts QUotes
+  Future<bool> senExecAcceptsQuoteSales() async {
+    try {
+      //URL Servidor apis
+      String url = 'https://supa43.rtatel.com/notifications/api';
+      //Json del correo;
+      String body = jsonEncode(
+        {
+          "action": "rtaMail",
+          "template": "SenExecAcceptsQuoteSales",
+          "subject": "Quote accepted by Sen Exec - RTA WHOLESALE",
+          "mailto": "nestor.lopez@cbluna.com", //sales frank.befera@rtatel.com
+          "variables": [
+            {"name": "quote.quote", "value": quote.quote},
+            {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.account", "value": quote.account},
+            {"name": "currentUser!.id", "value": currentUser!.name}
+          ]
+        },
+      );
+      var urlAutomatizacion = Uri.parse(url);
+      //headers
+      final headers = ({
+        "Content-Type": "application/json",
+      });
+      var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+      if (responseAutomatizacion.statusCode == 200) {
+        //Se marca como ejecutada la instrucción en Bitacora
+        log('Se envio correo con exito');
+        notifyListeners();
+        return true;
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> financeAcceptsQuoteSales() async {
+    try {
+      //URL Servidor apis
+      String url = 'https://supa43.rtatel.com/notifications/api';
+      //Json del correo;
+      String body = jsonEncode(
+        {
+          "action": "rtaMail",
+          "template": "FinanceAcceptsQuoteSales",
+          "subject": "Quote Accepted by Finance - RTA WHOLESALE ",
+          "mailto": "nestor.lopez@cbluna.com", //sales frank.befera@rtatel.com
+          "variables": [
+            {"name": "quote.quote", "value": quote.quote},
+            {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.account", "value": quote.account},
+            {"name": "currentUser!.id", "value": currentUser!.name}
+          ]
+        },
+      );
+      var urlAutomatizacion = Uri.parse(url);
+      //headers
+      final headers = ({
+        "Content-Type": "application/json",
+      });
+      var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+      if (responseAutomatizacion.statusCode == 200) {
+        //Se marca como ejecutada la instrucción en Bitacora
+        log('Se envio correo con exito');
+        notifyListeners();
+        return true;
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> opperationsAcceptQuoteSales() async {
+    try {
+      //URL Servidor apis
+      String url = 'https://supa43.rtatel.com/notifications/api';
+      //Json del correo;
+      String body = jsonEncode(
+        {
+          "action": "rtaMail",
+          "template": "OperationsAcceptQuoteSales",
+          "subject": "Quote Accepted by Operations - RTA WHOLESALE",
+          "mailto": "nestor.lopez@cbluna.com", //sales frank.befera@rtatel.com
+          "variables": [
+            {"name": "quote.quote", "value": quote.quote},
+            {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.account", "value": quote.account},
+            {"name": "currentUser!.id", "value": currentUser!.name}
+          ]
+        },
+      );
+      var urlAutomatizacion = Uri.parse(url);
+      //headers
+      final headers = ({
+        "Content-Type": "application/json",
+      });
+      var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+      if (responseAutomatizacion.statusCode == 200) {
+        //Se marca como ejecutada la instrucción en Bitacora
+        log('Se envio correo con exito');
+        notifyListeners();
+        return true;
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+////////Reject QUotes
+  Future<bool> senExecRejectsQuote() async {
+    try {
+      //URL Servidor apis
+      String url = 'https://supa43.rtatel.com/notifications/api';
+      //Json del correo;
+      String body = jsonEncode(
+        {
+          "action": "rtaMail",
+          "template": "SenExecRejectsQuote",
+          "subject": "Rejected QUOTE - RTA WHOLESALE",
+          "mailto": "nestor.lopez@cbluna.com", //sales frank.befera@rtatel.com
+          "variables": [
+            {"name": "quote.quote", "value": quote.quote},
+            {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.account", "value": quote.account},
+            {"name": "currentUser!.id", "value": currentUser!.name}
+          ]
+        },
+      );
+      var urlAutomatizacion = Uri.parse(url);
+      //headers
+      final headers = ({
+        "Content-Type": "application/json",
+      });
+      var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+      if (responseAutomatizacion.statusCode == 200) {
+        //Se marca como ejecutada la instrucción en Bitacora
+        log('Se envio correo con exito');
+        notifyListeners();
+        return true;
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> financeRejectsQuote() async {
+    try {
+      //URL Servidor apis
+      String url = 'https://supa43.rtatel.com/notifications/api';
+      //Json del correo;
+      String body = jsonEncode(
+        {
+          "action": "rtaMail",
+          "template": "FinanceRejectsQuote",
+          "subject": "Rejected QUOTE - RTA WHOLESALE",
+          "mailto": "nestor.lopez@cbluna.com", //sales frank.befera@rtatel.com
+          "variables": [
+            {"name": "quote.quote", "value": quote.quote},
+            {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.account", "value": quote.account},
+            {"name": "currentUser!.id", "value": currentUser!.name}
+          ]
+        },
+      );
+      var urlAutomatizacion = Uri.parse(url);
+      //headers
+      final headers = ({
+        "Content-Type": "application/json",
+      });
+      var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+      if (responseAutomatizacion.statusCode == 200) {
+        //Se marca como ejecutada la instrucción en Bitacora
+        log('Se envio correo con exito');
+        notifyListeners();
+        return true;
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> opperationsRejectsQuote() async {
+    try {
+      //URL Servidor apis
+      String url = 'https://supa43.rtatel.com/notifications/api';
+      //Json del correo;
+      String body = jsonEncode(
+        {
+          "action": "rtaMail",
+          "template": "OpperationsRejectsQuote",
+          "subject": "Operations Reject Quote - RTA WHOLESALE",
+          "mailto": "nestor.lopez@cbluna.com", //sales frank.befera@rtatel.com
+          "variables": [
+            {"name": "quote.quote", "value": quote.quote},
+            {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.account", "value": quote.account},
+            {"name": "currentUser!.id", "value": currentUser!.name}
+          ]
+        },
+      );
+      var urlAutomatizacion = Uri.parse(url);
+      //headers
+      final headers = ({
+        "Content-Type": "application/json",
+      });
+      var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+      if (responseAutomatizacion.statusCode == 200) {
+        //Se marca como ejecutada la instrucción en Bitacora
+        log('Se envio correo con exito');
+        notifyListeners();
+        return true;
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+////////////////////////////////////////////////////
 /* 
   Future<void> validate(bool validate) async {
     try {

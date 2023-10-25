@@ -674,6 +674,11 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                             ScaffoldMessenger.of(context).showSnackBar(
                                                               const SnackBar(content: Text('Processing Data')),
                                                             );
+                                                            if (provider.margin > 20) {
+                                                              await provider.salesAcceptsQuoteFinance();
+                                                            } else {
+                                                              await provider.sendEmail();
+                                                            }
                                                             await provider.insertOrderInfo();
                                                             context.pushReplacement(routeQuotes);
                                                           } else {
@@ -1184,7 +1189,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                       ),
                                                       SizedBox(
                                                         child: Text(
-                                                          '${moneyFormat(provider.margin)}%',
+                                                          provider.margin == 0 ? '0.00%' : '${moneyFormat(provider.margin)}%',
                                                           style: TextStyle(
                                                               fontFamily: 'Bicyclette-Thin', fontSize: AppTheme.of(context).encabezadoTablas.fontSize, color: AppTheme.of(context).primaryBackground),
                                                         ),

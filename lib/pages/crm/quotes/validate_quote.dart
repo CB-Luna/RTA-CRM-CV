@@ -663,6 +663,18 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     text: 'Accept',
                                                     color: AppTheme.of(context).tertiaryColor,
                                                     onTap: () async {
+                                                      if (currentUser!.role.roleName == 'Sen. Exec.') {
+                                                        await provider.senExecAcceptsQuote();
+                                                        await provider.senExecAcceptsQuoteSales();
+                                                      }
+                                                      if (currentUser!.role.roleName == 'Finance') {
+                                                        await provider.financeAcceptsQuote();
+                                                        await provider.financeAcceptsQuoteSales();
+                                                      }
+                                                     else{
+                                                        await provider.opperationsAcceptQuoteSales();
+                                                      }
+
                                                       if (formKey.currentState!.validate()) {
                                                         if (await provider.validateV2(true)) {
                                                           context.pushReplacement(routeQuotes);
@@ -681,6 +693,15 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     color: secondaryColor,
                                                     text: 'Reject',
                                                     onTap: () async {
+                                                      if (currentUser!.role.roleName == 'Sen. Exec.') {
+                                                        await provider.senExecRejectsQuote();
+                                                      }
+                                                      if (currentUser!.role.roleName == 'Finance') {
+                                                        await provider.financeRejectsQuote();
+                                                      }
+                                                      else {
+                                                        await provider.opperationsRejectsQuote();
+                                                      }
                                                       if (formKey.currentState!.validate()) {
                                                         if (await provider.validateV2(false)) {
                                                           context.pushReplacement(routeQuotes);
