@@ -1090,7 +1090,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> sendEmail() async {
+  Future<bool> salesAcceptsQuoteSenExec() async {
     try {
       //URL Servidor apis
       String url = 'https://supa43.rtatel.com/notifications/api';
@@ -1104,7 +1104,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "variables": [
             {"name": "quote.quote", "value": "${quote.quote}"},
             {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-            {"name": "quote.status", "value": "${quote.status}"},
+            {"name": "quote.status", "value": "Sen. Exec. Validate"},
             {"name": "quote.account", "value": "${quote.account}"},
             {"name": "currentUser!.id", "value": currentUser!.name}
           ]
@@ -1129,7 +1129,6 @@ class CreateQuoteProvider extends ChangeNotifier {
       return false;
     }
   }
-
   Future<bool> salesAcceptsQuoteFinance() async {
     try {
       //URL Servidor apis
@@ -1144,7 +1143,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "variables": [
             {"name": "quote.quote", "value": quote.quote},
             {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.status", "value": "Finance Validate"},
             {"name": "quote.account", "value": quote.account},
             {"name": "currentUser!.id", "value": currentUser!.name}
           ]
@@ -1169,6 +1168,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       return false;
     }
   }
+
 
   Future<bool> insertOrderInfo() async {
     try {
@@ -1380,6 +1380,8 @@ class CreateQuoteProvider extends ChangeNotifier {
           "name": "${currentUser!.name} ${currentUser!.lastName}"
         },
       );
+
+      isLoading = false;
       notifyListeners();
       return true;
     } catch (e) {

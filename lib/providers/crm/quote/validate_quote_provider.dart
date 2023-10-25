@@ -209,7 +209,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
           "variables": [
             {"name": "quote.quote", "value": quote.quote},
             {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.status", "value": "Finance Validate"},
             {"name": "quote.account", "value": quote.account},
             {"name": "currentUser!.id", "value": currentUser!.name}
           ]
@@ -250,7 +250,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             {"name": "quote.quote", "value": quote.quote},
             {"name": "quote.quoteid", "value": "${quote.quoteid}"},
             {"name": "quote.status", "value": quote.status},
-            {"name": "quote.account", "value": quote.account},
+            {"name": "quote.account", "value": "Engineer Validate"},
             {"name": "currentUser!.id", "value": currentUser!.name}
           ]
         },
@@ -290,7 +290,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
           "variables": [
             {"name": "quote.quote", "value": quote.quote},
             {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.status", "value": "Approved"},
             {"name": "quote.account", "value": quote.account},
             {"name": "currentUser!.id", "value": currentUser!.name}
           ]
@@ -330,7 +330,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
           "variables": [
             {"name": "quote.quote", "value": quote.quote},
             {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.status", "value": "Engineer Validate"},
             {"name": "quote.account", "value": quote.account},
             {"name": "currentUser!.id", "value": currentUser!.name}
           ]
@@ -370,7 +370,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
           "variables": [
             {"name": "quote.quote", "value": quote.quote},
             {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.status", "value": "Approved"},
             {"name": "quote.account", "value": quote.account},
             {"name": "currentUser!.id", "value": currentUser!.name}
           ]
@@ -395,6 +395,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
       return false;
     }
   }
+
 ////////Reject QUotes
   Future<bool> senExecRejectsQuote() async {
     try {
@@ -410,7 +411,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
           "variables": [
             {"name": "quote.quote", "value": quote.quote},
             {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.status", "value": "Rejected"},
             {"name": "quote.account", "value": quote.account},
             {"name": "currentUser!.id", "value": currentUser!.name}
           ]
@@ -450,7 +451,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
           "variables": [
             {"name": "quote.quote", "value": quote.quote},
             {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.status", "value": "Rejected"},
             {"name": "quote.account", "value": quote.account},
             {"name": "currentUser!.id", "value": currentUser!.name}
           ]
@@ -490,7 +491,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
           "variables": [
             {"name": "quote.quote", "value": quote.quote},
             {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-            {"name": "quote.status", "value": quote.status},
+            {"name": "quote.status", "value": "Rejected"},
             {"name": "quote.account", "value": quote.account},
             {"name": "currentUser!.id", "value": currentUser!.name}
           ]

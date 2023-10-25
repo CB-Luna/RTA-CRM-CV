@@ -9,14 +9,12 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/tabs/table_top_text.dart';
-import 'package:rta_crm_cv/providers/crm/quote/detail_quote_provider.dart';
 import 'package:rta_crm_cv/providers/crm/quote/validate_quote_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 import '../../../widgets/captura/custom_ddown_menu/custom_dropdown_v2.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_switch.dart';
-import 'package:rta_crm_cv/widgets/captura/custom_tab_button.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
