@@ -664,11 +664,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     color: AppTheme.of(context).tertiaryColor,
                                                     onTap: () async {
                                                       if (formKey.currentState!.validate()) {
-                                                        if (provider.isLoading) {
-                                                          ScaffoldMessenger.of(context).showSnackBar(
-                                                            const SnackBar(content: Text('Processing Data')),
-                                                          );
-                                                        } else {
+                                                        if (await provider.validateV2(true)) {
                                                           if (currentUser!.role.roleName == 'Sen. Exec.') {
                                                             await provider.senExecAcceptsQuote();
                                                             await provider.senExecAcceptsQuoteSales();
@@ -678,10 +674,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                           } else {
                                                             await provider.opperationsAcceptQuoteSales();
                                                           }
-
-                                                          if (await provider.validateV2(true)) {
-                                                            context.pushReplacement(routeQuotes);
-                                                          }
+                                                          context.pushReplacement(routeQuotes);
                                                         }
                                                       } else {
                                                         ScaffoldMessenger.of(context).showSnackBar(
@@ -698,11 +691,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     text: 'Reject',
                                                     onTap: () async {
                                                       if (formKey.currentState!.validate()) {
-                                                        if (provider.isLoading) {
-                                                          ScaffoldMessenger.of(context).showSnackBar(
-                                                            const SnackBar(content: Text('Processing Data')),
-                                                          );
-                                                        } else {
+                                                        if (await provider.validateV2(false)) {
                                                           if (currentUser!.role.roleName == 'Sen. Exec.') {
                                                             await provider.senExecRejectsQuote();
                                                           } else if (currentUser!.role.roleName == 'Finance') {
@@ -710,10 +699,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                           } else {
                                                             await provider.opperationsRejectsQuote();
                                                           }
-
-                                                          if (await provider.validateV2(false)) {
-                                                            context.pushReplacement(routeQuotes);
-                                                          }
+                                                          context.pushReplacement(routeQuotes);
                                                         }
                                                       } else {
                                                         ScaffoldMessenger.of(context).showSnackBar(

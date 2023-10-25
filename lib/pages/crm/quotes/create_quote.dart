@@ -670,30 +670,23 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       onTap: () async {
                                                         if (formKey.currentState!.validate()) {
-                                                          if (provider.isLoading) {
+                                                          if (provider.createValidation()) {
                                                             ScaffoldMessenger.of(context).showSnackBar(
                                                               const SnackBar(content: Text('Processing Data')),
                                                             );
-                                                          } else {
+                                                            await provider.insertOrderInfo();
+
                                                             if (provider.margin > 20) {
                                                               await provider.salesAcceptsQuoteFinance();
                                                             } else {
                                                               await provider.sendEmail();
                                                             }
 
-                                                            await provider.insertOrderInfo();
                                                             context.pushReplacement(routeQuotes);
-                                                            if (provider.createValidation()) {
-                                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                                const SnackBar(content: Text('Processing Data')),
-                                                              );
-                                                              await provider.insertOrderInfo();
-                                                              context.pushReplacement(routeQuotes);
-                                                            } else {
-                                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                                const SnackBar(content: Text('Errors - createValidation')),
-                                                              );
-                                                            }
+                                                          } else {
+                                                            ScaffoldMessenger.of(context).showSnackBar(
+                                                              const SnackBar(content: Text('Errors - createValidation')),
+                                                            );
                                                           }
                                                         } else {
                                                           ScaffoldMessenger.of(context).showSnackBar(

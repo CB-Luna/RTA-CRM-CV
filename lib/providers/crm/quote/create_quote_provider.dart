@@ -1129,6 +1129,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       return false;
     }
   }
+
   Future<bool> salesAcceptsQuoteFinance() async {
     try {
       //URL Servidor apis
@@ -1168,7 +1169,6 @@ class CreateQuoteProvider extends ChangeNotifier {
       return false;
     }
   }
-
 
   Future<bool> insertOrderInfo() async {
     try {
@@ -1380,8 +1380,6 @@ class CreateQuoteProvider extends ChangeNotifier {
           "name": "${currentUser!.name} ${currentUser!.lastName}"
         },
       );
-
-      isLoading = false;
       notifyListeners();
       return true;
     } catch (e) {
