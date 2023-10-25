@@ -663,19 +663,25 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     text: 'Accept',
                                                     color: AppTheme.of(context).tertiaryColor,
                                                     onTap: () async {
-                                                      if (currentUser!.role.roleName == 'Sen. Exec.') {
-                                                        await provider.senExecAcceptsQuote();
-                                                        await provider.senExecAcceptsQuoteSales();
-                                                      } else if (currentUser!.role.roleName == 'Finance') {
-                                                        await provider.financeAcceptsQuote();
-                                                        await provider.financeAcceptsQuoteSales();
-                                                      } else {
-                                                        await provider.opperationsAcceptQuoteSales();
-                                                      }
-
                                                       if (formKey.currentState!.validate()) {
-                                                        if (await provider.validateV2(true)) {
-                                                          context.pushReplacement(routeQuotes);
+                                                        if (provider.isLoading) {
+                                                          ScaffoldMessenger.of(context).showSnackBar(
+                                                            const SnackBar(content: Text('Processing Data')),
+                                                          );
+                                                        } else {
+                                                          if (currentUser!.role.roleName == 'Sen. Exec.') {
+                                                            await provider.senExecAcceptsQuote();
+                                                            await provider.senExecAcceptsQuoteSales();
+                                                          } else if (currentUser!.role.roleName == 'Finance') {
+                                                            await provider.financeAcceptsQuote();
+                                                            await provider.financeAcceptsQuoteSales();
+                                                          } else {
+                                                            await provider.opperationsAcceptQuoteSales();
+                                                          }
+
+                                                          if (await provider.validateV2(true)) {
+                                                            context.pushReplacement(routeQuotes);
+                                                          }
                                                         }
                                                       } else {
                                                         ScaffoldMessenger.of(context).showSnackBar(
@@ -691,17 +697,23 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     color: secondaryColor,
                                                     text: 'Reject',
                                                     onTap: () async {
-                                                      if (currentUser!.role.roleName == 'Sen. Exec.') {
-                                                        await provider.senExecRejectsQuote();
-                                                      } else if (currentUser!.role.roleName == 'Finance') {
-                                                        await provider.financeRejectsQuote();
-                                                      } else {
-                                                        await provider.opperationsRejectsQuote();
-                                                      }
-
                                                       if (formKey.currentState!.validate()) {
-                                                        if (await provider.validateV2(false)) {
-                                                          context.pushReplacement(routeQuotes);
+                                                        if (provider.isLoading) {
+                                                          ScaffoldMessenger.of(context).showSnackBar(
+                                                            const SnackBar(content: Text('Processing Data')),
+                                                          );
+                                                        } else {
+                                                          if (currentUser!.role.roleName == 'Sen. Exec.') {
+                                                            await provider.senExecRejectsQuote();
+                                                          } else if (currentUser!.role.roleName == 'Finance') {
+                                                            await provider.financeRejectsQuote();
+                                                          } else {
+                                                            await provider.opperationsRejectsQuote();
+                                                          }
+
+                                                          if (await provider.validateV2(false)) {
+                                                            context.pushReplacement(routeQuotes);
+                                                          }
                                                         }
                                                       } else {
                                                         ScaffoldMessenger.of(context).showSnackBar(
