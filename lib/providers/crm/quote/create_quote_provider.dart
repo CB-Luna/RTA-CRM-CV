@@ -822,7 +822,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     if (totalPlusTax == 0 && subtotal == 0) {
       margin = 0;
     } else {
-      margin = (totalPlusTax / subtotal) * 100;
+      margin = (totalPlusTax / cost) * 100;
       //margin = ((totalPlusTax - cost) / totalPlusTax) * 100;
     }
     notifyListeners();

@@ -247,70 +247,89 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         },
                       ),
                     ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: CustomDDownMenu(
-                            hint: 'Choose a Vehicle',
-                            label: 'Vehicle',
-                            icon: Icons.credit_card_outlined,
-                            width: 190,
-                            list: vehicleNames,
-                            dropdownValue:
-                                provider.selectedVehicle?.licesensePlates,
-                            onChanged: (val) {
-                              if (val == null) return;
-                              //print(val);
-                              provider.selectedVehiclee(val);
-                            },
+                    Visibility(
+                      visible: provider.selectedRole?.roleName == "Employee" ||
+                          provider.selectedRole?.roleName ==
+                              "Tech Supervisor" ||
+                          provider.selectedRole?.roleName == "Manager",
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: CustomDDownMenu(
+                              hint: 'Choose a Vehicle',
+                              label: 'Vehicle',
+                              icon: Icons.credit_card_outlined,
+                              width: 190,
+                              list: vehicleNames,
+                              dropdownValue:
+                                  provider.selectedVehicle?.licesensePlates,
+                              onChanged: (val) {
+                                if (val == null) return;
+                                //print(val);
+                                provider.selectedVehiclee(val);
+                              },
+                            ),
                           ),
-                        ),
-                        Column(
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: CustomTextIconButton(
-                                isLoading: false,
-                                icon: Icon(
-                                  Icons.cleaning_services_outlined,
-                                  color: AppTheme.of(context).primaryBackground,
-                                ),
-                                text: 'Clear Plates',
-                                onTap: () async {
-                                  provider.clearVehicle();
-                                },
+                          Column(
+                            children: [
+                              const SizedBox(
+                                height: 20,
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomTextField(
-                        label: 'License',
-                        icon: Icons.card_membership_outlined,
-                        controller: provider.licenseController,
-                        enabled: true,
-                        width: 350,
-                        keyboardType: TextInputType.text,
-                        maxLength: 10,
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: CustomTextIconButton(
+                                  isLoading: false,
+                                  icon: Icon(
+                                    Icons.cleaning_services_outlined,
+                                    color:
+                                        AppTheme.of(context).primaryBackground,
+                                  ),
+                                  text: 'Clear Plates',
+                                  onTap: () async {
+                                    provider.clearVehicle();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomTextField(
-                        label: 'Certification',
-                        icon: Icons.workspace_premium_outlined,
-                        controller: provider.certificationController,
-                        enabled: true,
-                        width: 350,
-                        keyboardType: TextInputType.text,
-                        maxLength: 5,
+                    Visibility(
+                      visible: provider.selectedRole?.roleName == "Employee" ||
+                          provider.selectedRole?.roleName ==
+                              "Tech Supervisor" ||
+                          provider.selectedRole?.roleName == "Manager",
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: CustomTextField(
+                          label: 'License',
+                          icon: Icons.card_membership_outlined,
+                          controller: provider.licenseController,
+                          enabled: true,
+                          width: 350,
+                          keyboardType: TextInputType.text,
+                          maxLength: 10,
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: provider.selectedRole?.roleName == "Employee" ||
+                          provider.selectedRole?.roleName ==
+                              "Tech Supervisor" ||
+                          provider.selectedRole?.roleName == "Manager",
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: CustomTextField(
+                          label: 'Certification',
+                          icon: Icons.workspace_premium_outlined,
+                          controller: provider.certificationController,
+                          enabled: true,
+                          width: 350,
+                          keyboardType: TextInputType.text,
+                          maxLength: 5,
+                        ),
                       ),
                     ),
                   ],
