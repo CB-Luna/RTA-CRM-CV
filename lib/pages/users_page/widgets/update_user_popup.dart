@@ -230,71 +230,93 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         },
                       ),
                     ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: CustomDDownMenu(
-                            hint:
-                                'Choose a Vehicle [${provider.selectVehiclePlates ?? 'No Vehicle'}]',
-                            label: 'Vehicle',
-                            icon: Icons.credit_card_outlined,
-                            width: MediaQuery.of(context).size.width * 0.145,
-                            list: vehicleNames,
-                            dropdownValue:
-                                provider.selectedVehicleUpdate?.licesensePlates,
-                            onChanged: (val) {
-                              if (val == null) return;
-                              provider.selectVehicleUpdates(val);
-                            },
+                    Visibility(
+                      visible: provider.selectedRoleUpdate?.roleName ==
+                              "Employee" ||
+                          provider.selectedRoleUpdate?.roleName ==
+                              "Tech Supervisor" ||
+                          provider.selectedRoleUpdate?.roleName == "Manager",
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: CustomDDownMenu(
+                              hint:
+                                  'Choose a Vehicle [${provider.selectVehiclePlates ?? 'No Vehicle'}]',
+                              label: 'Vehicle',
+                              icon: Icons.credit_card_outlined,
+                              width: MediaQuery.of(context).size.width * 0.145,
+                              list: vehicleNames,
+                              dropdownValue: provider
+                                  .selectedVehicleUpdate?.licesensePlates,
+                              onChanged: (val) {
+                                if (val == null) return;
+                                provider.selectVehicleUpdates(val);
+                              },
+                            ),
                           ),
-                        ),
-                        Column(
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: CustomTextIconButton(
-                                isLoading: false,
-                                icon: Icon(
-                                  Icons.cleaning_services_outlined,
-                                  color: AppTheme.of(context).primaryBackground,
-                                ),
-                                text: '',
-                                onTap: () async {
-                                  provider.clearVehicleLicense(notify: false);
-                                  provider.clearVehicleUpdate();
-                                },
+                          Column(
+                            children: [
+                              const SizedBox(
+                                height: 20,
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomTextField(
-                        label: 'License',
-                        icon: Icons.card_membership_outlined,
-                        controller: provider.licenseControllerUpdate,
-                        enabled: true,
-                        width: 350,
-                        keyboardType: TextInputType.text,
-                        maxLength: 10,
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: CustomTextIconButton(
+                                  isLoading: false,
+                                  icon: Icon(
+                                    Icons.cleaning_services_outlined,
+                                    color:
+                                        AppTheme.of(context).primaryBackground,
+                                  ),
+                                  text: '',
+                                  onTap: () async {
+                                    provider.clearVehicleLicense(notify: false);
+                                    provider.clearVehicleUpdate();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomTextField(
-                        label: 'Certification',
-                        icon: Icons.workspace_premium_outlined,
-                        controller: provider.certificationControllerUpdate,
-                        enabled: true,
-                        width: 350,
-                        keyboardType: TextInputType.text,
-                        maxLength: 5,
+                    Visibility(
+                      visible: provider.selectedRoleUpdate?.roleName ==
+                              "Employee" ||
+                          provider.selectedRoleUpdate?.roleName ==
+                              "Tech Supervisor" ||
+                          provider.selectedRoleUpdate?.roleName == "Manager",
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: CustomTextField(
+                          label: 'License',
+                          icon: Icons.card_membership_outlined,
+                          controller: provider.licenseControllerUpdate,
+                          enabled: true,
+                          width: 350,
+                          keyboardType: TextInputType.text,
+                          maxLength: 10,
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: provider.selectedRoleUpdate?.roleName ==
+                              "Employee" ||
+                          provider.selectedRoleUpdate?.roleName ==
+                              "Tech Supervisor" ||
+                          provider.selectedRoleUpdate?.roleName == "Manager",
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: CustomTextField(
+                          label: 'Certification',
+                          icon: Icons.workspace_premium_outlined,
+                          controller: provider.certificationControllerUpdate,
+                          enabled: true,
+                          width: 350,
+                          keyboardType: TextInputType.text,
+                          maxLength: 5,
+                        ),
                       ),
                     ),
                   ],

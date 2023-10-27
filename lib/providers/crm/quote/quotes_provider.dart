@@ -26,6 +26,8 @@ class QuotesProvider extends ChangeNotifier {
   int pageRowCount = 10;
   int page = 1;
 
+  bool loadingGrid = false;
+
   List<X2CrmQuote> x2crmQuotes = [];
 
   QuotesProvider() {
@@ -34,6 +36,7 @@ class QuotesProvider extends ChangeNotifier {
   }
 
   Future<void> updateState() async {
+    loadingGrid = false;
     await getStatus();
     await setIndex(0);
     await getX2Quotes(null);
