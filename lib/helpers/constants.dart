@@ -12,6 +12,7 @@ const String anonKey =
 const redirectUrl =
     'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
+String urlNotifications = 'https://supa43.rtatel.com/notifications/api';
 
 //////// PROD ////////
 // final Uri urlFMTAPK = Uri.parse(
