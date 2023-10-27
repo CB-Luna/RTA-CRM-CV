@@ -7,6 +7,7 @@ import 'dart:typed_data';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
@@ -18,6 +19,7 @@ import 'package:rta_crm_cv/models/crm/catalogos/model_cat_circuit_types.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_cat_vendor_model.dart';
 import 'package:rta_crm_cv/models/crm/x2crm/model_x2_line_items.dart';
 import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view_v2.dart';
+import 'package:rta_crm_cv/models/user.dart';
 //import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/models/orders.dart';
 import 'package:file_picker/file_picker.dart';
@@ -820,7 +822,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     if (totalPlusTax == 0 && subtotal == 0) {
       margin = 0;
     } else {
-      margin = (totalPlusTax / subtotal) * 100;
+      margin = (totalPlusTax / cost) * 100;
       //margin = ((totalPlusTax - cost) / totalPlusTax) * 100;
     }
     notifyListeners();
@@ -1039,6 +1041,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         dynamic resp = jsonDecode(await response.stream.bytesToString());
         var lineItems = ModelX2LineItems.fromRawJson(jsonEncode(resp["result"]));
+        lineItems.items!.removeWhere((element) => element.name == 'x2comment' /* || element.name == 'x2adjustment' */);
 
         if (quote.idOrders != null) {
           var prevQuoteRes = await supabaseCRM.from('x2_quotes_view_v2').select().eq('id_orders', quote.idOrders);
@@ -1085,6 +1088,93 @@ class CreateQuoteProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       log(e.toString());
+    }
+  }
+
+  Future<bool> salesAcceptsQuoteSenExec() async {
+    try {
+      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      if (res == null) {
+        log('Error en getemail()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "SalesAcceptsQuoteSenExec",
+            "subject": "Validate quote - RTA WHOLESALE",
+            "mailto": email['email'], //Sen Exec nestalon1993@gmail.com
+            "variables": [
+              {"name": "quote.quote", "value": "${quote.quote}"},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Sen. Exec. Validate"},
+              {"name": "quote.account", "value": "${quote.account}"},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+          notifyListeners();
+          return true;
+        }
+      }
+
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> salesAcceptsQuoteFinance() async {
+    try {
+      final res = await supabase.from('users').select('email').eq('id_role_fk', 8);
+      if (res == null) {
+        log('Error en getemail()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "SalesAcceptsQuoteFinance",
+            "subject": "Validate quote - RTA WHOLESALE",
+            "mailto": email['email'], //Finance kevin.14985@gmail.com
+            "variables": [
+              {"name": "quote.quote", "value": quote.quote},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Finance Validate"},
+              {"name": "quote.account", "value": quote.account},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+        }
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
     }
   }
 

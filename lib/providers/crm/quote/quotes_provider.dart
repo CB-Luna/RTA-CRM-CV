@@ -10,6 +10,7 @@ import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/models/crm/x2crm/model_pc_customers.dart';
+import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_status.dart';
 import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view_v2.dart';
 //import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
 import 'package:rta_crm_cv/models/crm/x2crm/x2crm_quote_model.dart';
@@ -20,9 +21,12 @@ class QuotesProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<Quotes> quotes = [];
   List<PlutoRow> rows = [];
+  List<ModelX2V2QuotesStatus> listStatus = [];
   PlutoGridStateManager? stateManager;
   int pageRowCount = 10;
   int page = 1;
+
+  bool loadingGrid = false;
 
   List<X2CrmQuote> x2crmQuotes = [];
 
@@ -32,6 +36,8 @@ class QuotesProvider extends ChangeNotifier {
   }
 
   Future<void> updateState() async {
+    loadingGrid = false;
+    await getStatus();
     await setIndex(0);
     await getX2Quotes(null);
   }
@@ -316,6 +322,11 @@ class QuotesProvider extends ChangeNotifier {
     await getX2Quotes(null);
   } */
 
+  Future<void> getStatus() async {
+    var res = await supabaseCRM.from('cat_quotes_status').select().eq('visible', true);
+    listStatus = (res as List<dynamic>).map((status) => ModelX2V2QuotesStatus.fromJson(jsonEncode(status))).toList();
+  }
+
   Future<void> getX2Quotes(int? status) async {
     try {
       dynamic res;
@@ -429,11 +440,9 @@ class QuotesProvider extends ChangeNotifier {
           "body":
               "Circuit Address:${quote.orderInfo!.address!}\nCircuit Details:${quote.description!}\nData Center Location:${quote.orderInfo!.dataCenterLocation!}\nPort Size:${quote.circuitInfo!.portSize!}\nCIR:${quote.circuitInfo!.cir!}\nHandoff:${quote.orderInfo!.handoff!}\nDemarcation Point:${quote.orderInfo!.demarcationPoint!}\nImage of Demarcation Point:${quote.demarcationUrl} ",
 
-        if (circuitTypeSelectedValue == 'NNI' || circuitTypeSelectedValue == 'X-Connect')
-          "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}",
+        if (circuitTypeSelectedValue == 'NNI' || circuitTypeSelectedValue == 'X-Connect') "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}",
 
-        if (circuitTypeSelectedValue == 'X-Connect')
-          "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}\nDetails:${quote.description!}",
+        if (circuitTypeSelectedValue == 'X-Connect') "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}\nDetails:${quote.description!}",
       };
 
       var json = {

@@ -173,9 +173,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               ),
 
             // Sección CONTROL VEHICULAR
-            if (currentUser!.isAdminCv ||
-                currentUser!.isManager ||
-                currentUser!.isTechSupervisor)
+            if (currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isTechSupervisor)
               SideMenuItem(
                 selected: provider.indexSelected[8],
                 leading: provider.aRMonitory != null
@@ -193,9 +191,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverMonitory?.change(false);
                 },
               ),
-            if (currentUser!.isAdminCv ||
-                currentUser!.isManager ||
-                currentUser!.isTechSupervisor)
+            if (currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isTechSupervisor)
               SideMenuItem(
                 selected: provider.indexSelected[7],
                 leading: provider.aRInventories != null
@@ -213,9 +209,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverInventories?.change(false);
                 },
               ),
-            if (currentUser!.isEmployee ||
-                currentUser!.isTechSupervisor ||
-                currentUser!.isManager)
+            if (currentUser!.isEmployee || currentUser!.isTechSupervisor || currentUser!.isManager)
               SideMenuItem(
                 selected: provider.indexSelected[13],
                 leading: provider.aRDownloadAPK != null
@@ -238,9 +232,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 currentUser!.isManager)
               SideMenuItem(
                 selected: provider.indexSelected[10],
-                leading: provider.aRUsers != null
-                    ? Rive(artboard: provider.aRUsers!)
-                    : const CircularProgressIndicator(),
+                leading:
+                    provider.aRUsers != null ? Rive(artboard: provider.aRUsers!) : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Users',
                 onTap: () async {
@@ -254,9 +247,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverUsers?.change(false);
                 },
               ),
-            if (currentUser!.isAdminCv ||
-                currentUser!.isManager ||
-                currentUser!.isTechSupervisor)
+            if (currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isTechSupervisor)
               SideMenuItem(
                 selected: provider.indexSelected[9],
                 leading: provider.aRDashboards != null
@@ -277,8 +268,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[11],
-                leading: Icon(Icons.color_lens_outlined,
-                    color: Color(Colors.grey[300]!.value)),
+                leading: Icon(Icons.color_lens_outlined, color: Color(Colors.grey[300]!.value)),
                 isOpen: widget.isOpen,
                 title: 'Configurator',
                 onTap: () async {
@@ -294,12 +284,11 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
 
             SideMenuItem(
               selected: provider.indexSelected[12],
-              leading: const Icon(Icons.power_settings_new_outlined,
-                  color: Colors.red),
+              leading: const Icon(Icons.power_settings_new_outlined, color: Colors.red),
               isOpen: widget.isOpen,
               title: 'Logout',
               onTap: () async {
-                userState.logout();
+                await userState.logout();
               },
               onEnter: (event) {
                 //provider.iHoverUsers?.change(true);
