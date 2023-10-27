@@ -9,14 +9,12 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/tabs/table_top_text.dart';
-import 'package:rta_crm_cv/providers/crm/quote/detail_quote_provider.dart';
 import 'package:rta_crm_cv/providers/crm/quote/validate_quote_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 import '../../../widgets/captura/custom_ddown_menu/custom_dropdown_v2.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_switch.dart';
-import 'package:rta_crm_cv/widgets/captura/custom_tab_button.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
@@ -68,7 +66,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: MediaQuery.of(context).size.height / cardHeight + 20,
+                          height: MediaQuery.of(context).size.height / cardHeight + 150,
                           width: MediaQuery.of(context).size.width - 30,
                           child: CustomScrollBar(
                             clipBehavior: Clip.antiAlias,
@@ -78,7 +76,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                               child: Row(
                                 children: [
                                   CustomCard(
-                                    height: MediaQuery.of(context).size.height / cardHeight,
+                                    height: MediaQuery.of(context).size.height / cardHeight + 130,
                                     width: MediaQuery.of(context).size.width / 5,
                                     title: 'Order Info',
                                     child: Column(
@@ -252,7 +250,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 20),
                                     child: CustomCard(
-                                      height: MediaQuery.of(context).size.height / cardHeight,
+                                      height: MediaQuery.of(context).size.height / cardHeight + 130,
                                       width: MediaQuery.of(context).size.width / 5,
                                       title: 'Circuit Info',
                                       child: Column(
@@ -574,7 +572,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 20),
                                     child: CustomCard(
-                                      height: MediaQuery.of(context).size.height / cardHeight,
+                                      height: MediaQuery.of(context).size.height / cardHeight + 130,
                                       width: MediaQuery.of(context).size.width / 5,
                                       title: 'Customer Info',
                                       child: Column(
@@ -643,7 +641,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 20),
                                     child: CustomCard(
-                                      height: MediaQuery.of(context).size.height / cardHeight,
+                                      height: MediaQuery.of(context).size.height / cardHeight + 130,
                                       width: MediaQuery.of(context).size.width / 5,
                                       title: 'Totals',
                                       child: Column(
@@ -665,6 +663,15 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     onTap: () async {
                                                       if (formKey.currentState!.validate()) {
                                                         if (await provider.validateV2(true)) {
+                                                          if (currentUser!.role.roleName == 'Sen. Exec.') {
+                                                            await provider.senExecAcceptsQuote();
+                                                            await provider.senExecAcceptsQuoteSales();
+                                                          } else if (currentUser!.role.roleName == 'Finance') {
+                                                            await provider.financeAcceptsQuote();
+                                                            await provider.financeAcceptsQuoteSales();
+                                                          } else {
+                                                            await provider.opperationsAcceptQuoteSales();
+                                                          }
                                                           context.pushReplacement(routeQuotes);
                                                         }
                                                       } else {
@@ -683,6 +690,13 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     onTap: () async {
                                                       if (formKey.currentState!.validate()) {
                                                         if (await provider.validateV2(false)) {
+                                                          if (currentUser!.role.roleName == 'Sen. Exec.') {
+                                                            await provider.senExecRejectsQuote();
+                                                          } else if (currentUser!.role.roleName == 'Finance') {
+                                                            await provider.financeRejectsQuote();
+                                                          } else {
+                                                            await provider.opperationsRejectsQuote();
+                                                          }
                                                           context.pushReplacement(routeQuotes);
                                                         }
                                                       } else {
@@ -1180,7 +1194,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                           child: Row(
                             children: [
                               SizedBox(
-                                height: MediaQuery.of(context).size.height / 2.25,
+                                height: MediaQuery.of(context).size.height / 3,
                                 width: MediaQuery.of(context).size.width / 1.6 - 10,
                                 child: const PlutoGridCotizador(),
                               ),
@@ -1216,14 +1230,14 @@ class _CommentsSectionState extends State<CommentsSection> {
   Widget build(BuildContext context) {
     ValidateQuoteProvider provider = Provider.of<ValidateQuoteProvider>(context);
     return CustomCard(
-      height: MediaQuery.of(context).size.height / 2.25,
+      height: MediaQuery.of(context).size.height / 3,
       width: MediaQuery.of(context).size.width / 5,
       title: 'Comments',
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            height: MediaQuery.of(context).size.height / 2.25 - 150,
+            height: MediaQuery.of(context).size.height / 3 - 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: AppTheme.of(context).primaryBackground,

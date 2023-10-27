@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pdfx/pdfx.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
@@ -11,17 +10,14 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/pages/crm/accounts/tabs/table_top_text.dart';
 import 'package:rta_crm_cv/providers/crm/quote/create_quote_provider.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/captura/currency_input_formatter.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_switch.dart';
-import 'package:rta_crm_cv/widgets/captura/thousands_separator_input_formatter.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown_v2.dart';
-import 'package:rta_crm_cv/widgets/captura/custom_tab_button.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
@@ -675,6 +671,13 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                               const SnackBar(content: Text('Processing Data')),
                                                             );
                                                             await provider.insertOrderInfo();
+
+                                                            if (provider.margin > 20) {
+                                                              await provider.salesAcceptsQuoteFinance();
+                                                            } else {
+                                                              await provider.salesAcceptsQuoteSenExec();
+                                                            }
+
                                                             context.pushReplacement(routeQuotes);
                                                           } else {
                                                             ScaffoldMessenger.of(context).showSnackBar(
@@ -1184,7 +1187,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                       ),
                                                       SizedBox(
                                                         child: Text(
-                                                          '${moneyFormat(provider.margin)}%',
+                                                          provider.margin == 0 ? '0.00%' : '${moneyFormat(provider.margin)}%',
                                                           style: TextStyle(
                                                               fontFamily: 'Bicyclette-Thin', fontSize: AppTheme.of(context).encabezadoTablas.fontSize, color: AppTheme.of(context).primaryBackground),
                                                         ),
