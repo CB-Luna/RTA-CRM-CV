@@ -6,7 +6,9 @@ import 'package:rive/rive.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/item.dart';
+import 'package:rta_crm_cv/widgets/side_menu/widgets/sales/sales_button.dart';
 
 class SideMenuItemsList extends StatefulWidget {
   const SideMenuItemsList({super.key, required this.isOpen});
@@ -281,6 +283,92 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   //provider.iHoverUsers?.change(false);
                 },
               ),
+
+            // Sección Dashboards RTATEL
+
+            currentUser!.isEmployee
+            ? Padding(
+                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                child: SalesButton(
+                  tooltip: 'Sales',
+                  fillColor: AppTheme.of(context).primaryColor,
+                  icon: Icons.podcasts_outlined,
+                  // isTaped: visualState.isTaped[3],
+                ),
+              )
+            : Container(),
+
+            currentUser!.isEmployee
+            ? Padding(
+                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                child: SalesButton(
+                  tooltip: 'Manager',
+                  fillColor: AppTheme.of(context).primaryColor,
+                  icon: Icons.podcasts_outlined,
+                  // isTaped: visualState.isTaped[3],
+                ),
+              )
+            : Container(),
+
+            currentUser!.isEmployee
+            ? Padding(
+                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                child: SalesButton(
+                  tooltip: 'GigFast Network',
+                  fillColor: AppTheme.of(context).primaryColor,
+                  icon: Icons.podcasts_outlined,
+                  // isTaped: visualState.isTaped[3],
+                ),
+              )
+            : Container(),
+
+            currentUser!.isEmployee
+            ? Padding(
+                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                child: SalesButton(
+                  tooltip: 'Call Center',
+                  fillColor: AppTheme.of(context).primaryColor,
+                  icon: Icons.podcasts_outlined,
+                  // isTaped: visualState.isTaped[3],
+                ),
+              )
+            : Container(),
+
+            currentUser!.isEmployee
+            ? Padding(
+                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                child: SalesButton(
+                  tooltip: 'Surveys',
+                  fillColor: AppTheme.of(context).primaryColor,
+                  icon: Icons.podcasts_outlined,
+                  // isTaped: visualState.isTaped[3],
+                ),
+              )
+            : Container(),
+
+            currentUser!.isEmployee
+            ? Padding(
+                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                child: SalesButton(
+                  tooltip: 'FMT',
+                  fillColor: AppTheme.of(context).primaryColor,
+                  icon: Icons.podcasts_outlined,
+                  // isTaped: visualState.isTaped[3],
+                ),
+              )
+            : Container(),
+
+            currentUser!.isEmployee
+            ? Padding(
+                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                child: SalesButton(
+                  tooltip: 'WOP',
+                  fillColor: AppTheme.of(context).primaryColor,
+                  icon: Icons.podcasts_outlined,
+                  // isTaped: visualState.isTaped[3],
+                ),
+              )
+            : Container(),
 
             SideMenuItem(
               selected: provider.indexSelected[12],

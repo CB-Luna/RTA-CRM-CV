@@ -270,6 +270,150 @@ final GoRouter router = GoRouter(
       },
       // (context, state, const DetailsPopUp()),
     ),
+    GoRoute(
+      path: opcoSuscriberTarget,
+      name: 'OpCo Suscriber Targets',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: newSalesTrackingDashboard,
+      name: 'New Sales Tracking Dashboards',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: monthlyChurn,
+      name: 'Monthly Churn %',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: configuratorStats,
+      name: 'Configurator Stats',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: noCoverageLeads,
+      name: 'No Coverage Leads',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: newConfiguratorStats,
+      name: 'New Configurator Stats',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: referralsTracking,
+      name: 'Referrals Tracking',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: residentialAndBusinessCustomer,
+      name: 'Residentials and Business Customers',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: wirelessAndFiberCustomer,
+      name: 'Wireless and Fiber Customers',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: voIPTracking,
+      name: 'VoIP Tracking',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: ipTVTracking,
+      name: 'IPTV Tracking',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: arpuTrackingResidential,
+      name: 'ARPU Tracking Residential',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: arpuTrackingWholesale,
+      name: 'ARPU Tracking Wholesale',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: monthlyARPUTrackingWholesale,
+      name: 'Monthly ARPU Tracking Wholesale',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: monthlyARPUTrackingResidential,
+      name: 'Monthly ARPU Tracking Residential',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: engageOption,
+      name: 'Engage Option',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: conversionRate,
+      name: 'Conversion rate',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: deactContactLog,
+      name: 'Deact Contact Log',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
     /////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
