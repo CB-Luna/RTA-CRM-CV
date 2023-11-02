@@ -8,7 +8,12 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/item.dart';
+import 'package:rta_crm_cv/widgets/side_menu/widgets/manager_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/sales/sales_button.dart';
+
+import 'call_center_button.dart';
+import 'gigfast_network_button.dart';
+import 'surveys/surveys_button.dart';
 
 class SideMenuItemsList extends StatefulWidget {
   const SideMenuItemsList({super.key, required this.isOpen});
@@ -175,7 +180,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               ),
 
             // Sección CONTROL VEHICULAR
-            if (currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isTechSupervisor)
+            if (currentUser!.isAdminCv ||
+                currentUser!.isManager ||
+                currentUser!.isTechSupervisor)
               SideMenuItem(
                 selected: provider.indexSelected[8],
                 leading: provider.aRMonitory != null
@@ -193,7 +200,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverMonitory?.change(false);
                 },
               ),
-            if (currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isTechSupervisor)
+            if (currentUser!.isAdminCv ||
+                currentUser!.isManager ||
+                currentUser!.isTechSupervisor)
               SideMenuItem(
                 selected: provider.indexSelected[7],
                 leading: provider.aRInventories != null
@@ -211,7 +220,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverInventories?.change(false);
                 },
               ),
-            if (currentUser!.isEmployee || currentUser!.isTechSupervisor || currentUser!.isManager)
+            if (currentUser!.isEmployee ||
+                currentUser!.isTechSupervisor ||
+                currentUser!.isManager)
               SideMenuItem(
                 selected: provider.indexSelected[13],
                 leading: provider.aRDownloadAPK != null
@@ -230,12 +241,12 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 },
               ),
 
-            if (currentUser!.isAdmin ||
-                currentUser!.isManager)
+            if (currentUser!.isAdmin || currentUser!.isManager)
               SideMenuItem(
                 selected: provider.indexSelected[10],
-                leading:
-                    provider.aRUsers != null ? Rive(artboard: provider.aRUsers!) : const CircularProgressIndicator(),
+                leading: provider.aRUsers != null
+                    ? Rive(artboard: provider.aRUsers!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Users',
                 onTap: () async {
@@ -249,7 +260,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverUsers?.change(false);
                 },
               ),
-            if (currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isTechSupervisor)
+            if (currentUser!.isAdminCv ||
+                currentUser!.isManager ||
+                currentUser!.isTechSupervisor)
               SideMenuItem(
                 selected: provider.indexSelected[9],
                 leading: provider.aRDashboards != null
@@ -270,7 +283,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (currentUser!.isAdmin)
               SideMenuItem(
                 selected: provider.indexSelected[11],
-                leading: Icon(Icons.color_lens_outlined, color: Color(Colors.grey[300]!.value)),
+                leading: Icon(Icons.color_lens_outlined,
+                    color: Color(Colors.grey[300]!.value)),
                 isOpen: widget.isOpen,
                 title: 'Configurator',
                 onTap: () async {
@@ -287,92 +301,93 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             // Sección Dashboards RTATEL
 
             currentUser!.isEmployee
-            ? Padding(
-                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                child: SalesButton(
-                  tooltip: 'Sales',
-                  fillColor: AppTheme.of(context).primaryColor,
-                  icon: Icons.podcasts_outlined,
-                  // isTaped: visualState.isTaped[3],
-                ),
-              )
-            : Container(),
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: SalesButton(
+                      tooltip: 'Sales',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.point_of_sale_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
 
             currentUser!.isEmployee
-            ? Padding(
-                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                child: SalesButton(
-                  tooltip: 'Manager',
-                  fillColor: AppTheme.of(context).primaryColor,
-                  icon: Icons.podcasts_outlined,
-                  // isTaped: visualState.isTaped[3],
-                ),
-              )
-            : Container(),
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: ManagerButton(
+                      tooltip: 'Manager',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.admin_panel_settings_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
 
             currentUser!.isEmployee
-            ? Padding(
-                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                child: SalesButton(
-                  tooltip: 'GigFast Network',
-                  fillColor: AppTheme.of(context).primaryColor,
-                  icon: Icons.podcasts_outlined,
-                  // isTaped: visualState.isTaped[3],
-                ),
-              )
-            : Container(),
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: GigfastNetworkButton(
+                      tooltip: 'GigFast Network',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.rss_feed_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
 
             currentUser!.isEmployee
-            ? Padding(
-                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                child: SalesButton(
-                  tooltip: 'Call Center',
-                  fillColor: AppTheme.of(context).primaryColor,
-                  icon: Icons.podcasts_outlined,
-                  // isTaped: visualState.isTaped[3],
-                ),
-              )
-            : Container(),
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: CallCenterButton(
+                      tooltip: 'Call Center',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.phone_in_talk_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
 
             currentUser!.isEmployee
-            ? Padding(
-                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                child: SalesButton(
-                  tooltip: 'Surveys',
-                  fillColor: AppTheme.of(context).primaryColor,
-                  icon: Icons.podcasts_outlined,
-                  // isTaped: visualState.isTaped[3],
-                ),
-              )
-            : Container(),
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: SurveysButton(
+                      tooltip: 'Surveys',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.content_paste_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
 
             currentUser!.isEmployee
-            ? Padding(
-                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                child: SalesButton(
-                  tooltip: 'FMT',
-                  fillColor: AppTheme.of(context).primaryColor,
-                  icon: Icons.podcasts_outlined,
-                  // isTaped: visualState.isTaped[3],
-                ),
-              )
-            : Container(),
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: SalesButton(
+                      tooltip: 'FMT',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.history_edu_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
 
             currentUser!.isEmployee
-            ? Padding(
-                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                child: SalesButton(
-                  tooltip: 'WOP',
-                  fillColor: AppTheme.of(context).primaryColor,
-                  icon: Icons.podcasts_outlined,
-                  // isTaped: visualState.isTaped[3],
-                ),
-              )
-            : Container(),
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: SalesButton(
+                      tooltip: 'WOP',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.engineering_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
 
             SideMenuItem(
               selected: provider.indexSelected[12],
-              leading: const Icon(Icons.power_settings_new_outlined, color: Colors.red),
+              leading: const Icon(Icons.power_settings_new_outlined,
+                  color: Colors.red),
               isOpen: widget.isOpen,
               title: 'Logout',
               onTap: () async {

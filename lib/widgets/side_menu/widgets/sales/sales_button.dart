@@ -5,7 +5,6 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
-
 class SalesButton extends StatefulWidget {
   const SalesButton({
     Key? key,
@@ -116,7 +115,8 @@ class _SalesButtonState extends State<SalesButton> {
                             style: AppTheme.of(context).bodyText1,
                           ),
                           onTap: () async {
-                            context.pushReplacement(residentialAndBusinessCustomer);
+                            context.pushReplacement(
+                                residentialAndBusinessCustomer);
                           },
                           hoverColor: AppTheme.of(context)
                               .primaryColor
@@ -200,7 +200,8 @@ class _SalesButtonState extends State<SalesButton> {
                             style: AppTheme.of(context).bodyText1,
                           ),
                           onTap: () async {
-                            context.pushReplacement(monthlyARPUTrackingWholesale);
+                            context
+                                .pushReplacement(monthlyARPUTrackingWholesale);
                           },
                           hoverColor: AppTheme.of(context)
                               .primaryColor
@@ -214,7 +215,8 @@ class _SalesButtonState extends State<SalesButton> {
                             style: AppTheme.of(context).bodyText1,
                           ),
                           onTap: () async {
-                            context.pushReplacement(monthlyARPUTrackingResidential);
+                            context.pushReplacement(
+                                monthlyARPUTrackingResidential);
                           },
                           hoverColor: AppTheme.of(context)
                               .primaryColor
