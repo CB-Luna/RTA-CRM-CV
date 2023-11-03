@@ -35,6 +35,7 @@ class _SalesButtonState extends State<SalesButton> {
   final userPermissions = currentUser!;
   @override
   Widget build(BuildContext context) {
+    // Boton sales inicial
     return MouseRegion(
       child: PortalTarget(
         visible: hover,
@@ -42,6 +43,7 @@ class _SalesButtonState extends State<SalesButton> {
           follower: Alignment.topLeft,
           target: Alignment.topRight,
         ),
+        // MouseRegion de primer nivel
         portalFollower: MouseRegion(
           child: Material(
             color: AppTheme.of(context).primaryColor.withOpacity(0.3),
@@ -54,8 +56,9 @@ class _SalesButtonState extends State<SalesButton> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   userPermissions.isEmployee
+                      // MouseRegion de Segundo Nivel
                       ? MouseRegion(
-                        child: PortalTarget(
+                          child: PortalTarget(
                             visible: hover,
                             anchor: const Aligned(
                               follower: Alignment.topLeft,
@@ -65,8 +68,11 @@ class _SalesButtonState extends State<SalesButton> {
                               child: Visibility(
                                 visible: hover2,
                                 child: Material(
-                                  color: AppTheme.of(context).primaryColor.withOpacity(0.3),
-                                  borderRadius: const BorderRadiusDirectional.only(
+                                  color: AppTheme.of(context)
+                                      .primaryColor
+                                      .withOpacity(0.3),
+                                  borderRadius:
+                                      const BorderRadiusDirectional.only(
                                     topEnd: Radius.circular(8),
                                     bottomEnd: Radius.circular(8),
                                   ),
@@ -77,10 +83,12 @@ class _SalesButtonState extends State<SalesButton> {
                                         ListTile(
                                           title: Text(
                                             'Option 1',
-                                            style: AppTheme.of(context).bodyText1,
+                                            style:
+                                                AppTheme.of(context).bodyText1,
                                           ),
                                           onTap: () async {
-                                            context.pushReplacement(opcoSuscriberTarget);
+                                            context.pushReplacement(
+                                                opcoSuscriberTarget);
                                           },
                                           hoverColor: AppTheme.of(context)
                                               .primaryColor
@@ -89,10 +97,12 @@ class _SalesButtonState extends State<SalesButton> {
                                         ListTile(
                                           title: Text(
                                             'Option 2',
-                                            style: AppTheme.of(context).bodyText1,
+                                            style:
+                                                AppTheme.of(context).bodyText1,
                                           ),
                                           onTap: () async {
-                                            context.pushReplacement(opcoSuscriberTarget);
+                                            context.pushReplacement(
+                                                opcoSuscriberTarget);
                                           },
                                           hoverColor: AppTheme.of(context)
                                               .primaryColor
@@ -104,17 +114,19 @@ class _SalesButtonState extends State<SalesButton> {
                                 ),
                               ),
                               onHover: (_) {
+                                hover = true;
                                 hover2 = true;
                                 setState(() {});
                               },
                               onExit: (_) {
+                                hover = false;
                                 hover2 = false;
                                 setState(() {});
                               },
                             ),
                             child: ListTile(
                               title: Text(
-                                'OpCo Suscriber Targets',
+                                'OpCo Subscriber Targets',
                                 style: AppTheme.of(context).bodyText1,
                               ),
                               onTap: () async {
@@ -125,15 +137,15 @@ class _SalesButtonState extends State<SalesButton> {
                                   .withOpacity(0.4),
                             ),
                           ),
-                        onHover: (_) {
-                          hover2 = true;
-                          setState(() {});
-                        },
-                        onExit: (_) {
-                          hover2 = false;
-                          setState(() {});
-                        },
-                      )
+                          onHover: (_) {
+                            hover2 = true;
+                            setState(() {});
+                          },
+                          onExit: (_) {
+                            hover2 = false;
+                            setState(() {});
+                          },
+                        )
                       : const SizedBox.shrink(),
                   userPermissions.isEmployee
                       ? ListTile(
