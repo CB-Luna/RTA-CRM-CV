@@ -57,6 +57,48 @@ class _SalesButtonState extends State<SalesButton> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   userPermissions.isEmployee
+                      ? ListTile(
+                          title: Text(
+                            'Opco Subscriber Targets',
+                            style: AppTheme.of(context).bodyText1,
+                          ),
+                          onTap: () async {
+                            context.pushReplacement(opcoSuscriberTarget);
+                          },
+                          hoverColor: AppTheme.of(context)
+                              .primaryColor
+                              .withOpacity(0.4),
+                        )
+                      : const SizedBox.shrink(),
+                  userPermissions.isEmployee
+                      ? ListTile(
+                          title: Text(
+                            'New Sales Tracking Dashboards',
+                            style: AppTheme.of(context).bodyText1,
+                          ),
+                          onTap: () async {
+                            context.pushReplacement(newSalesTrackingDashboard);
+                          },
+                          hoverColor: AppTheme.of(context)
+                              .primaryColor
+                              .withOpacity(0.4),
+                        )
+                      : const SizedBox.shrink(),
+                  userPermissions.isEmployee
+                      ? ListTile(
+                          title: Text(
+                            'Monthly Churn %',
+                            style: AppTheme.of(context).bodyText1,
+                          ),
+                          onTap: () async {
+                            context.pushReplacement(monthlyChurn);
+                          },
+                          hoverColor: AppTheme.of(context)
+                              .primaryColor
+                              .withOpacity(0.4),
+                        )
+                      : const SizedBox.shrink(),
+                  userPermissions.isEmployee
                       // MouseRegion de Segundo Nivel
                       ? Configurator(
                           hover: hover,

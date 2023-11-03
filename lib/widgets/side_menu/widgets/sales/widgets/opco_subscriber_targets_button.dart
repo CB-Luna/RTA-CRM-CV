@@ -40,7 +40,7 @@ class _ConfiguratorState extends State<Configurator> {
                   children: [
                     ListTile(
                       title: Text(
-                        'Option 1',
+                        'Configurator Stats',
                         style: AppTheme.of(context).bodyText1,
                       ),
                       onTap: () async {
@@ -51,11 +51,33 @@ class _ConfiguratorState extends State<Configurator> {
                     ),
                     ListTile(
                       title: Text(
-                        'Option 2',
+                        'No Coverage Leads',
                         style: AppTheme.of(context).bodyText1,
                       ),
                       onTap: () async {
-                        context.pushReplacement(opcoSuscriberTarget);
+                        context.pushReplacement(newSalesTrackingDashboard);
+                      },
+                      hoverColor:
+                          AppTheme.of(context).primaryColor.withOpacity(0.4),
+                    ),
+                    ListTile(
+                      title: Text(
+                        'New Configurator Stats',
+                        style: AppTheme.of(context).bodyText1,
+                      ),
+                      onTap: () async {
+                        context.pushReplacement(newConfiguratorStats);
+                      },
+                      hoverColor:
+                          AppTheme.of(context).primaryColor.withOpacity(0.4),
+                    ),
+                    ListTile(
+                      title: Text(
+                        'Referrals Tracking',
+                        style: AppTheme.of(context).bodyText1,
+                      ),
+                      onTap: () async {
+                        context.pushReplacement(referralsTracking);
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
@@ -81,6 +103,7 @@ class _ConfiguratorState extends State<Configurator> {
             'Configurator',
             style: AppTheme.of(context).bodyText1,
           ),
+          trailing: const Icon(Icons.chevron_right_outlined),
           onTap: () async {
             context.pushReplacement(opcoSuscriberTarget);
           },
