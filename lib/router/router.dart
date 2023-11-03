@@ -275,6 +275,7 @@ final GoRouter router = GoRouter(
       },
       // (context, state, const DetailsPopUp()),
     ),
+    ////////Sales
     GoRoute(
       path: opcoSuscriberTarget,
       name: 'OpCo Suscriber Targets',
@@ -419,6 +420,64 @@ final GoRouter router = GoRouter(
       },
       // (context, state, const DetailsPopUp()),
     ),
+    ////////Surveys
+    GoRoute(
+      path: wispapalooza2021Survey,
+      name: 'WISPAPALOOZA 2021 Survey',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteIncentives,
+      name: 'Job Complete Incentives',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompletedServiceOverall,
+      name: 'Job Completed Service Overall',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteCRY,
+      name: 'Job Complete CRY',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteEAS,
+      name: 'Job Complete EAS',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteODE,
+      name: 'Job Complete ODE',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteSMI,
+      name: 'Job Complete SMI',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+
     /////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////

@@ -141,7 +141,7 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
           ),
           trailing: const Icon(Icons.chevron_right_outlined),
           onTap: () async {
-            context.pushReplacement(opcoSuscriberTarget);
+            
           },
           hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
         ),

@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:rta_crm_cv/widgets/side_menu/widgets/sales/widgets/opco_subscriber_targets_button.dart';
+import 'package:rta_crm_cv/widgets/side_menu/widgets/sales/widgets/configurator_button.dart';
 
 class SalesButton extends StatefulWidget {
   const SalesButton({
@@ -100,7 +100,7 @@ class _SalesButtonState extends State<SalesButton> {
                       : const SizedBox.shrink(),
                   userPermissions.isAdminDashboards
                       // MouseRegion de Segundo Nivel
-                      ? Configurator(
+                      ? ConfiguratorButton(
                           hover: hover,
                           onHoverChange: (newHover) {
                             setState(() {

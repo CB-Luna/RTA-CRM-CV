@@ -5,16 +5,16 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
-class Configurator extends StatefulWidget {
-  const Configurator(
+class ConfiguratorButton extends StatefulWidget {
+  const ConfiguratorButton(
       {required this.hover, required this.onHoverChange, super.key});
   final bool hover;
   final Function(bool) onHoverChange;
   @override
-  State<Configurator> createState() => _ConfiguratorState();
+  State<ConfiguratorButton> createState() => _ConfiguratorButtonState();
 }
 
-class _ConfiguratorState extends State<Configurator> {
+class _ConfiguratorButtonState extends State<ConfiguratorButton> {
   bool hover = false;
 
   @override
@@ -114,10 +114,10 @@ class _ConfiguratorState extends State<Configurator> {
             style: AppTheme.of(context).bodyText1,
           ),
           trailing: const Icon(Icons.chevron_right_outlined),
-          onTap: () async {
-            context.pushReplacement(opcoSuscriberTarget);
-          },
           hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
+          onTap:() {
+
+          },
         ),
       ),
       onHover: (_) {
