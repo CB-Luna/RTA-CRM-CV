@@ -57,94 +57,17 @@ class _SalesButtonState extends State<SalesButton> {
                 children: [
                   userPermissions.isEmployee
                       // MouseRegion de Segundo Nivel
-                      ? MouseRegion(
-                          child: PortalTarget(
-                            visible: hover,
-                            anchor: const Aligned(
-                              follower: Alignment.topLeft,
-                              target: Alignment.topRight,
-                            ),
-                            portalFollower: MouseRegion(
-                              child: Visibility(
-                                visible: hover2,
-                                child: Material(
-                                  color: AppTheme.of(context)
-                                      .primaryColor
-                                      .withOpacity(0.3),
-                                  borderRadius:
-                                      const BorderRadiusDirectional.only(
-                                    topEnd: Radius.circular(8),
-                                    bottomEnd: Radius.circular(8),
-                                  ),
-                                  child: IntrinsicWidth(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        ListTile(
-                                          title: Text(
-                                            'Option 1',
-                                            style:
-                                                AppTheme.of(context).bodyText1,
-                                          ),
-                                          onTap: () async {
-                                            context.pushReplacement(
-                                                opcoSuscriberTarget);
-                                          },
-                                          hoverColor: AppTheme.of(context)
-                                              .primaryColor
-                                              .withOpacity(0.4),
-                                        ),
-                                        ListTile(
-                                          title: Text(
-                                            'Option 2',
-                                            style:
-                                                AppTheme.of(context).bodyText1,
-                                          ),
-                                          onTap: () async {
-                                            context.pushReplacement(
-                                                opcoSuscriberTarget);
-                                          },
-                                          hoverColor: AppTheme.of(context)
-                                              .primaryColor
-                                              .withOpacity(0.4),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              onHover: (_) {
-                                hover = true;
-                                hover2 = true;
-                                setState(() {});
-                              },
-                              onExit: (_) {
-                                hover = false;
-                                hover2 = false;
-                                setState(() {});
-                              },
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                'OpCo Subscriber Targets',
-                                style: AppTheme.of(context).bodyText1,
-                              ),
-                              onTap: () async {
-                                context.pushReplacement(opcoSuscriberTarget);
-                              },
-                              hoverColor: AppTheme.of(context)
-                                  .primaryColor
-                                  .withOpacity(0.4),
-                            ),
+                      ? ListTile(
+                          title: Text(
+                            'OpCo Subscriber Targets',
+                            style: AppTheme.of(context).bodyText1,
                           ),
-                          onHover: (_) {
-                            hover2 = true;
-                            setState(() {});
+                          onTap: () async {
+                            context.pushReplacement(opcoSuscriberTarget);
                           },
-                          onExit: (_) {
-                            hover2 = false;
-                            setState(() {});
-                          },
+                          hoverColor: AppTheme.of(context)
+                              .primaryColor
+                              .withOpacity(0.4),
                         )
                       : const SizedBox.shrink(),
                   userPermissions.isEmployee
@@ -176,17 +99,123 @@ class _SalesButtonState extends State<SalesButton> {
                         )
                       : const SizedBox.shrink(),
                   userPermissions.isEmployee
-                      ? ListTile(
-                          title: Text(
-                            'Configurator',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(monthlyChurn);
+                      ? MouseRegion(
+                          child: PortalTarget(
+                              visible: hover,
+                              anchor: const Aligned(
+                                follower: Alignment.topLeft,
+                                target: Alignment.topRight,
+                              ),
+                              portalFollower: MouseRegion(
+                                child: Visibility(
+                                  visible: hover2,
+                                  child: Material(
+                                    color: AppTheme.of(context)
+                                        .primaryColor
+                                        .withOpacity(0.3),
+                                    borderRadius:
+                                        const BorderRadiusDirectional.only(
+                                      topEnd: Radius.circular(8),
+                                      bottomEnd: Radius.circular(8),
+                                    ),
+                                    child: IntrinsicWidth(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ListTile(
+                                            title: Text(
+                                              'Configurator Stats',
+                                              style: AppTheme.of(context)
+                                                  .bodyText1,
+                                            ),
+                                            onTap: () async {
+                                              context.pushReplacement(
+                                                  configuratorStats);
+                                            },
+                                            hoverColor: AppTheme.of(context)
+                                                .primaryColor
+                                                .withOpacity(0.4),
+                                          ),
+                                          ListTile(
+                                            title: Text(
+                                              'No coverage Leads',
+                                              style: AppTheme.of(context)
+                                                  .bodyText1,
+                                            ),
+                                            onTap: () async {
+                                              context.pushReplacement(
+                                                  noCoverageLeads);
+                                            },
+                                            hoverColor: AppTheme.of(context)
+                                                .primaryColor
+                                                .withOpacity(0.4),
+                                          ),
+                                          ListTile(
+                                            title: Text(
+                                              'New Configurator Stats',
+                                              style: AppTheme.of(context)
+                                                  .bodyText1,
+                                            ),
+                                            onTap: () async {
+                                              context.pushReplacement(
+                                                  newConfiguratorStats);
+                                            },
+                                            hoverColor: AppTheme.of(context)
+                                                .primaryColor
+                                                .withOpacity(0.4),
+                                          ),
+                                          ListTile(
+                                            title: Text(
+                                              'Referrals Tracking',
+                                              style: AppTheme.of(context)
+                                                  .bodyText1,
+                                            ),
+                                            onTap: () async {
+                                              context.pushReplacement(
+                                                  referralsTracking);
+                                            },
+                                            hoverColor: AppTheme.of(context)
+                                                .primaryColor
+                                                .withOpacity(0.4),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                onHover: (_) {
+                                  hover = true;
+                                  hover2 = true;
+                                  setState(() {});
+                                },
+                                onExit: (_) {
+                                  hover = false;
+                                  hover2 = false;
+                                  setState(() {});
+                                },
+                              ),
+                              child: ListTile(
+                                title: Text(
+                                  'Configurator',
+                                  style: AppTheme.of(context).bodyText1,
+                                ),
+                                trailing:
+                                    const Icon(Icons.chevron_right_outlined),
+                                onTap: () async {
+                                  context.pushReplacement(monthlyChurn);
+                                },
+                                hoverColor: AppTheme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.4),
+                              )),
+                          onHover: (_) {
+                            hover2 = true;
+                            setState(() {});
                           },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
+                          onExit: (_) {
+                            hover2 = false;
+                            setState(() {});
+                          },
                         )
                       : const SizedBox.shrink(),
                   userPermissions.isEmployee
