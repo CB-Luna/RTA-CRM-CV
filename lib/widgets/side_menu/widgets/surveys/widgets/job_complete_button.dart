@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class JobCompleteButton extends StatefulWidget {
@@ -18,6 +19,7 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
 
   @override
   Widget build(BuildContext context) {
+    final userPermissions = currentUser!;
     return MouseRegion(
       child: PortalTarget(
         visible: widget.hover,
@@ -38,7 +40,8 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ListTile(
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Incentives',
                         style: AppTheme.of(context).bodyText1,
@@ -48,8 +51,10 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Service Overall',
                         style: AppTheme.of(context).bodyText1,
@@ -59,8 +64,10 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete CRY',
                         style: AppTheme.of(context).bodyText1,
@@ -70,8 +77,10 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete EAS',
                         style: AppTheme.of(context).bodyText1,
@@ -81,8 +90,10 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete ODE',
                         style: AppTheme.of(context).bodyText1,
@@ -92,8 +103,10 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete SMI',
                         style: AppTheme.of(context).bodyText1,
@@ -103,7 +116,8 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
+                    )
+                    : const SizedBox.shrink(),
                   ],
                 ),
               ),

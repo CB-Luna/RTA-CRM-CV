@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class Configurator extends StatefulWidget {
@@ -18,6 +19,7 @@ class _ConfiguratorState extends State<Configurator> {
 
   @override
   Widget build(BuildContext context) {
+    final userPermissions = currentUser!;
     return MouseRegion(
       child: PortalTarget(
         visible: widget.hover,
@@ -38,7 +40,8 @@ class _ConfiguratorState extends State<Configurator> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ListTile(
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Configurator Stats',
                         style: AppTheme.of(context).bodyText1,
@@ -48,8 +51,10 @@ class _ConfiguratorState extends State<Configurator> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'No Coverage Leads',
                         style: AppTheme.of(context).bodyText1,
@@ -59,8 +64,10 @@ class _ConfiguratorState extends State<Configurator> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'New Configurator Stats',
                         style: AppTheme.of(context).bodyText1,
@@ -70,8 +77,10 @@ class _ConfiguratorState extends State<Configurator> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Referrals Tracking',
                         style: AppTheme.of(context).bodyText1,
@@ -81,7 +90,8 @@ class _ConfiguratorState extends State<Configurator> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
+                    )
+                    : const SizedBox.shrink(),
                   ],
                 ),
               ),

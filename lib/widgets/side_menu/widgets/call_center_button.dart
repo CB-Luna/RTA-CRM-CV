@@ -52,7 +52,7 @@ class _CallCenterButtonState extends State<CallCenterButton> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? ListTile(
                           title: Text(
                             'EcommerceRTA',

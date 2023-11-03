@@ -57,7 +57,7 @@ class _SurveysButtonState extends State<SurveysButton> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? ListTile(
                           title: Text(
                             'Wizpapalooza 2021 Survey',
@@ -71,9 +71,7 @@ class _SurveysButtonState extends State<SurveysButton> {
                               .withOpacity(0.4),
                         )
                       : const SizedBox.shrink(),
-                  // Leer la documentacion de MouseRegion
-                  // Probablemente implemente mouseRegion
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? JobCompleteButton(
                           hover: hover,
                           onHoverChange: (newHover) {
@@ -83,7 +81,7 @@ class _SurveysButtonState extends State<SurveysButton> {
                           },
                         )
                       : const SizedBox.shrink(),
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? JobCompleteTechnicians(
                           hover: hover,
                           onHoverChange: (newHover) {
@@ -93,7 +91,7 @@ class _SurveysButtonState extends State<SurveysButton> {
                           },
                         )
                       : const SizedBox.shrink(),
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? ListTile(
                           title: Text(
                             'IT Survey October 2021',

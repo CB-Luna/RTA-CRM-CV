@@ -9,6 +9,7 @@ import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/item.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/manager_button.dart';
+import 'package:rta_crm_cv/widgets/side_menu/widgets/menu_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/sales/sales_button.dart';
 
 import 'call_center_button.dart';
@@ -300,7 +301,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
 
             // Sección Dashboards RTATEL
 
-            currentUser!.isEmployee
+            currentUser!.isDashboardsRTATEL
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: SalesButton(
@@ -312,43 +313,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
 
-            currentUser!.isEmployee
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                    child: ManagerButton(
-                      tooltip: 'Manager',
-                      fillColor: AppTheme.of(context).primaryColor,
-                      icon: Icons.admin_panel_settings_outlined,
-                      // isTaped: visualState.isTaped[3],
-                    ),
-                  )
-                : Container(),
-
-            currentUser!.isEmployee
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                    child: GigfastNetworkButton(
-                      tooltip: 'GigFast Network',
-                      fillColor: AppTheme.of(context).primaryColor,
-                      icon: Icons.rss_feed_outlined,
-                      // isTaped: visualState.isTaped[3],
-                    ),
-                  )
-                : Container(),
-
-            currentUser!.isEmployee
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                    child: CallCenterButton(
-                      tooltip: 'Call Center',
-                      fillColor: AppTheme.of(context).primaryColor,
-                      icon: Icons.phone_in_talk_outlined,
-                      // isTaped: visualState.isTaped[3],
-                    ),
-                  )
-                : Container(),
-
-            currentUser!.isEmployee
+            currentUser!.isDashboardsRTATEL
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: SurveysButton(
@@ -360,26 +325,68 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
 
-            currentUser!.isEmployee
+            currentUser!.isDashboardsRTATEL
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                    child: SalesButton(
-                      tooltip: 'FMT',
+                    child: ManagerButton(
+                      tooltip: 'Manager',
                       fillColor: AppTheme.of(context).primaryColor,
-                      icon: Icons.history_edu_outlined,
+                      icon: Icons.admin_panel_settings_outlined,
                       // isTaped: visualState.isTaped[3],
                     ),
                   )
                 : Container(),
 
-            currentUser!.isEmployee
+            currentUser!.isDashboardsRTATEL
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                    child: SalesButton(
+                    child: GigfastNetworkButton(
+                      tooltip: 'GigFast Network',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.rss_feed_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
+
+            currentUser!.isDashboardsRTATEL
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: CallCenterButton(
+                      tooltip: 'Call Center',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.phone_in_talk_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
+
+            currentUser!.isDashboardsRTATEL
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: MenuButton(
+                      tooltip: 'FMT',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.local_shipping_outlined,
+                      // isTaped: visualState.isTaped[7],
+                      onPressed: () {
+                        context.pushReplacement('/fmt');
+                      },
+                    ),
+                  )
+                : Container(),
+
+            currentUser!.isDashboardsRTATEL
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: MenuButton(
                       tooltip: 'WOP',
                       fillColor: AppTheme.of(context).primaryColor,
                       icon: Icons.engineering_outlined,
-                      // isTaped: visualState.isTaped[3],
+                      // isTaped: visualState.isTaped[7],
+                      onPressed: () {
+                        context.pushReplacement('/wop');
+                      },
                     ),
                   )
                 : Container(),

@@ -52,7 +52,7 @@ class _ManagerButtonState extends State<ManagerButton> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? ListTile(
                           title: Text(
                             'Bolivar Peninsula Fiber to the home',
@@ -67,7 +67,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                               .withOpacity(0.4),
                         )
                       : const SizedBox.shrink(),
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? ListTile(
                           title: Text(
                             'Operation Report',
@@ -81,7 +81,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                               .withOpacity(0.4),
                         )
                       : const SizedBox.shrink(),
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? ListTile(
                           title: Text(
                             'Tech Job Time Tracking',
@@ -95,7 +95,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                               .withOpacity(0.4),
                         )
                       : const SizedBox.shrink(),
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? ListTile(
                           title: Text(
                             'Jobs Tracking ',
@@ -109,7 +109,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                               .withOpacity(0.4),
                         )
                       : const SizedBox.shrink(),
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? ListTile(
                           title: Text(
                             'Jobs Utilization Tracking',
@@ -123,7 +123,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                               .withOpacity(0.4),
                         )
                       : const SizedBox.shrink(),
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? ListTile(
                           title: Text(
                             'IVR Stats',

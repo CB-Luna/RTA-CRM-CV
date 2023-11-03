@@ -10,6 +10,7 @@ import 'package:rta_crm_cv/pages/ctrlv/download_apk/download_apk_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/download_apk/dashboard_rtatel_page.dart';
 import 'package:rta_crm_cv/pages/login_page/login_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
@@ -55,6 +56,8 @@ final GoRouter router = GoRouter(
           return const MonitoryPageDesktop();
         } else if (currentUser!.isEmployee) {
           return const DownloadAPKPage();
+        } else if (currentUser!.isDashboardsRTATEL) {
+          return const DashboardsRtatelPage();
         } else {
           return const PageNotFoundPage();
         }
@@ -69,6 +72,8 @@ final GoRouter router = GoRouter(
                 ? const MonitoryPageDesktop()
                 : currentUser!.isEmployee
                     ? const DownloadAPKPage()
+                    : currentUser!.isDashboardsRTATEL
+                    ? const DashboardsRtatelPage()
                     : const PageNotFoundPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             FadeTransition(
@@ -274,7 +279,7 @@ final GoRouter router = GoRouter(
       path: opcoSuscriberTarget,
       name: 'OpCo Suscriber Targets',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -282,7 +287,7 @@ final GoRouter router = GoRouter(
       path: newSalesTrackingDashboard,
       name: 'New Sales Tracking Dashboards',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -290,7 +295,7 @@ final GoRouter router = GoRouter(
       path: monthlyChurn,
       name: 'Monthly Churn %',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -298,7 +303,7 @@ final GoRouter router = GoRouter(
       path: configuratorStats,
       name: 'Configurator Stats',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -306,7 +311,7 @@ final GoRouter router = GoRouter(
       path: noCoverageLeads,
       name: 'No Coverage Leads',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -314,7 +319,7 @@ final GoRouter router = GoRouter(
       path: newConfiguratorStats,
       name: 'New Configurator Stats',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -322,7 +327,7 @@ final GoRouter router = GoRouter(
       path: referralsTracking,
       name: 'Referrals Tracking',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -330,7 +335,7 @@ final GoRouter router = GoRouter(
       path: residentialAndBusinessCustomer,
       name: 'Residentials and Business Customers',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -338,7 +343,7 @@ final GoRouter router = GoRouter(
       path: wirelessAndFiberCustomer,
       name: 'Wireless and Fiber Customers',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -346,7 +351,7 @@ final GoRouter router = GoRouter(
       path: voIPTracking,
       name: 'VoIP Tracking',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -354,7 +359,7 @@ final GoRouter router = GoRouter(
       path: ipTVTracking,
       name: 'IPTV Tracking',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -362,7 +367,7 @@ final GoRouter router = GoRouter(
       path: arpuTrackingResidential,
       name: 'ARPU Tracking Residential',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -370,7 +375,7 @@ final GoRouter router = GoRouter(
       path: arpuTrackingWholesale,
       name: 'ARPU Tracking Wholesale',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -378,7 +383,7 @@ final GoRouter router = GoRouter(
       path: monthlyARPUTrackingWholesale,
       name: 'Monthly ARPU Tracking Wholesale',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -386,7 +391,7 @@ final GoRouter router = GoRouter(
       path: monthlyARPUTrackingResidential,
       name: 'Monthly ARPU Tracking Residential',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -394,7 +399,7 @@ final GoRouter router = GoRouter(
       path: engageOption,
       name: 'Engage Option',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -402,7 +407,7 @@ final GoRouter router = GoRouter(
       path: conversionRate,
       name: 'Conversion rate',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -410,7 +415,7 @@ final GoRouter router = GoRouter(
       path: deactContactLog,
       name: 'Deact Contact Log',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DashboardsRtatelPage();
       },
       // (context, state, const DetailsPopUp()),
     ),

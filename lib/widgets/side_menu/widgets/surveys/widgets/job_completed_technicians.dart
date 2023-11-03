@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class JobCompleteTechnicians extends StatefulWidget {
@@ -18,6 +19,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
 
   @override
   Widget build(BuildContext context) {
+    final userPermissions = currentUser!;
     return MouseRegion(
       child: PortalTarget(
         visible: widget.hover,
@@ -38,7 +40,8 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ListTile(
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Joseph Aycock',
                         style: AppTheme.of(context).bodyText1,
@@ -48,8 +51,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Adam Billiot',
                         style: AppTheme.of(context).bodyText1,
@@ -59,8 +64,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Terry Isreal',
                         style: AppTheme.of(context).bodyText1,
@@ -70,8 +77,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Charile Milich',
                         style: AppTheme.of(context).bodyText1,
@@ -81,8 +90,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Kamrin Lilley',
                         style: AppTheme.of(context).bodyText1,
@@ -92,8 +103,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Alexander Ogle',
                         style: AppTheme.of(context).bodyText1,
@@ -103,8 +116,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Timothy McClaine ',
                         style: AppTheme.of(context).bodyText1,
@@ -114,8 +129,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Dylan Nowell',
                         style: AppTheme.of(context).bodyText1,
@@ -125,8 +142,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Joseph Thomson',
                         style: AppTheme.of(context).bodyText1,
@@ -136,8 +155,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Scott Nowell',
                         style: AppTheme.of(context).bodyText1,
@@ -147,8 +168,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Larry Philips',
                         style: AppTheme.of(context).bodyText1,
@@ -158,8 +181,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Zachary Lawson',
                         style: AppTheme.of(context).bodyText1,
@@ -169,8 +194,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Brandon Murdock',
                         style: AppTheme.of(context).bodyText1,
@@ -180,8 +207,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Lynn McDaniel',
                         style: AppTheme.of(context).bodyText1,
@@ -191,8 +220,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Stephen McKinney',
                         style: AppTheme.of(context).bodyText1,
@@ -202,8 +233,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Thomas Henry',
                         style: AppTheme.of(context).bodyText1,
@@ -213,8 +246,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Joseph Bartek',
                         style: AppTheme.of(context).bodyText1,
@@ -224,8 +259,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Johnnie Thomas',
                         style: AppTheme.of(context).bodyText1,
@@ -235,8 +272,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Brandon Sims',
                         style: AppTheme.of(context).bodyText1,
@@ -246,8 +285,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Eric Branton',
                         style: AppTheme.of(context).bodyText1,
@@ -257,8 +298,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Tristan Bilbo',
                         style: AppTheme.of(context).bodyText1,
@@ -268,8 +311,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Garrett Stephens',
                         style: AppTheme.of(context).bodyText1,
@@ -279,8 +324,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Mason Coon',
                         style: AppTheme.of(context).bodyText1,
@@ -290,8 +337,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete BriceDrisdale',
                         style: AppTheme.of(context).bodyText1,
@@ -301,8 +350,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Adam Kosel',
                         style: AppTheme.of(context).bodyText1,
@@ -312,8 +363,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Ross Henry',
                         style: AppTheme.of(context).bodyText1,
@@ -323,8 +376,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Eric Harmon',
                         style: AppTheme.of(context).bodyText1,
@@ -334,8 +389,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Paul Hill',
                         style: AppTheme.of(context).bodyText1,
@@ -345,8 +402,10 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
-                    ListTile(
+                    )
+                    : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                      ? ListTile(
                       title: Text(
                         'Job Complete Brynson Smith',
                         style: AppTheme.of(context).bodyText1,
@@ -356,7 +415,8 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       },
                       hoverColor:
                           AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    ),
+                    )
+                    : const SizedBox.shrink(),
                   ],
                 ),
               ),

@@ -52,7 +52,7 @@ class _GigfastNetworkButtonState extends State<GigfastNetworkButton> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? ListTile(
                           title: Text(
                             'Monitoring Dashboard',
@@ -66,7 +66,7 @@ class _GigfastNetworkButtonState extends State<GigfastNetworkButton> {
                               .withOpacity(0.4),
                         )
                       : const SizedBox.shrink(),
-                  userPermissions.isEmployee
+                  userPermissions.isAdminDashboards
                       ? ListTile(
                           title: Text(
                             'Map Coverage',

@@ -78,6 +78,11 @@ class User {
   bool get isEmployee => role.roleName == 'Employee';
   bool get isTechSupervisor => role.roleName == 'Tech Supervisor';
 
+  // Dashboards RTATEL
+  bool get isDashboardsRTATEL =>
+      currentUser!.isAdminDashboards;
+  bool get isAdminDashboards => role.roleName == 'Admin Dashboards';
+
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
   factory User.fromMap(Map<String, dynamic> json) {
