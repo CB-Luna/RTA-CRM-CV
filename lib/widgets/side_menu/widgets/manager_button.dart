@@ -98,7 +98,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                   userPermissions.isAdminDashboards
                       ? ListTile(
                           title: Text(
-                            'Jobs Tracking ',
+                            'Jobs Tracking',
                             style: AppTheme.of(context).bodyText1,
                           ),
                           onTap: () async {

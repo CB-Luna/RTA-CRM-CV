@@ -204,3 +204,5 @@ const String jobCompleteRossHenry = '/job_complete/job_complete_ross_henry';
 const String jobCompleteEricHarmon = '/job_complete/job_complete_eric_harmon';
 const String jobCompletePaulHill = '/job_complete/job_complete_paul_hill';
 const String jobCompleteBrysonSmith = '/job_complete/job_complete_bryson_smith';
+const String fmt = '/fmt';
+const String wop = '/wop';

@@ -370,7 +370,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                       icon: Icons.local_shipping_outlined,
                       // isTaped: visualState.isTaped[7],
                       onPressed: () {
-                        context.pushReplacement('/fmt');
+                        context.pushReplacement(fmt);
                       },
                     ),
                   )
@@ -385,7 +385,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                       icon: Icons.engineering_outlined,
                       // isTaped: visualState.isTaped[7],
                       onPressed: () {
-                        context.pushReplacement('/wop');
+                        context.pushReplacement(wop);
                       },
                     ),
                   )

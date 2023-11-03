@@ -121,7 +121,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                     userPermissions.isAdminDashboards
                       ? ListTile(
                       title: Text(
-                        'Job Complete Timothy McClaine ',
+                        'Job Complete Timothy McClaine',
                         style: AppTheme.of(context).bodyText1,
                       ),
                       onTap: () async {
@@ -342,7 +342,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                     userPermissions.isAdminDashboards
                       ? ListTile(
                       title: Text(
-                        'Job Complete BriceDrisdale',
+                        'Job Complete Brice Drisdale',
                         style: AppTheme.of(context).bodyText1,
                       ),
                       onTap: () async {
@@ -440,7 +440,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
           ),
           trailing: const Icon(Icons.chevron_right_outlined),
           onTap: () async {
-            
+
           },
           hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
         ),

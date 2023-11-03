@@ -477,6 +477,338 @@ final GoRouter router = GoRouter(
       },
       // (context, state, const DetailsPopUp()),
     ),
+    GoRoute(
+      path: jobCompleteSMI,
+      name: 'Job Complete Joseph Aycock',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteAdamBilliot,
+      name: 'Job Complete Adam Billiot',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteTerryIsreal,
+      name: 'Job Complete Terry Isreal',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteCharlieMilich,
+      name: 'Job Complete Charile Milich',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteKamrinLilley,
+      name: 'Job Complete Kamrin Lilley',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteAlexanderOgle,
+      name: 'Job Complete Alexander Ogle',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteTimothyMcClaine,
+      name: 'Job Complete Timothy McClaine',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteDylanNowell,
+      name: 'Job Complete Dylan Nowell',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteJosephThomson,
+      name: 'Job Complete Joseph Thomson',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteScottNowell,
+      name: 'Job Complete Scott Nowell',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteLarryPhilips,
+      name: 'Job Complete Larry Philips',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteZacharyLawson,
+      name: 'Job Complete Zachary Lawson',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteBrandonMurdock,
+      name: 'Job Complete Brandon Murdock',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteLynnMcDaniel,
+      name: 'Job Complete Lynn McDaniel',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteStephenMcKinney,
+      name: 'Job Complete Stephen McKinney',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteThomasHenry,
+      name: 'Job Complete Thomas Henry',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteJosephBartek,
+      name: 'Job Complete Joseph Bartek',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteJohnnieThomas,
+      name: 'Job Complete Johnnie Thomas',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteBrandonSims,
+      name: 'Job Complete Brandon Sims',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteEricBranton,
+      name: 'Job Complete Eric Branton',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteTristanBilbo,
+      name: 'Job Complete Tristan Bilbo',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),GoRoute(
+      path: jobCompleteGarrettstephens,
+      name: 'Job Complete Garrett Stephens',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteMasonCoon,
+      name: 'Job Complete Mason Coon',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteBriceDrisdale,
+      name: 'Job Complete Brice Drisdale',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteAdamKosel,
+      name: 'Job Complete Adam Kosel',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteRossHenry,
+      name: 'Job Complete Ross Henry',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteEricHarmon,
+      name: 'Job Complete Eric Harmon',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompletePaulHill,
+      name: 'Job Complete Paul Hill',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteBrysonSmith,
+      name: 'Job Complete Brynson Smith',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: itSurveyOctober2021,
+      name: 'IT Survey October 2021',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    ////////Manager
+    GoRoute(
+      path: bolivarPeninsulaFibertotheHome,
+      name: 'Bolivar Peninsula Fiber to the home',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: operationReport,
+      name: 'Operation Report',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: techJobTimeTracking,
+      name: 'Tech Job Time Tracking',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobsTracking,
+      name: 'Jobs Tracking',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobsUtilizationTracking,
+      name: 'Jobs Utilization Tracking',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: ivrStats,
+      name: 'IVR Stats',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    ////////GigFast Network
+    GoRoute(
+      path: monitoringDashboard,
+      name: 'Monitoring Dashboard',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: mapCoverage,
+      name: 'Map Coverage',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    ////////Call Center
+    GoRoute(
+      path: ecommerceRTA,
+      name: 'EcommerceRTA',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    ////////FMT
+    GoRoute(
+      path: fmt,
+      name: 'FMT',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+     ////////WOP
+    GoRoute(
+      path: wop,
+      name: 'WOP',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
 
     /////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
