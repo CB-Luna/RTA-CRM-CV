@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/job_complete_button.dart';
+import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/widgets/job_complete_button.dart';
 
 class SurveysButton extends StatefulWidget {
   const SurveysButton({

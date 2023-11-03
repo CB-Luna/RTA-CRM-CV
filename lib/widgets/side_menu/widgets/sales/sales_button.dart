@@ -58,7 +58,7 @@ class _SalesButtonState extends State<SalesButton> {
                 children: [
                   userPermissions.isEmployee
                       // MouseRegion de Segundo Nivel
-                      ? OpcoSubscriberTargetButton(
+                      ? Configurator(
                           hover: hover,
                           onHoverChange: (newHover) {
                             setState(() {

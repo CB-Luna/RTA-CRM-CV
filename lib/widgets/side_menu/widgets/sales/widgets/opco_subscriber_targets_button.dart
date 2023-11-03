@@ -4,21 +4,16 @@ import 'package:go_router/go_router.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
-class OpcoSubscriberTargetButton extends StatefulWidget {
-  const OpcoSubscriberTargetButton({
-    required this.hover, 
-    required this.onHoverChange,
-    super.key
-  });
+class Configurator extends StatefulWidget {
+  const Configurator(
+      {required this.hover, required this.onHoverChange, super.key});
   final bool hover;
   final Function(bool) onHoverChange;
   @override
-  State<OpcoSubscriberTargetButton> createState() =>
-      _OpcoSubscriberTargetButtonState();
+  State<Configurator> createState() => _ConfiguratorState();
 }
 
-class _OpcoSubscriberTargetButtonState
-    extends State<OpcoSubscriberTargetButton> {
+class _ConfiguratorState extends State<Configurator> {
   bool hover = false;
 
   @override
@@ -83,7 +78,7 @@ class _OpcoSubscriberTargetButtonState
         ),
         child: ListTile(
           title: Text(
-            'OpCo Subscriber Targets',
+            'Configurator',
             style: AppTheme.of(context).bodyText1,
           ),
           onTap: () async {
