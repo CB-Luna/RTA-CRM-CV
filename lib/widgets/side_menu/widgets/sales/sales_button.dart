@@ -31,6 +31,7 @@ class SalesButton extends StatefulWidget {
 
 class _SalesButtonState extends State<SalesButton> {
   bool hover = false;
+  bool hover2 = false;
   final userPermissions = currentUser!;
   @override
   Widget build(BuildContext context) {
@@ -53,18 +54,86 @@ class _SalesButtonState extends State<SalesButton> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   userPermissions.isEmployee
-                      ? ListTile(
-                          title: Text(
-                            'OpCo Suscriber Targets',
-                            style: AppTheme.of(context).bodyText1,
+                      ? MouseRegion(
+                        child: PortalTarget(
+                            visible: hover,
+                            anchor: const Aligned(
+                              follower: Alignment.topLeft,
+                              target: Alignment.topRight,
+                            ),
+                            portalFollower: MouseRegion(
+                              child: Visibility(
+                                visible: hover2,
+                                child: Material(
+                                  color: AppTheme.of(context).primaryColor.withOpacity(0.3),
+                                  borderRadius: const BorderRadiusDirectional.only(
+                                    topEnd: Radius.circular(8),
+                                    bottomEnd: Radius.circular(8),
+                                  ),
+                                  child: IntrinsicWidth(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        ListTile(
+                                          title: Text(
+                                            'Option 1',
+                                            style: AppTheme.of(context).bodyText1,
+                                          ),
+                                          onTap: () async {
+                                            context.pushReplacement(opcoSuscriberTarget);
+                                          },
+                                          hoverColor: AppTheme.of(context)
+                                              .primaryColor
+                                              .withOpacity(0.4),
+                                        ),
+                                        ListTile(
+                                          title: Text(
+                                            'Option 2',
+                                            style: AppTheme.of(context).bodyText1,
+                                          ),
+                                          onTap: () async {
+                                            context.pushReplacement(opcoSuscriberTarget);
+                                          },
+                                          hoverColor: AppTheme.of(context)
+                                              .primaryColor
+                                              .withOpacity(0.4),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              onHover: (_) {
+                                hover2 = true;
+                                setState(() {});
+                              },
+                              onExit: (_) {
+                                hover2 = false;
+                                setState(() {});
+                              },
+                            ),
+                            child: ListTile(
+                              title: Text(
+                                'OpCo Suscriber Targets',
+                                style: AppTheme.of(context).bodyText1,
+                              ),
+                              onTap: () async {
+                                context.pushReplacement(opcoSuscriberTarget);
+                              },
+                              hoverColor: AppTheme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4),
+                            ),
                           ),
-                          onTap: () async {
-                            context.pushReplacement(opcoSuscriberTarget);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
+                        onHover: (_) {
+                          hover2 = true;
+                          setState(() {});
+                        },
+                        onExit: (_) {
+                          hover2 = false;
+                          setState(() {});
+                        },
+                      )
                       : const SizedBox.shrink(),
                   userPermissions.isEmployee
                       ? ListTile(
