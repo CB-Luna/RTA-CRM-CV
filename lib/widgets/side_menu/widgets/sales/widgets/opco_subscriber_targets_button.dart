@@ -5,8 +5,13 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class OpcoSubscriberTargetButton extends StatefulWidget {
-  OpcoSubscriberTargetButton({required this.hover, super.key});
-  bool hover;
+  const OpcoSubscriberTargetButton({
+    required this.hover, 
+    required this.onHoverChange,
+    super.key
+  });
+  final bool hover;
+  final Function(bool) onHoverChange;
   @override
   State<OpcoSubscriberTargetButton> createState() =>
       _OpcoSubscriberTargetButtonState();
@@ -14,7 +19,7 @@ class OpcoSubscriberTargetButton extends StatefulWidget {
 
 class _OpcoSubscriberTargetButtonState
     extends State<OpcoSubscriberTargetButton> {
-  bool hover2 = false;
+  bool hover = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,7 @@ class _OpcoSubscriberTargetButtonState
         ),
         portalFollower: MouseRegion(
           child: Visibility(
-            visible: hover2,
+            visible: hover,
             child: Material(
               color: AppTheme.of(context).primaryColor.withOpacity(0.3),
               borderRadius: const BorderRadiusDirectional.only(
@@ -66,13 +71,13 @@ class _OpcoSubscriberTargetButtonState
             ),
           ),
           onHover: (_) {
-            widget.hover = true;
-            hover2 = true;
+            widget.onHoverChange(true);
+            hover = true;
             setState(() {});
           },
           onExit: (_) {
-            widget.hover = false;
-            hover2 = false;
+            widget.onHoverChange(false);
+            hover = false;
             setState(() {});
           },
         ),
@@ -88,11 +93,11 @@ class _OpcoSubscriberTargetButtonState
         ),
       ),
       onHover: (_) {
-        hover2 = true;
+        hover = true;
         setState(() {});
       },
       onExit: (_) {
-        hover2 = false;
+        hover = false;
         setState(() {});
       },
     );
