@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -41,114 +42,116 @@ class _ManagerButtonState extends State<ManagerButton> {
           follower: Alignment.topLeft,
           target: Alignment.topRight,
         ),
-        portalFollower: MouseRegion(
-          child: Material(
-            color: AppTheme.of(context).primaryColor.withOpacity(0.3),
-            borderRadius: const BorderRadiusDirectional.only(
-              topEnd: Radius.circular(8),
-              bottomEnd: Radius.circular(8),
-            ),
-            child: IntrinsicWidth(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Bolivar Peninsula Fiber to the home',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(
-                                bolivarPeninsulaFibertotheHome);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Operation Report',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(operationReport);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Tech Job Time Tracking',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(techJobTimeTracking);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Jobs Tracking',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(jobsTracking);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Jobs Utilization Tracking',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(jobsUtilizationTracking);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'IVR Stats',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(ivrStats);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                ],
+        portalFollower: PointerInterceptor(
+          child: MouseRegion(
+            child: Material(
+              color: AppTheme.of(context).primaryColor.withOpacity(0.3),
+              borderRadius: const BorderRadiusDirectional.only(
+                topEnd: Radius.circular(8),
+                bottomEnd: Radius.circular(8),
+              ),
+              child: IntrinsicWidth(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Bolivar Peninsula Fiber to the home',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(
+                                  bolivarPeninsulaFibertotheHome);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Operation Report',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(operationReport);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Tech Job Time Tracking',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(techJobTimeTracking);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Jobs Tracking',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(jobsTracking);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Jobs Utilization Tracking',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(jobsUtilizationTracking);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'IVR Stats',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(ivrStats);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                  ],
+                ),
               ),
             ),
+            onHover: (_) {
+              hover = true;
+              setState(() {});
+            },
+            onExit: (_) {
+              hover = false;
+              setState(() {});
+            },
           ),
-          onHover: (_) {
-            hover = true;
-            setState(() {});
-          },
-          onExit: (_) {
-            hover = false;
-            setState(() {});
-          },
         ),
         child: Material(
           borderRadius:

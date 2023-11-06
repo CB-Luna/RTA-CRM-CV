@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -45,239 +46,241 @@ class _SalesButtonState extends State<SalesButton> {
           target: Alignment.topRight,
         ),
         // MouseRegion de primer nivel
-        portalFollower: MouseRegion(
-          child: Material(
-            color: AppTheme.of(context).primaryColor.withOpacity(0.3),
-            borderRadius: const BorderRadiusDirectional.only(
-              topEnd: Radius.circular(8),
-              bottomEnd: Radius.circular(8),
-            ),
-            child: IntrinsicWidth(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Opco Subscriber Targets',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(opcoSuscriberTarget);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'New Sales Tracking Dashboards',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(newSalesTrackingDashboard);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Monthly Churn %',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(monthlyChurn);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      // MouseRegion de Segundo Nivel
-                      ? ConfiguratorButton(
-                          hover: hover,
-                          onHoverChange: (newHover) {
-                            setState(() {
-                              hover = newHover;
-                            });
-                          },
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Residentials and Business Customers',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(
-                                residentialAndBusinessCustomer);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Wireless and Fiber Customers',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(wirelessAndFiberCustomer);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'VoIP Tracking',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(voIPTracking);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'IPTV Tracking',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(ipTVTracking);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'ARPU Tracking Residential',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(arpuTrackingResidential);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'ARPU Tracking Wholesale',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(arpuTrackingWholesale);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Monthly ARPU Tracking Wholesale',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context
-                                .pushReplacement(monthlyARPUTrackingWholesale);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Monthly ARPU Tracking Residential',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(
-                                monthlyARPUTrackingResidential);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Engage Option',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(engageOption);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Conversion rate',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(conversionRate);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                  userPermissions.isAdminDashboards
-                      ? ListTile(
-                          title: Text(
-                            'Deact Contact Log',
-                            style: AppTheme.of(context).bodyText1,
-                          ),
-                          onTap: () async {
-                            context.pushReplacement(deactContactLog);
-                          },
-                          hoverColor: AppTheme.of(context)
-                              .primaryColor
-                              .withOpacity(0.4),
-                        )
-                      : const SizedBox.shrink(),
-                ],
+        portalFollower: PointerInterceptor(
+          child: MouseRegion(
+            child: Material(
+              color: AppTheme.of(context).primaryColor.withOpacity(0.3),
+              borderRadius: const BorderRadiusDirectional.only(
+                topEnd: Radius.circular(8),
+                bottomEnd: Radius.circular(8),
+              ),
+              child: IntrinsicWidth(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Opco Subscriber Targets',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(opcoSuscriberTarget);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'New Sales Tracking Dashboards',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(newSalesTrackingDashboard);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Monthly Churn %',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(monthlyChurn);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        // MouseRegion de Segundo Nivel
+                        ? ConfiguratorButton(
+                            hover: hover,
+                            onHoverChange: (newHover) {
+                              setState(() {
+                                hover = newHover;
+                              });
+                            },
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Residentials and Business Customers',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(
+                                  residentialAndBusinessCustomer);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Wireless and Fiber Customers',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(wirelessAndFiberCustomer);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'VoIP Tracking',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(voIPTracking);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'IPTV Tracking',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(ipTVTracking);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'ARPU Tracking Residential',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(arpuTrackingResidential);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'ARPU Tracking Wholesale',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(arpuTrackingWholesale);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Monthly ARPU Tracking Wholesale',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context
+                                  .pushReplacement(monthlyARPUTrackingWholesale);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Monthly ARPU Tracking Residential',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(
+                                  monthlyARPUTrackingResidential);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Engage Option',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(engageOption);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Conversion rate',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(conversionRate);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.isAdminDashboards
+                        ? ListTile(
+                            title: Text(
+                              'Deact Contact Log',
+                              style: AppTheme.of(context).bodyText1,
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(deactContactLog);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                  ],
+                ),
               ),
             ),
+            onHover: (_) {
+              hover = true;
+              setState(() {});
+            },
+            onExit: (_) {
+              hover = false;
+              setState(() {});
+            },
           ),
-          onHover: (_) {
-            hover = true;
-            setState(() {});
-          },
-          onExit: (_) {
-            hover = false;
-            setState(() {});
-          },
         ),
         child: Material(
           borderRadius:
