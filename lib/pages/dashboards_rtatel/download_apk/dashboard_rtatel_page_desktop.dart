@@ -5,6 +5,7 @@ import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 import 'package:rive/rive.dart' as rive;
+import 'package:rta_crm_cv/widgets/vista_por_url/i_frame.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DashboardRtatelPageDesktop extends StatefulWidget {
@@ -50,89 +51,14 @@ class _DashboardRtatelPageDesktopState extends State<DashboardRtatelPageDesktop>
                               padding: const EdgeInsets.only(right: 10),
                               child: SizedBox(
                                 height: 40,
-                                child: Text('Dashboard RTATEL', style: AppTheme.of(context).title1),
+                                child: Text(widget.title, style: AppTheme.of(context).title1),
                               ),
                             ),
                           ],
                         ),
                       ),
                       //Contenido
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
-                          color: AppTheme.of(context).primaryBackground,
-                          child: Stack(
-                            children: [
-                              Theme.of(context).brightness == Brightness.dark
-                                  ? const rive.RiveAnimation.asset(
-                                      'rive_animations/squaresdark.riv',
-                                      fit: BoxFit.cover,
-                                    )
-                                  : const rive.RiveAnimation.asset(
-                                      'rive_animations/squares.riv',
-                                      fit: BoxFit.cover,
-                                    ),
-                              Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Center(
-                                        child: SizedBox(
-                                          width: 800,
-                                          height: 800,
-                                          child: CustomPaint(
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsetsDirectional.fromSTEB(
-                                                          0, 0, 0, 50),
-                                                  child: Text(
-                                                    "Screen Dashboard RTATEL",
-                                                    textAlign: TextAlign.center,
-                                                    style: AppTheme.of(context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Bicyclette-Light',
-                                                          color: AppTheme.of(context)
-                                                              .primaryColor,
-                                                          fontSize: 60,
-                                                          fontWeight: FontWeight.w600,
-                                                          useGoogleFonts: false,
-                                                        ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsetsDirectional.fromSTEB(
-                                                          0, 0, 0, 50),
-                                                  child: AppTheme.themeMode == ThemeMode.dark
-                                                      ? Image.asset(
-                                                          'assets/images/icon.png',
-                                                          height: 200,
-                                                          fit: BoxFit.cover,
-                                                        )
-                                                      : Image.asset(
-                                                          'assets/images/icon.png',
-                                                          height: 200,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                            ],
-                          ),
-                      ),
-                      )
+                      IFrame(src:widget.source),
                     ],
                   ),
                 ),
