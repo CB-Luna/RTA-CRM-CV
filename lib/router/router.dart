@@ -57,7 +57,7 @@ final GoRouter router = GoRouter(
         } else if (currentUser!.isEmployee) {
           return const DownloadAPKPage();
         } else if (currentUser!.isDashboardsRTATEL) {
-          return const DashboardsRtatelPage();
+          return const DashboardsRtatelPage(title: "OpCo Suscriber Targets",source:"https://dashboards.rtatel.com/");
         } else {
           return const PageNotFoundPage();
         }
@@ -73,7 +73,7 @@ final GoRouter router = GoRouter(
                 : currentUser!.isEmployee
                     ? const DownloadAPKPage()
                     : currentUser!.isDashboardsRTATEL
-                    ? const DashboardsRtatelPage()
+                    ? const DashboardsRtatelPage(title: "OpCo Suscriber Targets",source:"https://dashboards.rtatel.com/")
                     : const PageNotFoundPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             FadeTransition(
@@ -280,7 +280,7 @@ final GoRouter router = GoRouter(
       path: opcoSuscriberTarget,
       name: 'OpCo Suscriber Targets',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "OpCo Suscriber Targets",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -288,7 +288,7 @@ final GoRouter router = GoRouter(
       path: newSalesTrackingDashboard,
       name: 'New Sales Tracking Dashboards',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "New Sales Tracking Dashboards",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -296,7 +296,7 @@ final GoRouter router = GoRouter(
       path: monthlyChurn,
       name: 'Monthly Churn %',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Monthly Churn %",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -304,7 +304,7 @@ final GoRouter router = GoRouter(
       path: configuratorStats,
       name: 'Configurator Stats',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Configurator Stats",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -312,7 +312,7 @@ final GoRouter router = GoRouter(
       path: noCoverageLeads,
       name: 'No Coverage Leads',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "No Coverage Leads",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -320,7 +320,7 @@ final GoRouter router = GoRouter(
       path: newConfiguratorStats,
       name: 'New Configurator Stats',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "New Configurator Stats",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -328,7 +328,7 @@ final GoRouter router = GoRouter(
       path: referralsTracking,
       name: 'Referrals Tracking',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Referrals Tracking",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -336,7 +336,7 @@ final GoRouter router = GoRouter(
       path: residentialAndBusinessCustomer,
       name: 'Residentials and Business Customers',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Residentials and Business Customers",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -344,7 +344,7 @@ final GoRouter router = GoRouter(
       path: wirelessAndFiberCustomer,
       name: 'Wireless and Fiber Customers',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Wireless and Fiber Customers",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -352,7 +352,7 @@ final GoRouter router = GoRouter(
       path: voIPTracking,
       name: 'VoIP Tracking',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "VoIP Tracking",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -360,7 +360,7 @@ final GoRouter router = GoRouter(
       path: ipTVTracking,
       name: 'IPTV Tracking',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "IPTV Tracking",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -368,7 +368,7 @@ final GoRouter router = GoRouter(
       path: arpuTrackingResidential,
       name: 'ARPU Tracking Residential',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "ARPU Tracking Residential",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -376,7 +376,7 @@ final GoRouter router = GoRouter(
       path: arpuTrackingWholesale,
       name: 'ARPU Tracking Wholesale',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "ARPU Tracking Wholesale",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -384,7 +384,7 @@ final GoRouter router = GoRouter(
       path: monthlyARPUTrackingWholesale,
       name: 'Monthly ARPU Tracking Wholesale',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Monthly ARPU Tracking Wholesale",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -392,7 +392,7 @@ final GoRouter router = GoRouter(
       path: monthlyARPUTrackingResidential,
       name: 'Monthly ARPU Tracking Residential',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Monthly ARPU Tracking Residential",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -400,7 +400,7 @@ final GoRouter router = GoRouter(
       path: engageOption,
       name: 'Engage Option',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Engage Option",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -408,7 +408,7 @@ final GoRouter router = GoRouter(
       path: conversionRate,
       name: 'Conversion rate',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Conversion rate",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -416,7 +416,7 @@ final GoRouter router = GoRouter(
       path: deactContactLog,
       name: 'Deact Contact Log',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Deact Contact Log",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -425,7 +425,7 @@ final GoRouter router = GoRouter(
       path: wispapalooza2021Survey,
       name: 'WISPAPALOOZA 2021 Survey',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "WISPAPALOOZA 2021 Survey",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -433,7 +433,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteIncentives,
       name: 'Job Complete Incentives',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Incentives",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -441,7 +441,7 @@ final GoRouter router = GoRouter(
       path: jobCompletedServiceOverall,
       name: 'Job Completed Service Overall',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Completed Service Overall",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -449,7 +449,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteCRY,
       name: 'Job Complete CRY',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete CRY",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -457,7 +457,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteEAS,
       name: 'Job Complete EAS',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete EAS",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -465,7 +465,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteODE,
       name: 'Job Complete ODE',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete ODE",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -473,7 +473,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteSMI,
       name: 'Job Complete SMI',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete SMI",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -481,7 +481,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteSMI,
       name: 'Job Complete Joseph Aycock',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Joseph Aycock",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -489,7 +489,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteAdamBilliot,
       name: 'Job Complete Adam Billiot',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Adam Billiot",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -497,7 +497,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteTerryIsreal,
       name: 'Job Complete Terry Isreal',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Terry Isreal",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -505,7 +505,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteCharlieMilich,
       name: 'Job Complete Charile Milich',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Charile Milich",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -513,7 +513,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteKamrinLilley,
       name: 'Job Complete Kamrin Lilley',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Kamrin Lilley",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -521,7 +521,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteAlexanderOgle,
       name: 'Job Complete Alexander Ogle',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Alexander Ogle",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -529,7 +529,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteTimothyMcClaine,
       name: 'Job Complete Timothy McClaine',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Timothy McClaine",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -537,7 +537,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteDylanNowell,
       name: 'Job Complete Dylan Nowell',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Dylan Nowell",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -545,7 +545,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteJosephThomson,
       name: 'Job Complete Joseph Thomson',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Joseph Thomson",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -553,7 +553,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteScottNowell,
       name: 'Job Complete Scott Nowell',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Scott Nowell",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -561,7 +561,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteLarryPhilips,
       name: 'Job Complete Larry Philips',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Larry Philips",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -569,7 +569,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteZacharyLawson,
       name: 'Job Complete Zachary Lawson',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Zachary Lawson",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -577,7 +577,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteBrandonMurdock,
       name: 'Job Complete Brandon Murdock',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Brandon Murdock",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -585,7 +585,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteLynnMcDaniel,
       name: 'Job Complete Lynn McDaniel',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Lynn McDaniel",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -593,7 +593,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteStephenMcKinney,
       name: 'Job Complete Stephen McKinney',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Stephen McKinney",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -601,7 +601,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteThomasHenry,
       name: 'Job Complete Thomas Henry',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Thomas Henry",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -609,7 +609,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteJosephBartek,
       name: 'Job Complete Joseph Bartek',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Joseph Bartek",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -617,7 +617,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteJohnnieThomas,
       name: 'Job Complete Johnnie Thomas',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Johnnie Thomas",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -625,7 +625,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteBrandonSims,
       name: 'Job Complete Brandon Sims',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Brandon Sims",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -633,7 +633,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteEricBranton,
       name: 'Job Complete Eric Branton',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Eric Branton",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -641,14 +641,14 @@ final GoRouter router = GoRouter(
       path: jobCompleteTristanBilbo,
       name: 'Job Complete Tristan Bilbo',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Tristan Bilbo'",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),GoRoute(
       path: jobCompleteGarrettstephens,
       name: 'Job Complete Garrett Stephens',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Garrett Stephens",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -656,7 +656,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteMasonCoon,
       name: 'Job Complete Mason Coon',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Mason Coon",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -664,7 +664,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteBriceDrisdale,
       name: 'Job Complete Brice Drisdale',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Brice Drisdale",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -672,7 +672,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteAdamKosel,
       name: 'Job Complete Adam Kosel',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Adam Kosel",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -680,7 +680,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteRossHenry,
       name: 'Job Complete Ross Henry',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Ross Henry",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -688,7 +688,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteEricHarmon,
       name: 'Job Complete Eric Harmon',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Eric Harmons",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -696,7 +696,7 @@ final GoRouter router = GoRouter(
       path: jobCompletePaulHill,
       name: 'Job Complete Paul Hill',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Paul Hill",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -704,7 +704,7 @@ final GoRouter router = GoRouter(
       path: jobCompleteBrysonSmith,
       name: 'Job Complete Brynson Smith',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Job Complete Brynson Smith",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -712,7 +712,7 @@ final GoRouter router = GoRouter(
       path: itSurveyOctober2021,
       name: 'IT Survey October 2021',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "IT Survey October 2021",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -721,7 +721,7 @@ final GoRouter router = GoRouter(
       path: bolivarPeninsulaFibertotheHome,
       name: 'Bolivar Peninsula Fiber to the home',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Bolivar Peninsula Fiber to the home",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -729,7 +729,7 @@ final GoRouter router = GoRouter(
       path: operationReport,
       name: 'Operation Report',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Operation Report",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -737,7 +737,7 @@ final GoRouter router = GoRouter(
       path: techJobTimeTracking,
       name: 'Tech Job Time Tracking',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Tech Job Time Tracking",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -745,7 +745,7 @@ final GoRouter router = GoRouter(
       path: jobsTracking,
       name: 'Jobs Tracking',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Jobs Tracking",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -753,7 +753,7 @@ final GoRouter router = GoRouter(
       path: jobsUtilizationTracking,
       name: 'Jobs Utilization Tracking',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Jobs Utilization Tracking",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -761,7 +761,7 @@ final GoRouter router = GoRouter(
       path: ivrStats,
       name: 'IVR Stats',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "IVR Stats",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -770,7 +770,7 @@ final GoRouter router = GoRouter(
       path: monitoringDashboard,
       name: 'Monitoring Dashboard',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Monitoring Dashboard",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -778,7 +778,7 @@ final GoRouter router = GoRouter(
       path: mapCoverage,
       name: 'Map Coverage',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "Map Coverage",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -787,7 +787,7 @@ final GoRouter router = GoRouter(
       path: ecommerceRTA,
       name: 'EcommerceRTA',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "EcommerceRTA",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -796,7 +796,7 @@ final GoRouter router = GoRouter(
       path: fmt,
       name: 'FMT',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "FMT",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -805,7 +805,7 @@ final GoRouter router = GoRouter(
       path: wop,
       name: 'WOP',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage();
+        return const DashboardsRtatelPage(title: "WOP",source:"https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),

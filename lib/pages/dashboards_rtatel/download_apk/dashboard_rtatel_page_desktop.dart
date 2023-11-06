@@ -8,7 +8,9 @@ import 'package:rive/rive.dart' as rive;
 import 'package:url_launcher/url_launcher.dart';
 
 class DashboardRtatelPageDesktop extends StatefulWidget {
-  const DashboardRtatelPageDesktop({super.key});
+  final String title;
+  final String source;
+  const DashboardRtatelPageDesktop({super.key, required this.title, required this.source});
 
   @override
   State<DashboardRtatelPageDesktop> createState() => _DashboardRtatelPageDesktopState();
