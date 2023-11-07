@@ -31,6 +31,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
     SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
     UsersProvider userProvider = Provider.of<UsersProvider>(context);
     final UserState userState = Provider.of<UserState>(context);
+    final userPermissions = currentUser!.role.permissions;
     return Padding(
       padding: EdgeInsets.only(left: widget.isOpen ? 40 : 0),
       child: SizedBox(
@@ -301,7 +302,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
 
             // Sección Dashboards RTATEL
 
-            currentUser!.isDashboardsRTATEL
+            userPermissions.sales != null
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: SalesButton(
@@ -313,7 +314,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
 
-            currentUser!.isDashboardsRTATEL
+            userPermissions.surveys != null
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: SurveysButton(
@@ -325,7 +326,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
 
-            currentUser!.isDashboardsRTATEL
+            userPermissions.manager != null
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: ManagerButton(
@@ -337,7 +338,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
 
-            currentUser!.isDashboardsRTATEL
+            userPermissions.gigFastNetwork != null
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: GigfastNetworkButton(
@@ -349,7 +350,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
 
-            currentUser!.isDashboardsRTATEL
+            userPermissions.callCenter != null
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: CallCenterButton(
@@ -361,7 +362,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
 
-            currentUser!.isDashboardsRTATEL
+            userPermissions.fmt != null
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(
@@ -376,7 +377,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
 
-            currentUser!.isDashboardsRTATEL
+            userPermissions.wop != null
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(

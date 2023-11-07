@@ -32,7 +32,7 @@ class GigfastNetworkButton extends StatefulWidget {
 
 class _GigfastNetworkButtonState extends State<GigfastNetworkButton> {
   bool hover = false;
-  final userPermissions = currentUser!;
+  final userPermissions = currentUser!.role.permissions;
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -54,7 +54,7 @@ class _GigfastNetworkButtonState extends State<GigfastNetworkButton> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    userPermissions.isAdminDashboards
+                    userPermissions.monitoringDashboard != null
                         ? ListTile(
                             title: Text(
                               'Monitoring Dashboard',
@@ -68,7 +68,7 @@ class _GigfastNetworkButtonState extends State<GigfastNetworkButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.mapCoverage != null
                         ? ListTile(
                             title: Text(
                               'Map Coverage',

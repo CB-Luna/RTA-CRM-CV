@@ -49,7 +49,7 @@ class _ConfiguratorButtonState extends State<ConfiguratorButton> {
                           style: AppTheme.of(context).bodyText1,
                         ),
                         onTap: () async {
-                          context.pushReplacement(opcoSuscriberTarget);
+                          context.pushReplacement(configuratorStats);
                         },
                         hoverColor:
                             AppTheme.of(context).primaryColor.withOpacity(0.4),
@@ -62,7 +62,7 @@ class _ConfiguratorButtonState extends State<ConfiguratorButton> {
                           style: AppTheme.of(context).bodyText1,
                         ),
                         onTap: () async {
-                          context.pushReplacement(newSalesTrackingDashboard);
+                          context.pushReplacement(noCoverageLeads);
                         },
                         hoverColor:
                             AppTheme.of(context).primaryColor.withOpacity(0.4),

@@ -34,7 +34,7 @@ class SalesButton extends StatefulWidget {
 class _SalesButtonState extends State<SalesButton> {
   bool hover = false;
   bool hover2 = false;
-  final userPermissions = currentUser!;
+  final userPermissions = currentUser!.role.permissions;
   @override
   Widget build(BuildContext context) {
     // Boton sales inicial
@@ -58,7 +58,7 @@ class _SalesButtonState extends State<SalesButton> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    userPermissions.isAdminDashboards
+                    userPermissions.opCoSubscriberTargets != null
                         ? ListTile(
                             title: Text(
                               'Opco Subscriber Targets',
@@ -72,7 +72,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.newSalesTrackingDashboard != null
                         ? ListTile(
                             title: Text(
                               'New Sales Tracking Dashboards',
@@ -86,7 +86,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.monthlyChurn != null
                         ? ListTile(
                             title: Text(
                               'Monthly Churn %',
@@ -100,7 +100,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.configurator != null
                         // MouseRegion de Segundo Nivel
                         ? ConfiguratorButton(
                             hover: hover,
@@ -111,7 +111,7 @@ class _SalesButtonState extends State<SalesButton> {
                             },
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.residentialAndBusinessCustomers != null
                         ? ListTile(
                             title: Text(
                               'Residentials and Business Customers',
@@ -126,7 +126,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.wirelessFiberCustomers != null
                         ? ListTile(
                             title: Text(
                               'Wireless and Fiber Customers',
@@ -140,7 +140,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.voipTracking != null
                         ? ListTile(
                             title: Text(
                               'VoIP Tracking',
@@ -154,7 +154,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.iptvTracking != null
                         ? ListTile(
                             title: Text(
                               'IPTV Tracking',
@@ -168,7 +168,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.arpuTrackingResidential != null
                         ? ListTile(
                             title: Text(
                               'ARPU Tracking Residential',
@@ -182,7 +182,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.arpuTrackingWholesale != null
                         ? ListTile(
                             title: Text(
                               'ARPU Tracking Wholesale',
@@ -196,7 +196,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.monthlyArpuTrackingWholesale != null
                         ? ListTile(
                             title: Text(
                               'Monthly ARPU Tracking Wholesale',
@@ -211,7 +211,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.monthlyArpuTrackingResidential != null
                         ? ListTile(
                             title: Text(
                               'Monthly ARPU Tracking Residential',
@@ -226,7 +226,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.engageOption != null
                         ? ListTile(
                             title: Text(
                               'Engage Option',
@@ -240,7 +240,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.conversionRate != null
                         ? ListTile(
                             title: Text(
                               'Conversion rate',
@@ -254,7 +254,7 @@ class _SalesButtonState extends State<SalesButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.deactContactLog != null
                         ? ListTile(
                             title: Text(
                               'Deact Contact Log',

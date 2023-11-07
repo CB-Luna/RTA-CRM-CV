@@ -32,7 +32,7 @@ class CallCenterButton extends StatefulWidget {
 
 class _CallCenterButtonState extends State<CallCenterButton> {
   bool hover = false;
-  final userPermissions = currentUser!;
+  final userPermissions = currentUser!.role.permissions;
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -54,7 +54,7 @@ class _CallCenterButtonState extends State<CallCenterButton> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    userPermissions.isAdminDashboards
+                    userPermissions.ecommerceRta != null
                         ? ListTile(
                             title: Text(
                               'EcommerceRTA',

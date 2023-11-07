@@ -32,7 +32,7 @@ class ManagerButton extends StatefulWidget {
 
 class _ManagerButtonState extends State<ManagerButton> {
   bool hover = false;
-  final userPermissions = currentUser!;
+  final userPermissions = currentUser!.role.permissions;
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -54,7 +54,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    userPermissions.isAdminDashboards
+                    userPermissions.bolivarPeninsulaFiberToTheHome != null
                         ? ListTile(
                             title: Text(
                               'Bolivar Peninsula Fiber to the home',
@@ -69,7 +69,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.operationReport != null
                         ? ListTile(
                             title: Text(
                               'Operation Report',
@@ -83,7 +83,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.techJobTimeTracking != null
                         ? ListTile(
                             title: Text(
                               'Tech Job Time Tracking',
@@ -97,7 +97,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.jobsTracking != null
                         ? ListTile(
                             title: Text(
                               'Jobs Tracking',
@@ -111,7 +111,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.jobsUtilizationTracking != null
                         ? ListTile(
                             title: Text(
                               'Jobs Utilization Tracking',
@@ -125,7 +125,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.ivrStats != null
                         ? ListTile(
                             title: Text(
                               'IVR Stats',

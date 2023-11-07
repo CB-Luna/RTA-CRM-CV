@@ -37,7 +37,7 @@ class _SurveysButtonState extends State<SurveysButton> {
   bool hover2 = false;
   bool hover3 = false;
 
-  final userPermissions = currentUser!;
+  final userPermissions = currentUser!.role.permissions;
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -59,7 +59,7 @@ class _SurveysButtonState extends State<SurveysButton> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    userPermissions.isAdminDashboards
+                    userPermissions.wispapalooza2021Survey != null
                         ? ListTile(
                             title: Text(
                               'Wizpapalooza 2021 Survey',
@@ -73,7 +73,7 @@ class _SurveysButtonState extends State<SurveysButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.jobComplete != null
                         ? JobCompleteButton(
                             hover: hover,
                             onHoverChange: (newHover) {
@@ -83,7 +83,7 @@ class _SurveysButtonState extends State<SurveysButton> {
                             },
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.jobCompleteTechnicians != null
                         ? JobCompleteTechnicians(
                             hover: hover,
                             onHoverChange: (newHover) {
@@ -93,7 +93,7 @@ class _SurveysButtonState extends State<SurveysButton> {
                             },
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.isAdminDashboards
+                    userPermissions.itSurveyOctober2021 != null
                         ? ListTile(
                             title: Text(
                               'IT Survey October 2021',
