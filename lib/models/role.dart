@@ -30,6 +30,16 @@ class Role {
 }
 
 class Permissions {
+    //WOP
+
+    //FMT
+    String? users;
+    String? inventory;
+    String? dashboards;
+    String? configuratorSm;
+    String? vehicleStatus;
+    String? downloadApk;
+    //Dashboards RTATEL
     String? fmt;
     String? wop;
     String? sales;
@@ -106,6 +116,15 @@ class Permissions {
     String? bolivarPeninsulaFiberToTheHome;
 
     Permissions({
+        //WOP
+        //FMT
+        required this.users,
+        required this.inventory,
+        required this.dashboards,
+        required this.configuratorSm,
+        required this.vehicleStatus,
+        required this.downloadApk,
+        //Dashboards RTATEL
         required this.fmt,
         required this.wop,
         required this.sales,
@@ -187,6 +206,16 @@ class Permissions {
     String toJson() => json.encode(toMap());
 
     factory Permissions.fromMap(Map<String, dynamic> json) => Permissions(
+        //WOP
+
+        //FMT
+        users: json["Users"],
+        inventory: json["Inventory"],
+        dashboards: json["Dashboards"],
+        configuratorSm: json["Configurator SM"],
+        vehicleStatus: json["Vehicle Status"],
+        downloadApk: json["Download APK"],
+        //Dashboards RTATEL
         fmt: json["FMT"],
         wop: json["WOP"],
         sales: json["Sales"],
@@ -264,6 +293,16 @@ class Permissions {
     );
 
     Map<String, dynamic> toMap() => {
+        //WOP
+
+        //FMT
+        "Users": users,
+        "Inventory": inventory,
+        "Dashboards": dashboards,
+        "Configurator SM": configuratorSm,
+        "Vehicle Status": vehicleStatus,
+        "Download APK": downloadApk,
+        //Dashboards RTATEL
         "FMT": fmt,
         "WOP": wop,
         "Sales": sales,

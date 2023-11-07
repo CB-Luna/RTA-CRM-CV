@@ -182,9 +182,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               ),
 
             // Sección CONTROL VEHICULAR
-            if (currentUser!.isAdminCv ||
-                currentUser!.isManager ||
-                currentUser!.isTechSupervisor)
+            if (userPermissions.vehicleStatus != null)
               SideMenuItem(
                 selected: provider.indexSelected[8],
                 leading: provider.aRMonitory != null
@@ -202,9 +200,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverMonitory?.change(false);
                 },
               ),
-            if (currentUser!.isAdminCv ||
-                currentUser!.isManager ||
-                currentUser!.isTechSupervisor)
+            if (userPermissions.inventory != null)
               SideMenuItem(
                 selected: provider.indexSelected[7],
                 leading: provider.aRInventories != null
@@ -222,9 +218,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverInventories?.change(false);
                 },
               ),
-            if (currentUser!.isEmployee ||
-                currentUser!.isTechSupervisor ||
-                currentUser!.isManager)
+            if (userPermissions.downloadApk != null)
               SideMenuItem(
                 selected: provider.indexSelected[13],
                 leading: provider.aRDownloadAPK != null
@@ -243,7 +237,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 },
               ),
 
-            if (currentUser!.isAdmin || currentUser!.isManager)
+            if (userPermissions.users != null)
               SideMenuItem(
                 selected: provider.indexSelected[10],
                 leading: provider.aRUsers != null
@@ -262,9 +256,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverUsers?.change(false);
                 },
               ),
-            if (currentUser!.isAdminCv ||
-                currentUser!.isManager ||
-                currentUser!.isTechSupervisor)
+            if (userPermissions.dashboards != null)
               SideMenuItem(
                 selected: provider.indexSelected[9],
                 leading: provider.aRDashboards != null
@@ -282,7 +274,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverDashboards?.change(false);
                 },
               ),
-            if (currentUser!.isAdmin)
+            if (userPermissions.configuratorSm != null)
               SideMenuItem(
                 selected: provider.indexSelected[11],
                 leading: Icon(Icons.color_lens_outlined,
