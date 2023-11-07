@@ -58,11 +58,9 @@ class _DashboardRtatelPageDesktopState extends State<DashboardRtatelPageDesktop>
                         ),
                       ),
                       //Contenido
-                      IFrame(
-                        src:widget.source,
-                        width: MediaQuery.of(context).size.width*.95,
-                        height: MediaQuery.of(context).size.height
-                      ),
+                      IFrame(src:widget.source,
+                      width: MediaQuery.of(context).size.width*.95,
+                      height: MediaQuery.of(context).size.height,),
                     ],
                   ),
                 ),

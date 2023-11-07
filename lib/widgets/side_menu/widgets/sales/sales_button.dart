@@ -6,6 +6,7 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/sales/widgets/configurator_button.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SalesButton extends StatefulWidget {
   const SalesButton({
@@ -49,7 +50,7 @@ class _SalesButtonState extends State<SalesButton> {
         portalFollower: PointerInterceptor(
           child: MouseRegion(
             child: Material(
-              color: AppTheme.of(context).primaryColor.withOpacity(0.3),
+              color: AppTheme.of(context).primaryColor.withOpacity(0.8),
               borderRadius: const BorderRadiusDirectional.only(
                 topEnd: Radius.circular(8),
                 bottomEnd: Radius.circular(8),
@@ -62,7 +63,12 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'Opco Subscriber Targets',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
+                              
                             ),
                             onTap: () async {
                               context.pushReplacement(opcoSuscriberTarget);
@@ -76,7 +82,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'New Sales Tracking Dashboards',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(newSalesTrackingDashboard);
@@ -90,7 +100,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'Monthly Churn %',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(monthlyChurn);
@@ -115,7 +129,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'Residentials and Business Customers',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(
@@ -130,7 +148,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'Wireless and Fiber Customers',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(wirelessAndFiberCustomer);
@@ -144,7 +166,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'VoIP Tracking',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(voIPTracking);
@@ -158,7 +184,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'IPTV Tracking',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(ipTVTracking);
@@ -172,7 +202,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'ARPU Tracking Residential',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(arpuTrackingResidential);
@@ -186,7 +220,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'ARPU Tracking Wholesale',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(arpuTrackingWholesale);
@@ -200,7 +238,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'Monthly ARPU Tracking Wholesale',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context
@@ -215,7 +257,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'Monthly ARPU Tracking Residential',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(
@@ -230,7 +276,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'Engage Option',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(engageOption);
@@ -244,7 +294,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'Conversion rate',
-                              style: AppTheme.of(context).bodyText1,
+                              style:AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(conversionRate);
@@ -258,7 +312,11 @@ class _SalesButtonState extends State<SalesButton> {
                         ? ListTile(
                             title: Text(
                               'Deact Contact Log',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(deactContactLog);
