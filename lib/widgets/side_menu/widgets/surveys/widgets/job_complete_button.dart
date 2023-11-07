@@ -33,7 +33,7 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
             child: Visibility(
               visible: hover,
               child: Material(
-                color: AppTheme.of(context).primaryColor.withOpacity(0.3),
+                color: AppTheme.of(context).primaryColor.withOpacity(0.8),
                 borderRadius: const BorderRadiusDirectional.only(
                   topEnd: Radius.circular(8),
                   bottomEnd: Radius.circular(8),
@@ -46,7 +46,11 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                         ? ListTile(
                         title: Text(
                           'Job Complete Incentives',
-                          style: AppTheme.of(context).bodyText1,
+                          style: AppTheme.of(context).bodyText1.override(
+                            fontFamily: 'Gotham-Bold',
+                            color: AppTheme.of(context).gris,
+                            useGoogleFonts: false,
+                          ),
                         ),
                         onTap: () async {
                           context.pushReplacement(jobCompleteIncentives);
@@ -59,7 +63,11 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                         ? ListTile(
                         title: Text(
                           'Job Complete Service Overall',
-                          style: AppTheme.of(context).bodyText1,
+                          style: AppTheme.of(context).bodyText1.override(
+                            fontFamily: 'Gotham-Bold',
+                            color: AppTheme.of(context).gris,
+                            useGoogleFonts: false,
+                          ),
                         ),
                         onTap: () async {
                           context.pushReplacement(jobCompletedServiceOverall);
@@ -72,7 +80,11 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                         ? ListTile(
                         title: Text(
                           'Job Complete CRY',
-                          style: AppTheme.of(context).bodyText1,
+                          style: AppTheme.of(context).bodyText1.override(
+                            fontFamily: 'Gotham-Bold',
+                            color: AppTheme.of(context).gris,
+                            useGoogleFonts: false,
+                          ),
                         ),
                         onTap: () async {
                           context.pushReplacement(jobCompleteCRY);
@@ -85,7 +97,11 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                         ? ListTile(
                         title: Text(
                           'Job Complete EAS',
-                          style: AppTheme.of(context).bodyText1,
+                          style: AppTheme.of(context).bodyText1.override(
+                            fontFamily: 'Gotham-Bold',
+                            color: AppTheme.of(context).gris,
+                            useGoogleFonts: false,
+                          ),
                         ),
                         onTap: () async {
                           context.pushReplacement(jobCompleteEAS);
@@ -98,7 +114,11 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                         ? ListTile(
                         title: Text(
                           'Job Complete ODE',
-                          style: AppTheme.of(context).bodyText1,
+                          style: AppTheme.of(context).bodyText1.override(
+                            fontFamily: 'Gotham-Bold',
+                            color: AppTheme.of(context).gris,
+                            useGoogleFonts: false,
+                          ),
                         ),
                         onTap: () async {
                           context.pushReplacement(jobCompleteODE);
@@ -111,7 +131,11 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                         ? ListTile(
                         title: Text(
                           'Job Complete SMI',
-                          style: AppTheme.of(context).bodyText1,
+                          style: AppTheme.of(context).bodyText1.override(
+                            fontFamily: 'Gotham-Bold',
+                            color: AppTheme.of(context).gris,
+                            useGoogleFonts: false,
+                          ),
                         ),
                         onTap: () async {
                           context.pushReplacement(jobCompleteSMI);
@@ -140,9 +164,13 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
         child: ListTile(
           title: Text(
             'Job Complete',
-            style: AppTheme.of(context).bodyText1,
+            style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
           ),
-          trailing: const Icon(Icons.chevron_right_outlined),
+          trailing: Icon(Icons.chevron_right_outlined, color: AppTheme.of(context).gris),
           onTap: () async {
             
           },

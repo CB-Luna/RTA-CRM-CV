@@ -45,7 +45,7 @@ class _ManagerButtonState extends State<ManagerButton> {
         portalFollower: PointerInterceptor(
           child: MouseRegion(
             child: Material(
-              color: AppTheme.of(context).primaryColor.withOpacity(0.3),
+              color: AppTheme.of(context).primaryColor.withOpacity(0.8),
               borderRadius: const BorderRadiusDirectional.only(
                 topEnd: Radius.circular(8),
                 bottomEnd: Radius.circular(8),
@@ -58,7 +58,11 @@ class _ManagerButtonState extends State<ManagerButton> {
                         ? ListTile(
                             title: Text(
                               'Bolivar Peninsula Fiber to the home',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(
@@ -73,7 +77,11 @@ class _ManagerButtonState extends State<ManagerButton> {
                         ? ListTile(
                             title: Text(
                               'Operation Report',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(operationReport);
@@ -87,7 +95,11 @@ class _ManagerButtonState extends State<ManagerButton> {
                         ? ListTile(
                             title: Text(
                               'Tech Job Time Tracking',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(techJobTimeTracking);
@@ -101,7 +113,11 @@ class _ManagerButtonState extends State<ManagerButton> {
                         ? ListTile(
                             title: Text(
                               'Jobs Tracking',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(jobsTracking);
@@ -115,7 +131,11 @@ class _ManagerButtonState extends State<ManagerButton> {
                         ? ListTile(
                             title: Text(
                               'Jobs Utilization Tracking',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(jobsUtilizationTracking);
@@ -129,7 +149,11 @@ class _ManagerButtonState extends State<ManagerButton> {
                         ? ListTile(
                             title: Text(
                               'IVR Stats',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(ivrStats);

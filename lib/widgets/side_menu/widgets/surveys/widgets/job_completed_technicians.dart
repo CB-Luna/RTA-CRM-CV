@@ -33,7 +33,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
             child: Visibility(
               visible: hover,
               child: Material(
-                color: AppTheme.of(context).primaryColor.withOpacity(0.3),
+                color: AppTheme.of(context).primaryColor.withOpacity(0.8),
                 borderRadius: const BorderRadiusDirectional.only(
                   topEnd: Radius.circular(8),
                   bottomEnd: Radius.circular(8),
@@ -49,7 +49,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Joseph Aycock',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -64,7 +68,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Adam Billiot',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -79,7 +87,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Terry Isreal',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -94,7 +106,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Charile Milich',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -109,7 +125,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Kamrin Lilley',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -124,7 +144,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Alexander Ogle',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -139,7 +163,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Timothy McClaine',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -154,7 +182,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Dylan Nowell',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -169,7 +201,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Joseph Thomson',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -184,7 +220,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Scott Nowell',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -199,7 +239,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Larry Philips',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -214,7 +258,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Zachary Lawson',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -229,7 +277,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Brandon Murdock',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -244,7 +296,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Lynn McDaniel',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -259,7 +315,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Stephen McKinney',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -274,7 +334,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Thomas Henry',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -289,7 +353,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Joseph Bartek',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -304,7 +372,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Johnnie Thomas',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -319,7 +391,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Brandon Sims',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -334,7 +410,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Eric Branton',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -349,7 +429,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Tristan Bilbo',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -364,7 +448,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Garrett Stephens',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -379,7 +467,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Mason Coon',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(jobCompleteMasonCoon);
@@ -393,7 +485,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Brice Drisdale',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -408,7 +504,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Adam Kosel',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(jobCompleteAdamKosel);
@@ -422,7 +522,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Ross Henry',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(jobCompleteRossHenry);
@@ -436,7 +540,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Eric Harmon',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -451,7 +559,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Paul Hill',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(jobCompletePaulHill);
@@ -465,7 +577,11 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Brynson Smith',
-                                    style: AppTheme.of(context).bodyText1,
+                                    style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                                   ),
                                   onTap: () async {
                                     context
@@ -498,9 +614,13 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
         child: ListTile(
           title: Text(
             'Job Complete Technicians',
-            style: AppTheme.of(context).bodyText1,
+            style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
           ),
-          trailing: const Icon(Icons.chevron_right_outlined),
+          trailing: Icon(Icons.chevron_right_outlined, color: AppTheme.of(context).gris),
           onTap: () async {},
           hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
         ),

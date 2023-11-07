@@ -50,7 +50,7 @@ class _SurveysButtonState extends State<SurveysButton> {
         portalFollower: PointerInterceptor(
           child: MouseRegion(
             child: Material(
-              color: AppTheme.of(context).primaryColor.withOpacity(0.3),
+              color: AppTheme.of(context).primaryColor.withOpacity(0.8),
               borderRadius: const BorderRadiusDirectional.only(
                 topEnd: Radius.circular(8),
                 bottomEnd: Radius.circular(8),
@@ -63,7 +63,11 @@ class _SurveysButtonState extends State<SurveysButton> {
                         ? ListTile(
                             title: Text(
                               'Wizpapalooza 2021 Survey',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(wispapalooza2021Survey);
@@ -97,7 +101,11 @@ class _SurveysButtonState extends State<SurveysButton> {
                         ? ListTile(
                             title: Text(
                               'IT Survey October 2021',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(itSurveyOctober2021);

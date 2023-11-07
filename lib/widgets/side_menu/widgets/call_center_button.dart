@@ -45,7 +45,7 @@ class _CallCenterButtonState extends State<CallCenterButton> {
         portalFollower: PointerInterceptor(
           child: MouseRegion(
             child: Material(
-              color: AppTheme.of(context).primaryColor.withOpacity(0.3),
+              color: AppTheme.of(context).primaryColor.withOpacity(0.8),
               borderRadius: const BorderRadiusDirectional.only(
                 topEnd: Radius.circular(8),
                 bottomEnd: Radius.circular(8),
@@ -58,7 +58,11 @@ class _CallCenterButtonState extends State<CallCenterButton> {
                         ? ListTile(
                             title: Text(
                               'EcommerceRTA',
-                              style: AppTheme.of(context).bodyText1,
+                              style: AppTheme.of(context).bodyText1.override(
+                                fontFamily: 'Gotham-Bold',
+                                color: AppTheme.of(context).gris,
+                                useGoogleFonts: false,
+                              ),
                             ),
                             onTap: () async {
                               context.pushReplacement(ecommerceRTA);
