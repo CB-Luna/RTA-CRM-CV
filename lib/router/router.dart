@@ -478,7 +478,7 @@ final GoRouter router = GoRouter(
       // (context, state, const DetailsPopUp()),
     ),
     GoRoute(
-      path: jobCompleteSMI,
+      path: jobCompleteJosephAycock,
       name: 'Job Complete Joseph Aycock',
       builder: (BuildContext context, GoRouterState state) {
         return const DashboardsRtatelPage(title: "Job Complete Joseph Aycock",source:"https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=joseph.aycock@rtatel.com");
@@ -737,7 +737,7 @@ final GoRouter router = GoRouter(
       path: techJobTimeTracking,
       name: 'Tech Job Time Tracking',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage(title: "Tech Job Time Tracking",source:"https://dashboards.rtatel.com/");
+        return const DashboardsRtatelPage(title: "Tech Job Time Tracking",source:"https://dashboards.rtatel.com/tech-job-time-tracking/");
       },
       // (context, state, const DetailsPopUp()),
     ),

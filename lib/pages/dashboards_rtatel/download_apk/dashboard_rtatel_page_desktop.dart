@@ -11,15 +11,18 @@ import 'package:url_launcher/url_launcher.dart';
 class DashboardRtatelPageDesktop extends StatefulWidget {
   final String title;
   final String source;
-  const DashboardRtatelPageDesktop({super.key, required this.title, required this.source});
+  const DashboardRtatelPageDesktop(
+      {super.key, required this.title, required this.source});
 
   @override
-  State<DashboardRtatelPageDesktop> createState() => _DashboardRtatelPageDesktopState();
+  State<DashboardRtatelPageDesktop> createState() =>
+      _DashboardRtatelPageDesktopState();
 }
 
-class _DashboardRtatelPageDesktopState extends State<DashboardRtatelPageDesktop> {
+class _DashboardRtatelPageDesktopState
+    extends State<DashboardRtatelPageDesktop> {
   FToast fToast = FToast();
-  
+
   @override
   Widget build(BuildContext context) {
     // SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
@@ -41,26 +44,12 @@ class _DashboardRtatelPageDesktopState extends State<DashboardRtatelPageDesktop>
                   scrollDirection: Axis.vertical,
                   child: Column(
                     children: [
-                      //Titulo
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                height: 40,
-                                child: Text(widget.title, style: AppTheme.of(context).title1),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                       //Contenido
-                      IFrame(src:widget.source,
-                      width: MediaQuery.of(context).size.width*.95,
-                      height: MediaQuery.of(context).size.height,),
+                      IFrame(
+                        src: widget.source,
+                        width: MediaQuery.of(context).size.width * .95,
+                        height: MediaQuery.of(context).size.height,
+                      ),
                     ],
                   ),
                 ),
@@ -81,13 +70,13 @@ class LoginPaint extends StatefulWidget {
 }
 
 Future<void> launchInBrowser(Uri url) async {
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.externalApplication,
-    )) {
-      throw Exception('Could not launch $url');
-    }
+  if (!await launchUrl(
+    url,
+    mode: LaunchMode.externalApplication,
+  )) {
+    throw Exception('Could not launch $url');
   }
+}
 
 class _LoginPaintState extends State<LoginPaint> {
   @override
@@ -222,4 +211,3 @@ class ContainerLogin extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
-
