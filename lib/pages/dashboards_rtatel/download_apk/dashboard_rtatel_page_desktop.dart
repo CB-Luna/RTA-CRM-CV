@@ -28,7 +28,8 @@ class _DashboardRtatelPageDesktopState
     // SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
     // sideM.setIndex(13);
     fToast.init(context);
-    return Material(
+    if(widget.title != "Map Coverage"){
+      return Material(
       child: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -59,6 +60,122 @@ class _DashboardRtatelPageDesktopState
         ),
       ),
     );
+    }else{
+      return Material(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SideMenu(),
+            Flexible(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(gradient: whiteGradient),
+                child: CustomScrollBar(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      //Titulo
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: SizedBox(
+                                height: 40,
+                                child: Text("Map coverage (Smithville)", style: AppTheme.of(context).title1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      //Contenido
+                      IFrame(
+                        src: "https://sites.towercoverage.com/default.aspx?mcid=36023&Acct=28805",
+                        width: MediaQuery.of(context).size.width * .7,
+                        height: MediaQuery.of(context).size.height*.7,
+                      ),
+                       //Titulo
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: SizedBox(
+                                height: 40,
+                                child: Text("Map coverage (Odessa)", style: AppTheme.of(context).title1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      //Contenido
+                      IFrame(
+                        src: "https://sites.towercoverage.com/default.aspx?mcid=36038&Acct=28805",
+                        width: MediaQuery.of(context).size.width * .7,
+                        height: MediaQuery.of(context).size.height*.7,
+                      ),
+                       //Titulo
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: SizedBox(
+                                height: 40,
+                                child: Text("Map coverage (Crystal Beach)", style: AppTheme.of(context).title1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      //Contenido
+                      IFrame(
+                        src: "https://sites.towercoverage.com/default.aspx?mcid=36163&Acct=28805",
+                        width: MediaQuery.of(context).size.width * .7,
+                        height: MediaQuery.of(context).size.height*.7,
+                      ),
+                       //Titulo
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: SizedBox(
+                                height: 40,
+                                child: Text("Map coverage (Eastland)", style: AppTheme.of(context).title1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      //Contenido
+                      IFrame(
+                        src: "https://sites.towercoverage.com/default.aspx?mcid=36185&Acct=28805",
+                        width: MediaQuery.of(context).size.width * .7,
+                        height: MediaQuery.of(context).size.height*.7,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+    }
+    
   }
 }
 
