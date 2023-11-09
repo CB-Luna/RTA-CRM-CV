@@ -782,12 +782,12 @@ final GoRouter router = GoRouter(
       },
       // (context, state, const DetailsPopUp()),
     ),
-    ////////Call Center Falta de Link
+    ////////Call Center
     GoRoute(
       path: ecommerceRTA,
       name: 'EcommerceRTA',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage(title: "EcommerceRTA",source:"https://ecom.rtatel.com/#/rep/?rep=rtanumbers@gmail.com");
+        return DashboardsRtatelPage(title: "EcommerceRTA",source:"https://ecom.rtatel.com/#/rep/?rep=${prefs.getString('email')}");
       },
       // (context, state, const DetailsPopUp()),
     ),
