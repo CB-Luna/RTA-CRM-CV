@@ -737,7 +737,7 @@ final GoRouter router = GoRouter(
       path: techJobTimeTracking,
       name: 'Tech Job Time Tracking',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardsRtatelPage(title: "Tech Job Time Tracking",source:"https://dashboards.rtatel.com/tech-job-time-tracking/");
+        return const DashboardsRtatelPage(title: "Tech Job Time Tracking",source:"https://cblsrvr1.rtatel.com/dash/#/job_minutes");
       },
       // (context, state, const DetailsPopUp()),
     ),
