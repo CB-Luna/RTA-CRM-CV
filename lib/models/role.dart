@@ -13,6 +13,8 @@ class Role {
   Permissions permissions;
   String application;
 
+  String get roleApplication => '$application -  $roleName';
+
   factory Role.fromJson(String str) => Role.fromMap(json.decode(str));
 
   factory Role.fromMap(Map<String, dynamic> json) => Role(
