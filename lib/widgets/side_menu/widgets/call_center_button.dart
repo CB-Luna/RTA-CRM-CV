@@ -32,7 +32,7 @@ class CallCenterButton extends StatefulWidget {
 
 class _CallCenterButtonState extends State<CallCenterButton> {
   bool hover = false;
-  final userPermissions = currentUser!.role.permissions;
+  final userPermissions = currentUser!.currentRole.permissions;
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -59,17 +59,15 @@ class _CallCenterButtonState extends State<CallCenterButton> {
                             title: Text(
                               'EcommerceRTA',
                               style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
-                              ),
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                             ),
                             onTap: () async {
                               context.pushReplacement(ecommerceRTA);
                             },
-                            hoverColor: AppTheme.of(context)
-                                .primaryColor
-                                .withOpacity(0.4),
+                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                   ],
@@ -87,8 +85,7 @@ class _CallCenterButtonState extends State<CallCenterButton> {
           ),
         ),
         child: Material(
-          borderRadius:
-              hover ? BorderRadius.circular(widget.borderRadius) : null,
+          borderRadius: hover ? BorderRadius.circular(widget.borderRadius) : null,
           elevation: hover ? 5 : 0,
           color: Colors.transparent,
           clipBehavior: Clip.antiAlias,
@@ -97,9 +94,7 @@ class _CallCenterButtonState extends State<CallCenterButton> {
             height: MediaQuery.of(context).size.width * 65 / 1920,
             child: Container(
               decoration: BoxDecoration(
-                border: hover || widget.isTaped
-                    ? Border.all(color: const Color(0XFFFFFFFF), width: 2)
-                    : null,
+                border: hover || widget.isTaped ? Border.all(color: const Color(0XFFFFFFFF), width: 2) : null,
                 borderRadius: BorderRadius.circular(15),
                 color: hover || widget.isTaped ? widget.fillColor : null,
               ),
@@ -110,9 +105,7 @@ class _CallCenterButtonState extends State<CallCenterButton> {
                   child: Icon(
                     widget.icon,
                     size: MediaQuery.of(context).size.width * 45 / 1920,
-                    color: hover || widget.isTaped
-                        ? const Color(0XFFFFFFFF)
-                        : widget.iconColor,
+                    color: hover || widget.isTaped ? const Color(0XFFFFFFFF) : widget.iconColor,
                   ),
                 ),
               ),

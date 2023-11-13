@@ -84,7 +84,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
         {
           "order_info_id": quote.idOrders,
           "user_id": currentUser!.id,
-          "role": currentUser!.role.roleName,
+          "role": currentUser!.currentRole.roleName,
           "name": currentUser!.name,
           "comment": commentController.text,
           "sended": DateTime.now().toIso8601String(),
@@ -92,7 +92,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
       );
       comments.add(
         Comment(
-          role: currentUser!.role.roleName,
+          role: currentUser!.currentRole.roleName,
           name: currentUser!.name,
           comment: commentController.text,
           sended: DateTime.now(),
@@ -634,11 +634,22 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "handoff": handoffSelectedValue,
             "rack_location": null, //rackLocationController.text,
             "demarcation_point": demarcationPointController.text,
-            "existing_circuit_id": typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.existingCircuitId!
+            "existing_circuit_id": typesList[typesList
+                        .map((type) => type.name!)
+                        .toList()
+                        .indexWhere((element) => element.startsWith(typesSelectedValue))]
+                    .parameters!
+                    .existingCircuitId!
                 ? existingCircuitIDController.text
                 : null,
-            "new_circuit_id":
-                typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.newCircuitId! ? newCircuitIDController.text : null,
+            "new_circuit_id": typesList[typesList
+                        .map((type) => type.name!)
+                        .toList()
+                        .indexWhere((element) => element.startsWith(typesSelectedValue))]
+                    .parameters!
+                    .newCircuitId!
+                ? newCircuitIDController.text
+                : null,
             "bandwidth": null, //bandwidthController.text,
           }).eq('id', quote.idOrders!);
 
@@ -835,7 +846,8 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       response = await supabaseCRM.from('cat_circuit_types').select().eq('visible', true);
       circuitTypeList.clear();
-      circuitTypeList = (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
+      circuitTypeList =
+          (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
       circuitTypeSelectedValue = circuitTypeList.first.name!;
 
       response = await supabaseCRM.from('cat_ports').select().eq('visible', true);
@@ -873,7 +885,8 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       quote = ModelX2V2QuotesView.fromJson(jsonEncode(response[0]));
 
-      dynamic parameter = (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
+      dynamic parameter =
+          (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
       parameter = CatOrderInfoTypes.fromRawJson(jsonEncode(parameter));
 
       ///////////////Order Info////////////////////////////////////////////////////////////////////

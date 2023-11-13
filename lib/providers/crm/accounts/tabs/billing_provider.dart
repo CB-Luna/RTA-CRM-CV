@@ -94,7 +94,7 @@ class BillingProvider extends ChangeNotifier {
               'SUPPRESSION_Column': PlutoCell(value: currentUser!.birthDate),
               'SUBJECTS_Column': PlutoCell(value: null),
               'LAUNCH_Column': PlutoCell(value: currentUser!.birthDate),
-              'STATUS_Column': PlutoCell(value: user.role.roleName),
+              'STATUS_Column': PlutoCell(value: user.roles.first.roleName),
               'ACTIONS_Column': PlutoCell(value: ''),
             },
           ),
