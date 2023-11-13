@@ -35,6 +35,8 @@ Future<void> initGlobals() async {
 
   currentUser = await SupabaseQueries.getCurrentUserData();
 
+  if (currentUser == null) return;
+
   if (currentUser!.checkRoles()) {
     String? savedRol = prefs.getString('currentRol');
     if (savedRol == null) {
@@ -44,8 +46,6 @@ Future<void> initGlobals() async {
       if (!res) currentUser = null;
     }
   }
-
-  if (currentUser == null) return;
 
   Configuration? config = await SupabaseQueries.getUserTheme();
 

@@ -23,7 +23,6 @@ class SupabaseQueries {
 
       return usuario;
     } catch (e) {
-      log('Error aqui');
       log('Error en getCurrentUserData() - $e');
       return null;
     }

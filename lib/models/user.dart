@@ -4,28 +4,29 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
 
 class User {
-  User(
-      {required this.id,
-      required this.sequentialId,
-      required this.email,
-      required this.name,
-      required this.middleName,
-      required this.lastName,
-      this.homePhone,
-      this.mobilePhone,
-      required this.address,
-      this.image,
-      this.birthDate,
-      required this.roles,
-      required this.company,
-      required this.state,
-      required this.idtema,
-      required this.status,
-      required this.license,
-      required this.certification,
-      this.idVehicle,
-      this.licensePlates,
-      this.userID});
+  User({
+    required this.id,
+    required this.sequentialId,
+    required this.email,
+    required this.name,
+    required this.middleName,
+    required this.lastName,
+    this.homePhone,
+    this.mobilePhone,
+    required this.address,
+    this.image,
+    this.birthDate,
+    required this.roles,
+    required this.company,
+    required this.state,
+    required this.idtema,
+    required this.status,
+    required this.license,
+    required this.certification,
+    this.idVehicle,
+    this.licensePlates,
+    this.userID,
+  });
 
   String id;
   int sequentialId;
