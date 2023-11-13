@@ -9,6 +9,8 @@ import 'package:rta_crm_cv/router/router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
+enum FormView { loginForm, selectAppForm }
+
 class UserState extends ChangeNotifier {
   //EMAIL
   String _email = '';
@@ -49,6 +51,8 @@ class UserState extends ChangeNotifier {
   String? imageName;
   Uint8List? webImage;
 
+  FormView view = FormView.loginForm;
+
   //Constructor de provider
   UserState() {
     rememberMe = prefs.getBool('recuerdame') ?? false;
@@ -77,6 +81,11 @@ class UserState extends ChangeNotifier {
       log('Error en actualizarContrasena() - $e');
       return false;
     }
+  }
+
+  void changeView(FormView view) {
+    this.view = view;
+    notifyListeners();
   }
 
   // void initPerfilUsuario() {

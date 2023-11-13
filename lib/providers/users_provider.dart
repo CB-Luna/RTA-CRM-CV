@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
@@ -365,12 +363,9 @@ class UsersProvider extends ChangeNotifier {
   }
 
   Future<void> getRoles({bool notify = true}) async {
-    final res = await supabase.from('role').select().order(
-          'name',
-          ascending: true,
-        );
+    final res = await supabase.rpc('get_roles');
 
-    roles = (res as List<dynamic>).map((rol) => Role.fromJson(jsonEncode(rol))).toList();
+    roles = (res as List<dynamic>).map((rol) => Role.fromMap(rol)).toList();
 
     if (notify) notifyListeners();
   }

@@ -100,9 +100,7 @@ class _LoginButtonState extends State<LoginButton> {
             );
 
             if (currentUser!.checkRoles()) {
-              final tempUser = currentUser!;
-              currentUser = null;
-              //TODO: cambiar a seleccionar rol
+              userState.changeView(FormView.selectAppForm);
               return;
             }
 

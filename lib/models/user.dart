@@ -124,9 +124,7 @@ class User {
       userID: json["id_user"],
     );
 
-    if (user.roles.length == 1) {
-      user.currentRole = user.roles.first;
-    }
+    user.currentRole = user.roles.first;
 
     return user;
   }
