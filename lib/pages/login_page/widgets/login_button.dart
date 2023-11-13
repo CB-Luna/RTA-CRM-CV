@@ -99,6 +99,11 @@ class _LoginButtonState extends State<LoginButton> {
               await SupabaseQueries.getUserTheme(),
             );
 
+            if (currentUser!.checkRoles()) {
+              userState.changeView(FormView.selectAppForm);
+              return;
+            }
+
             if (!mounted) return;
             context.pushReplacement('/');
           } catch (e) {

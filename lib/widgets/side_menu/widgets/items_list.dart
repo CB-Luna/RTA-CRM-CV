@@ -31,7 +31,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
     SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
     UsersProvider userProvider = Provider.of<UsersProvider>(context);
     final UserState userState = Provider.of<UserState>(context);
-    final userPermissions = currentUser!.role.permissions;
+    final userPermissions = currentUser!.currentRole.permissions;
     return Padding(
       padding: EdgeInsets.only(left: widget.isOpen ? 40 : 0),
       child: SizedBox(
@@ -240,9 +240,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.users != null)
               SideMenuItem(
                 selected: provider.indexSelected[10],
-                leading: provider.aRUsers != null
-                    ? Rive(artboard: provider.aRUsers!)
-                    : const CircularProgressIndicator(),
+                leading:
+                    provider.aRUsers != null ? Rive(artboard: provider.aRUsers!) : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Users',
                 onTap: () async {
@@ -277,8 +276,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.configuratorSm != null)
               SideMenuItem(
                 selected: provider.indexSelected[11],
-                leading: Icon(Icons.color_lens_outlined,
-                    color: Color(Colors.grey[300]!.value)),
+                leading: Icon(Icons.color_lens_outlined, color: Color(Colors.grey[300]!.value)),
                 isOpen: widget.isOpen,
                 title: 'Configurator',
                 onTap: () async {
@@ -386,8 +384,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
 
             SideMenuItem(
               selected: provider.indexSelected[12],
-              leading: const Icon(Icons.power_settings_new_outlined,
-                  color: Colors.red),
+              leading: const Icon(Icons.power_settings_new_outlined, color: Colors.red),
               isOpen: widget.isOpen,
               title: 'Logout',
               onTap: () async {

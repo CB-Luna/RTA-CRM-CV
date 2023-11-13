@@ -32,7 +32,7 @@ class ManagerButton extends StatefulWidget {
 
 class _ManagerButtonState extends State<ManagerButton> {
   bool hover = false;
-  final userPermissions = currentUser!.role.permissions;
+  final userPermissions = currentUser!.currentRole.permissions;
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -59,18 +59,15 @@ class _ManagerButtonState extends State<ManagerButton> {
                             title: Text(
                               'Bolivar Peninsula Fiber to the home',
                               style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
-                              ),
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                             ),
                             onTap: () async {
-                              context.pushReplacement(
-                                  bolivarPeninsulaFibertotheHome);
+                              context.pushReplacement(bolivarPeninsulaFibertotheHome);
                             },
-                            hoverColor: AppTheme.of(context)
-                                .primaryColor
-                                .withOpacity(0.4),
+                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                     userPermissions.operationReport != null
@@ -78,17 +75,15 @@ class _ManagerButtonState extends State<ManagerButton> {
                             title: Text(
                               'Operation Report',
                               style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
-                              ),
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                             ),
                             onTap: () async {
                               context.pushReplacement(operationReport);
                             },
-                            hoverColor: AppTheme.of(context)
-                                .primaryColor
-                                .withOpacity(0.4),
+                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                     userPermissions.techJobTimeTracking != null
@@ -96,17 +91,15 @@ class _ManagerButtonState extends State<ManagerButton> {
                             title: Text(
                               'Tech Job Time Tracking',
                               style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
-                              ),
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                             ),
                             onTap: () async {
                               context.pushReplacement(techJobTimeTracking);
                             },
-                            hoverColor: AppTheme.of(context)
-                                .primaryColor
-                                .withOpacity(0.4),
+                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                     userPermissions.jobsTracking != null
@@ -114,17 +107,15 @@ class _ManagerButtonState extends State<ManagerButton> {
                             title: Text(
                               'Jobs Tracking',
                               style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
-                              ),
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                             ),
                             onTap: () async {
                               context.pushReplacement(jobsTracking);
                             },
-                            hoverColor: AppTheme.of(context)
-                                .primaryColor
-                                .withOpacity(0.4),
+                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                     userPermissions.jobsUtilizationTracking != null
@@ -132,17 +123,15 @@ class _ManagerButtonState extends State<ManagerButton> {
                             title: Text(
                               'Jobs Utilization Tracking',
                               style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
-                              ),
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                             ),
                             onTap: () async {
                               context.pushReplacement(jobsUtilizationTracking);
                             },
-                            hoverColor: AppTheme.of(context)
-                                .primaryColor
-                                .withOpacity(0.4),
+                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                     userPermissions.ivrStats != null
@@ -150,17 +139,15 @@ class _ManagerButtonState extends State<ManagerButton> {
                             title: Text(
                               'IVR Stats',
                               style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
-                              ),
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
                             ),
                             onTap: () async {
                               context.pushReplacement(ivrStats);
                             },
-                            hoverColor: AppTheme.of(context)
-                                .primaryColor
-                                .withOpacity(0.4),
+                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                   ],
@@ -178,8 +165,7 @@ class _ManagerButtonState extends State<ManagerButton> {
           ),
         ),
         child: Material(
-          borderRadius:
-              hover ? BorderRadius.circular(widget.borderRadius) : null,
+          borderRadius: hover ? BorderRadius.circular(widget.borderRadius) : null,
           elevation: hover ? 5 : 0,
           color: Colors.transparent,
           clipBehavior: Clip.antiAlias,
@@ -188,9 +174,7 @@ class _ManagerButtonState extends State<ManagerButton> {
             height: MediaQuery.of(context).size.width * 65 / 1920,
             child: Container(
               decoration: BoxDecoration(
-                border: hover || widget.isTaped
-                    ? Border.all(color: const Color(0XFFFFFFFF), width: 2)
-                    : null,
+                border: hover || widget.isTaped ? Border.all(color: const Color(0XFFFFFFFF), width: 2) : null,
                 borderRadius: BorderRadius.circular(15),
                 color: hover || widget.isTaped ? widget.fillColor : null,
               ),
@@ -201,9 +185,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                   child: Icon(
                     widget.icon,
                     size: MediaQuery.of(context).size.width * 45 / 1920,
-                    color: hover || widget.isTaped
-                        ? const Color(0XFFFFFFFF)
-                        : widget.iconColor,
+                    color: hover || widget.isTaped ? const Color(0XFFFFFFFF) : widget.iconColor,
                   ),
                 ),
               ),

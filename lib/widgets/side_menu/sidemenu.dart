@@ -38,8 +38,7 @@ class _SideMenuState extends State<SideMenu> {
               topRight: Radius.circular(15),
               bottomRight: Radius.circular(15),
             ),
-            border: Border.all(
-                width: 1.5, color: AppTheme.of(context).primaryBackground),
+            border: Border.all(width: 1.5, color: AppTheme.of(context).primaryBackground),
           ),
           child: CustomScrollBar(
             scrollDirection: Axis.horizontal,
@@ -50,8 +49,7 @@ class _SideMenuState extends State<SideMenu> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 10, bottom: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, bottom: 10, right: 10),
                     child: provider.isOpen
                         ? SizedBox(
                             width: 250,
@@ -84,8 +82,7 @@ class _SideMenuState extends State<SideMenu> {
                                   onTap: () {
                                     setState(() {
                                       provider.isOpen = !provider.isOpen;
-                                      provider.forcedOpen =
-                                          !provider.forcedOpen;
+                                      provider.forcedOpen = !provider.forcedOpen;
                                     });
                                   },
                                 )
@@ -130,7 +127,7 @@ class _SideMenuState extends State<SideMenu> {
                     isOpen: provider.isOpen,
                     image: currentUser!.image ?? assets.avatar,
                     text1: currentUser!.fullName,
-                    text2: currentUser!.role.roleName,
+                    text2: currentUser!.currentRole.roleName,
                   )
                 ],
               ),
