@@ -35,7 +35,7 @@ class SalesButton extends StatefulWidget {
 class _SalesButtonState extends State<SalesButton> {
   bool hover = false;
   bool hover2 = false;
-  final userPermissions = currentUser!.role.permissions;
+  final userPermissions = currentUser!.currentRole.permissions;
   @override
   Widget build(BuildContext context) {
     // Boton sales inicial

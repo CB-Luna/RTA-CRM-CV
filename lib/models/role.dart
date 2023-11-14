@@ -5,11 +5,15 @@ class Role {
     required this.id,
     required this.roleName,
     required this.permissions,
+    required this.application,
   });
 
   int id;
   String roleName;
   Permissions permissions;
+  String application;
+
+  String get roleApplication => '$application -  $roleName';
 
   factory Role.fromJson(String str) => Role.fromMap(json.decode(str));
 
@@ -17,6 +21,7 @@ class Role {
         id: json["id"] ?? json['role_id'],
         roleName: json["name"],
         permissions: Permissions.fromMap(json["permissions"]),
+        application: json['application'],
       );
 
   @override
@@ -30,184 +35,203 @@ class Role {
 }
 
 class Permissions {
-    //WOP
+  //WOP
+  String? prospects;
+  String? scheduling;
+  String? network;
+  String? tickets;
+  String? order;
+  String? campaigns;
+  String? reports;
+  //FMT
+  String? users;
+  String? inventory;
+  String? dashboards;
+  String? configuratorSm;
+  String? vehicleStatus;
+  String? downloadApk;
+  //Dashboards RTATEL
+  String? fmt;
+  String? wop;
+  String? sales;
+  String? manager;
+  String? surveys;
+  String? ivrStats;
+  String? callCenter;
+  String? configurator;
+  String? ecommerceRta;
+  String? jobComplete;
+  String? mapCoverage;
+  String? engageOption;
+  String? iptvTracking;
+  String? jobsTracking;
+  String? monthlyChurn;
+  String? voipTracking;
+  String? gigFastNetwork;
+  String? jobCompleteCry;
+  String? jobCompleteEas;
+  String? jobCompleteOde;
+  String? jobCompleteSmi;
+  String? operationReport;
+  String? deactContactLog;
+  String? noCoverageLeads;
+  String? configuratorStats;
+  String? referralsTracking;
+  String? conversionRate;
+  String? monitoringDashboard;
+  String? itSurveyOctober2021;
+  String? jobCompletePaulHill;
+  String? newConfiguratorStats;
+  String? techJobTimeTracking;
+  String? arpuTrackingWholesale;
+  String? jobCompleteAdamKosel;
+  String? jobCompleteIncentives;
+  String? jobCompleteMasonCoon;
+  String? jobCompleteRossHenry;
+  String? opCoSubscriberTargets;
+  String? jobCompleteEricHarmon;
+  String? jobCompleteTechnicians;
+  String? wispapalooza2021Survey;
+  String? arpuTrackingResidential;
+  String? jobCompleteAdamBilliot;
+  String? jobCompleteBrandonSims;
+  String? jobCompleteBrysonSmith;
+  String? jobCompleteDylanNowell;
+  String? jobCompleteEricBranton;
+  String? jobCompleteScottNowell;
+  String? jobCompleteTerryIsreal;
+  String? jobCompleteThomasHenry;
+  String? jobsUtilizationTracking;
+  String? jobCompleteJosephAycock;
+  String? jobCompleteJosephBartek;
+  String? jobCompleteKamrinLilley;
+  String? jobCompleteLynnMcDaniel;
+  String? jobCompleteTristanBilbo;
+  String? wirelessFiberCustomers;
+  String? jobCompleteAlexanderOgle;
+  String? jobCompleteBriceDrisdale;
+  String? jobCompleteCharlieMilich;
+  String? jobCompleteJohnnieThomas;
+  String? jobCompleteJosephThomson;
+  String? jobCompleteLarryPhillips;
+  String? jobCompleteZacharyLawson;
+  String? jobCompleteBrandonMurdock;
+  String? newSalesTrackingDashboard;
+  String? jobCompleteGarrettStephens;
+  String? jobCompleteStephenMcKinney;
+  String? jobCompleteTimothyMcClaine;
+  String? jobCompletedServiceOverall;
+  String? monthlyArpuTrackingWholesale;
+  String? monthlyArpuTrackingResidential;
+  String? residentialAndBusinessCustomers;
+  String? bolivarPeninsulaFiberToTheHome;
 
-    //FMT
-    String? users;
-    String? inventory;
-    String? dashboards;
-    String? configuratorSm;
-    String? vehicleStatus;
-    String? downloadApk;
-    //Dashboards RTATEL
-    String? fmt;
-    String? wop;
-    String? sales;
-    String? manager;
-    String? surveys;
-    String? ivrStats;
-    String? callCenter;
-    String? configurator;
-    String? ecommerceRta;
-    String? jobComplete;
-    String? mapCoverage;
-    String? engageOption;
-    String? iptvTracking;
-    String? jobsTracking;
-    String? monthlyChurn;
-    String? voipTracking;
-    String? gigFastNetwork;
-    String? jobCompleteCry;
-    String? jobCompleteEas;
-    String? jobCompleteOde;
-    String? jobCompleteSmi;
-    String? operationReport;
-    String? deactContactLog;
-    String? noCoverageLeads;
-    String? configuratorStats;
-    String? referralsTracking;
-    String? conversionRate;
-    String? monitoringDashboard;
-    String? itSurveyOctober2021;
-    String? jobCompletePaulHill;
-    String? newConfiguratorStats;
-    String? techJobTimeTracking;
-    String? arpuTrackingWholesale;
-    String? jobCompleteAdamKosel;
-    String? jobCompleteIncentives;
-    String? jobCompleteMasonCoon;
-    String? jobCompleteRossHenry;
-    String? opCoSubscriberTargets;
-    String? jobCompleteEricHarmon;
-    String? jobCompleteTechnicians;
-    String? wispapalooza2021Survey;
-    String? arpuTrackingResidential;
-    String? jobCompleteAdamBilliot;
-    String? jobCompleteBrandonSims;
-    String? jobCompleteBrysonSmith;
-    String? jobCompleteDylanNowell;
-    String? jobCompleteEricBranton;
-    String? jobCompleteScottNowell;
-    String? jobCompleteTerryIsreal;
-    String? jobCompleteThomasHenry;
-    String? jobsUtilizationTracking;
-    String? jobCompleteJosephAycock;
-    String? jobCompleteJosephBartek;
-    String? jobCompleteKamrinLilley;
-    String? jobCompleteLynnMcDaniel;
-    String? jobCompleteTristanBilbo;
-    String? wirelessFiberCustomers;
-    String? jobCompleteAlexanderOgle;
-    String? jobCompleteBriceDrisdale;
-    String? jobCompleteCharlieMilich;
-    String? jobCompleteJohnnieThomas;
-    String? jobCompleteJosephThomson;
-    String? jobCompleteLarryPhillips;
-    String? jobCompleteZacharyLawson;
-    String? jobCompleteBrandonMurdock;
-    String? newSalesTrackingDashboard;
-    String? jobCompleteGarrettStephens;
-    String? jobCompleteStephenMcKinney;
-    String? jobCompleteTimothyMcClaine;
-    String? jobCompletedServiceOverall;
-    String? monthlyArpuTrackingWholesale;
-    String? monthlyArpuTrackingResidential;
-    String? residentialAndBusinessCustomers;
-    String? bolivarPeninsulaFiberToTheHome;
+  Permissions(
+      {
+      //WOP
+      required this.prospects,
+      required this.scheduling,
+      required this.network,
+      required this.tickets,
+      required this.order,
+      required this.campaigns,
+      required this.reports,
+      //FMT
+      required this.users,
+      required this.inventory,
+      required this.dashboards,
+      required this.configuratorSm,
+      required this.vehicleStatus,
+      required this.downloadApk,
+      //Dashboards RTATEL
+      required this.fmt,
+      required this.wop,
+      required this.sales,
+      required this.manager,
+      required this.surveys,
+      required this.ivrStats,
+      required this.callCenter,
+      required this.configurator,
+      required this.ecommerceRta,
+      required this.jobComplete,
+      required this.mapCoverage,
+      required this.engageOption,
+      required this.iptvTracking,
+      required this.jobsTracking,
+      required this.monthlyChurn,
+      required this.voipTracking,
+      required this.gigFastNetwork,
+      required this.jobCompleteCry,
+      required this.jobCompleteEas,
+      required this.jobCompleteOde,
+      required this.jobCompleteSmi,
+      required this.operationReport,
+      required this.deactContactLog,
+      required this.noCoverageLeads,
+      required this.configuratorStats,
+      required this.referralsTracking,
+      required this.conversionRate,
+      required this.monitoringDashboard,
+      required this.itSurveyOctober2021,
+      required this.jobCompletePaulHill,
+      required this.newConfiguratorStats,
+      required this.techJobTimeTracking,
+      required this.arpuTrackingWholesale,
+      required this.jobCompleteAdamKosel,
+      required this.jobCompleteIncentives,
+      required this.jobCompleteMasonCoon,
+      required this.jobCompleteRossHenry,
+      required this.opCoSubscriberTargets,
+      required this.jobCompleteEricHarmon,
+      required this.jobCompleteTechnicians,
+      required this.wispapalooza2021Survey,
+      required this.arpuTrackingResidential,
+      required this.jobCompleteAdamBilliot,
+      required this.jobCompleteBrandonSims,
+      required this.jobCompleteBrysonSmith,
+      required this.jobCompleteDylanNowell,
+      required this.jobCompleteEricBranton,
+      required this.jobCompleteScottNowell,
+      required this.jobCompleteTerryIsreal,
+      required this.jobCompleteThomasHenry,
+      required this.jobsUtilizationTracking,
+      required this.jobCompleteJosephAycock,
+      required this.jobCompleteJosephBartek,
+      required this.jobCompleteKamrinLilley,
+      required this.jobCompleteLynnMcDaniel,
+      required this.jobCompleteTristanBilbo,
+      required this.wirelessFiberCustomers,
+      required this.jobCompleteAlexanderOgle,
+      required this.jobCompleteBriceDrisdale,
+      required this.jobCompleteCharlieMilich,
+      required this.jobCompleteJohnnieThomas,
+      required this.jobCompleteJosephThomson,
+      required this.jobCompleteLarryPhillips,
+      required this.jobCompleteZacharyLawson,
+      required this.jobCompleteBrandonMurdock,
+      required this.newSalesTrackingDashboard,
+      required this.jobCompleteGarrettStephens,
+      required this.jobCompleteStephenMcKinney,
+      required this.jobCompleteTimothyMcClaine,
+      required this.jobCompletedServiceOverall,
+      required this.monthlyArpuTrackingWholesale,
+      required this.monthlyArpuTrackingResidential,
+      required this.residentialAndBusinessCustomers,
+      required this.bolivarPeninsulaFiberToTheHome});
 
-    Permissions({
+  factory Permissions.fromJson(String str) => Permissions.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory Permissions.fromMap(Map<String, dynamic> json) => Permissions(
         //WOP
-        //FMT
-        required this.users,
-        required this.inventory,
-        required this.dashboards,
-        required this.configuratorSm,
-        required this.vehicleStatus,
-        required this.downloadApk,
-        //Dashboards RTATEL
-        required this.fmt,
-        required this.wop,
-        required this.sales,
-        required this.manager,
-        required this.surveys,
-        required this.ivrStats,
-        required this.callCenter,
-        required this.configurator,
-        required this.ecommerceRta,
-        required this.jobComplete,
-        required this.mapCoverage,
-        required this.engageOption,
-        required this.iptvTracking,
-        required this.jobsTracking,
-        required this.monthlyChurn,
-        required this.voipTracking,
-        required this.gigFastNetwork,
-        required this.jobCompleteCry,
-        required this.jobCompleteEas,
-        required this.jobCompleteOde,
-        required this.jobCompleteSmi,
-        required this.operationReport,
-        required this.deactContactLog,
-        required this.noCoverageLeads,
-        required this.configuratorStats,
-        required this.referralsTracking,
-        required this.conversionRate,
-        required this.monitoringDashboard,
-        required this.itSurveyOctober2021,
-        required this.jobCompletePaulHill,
-        required this.newConfiguratorStats,
-        required this.techJobTimeTracking,
-        required this.arpuTrackingWholesale,
-        required this.jobCompleteAdamKosel,
-        required this.jobCompleteIncentives,
-        required this.jobCompleteMasonCoon,
-        required this.jobCompleteRossHenry,
-        required this.opCoSubscriberTargets,
-        required this.jobCompleteEricHarmon,
-        required this.jobCompleteTechnicians,
-        required this.wispapalooza2021Survey,
-        required this.arpuTrackingResidential,
-        required this.jobCompleteAdamBilliot,
-        required this.jobCompleteBrandonSims,
-        required this.jobCompleteBrysonSmith,
-        required this.jobCompleteDylanNowell,
-        required this.jobCompleteEricBranton,
-        required this.jobCompleteScottNowell,
-        required this.jobCompleteTerryIsreal,
-        required this.jobCompleteThomasHenry,
-        required this.jobsUtilizationTracking,
-        required this.jobCompleteJosephAycock,
-        required this.jobCompleteJosephBartek,
-        required this.jobCompleteKamrinLilley,
-        required this.jobCompleteLynnMcDaniel,
-        required this.jobCompleteTristanBilbo,
-        required this.wirelessFiberCustomers,
-        required this.jobCompleteAlexanderOgle,
-        required this.jobCompleteBriceDrisdale,
-        required this.jobCompleteCharlieMilich,
-        required this.jobCompleteJohnnieThomas,
-        required this.jobCompleteJosephThomson,
-        required this.jobCompleteLarryPhillips,
-        required this.jobCompleteZacharyLawson,
-        required this.jobCompleteBrandonMurdock,
-        required this.newSalesTrackingDashboard,
-        required this.jobCompleteGarrettStephens,
-        required this.jobCompleteStephenMcKinney,
-        required this.jobCompleteTimothyMcClaine,
-        required this.jobCompletedServiceOverall,
-        required this.monthlyArpuTrackingWholesale,
-        required this.monthlyArpuTrackingResidential,
-        required this.residentialAndBusinessCustomers,
-        required this.bolivarPeninsulaFiberToTheHome
-    });
-
-    factory Permissions.fromJson(String str) => Permissions.fromMap(json.decode(str));
-
-    String toJson() => json.encode(toMap());
-
-    factory Permissions.fromMap(Map<String, dynamic> json) => Permissions(
-        //WOP
-
+        prospects: json["Prospects"],
+        scheduling: json["Scheduling"],
+        network: json["Network"],
+        tickets: json["Tickets"],
+        order: json["Order"],
+        campaigns: json["Campaigns"],
+        reports: json["Reports"],
         //FMT
         users: json["Users"],
         inventory: json["Inventory"],
@@ -290,11 +314,17 @@ class Permissions {
         monthlyArpuTrackingResidential: json["Monthly ARPU Tracking Residential"],
         residentialAndBusinessCustomers: json["Residential and Business Customers"],
         bolivarPeninsulaFiberToTheHome: json["Bolivar Peninsula Fiber to the Home"],
-    );
+      );
 
-    Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap() => {
         //WOP
-
+        "Prospects": prospects,
+        "Scheduling": scheduling,
+        "Newtork": network,
+        "Tickets": tickets,
+        "Order": order,
+        "Campaigns": campaigns,
+        "Reports": reports,
         //FMT
         "Users": users,
         "Inventory": inventory,
@@ -377,5 +407,5 @@ class Permissions {
         "Monthly ARPU Tracking Residential": monthlyArpuTrackingResidential,
         "Residential and Business Customers": residentialAndBusinessCustomers,
         "Bolivar Peninsula Fiber to the Home": bolivarPeninsulaFiberToTheHome,
-    };
+      };
 }

@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
@@ -9,7 +7,6 @@ import 'package:flutter/material.dart' hide State;
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:rive/rive.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:rta_crm_cv/helpers/constants.dart';
@@ -22,8 +19,6 @@ import '../functions/date_format.dart';
 import '../models/vehicle.dart';
 
 class UsersProvider extends ChangeNotifier {
-  bool isOpen = true;
-  bool forcedOpen = true;
   List<User> users = [];
   List<Vehicle> vehicles = [];
   List<Vehicle> vehiclexUser = [];
@@ -41,8 +36,7 @@ class UsersProvider extends ChangeNotifier {
   List<Role> roles = [];
   List<Company> companys = [];
   List<String> statusy = [];
-  Role? selectedRole;
-  Role? selectedRoleUpdate;
+  List<Role> selectedRoles = [];
   Company? selectedCompany;
   Company? selectedCompanyUpdate;
   List<State> states = [];
@@ -94,25 +88,23 @@ class UsersProvider extends ChangeNotifier {
   final certificationControllerUpdate = TextEditingController();
   final addressControllerUpdate = TextEditingController();
 
-  void updateControllers(User users) {
-    nameControllerUpdate.text = users.name;
-    lastNameControllerUpdate.text = users.lastName;
-    emailControllerUpdate.text = users.email;
-    phoneControllerUpdate.text = users.homePhone ?? "-";
-    selectedStateUpdate = selectedState;
-    selectedRoleUpdate = selectedRole;
-    selectedCompanyUpdate = selectedCompany;
+  void updateControllers(User user) {
+    nameControllerUpdate.text = user.name;
+    lastNameControllerUpdate.text = user.lastName;
+    emailControllerUpdate.text = user.email;
+    phoneControllerUpdate.text = user.homePhone ?? "-";
+    selectedStateUpdate = user.state;
+    selectedRoles = [...user.roles];
+    selectedCompanyUpdate = user.company;
     selectedVehicleUpdate = null;
-    addressControllerUpdate.text = users.address;
-    dropdownvalueUpdate = users.status ?? "Not Active";
-    licenseControllerUpdate.text = users.license ?? "-";
-    certificationControllerUpdate.text = users.certification ?? "-";
-    selectVehiclePlates = users.licensePlates;
-    imageUrlUpdate = users.image == null
+    addressControllerUpdate.text = user.address;
+    dropdownvalueUpdate = user.status ?? "Not Active";
+    licenseControllerUpdate.text = user.license ?? "-";
+    certificationControllerUpdate.text = user.certification ?? "-";
+    selectVehiclePlates = user.licensePlates;
+    imageUrlUpdate = user.image == null
         ? "https://supa43.rtatel.com/storage/v1/object/public/assets/user_profile/"
-        : users.image!.replaceAll(
-            "https://supa43.rtatel.com/storage/v1/object/public/assets/user_profile/",
-            "");
+        : user.image!.replaceAll("https://supa43.rtatel.com/storage/v1/object/public/assets/user_profile/", "");
   }
 
   void clearControllers({bool notify = true}) {
@@ -125,7 +117,7 @@ class UsersProvider extends ChangeNotifier {
     addressController.clear();
     selectedCompany = null;
     selectedState = null;
-    selectedRole = null;
+    selectedRoles.clear();
     selectedVehicle = null;
     companyCOntroller.clear();
     statusController.clear();
@@ -136,20 +128,18 @@ class UsersProvider extends ChangeNotifier {
   }
 
   // NORMAL
-  void selectRole(String role) {
-    selectedRole = roles.firstWhere((elem) => elem.roleName == role);
+  void setSelectedRoles(List<String> roles) {
+    selectedRoles = this.roles.where((role) => roles.contains(role.roleName)).toList();
     notifyListeners();
   }
 
   void selectCompany(String companyName) {
-    selectedCompany =
-        companys.firstWhere((elem) => elem.company == companyName);
+    selectedCompany = companys.firstWhere((elem) => elem.company == companyName);
     notifyListeners();
   }
 
   void selectedVehiclee(String vehicle) {
-    selectedVehicle =
-        vehicles.firstWhere((element) => element.licesensePlates == vehicle);
+    selectedVehicle = vehicles.firstWhere((element) => element.licesensePlates == vehicle);
     notifyListeners();
   }
 
@@ -182,15 +172,8 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // UPDATE
-  void selectRoleUpdate(String role) {
-    selectedRoleUpdate = roles.firstWhere((elem) => elem.roleName == role);
-    notifyListeners();
-  }
-
   void selectCompanyUpdate(String companyName) {
-    selectedCompanyUpdate =
-        companys.firstWhere((elem) => elem.company == companyName);
+    selectedCompanyUpdate = companys.firstWhere((elem) => elem.company == companyName);
     notifyListeners();
   }
 
@@ -205,8 +188,7 @@ class UsersProvider extends ChangeNotifier {
   }
 
   void selectVehicleUpdates(String vehicle) {
-    selectedVehicleUpdate =
-        vehicles.firstWhere((element) => element.licesensePlates == vehicle);
+    selectedVehicleUpdate = vehicles.firstWhere((element) => element.licesensePlates == vehicle);
     //print("-----------");
     //print("selectedVehicleUpdate: ${selectedVehicleUpdate?.licesensePlates}");
     notifyListeners();
@@ -215,30 +197,6 @@ class UsersProvider extends ChangeNotifier {
   void selectStateUpdate(String state) {
     selectedStateUpdate = states.firstWhere((elem) => elem.name == state);
     notifyListeners();
-  }
-
-  void getActualVehicle(User users) async {
-    try {
-      final res = await supabaseCtrlV
-          .from('vehicle')
-          .select()
-          .eq('id_vehicle', users.idVehicle);
-
-      vehicles = (res as List<dynamic>)
-          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
-          .toList();
-
-      //print("entro a getActualVehicle: $res");
-    } catch (e) {
-      //print("Error in getActualVehicle() $e");
-    }
-  }
-
-  void selectVehicleActual(User users, {bool notify = true}) {
-    actualVehicle =
-        vehicles.firstWhere((element) => element.idVehicle == users.idVehicle);
-    //print('ActualVehicle: ${actualVehicle?.licesensePlates}');
-    if (notify) notifyListeners();
   }
 
   void setPageSize(String x) {
@@ -277,17 +235,11 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void load() {
-    stateManager!.setShowLoading(true);
-  }
-
-  void updateVehiclestatus() async {
+  Future<void> updateVehiclestatus() async {
     try {
-      final res = await supabaseCtrlV.from('vehicle').update(
-          {'id_status_fk': 1}).eq('id_vehicle', selectedVehicle?.idVehicle);
-      //print("entro a updateVehicle: $res");
+      await supabaseCtrlV.from('vehicle').update({'id_status_fk': 1}).eq('id_vehicle', selectedVehicle?.idVehicle);
     } catch (e) {
-      //print("Error in updateVehiclestatus $e");
+      log('Error en updateVehiclestatus() - $e');
     }
   }
 
@@ -295,9 +247,8 @@ class UsersProvider extends ChangeNotifier {
     // Eliminar la imagen Anterior
     try {
       if (imageUrlUpdate != null) {
-        final List<FileObject> oldImage = await supabase.storage
-            .from('assets')
-            .remove(['user_profile/${imageUrlUpdate!}']);
+        final List<FileObject> oldImage =
+            await supabase.storage.from('assets').remove(['user_profile/${imageUrlUpdate!}']);
         if (oldImage.isEmpty) return;
       }
     } catch (e) {
@@ -305,19 +256,16 @@ class UsersProvider extends ChangeNotifier {
     }
   }
 
-  void updateVehiclestatusUpdate(User users) async {
+  Future<void> updateVehiclestatusUpdate(User users) async {
     try {
       //print("Id del SelectedVehicleUpdate: ${selectedVehicleUpdate?.idVehicle}");
       // Aqui cambiamos el status del vehiculo que seleccionamos a Assignado
-      final res = await supabaseCtrlV
+      await supabaseCtrlV
           .from('vehicle')
-          .update({'id_status_fk': 1}).eq(
-              'id_vehicle', selectedVehicleUpdate?.idVehicle);
+          .update({'id_status_fk': 1}).eq('id_vehicle', selectedVehicleUpdate?.idVehicle);
 
       // Aqui cambiamos el vehiculo viejo a disponible
-      final res2 = await supabaseCtrlV
-          .from('vehicle')
-          .update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
+      await supabaseCtrlV.from('vehicle').update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
 
       // Aqui cambiamos el id del vehiculo donde el id_sequential sea el mismo que el del usuario
       // final cambioVehiculo = await supabase
@@ -336,13 +284,10 @@ class UsersProvider extends ChangeNotifier {
   void updateVehiclestatusClear(User users) async {
     try {
       // Aqui cambiamos el vehiculo viejo a disponible
-      final res2 = await supabaseCtrlV
-          .from('vehicle')
-          .update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
+      await supabaseCtrlV.from('vehicle').update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
 
       // Aqui cambiamos el id del vehiculo donde el id_sequential sea el mismo que el del usuario
-      final cambioVehiculo = await supabase.from('user_profile').update(
-          {'id_vehicle_fk': null}).eq('sequential_id', users.sequentialId);
+      await supabase.from('user_profile').update({'id_vehicle_fk': null}).eq('sequential_id', users.sequentialId);
 
       //print("entro a updateVehiclestatusUpdate: $res");
       //print("Entro en el cambio del vehiculo viejo $res2");
@@ -359,9 +304,7 @@ class UsersProvider extends ChangeNotifier {
             ascending: true,
           );
 
-      states = (res as List<dynamic>)
-          .map((pais) => State.fromJson(jsonEncode(pais)))
-          .toList();
+      states = (res as List<dynamic>).map((pais) => State.fromJson(jsonEncode(pais))).toList();
 
       if (notify) notifyListeners();
     } catch (e) {
@@ -376,9 +319,7 @@ class UsersProvider extends ChangeNotifier {
             ascending: true,
           );
 
-      companys = (res as List<dynamic>)
-          .map((compani) => Company.fromJson(jsonEncode(compani)))
-          .toList();
+      companys = (res as List<dynamic>).map((compani) => Company.fromJson(jsonEncode(compani))).toList();
 
       if (notify) notifyListeners();
     } catch (e) {
@@ -387,29 +328,75 @@ class UsersProvider extends ChangeNotifier {
   }
 
   Future<void> getRoles({bool notify = true}) async {
-    final res = await supabase.from('role').select().order(
-          'name',
-          ascending: true,
-        );
+    final res = await supabase.rpc('get_roles');
 
-    roles = (res as List<dynamic>)
-        .map((rol) => Role.fromJson(jsonEncode(rol)))
-        .toList();
+    roles = (res as List<dynamic>).map((rol) => Role.fromMap(rol)).toList();
 
     if (notify) notifyListeners();
+  }
+
+  Future<bool> addRoles(String userId) async {
+    try {
+      for (final Role role in selectedRoles) {
+        await supabase.from('user_role').insert(
+          {
+            'user_fk': userId,
+            'role_fk': role.id,
+          },
+        );
+      }
+      return true;
+    } catch (e) {
+      log('Error en addRoles() - $e');
+      return false;
+    }
+  }
+
+  Future<bool> editRoles(User editedUser) async {
+    //Se inicializan los paises a agregar (todos)
+    final List<Role> addedRoles = [...selectedRoles];
+    //Se inicializan los paises a eliminar (todos)
+    final List<Role> deletedRoles = [...editedUser.roles];
+
+    for (Role role in selectedRoles) {
+      //seleccionados - usuario
+      //[a,b,c] - [d] => [a,b,c] - [d]
+      //[a,b,c] - [a,b] => [c] - []
+      //[a,b,c] - [a,b,d] => [c] - [d]
+      //[d] - [a,b] => [d] - [a,b]
+      if (editedUser.roles.contains(role)) {
+        //Si lo contiene, se elimina de los roles a agregar
+        addedRoles.remove(role);
+        //Si lo contiene, se elimina de los roles a eliminar
+        deletedRoles.remove(role);
+      }
+    }
+
+    for (final Role role in addedRoles) {
+      await supabase.from('user_role').insert(
+        {
+          'user_fk': editedUser.id,
+          'role_fk': role.id,
+        },
+      );
+    }
+
+    for (final Role role in deletedRoles) {
+      await supabase.from('user_role').delete().eq('user_fk', editedUser.id).eq(
+            'role_fk',
+            role.id,
+          );
+    }
+
+    return true;
   }
 
   // -----------------------------------------------
   Future<void> getVehicleUser(User users, {bool notify = true}) async {
     try {
-      final resC = await supabaseCtrlV
-          .from('inventory_view')
-          .select()
-          .eq('id_vehicle', users.idVehicle);
+      final resC = await supabaseCtrlV.from('inventory_view').select().eq('id_vehicle', users.idVehicle);
 
-      vehiclexUser = (resC as List<dynamic>)
-          .map((vehiclexUser) => Vehicle.fromJson(jsonEncode(vehiclexUser)))
-          .toList();
+      vehiclexUser = (resC as List<dynamic>).map((vehiclexUser) => Vehicle.fromJson(jsonEncode(vehiclexUser))).toList();
       //print("Entro a getVehicleUser");
     } catch (e) {
       //print("getVehicleUser $e");
@@ -420,10 +407,7 @@ class UsersProvider extends ChangeNotifier {
   // -----------------------------------------------
   Future<void> getVehicleActiveInit(User users, {bool notify = true}) async {
     try {
-      final resC = await supabase
-          .from('company')
-          .select()
-          .eq('company', users.company.company);
+      final resC = await supabase.from('company').select().eq('company', users.company.company);
 
       final company = (resC as List<dynamic>);
 
@@ -433,9 +417,7 @@ class UsersProvider extends ChangeNotifier {
           .eq('status ->id_status', 3)
           .eq('company ->id_company', company.first["id_company"]);
 
-      vehicles = (res as List<dynamic>)
-          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
-          .toList();
+      vehicles = (res as List<dynamic>).map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles))).toList();
       //print("Entro a getVehicles");
     } catch (e) {
       //print("getVehicleActive $e");
@@ -455,9 +437,7 @@ class UsersProvider extends ChangeNotifier {
           .eq('status ->id_status', 3)
           .eq('company ->id_company', company.first["id_company"]);
 
-      vehicles = (res as List<dynamic>)
-          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
-          .toList();
+      vehicles = (res as List<dynamic>).map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles))).toList();
       //print("Entro a getVehicles");
     } catch (e) {
       //print("getVehicleActive $e");
@@ -468,14 +448,12 @@ class UsersProvider extends ChangeNotifier {
   // -----------------------------------------------
   Future<void> changeStatusUser(User users) async {
     try {
-      final res = await supabase.from("user_profile").update(
-          {'status': 'Not Active'}).eq('sequential_id', users.sequentialId);
+      final res =
+          await supabase.from("user_profile").update({'status': 'Not Active'}).eq('sequential_id', users.sequentialId);
 
-      vehicles = (res as List<dynamic>)
-          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
-          .toList();
+      vehicles = (res as List<dynamic>).map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles))).toList();
     } catch (e) {
-      print("Error in changeStatusUser() - $e");
+      log("Error in changeStatusUser() - $e");
     }
     notifyListeners();
   }
@@ -498,9 +476,7 @@ class UsersProvider extends ChangeNotifier {
         log('Error en getUsuarios()');
         return;
       }
-      users = (res as List<dynamic>)
-          .map((usuario) => User.fromJson(jsonEncode(usuario)))
-          .toList();
+      users = (res as List<dynamic>).map((usuario) => User.fromJson(jsonEncode(usuario))).toList();
 
       rows.clear();
       for (User user in users) {
@@ -510,7 +486,7 @@ class UsersProvider extends ChangeNotifier {
               'ID_Column': PlutoCell(value: user.sequentialId),
               'AVATAR_Column': PlutoCell(value: user.image),
               'USER_Column': PlutoCell(value: user.fullName),
-              'ROLE_Column': PlutoCell(value: user.role.roleName),
+              'ROLE_Column': PlutoCell(value: user.roles.first.roleName),
               'EMAIL_Column': PlutoCell(value: user.email),
               'MOBILE_Column': PlutoCell(value: user.mobilePhone),
               'ADDRESS_Column': PlutoCell(value: user.address),
@@ -552,9 +528,7 @@ class UsersProvider extends ChangeNotifier {
         log('Error en getUsuarios()');
         return;
       }
-      users = (res as List<dynamic>)
-          .map((usuario) => User.fromJson(jsonEncode(usuario)))
-          .toList();
+      users = (res as List<dynamic>).map((usuario) => User.fromMap(usuario)).toList();
 
       rows.clear();
       for (User user in users) {
@@ -564,7 +538,7 @@ class UsersProvider extends ChangeNotifier {
               'ID_Column': PlutoCell(value: user.sequentialId),
               'AVATAR_Column': PlutoCell(value: user.image),
               'USER_Column': PlutoCell(value: user.fullName),
-              'ROLE_Column': PlutoCell(value: user.role.roleName),
+              'ROLE_Column': PlutoCell(value: user.roles.first.roleName),
               'EMAIL_Column': PlutoCell(value: user.email),
               'MOBILE_Column': PlutoCell(value: user.mobilePhone),
               'ADDRESS_Column': PlutoCell(value: user.address),
@@ -580,11 +554,10 @@ class UsersProvider extends ChangeNotifier {
         );
       }
       if (stateManager != null) stateManager!.notifyListeners();
+      notifyListeners();
     } catch (e) {
       log('Error en getUsuarios() - $e');
     }
-
-    notifyListeners();
   }
 
   Future<Map<String, String>?> registerUser() async {
@@ -617,8 +590,9 @@ class UsersProvider extends ChangeNotifier {
   }
 
   Future<bool> createUserProfile(String userId) async {
-    if (selectedState == null || selectedRole == null) return false;
+    if (selectedState == null || selectedRoles.isEmpty) return false;
     try {
+      //TODO: agregar multiples roles
       if (currentUser!.isCRM) {
         await supabase.from('user_profile').insert(
           {
@@ -630,7 +604,6 @@ class UsersProvider extends ChangeNotifier {
             'address': '123 Main St.',
             'image': imageUrl,
             'birthdate': DateTime.now().toIso8601String(),
-            'id_role_fk': selectedRole!.id,
             'state_fk': selectedState!.id,
           },
         );
@@ -645,16 +618,12 @@ class UsersProvider extends ChangeNotifier {
             'address': addressController.text,
             'image': imageUrl,
             'birthdate': DateTime.now().toIso8601String(),
-            'id_role_fk': selectedRole!.id,
             'state_fk': selectedState!.id,
             'id_company_fk': selectedCompany!.id,
             'id_vehicle_fk': selectedVehicle?.idVehicle,
             'status': dropdownvalue,
-            'license':
-                licenseController.text.isEmpty ? null : licenseController.text,
-            'certification': certificationController.text.isEmpty
-                ? null
-                : licenseController.text
+            'license': licenseController.text.isEmpty ? null : licenseController.text,
+            'certification': certificationController.text.isEmpty ? null : licenseController.text
           },
         );
       }
@@ -665,24 +634,9 @@ class UsersProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> deleteUser(User users) async {
-    try {
-      await supabase
-          .from('user_profile')
-          .delete()
-          .match({'user_profile_id': users.id});
-
-      return true;
-    } catch (e) {
-      log('Error in deleteUser() - $e');
-      return false;
-    }
-  }
-
   Future<bool> deleteUserAuth(User users) async {
     try {
-      final res =
-          await supabase.rpc('borrar_usuario', params: {'correo': users.email});
+      final res = await supabase.rpc('borrar_usuario', params: {'correo': users.email});
       if (res == null) {
         log('Error in res null, deleteUserAuth');
         return false;
@@ -695,6 +649,7 @@ class UsersProvider extends ChangeNotifier {
   }
 
   Future<bool> updateUser(User users) async {
+    //TODO: agregar multiples roles
     try {
       await supabase.from('user_profile').update({
         'user_profile_id': users.id,
@@ -705,7 +660,7 @@ class UsersProvider extends ChangeNotifier {
         'address': addressControllerUpdate.text,
         'image': imageUrl,
         'birthdate': DateTime.now().toIso8601String(),
-        'id_role_fk': selectedRoleUpdate?.id ?? users.role.id,
+        // 'id_role_fk': selectedRoleUpdate?.id ?? users.role.id,
         'state_fk': selectedStateUpdate?.id ?? users.state.id,
         'id_vehicle_fk': selectedVehicleUpdate?.idVehicle ?? users.idVehicle,
         'id_company_fk': selectedCompanyUpdate?.id ?? users.company.id,
@@ -769,15 +724,14 @@ class UsersProvider extends ChangeNotifier {
 
   Future<void> uploadImage() async {
     try {
-      final storageResponse =
-          await supabase.storage.from('assets/user_profile').uploadBinary(
-                placeHolderImage!,
-                webImage!,
-                fileOptions: const FileOptions(
-                  cacheControl: '3600',
-                  upsert: false,
-                ),
-              );
+      final storageResponse = await supabase.storage.from('assets/user_profile').uploadBinary(
+            placeHolderImage!,
+            webImage!,
+            fileOptions: const FileOptions(
+              cacheControl: '3600',
+              upsert: false,
+            ),
+          );
 
       if (storageResponse.isNotEmpty) {
         imageUrl = supabase.storage.from('assets/user_profile').getPublicUrl(
@@ -790,25 +744,6 @@ class UsersProvider extends ChangeNotifier {
       log('Error in uploadImage() - $e');
       // return null;
     }
-  }
-
-  // Retorno nulo
-
-  ////////////////////////////////////////////////////////
-  //////////////////////////RIVE//////////////////////////
-  ////////////////////////////////////////////////////////
-
-  Future<void> loadRiveAssets() async {
-    /* await dashboardsIconRive();
-    await accountsIconRive();
-    await schedulingsIconRive();
-    await networksIconRive();
-    await ticketsIconRive();
-    await inventoriesIconRive();
-    await reportsIconRive();
-    await usersIconRive();
-    notifyListeners();
-    setIndex(0); */
   }
 
   void clearControllerExportData({bool notify = true}) {
@@ -944,7 +879,7 @@ class UsersProvider extends ChangeNotifier {
         report.sequentialId,
         report.name,
         report.lastName,
-        report.role.roleName,
+        report.roles.first.roleName,
         report.email,
         report.mobilePhone,
         report.state.name,
@@ -965,34 +900,5 @@ class UsersProvider extends ChangeNotifier {
     if (fileBytes == null) return false;
 
     return true;
-  }
-
-  setABSelected() {
-    //iSelectedDashboards?.change(indexSelected[0]);
-  }
-
-  Artboard? aRDashboards;
-  StateMachineController? sMCDashboards;
-  SMIInput<bool>? iHoverDashboards;
-  SMIInput<bool>? iSelectedDashboards;
-  Future<void> dashboardsIconRive() async {
-    final ByteData data =
-        await rootBundle.load('assets/rive/dashboards_icon.riv');
-
-    final file = RiveFile.import(data);
-
-    final artboard = file.mainArtboard;
-
-    sMCDashboards =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
-
-    if (sMCDashboards != null) {
-      artboard.addController(sMCDashboards!);
-
-      iHoverDashboards = sMCDashboards!.findInput('isHovered');
-      iSelectedDashboards = sMCDashboards!.findInput('isSelected');
-    }
-
-    aRDashboards = artboard;
   }
 }

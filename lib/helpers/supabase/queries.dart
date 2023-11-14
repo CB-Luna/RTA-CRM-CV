@@ -11,8 +11,7 @@ class SupabaseQueries {
       final user = supabase.auth.currentUser;
       if (user == null) return null;
 
-      final PostgrestFilterBuilder query =
-          supabase.from('users').select().eq('user_profile_id', user.id);
+      final PostgrestFilterBuilder query = supabase.from('users').select().eq('user_profile_id', user.id);
 
       final res = await query;
 
@@ -20,11 +19,10 @@ class SupabaseQueries {
       userProfile['id'] = user.id;
       userProfile['email'] = user.email!;
 
-      final usuario = User.fromJson(jsonEncode(userProfile));
+      final usuario = User.fromMap(userProfile);
 
       return usuario;
     } catch (e) {
-      log('Error aqui');
       log('Error en getCurrentUserData() - $e');
       return null;
     }
@@ -32,8 +30,7 @@ class SupabaseQueries {
 
   static Future<Configuration?> getDefaultTheme(int themeId) async {
     try {
-      final res =
-          await supabase.from('theme').select('light, dark').eq('id', themeId);
+      final res = await supabase.from('theme').select('light, dark').eq('id', themeId);
 
       return Configuration.fromJson(jsonEncode(res[0]));
     } catch (e) {
@@ -45,14 +42,9 @@ class SupabaseQueries {
   static Future<Configuration?> getUserTheme() async {
     try {
       if (currentUser == null) return null;
-      final res = await supabase
-          .from('users')
-          .select('configuracion')
-          .eq('id', currentUser!.id)
-          .select();
+      final res = await supabase.from('users').select('configuracion').eq('id', currentUser!.id).select();
       //print(res.toString());
-      Configuration config =
-          Configuration.fromJson(jsonEncode(res[0]['configuracion']));
+      Configuration config = Configuration.fromJson(jsonEncode(res[0]['configuracion']));
 
       return config;
     } catch (e) {
