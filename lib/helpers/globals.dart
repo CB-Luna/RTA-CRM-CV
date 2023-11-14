@@ -7,8 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 import 'package:rta_crm_cv/models/models.dart';
 
-final GlobalKey<ScaffoldMessengerState> snackbarKey =
-    GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
 
 const storage = FlutterSecureStorage();
 
@@ -35,8 +34,21 @@ Future<void> initGlobals() async {
   assets = await SupabaseQueries.getAssets();
 
   currentUser = await SupabaseQueries.getCurrentUserData();
+
   if (currentUser == null) return;
+
+  if (currentUser!.checkRoles()) {
+    String? savedRol = prefs.getString('currentRole');
+    if (savedRol == null) {
+      currentUser = null;
+    } else {
+      final res = currentUser!.setRole(savedRol);
+      if (!res) currentUser = null;
+    }
+  }
+
   Configuration? config = await SupabaseQueries.getUserTheme();
+
   if (config == null) return;
   assets.logoBlanco = config.logos.logoBlanco;
   assets.logoColor = config.logos.logoColor;

@@ -325,6 +325,7 @@ class QuotesProvider extends ChangeNotifier {
   Future<void> getStatus() async {
     var res = await supabaseCRM.from('cat_quotes_status').select().eq('visible', true);
     listStatus = (res as List<dynamic>).map((status) => ModelX2V2QuotesStatus.fromJson(jsonEncode(status))).toList();
+    notifyListeners();
   }
 
   Future<void> getX2Quotes(int? status) async {

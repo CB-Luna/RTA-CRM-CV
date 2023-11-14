@@ -84,7 +84,7 @@ class DetailQuoteProvider extends ChangeNotifier {
         {
           "order_info_id": quote.idOrders,
           "user_id": currentUser!.id,
-          "role": currentUser!.role.roleName,
+          "role": currentUser!.currentRole.roleName,
           "name": currentUser!.name,
           "comment": commentController.text,
           "sended": DateTime.now().toIso8601String(),
@@ -92,7 +92,7 @@ class DetailQuoteProvider extends ChangeNotifier {
       );
       comments.add(
         Comment(
-          role: currentUser!.role.roleName,
+          role: currentUser!.currentRole.roleName,
           name: currentUser!.name,
           comment: commentController.text,
           sended: DateTime.now(),
@@ -617,7 +617,8 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       response = await supabaseCRM.from('cat_circuit_types').select().eq('visible', true);
       circuitTypeList.clear();
-      circuitTypeList = (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
+      circuitTypeList =
+          (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
       circuitTypeSelectedValue = circuitTypeList.first.name!;
 
       response = await supabaseCRM.from('cat_ports').select().eq('visible', true);
@@ -655,7 +656,8 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       quote = ModelX2V2QuotesView.fromJson(jsonEncode(response[0]));
 
-      dynamic parameter = (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
+      dynamic parameter =
+          (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
       parameter = CatOrderInfoTypes.fromRawJson(jsonEncode(parameter));
 
       ///////////////Order Info////////////////////////////////////////////////////////////////////

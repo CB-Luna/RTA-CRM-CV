@@ -72,7 +72,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     if (commentController.text.isNotEmpty) {
       comments.add(
         Comment(
-          role: currentUser!.role.roleName,
+          role: currentUser!.currentRole.roleName,
           name: currentUser!.name,
           comment: commentController.text,
           sended: DateTime.now(),
@@ -471,10 +471,26 @@ class CreateQuoteProvider extends ChangeNotifier {
       'multicast': multicastRequired,
       //'location': locationController.text,
       'circuit_type': circuitTypeSelectedValue,
-      if (circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.cir!) 'cir': cirSelectedValue,
-      if (circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.portSize!)
+      if (circuitTypeList[circuitTypeList
+              .map((type) => type.name!)
+              .toList()
+              .indexWhere((element) => element.startsWith(circuitTypeSelectedValue))]
+          .parameters!
+          .cir!)
+        'cir': cirSelectedValue,
+      if (circuitTypeList[circuitTypeList
+              .map((type) => type.name!)
+              .toList()
+              .indexWhere((element) => element.startsWith(circuitTypeSelectedValue))]
+          .parameters!
+          .portSize!)
         'port_size': portSizeSelectedValue,
-      if (circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.evcod!)
+      if (circuitTypeList[circuitTypeList
+              .map((type) => type.name!)
+              .toList()
+              .indexWhere((element) => element.startsWith(circuitTypeSelectedValue))]
+          .parameters!
+          .evcod!)
         'evc_circuit_id': evcCircuitIdController.text,
     });
 
@@ -507,9 +523,19 @@ class CreateQuoteProvider extends ChangeNotifier {
     orderType.addAll({
       'order_type': orderTypesSelectedValue,
       'type': typesSelectedValue,
-      if (typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.existingCircuitId!)
+      if (typesList[typesList
+              .map((type) => type.name!)
+              .toList()
+              .indexWhere((element) => element.startsWith(typesSelectedValue))]
+          .parameters!
+          .existingCircuitId!)
         'existing_circuit_id': existingCircuitIDController.text,
-      if (typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.newCircuitId!)
+      if (typesList[typesList
+              .map((type) => type.name!)
+              .toList()
+              .indexWhere((element) => element.startsWith(typesSelectedValue))]
+          .parameters!
+          .newCircuitId!)
         'new_circuit_id': newCircuitIDController.text,
       'handoff': handoffSelectedValue,
     });
@@ -813,7 +839,10 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     total = subtotal - cost;
 
-    if (taxController.text != '0' || taxController.text != '0.00' && double.parse(taxController.text.replaceAll(RegExp(r','), '')) != 0 && taxController.text.isNotEmpty) {
+    if (taxController.text != '0' ||
+        taxController.text != '0.00' &&
+            double.parse(taxController.text.replaceAll(RegExp(r','), '')) != 0 &&
+            taxController.text.isNotEmpty) {
       totalPlusTax = (double.parse(taxController.text.replaceAll(RegExp(r','), '')) * total / 100) + total;
     } else {
       totalPlusTax = total;
@@ -941,7 +970,8 @@ class CreateQuoteProvider extends ChangeNotifier {
       orderTypesList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
       orderTypesSelectedValue = orderTypesList.first.name!;
 
-      response = await supabaseCRM.from('cat_order_info_types').select().eq('visible', true).order('id', ascending: true);
+      response =
+          await supabaseCRM.from('cat_order_info_types').select().eq('visible', true).order('id', ascending: true);
       typesList.clear();
       typesList = (response as List<dynamic>).map((index) => CatOrderInfoTypes.fromRawJson(jsonEncode(index))).toList();
       typesSelectedValue = typesList.first.name!;
@@ -963,7 +993,8 @@ class CreateQuoteProvider extends ChangeNotifier {
 
       response = await supabaseCRM.from('cat_circuit_types').select().eq('visible', true);
       circuitTypeList.clear();
-      circuitTypeList = (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
+      circuitTypeList =
+          (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
       circuitTypeSelectedValue = circuitTypeList.first.name!;
 
       response = await supabaseCRM.from('cat_ports').select().eq('visible', true);
@@ -1285,7 +1316,8 @@ class CreateQuoteProvider extends ChangeNotifier {
           "new_circuit_id": null,
           "address": addressController.text,
           "data_center_type": dataCenterSelectedValue == 'New' ? 'New' : 'Existing',
-          "data_center_location": dataCenterSelectedValue == 'New' ? newDataCenterController.text : dataCenterSelectedValue,
+          "data_center_location":
+              dataCenterSelectedValue == 'New' ? newDataCenterController.text : dataCenterSelectedValue,
           "handoff": null,
           "rack_location": null,
           "demarcation_point": null,
@@ -1293,11 +1325,28 @@ class CreateQuoteProvider extends ChangeNotifier {
           "multicast": multicastRequired,
           //"location": locationController.text,
           "circuit_type": circuitTypeSelectedValue,
-          "cir": circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.cir! ? cirSelectedValue : null,
-          "port_size": circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.portSize!
+          "cir": circuitTypeList[circuitTypeList
+                      .map((type) => type.name!)
+                      .toList()
+                      .indexWhere((element) => element.startsWith(circuitTypeSelectedValue))]
+                  .parameters!
+                  .cir!
+              ? cirSelectedValue
+              : null,
+          "port_size": circuitTypeList[circuitTypeList
+                      .map((type) => type.name!)
+                      .toList()
+                      .indexWhere((element) => element.startsWith(circuitTypeSelectedValue))]
+                  .parameters!
+                  .portSize!
               ? portSizeSelectedValue
               : null,
-          "evc_circuit_id": circuitTypeList[circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(circuitTypeSelectedValue))].parameters!.evcod!
+          "evc_circuit_id": circuitTypeList[circuitTypeList
+                      .map((type) => type.name!)
+                      .toList()
+                      .indexWhere((element) => element.startsWith(circuitTypeSelectedValue))]
+                  .parameters!
+                  .evcod!
               ? evcCircuitIdController.text
               : null,
           "ddos_type": ddosSelectedValue,
@@ -1307,7 +1356,9 @@ class CreateQuoteProvider extends ChangeNotifier {
           //"interface_type": ipAdressSelectedValue == 'Interface' ? ipInterfaceSelectedValue : null,
           //"subnet_type": ipAdressSelectedValue == 'IP Subnet' ? subnetSelectedValue : null,
           "ip_block": circuitTypeSelectedValue == 'DIA' && bgpSelectedValue == 'No' ? ipBlockSelectedValue : null,
-          "peering_type": circuitTypeSelectedValue == 'DIA' && bgpSelectedValue == 'Current ASN(s)' ? peeringTypeSelectedValue : null,
+          "peering_type": circuitTypeSelectedValue == 'DIA' && bgpSelectedValue == 'Current ASN(s)'
+              ? peeringTypeSelectedValue
+              : null,
           "contact_id": quote.contactid,
           "items": totalItems,
           "subtotal": subtotal,
@@ -1346,14 +1397,19 @@ class CreateQuoteProvider extends ChangeNotifier {
       }
 
       if (imageBytes != null) {
-        var responseImage = await supabase.storage.from('demarcation-points').uploadBinary('orderInfo_${resp["id"].toString()}_demarcationPoint.png', imageBytes!);
+        var responseImage = await supabase.storage
+            .from('demarcation-points')
+            .uploadBinary('orderInfo_${resp["id"].toString()}_demarcationPoint.png', imageBytes!);
 
         if (responseImage.isNotEmpty) {
           responseImage = supabase.storage.from('demarcation-points').getPublicUrl(
                 'orderInfo_${resp["id"].toString()}_demarcationPoint.png',
               );
           await supabaseCRM.from('order_info').update(
-            {'demarcation_url': responseImage, 'demarcation_doc': 'orderInfo_${resp["id"].toString()}_demarcationPoint.png'},
+            {
+              'demarcation_url': responseImage,
+              'demarcation_doc': 'orderInfo_${resp["id"].toString()}_demarcationPoint.png'
+            },
           ).eq('id', resp["id"]);
         }
       }
@@ -1415,7 +1471,8 @@ class CreateQuoteProvider extends ChangeNotifier {
 
   Uint8List? imageBytes;
   Future<void> pickDoc() async {
-    FilePickerResult? picker = await FilePickerWeb.platform.pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'png']);
+    FilePickerResult? picker =
+        await FilePickerWeb.platform.pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'png']);
     //get and load pdf
     if (picker != null) {
       docProveedor = picker;

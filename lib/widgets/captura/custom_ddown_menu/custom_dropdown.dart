@@ -37,10 +37,12 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 40),
+            padding: const EdgeInsets.only(left: 40, bottom: 10),
             child: Text(
               widget.label,
-              style: TextStyle(fontSize: 16, color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
+              style: TextStyle(
+                  fontSize: 16,
+                  color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
             ),
           ),
           Container(
@@ -62,14 +64,17 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
             child: Row(
               children: [
                 const SizedBox(width: 10),
-                Icon(widget.icon, color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
+                Icon(widget.icon,
+                    color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
                 const SizedBox(width: 10),
                 SizedBox(
                   width: widget.width - 60,
                   child: DropdownButton<String>(
                     hint: Text(
                       widget.hint ?? '',
-                      style: TextStyle(color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
+                      style: TextStyle(
+                          color:
+                              widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
                     ),
                     icon: Expanded(
                       child: Row(
@@ -77,9 +82,11 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
                         children: [
                           Icon(
                             Icons.arrow_drop_down,
-                            color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color,
+                            color: widget.enabled
+                                ? AppTheme.of(context).primaryColor
+                                : AppTheme.of(context).hintText.color,
                             size: 25,
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -95,7 +102,11 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
                         value: value,
                         child: Text(
                           value,
-                          style: TextStyle(fontSize: 14, color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: widget.enabled
+                                  ? AppTheme.of(context).primaryColor
+                                  : AppTheme.of(context).hintText.color),
                         ),
                       );
                     }).toList(),

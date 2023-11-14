@@ -3,10 +3,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
+
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toastJA.dart';
+import 'package:rta_crm_cv/pages/users_page/widgets/role_selector_widget.dart';
 import 'package:rta_crm_cv/widgets/get_image_widget.dart';
-
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -19,11 +20,12 @@ import 'package:rta_crm_cv/widgets/success_toast.dart';
 import '../../../models/user.dart';
 
 class UpdateUserPopUp extends StatefulWidget {
-  final User users;
   const UpdateUserPopUp({
     super.key,
-    required this.users,
+    required this.user,
   });
+
+  final User user;
 
   @override
   State<UpdateUserPopUp> createState() => _UpdateUserPopUpState();
@@ -37,20 +39,19 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
     fToast.init(context);
     UsersProvider provider = Provider.of<UsersProvider>(context);
     final formKey = GlobalKey<FormState>();
-    final List<String> statesNames =
-        provider.states.map((state) => state.name).toList();
+    final List<String> statesNames = provider.states.map((state) => state.name).toList();
 
-    final List<String> rolesNames =
-        provider.roles.map((role) => role.roleName).toList();
-    final List<String> companyNames =
-        provider.companys.map((companyName) => companyName.company).toList();
+    final List<String> selectedRoles = provider.selectedRoles.map((role) => role.roleName).toList();
 
-    final List<String> vehicleNames = provider.vehicles
-        .map((vehicleNames) => vehicleNames.licesensePlates)
-        .toList();
+    final bool isVisible = selectedRoles.contains('Employee') ||
+        selectedRoles.contains('Tech Supervisor') ||
+        selectedRoles.contains('Manager');
+
+    final List<String> companyNames = provider.companys.map((companyName) => companyName.company).toList();
+
+    final List<String> vehicleNames = provider.vehicles.map((vehicleNames) => vehicleNames.licesensePlates).toList();
     final List<String> statusName = ["Not Active", "Active"];
-    var cardMaskNumber = MaskTextInputFormatter(
-        mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
+    var cardMaskNumber = MaskTextInputFormatter(mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
 
     return Dialog(
       shape: const RoundedRectangleBorder(
@@ -82,8 +83,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                       children: [
                         CustomTextIconButton(
                           isLoading: false,
-                          icon: Icon(Icons.arrow_back_outlined,
-                              color: AppTheme.of(context).primaryBackground),
+                          icon: Icon(Icons.arrow_back_outlined, color: AppTheme.of(context).primaryBackground),
                           text: '',
                           onTap: () {
                             context.pop();
@@ -97,8 +97,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         if (!valorImage) {
                           if (!mounted) return;
                           fToast.showToast(
-                            child: const FailedToastJA(
-                                message: 'The User image is larger than 1 MB'),
+                            child: const FailedToastJA(message: 'The User image is larger than 1 MB'),
                             gravity: ToastGravity.BOTTOM,
                             toastDuration: const Duration(seconds: 2),
                           );
@@ -111,7 +110,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                         ),
-                        child: getUserImage(widget.users, provider.webImage),
+                        child: getUserImage(widget.user, provider.webImage),
                       ),
                     ),
                     Padding(
@@ -165,7 +164,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDDownMenu(
-                        hint: 'Choose a state [${widget.users.state.name}]',
+                        hint: 'Choose a state [${widget.user.state.name}]',
                         label: 'State',
                         icon: Icons.location_on_outlined,
                         width: 350,
@@ -177,39 +176,25 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomDDownMenu(
-                        hint: 'Choose a role [${widget.users.role.roleName}]',
-                        label: 'Role',
-                        icon: Icons.local_offer_outlined,
-                        width: 350,
-                        list: rolesNames,
-                        dropdownValue: provider.selectedRoleUpdate?.roleName,
-                        onChanged: (val) {
-                          if (val == null) return;
-                          provider.selectRoleUpdate(val);
-                        },
-                      ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: RoleSelectorWidget(),
                     ),
                     if (currentUser!.isCV)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: CustomDDownMenu(
-                          hint:
-                              'Choose a Company [${widget.users.company.company}]',
+                          hint: 'Choose a Company [${widget.user.company.company}]',
                           label: 'Company',
                           icon: Icons.warehouse_outlined,
                           width: 350,
                           list: companyNames,
-                          dropdownValue:
-                              provider.selectedCompanyUpdate?.company,
+                          dropdownValue: provider.selectedCompanyUpdate?.company,
                           onChanged: (val) async {
                             if (val == null) return;
                             provider.selectCompanyUpdate(val);
                             if (val != "RTA") {
-                              await provider.getVehicleActive(val,
-                                  notify: true);
+                              await provider.getVehicleActive(val, notify: true);
                             }
                           },
                         ),
@@ -231,24 +216,18 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                       ),
                     ),
                     Visibility(
-                      visible: provider.selectedRoleUpdate?.roleName ==
-                              "Employee" ||
-                          provider.selectedRoleUpdate?.roleName ==
-                              "Tech Supervisor" ||
-                          provider.selectedRoleUpdate?.roleName == "Manager",
+                      visible: isVisible,
                       child: Row(
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: CustomDDownMenu(
-                              hint:
-                                  'Choose a Vehicle [${provider.selectVehiclePlates ?? 'No Vehicle'}]',
+                              hint: 'Choose a Vehicle [${provider.selectVehiclePlates ?? 'No Vehicle'}]',
                               label: 'Vehicle',
                               icon: Icons.credit_card_outlined,
                               width: MediaQuery.of(context).size.width * 0.145,
                               list: vehicleNames,
-                              dropdownValue: provider
-                                  .selectedVehicleUpdate?.licesensePlates,
+                              dropdownValue: provider.selectedVehicleUpdate?.licesensePlates,
                               onChanged: (val) {
                                 if (val == null) return;
                                 provider.selectVehicleUpdates(val);
@@ -266,8 +245,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                                   isLoading: false,
                                   icon: Icon(
                                     Icons.cleaning_services_outlined,
-                                    color:
-                                        AppTheme.of(context).primaryBackground,
+                                    color: AppTheme.of(context).primaryBackground,
                                   ),
                                   text: '',
                                   onTap: () async {
@@ -282,11 +260,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                       ),
                     ),
                     Visibility(
-                      visible: provider.selectedRoleUpdate?.roleName ==
-                              "Employee" ||
-                          provider.selectedRoleUpdate?.roleName ==
-                              "Tech Supervisor" ||
-                          provider.selectedRoleUpdate?.roleName == "Manager",
+                      visible: isVisible,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: CustomTextField(
@@ -301,11 +275,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                       ),
                     ),
                     Visibility(
-                      visible: provider.selectedRoleUpdate?.roleName ==
-                              "Employee" ||
-                          provider.selectedRoleUpdate?.roleName ==
-                              "Tech Supervisor" ||
-                          provider.selectedRoleUpdate?.roleName == "Manager",
+                      visible: isVisible,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: CustomTextField(
@@ -325,8 +295,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
             ),
             CustomTextIconButton(
               isLoading: false,
-              icon: Icon(Icons.save_outlined,
-                  color: AppTheme.of(context).primaryBackground),
+              icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
               text: 'Save User',
               mainAxisAlignment: MainAxisAlignment.center,
               width: MediaQuery.of(context).size.width * 0.1,
@@ -346,17 +315,24 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
 
                 // Cambio del vehiculo del usuario a disponible
                 if (provider.selectedVehicleUpdate == null) {
-                  provider.updateVehiclestatusClear(widget.users);
+                  provider.updateVehiclestatusClear(widget.user);
                 }
 
                 //Crear perfil de usuario
-                bool res = await provider.updateUser(widget.users);
+                bool res = await provider.updateUser(widget.user);
 
                 if (!res) {
-                  await ApiErrorHandler.callToast(
-                      'Error Updating user profile');
+                  await ApiErrorHandler.callToast('Error Updating user profile');
                   return;
                 }
+
+                res = await provider.editRoles(widget.user);
+                if (!res) {
+                  await ApiErrorHandler.callToast('Error updating roles');
+                  return;
+                }
+
+                await provider.updateVehiclestatusUpdate(widget.user);
 
                 if (!mounted) return;
                 fToast.showToast(
@@ -366,8 +342,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                   gravity: ToastGravity.BOTTOM,
                   toastDuration: const Duration(seconds: 2),
                 );
-                provider.updateVehiclestatusUpdate(widget.users);
-                provider.updateState();
+
                 if (context.canPop()) context.pop();
               },
             )
