@@ -57,8 +57,10 @@ class _SelectAppFormState extends State<SelectAppForm> {
         _SelectAppButton(
           label: 'Continue',
           buttonColor: AppTheme.of(context).primaryColor,
-          onPressed: () {
+          onPressed: () async {
             userState.view = FormView.loginForm;
+            await prefs.setString('currentRole', currentUser!.currentRole.roleName);
+            if (!mounted) return;
             context.pushReplacement('/');
           },
         ),
