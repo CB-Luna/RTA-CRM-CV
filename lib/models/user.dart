@@ -54,6 +54,8 @@ class User {
 
   String get fullName => '$name $lastName';
 
+  List<String> get userApplications => roles.map((role) => '${role.application} - ${role.roleName}').toList();
+
   bool setRole(String role) {
     try {
       currentRole = roles.firstWhere((e) => e.roleName == role);

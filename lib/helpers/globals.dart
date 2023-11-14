@@ -38,7 +38,7 @@ Future<void> initGlobals() async {
   if (currentUser == null) return;
 
   if (currentUser!.checkRoles()) {
-    String? savedRol = prefs.getString('currentRol');
+    String? savedRol = prefs.getString('currentRole');
     if (savedRol == null) {
       currentUser = null;
     } else {

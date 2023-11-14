@@ -13,6 +13,8 @@ class Role {
   Permissions permissions;
   String application;
 
+  String get roleApplication => '$application -  $roleName';
+
   factory Role.fromJson(String str) => Role.fromMap(json.decode(str));
 
   factory Role.fromMap(Map<String, dynamic> json) => Role(
@@ -34,7 +36,13 @@ class Role {
 
 class Permissions {
   //WOP
-
+  String? prospects;
+  String? scheduling;
+  String? network;
+  String? tickets;
+  String? order;
+  String? campaigns;
+  String? reports;
   //FMT
   String? users;
   String? inventory;
@@ -121,6 +129,13 @@ class Permissions {
   Permissions(
       {
       //WOP
+      required this.prospects,
+      required this.scheduling,
+      required this.network,
+      required this.tickets,
+      required this.order,
+      required this.campaigns,
+      required this.reports,
       //FMT
       required this.users,
       required this.inventory,
@@ -210,7 +225,13 @@ class Permissions {
 
   factory Permissions.fromMap(Map<String, dynamic> json) => Permissions(
         //WOP
-
+        prospects: json["Prospects"],
+        scheduling: json["Scheduling"],
+        network: json["Network"],
+        tickets: json["Tickets"],
+        order: json["Order"],
+        campaigns: json["Campaigns"],
+        reports: json["Reports"],
         //FMT
         users: json["Users"],
         inventory: json["Inventory"],
@@ -297,7 +318,13 @@ class Permissions {
 
   Map<String, dynamic> toMap() => {
         //WOP
-
+        "Prospects": prospects,
+        "Scheduling": scheduling,
+        "Newtork": network,
+        "Tickets": tickets,
+        "Order": order,
+        "Campaigns": campaigns,
+        "Reports": reports,
         //FMT
         "Users": users,
         "Inventory": inventory,
