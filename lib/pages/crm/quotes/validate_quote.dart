@@ -9,14 +9,12 @@ import 'package:rta_crm_cv/functions/money_format.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/tabs/table_top_text.dart';
-import 'package:rta_crm_cv/providers/crm/quote/detail_quote_provider.dart';
 import 'package:rta_crm_cv/providers/crm/quote/validate_quote_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 import '../../../widgets/captura/custom_ddown_menu/custom_dropdown_v2.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_switch.dart';
-import 'package:rta_crm_cv/widgets/captura/custom_tab_button.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
@@ -68,7 +66,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: MediaQuery.of(context).size.height / cardHeight + 20,
+                          height: MediaQuery.of(context).size.height / cardHeight + 150,
                           width: MediaQuery.of(context).size.width - 30,
                           child: CustomScrollBar(
                             clipBehavior: Clip.antiAlias,
@@ -78,7 +76,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                               child: Row(
                                 children: [
                                   CustomCard(
-                                    height: MediaQuery.of(context).size.height / cardHeight,
+                                    height: MediaQuery.of(context).size.height / cardHeight + 130,
                                     width: MediaQuery.of(context).size.width / 5,
                                     title: 'Order Info',
                                     child: Column(
@@ -159,7 +157,8 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomDDownMenu(
                                             enabled: false,
-                                            list: provider.dataCentersList.map((dataCenter) => dataCenter.name!).toList(),
+                                            list:
+                                                provider.dataCentersList.map((dataCenter) => dataCenter.name!).toList(),
                                             dropdownValue: provider.dataCenterSelectedValue,
                                             onChanged: (p0) {
                                               //if (p0 != null) provider.selectDataCenter(p0);
@@ -252,7 +251,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 20),
                                     child: CustomCard(
-                                      height: MediaQuery.of(context).size.height / cardHeight,
+                                      height: MediaQuery.of(context).size.height / cardHeight + 130,
                                       width: MediaQuery.of(context).size.width / 5,
                                       title: 'Circuit Info',
                                       child: Column(
@@ -306,8 +305,14 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                               }, */
                                             ),
                                           ), */
-                                          if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
-                                                  .parameters!.existingCircuitId! &&
+                                          if (provider
+                                                  .typesList[provider.typesList
+                                                      .map((type) => type.name!)
+                                                      .toList()
+                                                      .indexWhere(
+                                                          (element) => element.startsWith(provider.typesSelectedValue))]
+                                                  .parameters!
+                                                  .existingCircuitId! &&
                                               currentUser!.isOpperations)
                                             Padding(
                                               padding: const EdgeInsets.only(bottom: 10),
@@ -321,8 +326,14 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 icon: Icons.cable_outlined,
                                                 keyboardType: TextInputType.text,
                                                 validator: (value) {
-                                                  if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
-                                                      .parameters!.existingCircuitId!) {
+                                                  if (provider
+                                                      .typesList[provider.typesList
+                                                          .map((type) => type.name!)
+                                                          .toList()
+                                                          .indexWhere((element) =>
+                                                              element.startsWith(provider.typesSelectedValue))]
+                                                      .parameters!
+                                                      .existingCircuitId!) {
                                                     if (value == null || value.isEmpty) {
                                                       print('aqui1');
                                                       return 'Please enter some text';
@@ -333,8 +344,14 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 },
                                               ),
                                             ),
-                                          if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
-                                                  .parameters!.newCircuitId! &&
+                                          if (provider
+                                                  .typesList[provider.typesList
+                                                      .map((type) => type.name!)
+                                                      .toList()
+                                                      .indexWhere(
+                                                          (element) => element.startsWith(provider.typesSelectedValue))]
+                                                  .parameters!
+                                                  .newCircuitId! &&
                                               currentUser!.isOpperations)
                                             Padding(
                                               padding: const EdgeInsets.only(bottom: 10),
@@ -348,8 +365,14 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 icon: Icons.cable_outlined,
                                                 keyboardType: TextInputType.text,
                                                 validator: (value) {
-                                                  if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
-                                                      .parameters!.newCircuitId!) {
+                                                  if (provider
+                                                      .typesList[provider.typesList
+                                                          .map((type) => type.name!)
+                                                          .toList()
+                                                          .indexWhere((element) =>
+                                                              element.startsWith(provider.typesSelectedValue))]
+                                                      .parameters!
+                                                      .newCircuitId!) {
                                                     if (value == null || value.isEmpty) {
                                                       print('aqui2');
                                                       return 'Please enter some text';
@@ -374,13 +397,19 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                             ),
                                           ),
                                           if (provider
-                                                  .circuitTypeList[
-                                                      provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                  .circuitTypeList[provider.circuitTypeList
+                                                      .map((type) => type.name!)
+                                                      .toList()
+                                                      .indexWhere((element) =>
+                                                          element.startsWith(provider.circuitTypeSelectedValue))]
                                                   .parameters!
                                                   .cir! ||
                                               provider
-                                                  .circuitTypeList[
-                                                      provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                  .circuitTypeList[provider.circuitTypeList
+                                                      .map((type) => type.name!)
+                                                      .toList()
+                                                      .indexWhere((element) =>
+                                                          element.startsWith(provider.circuitTypeSelectedValue))]
                                                   .parameters!
                                                   .portSize!)
                                             Padding(
@@ -388,8 +417,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                               child: Row(
                                                 children: [
                                                   if (provider
-                                                      .circuitTypeList[
-                                                          provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                      .circuitTypeList[provider.circuitTypeList
+                                                          .map((type) => type.name!)
+                                                          .toList()
+                                                          .indexWhere((element) =>
+                                                              element.startsWith(provider.circuitTypeSelectedValue))]
                                                       .parameters!
                                                       .cir!)
                                                     CustomDDownMenu(
@@ -403,8 +435,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       label: 'CIR',
                                                     ),
                                                   if (provider
-                                                      .circuitTypeList[
-                                                          provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                                      .circuitTypeList[provider.circuitTypeList
+                                                          .map((type) => type.name!)
+                                                          .toList()
+                                                          .indexWhere((element) =>
+                                                              element.startsWith(provider.circuitTypeSelectedValue))]
                                                       .parameters!
                                                       .portSize!)
                                                     Padding(
@@ -438,8 +473,11 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                               ),
                                             ),
                                           if (provider
-                                              .circuitTypeList[
-                                                  provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                              .circuitTypeList[provider.circuitTypeList
+                                                  .map((type) => type.name!)
+                                                  .toList()
+                                                  .indexWhere((element) =>
+                                                      element.startsWith(provider.circuitTypeSelectedValue))]
                                               .parameters!
                                               .evcod!)
                                             Padding(
@@ -498,7 +536,8 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                             padding: const EdgeInsets.only(bottom: 10),
                                             child: Row(
                                               children: [
-                                                if (provider.circuitTypeSelectedValue == 'DIA' && provider.bgpSelectedValue == 'No')
+                                                if (provider.circuitTypeSelectedValue == 'DIA' &&
+                                                    provider.bgpSelectedValue == 'No')
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 0),
                                                     child: CustomDDownMenu(
@@ -512,7 +551,8 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       label: 'IP Block',
                                                     ),
                                                   ),
-                                                if (provider.circuitTypeSelectedValue == 'DIA' && provider.bgpSelectedValue == 'Current ASN(s)')
+                                                if (provider.circuitTypeSelectedValue == 'DIA' &&
+                                                    provider.bgpSelectedValue == 'Current ASN(s)')
                                                   Padding(
                                                     padding: const EdgeInsets.only(left: 0),
                                                     child: CustomDDownMenu(
@@ -574,7 +614,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 20),
                                     child: CustomCard(
-                                      height: MediaQuery.of(context).size.height / cardHeight,
+                                      height: MediaQuery.of(context).size.height / cardHeight + 130,
                                       width: MediaQuery.of(context).size.width / 5,
                                       title: 'Customer Info',
                                       child: Column(
@@ -643,7 +683,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 20),
                                     child: CustomCard(
-                                      height: MediaQuery.of(context).size.height / cardHeight,
+                                      height: MediaQuery.of(context).size.height / cardHeight + 130,
                                       width: MediaQuery.of(context).size.width / 5,
                                       title: 'Totals',
                                       child: Column(
@@ -659,12 +699,22 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   CustomTextIconButton(
                                                     isLoading: provider.isLoading,
                                                     width: (MediaQuery.of(context).size.width / 5) / 2 - 25,
-                                                    icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
+                                                    icon: Icon(Icons.check,
+                                                        color: AppTheme.of(context).primaryBackground),
                                                     text: 'Accept',
                                                     color: AppTheme.of(context).tertiaryColor,
                                                     onTap: () async {
                                                       if (formKey.currentState!.validate()) {
                                                         if (await provider.validateV2(true)) {
+                                                          if (currentUser!.currentRole.roleName == 'Sen. Exec.') {
+                                                            await provider.senExecAcceptsQuote();
+                                                            await provider.senExecAcceptsQuoteSales();
+                                                          } else if (currentUser!.currentRole.roleName == 'Finance') {
+                                                            await provider.financeAcceptsQuote();
+                                                            await provider.financeAcceptsQuoteSales();
+                                                          } else {
+                                                            await provider.opperationsAcceptQuoteSales();
+                                                          }
                                                           context.pushReplacement(routeQuotes);
                                                         }
                                                       } else {
@@ -677,12 +727,20 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                   CustomTextIconButton(
                                                     isLoading: provider.isLoading,
                                                     width: (MediaQuery.of(context).size.width / 5) / 2 - 25,
-                                                    icon: Icon(Icons.close, color: AppTheme.of(context).primaryBackground),
+                                                    icon: Icon(Icons.close,
+                                                        color: AppTheme.of(context).primaryBackground),
                                                     color: secondaryColor,
                                                     text: 'Reject',
                                                     onTap: () async {
                                                       if (formKey.currentState!.validate()) {
                                                         if (await provider.validateV2(false)) {
+                                                          if (currentUser!.currentRole.roleName == 'Sen. Exec.') {
+                                                            await provider.senExecRejectsQuote();
+                                                          } else if (currentUser!.currentRole.roleName == 'Finance') {
+                                                            await provider.financeRejectsQuote();
+                                                          } else {
+                                                            await provider.opperationsRejectsQuote();
+                                                          }
                                                           context.pushReplacement(routeQuotes);
                                                         }
                                                       } else {
@@ -710,15 +768,20 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       children: [
                                                         Padding(
                                                           padding: const EdgeInsets.only(right: 10),
-                                                          child: Icon(Icons.format_list_numbered, color: AppTheme.of(context).contenidoTablas.color, size: 25),
+                                                          child: Icon(Icons.format_list_numbered,
+                                                              color: AppTheme.of(context).contenidoTablas.color,
+                                                              size: 25),
                                                         ),
                                                         Text(
                                                           'Items',
                                                           style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontFamily:
+                                                                  AppTheme.of(context).encabezadoTablas.fontFamily,
                                                               fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              fontStyle:
+                                                                  AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight:
+                                                                  AppTheme.of(context).encabezadoTablas.fontWeight,
                                                               color: AppTheme.of(context)
                                                                   .primaryText), /* TextStyle(
                                                             color: AppTheme.of(context).contenidoTablas.color,
@@ -732,15 +795,20 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     width: 20,
                                                     child: Text(':',
                                                         style: TextStyle(
-                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily:
+                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight:
+                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText)),
                                                   ),
                                                   SizedBox(
                                                     child: Text(
-                                                      moneyFormat(provider.globalRows.length.toDouble()).substring(0, moneyFormat(provider.globalRows.length.toDouble()).length - 3),
+                                                      moneyFormat(provider.globalRows.length.toDouble()).substring(
+                                                          0,
+                                                          moneyFormat(provider.globalRows.length.toDouble()).length -
+                                                              3),
                                                       style: TextStyle(
                                                         color: AppTheme.of(context).contenidoTablas.color,
                                                         fontFamily: 'Bicyclette-Thin',
@@ -767,14 +835,20 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       children: [
                                                         Padding(
                                                           padding: const EdgeInsets.only(right: 10),
-                                                          child: Icon(Icons.attach_money, color: AppTheme.of(context).contenidoTablas.color, size: 25),
+                                                          child: Icon(Icons.attach_money,
+                                                              color: AppTheme.of(context).contenidoTablas.color,
+                                                              size: 25),
                                                         ),
                                                         Text('Subtotal',
                                                             style: TextStyle(
-                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                fontFamily:
+                                                                    AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize:
+                                                                    AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle:
+                                                                    AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight:
+                                                                    AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                 color: AppTheme.of(context).primaryText)),
                                                       ],
                                                     ),
@@ -783,10 +857,12 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     width: 20,
                                                     child: Text(':',
                                                         style: TextStyle(
-                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily:
+                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight:
+                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText)),
                                                   ),
                                                   SizedBox(
@@ -818,14 +894,20 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       children: [
                                                         Padding(
                                                           padding: const EdgeInsets.only(right: 10),
-                                                          child: Icon(Icons.money_off, color: AppTheme.of(context).contenidoTablas.color, size: 25),
+                                                          child: Icon(Icons.money_off,
+                                                              color: AppTheme.of(context).contenidoTablas.color,
+                                                              size: 25),
                                                         ),
                                                         Text('Cost',
                                                             style: TextStyle(
-                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                fontFamily:
+                                                                    AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize:
+                                                                    AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle:
+                                                                    AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight:
+                                                                    AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                 color: AppTheme.of(context).primaryText)),
                                                       ],
                                                     ),
@@ -834,10 +916,12 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     width: 20,
                                                     child: Text(':',
                                                         style: TextStyle(
-                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily:
+                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight:
+                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText)),
                                                   ),
                                                   SizedBox(
@@ -869,14 +953,20 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       children: [
                                                         Padding(
                                                           padding: const EdgeInsets.only(right: 10),
-                                                          child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
+                                                          child: Icon(Icons.monetization_on_outlined,
+                                                              color: AppTheme.of(context).contenidoTablas.color,
+                                                              size: 25),
                                                         ),
                                                         Text('Total',
                                                             style: TextStyle(
-                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                fontFamily:
+                                                                    AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize:
+                                                                    AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle:
+                                                                    AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight:
+                                                                    AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                 color: AppTheme.of(context).primaryText)),
                                                       ],
                                                     ),
@@ -885,10 +975,12 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     width: 20,
                                                     child: Text(':',
                                                         style: TextStyle(
-                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily:
+                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight:
+                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText)),
                                                   ),
                                                   SizedBox(
@@ -920,14 +1012,20 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       children: [
                                                         Padding(
                                                           padding: const EdgeInsets.only(right: 10),
-                                                          child: Icon(Icons.confirmation_num_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
+                                                          child: Icon(Icons.confirmation_num_outlined,
+                                                              color: AppTheme.of(context).contenidoTablas.color,
+                                                              size: 25),
                                                         ),
                                                         Text('Tax',
                                                             style: TextStyle(
-                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                fontFamily:
+                                                                    AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize:
+                                                                    AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle:
+                                                                    AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight:
+                                                                    AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                 color: AppTheme.of(context).primaryText)),
                                                       ],
                                                     ),
@@ -936,10 +1034,12 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     width: 20,
                                                     child: Text(':',
                                                         style: TextStyle(
-                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily:
+                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight:
+                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText)),
                                                   ),
                                                   SizedBox(
@@ -971,14 +1071,20 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       children: [
                                                         Padding(
                                                           padding: const EdgeInsets.only(right: 10),
-                                                          child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
+                                                          child: Icon(Icons.monetization_on_outlined,
+                                                              color: AppTheme.of(context).contenidoTablas.color,
+                                                              size: 25),
                                                         ),
                                                         Text('Total+Tax',
                                                             style: TextStyle(
-                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                fontFamily:
+                                                                    AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize:
+                                                                    AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle:
+                                                                    AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight:
+                                                                    AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                 color: AppTheme.of(context).primaryText)),
                                                       ],
                                                     ),
@@ -987,10 +1093,12 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     width: 20,
                                                     child: Text(':',
                                                         style: TextStyle(
-                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily:
+                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight:
+                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText)),
                                                   ),
                                                   SizedBox(
@@ -1012,7 +1120,9 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                             child: Container(
                                               //width: MediaQuery.of(context).size.width / 5 - 150,
                                               decoration: BoxDecoration(
-                                                color: provider.margin < 20 ? secondaryColor : AppTheme.of(context).primaryColor,
+                                                color: provider.margin < 20
+                                                    ? secondaryColor
+                                                    : AppTheme.of(context).primaryColor,
                                                 borderRadius: const BorderRadius.all(
                                                   Radius.circular(15),
                                                 ),
@@ -1029,15 +1139,21 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                         children: [
                                                           Padding(
                                                             padding: const EdgeInsets.only(right: 10),
-                                                            child: Icon(Icons.percent, color: AppTheme.of(context).primaryBackground, size: 25),
+                                                            child: Icon(Icons.percent,
+                                                                color: AppTheme.of(context).primaryBackground,
+                                                                size: 25),
                                                           ),
                                                           Text(
                                                             'Margin',
                                                             style: TextStyle(
-                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                fontFamily:
+                                                                    AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize:
+                                                                    AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle:
+                                                                    AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight:
+                                                                    AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                 color: AppTheme.of(context).primaryBackground),
                                                           ),
                                                         ],
@@ -1048,10 +1164,12 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       child: Text(
                                                         ':',
                                                         style: TextStyle(
-                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily:
+                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight:
+                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryBackground),
                                                       ),
                                                     ),
@@ -1180,7 +1298,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                           child: Row(
                             children: [
                               SizedBox(
-                                height: MediaQuery.of(context).size.height / 2.25,
+                                height: MediaQuery.of(context).size.height / 3,
                                 width: MediaQuery.of(context).size.width / 1.6 - 10,
                                 child: const PlutoGridCotizador(),
                               ),
@@ -1216,14 +1334,14 @@ class _CommentsSectionState extends State<CommentsSection> {
   Widget build(BuildContext context) {
     ValidateQuoteProvider provider = Provider.of<ValidateQuoteProvider>(context);
     return CustomCard(
-      height: MediaQuery.of(context).size.height / 2.25,
+      height: MediaQuery.of(context).size.height / 3,
       width: MediaQuery.of(context).size.width / 5,
       title: 'Comments',
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            height: MediaQuery.of(context).size.height / 2.25 - 150,
+            height: MediaQuery.of(context).size.height / 3 - 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: AppTheme.of(context).primaryBackground,
@@ -1244,8 +1362,10 @@ class _CommentsSectionState extends State<CommentsSection> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: Row(
-                    mainAxisAlignment:
-                        provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName ? MainAxisAlignment.end : MainAxisAlignment.start,
+                    mainAxisAlignment: provider.comments[index].name == currentUser!.name &&
+                            provider.comments[index].role == currentUser!.currentRole.roleName
+                        ? MainAxisAlignment.end
+                        : MainAxisAlignment.start,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -1256,7 +1376,8 @@ class _CommentsSectionState extends State<CommentsSection> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                  color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName
+                                  color: provider.comments[index].name == currentUser!.name &&
+                                          provider.comments[index].role == currentUser!.currentRole.roleName
                                       ? AppTheme.of(context).secondaryColor
                                       : AppTheme.of(context).primaryColor),
                               color: AppTheme.of(context).primaryBackground,
@@ -1276,7 +1397,8 @@ class _CommentsSectionState extends State<CommentsSection> {
                                 Container(
                                   height: 30,
                                   decoration: BoxDecoration(
-                                    color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.role.roleName
+                                    color: provider.comments[index].name == currentUser!.name &&
+                                            provider.comments[index].role == currentUser!.currentRole.roleName
                                         ? AppTheme.of(context).secondaryColor
                                         : AppTheme.of(context).primaryColor,
                                   ),
@@ -1458,7 +1580,8 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                     style: AppTheme.of(context).contenidoTablas,
                                     group: provider.tableTopGroup,
                                   ),
-                                  if (provider.quotes[index].type == 'Disconnect') Text('ID: ${provider.quotes[index].existingCircuitID}'),
+                                  if (provider.quotes[index].type == 'Disconnect')
+                                    Text('ID: ${provider.quotes[index].existingCircuitID}'),
                                   if (provider.quotes[index].type == 'Upgrade')
                                     RichText(
                                       text: TextSpan(
@@ -1491,7 +1614,8 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                     ),
                                   if (provider.quotes[index].circuitType == 'EVCoD')
                                     TableTopText(
-                                      text: '${provider.quotes[index].circuitType} - ${provider.quotes[index].evcodType}',
+                                      text:
+                                          '${provider.quotes[index].circuitType} - ${provider.quotes[index].evcodType}',
                                       style: AppTheme.of(context).contenidoTablas,
                                       group: provider.tableTopGroup,
                                     ),
@@ -1579,7 +1703,9 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                   columns: [
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(
+                                            child: Icon(Icons.local_offer_outlined,
+                                                color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
                                         TextSpan(text: 'Line Item', style: AppTheme.of(context).encabezadoTablas)
                                       ]),
@@ -1600,14 +1726,18 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                               child: Text(
                                             rendererContext.cell.value ?? '-',
-                                            style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                            style: AppTheme.of(context)
+                                                .contenidoTablas
+                                                .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                                           )),
                                         );
                                       },
                                     ),
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(child: Icon(Icons.attach_money_outlined, color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(
+                                            child: Icon(Icons.attach_money_outlined,
+                                                color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
                                         TextSpan(text: 'Unit Price', style: AppTheme.of(context).encabezadoTablas)
                                       ]),
@@ -1628,14 +1758,18 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                               child: Text(
                                             '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                                            style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                            style: AppTheme.of(context)
+                                                .contenidoTablas
+                                                .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                                           )),
                                         );
                                       },
                                     ),
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(child: Icon(Icons.price_check_outlined, color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(
+                                            child: Icon(Icons.price_check_outlined,
+                                                color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
                                         TextSpan(text: 'Unit Cost', style: AppTheme.of(context).encabezadoTablas)
                                       ]),
@@ -1656,14 +1790,18 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                               child: Text(
                                             '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                                            style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                            style: AppTheme.of(context)
+                                                .contenidoTablas
+                                                .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                                           )),
                                         );
                                       },
                                     ),
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(child: Icon(Icons.shopping_cart_outlined, color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(
+                                            child: Icon(Icons.shopping_cart_outlined,
+                                                color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
                                         TextSpan(text: 'Quantity', style: AppTheme.of(context).encabezadoTablas)
                                       ]),
@@ -1684,7 +1822,9 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                               child: Text(
                                             rendererContext.cell.value ?? '-'.toString(),
-                                            style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                            style: AppTheme.of(context)
+                                                .contenidoTablas
+                                                .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                                           )),
                                         );
                                       },
@@ -1821,7 +1961,8 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 rendererContext.cell.value ?? '-',
-                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style:
+                    AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
@@ -1849,7 +1990,8 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style:
+                    AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
@@ -1877,7 +2019,8 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style:
+                    AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
@@ -1905,7 +2048,8 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 rendererContext.cell.value != null ? rendererContext.cell.value.toString() : '-',
-                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style:
+                    AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },

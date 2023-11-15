@@ -5,7 +5,9 @@ import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 //import 'package:rta_crm_cv/models/crm/accounts/quotes_model.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_%20cat_order_info_types.dart';
@@ -14,8 +16,10 @@ import 'package:rta_crm_cv/models/crm/catalogos/model_cat_circuit_types.dart';
 import 'package:rta_crm_cv/models/crm/catalogos/model_cat_vendor_model.dart';
 //import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view.dart';
 import 'package:rta_crm_cv/models/crm/x2crm/model_x2_quotes_view_v2.dart';
+import 'package:rta_crm_cv/models/user.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/models/orders.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 class ValidateQuoteProvider extends ChangeNotifier {
   ValidateQuoteProvider() {
@@ -25,6 +29,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
   int id = 0;
   late ModelX2V2QuotesView quote;
+  List<User> users = [];
 
   clearAll() async {
     id = 0;
@@ -79,7 +84,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
         {
           "order_info_id": quote.idOrders,
           "user_id": currentUser!.id,
-          "role": currentUser!.role.roleName,
+          "role": currentUser!.currentRole.roleName,
           "name": currentUser!.name,
           "comment": commentController.text,
           "sended": DateTime.now().toIso8601String(),
@@ -87,7 +92,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
       );
       comments.add(
         Comment(
-          role: currentUser!.role.roleName,
+          role: currentUser!.currentRole.roleName,
           name: currentUser!.name,
           comment: commentController.text,
           sended: DateTime.now(),
@@ -192,6 +197,353 @@ class ValidateQuoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+//////////////////////////////////////////////////
+  /// finanzas y operations
+  Future<bool> senExecAcceptsQuote() async {
+    try {
+      final res = await supabase.from('users').select('email').eq('id_role_fk', 8);
+      if (res == null) {
+        log('Error en getemail()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "SenExecAcceptsQuote",
+            "subject": "Validate quote - RTA WHOLESALE",
+            "mailto": email['email'], //Finance
+            "variables": [
+              {"name": "quote.quote", "value": quote.quote},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Finance Validate"},
+              {"name": "quote.account", "value": quote.account},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+        }
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> financeAcceptsQuote() async {
+    try {
+      final res = await supabase.from('users').select('email').eq('id_role_fk', 7);
+      if (res == null) {
+        log('Error en getemail()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "FinanceAcceptsQuote",
+            "subject": "Validate quote - RTA WHOLESALE",
+            "mailto": email['email'], //Operations erich.kaiser@rtatel.com  "kevin.ramos@cbluna.com"
+            "variables": [
+              {"name": "quote.quote", "value": quote.quote},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": quote.status},
+              {"name": "quote.account", "value": "Engineer Validate"},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+        }
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  ////////Aceepts QUotes
+  Future<bool> senExecAcceptsQuoteSales() async {
+    try {
+      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      if (res == null) {
+        log('Error en getemail()');
+      }
+      for (var email in res) {
+        //URL Servidor apis
+
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "SenExecAcceptsQuoteSales",
+            "subject": "Quote accepted by Sen Exec - RTA WHOLESALE",
+            "mailto": email['email'], //sales frank.befera@rtatel.com  "nestor.lopez@cbluna.com"
+            "variables": [
+              {"name": "quote.quote", "value": quote.quote},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Approved"},
+              {"name": "quote.account", "value": quote.account},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+          notifyListeners();
+        }
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> financeAcceptsQuoteSales() async {
+    try {
+      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      if (res == null) {
+        log('Error en getemail()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "FinanceAcceptsQuoteSales",
+            "subject": "Quote Accepted by Finance - RTA WHOLESALE ",
+            "mailto": email['email'], //sales frank.befera@rtatel.com
+            "variables": [
+              {"name": "quote.quote", "value": quote.quote},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Engineer Validate"},
+              {"name": "quote.account", "value": quote.account},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+        }
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> opperationsAcceptQuoteSales() async {
+    try {
+      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      if (res == null) {
+        log('Error en getemail()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "OpperationsAcceptQuoteSales",
+            "subject": "Quote Accepted by Operations - RTA WHOLESALE",
+            "mailto": email['email'], //sales frank.befera@rtatel.com
+            "variables": [
+              {"name": "quote.quote", "value": quote.quote},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Approved"},
+              {"name": "quote.account", "value": quote.account},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+          notifyListeners();
+          return true;
+        }
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+////////Reject QUotes
+  Future<bool> senExecRejectsQuote() async {
+    try {
+      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      if (res == null) {
+        log('Error en getemail()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "SenExecRejectsQuote",
+            "subject": "Rejected QUOTE - RTA WHOLESALE",
+            "mailto": email['email'], //sales frank.befera@rtatel.com
+            "variables": [
+              {"name": "quote.quote", "value": quote.quote},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Rejected"},
+              {"name": "quote.account", "value": quote.account},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+        }
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> financeRejectsQuote() async {
+    try {
+      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      if (res == null) {
+        log('Error en getemail()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "FinanceRejectsQuote",
+            "subject": "Rejected QUOTE - RTA WHOLESALE",
+            "mailto": email['email'], //sales frank.befera@rtatel.com
+            "variables": [
+              {"name": "quote.quote", "value": quote.quote},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Rejected"},
+              {"name": "quote.account", "value": quote.account},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+        }
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> opperationsRejectsQuote() async {
+    try {
+      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      if (res == null) {
+        log('Error en getemail()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "OpperationsRejectsQuote",
+            "subject": "Operations Reject Quote - RTA WHOLESALE",
+            "mailto": email['email'], //sales frank.befera@rtatel.com
+            "variables": [
+              {"name": "quote.quote", "value": quote.quote},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Rejected"},
+              {"name": "quote.account", "value": quote.account},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+        }
+      }
+
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+////////////////////////////////////////////////////
 /* 
   Future<void> validate(bool validate) async {
     try {
@@ -282,11 +634,22 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "handoff": handoffSelectedValue,
             "rack_location": null, //rackLocationController.text,
             "demarcation_point": demarcationPointController.text,
-            "existing_circuit_id": typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.existingCircuitId!
+            "existing_circuit_id": typesList[typesList
+                        .map((type) => type.name!)
+                        .toList()
+                        .indexWhere((element) => element.startsWith(typesSelectedValue))]
+                    .parameters!
+                    .existingCircuitId!
                 ? existingCircuitIDController.text
                 : null,
-            "new_circuit_id":
-                typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.newCircuitId! ? newCircuitIDController.text : null,
+            "new_circuit_id": typesList[typesList
+                        .map((type) => type.name!)
+                        .toList()
+                        .indexWhere((element) => element.startsWith(typesSelectedValue))]
+                    .parameters!
+                    .newCircuitId!
+                ? newCircuitIDController.text
+                : null,
             "bandwidth": null, //bandwidthController.text,
           }).eq('id', quote.idOrders!);
 
@@ -483,7 +846,8 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       response = await supabaseCRM.from('cat_circuit_types').select().eq('visible', true);
       circuitTypeList.clear();
-      circuitTypeList = (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
+      circuitTypeList =
+          (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
       circuitTypeSelectedValue = circuitTypeList.first.name!;
 
       response = await supabaseCRM.from('cat_ports').select().eq('visible', true);
@@ -521,7 +885,8 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       quote = ModelX2V2QuotesView.fromJson(jsonEncode(response[0]));
 
-      dynamic parameter = (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
+      dynamic parameter =
+          (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
       parameter = CatOrderInfoTypes.fromRawJson(jsonEncode(parameter));
 
       ///////////////Order Info////////////////////////////////////////////////////////////////////

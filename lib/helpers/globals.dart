@@ -34,8 +34,21 @@ Future<void> initGlobals() async {
   assets = await SupabaseQueries.getAssets();
 
   currentUser = await SupabaseQueries.getCurrentUserData();
+
   if (currentUser == null) return;
+
+  if (currentUser!.checkRoles()) {
+    String? savedRol = prefs.getString('currentRole');
+    if (savedRol == null) {
+      currentUser = null;
+    } else {
+      final res = currentUser!.setRole(savedRol);
+      if (!res) currentUser = null;
+    }
+  }
+
   Configuration? config = await SupabaseQueries.getUserTheme();
+
   if (config == null) return;
   assets.logoBlanco = config.logos.logoBlanco;
   assets.logoColor = config.logos.logoColor;

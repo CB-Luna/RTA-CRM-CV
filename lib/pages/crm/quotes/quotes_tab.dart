@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ import 'package:rta_crm_cv/widgets/custom_icon_button.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
+import 'package:rta_crm_cv/widgets/loading_toast.dart';
 import 'package:rta_crm_cv/widgets/pluto_grid_cells/custom_textcell.dart';
 import 'package:rta_crm_cv/widgets/pluto_grid_cells/pluto_grid_status_cell.dart';
 
@@ -46,8 +48,12 @@ class _QuotesTabState extends State<QuotesTab> {
     }); */
   }
 
+  FToast fToast = FToast();
+
   @override
   Widget build(BuildContext context) {
+    fToast.init(context);
+
     QuotesProvider provider = Provider.of<QuotesProvider>(context);
     DetailQuoteProvider detailProvider = Provider.of<DetailQuoteProvider>(context);
     CreateQuoteProvider providerCreate = Provider.of<CreateQuoteProvider>(context);
@@ -96,7 +102,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   keyboardType: TextInputType.text,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 20,left: 20),
+                  padding: const EdgeInsets.only(right: 20, left: 20),
                   child: SizedBox(
                     width: getWidth(580, context),
                     child: CustomScrollBar(
@@ -260,7 +266,7 @@ class _QuotesTabState extends State<QuotesTab> {
                                 ],
                               ),
                             ),
-                                    
+
                           CustomTextIconButton(
                             width: 90,
                             isLoading: false,
@@ -271,7 +277,7 @@ class _QuotesTabState extends State<QuotesTab> {
                               await provider.exportData();
                             },
                           ),
-                                    
+
                           /* if (currentUser!.isSales)
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
@@ -454,7 +460,7 @@ class _QuotesTabState extends State<QuotesTab> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           //if (rendererContext.row.cells["STATUS_Column"]!.value != 'Rejected')
-                          if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 1) //Sales Form
+                          if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 1) //Draft
                             CustomTextIconButton(
                               isLoading: false,
                               icon: Icon(
@@ -468,12 +474,25 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               border: Border.all(color: AppTheme.of(context).tertiaryColor),
                               onTap: () async {
-                                await providerCreate.getRowData(rendererContext.row.cells["ID_Column"]!.value);
-                                // ignore: use_build_context_synchronously
-                                context.pushReplacement(routeQuoteCreation);
+                                if (!provider.loadingGrid) {
+                                  provider.loadingGrid = true;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                  await providerCreate.getRowData(rendererContext.row.cells["ID_Column"]!.value);
+                                  // ignore: use_build_context_synchronously
+                                  context.pushReplacement(routeQuoteCreation);
+                                  provider.loadingGrid = false;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                } else {
+                                  fToast.showToast(
+                                    child: const LoadingToast(
+                                      message: 'Loading',
+                                    ),
+                                    gravity: ToastGravity.BOTTOM,
+                                    toastDuration: const Duration(seconds: 1),
+                                  );
+                                }
                               },
                             ),
-
                           if (rendererContext.row.cells["ID_STATUS_Column"]!.value != 1) //Sales Form
                             CustomTextIconButton(
                               isLoading: false,
@@ -483,9 +502,23 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Details',
                               onTap: () async {
-                                await detailProvider.getDataV2(rendererContext.row.cells['ID_Column']!.value);
-                                // ignore: use_build_context_synchronously
-                                context.pushReplacement(routeQuoteDetail);
+                                if (!provider.loadingGrid) {
+                                  provider.loadingGrid = true;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                  await detailProvider.getDataV2(rendererContext.row.cells['ID_Column']!.value);
+                                  // ignore: use_build_context_synchronously
+                                  context.pushReplacement(routeQuoteDetail);
+                                  provider.loadingGrid = false;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                } else {
+                                  fToast.showToast(
+                                    child: const LoadingToast(
+                                      message: 'Loading',
+                                    ),
+                                    gravity: ToastGravity.BOTTOM,
+                                    toastDuration: const Duration(seconds: 1),
+                                  );
+                                }
                               },
                             ),
                           if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 5) //Rejected
@@ -502,9 +535,23 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               border: Border.all(color: AppTheme.of(context).tertiaryColor),
                               onTap: () async {
-                                await providerCreate.getRowData(rendererContext.row.cells["ID_Column"]!.value);
-                                // ignore: use_build_context_synchronously
-                                context.pushReplacement(routeQuoteCreation);
+                                if (!provider.loadingGrid) {
+                                  provider.loadingGrid = true;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                  await providerCreate.getRowData(rendererContext.row.cells["ID_Column"]!.value);
+                                  // ignore: use_build_context_synchronously
+                                  context.pushReplacement(routeQuoteCreation);
+                                  provider.loadingGrid = false;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                } else {
+                                  fToast.showToast(
+                                    child: const LoadingToast(
+                                      message: 'Loading',
+                                    ),
+                                    gravity: ToastGravity.BOTTOM,
+                                    toastDuration: const Duration(seconds: 1),
+                                  );
+                                }
                               },
                             ),
                           if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 7) //Approved
@@ -519,15 +566,32 @@ class _QuotesTabState extends State<QuotesTab> {
                               color: AppTheme.of(context).primaryBackground,
                               text: 'Create Order',
                               onTap: () async {
-                                //await provider.getQuotes(null);
-                                await ordersProvider.getData(rendererContext.row.cells['ID_Column']!.value);
-                                // ignore: use_build_context_synchronously
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return CreateOrder(id: rendererContext.row.cells["ID_Column"]!.value);
-                                  },
-                                );
+                                if (!provider.loadingGrid) {
+                                  provider.loadingGrid = true;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+
+                                  //Change to status 'Order Created'
+                                  await ordersProvider.getData(rendererContext.row.cells['ID_Column']!.value);
+
+                                  provider.loadingGrid = false;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+
+                                  // ignore: use_build_context_synchronously
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CreateOrder(id: rendererContext.row.cells["ID_Column"]!.value);
+                                    },
+                                  );
+                                } else {
+                                  fToast.showToast(
+                                    child: const LoadingToast(
+                                      message: 'Loading',
+                                    ),
+                                    gravity: ToastGravity.BOTTOM,
+                                    toastDuration: const Duration(seconds: 1),
+                                  );
+                                }
                               },
                             ),
                           if (currentUser!.isSales && rendererContext.row.cells["ID_STATUS_Column"]!.value == 8) //Order Created
@@ -544,12 +608,28 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               border: Border.all(color: AppTheme.of(context).tertiaryColor),
                               onTap: () async {
-                                //Change to status 'Order Created'
-                                await supabaseCRM.rpc(
-                                  'update_quote_status',
-                                  params: {"id_status": 9, "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id}, //Network Cross Connected
-                                );
-                                await provider.getX2Quotes(null);
+                                if (!provider.loadingGrid) {
+                                  provider.loadingGrid = true;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+
+                                  //Change to status 'Order Created'
+                                  await supabaseCRM.rpc(
+                                    'update_quote_status',
+                                    params: {"id_status": 9, "id": rendererContext.row.cells["ID_Column"]!.value, "user_uuid": currentUser!.id}, //Network Cross Connected
+                                  );
+                                  await provider.getX2Quotes(null);
+
+                                  provider.loadingGrid = false;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                } else {
+                                  fToast.showToast(
+                                    child: const LoadingToast(
+                                      message: 'Loading',
+                                    ),
+                                    gravity: ToastGravity.BOTTOM,
+                                    toastDuration: const Duration(seconds: 1),
+                                  );
+                                }
                               },
                             ),
                           if (currentUser!.isSenExec && rendererContext.row.cells["ID_STATUS_Column"]!.value == 2) //Sen. Exec. Validate
@@ -561,9 +641,23 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Validate',
                               onTap: () async {
-                                await providerValidate.getDataV2(rendererContext.row.cells['ID_Column']!.value);
-                                // ignore: use_build_context_synchronously
-                                context.pushReplacement(routeQuoteValidation);
+                                if (!provider.loadingGrid) {
+                                  provider.loadingGrid = true;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                  await providerValidate.getDataV2(rendererContext.row.cells['ID_Column']!.value);
+                                  // ignore: use_build_context_synchronously
+                                  context.pushReplacement(routeQuoteValidation);
+                                  provider.loadingGrid = false;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                } else {
+                                  fToast.showToast(
+                                    child: const LoadingToast(
+                                      message: 'Loading',
+                                    ),
+                                    gravity: ToastGravity.BOTTOM,
+                                    toastDuration: const Duration(seconds: 1),
+                                  );
+                                }
                               },
                             ),
                           if (currentUser!.isFinance && rendererContext.row.cells["ID_STATUS_Column"]!.value == 3) //Finance Validate
@@ -575,9 +669,23 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Validate',
                               onTap: () async {
-                                await providerValidate.getDataV2(rendererContext.row.cells['ID_Column']!.value);
-                                // ignore: use_build_context_synchronously
-                                context.pushReplacement(routeQuoteValidation);
+                                if (!provider.loadingGrid) {
+                                  provider.loadingGrid = true;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                  await providerValidate.getDataV2(rendererContext.row.cells['ID_Column']!.value);
+                                  // ignore: use_build_context_synchronously
+                                  context.pushReplacement(routeQuoteValidation);
+                                  provider.loadingGrid = false;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                } else {
+                                  fToast.showToast(
+                                    child: const LoadingToast(
+                                      message: 'Loading',
+                                    ),
+                                    gravity: ToastGravity.BOTTOM,
+                                    toastDuration: const Duration(seconds: 1),
+                                  );
+                                }
                               },
                             ),
                           if (currentUser!.isOpperations && rendererContext.row.cells["ID_STATUS_Column"]!.value == 4) //Engineer Validate
@@ -589,9 +697,23 @@ class _QuotesTabState extends State<QuotesTab> {
                               ),
                               text: 'Validate',
                               onTap: () async {
-                                await providerValidate.getDataV2(rendererContext.row.cells['ID_Column']!.value);
-                                // ignore: use_build_context_synchronously
-                                context.pushReplacement(routeQuoteValidation);
+                                if (!provider.loadingGrid) {
+                                  provider.loadingGrid = true;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                  await providerValidate.getDataV2(rendererContext.row.cells['ID_Column']!.value);
+                                  // ignore: use_build_context_synchronously
+                                  context.pushReplacement(routeQuoteValidation);
+                                  provider.loadingGrid = false;
+                                  provider.stateManager!.setShowLoading(provider.loadingGrid);
+                                } else {
+                                  fToast.showToast(
+                                    child: const LoadingToast(
+                                      message: 'Loading',
+                                    ),
+                                    gravity: ToastGravity.BOTTOM,
+                                    toastDuration: const Duration(seconds: 1),
+                                  );
+                                }
                               },
                             ),
                           /* CustomTextIconButton(isLoading: false,
@@ -996,6 +1118,7 @@ class _QuotesTabState extends State<QuotesTab> {
               ],
               rows: provider.rows,
               onLoaded: (event) async {
+                event.stateManager.setShowLoading(provider.loadingGrid);
                 provider.stateManager = event.stateManager;
               },
               createFooter: (stateManager) {

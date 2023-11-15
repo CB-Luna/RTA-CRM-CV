@@ -26,6 +26,8 @@ class QuotesProvider extends ChangeNotifier {
   int pageRowCount = 10;
   int page = 1;
 
+  bool loadingGrid = false;
+
   List<X2CrmQuote> x2crmQuotes = [];
 
   QuotesProvider() {
@@ -34,6 +36,7 @@ class QuotesProvider extends ChangeNotifier {
   }
 
   Future<void> updateState() async {
+    loadingGrid = false;
     await getStatus();
     await setIndex(0);
     await getX2Quotes(null);
@@ -322,6 +325,7 @@ class QuotesProvider extends ChangeNotifier {
   Future<void> getStatus() async {
     var res = await supabaseCRM.from('cat_quotes_status').select().eq('visible', true);
     listStatus = (res as List<dynamic>).map((status) => ModelX2V2QuotesStatus.fromJson(jsonEncode(status))).toList();
+    notifyListeners();
   }
 
   Future<void> getX2Quotes(int? status) async {

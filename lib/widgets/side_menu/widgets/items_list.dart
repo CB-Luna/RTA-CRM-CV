@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/item.dart';
+import 'package:rta_crm_cv/widgets/side_menu/widgets/manager_button.dart';
+import 'package:rta_crm_cv/widgets/side_menu/widgets/menu_button.dart';
+import 'package:rta_crm_cv/widgets/side_menu/widgets/sales/sales_button.dart';
+
+import 'call_center_button.dart';
+import 'gigfast_network_button.dart';
+import 'surveys/surveys_button.dart';
 
 class SideMenuItemsList extends StatefulWidget {
   const SideMenuItemsList({super.key, required this.isOpen});
@@ -23,6 +30,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
     SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
     UsersProvider userProvider = Provider.of<UsersProvider>(context);
     final UserState userState = Provider.of<UserState>(context);
+    final userPermissions = currentUser!.currentRole.permissions;
     return Padding(
       padding: EdgeInsets.only(left: widget.isOpen ? 40 : 0),
       child: SizedBox(
@@ -32,25 +40,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             // Sección CRM
-            if (currentUser!.isCRM || currentUser!.isAdminCrm)
-              SideMenuItem(
-                selected: provider.indexSelected[0],
-                leading: provider.aRDashboards != null
-                    ? Rive(artboard: provider.aRDashboards!)
-                    : const CircularProgressIndicator(),
-                isOpen: widget.isOpen,
-                title: 'Dashboards',
-                onTap: () async {
-                  context.pushReplacement('/dashboards');
-                },
-                onEnter: (event) {
-                  provider.iHoverDashboards?.change(true);
-                },
-                onExit: (event) {
-                  provider.iHoverDashboards?.change(false);
-                },
-              ),
-            /* if (currentUser!.isCRM || currentUser!.isAdminCrm)
+            if (userPermissions.prospects != null)
               SideMenuItem(
                 selected: provider.indexSelected[1],
                 leading: provider.aRAccounts != null ? Rive(artboard: provider.aRAccounts!) : const CircularProgressIndicator(),
@@ -65,13 +55,11 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 onExit: (event) {
                   provider.iHoverAccounts?.change(false);
                 },
-              ), */
-            if (false)
+              ),
+            if (userPermissions.scheduling != null)
               SideMenuItem(
                 selected: provider.indexSelected[2],
-                leading: provider.aRSchedulings != null
-                    ? Rive(artboard: provider.aRSchedulings!)
-                    : const CircularProgressIndicator(),
+                leading: provider.aRSchedulings != null ? Rive(artboard: provider.aRSchedulings!) : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Scheduling',
                 onTap: () async {
@@ -84,12 +72,10 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverSchedulings?.change(false);
                 },
               ),
-            if (false)
+            if (userPermissions.network != null)
               SideMenuItem(
                 selected: provider.indexSelected[3],
-                leading: provider.aRNetworks != null
-                    ? Rive(artboard: provider.aRNetworks!)
-                    : const CircularProgressIndicator(),
+                leading: provider.aRNetworks != null ? Rive(artboard: provider.aRNetworks!) : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Network',
                 onTap: () async {
@@ -102,7 +88,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverNetworks?.change(false);
                 },
               ),
-            /* if (currentUser!.isCRM)
+            if (userPermissions.tickets != null)
               SideMenuItem(
                 selected: provider.indexSelected[4],
                 leading: provider.aRTickets != null ? Rive(artboard: provider.aRTickets!) : const CircularProgressIndicator(),
@@ -117,13 +103,11 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 onExit: (event) {
                   provider.iHoverTickets?.change(false);
                 },
-              ), */
-            if (currentUser!.isCRM || currentUser!.isAdminCrm)
+              ),
+            if (userPermissions.order != null)
               SideMenuItem(
                 selected: provider.indexSelected[4],
-                leading: provider.aRTickets != null
-                    ? Rive(artboard: provider.aRTickets!)
-                    : const CircularProgressIndicator(),
+                leading: provider.aRTickets != null ? Rive(artboard: provider.aRTickets!) : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Order',
                 onTap: () async {
@@ -136,8 +120,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverTickets?.change(false);
                 },
               ),
-
-            /*  if (currentUser!.isCRM || currentUser!.isAdminCrm)
+            if (userPermissions.campaigns != null)
               SideMenuItem(
                 selected: provider.indexSelected[5],
                 leading: provider.aRInventories != null ? Rive(artboard: provider.aRInventories!) : const CircularProgressIndicator(),
@@ -152,13 +135,11 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 onExit: (event) {
                   provider.iHoverInventories?.change(false);
                 },
-              ), */
-            if (false)
+              ),
+            if (userPermissions.reports != null)
               SideMenuItem(
                 selected: provider.indexSelected[6],
-                leading: provider.aRReports != null
-                    ? Rive(artboard: provider.aRReports!)
-                    : const CircularProgressIndicator(),
+                leading: provider.aRReports != null ? Rive(artboard: provider.aRReports!) : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Reports',
                 onTap: () async {
@@ -173,12 +154,10 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               ),
 
             // Sección CONTROL VEHICULAR
-            if (currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isTechSupervisor)
+            if (userPermissions.vehicleStatus != null)
               SideMenuItem(
                 selected: provider.indexSelected[8],
-                leading: provider.aRMonitory != null
-                    ? Rive(artboard: provider.aRMonitory!)
-                    : const CircularProgressIndicator(),
+                leading: provider.aRMonitory != null ? Rive(artboard: provider.aRMonitory!) : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Vehicle Status',
                 onTap: () async {
@@ -191,12 +170,10 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverMonitory?.change(false);
                 },
               ),
-            if (currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isTechSupervisor)
+            if (userPermissions.inventory != null)
               SideMenuItem(
                 selected: provider.indexSelected[7],
-                leading: provider.aRInventories != null
-                    ? Rive(artboard: provider.aRInventories!)
-                    : const CircularProgressIndicator(),
+                leading: provider.aRInventories != null ? Rive(artboard: provider.aRInventories!) : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Inventory',
                 onTap: () async {
@@ -209,12 +186,10 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverInventories?.change(false);
                 },
               ),
-            if (currentUser!.isEmployee || currentUser!.isTechSupervisor || currentUser!.isManager)
+            if (userPermissions.downloadApk != null)
               SideMenuItem(
                 selected: provider.indexSelected[13],
-                leading: provider.aRDownloadAPK != null
-                    ? Rive(artboard: provider.aRDownloadAPK!)
-                    : const CircularProgressIndicator(),
+                leading: provider.aRDownloadAPK != null ? Rive(artboard: provider.aRDownloadAPK!) : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Download APK',
                 onTap: () async {
@@ -228,12 +203,10 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 },
               ),
 
-            if (currentUser!.isAdmin ||
-                currentUser!.isManager)
+            if (userPermissions.users != null)
               SideMenuItem(
                 selected: provider.indexSelected[10],
-                leading:
-                    provider.aRUsers != null ? Rive(artboard: provider.aRUsers!) : const CircularProgressIndicator(),
+                leading: provider.aRUsers != null ? Rive(artboard: provider.aRUsers!) : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Users',
                 onTap: () async {
@@ -247,12 +220,10 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverUsers?.change(false);
                 },
               ),
-            if (currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isTechSupervisor)
+            if (userPermissions.dashboards != null)
               SideMenuItem(
                 selected: provider.indexSelected[9],
-                leading: provider.aRDashboards != null
-                    ? Rive(artboard: provider.aRDashboards!)
-                    : const CircularProgressIndicator(),
+                leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Dashboards',
                 onTap: () async {
@@ -265,7 +236,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   provider.iHoverDashboards?.change(false);
                 },
               ),
-            if (currentUser!.isAdmin)
+            if (userPermissions.configuratorSm != null)
               SideMenuItem(
                 selected: provider.indexSelected[11],
                 leading: Icon(Icons.color_lens_outlined, color: Color(Colors.grey[300]!.value)),
@@ -281,6 +252,98 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   //provider.iHoverUsers?.change(false);
                 },
               ),
+
+            // Sección Dashboards RTATEL
+
+            userPermissions.sales != null
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: SalesButton(
+                      tooltip: 'Sales',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.point_of_sale_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
+
+            userPermissions.surveys != null
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: SurveysButton(
+                      tooltip: 'Surveys',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.content_paste_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
+
+            userPermissions.manager != null
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: ManagerButton(
+                      tooltip: 'Manager',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.admin_panel_settings_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
+
+            userPermissions.gigFastNetwork != null
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: GigfastNetworkButton(
+                      tooltip: 'GigFast Network',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.rss_feed_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
+
+            userPermissions.callCenter != null
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: CallCenterButton(
+                      tooltip: 'Call Center',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.phone_in_talk_outlined,
+                      // isTaped: visualState.isTaped[3],
+                    ),
+                  )
+                : Container(),
+
+            userPermissions.fmt != null
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: MenuButton(
+                      tooltip: 'FMT',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.local_shipping_outlined,
+                      // isTaped: visualState.isTaped[7],
+                      onPressed: () {
+                        context.pushReplacement(fmt);
+                      },
+                    ),
+                  )
+                : Container(),
+
+            userPermissions.wop != null
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: MenuButton(
+                      tooltip: 'WOP',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.engineering_outlined,
+                      // isTaped: visualState.isTaped[7],
+                      onPressed: () {
+                        context.pushReplacement(wop);
+                      },
+                    ),
+                  )
+                : Container(),
 
             SideMenuItem(
               selected: provider.indexSelected[12],
