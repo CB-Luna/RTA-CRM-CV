@@ -33,6 +33,7 @@ class _SelectAppFormState extends State<SelectAppForm> {
           onChanged: (role) {
             if (role == null) return;
             currentUser!.currentRole = role;
+            setState(() {});
           },
           items: currentUser!.roles.map<DropdownMenuItem<Role>>((Role value) {
             return DropdownMenuItem<Role>(
