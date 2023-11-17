@@ -352,7 +352,7 @@ class QuotesProvider extends ChangeNotifier {
           res = await supabaseCRM.from('x2_quotes_view_v2').select().eq('id_status', status);
         }
       } else {
-        if (currentUser!.isSales) {
+        if (currentUser!.isSales || currentUser!.isAdminCrm) {
           res = await supabaseCRM.from('x2_quotes_view_v2').select();
         } else if (currentUser!.isSenExec) {
           res = await supabaseCRM.from('x2_quotes_view_v2').select().eq('id_status', 2); //Sen. Exec. Validate
