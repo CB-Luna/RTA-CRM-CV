@@ -214,7 +214,8 @@ class QuotesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-/*   Future<void> getX2CRMQuotes() async {
+/*   Future<void> 
+  getX2CRMQuotes() async {
     var headers = {
       'Authorization': 'Basic YWxleGM6NW1saDM5UjhQUVc4WnI3TzhDcGlPSDJvZE1xaGtFOE8=',
       //'Cookie': 'PHPSESSID=u3lgismtbbamh7g3k6b8dqteuk; YII_CSRF_TOKEN=Z2VybTVsZERNcV9faDVSUlE1VFRZeHk3WmNUWmRiSEMSMv7x7artFlmFwAp6GLyf7Qsi4oYOGXtsrcYz02xGJg%3D%3D'
@@ -238,7 +239,8 @@ class QuotesProvider extends ChangeNotifier {
     }
   } */
 
-/*   Future<void> getQuotes(int? status) async {
+/*   
+  Future<void> getQuotes(int? status) async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();

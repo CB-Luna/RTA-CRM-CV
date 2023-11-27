@@ -365,7 +365,7 @@ class _QuotesTabState extends State<QuotesTab> {
                   enableRowDrag: false,
                   enableDropToResize: false,
                   enableEditingMode: false,
-                  width: 120,
+                  width: 175,
                   cellPadding: EdgeInsets.zero,
                   renderer: (rendererContext) {
                     return Container(
@@ -383,27 +383,17 @@ class _QuotesTabState extends State<QuotesTab> {
                   footerRenderer: (context) {
                     return SizedBox(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          CustomIconButton(
-                            icon: Icons.keyboard_arrow_down_outlined,
-                            toolTip: 'less',
-                            onTap: () {
-                              provider.setPageSize('less');
-                            },
-                          ),
                           const SizedBox(width: 10),
                           Text(
-                            provider.pageRowCount.toString(),
+                            provider.rows.length.toString(),
                             style: const TextStyle(color: Colors.white),
                           ),
                           const SizedBox(width: 10),
-                          CustomIconButton(
-                            icon: Icons.keyboard_arrow_up_outlined,
-                            toolTip: 'more',
-                            onTap: () {
-                              provider.setPageSize('more');
-                            },
+                          Text(
+                            provider.rows.length == 1 ? 'Row' : 'Rows',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
@@ -430,6 +420,35 @@ class _QuotesTabState extends State<QuotesTab> {
                       return PlutoGridStatusCell(
                         text: rendererContext.row.cells["STATUS_Column"]!.value,
                         id: rendererContext.row.cells["ID_STATUS_Column"]!.value,
+                      );
+                    },
+                    footerRenderer: (context) {
+                      return SizedBox(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomIconButton(
+                              icon: Icons.keyboard_arrow_down_outlined,
+                              toolTip: 'less',
+                              onTap: () {
+                                provider.setPageSize('less');
+                              },
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              provider.pageRowCount.toString(),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            const SizedBox(width: 10),
+                            CustomIconButton(
+                              icon: Icons.keyboard_arrow_up_outlined,
+                              toolTip: 'more',
+                              onTap: () {
+                                provider.setPageSize('more');
+                              },
+                            ),
+                          ],
+                        ),
                       );
                     },
                   ),
