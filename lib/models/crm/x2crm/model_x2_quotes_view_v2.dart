@@ -117,7 +117,7 @@ class ModelX2V2QuotesView {
         currency: json["currency"],
         total: json["total"]?.toDouble(),
         subtotal: json["subtotal"]?.toDouble(),
-        margin: json["margin"],
+        margin: json["margin"]?.toDouble(),
         idvendor: json["idvendor"],
         vendor: json["vendor"],
         order: json["order"],
@@ -360,8 +360,8 @@ class Item {
   factory Item.fromMap(Map<String, dynamic> json) => Item(
         quantity: json["quantity"],
         lineItem: json["line_item"],
-        unitCost: json["unit_cost"],
-        unitPrice: json["unit_price"],
+        unitCost: json["unit_cost"]?.toDouble(),
+        unitPrice: json["unit_price"]?.toDouble(),
         idQuoteItem: json["id_quote_item"],
       );
 
@@ -454,8 +454,8 @@ class Totals {
   String toJson() => json.encode(toMap());
 
   factory Totals.fromMap(Map<String, dynamic> json) => Totals(
-        tax: json["tax"],
-        cost: json["cost"],
+        tax: json["tax"]?.toDouble(),
+        cost: json["cost"]?.toDouble(),
         items: json["items"],
         total: json["total"]?.toDouble(),
         margin: json["margin"]?.toDouble(),
