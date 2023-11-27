@@ -12,7 +12,7 @@ class ModelX2V2QuotesView {
   String? assignedTo;
   DateTime? lastupdated;
   DateTime? lastactivity;
-  String? expectedclosedate;
+  DateTime? expectedclosedate;
   String? currency;
   double? total;
   double? subtotal;
@@ -113,11 +113,11 @@ class ModelX2V2QuotesView {
         assignedTo: json["assignedTo"],
         lastupdated: json["lastupdated"] == null ? null : DateTime.parse(json["lastupdated"]),
         lastactivity: json["lastactivity"] == null ? null : DateTime.parse(json["lastactivity"]),
-        expectedclosedate: json["expectedclosedate"],
+        expectedclosedate: json["expectedclosedate"] == null ? null : DateTime.parse(json["expectedclosedate"]),
         currency: json["currency"],
         total: json["total"]?.toDouble(),
         subtotal: json["subtotal"]?.toDouble(),
-        margin: json["margin"]?.toDouble(),
+        margin: json["margin"],
         idvendor: json["idvendor"],
         vendor: json["vendor"],
         order: json["order"],
@@ -130,7 +130,6 @@ class ModelX2V2QuotesView {
         company: json["company"],
         accountaddress: json["accountaddress"],
         accountcity: json["accountcity"],
-        accountzipcode: json["accountzipcode"],
         accountstate: json["accountstate"],
         accountcountry: json["accountcountry"],
         contactid: json["contactid"],
@@ -162,7 +161,7 @@ class ModelX2V2QuotesView {
         "assignedTo": assignedTo,
         "lastupdated": lastupdated?.toIso8601String(),
         "lastactivity": lastactivity?.toIso8601String(),
-        "expectedclosedate": expectedclosedate,
+        "expectedclosedate": expectedclosedate?.toIso8601String(),
         "currency": currency,
         "total": total,
         "subtotal": subtotal,
@@ -179,7 +178,6 @@ class ModelX2V2QuotesView {
         "company": company,
         "accountaddress": accountaddress,
         "accountcity": accountcity,
-        "accountzipcode": accountzipcode,
         "accountstate": accountstate,
         "accountcountry": accountcountry,
         "contactid": contactid,
