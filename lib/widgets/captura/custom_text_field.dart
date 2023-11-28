@@ -10,7 +10,7 @@ class CustomTextField extends StatefulWidget {
     required this.enabled,
     this.required = false,
     required this.controller,
-    required this.icon,
+    this.icon,
     required this.label,
     required this.keyboardType,
     this.inputFormatters,
@@ -21,7 +21,7 @@ class CustomTextField extends StatefulWidget {
   });
 
   final String label;
-  final IconData icon;
+  final IconData? icon;
   final TextEditingController controller;
   final bool enabled;
   final bool required;

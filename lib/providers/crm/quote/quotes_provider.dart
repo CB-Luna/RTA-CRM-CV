@@ -214,7 +214,8 @@ class QuotesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-/*   Future<void> getX2CRMQuotes() async {
+/*   Future<void> 
+  getX2CRMQuotes() async {
     var headers = {
       'Authorization': 'Basic YWxleGM6NW1saDM5UjhQUVc4WnI3TzhDcGlPSDJvZE1xaGtFOE8=',
       //'Cookie': 'PHPSESSID=u3lgismtbbamh7g3k6b8dqteuk; YII_CSRF_TOKEN=Z2VybTVsZERNcV9faDVSUlE1VFRZeHk3WmNUWmRiSEMSMv7x7artFlmFwAp6GLyf7Qsi4oYOGXtsrcYz02xGJg%3D%3D'
@@ -238,7 +239,8 @@ class QuotesProvider extends ChangeNotifier {
     }
   } */
 
-/*   Future<void> getQuotes(int? status) async {
+/*   
+  Future<void> getQuotes(int? status) async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
@@ -352,7 +354,7 @@ class QuotesProvider extends ChangeNotifier {
           res = await supabaseCRM.from('x2_quotes_view_v2').select().eq('id_status', status);
         }
       } else {
-        if (currentUser!.isSales) {
+        if (currentUser!.isSales || currentUser!.isAdminCrm) {
           res = await supabaseCRM.from('x2_quotes_view_v2').select();
         } else if (currentUser!.isSenExec) {
           res = await supabaseCRM.from('x2_quotes_view_v2').select().eq('id_status', 2); //Sen. Exec. Validate
