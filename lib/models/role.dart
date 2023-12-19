@@ -60,6 +60,7 @@ class Permissions {
   String? callCenter;
   String? configurator;
   String? ecommerceRta;
+  String? homeownerFTTHDocument;
   String? jobComplete;
   String? mapCoverage;
   String? engageOption;
@@ -153,6 +154,7 @@ class Permissions {
       required this.callCenter,
       required this.configurator,
       required this.ecommerceRta,
+      required this.homeownerFTTHDocument,
       required this.jobComplete,
       required this.mapCoverage,
       required this.engageOption,
@@ -219,7 +221,8 @@ class Permissions {
       required this.residentialAndBusinessCustomers,
       required this.bolivarPeninsulaFiberToTheHome});
 
-  factory Permissions.fromJson(String str) => Permissions.fromMap(json.decode(str));
+  factory Permissions.fromJson(String str) =>
+      Permissions.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
@@ -249,6 +252,7 @@ class Permissions {
         callCenter: json["Call Center"],
         configurator: json["Configurator"],
         ecommerceRta: json["EcommerceRTA"],
+        homeownerFTTHDocument: json["Homeowner FTTH Document"],
         jobComplete: json["Job Complete"],
         mapCoverage: json["Map Coverage"],
         engageOption: json["Engage Option"],
@@ -311,9 +315,12 @@ class Permissions {
         jobCompleteTimothyMcClaine: json["Job Complete Timothy McClaine"],
         jobCompletedServiceOverall: json["Job Completed Service Overall"],
         monthlyArpuTrackingWholesale: json["Monthly ARPU Tracking Wholesale"],
-        monthlyArpuTrackingResidential: json["Monthly ARPU Tracking Residential"],
-        residentialAndBusinessCustomers: json["Residential and Business Customers"],
-        bolivarPeninsulaFiberToTheHome: json["Bolivar Peninsula Fiber to the Home"],
+        monthlyArpuTrackingResidential:
+            json["Monthly ARPU Tracking Residential"],
+        residentialAndBusinessCustomers:
+            json["Residential and Business Customers"],
+        bolivarPeninsulaFiberToTheHome:
+            json["Bolivar Peninsula Fiber to the Home"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -342,6 +349,7 @@ class Permissions {
         "Call Center": callCenter,
         "Configurator": configurator,
         "EcommerceRTA": ecommerceRta,
+        "Homeowner FTTH Document": homeownerFTTHDocument,
         "Job Complete": jobComplete,
         "Map Coverage": mapCoverage,
         "Engage Option": engageOption,

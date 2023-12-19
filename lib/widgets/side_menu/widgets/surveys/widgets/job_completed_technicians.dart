@@ -45,72 +45,80 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Joseph Aycock',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteJosephAycock);
+                                    context.pushReplacement(
+                                        jobCompleteJosephAycock);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Adam Billiot',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteAdamBilliot);
+                                    context.pushReplacement(
+                                        jobCompleteAdamBilliot);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Terry Isreal',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteTerryIsreal);
+                                    context.pushReplacement(
+                                        jobCompleteTerryIsreal);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Charile Milich',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -121,34 +129,38 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Kamrin Lilley',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteKamrinLilley);
+                                    context.pushReplacement(
+                                        jobCompleteKamrinLilley);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Alexander Ogle',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -159,15 +171,17 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Timothy McClaine',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -178,34 +192,38 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Dylan Nowell',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteDylanNowell);
+                                    context.pushReplacement(
+                                        jobCompleteDylanNowell);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Joseph Thomson',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -216,53 +234,59 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Scott Nowell',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteScottNowell);
+                                    context.pushReplacement(
+                                        jobCompleteScottNowell);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Larry Philips',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteLarryPhilips);
+                                    context.pushReplacement(
+                                        jobCompleteLarryPhilips);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Zachary Lawson',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -273,15 +297,17 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Brandon Murdock',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -292,34 +318,38 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Lynn McDaniel',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteLynnMcDaniel);
+                                    context.pushReplacement(
+                                        jobCompleteLynnMcDaniel);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Stephen McKinney',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -330,53 +360,59 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Thomas Henry',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteThomasHenry);
+                                    context.pushReplacement(
+                                        jobCompleteThomasHenry);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Joseph Bartek',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteJosephBartek);
+                                    context.pushReplacement(
+                                        jobCompleteJosephBartek);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Johnnie Thomas',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -387,72 +423,80 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Brandon Sims',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteBrandonSims);
+                                    context.pushReplacement(
+                                        jobCompleteBrandonSims);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Eric Branton',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteEricBranton);
+                                    context.pushReplacement(
+                                        jobCompleteEricBranton);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Tristan Bilbo',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteTristanBilbo);
+                                    context.pushReplacement(
+                                        jobCompleteTristanBilbo);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Garrett Stephens',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -463,33 +507,38 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Mason Coon',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context.pushReplacement(jobCompleteMasonCoon);
+                                    context
+                                        .pushReplacement(jobCompleteMasonCoon);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Brice Drisdale',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
                                     context.pushReplacement(
@@ -500,51 +549,59 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Adam Kosel',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context.pushReplacement(jobCompleteAdamKosel);
+                                    context
+                                        .pushReplacement(jobCompleteAdamKosel);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Ross Henry',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context.pushReplacement(jobCompleteRossHenry);
+                                    context
+                                        .pushReplacement(jobCompleteRossHenry);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Eric Harmon',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
                                     context
@@ -555,37 +612,42 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Paul Hill',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context.pushReplacement(jobCompletePaulHill);
+                                    context
+                                        .pushReplacement(jobCompletePaulHill);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
                                       .withOpacity(0.4),
                                 )
                               : const SizedBox.shrink(),
-                          userPermissions.isAdminDashboards
+                          userPermissions.isAdminDashboards ||
+                                  userPermissions.isDashboardsOperation
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Brynson Smith',
-                                    style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                                    style:
+                                        AppTheme.of(context).bodyText1.override(
+                                              fontFamily: 'Gotham-Bold',
+                                              color: AppTheme.of(context).gris,
+                                              useGoogleFonts: false,
+                                            ),
                                   ),
                                   onTap: () async {
-                                    context
-                                        .pushReplacement(jobCompleteBrysonSmith);
+                                    context.pushReplacement(
+                                        jobCompleteBrysonSmith);
                                   },
                                   hoverColor: AppTheme.of(context)
                                       .primaryColor
@@ -615,12 +677,13 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
           title: Text(
             'Job Complete Technicians',
             style: AppTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Gotham-Bold',
-                                    color: AppTheme.of(context).gris,
-                                    useGoogleFonts: false,
-                                  ),
+                  fontFamily: 'Gotham-Bold',
+                  color: AppTheme.of(context).gris,
+                  useGoogleFonts: false,
+                ),
           ),
-          trailing: Icon(Icons.chevron_right_outlined, color: AppTheme.of(context).gris),
+          trailing: Icon(Icons.chevron_right_outlined,
+              color: AppTheme.of(context).gris),
           onTap: () async {},
           hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
         ),
