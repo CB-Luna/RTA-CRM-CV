@@ -54,7 +54,8 @@ class User {
 
   String get fullName => '$name $lastName';
 
-  List<String> get userApplications => roles.map((role) => '${role.application} - ${role.roleName}').toList();
+  List<String> get userApplications =>
+      roles.map((role) => '${role.application} - ${role.roleName}').toList();
 
   bool setRole(String role) {
     try {
@@ -88,16 +89,32 @@ class User {
 
   // CV
   bool get isCV =>
-      currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isEmployee || currentUser!.isTechSupervisor;
+      currentUser!.isAdminCv ||
+      currentUser!.isManager ||
+      currentUser!.isEmployee ||
+      currentUser!.isTechSupervisor;
 
   bool get isAdminCv => roles.any((role) => role.roleName == 'Admin CV');
   bool get isManager => roles.any((role) => role.roleName == 'Manager');
   bool get isEmployee => roles.any((role) => role.roleName == 'Employee');
-  bool get isTechSupervisor => roles.any((role) => role.roleName == 'Tech Supervisor');
+  bool get isTechSupervisor =>
+      roles.any((role) => role.roleName == 'Tech Supervisor');
 
   // Dashboards RTATEL
   bool get isDashboardsRTATEL => currentUser!.isAdminDashboards;
-  bool get isAdminDashboards => roles.any((role) => role.roleName == 'Admin Dashboards');
+  bool get isAdminDashboards =>
+      roles.any((role) => role.roleName == 'Admin Dashboards');
+  bool get isDashboardsOperation =>
+      roles.any((role) => role.roleName == 'Dashboard Operation');
+  bool get isDashboardsSupervisor =>
+      roles.any((role) => role.roleName == 'Supervisor Dashboard');
+  bool get isDashboardsInstaller =>
+      roles.any((role) => role.roleName == 'Installers');
+  bool get isDashboardsFinancial =>
+      roles.any((role) => role.roleName == 'Financial');
+  bool get isDashboardsBank => roles.any((role) => role.roleName == 'Bank');
+  bool get isDashboardsCareRep =>
+      roles.any((role) => role.roleName == 'Care Rep');
 
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
@@ -113,7 +130,8 @@ class User {
       mobilePhone: json['mobile_phone'],
       address: json['address'],
       image: json['image'],
-      birthDate: json['birthdate'] == null ? null : DateTime.parse(json['birthdate']),
+      birthDate:
+          json['birthdate'] == null ? null : DateTime.parse(json['birthdate']),
       roles: (json['roles'] as List).map((role) => Role.fromMap(role)).toList(),
       company: Company.fromJson(jsonEncode(json['company'])),
       state: State.fromJson(jsonEncode(json['state'])),
