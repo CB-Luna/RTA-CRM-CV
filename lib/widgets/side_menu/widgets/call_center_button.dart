@@ -83,7 +83,7 @@ class _CallCenterButtonState extends State<CallCenterButton> {
                                   ),
                             ),
                             onTap: () async {
-                              context.pushReplacement(homeownerFTTHDocument);
+                              context.pushReplacement(homeownerFTTHDocumentList);
                             },
                             hoverColor: AppTheme.of(context)
                                 .primaryColor

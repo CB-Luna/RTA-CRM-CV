@@ -21,9 +21,11 @@ import 'package:rta_crm_cv/pages/crm/quotes/detail_quote.dart';
 import 'package:rta_crm_cv/pages/crm/quotes/quotes_page.dart';
 import 'package:rta_crm_cv/pages/crm/quotes/validate_quote.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
+import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document_client.dart';
+import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document_list.dart';
 
 import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
-import '../widgets/side_menu/widgets/homeowner_ftth_document.dart';
+import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
 
 /// The route configuration.
 final GoRouter router = GoRouter(
@@ -1040,6 +1042,22 @@ final GoRouter router = GoRouter(
       name: 'homeownerFTTHDocument',
       builder: (BuildContext context, GoRouterState state) {
         return const HomeOwnerFTTHDocument();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: homeownerFTTHDocumentList,
+      name: 'homeownerFTTHDocumentList',
+      builder: (BuildContext context, GoRouterState state) {
+        return const HomeOwnerFTTHDocumentList();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: homeownerFTTHDocumentClient,
+      name: 'homeownerFTTHDocumentClient',
+      builder: (BuildContext context, GoRouterState state) {
+        return const HomeOwnerFTTHDocumentClient();
       },
       // (context, state, const DetailsPopUp()),
     ),

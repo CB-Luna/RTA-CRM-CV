@@ -3,6 +3,7 @@ import 'package:flutter_portal/flutter_portal.dart';
 import 'package:rta_crm_cv/providers/crm/accounts/tabs/order_provider.dart';
 import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/dashboard_provider.dart';
+import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/issue_reported_provider.dart';
 import 'package:rta_crm_cv/widgets/horizontalscroll.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -37,7 +38,7 @@ void main() async {
 
   supabaseCRM = SupabaseClient(supabaseUrl, anonKey, schema: 'crm');
   supabaseAuth = SupabaseClient(supabaseUrl, anonKey, schema: 'auth');
-
+  
   supabaseCtrlV = SupabaseClient(supabaseUrl, anonKey, schema: 'ctrl_v');
 
   await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);
@@ -111,6 +112,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => DashboardCVProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => HomeownerFTTHDocumentProvider(),
         ),
       ],
       child: const MyApp(),

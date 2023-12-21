@@ -1,3 +1,12 @@
 {
-    "cmake.sourceDirectory": "C:/Users/autod/Documents/RTA-CRM-CV/RTA-CRM-CV/linux/flutter"
+    "cmake.sourceDirectory": "C:/Users/autod/Documents/RTA-CRM-CV/RTA-CRM-CV/linux/flutter",
+    "dart.flutterSdkPath": ".fvm/flutter_sdk",
+    // Remove .fvm files from search
+    "search.exclude": {
+        "**/.fvm": true
+    },
+    // Remove from file watching
+    "files.watcherExclude": {
+        "**/.fvm": true
+    }
 }
