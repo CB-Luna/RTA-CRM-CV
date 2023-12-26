@@ -36,6 +36,7 @@ dependencies:
   csv: ^5.0.2
   cupertino_icons: ^1.0.2
   currency_text_input_formatter: ^2.1.10
+  dart_jsonwebtoken: ^2.12.1
   email_validator: ^2.1.17
   excel: ^2.1.0
   file_picker: ^5.3.2
@@ -75,8 +76,8 @@ dependencies:
   provider: ^6.0.5
   responsive_builder: ^0.7.0
   rive: ^0.11.0
-  signature: ^5.4.1
   shared_preferences: ^2.1.1
+  signature: ^5.4.1
   speech_to_text: ^6.1.1
   supabase_flutter: ^1.10.0
   syncfusion_flutter_calendar: ^21.2.6

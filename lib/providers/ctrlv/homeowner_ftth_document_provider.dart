@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -78,9 +79,8 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         log('Error en getHomeowner()');
         return;
       }
-      List<HouseownerList> docs = (res as List<dynamic>)
-          .map((docs) => HouseownerList.fromJson(jsonEncode(docs)))
-          .toList();
+      List<HouseownerList> docs =
+          (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
 
       rows.clear();
       for (HouseownerList doc in docs) {
@@ -89,8 +89,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
             cells: {
               'ID_Column': PlutoCell(value: doc.id),
               'Name_Column': PlutoCell(value: doc.document),
-              'Creation_Date_Column':
-                  PlutoCell(value: dateFormat(doc.createdAt)),
+              'Creation_Date_Column': PlutoCell(value: dateFormat(doc.createdAt)),
               'Due_Date_Column': PlutoCell(value: dateFormat(doc.dueDate)),
               'Status_Column': PlutoCell(value: doc.idStatus),
               'Document_Column': PlutoCell(value: ''),
@@ -120,12 +119,8 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         },
       ).select())[0]['id'];
 
-      await supabase.storage
-          .from('homeowner')
-          .uploadBinary('$idDoc.pdf', documento);
-      await supabase
-          .from('homeowner_list')
-          .update({'document': '$idDoc.pdf'}).eq('id', idDoc);
+      await supabase.storage.from('homeowner').uploadBinary('$idDoc.pdf', documento);
+      await supabase.from('homeowner_list').update({'document': '$idDoc.pdf'}).eq('id', idDoc);
     } catch (e) {
       log('Error en createHomeowner() - $e');
       ejecBloq = false;
@@ -146,12 +141,8 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         },
       ).select())[0]['id'];
 
-      await supabase.storage
-          .from('homeowner')
-          .updateBinary('$idDoc.pdf', documento);
-      await supabase
-          .from('homeowner_list')
-          .update({'document': '$idDoc.pdf'}).eq('id', idDoc);
+      await supabase.storage.from('homeowner').updateBinary('$idDoc.pdf', documento);
+      await supabase.from('homeowner_list').update({'document': '$idDoc.pdf'}).eq('id', idDoc);
     } catch (e) {
       log('Error en createHomeowner() - $e');
       ejecBloq = false;
@@ -229,8 +220,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         document: PdfDocument.openData(picker.files.single.bytes!),
       );
     } else {
-      pdfController = PdfController(
-          document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
+      pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
     }
     firmaAnexo = true;
     return notifyListeners();
@@ -261,8 +251,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
 
   // Firma PDF
 
-  final SignatureController clientSignatureController =
-      SignatureController(penColor: Colors.black, penStrokeWidth: 5);
+  final SignatureController clientSignatureController = SignatureController(penColor: Colors.black, penStrokeWidth: 5);
   Uint8List? signature;
   Future<Uint8List> clientExportSignature() async {
     pdfController = null;
@@ -278,14 +267,36 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     return signature!;
   }
 
+  String generateToken(String userId, String email) {
+    //Generar token
+    final jwt = JWT(
+      {
+        'user_id': userId,
+        'email': email,
+        'creation_date': DateTime.now().toUtc().toIso8601String(),
+      },
+      issuer: 'https://github.com/jonasroussel/dart_jsonwebtoken',
+    );
+
+    // Sign it (default with HS256 algorithm)
+    return jwt.sign(SecretKey('secret'));
+  }
+
+  Future<bool> sendToken(String token) async {
+    try {
+      return true;
+    } catch (e) {
+      log('Error in sendToken() - $e');
+      return false;
+    }
+  }
+
 //Creacion del PDF
   Future<PdfController?> crearPDF() async {
     pdfController = null;
     notifyListeners();
-    final logo =
-        (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
-    final firma =
-        (await rootBundle.load('assets/images/firma.png')).buffer.asUint8List();
+    final logo = (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
+    final firma = (await rootBundle.load('assets/images/firma.png')).buffer.asUint8List();
     final pdf = pw.Document();
     pdf.addPage(
       pw.Page(
@@ -371,71 +382,68 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                   ),
             pw.SizedBox(height: 20),
             pw.Expanded(
-              child: pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
-                  children: [
-                    pw.Column(children: [
-                      pw.Text(
-                        'Owner, Title',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                      clientSignatureController.isNotEmpty
-                          ? pw.Image(
-                              pw.MemoryImage(signature!),
-                              height: 58,
-                              width: 200,
-                              fit: pw.BoxFit.fill,
-                              alignment: pw.Alignment.center,
-                            )
-                          : pw.SizedBox(
-                              height: 58,
-                              width: 200,
-                              child: pw.Center(
-                                child: pw.Text(
-                                  'F. _______________________.',
-                                  style: const pw.TextStyle(
-                                    fontSize: 13,
-                                    color:
-                                        pdfcolor.PdfColor.fromInt(0xFF060606),
-                                  ),
-                                ),
+              child: pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly, children: [
+                pw.Column(children: [
+                  pw.Text(
+                    'Owner, Title',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                  clientSignatureController.isNotEmpty
+                      ? pw.Image(
+                          pw.MemoryImage(signature!),
+                          height: 58,
+                          width: 200,
+                          fit: pw.BoxFit.fill,
+                          alignment: pw.Alignment.center,
+                        )
+                      : pw.SizedBox(
+                          height: 58,
+                          width: 200,
+                          child: pw.Center(
+                            child: pw.Text(
+                              'F. _______________________.',
+                              style: const pw.TextStyle(
+                                fontSize: 13,
+                                color: pdfcolor.PdfColor.fromInt(0xFF060606),
                               ),
                             ),
-                      pw.Text(
-                        acountNameController.text,
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                          ),
                         ),
-                      ),
-                    ]),
-                    pw.Column(children: [
-                      pw.Text(
-                        'Accepted and Agreed to by RTA:',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                      pw.Image(
-                        pw.MemoryImage(firma),
-                        height: 58,
-                        width: 200,
-                        fit: pw.BoxFit.fill,
-                        alignment: pw.Alignment.center,
-                      ),
-                      pw.Text(
-                        'Brooke Johnson, Business Manager',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                    ]),
-                  ]),
+                  pw.Text(
+                    acountNameController.text,
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                ]),
+                pw.Column(children: [
+                  pw.Text(
+                    'Accepted and Agreed to by RTA:',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                  pw.Image(
+                    pw.MemoryImage(firma),
+                    height: 58,
+                    width: 200,
+                    fit: pw.BoxFit.fill,
+                    alignment: pw.Alignment.center,
+                  ),
+                  pw.Text(
+                    'Brooke Johnson, Business Manager',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                ]),
+              ]),
             )
           ],
         ),
@@ -451,16 +459,13 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   }
 
   Future<PdfController?> clientPDF(int id) async {
-     final res = await supabase.from('homeowner_list').select().eq('id', id);
-     List<HouseownerList> docs = (res as List<dynamic>)
-          .map((docs) => HouseownerList.fromJson(jsonEncode(docs)))
-          .toList();
+    final res = await supabase.from('homeowner_list').select().eq('id', id);
+    List<HouseownerList> docs =
+        (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
     pdfController = null;
     notifyListeners();
-    final logo =
-        (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
-    final firma =
-        (await rootBundle.load('assets/images/firma.png')).buffer.asUint8List();
+    final logo = (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
+    final firma = (await rootBundle.load('assets/images/firma.png')).buffer.asUint8List();
     final pdf = pw.Document();
     pdf.addPage(
       pw.Page(
@@ -546,71 +551,68 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                   ),
             pw.SizedBox(height: 20),
             pw.Expanded(
-              child: pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
-                  children: [
-                    pw.Column(children: [
-                      pw.Text(
-                        'Owner, Title',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                      clientSignatureController.isNotEmpty
-                          ? pw.Image(
-                              pw.MemoryImage(signature!),
-                              height: 58,
-                              width: 200,
-                              fit: pw.BoxFit.fill,
-                              alignment: pw.Alignment.center,
-                            )
-                          : pw.SizedBox(
-                              height: 58,
-                              width: 200,
-                              child: pw.Center(
-                                child: pw.Text(
-                                  'F. _______________________.',
-                                  style: const pw.TextStyle(
-                                    fontSize: 13,
-                                    color:
-                                        pdfcolor.PdfColor.fromInt(0xFF060606),
-                                  ),
-                                ),
+              child: pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly, children: [
+                pw.Column(children: [
+                  pw.Text(
+                    'Owner, Title',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                  clientSignatureController.isNotEmpty
+                      ? pw.Image(
+                          pw.MemoryImage(signature!),
+                          height: 58,
+                          width: 200,
+                          fit: pw.BoxFit.fill,
+                          alignment: pw.Alignment.center,
+                        )
+                      : pw.SizedBox(
+                          height: 58,
+                          width: 200,
+                          child: pw.Center(
+                            child: pw.Text(
+                              'F. _______________________.',
+                              style: const pw.TextStyle(
+                                fontSize: 13,
+                                color: pdfcolor.PdfColor.fromInt(0xFF060606),
                               ),
                             ),
-                      pw.Text(
-                        acountNameController.text,
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                          ),
                         ),
-                      ),
-                    ]),
-                    pw.Column(children: [
-                      pw.Text(
-                        'Accepted and Agreed to by RTA:',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                      pw.Image(
-                        pw.MemoryImage(firma),
-                        height: 58,
-                        width: 200,
-                        fit: pw.BoxFit.fill,
-                        alignment: pw.Alignment.center,
-                      ),
-                      pw.Text(
-                        'Brooke Johnson, Business Manager',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                    ]),
-                  ]),
+                  pw.Text(
+                    acountNameController.text,
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                ]),
+                pw.Column(children: [
+                  pw.Text(
+                    'Accepted and Agreed to by RTA:',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                  pw.Image(
+                    pw.MemoryImage(firma),
+                    height: 58,
+                    width: 200,
+                    fit: pw.BoxFit.fill,
+                    alignment: pw.Alignment.center,
+                  ),
+                  pw.Text(
+                    'Brooke Johnson, Business Manager',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                ]),
+              ]),
             )
           ],
         ),
@@ -647,8 +649,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
             data: Theme.of(context).copyWith(
               colorScheme: ColorScheme.light(
                 primary: AppTheme.of(context).primaryColor, // color Appbar
-                onPrimary:
-                    AppTheme.of(context).primaryBackground, // Color letras
+                onPrimary: AppTheme.of(context).primaryBackground, // Color letras
                 onSurface: AppTheme.of(context).primaryColor, // Color Meses
               ),
               dialogBackgroundColor: AppTheme.of(context).primaryBackground,
