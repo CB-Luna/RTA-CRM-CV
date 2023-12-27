@@ -46,7 +46,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Joseph Aycock',
@@ -67,7 +67,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Adam Billiot',
@@ -88,7 +88,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Terry Isreal',
@@ -109,7 +109,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Charile Milich',
@@ -130,7 +130,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Kamrin Lilley',
@@ -151,7 +151,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Alexander Ogle',
@@ -172,7 +172,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Timothy McClaine',
@@ -193,7 +193,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Dylan Nowell',
@@ -214,7 +214,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Joseph Thomson',
@@ -235,7 +235,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Scott Nowell',
@@ -256,7 +256,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Larry Philips',
@@ -277,7 +277,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Zachary Lawson',
@@ -298,7 +298,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Brandon Murdock',
@@ -319,7 +319,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Lynn McDaniel',
@@ -340,7 +340,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Stephen McKinney',
@@ -361,7 +361,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Thomas Henry',
@@ -382,7 +382,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Joseph Bartek',
@@ -403,7 +403,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Johnnie Thomas',
@@ -424,7 +424,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Brandon Sims',
@@ -445,7 +445,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Eric Branton',
@@ -466,7 +466,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Tristan Bilbo',
@@ -487,7 +487,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Garrett Stephens',
@@ -508,7 +508,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Mason Coon',
@@ -529,7 +529,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Brice Drisdale',
@@ -550,7 +550,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Adam Kosel',
@@ -571,7 +571,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Ross Henry',
@@ -592,7 +592,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Eric Harmon',
@@ -613,7 +613,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Paul Hill',
@@ -634,7 +634,7 @@ class _JobCompleteTechniciansState extends State<JobCompleteTechnicians> {
                                 )
                               : const SizedBox.shrink(),
                           userPermissions.isAdminDashboards ||
-                                  userPermissions.isDashboardsOperation
+                                  userPermissions.isDashboardsOperation1
                               ? ListTile(
                                   title: Text(
                                     'Job Complete Brynson Smith',

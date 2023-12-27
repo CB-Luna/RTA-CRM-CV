@@ -60,33 +60,73 @@ final GoRouter router = GoRouter(
         } else if (currentUser!.isEmployee) {
           return const DownloadAPKPage();
         } else if (currentUser!.isDashboardsRTATEL) {
-          return const DashboardsRtatelPage(
-              title: "OpCo Suscriber Targets",
-              source: "https://cblsrvr1.rtatel.com/dash/#/business_plan");
-        } else if (currentUser!.isDashboardsOperation) {
-          return const DashboardsRtatelPage(
-              title: "OpCo Suscriber Targets",
-              source: "https://cblsrvr1.rtatel.com/dash/#/business_plan");
-        } else if (currentUser!.isDashboardsFinancial) {
-          return const DashboardsRtatelPage(
-              title: "OpCo Suscriber Targets",
-              source: "https://cblsrvr1.rtatel.com/dash/#/business_plan");
-        } else if (currentUser!.isDashboardsBank) {
-          return const DashboardsRtatelPage(
-              title: "OpCo Suscriber Targets",
-              source: "https://cblsrvr1.rtatel.com/dash/#/business_plan");
-        } else if (currentUser!.isDashboardsCareRep) {
-          return const DashboardsRtatelPage(
-              title: "OpCo Suscriber Targets",
-              source: "https://cblsrvr1.rtatel.com/dash/#/business_plan");
-        } else if (currentUser!.isDashboardsInstaller) {
-          return const DashboardsRtatelPage(
-              title: "OpCo Suscriber Targets",
-              source: "https://cblsrvr1.rtatel.com/dash/#/business_plan");
-        } else if (currentUser!.isDashboardsSupervisor) {
-          return const DashboardsRtatelPage(
-              title: "OpCo Suscriber Targets",
-              source: "https://cblsrvr1.rtatel.com/dash/#/business_plan");
+          if (currentUser!.isDashboardsFinancial1) {
+            return const DashboardsRtatelPage(
+                title: "Bolivar Peninsula Fiber to the home",
+                source:
+                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+          }
+          if (currentUser!.isDashboardsFinancial2) {
+            return const DashboardsRtatelPage(
+                title: "Bolivar Peninsula Fiber to the home",
+                source:
+                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+          }
+          if (currentUser!.isDashboardsFinancial3) {
+            return const DashboardsRtatelPage(
+                title: "Bolivar Peninsula Fiber to the home",
+                source:
+                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+          } else if (currentUser!.isDashboardsOperation1) {
+            return const DashboardsRtatelPage(
+                title: "Bolivar Peninsula Fiber to the home",
+                source:
+                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+          } else if (currentUser!.isDashboardsOperation2) {
+            return const DashboardsRtatelPage(
+                title: "Monitoring Dashboard",
+                source:
+                    "https://lookerstudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC");
+          } else if (currentUser!.isDashboardsSupervisor1) {
+            return const DashboardsRtatelPage(
+                title: "Bolivar Peninsula Fiber to the home",
+                source:
+                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+          } else if (currentUser!.isDashboardsSupervisor2) {
+            return const DashboardsRtatelPage(
+                title: "Bolivar Peninsula Fiber to the home",
+                source:
+                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+          } else if (currentUser!.isDashboardsBank1) {
+            return const DashboardsRtatelPage(
+                title: "Bolivar Peninsula Fiber to the home",
+                source:
+                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+          } else if (currentUser!.isDashboardsBank2) {
+            return const DashboardsRtatelPage(
+                title: "Monitoring Dashboard",
+                source:
+                    "https://lookerstudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC");
+          } else if (currentUser!.isDashboardsBank3) {
+            return const DashboardsRtatelPage(
+                title: "Wizpapalooza 2021 Survey",
+                source:
+                    "https://survey.rtatel.com/survey/dashboard_wispapalooza2021.html");
+          } else if (currentUser!.isDashboardsCareRep) {
+            return const DashboardsRtatelPage(
+                title: "EcommerceRTA",
+                source:
+                    "https://ecom.rtatel.com/#/rep/?rep=rtanumbers@gmail.com");
+          } else if (currentUser!.isDashboardsInstaller) {
+            return DashboardsRtatelPage(
+                title: currentUser!.name + currentUser!.lastName,
+                source:
+                    "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=${currentUser!.email}");
+          } else {
+            return const DashboardsRtatelPage(
+                title: "OpCo Suscriber Targets",
+                source: "https://cblsrvr1.rtatel.com/dash/#/business_plan");
+          }
         } else {
           return const PageNotFoundPage();
         }
@@ -98,47 +138,92 @@ final GoRouter router = GoRouter(
             : currentUser!.isAdminCv ||
                     currentUser!.isManager ||
                     currentUser!.isTechSupervisor
+                // Aqui toma el techsupervisor cuando se supone que no
                 ? const MonitoryPageDesktop()
                 : currentUser!.isEmployee
                     ? const DownloadAPKPage()
-                    : currentUser!.isDashboardsRTATEL
+                    : currentUser!.isAdminDashboards
                         ? const DashboardsRtatelPage(
-                            title: "OpCo Suscriber Targets",
+                            title: "Bolivar Peninsula Fiber to the home",
                             source:
-                                "https://cblsrvr1.rtatel.com/dash/#/business_plan")
-                        : currentUser!.isDashboardsOperation
+                                "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                        : currentUser!.isDashboardsFinancial1
                             ? const DashboardsRtatelPage(
-                                title: "OpCo Suscriber Targets",
+                                title: "Bolivar Peninsula Fiber to the home",
                                 source:
-                                    "https://cblsrvr1.rtatel.com/dash/#/business_plan")
-                            : currentUser!.isDashboardsFinancial
+                                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                            : currentUser!.isDashboardsFinancial2
                                 ? const DashboardsRtatelPage(
-                                    title: "OpCo Suscriber Targets",
+                                    title:
+                                        "Bolivar Peninsula Fiber to the home",
                                     source:
-                                        "https://cblsrvr1.rtatel.com/dash/#/business_plan")
-                                : currentUser!.isDashboardsBank
+                                        "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                                : currentUser!.isDashboardsFinancial3
                                     ? const DashboardsRtatelPage(
-                                        title: "OpCo Suscriber Targets",
+                                        title:
+                                            "Bolivar Peninsula Fiber to the home",
                                         source:
-                                            "https://cblsrvr1.rtatel.com/dash/#/business_plan")
-                                    : currentUser!.isDashboardsCareRep
+                                            "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                                    : currentUser!.isDashboardsOperation1
                                         ? const DashboardsRtatelPage(
-                                            title: "OpCo Suscriber Targets",
+                                            title:
+                                                "Bolivar Peninsula Fiber to the home",
                                             source:
-                                                "https://cblsrvr1.rtatel.com/dash/#/business_plan")
-                                        : currentUser!.isDashboardsInstaller
+                                                "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                                        : currentUser!.isDashboardsOperation2
                                             ? const DashboardsRtatelPage(
-                                                title: "OpCo Suscriber Targets",
+                                                title: "Monitoring Dashboard",
                                                 source:
-                                                    "https://cblsrvr1.rtatel.com/dash/#/business_plan")
+                                                    "https://lookerstudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC")
                                             : currentUser!
-                                                    .isDashboardsSupervisor
+                                                    .isDashboardsSupervisor1
                                                 ? const DashboardsRtatelPage(
                                                     title:
-                                                        "OpCo Suscriber Targets",
+                                                        "Bolivar Peninsula Fiber to the home",
                                                     source:
-                                                        "https://cblsrvr1.rtatel.com/dash/#/business_plan")
-                                                : const PageNotFoundPage(),
+                                                        "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                                                : currentUser!
+                                                        .isDashboardsSupervisor2
+                                                    ? const DashboardsRtatelPage(
+                                                        title:
+                                                            "Bolivar Peninsula Fiber to the home",
+                                                        source:
+                                                            "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                                                    : currentUser!
+                                                            .isDashboardsBank1
+                                                        ? const DashboardsRtatelPage(
+                                                            title:
+                                                                "Bolivar Peninsula Fiber to the home",
+                                                            source:
+                                                                "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                                                        : currentUser!
+                                                                .isDashboardsBank2
+                                                            ? const DashboardsRtatelPage(
+                                                                title:
+                                                                    "Monitoring Dashboard",
+                                                                source:
+                                                                    "https://lookerstudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC")
+                                                            : currentUser!
+                                                                    .isDashboardsBank3
+                                                                ? const DashboardsRtatelPage(
+                                                                    title:
+                                                                        "Wizpapalooza 2021 Survey",
+                                                                    source:
+                                                                        "https://survey.rtatel.com/survey/dashboard_wispapalooza2021.html")
+                                                                : currentUser!
+                                                                        .isDashboardsCareRep
+                                                                    ? const DashboardsRtatelPage(
+                                                                        title:
+                                                                            "EcommerceRTA",
+                                                                        source:
+                                                                            "https://ecom.rtatel.com/#/rep/?rep=rtanumbers@gmail.com")
+                                                                    : currentUser!
+                                                                            .isDashboardsInstaller
+                                                                        ? DashboardsRtatelPage(
+                                                                            title:
+                                                                                currentUser!.name + currentUser!.lastName,
+                                                                            source: "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=${currentUser!.email}")
+                                                                        : const PageNotFoundPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             FadeTransition(
           opacity: animation,

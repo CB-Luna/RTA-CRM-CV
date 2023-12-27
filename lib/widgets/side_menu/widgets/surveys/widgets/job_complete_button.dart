@@ -43,7 +43,7 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       userPermissions.isAdminDashboards ||
-                              userPermissions.isDashboardsOperation
+                              userPermissions.isDashboardsOperation1
                           ? ListTile(
                               title: Text(
                                 'Job Complete Incentives',
@@ -62,7 +62,7 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                             )
                           : const SizedBox.shrink(),
                       userPermissions.isAdminDashboards ||
-                              userPermissions.isDashboardsOperation
+                              userPermissions.isDashboardsOperation1
                           ? ListTile(
                               title: Text(
                                 'Job Complete Service Overall',
@@ -82,7 +82,7 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                             )
                           : const SizedBox.shrink(),
                       userPermissions.isAdminDashboards ||
-                              userPermissions.isDashboardsOperation
+                              userPermissions.isDashboardsOperation1
                           ? ListTile(
                               title: Text(
                                 'Job Complete CRY',
@@ -101,7 +101,7 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                             )
                           : const SizedBox.shrink(),
                       userPermissions.isAdminDashboards ||
-                              userPermissions.isDashboardsOperation
+                              userPermissions.isDashboardsOperation1
                           ? ListTile(
                               title: Text(
                                 'Job Complete EAS',
@@ -120,7 +120,7 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                             )
                           : const SizedBox.shrink(),
                       userPermissions.isAdminDashboards ||
-                              userPermissions.isDashboardsOperation
+                              userPermissions.isDashboardsOperation1
                           ? ListTile(
                               title: Text(
                                 'Job Complete ODE',
@@ -139,7 +139,7 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                             )
                           : const SizedBox.shrink(),
                       userPermissions.isAdminDashboards ||
-                              userPermissions.isDashboardsOperation
+                              userPermissions.isDashboardsOperation1
                           ? ListTile(
                               title: Text(
                                 'Job Complete SMI',
