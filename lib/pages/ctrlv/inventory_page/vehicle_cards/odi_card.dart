@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../helpers/constants.dart';
 import '../../../../theme/theme.dart';
 
 class OdiCard extends StatelessWidget {
@@ -133,7 +134,7 @@ class OdiCard extends StatelessWidget {
                   decoration: ShapeDecoration(
                     image: const DecorationImage(
                       image: NetworkImage(
-                          "https://supa43.rtatel.com/storage/v1/object/public/assets/car_images/2629483(ODE).jpg"),
+                          "$supabaseUrl/storage/v1/object/public/assets/car_images/RRB7002.jpg"),
                       fit: BoxFit.cover,
                     ),
                     shape: RoundedRectangleBorder(

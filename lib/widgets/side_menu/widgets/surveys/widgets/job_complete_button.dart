@@ -42,108 +42,121 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      userPermissions.isAdminDashboards
-                        ? ListTile(
-                        title: Text(
-                          'Job Complete Incentives',
-                          style: AppTheme.of(context).bodyText1.override(
-                            fontFamily: 'Gotham-Bold',
-                            color: AppTheme.of(context).gris,
-                            useGoogleFonts: false,
-                          ),
-                        ),
-                        onTap: () async {
-                          context.pushReplacement(jobCompleteIncentives);
-                        },
-                        hoverColor:
-                            AppTheme.of(context).primaryColor.withOpacity(0.4),
-                      )
-                      : const SizedBox.shrink(),
-                      userPermissions.isAdminDashboards
-                        ? ListTile(
-                        title: Text(
-                          'Job Complete Service Overall',
-                          style: AppTheme.of(context).bodyText1.override(
-                            fontFamily: 'Gotham-Bold',
-                            color: AppTheme.of(context).gris,
-                            useGoogleFonts: false,
-                          ),
-                        ),
-                        onTap: () async {
-                          context.pushReplacement(jobCompletedServiceOverall);
-                        },
-                        hoverColor:
-                            AppTheme.of(context).primaryColor.withOpacity(0.4),
-                      )
-                      : const SizedBox.shrink(),
-                      userPermissions.isAdminDashboards
-                        ? ListTile(
-                        title: Text(
-                          'Job Complete CRY',
-                          style: AppTheme.of(context).bodyText1.override(
-                            fontFamily: 'Gotham-Bold',
-                            color: AppTheme.of(context).gris,
-                            useGoogleFonts: false,
-                          ),
-                        ),
-                        onTap: () async {
-                          context.pushReplacement(jobCompleteCRY);
-                        },
-                        hoverColor:
-                            AppTheme.of(context).primaryColor.withOpacity(0.4),
-                      )
-                      : const SizedBox.shrink(),
-                      userPermissions.isAdminDashboards
-                        ? ListTile(
-                        title: Text(
-                          'Job Complete EAS',
-                          style: AppTheme.of(context).bodyText1.override(
-                            fontFamily: 'Gotham-Bold',
-                            color: AppTheme.of(context).gris,
-                            useGoogleFonts: false,
-                          ),
-                        ),
-                        onTap: () async {
-                          context.pushReplacement(jobCompleteEAS);
-                        },
-                        hoverColor:
-                            AppTheme.of(context).primaryColor.withOpacity(0.4),
-                      )
-                      : const SizedBox.shrink(),
-                      userPermissions.isAdminDashboards
-                        ? ListTile(
-                        title: Text(
-                          'Job Complete ODE',
-                          style: AppTheme.of(context).bodyText1.override(
-                            fontFamily: 'Gotham-Bold',
-                            color: AppTheme.of(context).gris,
-                            useGoogleFonts: false,
-                          ),
-                        ),
-                        onTap: () async {
-                          context.pushReplacement(jobCompleteODE);
-                        },
-                        hoverColor:
-                            AppTheme.of(context).primaryColor.withOpacity(0.4),
-                      )
-                      : const SizedBox.shrink(),
-                      userPermissions.isAdminDashboards
-                        ? ListTile(
-                        title: Text(
-                          'Job Complete SMI',
-                          style: AppTheme.of(context).bodyText1.override(
-                            fontFamily: 'Gotham-Bold',
-                            color: AppTheme.of(context).gris,
-                            useGoogleFonts: false,
-                          ),
-                        ),
-                        onTap: () async {
-                          context.pushReplacement(jobCompleteSMI);
-                        },
-                        hoverColor:
-                            AppTheme.of(context).primaryColor.withOpacity(0.4),
-                      )
-                      : const SizedBox.shrink(),
+                      userPermissions.isAdminDashboards ||
+                              userPermissions.isDashboardsOperation1
+                          ? ListTile(
+                              title: Text(
+                                'Job Complete Incentives',
+                                style: AppTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Gotham-Bold',
+                                      color: AppTheme.of(context).gris,
+                                      useGoogleFonts: false,
+                                    ),
+                              ),
+                              onTap: () async {
+                                context.pushReplacement(jobCompleteIncentives);
+                              },
+                              hoverColor: AppTheme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4),
+                            )
+                          : const SizedBox.shrink(),
+                      userPermissions.isAdminDashboards ||
+                              userPermissions.isDashboardsOperation1
+                          ? ListTile(
+                              title: Text(
+                                'Job Complete Service Overall',
+                                style: AppTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Gotham-Bold',
+                                      color: AppTheme.of(context).gris,
+                                      useGoogleFonts: false,
+                                    ),
+                              ),
+                              onTap: () async {
+                                context.pushReplacement(
+                                    jobCompletedServiceOverall);
+                              },
+                              hoverColor: AppTheme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4),
+                            )
+                          : const SizedBox.shrink(),
+                      userPermissions.isAdminDashboards ||
+                              userPermissions.isDashboardsOperation1
+                          ? ListTile(
+                              title: Text(
+                                'Job Complete CRY',
+                                style: AppTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Gotham-Bold',
+                                      color: AppTheme.of(context).gris,
+                                      useGoogleFonts: false,
+                                    ),
+                              ),
+                              onTap: () async {
+                                context.pushReplacement(jobCompleteCRY);
+                              },
+                              hoverColor: AppTheme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4),
+                            )
+                          : const SizedBox.shrink(),
+                      userPermissions.isAdminDashboards ||
+                              userPermissions.isDashboardsOperation1
+                          ? ListTile(
+                              title: Text(
+                                'Job Complete EAS',
+                                style: AppTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Gotham-Bold',
+                                      color: AppTheme.of(context).gris,
+                                      useGoogleFonts: false,
+                                    ),
+                              ),
+                              onTap: () async {
+                                context.pushReplacement(jobCompleteEAS);
+                              },
+                              hoverColor: AppTheme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4),
+                            )
+                          : const SizedBox.shrink(),
+                      userPermissions.isAdminDashboards ||
+                              userPermissions.isDashboardsOperation1
+                          ? ListTile(
+                              title: Text(
+                                'Job Complete ODE',
+                                style: AppTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Gotham-Bold',
+                                      color: AppTheme.of(context).gris,
+                                      useGoogleFonts: false,
+                                    ),
+                              ),
+                              onTap: () async {
+                                context.pushReplacement(jobCompleteODE);
+                              },
+                              hoverColor: AppTheme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4),
+                            )
+                          : const SizedBox.shrink(),
+                      userPermissions.isAdminDashboards ||
+                              userPermissions.isDashboardsOperation1
+                          ? ListTile(
+                              title: Text(
+                                'Job Complete SMI',
+                                style: AppTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Gotham-Bold',
+                                      color: AppTheme.of(context).gris,
+                                      useGoogleFonts: false,
+                                    ),
+                              ),
+                              onTap: () async {
+                                context.pushReplacement(jobCompleteSMI);
+                              },
+                              hoverColor: AppTheme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4),
+                            )
+                          : const SizedBox.shrink(),
                     ],
                   ),
                 ),
@@ -165,15 +178,14 @@ class _JobCompleteButtonState extends State<JobCompleteButton> {
           title: Text(
             'Job Complete',
             style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
-                              ),
+                  fontFamily: 'Gotham-Bold',
+                  color: AppTheme.of(context).gris,
+                  useGoogleFonts: false,
+                ),
           ),
-          trailing: Icon(Icons.chevron_right_outlined, color: AppTheme.of(context).gris),
-          onTap: () async {
-            
-          },
+          trailing: Icon(Icons.chevron_right_outlined,
+              color: AppTheme.of(context).gris),
+          onTap: () async {},
           hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
         ),
       ),
