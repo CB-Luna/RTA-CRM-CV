@@ -145,9 +145,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                             padding: const EdgeInsets.only(bottom: 10),
                                             child: CustomDDownMenu(
                                               enabled: true,
-                                              list: provider.dataCentersList
-                                                  .map((dataCenter) => dataCenter.name!)
-                                                  .toList(),
+                                              list: provider.dataCentersList.map((dataCenter) => dataCenter.name!).toList(),
                                               dropdownValue: provider.dataCenterSelectedValue,
                                               onChanged: (p0) {
                                                 if (p0 != null) provider.selectDataCenter(p0);
@@ -361,19 +359,13 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                               ),
                                             ),
                                             if (provider
-                                                    .circuitTypeList[provider.circuitTypeList
-                                                        .map((type) => type.name!)
-                                                        .toList()
-                                                        .indexWhere((element) =>
-                                                            element.startsWith(provider.circuitTypeSelectedValue))]
+                                                    .circuitTypeList[
+                                                        provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
                                                     .parameters!
                                                     .cir! ||
                                                 provider
-                                                    .circuitTypeList[provider.circuitTypeList
-                                                        .map((type) => type.name!)
-                                                        .toList()
-                                                        .indexWhere((element) =>
-                                                            element.startsWith(provider.circuitTypeSelectedValue))]
+                                                    .circuitTypeList[
+                                                        provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
                                                     .parameters!
                                                     .portSize!)
                                               Padding(
@@ -381,11 +373,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                 child: Row(
                                                   children: [
                                                     if (provider
-                                                        .circuitTypeList[provider.circuitTypeList
-                                                            .map((type) => type.name!)
-                                                            .toList()
-                                                            .indexWhere((element) =>
-                                                                element.startsWith(provider.circuitTypeSelectedValue))]
+                                                        .circuitTypeList[
+                                                            provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
                                                         .parameters!
                                                         .cir!)
                                                       CustomDDownMenu(
@@ -399,19 +388,15 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         label: 'CIR',
                                                       ),
                                                     if (provider
-                                                        .circuitTypeList[provider.circuitTypeList
-                                                            .map((type) => type.name!)
-                                                            .toList()
-                                                            .indexWhere((element) =>
-                                                                element.startsWith(provider.circuitTypeSelectedValue))]
+                                                        .circuitTypeList[
+                                                            provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
                                                         .parameters!
                                                         .portSize!)
                                                       Padding(
                                                         padding: const EdgeInsets.only(left: 20),
                                                         child: CustomDDownMenu(
                                                           enabled: true,
-                                                          list:
-                                                              provider.portSizeList.map((type) => type.name!).toList(),
+                                                          list: provider.portSizeList.map((type) => type.name!).toList(),
                                                           dropdownValue: provider.portSizeSelectedValue,
                                                           onChanged: (p0) {
                                                             if (p0 != null) provider.selectPortSize(p0);
@@ -438,11 +423,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                 ),
                                               ),
                                             if (provider
-                                                .circuitTypeList[provider.circuitTypeList
-                                                    .map((type) => type.name!)
-                                                    .toList()
-                                                    .indexWhere((element) =>
-                                                        element.startsWith(provider.circuitTypeSelectedValue))]
+                                                .circuitTypeList[
+                                                    provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
                                                 .parameters!
                                                 .evcod!)
                                               Padding(
@@ -458,11 +440,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                   keyboardType: TextInputType.text,
                                                   validator: (value) {
                                                     if (provider
-                                                        .circuitTypeList[provider.circuitTypeList
-                                                            .map((type) => type.name!)
-                                                            .toList()
-                                                            .indexWhere((element) =>
-                                                                element.startsWith(provider.circuitTypeSelectedValue))]
+                                                        .circuitTypeList[
+                                                            provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
                                                         .parameters!
                                                         .evcod!) {
                                                       if (value == null || value.isEmpty) {
@@ -503,8 +482,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                               padding: const EdgeInsets.only(bottom: 10),
                                               child: Row(
                                                 children: [
-                                                  if (provider.circuitTypeSelectedValue == 'DIA' &&
-                                                      provider.bgpSelectedValue == 'No')
+                                                  if (provider.circuitTypeSelectedValue == 'DIA' && provider.bgpSelectedValue == 'No')
                                                     Padding(
                                                       padding: const EdgeInsets.only(left: 0),
                                                       child: CustomDDownMenu(
@@ -518,14 +496,12 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         label: 'IP Block',
                                                       ),
                                                     ),
-                                                  if (provider.circuitTypeSelectedValue == 'DIA' &&
-                                                      provider.bgpSelectedValue == 'Current ASN(s)')
+                                                  if (provider.circuitTypeSelectedValue == 'DIA' && provider.bgpSelectedValue == 'Current ASN(s)')
                                                     Padding(
                                                       padding: const EdgeInsets.only(left: 0),
                                                       child: CustomDDownMenu(
                                                         enabled: true,
-                                                        list:
-                                                            provider.peeringTypeList.map((type) => type.name!).toList(),
+                                                        list: provider.peeringTypeList.map((type) => type.name!).toList(),
                                                         dropdownValue: provider.peeringTypeSelectedValue,
                                                         onChanged: (p0) {
                                                           if (p0 != null) provider.selectPeeringType(p0);
@@ -685,8 +661,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     child: CustomTextIconButton(
                                                       color: AppTheme.of(context).tertiaryColor,
                                                       isLoading: provider.isLoading,
-                                                      icon: Icon(Icons.check,
-                                                          color: AppTheme.of(context).primaryBackground),
+                                                      icon: Icon(Icons.check, color: AppTheme.of(context).primaryBackground),
                                                       text: 'Create',
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       onTap: () async {
@@ -706,8 +681,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                             context.pushReplacement(routeQuotes);
                                                           } else {
                                                             ScaffoldMessenger.of(context).showSnackBar(
-                                                              const SnackBar(
-                                                                  content: Text('Errors - createValidation')),
+                                                              const SnackBar(content: Text('Errors - createValidation')),
                                                             );
                                                           }
                                                         } else {
@@ -727,22 +701,14 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         Padding(
                                                           padding: const EdgeInsets.only(right: 0),
                                                           child: CustomTextIconButton(
-                                                            color: provider.docProveedor != null
-                                                                ? AppTheme.of(context).primaryColor
-                                                                : AppTheme.of(context).tertiaryColor,
+                                                            color: provider.docProveedor != null ? AppTheme.of(context).primaryColor : AppTheme.of(context).tertiaryColor,
                                                             isLoading: false,
                                                             icon: Icon(
-                                                              provider.docProveedor != null
-                                                                  ? Icons.remove_red_eye_outlined
-                                                                  : Icons.upload_outlined,
+                                                              provider.docProveedor != null ? Icons.remove_red_eye_outlined : Icons.upload_outlined,
                                                               color: AppTheme.of(context).primaryBackground,
                                                             ),
-                                                            text: provider.docProveedor != null
-                                                                ? 'View Image'
-                                                                : 'Upload Image',
-                                                            onTap: (provider.imageBytes != null &&
-                                                                    provider.docProveedor != null &&
-                                                                    provider.popupVisorPdfVisible)
+                                                            text: provider.docProveedor != null ? 'View Image' : 'Upload Image',
+                                                            onTap: (provider.imageBytes != null && provider.docProveedor != null && provider.popupVisorPdfVisible)
                                                                 ? () async {
                                                                     await showDialog(
                                                                       context: context,
@@ -754,10 +720,8 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                                               width: getWidth(1000, context),
                                                                               height: getHeight(1000, context),
                                                                               child: Column(
-                                                                                crossAxisAlignment:
-                                                                                    CrossAxisAlignment.end,
-                                                                                mainAxisAlignment:
-                                                                                    MainAxisAlignment.end,
+                                                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                                                mainAxisAlignment: MainAxisAlignment.end,
                                                                                 children: [
                                                                                   /*  Padding(
                                                           padding:
@@ -770,21 +734,13 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                           ),
                                                         ), */
                                                                                   Padding(
-                                                                                    padding: const EdgeInsets.only(
-                                                                                        bottom: 20),
+                                                                                    padding: const EdgeInsets.only(bottom: 20),
                                                                                     child: CustomTextIconButton(
                                                                                       isLoading: false,
-                                                                                      icon: Icon(Icons.close,
-                                                                                          color: AppTheme.of(context)
-                                                                                              .secondaryColor),
-                                                                                      border: Border.all(
-                                                                                          color: AppTheme.of(context)
-                                                                                              .secondaryColor),
-                                                                                      color: AppTheme.of(context)
-                                                                                          .primaryBackground,
-                                                                                      style: TextStyle(
-                                                                                          color: AppTheme.of(context)
-                                                                                              .secondaryColor),
+                                                                                      icon: Icon(Icons.close, color: AppTheme.of(context).secondaryColor),
+                                                                                      border: Border.all(color: AppTheme.of(context).secondaryColor),
+                                                                                      color: AppTheme.of(context).primaryBackground,
+                                                                                      style: TextStyle(color: AppTheme.of(context).secondaryColor),
                                                                                       text: 'Exit',
                                                                                       width: getWidth(60, context),
                                                                                       onTap: () {
@@ -800,9 +756,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                                     );
                                                                   }
                                                                 : () {
-                                                                    if (provider.imageBytes != null &&
-                                                                        provider.docProveedor != null &&
-                                                                        provider.popupVisorPdfVisible == false) {
+                                                                    if (provider.imageBytes != null && provider.docProveedor != null && provider.popupVisorPdfVisible == false) {
                                                                       provider.verPdf(true);
                                                                       setState(() {});
                                                                     } else {
@@ -815,9 +769,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                       ],
                                                     ),
                                                   ),
-                                                  (provider.imageBytes != null &&
-                                                          provider.docProveedor != null &&
-                                                          provider.popupVisorPdfVisible)
+                                                  (provider.imageBytes != null && provider.docProveedor != null && provider.popupVisorPdfVisible)
                                                       ? Padding(
                                                           padding: const EdgeInsets.only(right: 10),
                                                           child: CustomTextIconButton(
@@ -856,21 +808,15 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         children: [
                                                           Padding(
                                                             padding: const EdgeInsets.only(right: 10),
-                                                            child: Icon(Icons.format_list_numbered,
-                                                                color: AppTheme.of(context).contenidoTablas.color,
-                                                                size: 25),
+                                                            child: Icon(Icons.format_list_numbered, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
                                                             'Items',
                                                             style: TextStyle(
-                                                                fontFamily:
-                                                                    AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                fontSize:
-                                                                    AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                fontStyle:
-                                                                    AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                fontWeight:
-                                                                    AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                 color: AppTheme.of(context).primaryText),
                                                           ),
                                                         ],
@@ -881,21 +827,16 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                       child: Text(
                                                         ':',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight:
-                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ),
                                                     SizedBox(
                                                       child: Text(
-                                                        moneyFormat(provider.globalRows.length.toDouble()).substring(
-                                                            0,
-                                                            moneyFormat(provider.globalRows.length.toDouble()).length -
-                                                                3),
+                                                        moneyFormat(provider.globalRows.length.toDouble()).substring(0, moneyFormat(provider.globalRows.length.toDouble()).length - 3),
                                                         style: TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontFamily: 'Bicyclette-Thin',
@@ -922,21 +863,15 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         children: [
                                                           Padding(
                                                             padding: const EdgeInsets.only(right: 10),
-                                                            child: Icon(Icons.attach_money,
-                                                                color: AppTheme.of(context).contenidoTablas.color,
-                                                                size: 25),
+                                                            child: Icon(Icons.attach_money, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
                                                             'Subtotal',
                                                             style: TextStyle(
-                                                                fontFamily:
-                                                                    AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                fontSize:
-                                                                    AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                fontStyle:
-                                                                    AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                fontWeight:
-                                                                    AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                 color: AppTheme.of(context).primaryText),
                                                           ),
                                                         ],
@@ -947,12 +882,10 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                       child: Text(
                                                         ':',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight:
-                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ),
@@ -985,21 +918,15 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         children: [
                                                           Padding(
                                                             padding: const EdgeInsets.only(right: 10),
-                                                            child: Icon(Icons.money_off,
-                                                                color: AppTheme.of(context).contenidoTablas.color,
-                                                                size: 25),
+                                                            child: Icon(Icons.money_off, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
                                                             'Cost',
                                                             style: TextStyle(
-                                                                fontFamily:
-                                                                    AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                fontSize:
-                                                                    AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                fontStyle:
-                                                                    AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                fontWeight:
-                                                                    AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                 color: AppTheme.of(context).primaryText),
                                                           ),
                                                         ],
@@ -1010,12 +937,10 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                       child: Text(
                                                         ':',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight:
-                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ),
@@ -1048,21 +973,15 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         children: [
                                                           Padding(
                                                             padding: const EdgeInsets.only(right: 10),
-                                                            child: Icon(Icons.monetization_on_outlined,
-                                                                color: AppTheme.of(context).contenidoTablas.color,
-                                                                size: 25),
+                                                            child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
                                                             'Total',
                                                             style: TextStyle(
-                                                                fontFamily:
-                                                                    AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                fontSize:
-                                                                    AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                fontStyle:
-                                                                    AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                fontWeight:
-                                                                    AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                 color: AppTheme.of(context).primaryText),
                                                           ),
                                                         ],
@@ -1073,12 +992,10 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                       child: Text(
                                                         ':',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight:
-                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ),
@@ -1111,21 +1028,15 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         children: [
                                                           Padding(
                                                             padding: const EdgeInsets.only(right: 10),
-                                                            child: Icon(Icons.confirmation_num_outlined,
-                                                                color: AppTheme.of(context).contenidoTablas.color,
-                                                                size: 25),
+                                                            child: Icon(Icons.confirmation_num_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
                                                             'Tax',
                                                             style: TextStyle(
-                                                                fontFamily:
-                                                                    AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                fontSize:
-                                                                    AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                fontStyle:
-                                                                    AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                fontWeight:
-                                                                    AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                 color: AppTheme.of(context).primaryText),
                                                           ),
                                                         ],
@@ -1136,21 +1047,19 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                       child: Text(
                                                         ':',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight:
-                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ),
                                                     CustomTextField(
                                                       required: true,
                                                       enabled: true,
-                                                      //width: 150,
+                                                      width: 130,
                                                       controller: provider.taxController,
-                                                      icon: Icons.percent_outlined,
+                                                      //icon: Icons.percent_outlined,
                                                       label: 'Tax Percent',
                                                       keyboardType: TextInputType.number,
                                                       inputFormatters: [
@@ -1158,6 +1067,11 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         CurrencyInputFormatter(),
                                                       ],
                                                       onChanged: (p0) => provider.countRowsPlutoGrid(),
+                                                    ),
+                                                    Icon(
+                                                      Icons.percent_outlined,
+                                                      color: AppTheme.of(context).primaryColor,
+                                                      //size: 14,
                                                     ),
                                                     /* SizedBox(
                                                       child: Text(
@@ -1188,21 +1102,15 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         children: [
                                                           Padding(
                                                             padding: const EdgeInsets.only(right: 10),
-                                                            child: Icon(Icons.monetization_on_outlined,
-                                                                color: AppTheme.of(context).contenidoTablas.color,
-                                                                size: 25),
+                                                            child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
                                                             'Total+Tax',
                                                             style: TextStyle(
-                                                                fontFamily:
-                                                                    AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                fontSize:
-                                                                    AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                fontStyle:
-                                                                    AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                fontWeight:
-                                                                    AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                 color: AppTheme.of(context).primaryText),
                                                           ),
                                                         ],
@@ -1213,12 +1121,10 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                       child: Text(
                                                         ':',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight:
-                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ),
@@ -1241,9 +1147,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                               child: Container(
                                                 //width: MediaQuery.of(context).size.width / 5 - 150,
                                                 decoration: BoxDecoration(
-                                                  color: provider.margin < 20
-                                                      ? secondaryColor
-                                                      : AppTheme.of(context).primaryColor,
+                                                  color: provider.margin < 20 ? secondaryColor : AppTheme.of(context).primaryColor,
                                                   borderRadius: const BorderRadius.all(
                                                     Radius.circular(15),
                                                   ),
@@ -1260,21 +1164,15 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                           children: [
                                                             Padding(
                                                               padding: const EdgeInsets.only(right: 10),
-                                                              child: Icon(Icons.percent,
-                                                                  color: AppTheme.of(context).primaryBackground,
-                                                                  size: 25),
+                                                              child: Icon(Icons.percent, color: AppTheme.of(context).primaryBackground, size: 25),
                                                             ),
                                                             Text(
                                                               'Margin',
                                                               style: TextStyle(
-                                                                  fontFamily:
-                                                                      AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                  fontSize:
-                                                                      AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                  fontStyle:
-                                                                      AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                  fontWeight:
-                                                                      AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                  fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                  fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                  fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                  fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                                   color: AppTheme.of(context).primaryBackground),
                                                             ),
                                                           ],
@@ -1285,25 +1183,18 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                         child: Text(
                                                           ':',
                                                           style: TextStyle(
-                                                              fontFamily:
-                                                                  AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                               fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle:
-                                                                  AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight:
-                                                                  AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                               color: AppTheme.of(context).primaryBackground),
                                                         ),
                                                       ),
                                                       SizedBox(
                                                         child: Text(
-                                                          provider.margin == 0
-                                                              ? '0.00%'
-                                                              : '${moneyFormat(provider.margin)}%',
+                                                          provider.margin == 0 ? '0.00%' : '${moneyFormat(provider.margin)}%',
                                                           style: TextStyle(
-                                                              fontFamily: 'Bicyclette-Thin',
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              color: AppTheme.of(context).primaryBackground),
+                                                              fontFamily: 'Bicyclette-Thin', fontSize: AppTheme.of(context).encabezadoTablas.fontSize, color: AppTheme.of(context).primaryBackground),
                                                         ),
                                                       ),
                                                     ],
@@ -1562,17 +1453,14 @@ class Comments extends StatelessWidget {
         children: [
           Container(
             height: MediaQuery.of(context).size.height / 3 - 150,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: AppTheme.of(context).primaryBackground,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 0.1,
-                    blurRadius: 3,
-                    offset: const Offset(0, 0), // changes position of shadow
-                  ),
-                ]),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppTheme.of(context).primaryBackground, boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 0.1,
+                blurRadius: 3,
+                offset: const Offset(0, 0), // changes position of shadow
+              ),
+            ]),
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
@@ -1581,10 +1469,8 @@ class Comments extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: Row(
-                    mainAxisAlignment: provider.comments[index].name == currentUser!.name &&
-                            provider.comments[index].role == currentUser!.currentRole.roleName
-                        ? MainAxisAlignment.end
-                        : MainAxisAlignment.start,
+                    mainAxisAlignment:
+                        provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.currentRole.roleName ? MainAxisAlignment.end : MainAxisAlignment.start,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -1595,8 +1481,7 @@ class Comments extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                  color: provider.comments[index].name == currentUser!.name &&
-                                          provider.comments[index].role == currentUser!.currentRole.roleName
+                                  color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.currentRole.roleName
                                       ? AppTheme.of(context).secondaryColor
                                       : AppTheme.of(context).primaryColor),
                               color: AppTheme.of(context).primaryBackground,
@@ -1616,8 +1501,7 @@ class Comments extends StatelessWidget {
                                 Container(
                                   height: 30,
                                   decoration: BoxDecoration(
-                                    color: provider.comments[index].name == currentUser!.name &&
-                                            provider.comments[index].role == currentUser!.currentRole.roleName
+                                    color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.currentRole.roleName
                                         ? AppTheme.of(context).secondaryColor
                                         : AppTheme.of(context).primaryColor,
                                   ),
@@ -2173,8 +2057,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 rendererContext.cell.value ?? '-',
-                style:
-                    AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
@@ -2202,8 +2085,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                style:
-                    AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
@@ -2231,8 +2113,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                style:
-                    AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
@@ -2260,8 +2141,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 rendererContext.cell.value != null ? rendererContext.cell.value.toString() : '-',
-                style:
-                    AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
