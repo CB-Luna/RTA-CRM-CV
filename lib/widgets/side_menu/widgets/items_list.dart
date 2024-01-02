@@ -43,7 +43,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.prospects != null)
               SideMenuItem(
                 selected: provider.indexSelected[1],
-                leading: provider.aRAccounts != null ? Rive(artboard: provider.aRAccounts!) : const CircularProgressIndicator(),
+                leading: provider.aRAccounts != null
+                    ? Rive(artboard: provider.aRAccounts!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Prospects',
                 onTap: () async {
@@ -59,7 +61,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.scheduling != null)
               SideMenuItem(
                 selected: provider.indexSelected[2],
-                leading: provider.aRSchedulings != null ? Rive(artboard: provider.aRSchedulings!) : const CircularProgressIndicator(),
+                leading: provider.aRSchedulings != null
+                    ? Rive(artboard: provider.aRSchedulings!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Scheduling',
                 onTap: () async {
@@ -75,7 +79,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.network != null)
               SideMenuItem(
                 selected: provider.indexSelected[3],
-                leading: provider.aRNetworks != null ? Rive(artboard: provider.aRNetworks!) : const CircularProgressIndicator(),
+                leading: provider.aRNetworks != null
+                    ? Rive(artboard: provider.aRNetworks!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Network',
                 onTap: () async {
@@ -91,7 +97,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.tickets != null)
               SideMenuItem(
                 selected: provider.indexSelected[4],
-                leading: provider.aRTickets != null ? Rive(artboard: provider.aRTickets!) : const CircularProgressIndicator(),
+                leading: provider.aRTickets != null
+                    ? Rive(artboard: provider.aRTickets!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 //title: 'Tickets',
                 onTap: () async {
@@ -107,7 +115,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.order != null)
               SideMenuItem(
                 selected: provider.indexSelected[4],
-                leading: provider.aRTickets != null ? Rive(artboard: provider.aRTickets!) : const CircularProgressIndicator(),
+                leading: provider.aRTickets != null
+                    ? Rive(artboard: provider.aRTickets!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Order',
                 onTap: () async {
@@ -123,7 +133,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.campaigns != null)
               SideMenuItem(
                 selected: provider.indexSelected[5],
-                leading: provider.aRInventories != null ? Rive(artboard: provider.aRInventories!) : const CircularProgressIndicator(),
+                leading: provider.aRInventories != null
+                    ? Rive(artboard: provider.aRInventories!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Campaigns',
                 onTap: () async {
@@ -139,7 +151,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.reports != null)
               SideMenuItem(
                 selected: provider.indexSelected[6],
-                leading: provider.aRReports != null ? Rive(artboard: provider.aRReports!) : const CircularProgressIndicator(),
+                leading: provider.aRReports != null
+                    ? Rive(artboard: provider.aRReports!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Reports',
                 onTap: () async {
@@ -157,7 +171,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.vehicleStatus != null)
               SideMenuItem(
                 selected: provider.indexSelected[8],
-                leading: provider.aRMonitory != null ? Rive(artboard: provider.aRMonitory!) : const CircularProgressIndicator(),
+                leading: provider.aRMonitory != null
+                    ? Rive(artboard: provider.aRMonitory!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Vehicle Status',
                 onTap: () async {
@@ -173,7 +189,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.inventory != null)
               SideMenuItem(
                 selected: provider.indexSelected[7],
-                leading: provider.aRInventories != null ? Rive(artboard: provider.aRInventories!) : const CircularProgressIndicator(),
+                leading: provider.aRInventories != null
+                    ? Rive(artboard: provider.aRInventories!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Inventory',
                 onTap: () async {
@@ -189,7 +207,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.downloadApk != null)
               SideMenuItem(
                 selected: provider.indexSelected[13],
-                leading: provider.aRDownloadAPK != null ? Rive(artboard: provider.aRDownloadAPK!) : const CircularProgressIndicator(),
+                leading: provider.aRDownloadAPK != null
+                    ? Rive(artboard: provider.aRDownloadAPK!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Download APK',
                 onTap: () async {
@@ -206,7 +226,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.users != null)
               SideMenuItem(
                 selected: provider.indexSelected[10],
-                leading: provider.aRUsers != null ? Rive(artboard: provider.aRUsers!) : const CircularProgressIndicator(),
+                leading: provider.aRUsers != null
+                    ? Rive(artboard: provider.aRUsers!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Users',
                 onTap: () async {
@@ -223,7 +245,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.dashboards != null)
               SideMenuItem(
                 selected: provider.indexSelected[9],
-                leading: provider.aRDashboards != null ? Rive(artboard: provider.aRDashboards!) : const CircularProgressIndicator(),
+                leading: provider.aRDashboards != null
+                    ? Rive(artboard: provider.aRDashboards!)
+                    : const CircularProgressIndicator(),
                 isOpen: widget.isOpen,
                 title: 'Dashboards',
                 onTap: () async {
@@ -239,7 +263,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             if (userPermissions.configuratorSm != null)
               SideMenuItem(
                 selected: provider.indexSelected[11],
-                leading: Icon(Icons.color_lens_outlined, color: Color(Colors.grey[300]!.value)),
+                leading: Icon(Icons.color_lens_outlined,
+                    color: Color(Colors.grey[300]!.value)),
                 isOpen: widget.isOpen,
                 title: 'Configurator',
                 onTap: () async {
@@ -254,7 +279,6 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
               ),
 
             // Sección Dashboards RTATEL
-
             userPermissions.sales != null
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
@@ -347,7 +371,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
 
             SideMenuItem(
               selected: provider.indexSelected[12],
-              leading: const Icon(Icons.power_settings_new_outlined, color: Colors.red),
+              leading: const Icon(Icons.power_settings_new_outlined,
+                  color: Colors.red),
               isOpen: widget.isOpen,
               title: 'Logout',
               onTap: () async {

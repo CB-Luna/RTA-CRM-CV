@@ -54,7 +54,8 @@ class User {
 
   String get fullName => '$name $lastName';
 
-  List<String> get userApplications => roles.map((role) => '${role.application} - ${role.roleName}').toList();
+  List<String> get userApplications =>
+      roles.map((role) => '${role.application} - ${role.roleName}').toList();
 
   bool setRole(String role) {
     try {
@@ -88,16 +89,59 @@ class User {
 
   // CV
   bool get isCV =>
-      currentUser!.isAdminCv || currentUser!.isManager || currentUser!.isEmployee || currentUser!.isTechSupervisor;
+      currentUser!.isAdminCv ||
+      currentUser!.isManager ||
+      currentUser!.isEmployee ||
+      currentUser!.isTechSupervisor;
 
-  bool get isAdminCv => roles.any((role) => role.roleName == 'Admin CV');
-  bool get isManager => roles.any((role) => role.roleName == 'Manager');
-  bool get isEmployee => roles.any((role) => role.roleName == 'Employee');
-  bool get isTechSupervisor => roles.any((role) => role.roleName == 'Tech Supervisor');
+  bool get isAdminCv => currentUser!.currentRole.roleName == "Admin CV";
+  bool get isManager => currentUser!.currentRole.roleName == 'Manager';
+  bool get isEmployee => currentUser!.currentRole.roleName == 'Employee';
+  bool get isTechSupervisor =>
+      currentUser!.currentRole.roleName == 'Tech Supervisor';
+
+  // bool get isTechSupervisor =>
+  //     roles.any((role) => role.roleName == 'Tech Supervisor');
 
   // Dashboards RTATEL
-  bool get isDashboardsRTATEL => currentUser!.isAdminDashboards;
-  bool get isAdminDashboards => roles.any((role) => role.roleName == 'Admin Dashboards');
+  bool get isDashboardsRTATEL =>
+      currentUser!.isAdminDashboards ||
+      isDashboardsOperation1 ||
+      isDashboardsOperation2 ||
+      isDashboardsFinancial1 ||
+      isDashboardsFinancial2 ||
+      isDashboardsFinancial3 ||
+      isDashboardsSupervisor1 ||
+      isDashboardsSupervisor2 ||
+      isDashboardsInstaller ||
+      isDashboardsCareRep ||
+      isDashboardsBank1 ||
+      isDashboardsBank2 ||
+      isDashboardsBank3;
+  bool get isAdminDashboards =>
+      currentUser!.currentRole.roleName == 'Admin Dashboards';
+  bool get isDashboardsOperation1 =>
+      currentUser!.currentRole.roleName == 'Operation 1';
+  bool get isDashboardsOperation2 =>
+      currentUser!.currentRole.roleName == 'Operation 2';
+  bool get isDashboardsSupervisor1 =>
+      currentUser!.currentRole.roleName == 'Dashboard Supervisor 1';
+  bool get isDashboardsSupervisor2 =>
+      currentUser!.currentRole.roleName == 'Dashboard Supervisor 2';
+  bool get isDashboardsInstaller =>
+      currentUser!.currentRole.roleName == "Installers 1";
+  bool get isDashboardsFinancial1 =>
+      currentUser!.currentRole.roleName == 'Financial 1';
+  bool get isDashboardsFinancial2 =>
+      currentUser!.currentRole.roleName == 'Financial 2';
+  bool get isDashboardsFinancial3 =>
+      currentUser!.currentRole.roleName == 'Financial 3';
+  bool get isDashboardsBank1 => currentUser!.currentRole.roleName == 'Bank 1';
+  bool get isDashboardsBank2 => currentUser!.currentRole.roleName == 'Bank 2';
+  bool get isDashboardsBank3 => currentUser!.currentRole.roleName == 'Bank 3';
+
+  bool get isDashboardsCareRep =>
+      currentUser!.currentRole.roleName == 'Care Rep 1';
 
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
@@ -113,7 +157,8 @@ class User {
       mobilePhone: json['mobile_phone'],
       address: json['address'],
       image: json['image'],
-      birthDate: json['birthdate'] == null ? null : DateTime.parse(json['birthdate']),
+      birthDate:
+          json['birthdate'] == null ? null : DateTime.parse(json['birthdate']),
       roles: (json['roles'] as List).map((role) => Role.fromMap(role)).toList(),
       company: Company.fromJson(jsonEncode(json['company'])),
       state: State.fromJson(jsonEncode(json['state'])),

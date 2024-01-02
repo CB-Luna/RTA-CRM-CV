@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../helpers/constants.dart';
 import '../../../../theme/theme.dart';
 
 class CryCard extends StatelessWidget {
@@ -137,7 +138,7 @@ class CryCard extends StatelessWidget {
                     decoration: ShapeDecoration(
                       image: const DecorationImage(
                         image: NetworkImage(
-                            "https://supa43.rtatel.com/storage/v1/object/public/assets/car_images/JLZ7391(CRY).jpg"),
+                            "$supabaseUrl/storage/v1/object/public/assets/car_images/JLZ7391.jpg"),
                         fit: BoxFit.cover,
                       ),
                       shape: RoundedRectangleBorder(

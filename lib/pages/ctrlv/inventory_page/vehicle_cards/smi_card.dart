@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../helpers/constants.dart';
 import '../../../../theme/theme.dart';
 
 class SmiCard extends StatelessWidget {
@@ -57,7 +58,7 @@ class SmiCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(100),
                     ),
                   ),
-                  child:  Opacity(
+                  child: Opacity(
                     opacity: 0.65,
                     child: Text(
                       '● VEHICLES',
@@ -75,7 +76,7 @@ class SmiCard extends StatelessWidget {
                   child: Text(
                     "Total: $totalVehicleSMI",
                     textAlign: TextAlign.center,
-                    style:  TextStyle(
+                    style: TextStyle(
                       color: AppTheme.of(context).smiPrimary,
                       fontSize: 16,
                       fontFamily: 'Plus Jakarta Sans',
@@ -88,7 +89,7 @@ class SmiCard extends StatelessWidget {
             // Body
             Column(
               children: [
-                 Text(
+                Text(
                   'SMI',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -135,7 +136,7 @@ class SmiCard extends StatelessWidget {
                   decoration: ShapeDecoration(
                     image: const DecorationImage(
                       image: NetworkImage(
-                          "https://supa43.rtatel.com/storage/v1/object/public/assets/car_images/LYP6475(SMI).jpg"),
+                          "$supabaseUrl/storage/v1/object/public/assets/car_images/LYP6475.jpeg"),
                       fit: BoxFit.cover,
                     ),
                     shape: RoundedRectangleBorder(
