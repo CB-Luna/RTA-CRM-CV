@@ -157,6 +157,8 @@ const String mapCoverage = '/gigfast_network/map_coverage';
 // Call Center
 const String ecommerceRTA = '/call_center/ecommerceRTA';
 const String homeownerFTTHDocument = '/call_center/homeownerFTTHDocument';
+const String homeownerFTTHDocumentList = '/call_center/homeownerFTTHDocumentList';
+const String homeownerFTTHDocumentClient = '/call_center/homeownerFTTHDocumentClient';
 // Surveys
 const String wispapalooza2021Survey = '/surveys/wispapalooza_2021_survey';
 const String jobComplete = '/surveys/job_complete';
