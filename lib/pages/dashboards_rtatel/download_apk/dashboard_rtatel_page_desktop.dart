@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
@@ -7,11 +8,9 @@ import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
-import 'package:rive/rive.dart' as rive;
 import 'package:rta_crm_cv/widgets/vista_por_url/i_frame.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../providers/ctrlv/inventory_provider.dart';
 import '../../../widgets/custom_ddown_menu/custom_dropdown_inventory.dart';
 
 class DashboardRtatelPageDesktop extends StatefulWidget {
@@ -36,12 +35,16 @@ class _DashboardRtatelPageDesktopState
     fToast.init(context);
     if (widget.title != "Map Coverage") {
       fToast.init(context);
+
       UsersProvider provider = Provider.of<UsersProvider>(context);
 
       final List<String> installersName =
           provider.userRole.map((roles) => roles.email).toList();
-      if (currentUser!.isAdminDashboards) {
-        provider.getInstallers();
+
+      // if (currentUser!.isAdminDashboards) {
+      if (installersName.isEmpty) {
+        provider.getInstallers(notify: true);
+        print("El length del installers es ${installersName.length}");
       }
       return Material(
         child: SizedBox(
@@ -61,20 +64,30 @@ class _DashboardRtatelPageDesktopState
                       children: [
                         Visibility(
                           visible: currentUser!.isAdminDashboards,
-                          child: Container(
-                            height: 100,
-                            color: Colors.red,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.10,
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Search Job Technician: "),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: Text(
+                                    "Search Job Technician: ",
+                                    style: AppTheme.of(context).bodyText1,
+                                  ),
+                                ),
                                 CustomDropDownInventory(
                                   label: '',
-                                  width: 350,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.27,
                                   list: installersName,
                                   dropdownValue: provider.userSelected?.email,
                                   onChanged: (val) {
                                     if (val == null) return;
                                     provider.selectInstaller(val);
+                                    context.pushReplacement(
+                                        "/job_complete/job_complete_${provider.userSelected!.name}_${provider.userSelected!.lastName}");
                                   },
                                 ),
                               ],

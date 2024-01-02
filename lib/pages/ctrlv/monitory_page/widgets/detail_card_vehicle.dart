@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../../helpers/constants.dart';
 import '../../../../models/monitory.dart';
 import '../../../../theme/theme.dart';
 
@@ -29,8 +30,8 @@ class DetailVehicleCard extends StatelessWidget {
               Container(
                 width: MediaQuery.of(context).size.width * 0.6,
                 height: MediaQuery.of(context).size.height * 0.1,
-                decoration:
-                    BoxDecoration(color: companyColor(vehicle.company.company,context)),
+                decoration: BoxDecoration(
+                    color: companyColor(vehicle.company.company, context)),
               ),
             ],
           ),
@@ -48,7 +49,7 @@ class DetailVehicleCard extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: ShapeDecoration(
-                      color: companyColor(vehicle.company.company,context),
+                      color: companyColor(vehicle.company.company, context),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
                       ),
@@ -84,13 +85,12 @@ class DetailVehicleCard extends StatelessWidget {
                             Text(
                               "Vehicle id: ",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                                    fontWeight: FontWeight.bold
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               "${vehicle.idVehicle}",
@@ -113,13 +113,12 @@ class DetailVehicleCard extends StatelessWidget {
                             Text(
                               "VIN: ",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                                    fontWeight: FontWeight.bold
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               vehicle.vin,
@@ -144,13 +143,12 @@ class DetailVehicleCard extends StatelessWidget {
                                 Text(
                                   "License Plates: ",
                                   style: TextStyle(
-                                    color: AppTheme.of(context).primaryText,
-                                    fontFamily: 'Bicyclette-Thin',
-                                    fontSize: AppTheme.of(context)
-                                        .encabezadoTablas
-                                        .fontSize,
-                                        fontWeight: FontWeight.bold
-                                  ),
+                                      color: AppTheme.of(context).primaryText,
+                                      fontFamily: 'Bicyclette-Thin',
+                                      fontSize: AppTheme.of(context)
+                                          .encabezadoTablas
+                                          .fontSize,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   vehicle.vehicle.licesensePlates,
@@ -180,13 +178,12 @@ class DetailVehicleCard extends StatelessWidget {
                             Text(
                               "Gas: ",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                                    fontWeight: FontWeight.bold
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               vehicle.gasD == null
@@ -211,13 +208,12 @@ class DetailVehicleCard extends StatelessWidget {
                             Text(
                               "Mileage: ",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                                    fontWeight: FontWeight.bold
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               // ignore: unrelated_type_equality_checks
@@ -250,13 +246,12 @@ class DetailVehicleCard extends StatelessWidget {
                             Text(
                               "Last Oil Change: ",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                                    fontWeight: FontWeight.bold
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               vehicle.vehicle.oilChangeDue == null
@@ -281,13 +276,12 @@ class DetailVehicleCard extends StatelessWidget {
                             Text(
                               "Last transmission fluid change:",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                                    fontWeight: FontWeight.bold
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               vehicle.vehicle.lastTransmissionFluidChange ==
@@ -314,13 +308,12 @@ class DetailVehicleCard extends StatelessWidget {
                             Text(
                               "Last radiator fluid change:  ",
                               style: TextStyle(
-                                color: AppTheme.of(context).primaryText,
-                                fontFamily: 'Bicyclette-Thin',
-                                fontSize: AppTheme.of(context)
-                                    .encabezadoTablas
-                                    .fontSize,
-                                    fontWeight: FontWeight.bold
-                              ),
+                                  color: AppTheme.of(context).primaryText,
+                                  fontFamily: 'Bicyclette-Thin',
+                                  fontSize: AppTheme.of(context)
+                                      .encabezadoTablas
+                                      .fontSize,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               vehicle.vehicle.lastRadiatorFluidChange == null
@@ -352,7 +345,7 @@ class DetailVehicleCard extends StatelessWidget {
                     image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(vehicle.vehicle.image ??
-                            "https://supa43.rtatel.com/storage/v1/object/public/assets/bg1.png")),
+                            "$supabaseUrl/storage/v1/object/public/assets/bg1.png")),
                     shape: RoundedRectangleBorder(
                       side: const BorderSide(width: 2.50, color: Colors.white),
                       borderRadius: BorderRadius.circular(20),

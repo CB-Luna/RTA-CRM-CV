@@ -46,6 +46,8 @@ class UsersProvider extends ChangeNotifier {
   List<dynamic> roleUser = [];
   List<User> installers = [];
   List<UserRole> userRole = [];
+  List<UserRole> userRoleiND = [];
+
   UserRole? userRoles;
   UserRole? userSelected;
   String? dropdownvalue = "Active";
@@ -62,7 +64,8 @@ class UsersProvider extends ChangeNotifier {
   String? imageUrl;
   String? imageUrlUpdate;
   Uuid uuid = const Uuid();
-
+  List<String> varibles = [];
+  List<dynamic> prueba = [];
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
@@ -110,10 +113,9 @@ class UsersProvider extends ChangeNotifier {
     certificationControllerUpdate.text = user.certification ?? "-";
     selectVehiclePlates = user.licensePlates;
     imageUrlUpdate = user.image == null
-        ? "https://supa43.rtatel.com/storage/v1/object/public/assets/user_profile/"
+        ? "$supabaseUrl/storage/v1/object/public/assets/user_profile/"
         : user.image!.replaceAll(
-            "https://supa43.rtatel.com/storage/v1/object/public/assets/user_profile/",
-            "");
+            "$supabaseUrl/storage/v1/object/public/assets/user_profile/", "");
   }
 
   void clearControllers({bool notify = true}) {
@@ -179,9 +181,9 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectInstaller(String installer) {
+  void selectInstaller(String installer, {bool notify = true}) {
     userSelected = userRole.firstWhere((elem) => elem.email == installer);
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   void selectState(String state) {
@@ -329,7 +331,9 @@ class UsersProvider extends ChangeNotifier {
       print(res);
       print("--------");
       roleInstallers = (res as List<dynamic>);
+
       print(roleInstallers.first["role_id"]);
+
       final res2 = await supabase
           .from('user_role')
           .select("user_fk")
@@ -342,25 +346,49 @@ class UsersProvider extends ChangeNotifier {
       // Utiliza un bucle for para obtener los IDs
       for (var elemento in roleUser) {
         final id = elemento["user_fk"];
-        print(id);
-        print(elemento);
+        print("id: $id");
+        print("El elemento del for es: $elemento");
         ids.add(id);
         print("----------");
+        print("Length del ids: ${ids.length}");
       }
 
       print(ids);
+
+      // final res4 = await supabase.from('users').select("email,name, last_name").
+
+      // for (var elemento in ids) {
+      //   final id = elemento;
+      //   print("- $id");
+      //   res3 = await supabase
+      //       .from("users")
+      //       .select("email, name, last_name")
+      //       .eq("id", id);
+      //   print("----------");
+      //   print("res3: $res3");
+
+      //   userRole = (res3 as List<dynamic>)
+      //       .map((user) => UserRole.fromJson(jsonEncode(user)))
+      //       .toList();
+      // }
       for (int i = 0; i < ids.length; i++) {
         final res3 = await supabase
             .from("users")
             .select("email, name, last_name")
             .eq("id", ids[i]);
         print("----------");
-        print(res3);
+        print(" res3: $res3");
 
         userRole = (res3 as List<dynamic>)
             .map((user) => UserRole.fromJson(jsonEncode(user)))
             .toList();
+
+        // userRoleiND.add(userRole[i]);
+        // print("El UserRole es: ${userRole[i].email}");
       }
+
+      print("Length: ${userRoleiND.length}");
+      print("Length2: ${varibles.length}");
 
       if (notify) notifyListeners();
     } catch (e) {
