@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
@@ -38,14 +37,13 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
         listen: false,
       );
       await provider.crearPDF();
-      provider.anexo = false;
-      provider.firmaAnexo = false;
-      provider.acountController.text = '2157412';
-      provider.emailController.text = 'lhernandez@gmail.com';
-      provider.addressController.text = 'San Luis 128452, California Av';
-      provider.acountNameController.text = 'Luis Hernandez';
-      provider.phoneController.text = '58715491';
-      provider.dateController.text = dateFormat(provider.fecha);
+      /* provider.acountController.text = '9528';
+      provider.zipcodeController.text='77650';
+      provider.emailController.text = '-';
+      provider.addressController.text = '-';
+      provider.acountNameController.text = '-';
+      provider.phoneController.text = '-';
+      provider.dateController.text = '-'; */
     });
   }
 
@@ -126,12 +124,22 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                                 MainAxisAlignment.spaceAround,
                                             children: [
                                               CustomTextField(
-                                                width: width * 280,
+                                                width: width * 140,
                                                 enabled: true,
                                                 controller:
                                                     provider.acountController,
                                                 icon: Icons.settings,
                                                 label: 'Acount Number',
+                                                keyboardType:
+                                                    TextInputType.name,
+                                              ),
+                                              CustomTextField(
+                                                width: width * 140,
+                                                enabled: true,
+                                                controller:
+                                                    provider.zipcodeController,
+                                                icon: Icons.maps_home_work,
+                                                label: 'Zip Code',
                                                 keyboardType:
                                                     TextInputType.name,
                                               ),
@@ -145,8 +153,9 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                                 ),
                                                 color: AppTheme.of(context)
                                                     .primaryColor,
-                                                onTap: () {
+                                                onTap: ()async {
                                                   //Metodo para buscar el account number
+                                                  await provider.documentInfo();
                                                 },
                                               )
                                             ],
@@ -166,6 +175,20 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                                 TextInputType.emailAddress,
                                           ),
                                         ),
+                                       /*  Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 10),
+                                          child: CustomTextField(
+                                            width: width * 380,
+                                            enabled: true,
+                                            controller:
+                                                provider.oemailController,
+                                            icon: Icons.email,
+                                            label: 'Other Email',
+                                            keyboardType:
+                                                TextInputType.emailAddress,
+                                          ),
+                                        ), */
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(bottom: 10),
@@ -184,7 +207,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                               const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
                                             width: width * 380,
-                                            enabled: true,
+                                            enabled: false,
                                             controller:
                                                 provider.addressController,
                                             icon: Icons.location_on,
@@ -197,7 +220,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                               const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
                                             width: width * 380,
-                                            enabled: true,
+                                            enabled: false,
                                             controller: provider.dateController,
                                             icon: Icons.calendar_month,
                                             label: 'Creation Date',
@@ -226,7 +249,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                               const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
                                             width: width * 380,
-                                            enabled: true,
+                                            enabled: false,
                                             controller:
                                                 provider.acountNameController,
                                             icon: Icons.person_pin,
@@ -239,7 +262,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                               const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
                                             width: width * 380,
-                                            enabled: true,
+                                            enabled: false,
                                             controller:
                                                 provider.phoneController,
                                             icon: Icons.phone,
