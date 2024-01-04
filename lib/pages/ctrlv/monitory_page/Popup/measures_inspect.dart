@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/card_header.dart';
+import '../../../../helpers/constants.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
@@ -21,7 +22,7 @@ class _MeasuresInspectState extends State<MeasuresInspect> {
   Widget build(BuildContext context) {
     MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
     const urlImage =
-        "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
+        "$supabaseUrl/storage/v1/object/public/assets/no_image.jpg";
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
@@ -48,7 +49,8 @@ class _MeasuresInspectState extends State<MeasuresInspect> {
                         alignment: Alignment.centerLeft,
                         padding: const EdgeInsets.all(20),
                         child: CustomTextIconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          icon:
+                              const Icon(Icons.arrow_back, color: Colors.white),
                           text: "",
                           isLoading: false,
                           onTap: () {
@@ -82,8 +84,10 @@ class _MeasuresInspectState extends State<MeasuresInspect> {
                           width: MediaQuery.of(context).size.width * 0.1,
                           height: MediaQuery.of(context).size.height * 0.04,
                           decoration: BoxDecoration(
-                            color: statusColor(provider
-                                .monitoryActual!.vehicle.company.company,context),
+                            color: statusColor(
+                                provider
+                                    .monitoryActual!.vehicle.company.company,
+                                context),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
@@ -202,7 +206,7 @@ Widget buildImage(String urlImage, int index) => Container(
         fit: BoxFit.cover,
       ),
     );
-Color statusColor(String status,BuildContext context) {
+Color statusColor(String status, BuildContext context) {
   late Color color;
 
   switch (status) {
