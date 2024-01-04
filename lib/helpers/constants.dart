@@ -157,8 +157,10 @@ const String mapCoverage = '/gigfast_network/map_coverage';
 // Call Center
 const String ecommerceRTA = '/call_center/ecommerceRTA';
 const String homeownerFTTHDocument = '/call_center/homeownerFTTHDocument';
-const String homeownerFTTHDocumentList = '/call_center/homeownerFTTHDocumentList';
-const String homeownerFTTHDocumentClient = '/call_center/homeownerFTTHDocumentClient';
+const String homeownerFTTHDocumentList =
+    '/call_center/homeownerFTTHDocumentList';
+const String homeownerFTTHDocumentClient =
+    '/call_center/homeownerFTTHDocumentClient';
 // Surveys
 const String wispapalooza2021Survey = '/surveys/wispapalooza_2021_survey';
 const String jobComplete = '/surveys/job_complete';
@@ -185,14 +187,14 @@ const String jobCompleteKamrinLilley =
     '/job_complete/job_complete_kamrin_lilley';
 const String jobCompleteAlexanderOgle =
     '/job_complete/job_complete_alexander_ogle';
-const String jobCompleteTimothyMcClaine =
-    '/job_complete/job_complete_timothy_mcclaine';
+const String jobCompleteTimotheyMcClaine =
+    '/job_complete/job_complete_timothey_mcclaine';
 const String jobCompleteDylanNowell = '/job_complete/job_complete_dylan_nowell';
 const String jobCompleteJosephThomson =
     '/job_complete/job_complete_joseph_thomson';
 const String jobCompleteScottNowell = '/job_complete/job_complete_scott_nowell';
-const String jobCompleteLarryPhilips =
-    '/job_complete/job_complete_larry_philips';
+const String jobCompleteLarryPhillips =
+    '/job_complete/job_complete_larry_phillips';
 const String jobCompleteZacharyLawson =
     '/job_complete/job_complete_zachary_lawson';
 const String jobCompleteBrandonMurdock =
@@ -220,5 +222,11 @@ const String jobCompleteRossHenry = '/job_complete/job_complete_ross_henry';
 const String jobCompleteEricHarmon = '/job_complete/job_complete_eric_harmon';
 const String jobCompletePaulHill = '/job_complete/job_complete_paul_hill';
 const String jobCompleteBrysonSmith = '/job_complete/job_complete_bryson_smith';
+const String jobCompleteJeffCalvin = '/job_complete/job_complete_jeff_calvin';
+const String jobCompleteKevinByrd = '/job_complete/job_complete_kevin_byrd';
+const String jobCompleteAzmonWalker = '/job_complete/job_complete_azmon_walker';
+const String jobCompleteEuniceTrevizo =
+    '/job_complete/job_complete_eunice_trevizo';
+
 const String fmt = '/fmt';
 const String wop = '/wop';

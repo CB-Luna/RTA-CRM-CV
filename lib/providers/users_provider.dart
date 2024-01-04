@@ -43,12 +43,12 @@ class UsersProvider extends ChangeNotifier {
   Company? selectedCompanyUpdate;
   List<State> states = [];
   List<dynamic> roleInstallers = [];
-  List<dynamic> roleUser = [];
+  List<dynamic> usersRoleInstaller = [];
   List<User> installers = [];
-  List<UserRole> userRole = [];
-  List<UserRole> userRoleiND = [];
+  List<UserRole> usersRoleInstallers = [];
+  List<String> idsinstallers = [];
 
-  UserRole? userRoles;
+  UserRole? userRoleInstaller;
   UserRole? userSelected;
   String? dropdownvalue = "Active";
   String? dropdownvalueUpdate = "Not Active";
@@ -64,8 +64,7 @@ class UsersProvider extends ChangeNotifier {
   String? imageUrl;
   String? imageUrlUpdate;
   Uuid uuid = const Uuid();
-  List<String> varibles = [];
-  List<dynamic> prueba = [];
+
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
@@ -182,7 +181,8 @@ class UsersProvider extends ChangeNotifier {
   }
 
   void selectInstaller(String installer, {bool notify = true}) {
-    userSelected = userRole.firstWhere((elem) => elem.email == installer);
+    userSelected =
+        usersRoleInstallers.firstWhere((elem) => elem.email == installer);
     if (notify) notifyListeners();
   }
 
@@ -325,71 +325,48 @@ class UsersProvider extends ChangeNotifier {
   }
 
   Future<void> getInstallers({bool notify = true}) async {
+    usersRoleInstallers = [];
+    userRoleInstaller = null;
+    idsinstallers = [];
+
     try {
       final res =
           await supabase.from('role').select("").eq('name', "Installers 1");
-      print(res);
-      print("--------");
+      // print(res);
+      // print("--------");
       roleInstallers = (res as List<dynamic>);
-
-      print(roleInstallers.first["role_id"]);
+      // print(roleInstallers.first["role_id"]);
 
       final res2 = await supabase
           .from('user_role')
           .select("user_fk")
           .eq("role_fk", roleInstallers.first["role_id"]);
-      print(res2);
-      roleUser = (res2 as List<dynamic>);
-
-      List<String> ids = [];
+      // print(res2);
+      usersRoleInstaller = (res2 as List<dynamic>);
 
       // Utiliza un bucle for para obtener los IDs
-      for (var elemento in roleUser) {
-        final id = elemento["user_fk"];
-        print("id: $id");
-        print("El elemento del for es: $elemento");
-        ids.add(id);
-        print("----------");
-        print("Length del ids: ${ids.length}");
+      for (var user in usersRoleInstaller) {
+        final id = user["user_fk"];
+        idsinstallers.add(id);
       }
-
-      print(ids);
-
-      // final res4 = await supabase.from('users').select("email,name, last_name").
-
-      // for (var elemento in ids) {
-      //   final id = elemento;
-      //   print("- $id");
-      //   res3 = await supabase
-      //       .from("users")
-      //       .select("email, name, last_name")
-      //       .eq("id", id);
-      //   print("----------");
-      //   print("res3: $res3");
-
-      //   userRole = (res3 as List<dynamic>)
-      //       .map((user) => UserRole.fromJson(jsonEncode(user)))
-      //       .toList();
-      // }
-      for (int i = 0; i < ids.length; i++) {
+      for (int i = 0; i < idsinstallers.length; i++) {
         final res3 = await supabase
             .from("users")
             .select("email, name, last_name")
-            .eq("id", ids[i]);
-        print("----------");
-        print(" res3: $res3");
+            .eq("id", idsinstallers[i]);
 
-        userRole = (res3 as List<dynamic>)
-            .map((user) => UserRole.fromJson(jsonEncode(user)))
-            .toList();
+        // print("----------");
+        // print("res3: $res3");
 
-        // userRoleiND.add(userRole[i]);
-        // print("El UserRole es: ${userRole[i].email}");
+        userRoleInstaller = (res3 as List<dynamic>)
+            .map((userrole) => UserRole.fromJson(jsonEncode(userrole)))
+            .toList()
+            .first;
+        usersRoleInstallers.add(userRoleInstaller!);
+        // print("El UserRole es: ${usersRoleInstallers[i].email}");
       }
-
-      print("Length: ${userRoleiND.length}");
-      print("Length2: ${varibles.length}");
-
+      print("Length ids ${idsinstallers.length}");
+      print("Length userRoleInstallers ${usersRoleInstallers.length}");
       if (notify) notifyListeners();
     } catch (e) {
       log('Error in getInstallers() -$e');
