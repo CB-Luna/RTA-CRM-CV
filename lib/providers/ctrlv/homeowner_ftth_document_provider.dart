@@ -13,10 +13,11 @@ import 'dart:html' as html;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/models/document_info.dart';
 import 'package:rta_crm_cv/models/homeowner.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:signature/signature.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   //Lista
@@ -28,12 +29,14 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   bool loadingGrid = false;
   late List<PlutoGridStateManager> listStateManager;
+  late DocumentInfo docInfo;
 
   //PDF Formulario
   List<List<String>> data = [];
   DateTime fecha = DateTime.now();
   late DateTime duedate;
   final acountController = TextEditingController();
+  final zipcodeController = TextEditingController();
   final emailController = TextEditingController();
   final representativeNameController = TextEditingController();
   final addressController = TextEditingController();
@@ -52,6 +55,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   clearAll() {
     listOpenned = true;
     acountController.clear();
+    zipcodeController.clear();
     emailController.clear();
     representativeNameController.clear();
     addressController.clear();
@@ -67,6 +71,66 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     return notifyListeners();
   }
 
+  //Get info
+  Future<void> documentInfo() async {
+    try {
+      String body = jsonEncode(
+        {
+          "apikey": "svsvs54sef5se4fsv",
+          "action": "searchAccountID",
+          "customerID": acountController.text,
+          "firstName": "",
+          "lastName": "",
+          "street": "",
+          "city": "",
+          "state": "",
+          "zipcode": zipcodeController.text,
+          "email": ""
+        },
+      );
+      var url = Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');
+      var response = await post(url, body: body);
+      if (response.statusCode == 200) {
+        log((response.body));
+      }
+      docInfo = DocumentInfo.fromJson(response.body);
+      emailController.text = docInfo.result!.first.email!;
+      addressController.text = '${docInfo.result!.first.street!}${docInfo.result!.first.city!}${docInfo.result!.first.state!}';
+      dateController.text = dateFormat(fecha);
+      acountNameController.text = '${docInfo.result!.first.firstName!}${docInfo.result!.first.lastName!}';
+      phoneController.text = '-';
+    } catch (e) {
+      log('Error en getInfo() - $e');
+    }
+    await crearPDF();
+    notifyListeners();
+  }
+
+  Future<void> documentInfoClient(int idClient) async {
+    try {
+      await clearAll();
+      notifyListeners();
+      final res = await supabase.from('homeowner_list').select().eq('id', idClient);
+      if (res == null) {
+        log('Error en getHomeowner()');
+        return;
+      }
+      List<HouseownerList> docs = (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
+      acountController.text = docs.first.formInfo!.acount!;
+      zipcodeController.text=docs.first.formInfo!.zipCode!;
+      emailController.text = docs.first.formInfo!.email!;
+      representativeNameController.text=docs.first.formInfo!.representativeName!;
+      addressController.text = docs.first.formInfo!.address!;
+      acountNameController.text = docs.first.formInfo!.acountName!;
+      phoneController.text = docs.first.formInfo!.phone!;
+      dateController.text = docs.first.formInfo!.date!;
+    } catch (e) {
+      log('Error en documentInfoClient() - $e');
+    }
+    await crearPDF();
+    notifyListeners();
+  }
+
   //Tabla Documents
   Future<void> getHomeowner() async {
     if (stateManager != null) {
@@ -79,8 +143,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         log('Error en getHomeowner()');
         return;
       }
-      List<HouseownerList> docs =
-          (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
+      List<HouseownerList> docs = (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
 
       rows.clear();
       for (HouseownerList doc in docs) {
@@ -116,6 +179,16 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         {
           "due_date": duedate.toString(),
           "id_status": 2,
+          "document_info": {
+            "acount": acountController.text,
+            "zip_code": zipcodeController.text,
+            "email": emailController.text,
+            "representative_name": representativeNameController.text,
+            "address": addressController.text,
+            "acountName": acountNameController.text,
+            "phone": phoneController.text,
+            "date": dateController.text,
+          }
         },
       ).select())[0]['id'];
 
@@ -256,11 +329,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   Future<Uint8List> clientExportSignature() async {
     pdfController = null;
     notifyListeners();
-    final exportController = SignatureController(
-        penStrokeWidth: 2,
-        penColor: Colors.black,
-        exportBackgroundColor: Colors.white,
-        points: clientSignatureController.points);
+    final exportController = SignatureController(penStrokeWidth: 2, penColor: Colors.black, exportBackgroundColor: Colors.white, points: clientSignatureController.points);
     signature = await exportController.toPngBytes();
     exportController.dispose();
     firmaAnexo = true;
@@ -314,10 +383,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                 pw.Text(
                   textAlign: pw.TextAlign.center,
                   'Fiber Optic Access Agreement',
-                  style: const pw.TextStyle(
-                      fontSize: 20,
-                      color: pdfcolor.PdfColor.fromInt(0XFF0A0859),
-                      decoration: pw.TextDecoration.underline),
+                  style: const pw.TextStyle(fontSize: 20, color: pdfcolor.PdfColor.fromInt(0XFF0A0859), decoration: pw.TextDecoration.underline),
                 ),
                 pw.Text(
                   'Address: ${addressController.text}',
@@ -327,7 +393,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                   ),
                 ),
                 pw.Text(
-                  'Date: ${dateFormat(fecha)}',
+                  'Date: ${dateController.text}',
                   style: const pw.TextStyle(
                     fontSize: 13,
                     color: pdfcolor.PdfColor.fromInt(0xFF060606),
@@ -460,8 +526,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
 
   Future<PdfController?> clientPDF(int id) async {
     final res = await supabase.from('homeowner_list').select().eq('id', id);
-    List<HouseownerList> docs =
-        (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
+    List<HouseownerList> docs = (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
     pdfController = null;
     notifyListeners();
     final logo = (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
@@ -483,10 +548,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                 pw.Text(
                   textAlign: pw.TextAlign.center,
                   'Fiber Optic Access Agreement',
-                  style: const pw.TextStyle(
-                      fontSize: 20,
-                      color: pdfcolor.PdfColor.fromInt(0XFF0A0859),
-                      decoration: pw.TextDecoration.underline),
+                  style: const pw.TextStyle(fontSize: 20, color: pdfcolor.PdfColor.fromInt(0XFF0A0859), decoration: pw.TextDecoration.underline),
                 ),
                 pw.Text(
                   'Address: ${addressController.text}',
@@ -631,7 +693,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   Future<void> pickDocument(String document) async {
     try {
       var url = supabase.storage.from('homeowner').getPublicUrl(document);
-      var bodyBytes = (await http.get(Uri.parse(url))).bodyBytes;
+      var bodyBytes = (await get(Uri.parse(url))).bodyBytes;
       pdfController = PdfController(document: PdfDocument.openData(bodyBytes));
     } catch (e) {
       log('Error in pickDocument() - $e');
