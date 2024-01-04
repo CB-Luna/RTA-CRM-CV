@@ -19,24 +19,21 @@ class HomeOwnerFTTHDocumentClient extends StatefulWidget {
   const HomeOwnerFTTHDocumentClient({super.key});
 
   @override
-  State<HomeOwnerFTTHDocumentClient> createState() =>
-      _HomeOwnerFTTHDocumentClientState();
+  State<HomeOwnerFTTHDocumentClient> createState() => _HomeOwnerFTTHDocumentClientState();
 }
 
-class _HomeOwnerFTTHDocumentClientState
-    extends State<HomeOwnerFTTHDocumentClient> {
+class _HomeOwnerFTTHDocumentClientState extends State<HomeOwnerFTTHDocumentClient> {
   bool hover = false;
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final HomeownerFTTHDocumentProvider provider =
-          Provider.of<HomeownerFTTHDocumentProvider>(
+      final HomeownerFTTHDocumentProvider provider = Provider.of<HomeownerFTTHDocumentProvider>(
         context,
         listen: false,
       );
-      await provider.crearPDF();
+      await provider.documentInfoClient(10);
       provider.anexo = false;
       provider.firmaAnexo = false;
     });
@@ -46,8 +43,7 @@ class _HomeOwnerFTTHDocumentClientState
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
-    HomeownerFTTHDocumentProvider provider =
-        Provider.of<HomeownerFTTHDocumentProvider>(context);
+    HomeownerFTTHDocumentProvider provider = Provider.of<HomeownerFTTHDocumentProvider>(context);
     return Material(
       child: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -70,16 +66,14 @@ class _HomeOwnerFTTHDocumentClientState
                         children: [
                           //Titulo
                           Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, top: 10, right: 10, bottom: 10),
+                            padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 IconButton(
                                   onPressed: () {
-                                    context.pushReplacement(
-                                        homeownerFTTHDocumentList);
+                                    context.pushReplacement(homeownerFTTHDocumentList);
                                   },
                                   icon: Icon(
                                     Icons.chevron_left,
@@ -91,8 +85,7 @@ class _HomeOwnerFTTHDocumentClientState
                                   padding: const EdgeInsets.only(right: 10),
                                   child: SizedBox(
                                     height: 40,
-                                    child: Text('Homeowner FTTH Document',
-                                        style: AppTheme.of(context).title1),
+                                    child: Text('Homeowner FTTH Document', style: AppTheme.of(context).title1),
                                   ),
                                 ),
                               ],
@@ -122,6 +115,17 @@ class _HomeOwnerFTTHDocumentClientState
                                     child: CustomTextField(
                                       width: width * 380,
                                       enabled: false,
+                                      controller: provider.zipcodeController,
+                                      icon: Icons.settings,
+                                      label: 'Zip Code',
+                                      keyboardType: TextInputType.name,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: CustomTextField(
+                                      width: width * 380,
+                                      enabled: false,
                                       controller: provider.emailController,
                                       icon: Icons.email,
                                       label: 'Email',
@@ -133,8 +137,7 @@ class _HomeOwnerFTTHDocumentClientState
                                     child: CustomTextField(
                                       width: width * 380,
                                       enabled: false,
-                                      controller:
-                                          provider.representativeNameController,
+                                      controller: provider.representativeNameController,
                                       icon: Icons.person,
                                       label: 'Representative Name',
                                       keyboardType: TextInputType.name,
@@ -215,8 +218,7 @@ class _HomeOwnerFTTHDocumentClientState
                           ),
                           CustomTextIconButton(
                             isLoading: false,
-                            icon: Icon(Icons.email,
-                                color: AppTheme.of(context).primaryColor),
+                            icon: Icon(Icons.email, color: AppTheme.of(context).primaryBackground),
                             text: 'Send Document',
                             onTap: () async {
                               //pendiente metodo y apis
@@ -226,13 +228,10 @@ class _HomeOwnerFTTHDocumentClientState
                                   msg: 'sent successfully',
                                   gravity: ToastGravity.CENTER,
                                   timeInSecForIosWeb: 4,
-                                  backgroundColor:
-                                      AppTheme.of(context).primaryColor,
-                                  textColor:
-                                      AppTheme.of(context).primaryBackground,
+                                  backgroundColor: AppTheme.of(context).primaryColor,
+                                  textColor: AppTheme.of(context).primaryBackground,
                                   fontSize: 16.0,
-                                  webBgColor:
-                                      "linear-gradient(to right, #0XFF2E78FF, #0x00FFFFFF)",
+                                  webBgColor: "linear-gradient(to right, #0XFF2E78FF, #0x00FFFFFF)",
                                   webPosition: "center",
                                 );
                                 setState(() {
@@ -244,13 +243,10 @@ class _HomeOwnerFTTHDocumentClientState
                                   msg: 'sent error',
                                   gravity: ToastGravity.CENTER,
                                   timeInSecForIosWeb: 4,
-                                  backgroundColor:
-                                      AppTheme.of(context).secondaryColor,
-                                  textColor:
-                                      AppTheme.of(context).primaryBackground,
+                                  backgroundColor: AppTheme.of(context).secondaryColor,
+                                  textColor: AppTheme.of(context).primaryBackground,
                                   fontSize: 16.0,
-                                  webBgColor:
-                                      "linear-gradient(to right, #B2333A, #4D4D4D)",
+                                  webBgColor: "linear-gradient(to right, #B2333A, #4D4D4D)",
                                   webPosition: "center",
                                 );
                               }

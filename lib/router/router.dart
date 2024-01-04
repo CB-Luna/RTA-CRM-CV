@@ -762,13 +762,13 @@ final GoRouter router = GoRouter(
       // (context, state, const DetailsPopUp()),
     ),
     GoRoute(
-      path: jobCompleteTimothyMcClaine,
-      name: 'Job Complete Timothy McClaine',
+      path: jobCompleteTimotheyMcClaine,
+      name: 'Job Complete Timothey McClaine',
       builder: (BuildContext context, GoRouterState state) {
         return const DashboardsRtatelPage(
-            title: "Job Complete Timothy McClaine",
+            title: "Job Complete Timothey McClaine",
             source:
-                "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=timothy.mcclaine@rtatel.com");
+                "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=timothey.mmclaine@rtatel.com");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -806,13 +806,46 @@ final GoRouter router = GoRouter(
       // (context, state, const DetailsPopUp()),
     ),
     GoRoute(
-      path: jobCompleteLarryPhilips,
+      path: jobCompleteLarryPhillips,
       name: 'Job Complete Larry Philips',
       builder: (BuildContext context, GoRouterState state) {
         return const DashboardsRtatelPage(
             title: "Job Complete Larry Philips",
             source:
                 "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=larry.phillips@rtatel.com");
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteKevinByrd,
+      name: 'Job Complete Kevin Byrd',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage(
+            title: "Job Complete Kevin Byrd",
+            source:
+                "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=kevin.byrd@rtatel.com");
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteAzmonWalker,
+      name: 'Job Complete Azmon Walker',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage(
+            title: "Job Complete Azmon Walker",
+            source:
+                "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=azmon.walker@rtatel.com");
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteEuniceTrevizo,
+      name: 'Job Complete Eunice Trevizo',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage(
+            title: "Job Complete Eunice Trevizo",
+            source:
+                "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=eunice_trevizo@rtatel.com");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -1011,6 +1044,17 @@ final GoRouter router = GoRouter(
             title: "Job Complete Brynson Smith",
             source:
                 "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=bryson.smith@rtatel.com");
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: jobCompleteJeffCalvin,
+      name: 'Job Complete Jeff Calvin',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DashboardsRtatelPage(
+            title: "Job Complete Jeff Calvin",
+            source:
+                "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=jeff.calvin@rtatel.com");
       },
       // (context, state, const DetailsPopUp()),
     ),

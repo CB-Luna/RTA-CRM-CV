@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_portal/flutter_portal.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
@@ -26,6 +28,19 @@ class DashboardRtatelPageDesktop extends StatefulWidget {
 
 class _DashboardRtatelPageDesktopState
     extends State<DashboardRtatelPageDesktop> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final UsersProvider provider = Provider.of<UsersProvider>(
+        context,
+        listen: false,
+      );
+      await provider.updateState();
+    });
+  }
+
   FToast fToast = FToast();
 
   @override
@@ -37,14 +52,14 @@ class _DashboardRtatelPageDesktopState
       fToast.init(context);
 
       UsersProvider provider = Provider.of<UsersProvider>(context);
+      provider.userSelected = null;
 
       final List<String> installersName =
-          provider.userRole.map((roles) => roles.email).toList();
+          provider.usersRoleInstallers.map((roles) => roles.email).toList();
 
       // if (currentUser!.isAdminDashboards) {
       if (installersName.isEmpty) {
         provider.getInstallers(notify: true);
-        print("El length del installers es ${installersName.length}");
       }
       return Material(
         child: SizedBox(
@@ -87,7 +102,7 @@ class _DashboardRtatelPageDesktopState
                                     if (val == null) return;
                                     provider.selectInstaller(val);
                                     context.pushReplacement(
-                                        "/job_complete/job_complete_${provider.userSelected!.name}_${provider.userSelected!.lastName}");
+                                        "/job_complete/job_complete_${provider.userSelected!.name.toLowerCase()}_${provider.userSelected!.lastName.toLowerCase()}");
                                   },
                                 ),
                               ],

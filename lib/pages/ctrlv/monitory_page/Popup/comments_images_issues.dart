@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/card_header.dart';
+import '../../../../helpers/constants.dart';
 import '../../../../providers/ctrlv/monitory_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
@@ -21,7 +22,7 @@ class _CommentsImagesIssuesState extends State<CommentsImagesIssues> {
   @override
   Widget build(BuildContext context) {
     MonitoryProvider provider = Provider.of<MonitoryProvider>(context);
-    const urlImage = "https://supa43.rtatel.com/storage/v1/object/public/assets/no_image.jpg";
+    const urlImage = "$supabaseUrl/storage/v1/object/public/assets/no_image.jpg";
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(

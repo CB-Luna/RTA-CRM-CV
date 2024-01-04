@@ -17,6 +17,8 @@ import 'package:rta_crm_cv/models/crm/x2crm/x2crm_quote_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../helpers/constants.dart';
+
 class QuotesProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<Quotes> quotes = [];
@@ -325,8 +327,13 @@ class QuotesProvider extends ChangeNotifier {
   } */
 
   Future<void> getStatus() async {
-    var res = await supabaseCRM.from('cat_quotes_status').select().eq('visible', true);
-    listStatus = (res as List<dynamic>).map((status) => ModelX2V2QuotesStatus.fromJson(jsonEncode(status))).toList();
+    var res = await supabaseCRM
+        .from('cat_quotes_status')
+        .select()
+        .eq('visible', true);
+    listStatus = (res as List<dynamic>)
+        .map((status) => ModelX2V2QuotesStatus.fromJson(jsonEncode(status)))
+        .toList();
     notifyListeners();
   }
 
@@ -351,15 +358,24 @@ class QuotesProvider extends ChangeNotifier {
                 'id_status.eq.9,id_status.eq.10',
               );
         } else {
-          res = await supabaseCRM.from('x2_quotes_view_v2').select().eq('id_status', status);
+          res = await supabaseCRM
+              .from('x2_quotes_view_v2')
+              .select()
+              .eq('id_status', status);
         }
       } else {
         if (currentUser!.isSales || currentUser!.isAdminCrm) {
           res = await supabaseCRM.from('x2_quotes_view_v2').select();
         } else if (currentUser!.isSenExec) {
-          res = await supabaseCRM.from('x2_quotes_view_v2').select().eq('id_status', 2); //Sen. Exec. Validate
+          res = await supabaseCRM
+              .from('x2_quotes_view_v2')
+              .select()
+              .eq('id_status', 2); //Sen. Exec. Validate
         } else if (currentUser!.isFinance) {
-          res = await supabaseCRM.from('x2_quotes_view_v2').select().eq('id_status', 3); //Finance Validate
+          res = await supabaseCRM
+              .from('x2_quotes_view_v2')
+              .select()
+              .eq('id_status', 3); //Finance Validate
         } else if (currentUser!.isOpperations) {
           res = await supabaseCRM.from('x2_quotes_view_v2').select().or(
                 'id_status.eq.4,id_status.eq.7,id_status.eq.9,id_status.eq.10,id_status.eq.11',
@@ -367,7 +383,9 @@ class QuotesProvider extends ChangeNotifier {
         }
       }
 
-      List<ModelX2V2QuotesView> listQuotes = (res as List<dynamic>).map((quote) => ModelX2V2QuotesView.fromJson(jsonEncode(quote))).toList();
+      List<ModelX2V2QuotesView> listQuotes = (res as List<dynamic>)
+          .map((quote) => ModelX2V2QuotesView.fromJson(jsonEncode(quote)))
+          .toList();
 
       rows.clear();
       for (ModelX2V2QuotesView quote in listQuotes) {
@@ -382,7 +400,8 @@ class QuotesProvider extends ChangeNotifier {
               'VENDOR_Column': PlutoCell(value: quote.vendor),
               'ORDER_Column': PlutoCell(value: quote.order),
               'DESCRIPTION_Column': PlutoCell(value: quote.description),
-              'DATACENTER_Column': PlutoCell(value: quote.orderInfo?.dataCenterLocation),
+              'DATACENTER_Column':
+                  PlutoCell(value: quote.orderInfo?.dataCenterLocation),
               'PROBABILITY_Column': PlutoCell(value: quote.probability),
               'CLOSED_Column': PlutoCell(value: quote.expectedclosedate),
               'ASSIGNED_Column': PlutoCell(value: quote.assignedTo),
@@ -406,12 +425,18 @@ class QuotesProvider extends ChangeNotifier {
 
   Future<bool> insertPowerCode(int id) async {
     try {
-      var responseQuote = await supabaseCRM.from('x2_quotes_view_v2').select().eq('quoteid', id);
+      var responseQuote = await supabaseCRM
+          .from('x2_quotes_view_v2')
+          .select()
+          .eq('quoteid', id);
       var quote = ModelX2V2QuotesView.fromJson(jsonEncode(responseQuote[0]));
 
       bool existInPowerCode = false;
       PcCustomer? pcCustomer;
-      var responseFilter = await supabaseCRM.from('customers').select().eq('customer_name_x2', quote.account);
+      var responseFilter = await supabaseCRM
+          .from('customers')
+          .select()
+          .eq('customer_name_x2', quote.account);
       if (responseFilter.isNotEmpty) {
         existInPowerCode = true;
         pcCustomer = PcCustomer.fromJson(jsonEncode(responseFilter[0]));
@@ -431,21 +456,32 @@ class QuotesProvider extends ChangeNotifier {
       String typesSelectedValue = quote.orderInfo!.type!;
       String circuitTypeSelectedValue = quote.circuitInfo!.circuitType!;
       var ticket = {
-        "title": '$typesSelectedValue - ${quote.orderInfo!.address!} - $circuitTypeSelectedValue ', //titulo type+circuitType+address
+        "title":
+            '$typesSelectedValue - ${quote.orderInfo!.address!} - $circuitTypeSelectedValue ', //titulo type+circuitType+address
 
-        if (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP')
+        if (circuitTypeSelectedValue == 'ASEoD' ||
+            circuitTypeSelectedValue == 'PTP')
           "body":
               "Circuit Address:${quote.orderInfo!.address!}\nCircuit Details:${quote.description!}\nData Center Location:${quote.orderInfo!.dataCenterLocation!}\nPort Size:${quote.circuitInfo!.portSize!}\nCIR:${quote.circuitInfo!.cir!}",
 
-        if (circuitTypeSelectedValue == 'DIA') "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}}",
+        if (circuitTypeSelectedValue == 'DIA')
+          "body":
+              "Data Center Location:${quote.orderInfo!.dataCenterLocation!}}",
 
-        if (typesSelectedValue != 'Removal' && (circuitTypeSelectedValue == 'ASEoD' || circuitTypeSelectedValue == 'PTP'))
+        if (typesSelectedValue != 'Removal' &&
+            (circuitTypeSelectedValue == 'ASEoD' ||
+                circuitTypeSelectedValue == 'PTP'))
           "body":
               "Circuit Address:${quote.orderInfo!.address!}\nCircuit Details:${quote.description!}\nData Center Location:${quote.orderInfo!.dataCenterLocation!}\nPort Size:${quote.circuitInfo!.portSize!}\nCIR:${quote.circuitInfo!.cir!}\nHandoff:${quote.orderInfo!.handoff!}\nDemarcation Point:${quote.orderInfo!.demarcationPoint!}\nImage of Demarcation Point:${quote.demarcationUrl} ",
 
-        if (circuitTypeSelectedValue == 'NNI' || circuitTypeSelectedValue == 'X-Connect') "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}",
+        if (circuitTypeSelectedValue == 'NNI' ||
+            circuitTypeSelectedValue == 'X-Connect')
+          "body":
+              "Data Center Location:${quote.orderInfo!.dataCenterLocation!}",
 
-        if (circuitTypeSelectedValue == 'X-Connect') "body": "Data Center Location:${quote.orderInfo!.dataCenterLocation!}\nDetails:${quote.description!}",
+        if (circuitTypeSelectedValue == 'X-Connect')
+          "body":
+              "Data Center Location:${quote.orderInfo!.dataCenterLocation!}\nDetails:${quote.description!}",
       };
 
       var json = {
@@ -478,7 +514,8 @@ class QuotesProvider extends ChangeNotifier {
 
       print(jsonEncode(json));
 
-      var request = http.Request('POST', Uri.parse("https://supa43.rtatel.com/planbuilder/wop/api"));
+      var request =
+          http.Request('POST', Uri.parse("$supabaseUrl/planbuilder/wop/api"));
       var headers = {'Content-Type': 'application/json'};
       request.headers.addAll(headers);
       request.body = jsonEncode(json);
@@ -489,7 +526,11 @@ class QuotesProvider extends ChangeNotifier {
         dynamic resp = await response.stream.bytesToString();
         await supabaseCRM.rpc(
           'update_quote_status',
-          params: {"id_status": 8, "id": id, "user_uuid": currentUser!.id}, //Order Created
+          params: {
+            "id_status": 8,
+            "id": id,
+            "user_uuid": currentUser!.id
+          }, //Order Created
         );
         print(resp);
       }
@@ -605,7 +646,9 @@ class QuotesProvider extends ChangeNotifier {
     }
 
     //Descargar
-    excel.save(fileName: "Quotes_Report_${DateFormat('MMMM_dd_yyyy').format(DateTime.now())}.xlsx");
+    excel.save(
+        fileName:
+            "Quotes_Report_${DateFormat('MMMM_dd_yyyy').format(DateTime.now())}.xlsx");
   }
 
   ////////////////////////////////////////////////////////
