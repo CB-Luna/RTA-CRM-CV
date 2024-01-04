@@ -19,6 +19,7 @@ import 'package:excel/excel.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../helpers/constants.dart';
 import '../../models/issues.dart';
 import '../../models/issues_dashboards.dart' as issue_dashboard;
 import '../../models/issues_x_user.dart';
@@ -407,10 +408,9 @@ class InventoryProvider extends ChangeNotifier {
     yearControllerUpdate.text = vehicle.year.toString();
     statusSelectedUpdate = statusSelected;
     imageUrlUpdate = vehicle.image == null
-        ? "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/"
+        ? "$supabaseUrl/storage/v1/object/public/assets/Vehicles/"
         : vehicle.image!.replaceAll(
-            "https://supa43.rtatel.com/storage/v1/object/public/assets/Vehicles/",
-            "");
+            "$supabaseUrl/storage/v1/object/public/assets/Vehicles/", "");
 
     colorControllerUpdate = colorController;
     colorControllers.text = colorController.toString();
