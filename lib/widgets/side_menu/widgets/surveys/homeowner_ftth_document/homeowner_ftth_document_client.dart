@@ -3,7 +3,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
+
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/models/token.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -16,7 +18,12 @@ import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 import 'widgets/firma_pdf.dart';
 
 class HomeOwnerFTTHDocumentClient extends StatefulWidget {
-  const HomeOwnerFTTHDocumentClient({super.key});
+  const HomeOwnerFTTHDocumentClient({
+    super.key,
+    required this.token,
+  });
+
+  final Token token;
 
   @override
   State<HomeOwnerFTTHDocumentClient> createState() => _HomeOwnerFTTHDocumentClientState();
@@ -24,6 +31,7 @@ class HomeOwnerFTTHDocumentClient extends StatefulWidget {
 
 class _HomeOwnerFTTHDocumentClientState extends State<HomeOwnerFTTHDocumentClient> {
   bool hover = false;
+
   @override
   void initState() {
     super.initState();

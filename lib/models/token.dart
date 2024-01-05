@@ -4,14 +4,16 @@ import 'dart:developer';
 class Token {
   Token({
     required this.token,
-    required this.userId,
+    required this.account,
     required this.email,
+    required this.documentId,
     required this.creationDate,
   });
 
   String token;
-  String userId;
+  String account;
   String email;
+  String documentId;
   DateTime creationDate;
 
   factory Token.fromJson(String str, String token) => Token.fromMap(json.decode(str), token);
@@ -21,15 +23,17 @@ class Token {
   factory Token.fromMap(Map<String, dynamic> payload, String token) {
     return Token(
       token: token,
-      userId: payload["user_id"],
+      account: payload["account"],
       email: payload["email"],
+      documentId: payload['document_id'],
       creationDate: DateTime.parse(payload['creation_date']),
     );
   }
 
   Map<String, dynamic> toMap() => {
-        "user_id": userId,
+        "account": account,
         "email": email,
+        "document_id": documentId,
         "creation_date": creationDate,
       };
 
@@ -37,8 +41,8 @@ class Token {
     int timeLimit = 5;
 
     try {
-      final minutesPassed = DateTime.now().toUtc().difference(creationDate).inDays;
-      if (minutesPassed < timeLimit) {
+      final daysPassed = DateTime.now().toUtc().difference(creationDate).inDays;
+      if (daysPassed < timeLimit) {
         // final res = await supabase
         //     .from('token')
         //     .select('token_$type')
