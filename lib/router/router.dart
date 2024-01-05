@@ -40,6 +40,8 @@ final GoRouter router = GoRouter(
 
     if (state.location == '/change-password') return null;
 
+    if (state.location.contains(homeownerFTTHDocumentClient)) return null;
+
     //If user is not logged in and not in the login page
     if (!loggedIn && !isLoggingIn) return '/login';
 

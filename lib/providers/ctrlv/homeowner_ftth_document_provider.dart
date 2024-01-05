@@ -183,7 +183,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         {
           "due_date": duedate.toString(),
           "id_status": 2,
-          "document_info": {
+          "form_info": {
             "acount": acountController.text,
             "zip_code": zipcodeController.text,
             "email": emailController.text,
@@ -199,7 +199,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       await supabase.storage.from('homeowner').uploadBinary('$idDoc.pdf', documento);
       await supabase.from('homeowner_list').update({'document': '$idDoc.pdf'}).eq('id', idDoc);
 
-      final token = generateToken(acountController.text, emailController.text, idDoc.toString());
+      final token = generateToken(acountController.text, emailController.text, idDoc);
 
       final link = '${Uri.base.origin}$homeownerFTTHDocumentClient?token=$token';
 
@@ -207,6 +207,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         name: acountNameController.text,
         account: acountController.text,
         link: link,
+        email: emailController.text,
       );
     } catch (e) {
       log('Error en createHomeowner() - $e');
@@ -354,7 +355,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     return signature!;
   }
 
-  String generateToken(String account, String email, String documentId) {
+  String generateToken(String account, String email, int documentId) {
     //Generar token
     final jwt = JWT(
       {
@@ -374,6 +375,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     required String name,
     required String account,
     required String link,
+    required String email,
   }) async {
     try {
       final response = await http.post(
@@ -384,14 +386,12 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
             "action": "rtaMail",
             "template": "TemporaryLink",
             "subject": "Homeowner FTTH Document",
-            "mailto": "andreslopezmartinez0@gmail.com",
-            'data': {
-              "variables": [
-                {"name": "name", "value": name},
-                {"name": "account", "value": account},
-                {"name": "link", "value": link},
-              ]
-            },
+            "mailto": email,
+            "variables": [
+              {"name": "name", "value": name},
+              {"name": "account", "value": account},
+              {"name": "link", "value": link},
+            ]
           },
         ),
       );

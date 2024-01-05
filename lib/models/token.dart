@@ -13,7 +13,7 @@ class Token {
   String token;
   String account;
   String email;
-  String documentId;
+  int documentId;
   DateTime creationDate;
 
   factory Token.fromJson(String str, String token) => Token.fromMap(json.decode(str), token);
