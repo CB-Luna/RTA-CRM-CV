@@ -96,8 +96,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       }
       docInfo = DocumentInfo.fromJson(response.body);
       emailController.text = docInfo.result!.first.email!;
-      addressController.text =
-          '${docInfo.result!.first.street!}${docInfo.result!.first.city!}${docInfo.result!.first.state!}';
+      addressController.text = '${docInfo.result!.first.street!}${docInfo.result!.first.city!}${docInfo.result!.first.state!}';
       dateController.text = dateFormat(fecha);
       acountNameController.text = '${docInfo.result!.first.firstName!}${docInfo.result!.first.lastName!}';
       phoneController.text = '-';
@@ -117,8 +116,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         log('Error en getHomeowner()');
         return;
       }
-      List<HouseownerList> docs =
-          (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
+      List<HouseownerList> docs = (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
       acountController.text = docs.first.formInfo!.acount!;
       zipcodeController.text = docs.first.formInfo!.zipCode!;
       emailController.text = docs.first.formInfo!.email!;
@@ -146,8 +144,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         log('Error en getHomeowner()');
         return;
       }
-      List<HouseownerList> docs =
-          (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
+      List<HouseownerList> docs = (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
 
       rows.clear();
       for (HouseownerList doc in docs) {
@@ -218,19 +215,19 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     return true;
   }
 
-  Future<bool> updateDocument() async {
+  Future<bool> updateDocument(int idClient) async {
     ejecBloq = true;
     notifyListeners();
     try {
-      var idDoc = (await supabase.from('homeowner_list').update(
+      await supabase.from('homeowner_list').update(
         {
           "due_date": fecha.toString(),
           "id_status": 1,
         },
-      ).select())[0]['id'];
+      ).eq('id', idClient);
 
-      await supabase.storage.from('homeowner').updateBinary('$idDoc.pdf', documento);
-      await supabase.from('homeowner_list').update({'document': '$idDoc.pdf'}).eq('id', idDoc);
+      await supabase.storage.from('homeowner').updateBinary('$idClient.pdf', documento);
+      await supabase.from('homeowner_list').update({'document': '$idClient.pdf'}).eq('id', idClient);
     } catch (e) {
       log('Error en createHomeowner() - $e');
       ejecBloq = false;
@@ -344,11 +341,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   Future<Uint8List> clientExportSignature() async {
     pdfController = null;
     notifyListeners();
-    final exportController = SignatureController(
-        penStrokeWidth: 2,
-        penColor: Colors.black,
-        exportBackgroundColor: Colors.white,
-        points: clientSignatureController.points);
+    final exportController = SignatureController(penStrokeWidth: 2, penColor: Colors.black, exportBackgroundColor: Colors.white, points: clientSignatureController.points);
     signature = await exportController.toPngBytes();
     exportController.dispose();
     firmaAnexo = true;
@@ -427,10 +420,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                 pw.Text(
                   textAlign: pw.TextAlign.center,
                   'Fiber Optic Access Agreement',
-                  style: const pw.TextStyle(
-                      fontSize: 20,
-                      color: pdfcolor.PdfColor.fromInt(0XFF0A0859),
-                      decoration: pw.TextDecoration.underline),
+                  style: const pw.TextStyle(fontSize: 20, color: pdfcolor.PdfColor.fromInt(0XFF0A0859), decoration: pw.TextDecoration.underline),
                 ),
                 pw.Text(
                   'Address: ${addressController.text}',
@@ -573,8 +563,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
 
   Future<PdfController?> clientPDF(int id) async {
     final res = await supabase.from('homeowner_list').select().eq('id', id);
-    List<HouseownerList> docs =
-        (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
+    List<HouseownerList> docs = (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
     pdfController = null;
     notifyListeners();
     final logo = (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
@@ -596,10 +585,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                 pw.Text(
                   textAlign: pw.TextAlign.center,
                   'Fiber Optic Access Agreement',
-                  style: const pw.TextStyle(
-                      fontSize: 20,
-                      color: pdfcolor.PdfColor.fromInt(0XFF0A0859),
-                      decoration: pw.TextDecoration.underline),
+                  style: const pw.TextStyle(fontSize: 20, color: pdfcolor.PdfColor.fromInt(0XFF0A0859), decoration: pw.TextDecoration.underline),
                 ),
                 pw.Text(
                   'Address: ${addressController.text}',
@@ -751,6 +737,53 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       return;
     }
     return;
+  }
+
+//Controladores Paginado Pluto?
+  void clearControllers({bool notify = true}) {
+    searchController.clear();
+
+    if (notify) notifyListeners();
+  }
+
+  void setPageSize(String x) {
+    switch (x) {
+      case 'more':
+        if (pageRowCount < rows.length) pageRowCount++;
+        break;
+      case 'less':
+        if (pageRowCount > 1) pageRowCount--;
+        break;
+      default:
+        return;
+    }
+    stateManager!.createFooter;
+    notifyListeners();
+  }
+
+  void setPage(String x) {
+    switch (x) {
+      case 'next':
+        if (page < stateManager!.totalPage) page++;
+        break;
+      case 'previous':
+        if (page > 1) page--;
+        break;
+      case 'start':
+        page = 1;
+        break;
+      case 'end':
+        page = stateManager!.totalPage;
+        break;
+      default:
+        return;
+    }
+    stateManager!.setPage(page);
+    notifyListeners();
+  }
+
+  void load() {
+    stateManager!.setShowLoading(true);
   }
 
   Future<void> selectdate(

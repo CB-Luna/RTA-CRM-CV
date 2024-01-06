@@ -207,7 +207,7 @@ class _HomeOwnerFTTHDocumentClientState extends State<HomeOwnerFTTHDocumentClien
                           text: 'Send Document',
                           onTap: () async {
                             //pendiente metodo y apis
-                            if (await provider.updateDocument()) {
+                            if (await provider.updateDocument(widget.token.documentId)) {
                               if (!mounted) return;
                               Fluttertoast.showToast(
                                 msg: 'sent successfully',
