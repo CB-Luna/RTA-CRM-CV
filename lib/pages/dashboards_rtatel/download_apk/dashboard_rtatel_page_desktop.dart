@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_portal/flutter_portal.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
+import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
-import 'package:rive/rive.dart' as rive;
 import 'package:rta_crm_cv/widgets/vista_por_url/i_frame.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../widgets/custom_ddown_menu/custom_dropdown_inventory.dart';
 
 class DashboardRtatelPageDesktop extends StatefulWidget {
   final String title;
@@ -21,6 +28,19 @@ class DashboardRtatelPageDesktop extends StatefulWidget {
 
 class _DashboardRtatelPageDesktopState
     extends State<DashboardRtatelPageDesktop> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final UsersProvider provider = Provider.of<UsersProvider>(
+        context,
+        listen: false,
+      );
+      await provider.updateState();
+    });
+  }
+
   FToast fToast = FToast();
 
   @override
@@ -28,154 +48,209 @@ class _DashboardRtatelPageDesktopState
     // SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
     // sideM.setIndex(13);
     fToast.init(context);
-    if(widget.title != "Map Coverage"){
+    if (widget.title != "Map Coverage") {
+      fToast.init(context);
+
+      UsersProvider provider = Provider.of<UsersProvider>(context);
+      provider.userSelected = null;
+
+      final List<String> installersName =
+          provider.usersRoleInstallers.map((roles) => roles.email).toList();
+
+      // if (currentUser!.isAdminDashboards) {
+      if (installersName.isEmpty) {
+        provider.getInstallers(notify: true);
+      }
       return Material(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SideMenu(),
-            Flexible(
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(gradient: whiteGradient),
-                child: CustomScrollBar(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: [
-                      //Contenido
-                      IFrame(
-                        src: widget.source,
-                        width: MediaQuery.of(context).size.width * .95,
-                        height: MediaQuery.of(context).size.height,
-                      ),
-                    ],
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SideMenu(),
+              Flexible(
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(gradient: whiteGradient),
+                  child: CustomScrollBar(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: [
+                        Visibility(
+                          visible: currentUser!.isAdminDashboards,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.10,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: Text(
+                                    "Search Job Technician: ",
+                                    style: AppTheme.of(context).bodyText1,
+                                  ),
+                                ),
+                                CustomDropDownInventory(
+                                  label: '',
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.27,
+                                  list: installersName,
+                                  dropdownValue: provider.userSelected?.email,
+                                  onChanged: (val) {
+                                    if (val == null) return;
+                                    provider.selectInstaller(val);
+                                    context.pushReplacement(
+                                        "/job_complete/job_complete_${provider.userSelected!.name.toLowerCase()}_${provider.userSelected!.lastName.toLowerCase()}");
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        //Contenido
+                        IFrame(
+                          src: widget.source,
+                          width: MediaQuery.of(context).size.width * .95,
+                          height: MediaQuery.of(context).size.height,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
-      ),
-    );
-    }else{
+      );
+    } else {
       return Material(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SideMenu(),
-            Flexible(
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(gradient: whiteGradient),
-                child: CustomScrollBar(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: [
-                      //Titulo
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                height: 40,
-                                child: Text("Map coverage (Smithville)", style: AppTheme.of(context).title1),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SideMenu(),
+              Flexible(
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(gradient: whiteGradient),
+                  child: CustomScrollBar(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: [
+                        //Titulo
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 10, right: 10, bottom: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: SizedBox(
+                                  height: 40,
+                                  child: Text("Map coverage (Smithville)",
+                                      style: AppTheme.of(context).title1),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      //Contenido
-                      IFrame(
-                        src: "https://sites.towercoverage.com/default.aspx?mcid=36023&Acct=28805",
-                        width: MediaQuery.of(context).size.width * .7,
-                        height: MediaQuery.of(context).size.height*.7,
-                      ),
-                       //Titulo
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                height: 40,
-                                child: Text("Map coverage (Odessa)", style: AppTheme.of(context).title1),
+                        //Contenido
+                        IFrame(
+                          src:
+                              "https://sites.towercoverage.com/default.aspx?mcid=36023&Acct=28805",
+                          width: MediaQuery.of(context).size.width * .7,
+                          height: MediaQuery.of(context).size.height * .7,
+                        ),
+                        //Titulo
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 10, right: 10, bottom: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: SizedBox(
+                                  height: 40,
+                                  child: Text("Map coverage (Odessa)",
+                                      style: AppTheme.of(context).title1),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      //Contenido
-                      IFrame(
-                        src: "https://sites.towercoverage.com/default.aspx?mcid=36038&Acct=28805",
-                        width: MediaQuery.of(context).size.width * .7,
-                        height: MediaQuery.of(context).size.height*.7,
-                      ),
-                       //Titulo
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                height: 40,
-                                child: Text("Map coverage (Crystal Beach)", style: AppTheme.of(context).title1),
+                        //Contenido
+                        IFrame(
+                          src:
+                              "https://sites.towercoverage.com/default.aspx?mcid=36038&Acct=28805",
+                          width: MediaQuery.of(context).size.width * .7,
+                          height: MediaQuery.of(context).size.height * .7,
+                        ),
+                        //Titulo
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 10, right: 10, bottom: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: SizedBox(
+                                  height: 40,
+                                  child: Text("Map coverage (Crystal Beach)",
+                                      style: AppTheme.of(context).title1),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      //Contenido
-                      IFrame(
-                        src: "https://sites.towercoverage.com/default.aspx?mcid=36163&Acct=28805",
-                        width: MediaQuery.of(context).size.width * .7,
-                        height: MediaQuery.of(context).size.height*.7,
-                      ),
-                       //Titulo
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                height: 40,
-                                child: Text("Map coverage (Eastland)", style: AppTheme.of(context).title1),
+                        //Contenido
+                        IFrame(
+                          src:
+                              "https://sites.towercoverage.com/default.aspx?mcid=36163&Acct=28805",
+                          width: MediaQuery.of(context).size.width * .7,
+                          height: MediaQuery.of(context).size.height * .7,
+                        ),
+                        //Titulo
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 10, right: 10, bottom: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: SizedBox(
+                                  height: 40,
+                                  child: Text("Map coverage (Eastland)",
+                                      style: AppTheme.of(context).title1),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      //Contenido
-                      IFrame(
-                        src: "https://sites.towercoverage.com/default.aspx?mcid=36185&Acct=28805",
-                        width: MediaQuery.of(context).size.width * .7,
-                        height: MediaQuery.of(context).size.height*.7,
-                      ),
-                    ],
+                        //Contenido
+                        IFrame(
+                          src:
+                              "https://sites.towercoverage.com/default.aspx?mcid=36185&Acct=28805",
+                          width: MediaQuery.of(context).size.width * .7,
+                          height: MediaQuery.of(context).size.height * .7,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
     }
-    
   }
 }
 

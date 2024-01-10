@@ -17,6 +17,8 @@ import 'package:rta_crm_cv/models/crm/x2crm/x2crm_quote_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../helpers/constants.dart';
+
 class QuotesProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   List<Quotes> quotes = [];
@@ -478,7 +480,7 @@ class QuotesProvider extends ChangeNotifier {
 
       print(jsonEncode(json));
 
-      var request = http.Request('POST', Uri.parse("https://supa43.rtatel.com/planbuilder/wop/api"));
+      var request = http.Request('POST', Uri.parse("$configurator/planbuilder/wop/api"));
       var headers = {'Content-Type': 'application/json'};
       request.headers.addAll(headers);
       request.body = jsonEncode(json);
