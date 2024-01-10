@@ -32,13 +32,14 @@ class _DashboardRtatelPageDesktopState
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final UsersProvider provider = Provider.of<UsersProvider>(
-        context,
-        listen: false,
-      );
-      await provider.updateState();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    //   final UsersProvider provider = Provider.of<UsersProvider>(
+    //     context,
+    //     listen: false,
+    //   );
+    //   // provider.clearListInstallers(notify: true);
+    //   await provider.updateState();
+    // });
   }
 
   FToast fToast = FToast();
@@ -59,6 +60,9 @@ class _DashboardRtatelPageDesktopState
 
       // if (currentUser!.isAdminDashboards) {
       if (installersName.isEmpty) {
+        provider.usersRoleInstallers = [];
+        provider.userRoleInstaller = null;
+        provider.idsinstallers = [];
         provider.getInstallers(notify: true);
       }
       return Material(
@@ -73,11 +77,11 @@ class _DashboardRtatelPageDesktopState
                 child: Container(
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(gradient: whiteGradient),
-                  child: CustomScrollBar(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                      children: [
-                        Visibility(
+                  child: Column(
+                    children: [
+                      Visibility(
+                        visible: provider.pagesearch == true,
+                        child: Visibility(
                           visible: currentUser!.isAdminDashboards,
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.10,
@@ -93,7 +97,7 @@ class _DashboardRtatelPageDesktopState
                                   ),
                                 ),
                                 CustomDropDownInventory(
-                                  label: '',
+                                  label: "",
                                   width:
                                       MediaQuery.of(context).size.width * 0.27,
                                   list: installersName,
@@ -109,14 +113,19 @@ class _DashboardRtatelPageDesktopState
                             ),
                           ),
                         ),
-                        //Contenido
-                        IFrame(
-                          src: widget.source,
-                          width: MediaQuery.of(context).size.width * .95,
-                          height: MediaQuery.of(context).size.height,
+                      ),
+                      //Contenido
+                      Expanded(
+                        child: IgnorePointer(
+                          ignoring: true,
+                          child: IFrame(
+                            src: widget.source,
+                            width: MediaQuery.of(context).size.width * .95,
+                            height: MediaQuery.of(context).size.height,
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               )
