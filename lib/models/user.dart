@@ -96,7 +96,7 @@ class User {
       currentUser!.isEmployee ||
       currentUser!.isTechSupervisor;
 
-  bool get isAdminCv => currentUser!.currentRole.roleName == "Admin CV";
+  bool get isAdminCv => currentUser!.currentRole.roleName == "Admin FM";
   bool get isManager => currentUser!.currentRole.roleName == 'Manager';
   bool get isEmployee => currentUser!.currentRole.roleName == 'Employee';
   bool get isTechSupervisor =>

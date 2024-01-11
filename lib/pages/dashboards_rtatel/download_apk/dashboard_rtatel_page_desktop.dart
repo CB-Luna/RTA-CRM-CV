@@ -58,6 +58,7 @@ class _DashboardRtatelPageDesktopState
       final List<String> installersName =
           provider.usersRoleInstallers.map((roles) => roles.email).toList();
 
+      provider.pagesearch = false;
       // if (currentUser!.isAdminDashboards) {
       if (installersName.isEmpty) {
         provider.usersRoleInstallers = [];

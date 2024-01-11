@@ -104,7 +104,7 @@ class _SurveysButtonState extends State<SurveysButton> {
                             ),
                             onTap: () async {
                               provider.pagesearch = true;
-                              context.pushReplacement(opcoSuscriberTarget);
+                              context.pushReplacement(routeJobCompleteTechni);
                             },
                             hoverColor: AppTheme.of(context)
                                 .primaryColor

@@ -27,6 +27,7 @@ import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_docu
 import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document_list.dart';
 
 import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
+import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
 import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
 
 /// The route configuration.
@@ -428,6 +429,15 @@ final GoRouter router = GoRouter(
       },
       // (context, state, const DetailsPopUp()),
     ),
+    GoRoute(
+      path: routeJobCompleteTechni,
+      name: 'Job complete Technicians',
+      builder: (BuildContext context, GoRouterState state) {
+        return const JobCompleteTechniciansPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+
     ////////Sales
     GoRoute(
       path: opcoSuscriberTarget,
