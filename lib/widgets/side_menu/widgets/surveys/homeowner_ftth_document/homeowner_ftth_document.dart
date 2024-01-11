@@ -15,8 +15,6 @@ import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
-//import 'widgets/firma_pdf.dart';
-
 class HomeOwnerFTTHDocument extends StatefulWidget {
   const HomeOwnerFTTHDocument({super.key});
 
@@ -31,14 +29,13 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final HomeownerFTTHDocumentProvider provider =
-          Provider.of<HomeownerFTTHDocumentProvider>(
+      final HomeownerFTTHDocumentProvider provider = Provider.of<HomeownerFTTHDocumentProvider>(
         context,
         listen: false,
       );
       await provider.crearPDF();
       /* provider.acountController.text = '9528';
-      provider.zipcodeController.text='77650';
+      provider.zipcodeController.text = '77650';
       provider.emailController.text = '-';
       provider.addressController.text = '-';
       provider.acountNameController.text = '-';
@@ -51,8 +48,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
-    HomeownerFTTHDocumentProvider provider =
-        Provider.of<HomeownerFTTHDocumentProvider>(context);
+    HomeownerFTTHDocumentProvider provider = Provider.of<HomeownerFTTHDocumentProvider>(context);
     return Material(
       child: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -78,8 +74,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                context
-                                    .pushReplacement(homeownerFTTHDocumentList);
+                                context.pushReplacement(homeownerFTTHDocumentList);
                               },
                               icon: Icon(
                                 Icons.chevron_left,
@@ -88,12 +83,10 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 10, left: 10),
+                              padding: const EdgeInsets.only(right: 10, left: 10),
                               child: SizedBox(
                                 height: 40,
-                                child: Text('Homeowner FTTH Document',
-                                    style: AppTheme.of(context).title1),
+                                child: Text('Homeowner FTTH Document', style: AppTheme.of(context).title1),
                               ),
                             ),
                           ],
@@ -117,43 +110,35 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                     child: Column(
                                       children: [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
+                                          padding: const EdgeInsets.only(bottom: 10),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
                                               CustomTextField(
                                                 width: width * 140,
                                                 enabled: true,
-                                                controller:
-                                                    provider.acountController,
+                                                controller: provider.acountController,
                                                 icon: Icons.settings,
                                                 label: 'Acount Number',
-                                                keyboardType:
-                                                    TextInputType.name,
+                                                keyboardType: TextInputType.name,
                                               ),
                                               CustomTextField(
                                                 width: width * 140,
                                                 enabled: true,
-                                                controller:
-                                                    provider.zipcodeController,
+                                                controller: provider.zipcodeController,
                                                 icon: Icons.maps_home_work,
                                                 label: 'Zip Code',
-                                                keyboardType:
-                                                    TextInputType.name,
+                                                keyboardType: TextInputType.name,
                                               ),
                                               CustomTextIconButton(
                                                 text: 'Search',
                                                 isLoading: false,
                                                 icon: Icon(
                                                   Icons.search,
-                                                  color: AppTheme.of(context)
-                                                      .primaryBackground,
+                                                  color: AppTheme.of(context).primaryBackground,
                                                 ),
-                                                color: AppTheme.of(context)
-                                                    .primaryColor,
-                                                onTap: ()async {
+                                                color: AppTheme.of(context).primaryColor,
+                                                onTap: () async {
                                                   //Metodo para buscar el account number
                                                   await provider.documentInfo();
                                                 },
@@ -162,137 +147,124 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
-                                          child: CustomTextField(
-                                            width: width * 380,
-                                            enabled: true,
-                                            controller:
-                                                provider.emailController,
-                                            icon: Icons.email,
-                                            label: 'Email',
-                                            keyboardType:
-                                                TextInputType.emailAddress,
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              CustomTextField(
+                                                width: width * 280,
+                                                enabled: true,
+                                                controller: provider.emailController,
+                                                icon: Icons.email,
+                                                label: 'Email',
+                                                keyboardType: TextInputType.emailAddress,
+                                              ),
+                                              CustomTextIconButton(
+                                                text: 'Add Email',
+                                                isLoading: false,
+                                                icon: Icon(
+                                                  Icons.add,
+                                                  color: AppTheme.of(context).primaryBackground,
+                                                ),
+                                                color: AppTheme.of(context).primaryColor,
+                                                onTap: () {
+                                                  setState(() {
+                                                    provider.addEmail = true;
+                                                  });
+                                                },
+                                              )
+                                            ],
                                           ),
                                         ),
-                                       /*  Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
-                                          child: CustomTextField(
-                                            width: width * 380,
-                                            enabled: true,
-                                            controller:
-                                                provider.oemailController,
-                                            icon: Icons.email,
-                                            label: 'Other Email',
-                                            keyboardType:
-                                                TextInputType.emailAddress,
-                                          ),
-                                        ), */
+                                        provider.addEmail == true
+                                            ? Padding(
+                                                padding: const EdgeInsets.only(bottom: 10),
+                                                child: CustomTextField(
+                                                  width: width * 380,
+                                                  enabled: true,
+                                                  controller: provider.email2Controller,
+                                                  icon: Icons.email,
+                                                  label: 'Other Email',
+                                                  keyboardType: TextInputType.emailAddress,
+                                                ),
+                                              )
+                                            : const SizedBox.shrink(),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
+                                          padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
                                             width: width * 380,
                                             enabled: true,
-                                            controller: provider
-                                                .representativeNameController,
+                                            controller: provider.representativeNameController,
                                             icon: Icons.person,
-                                            label: 'Representative Name',
+                                            label: 'Designated Representative',
                                             keyboardType: TextInputType.name,
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
+                                          padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
                                             width: width * 380,
                                             enabled: false,
-                                            controller:
-                                                provider.addressController,
+                                            controller: provider.addressController,
                                             icon: Icons.location_on,
                                             label: 'Address',
                                             keyboardType: TextInputType.name,
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
+                                          padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
                                             width: width * 380,
                                             enabled: false,
                                             controller: provider.dateController,
                                             icon: Icons.calendar_month,
                                             label: 'Creation Date',
-                                            keyboardType:
-                                                TextInputType.datetime,
+                                            keyboardType: TextInputType.datetime,
                                           ),
                                         ),
-                                        /* Padding(
-                                        padding: const EdgeInsets.only(bottom: 10),
-                                        child: CustomTextIconButton(
-                                          isLoading: false,
-                                          icon: const Icon(
-                                            Icons.calendar_month,
-                                            color: AppTheme.primary,
-                                          ),
-                                          text: 'Date: ${DateFormat('MMMM, MM-dd-yyyy').format(provider.create)}',
-                                          style: const TextStyle(color: AppTheme.primary),
-                                          onTap: () {
-                                            provider.selectdate(context);
-                                          },
-                                          color: AppTheme.primaryBackground,
-                                        ),
-                                      ), */
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
+                                          padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
                                             width: width * 380,
                                             enabled: false,
-                                            controller:
-                                                provider.acountNameController,
+                                            controller: provider.acountNameController,
                                             icon: Icons.person_pin,
                                             label: 'Acount Name',
                                             keyboardType: TextInputType.name,
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
+                                          padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
                                             width: width * 380,
-                                            enabled: false,
-                                            controller:
-                                                provider.phoneController,
+                                            enabled: true,
+                                            controller: provider.phoneController,
                                             icon: Icons.phone,
                                             label: 'Phone Number',
                                             keyboardType: TextInputType.name,
                                           ),
                                         ),
                                         Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 10),
-                                            child: CustomTextIconButton(
-                                              width: width * 120,
-                                              text: 'Refresh File',
-                                              isLoading: false,
-                                              icon: Icon(
-                                                Icons.refresh,
-                                                color: AppTheme.of(context)
-                                                    .primaryBackground,
-                                              ),
-                                              color: AppTheme.of(context)
-                                                  .primaryColor,
-                                              onTap: () async {
-                                                await provider.crearPDF();
-                                              },
-                                            )),
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomTextIconButton(
+                                            width: width * 120,
+                                            text: 'Refresh File',
+                                            isLoading: false,
+                                            icon: Icon(
+                                              Icons.refresh,
+                                              color: AppTheme.of(context).primaryBackground,
+                                            ),
+                                            color: AppTheme.of(context).primaryColor,
+                                            onTap: () async {
+                                              await provider.crearPDF();
+                                            },
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
-                                /*Padding(
+                                /* Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: CustomCard(
                                     title: 'Signature',
@@ -300,55 +272,48 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                     height: height * 275,
                                     child: const FirmaPDF(),
                                   ),
-                                ),*/
+                                ), */
                                 SizedBox(
                                   height: height * 275,
                                 ),
-                                CustomTextIconButton(
-                                  isLoading: false,
-                                  icon: Icon(Icons.email,
-                                      color: AppTheme.of(context)
-                                          .primaryBackground),
-                                  text: 'Send Document',
-                                  onTap: () async {
-                                    if (await provider.createHomeowner()) {
-                                      if (!mounted) return;
-                                      Fluttertoast.showToast(
-                                        msg: 'sent successfully',
-                                        gravity: ToastGravity.CENTER,
-                                        timeInSecForIosWeb: 4,
-                                        backgroundColor:
-                                            AppTheme.of(context).primaryColor,
-                                        textColor: AppTheme.of(context)
-                                            .primaryBackground,
-                                        fontSize: 16.0,
-                                        webBgColor:
-                                            "linear-gradient(to right, #0XFF2E78FF, #0x00FFFFFF)",
-                                        webPosition: "center",
-                                      );
-                                      setState(() {
-                                        provider.ejecBloq = false;
-                                      });
-                                    } else {
-                                      if (!mounted) return;
-                                      Fluttertoast.showToast(
-                                        msg: 'sent error',
-                                        gravity: ToastGravity.CENTER,
-                                        timeInSecForIosWeb: 4,
-                                        backgroundColor:
-                                            AppTheme.of(context).secondaryColor,
-                                        textColor: AppTheme.of(context)
-                                            .primaryBackground,
-                                        fontSize: 16.0,
-                                        webBgColor:
-                                            "linear-gradient(to right, #B2333A, #4D4D4D)",
-                                        webPosition: "center",
-                                      );
-                                    }
-                                    context.pushReplacement(
-                                        homeownerFTTHDocumentList);
-                                  },
-                                ),
+                                provider.search == false
+                                    ? const SizedBox.shrink()
+                                    : CustomTextIconButton(
+                                        isLoading: false,
+                                        icon: Icon(Icons.email, color: AppTheme.of(context).primaryBackground),
+                                        text: 'Send Document',
+                                        onTap: () async {
+                                          if (await provider.createHomeowner()) {
+                                            if (!mounted) return;
+                                            Fluttertoast.showToast(
+                                              msg: 'sent successfully',
+                                              gravity: ToastGravity.CENTER,
+                                              timeInSecForIosWeb: 4,
+                                              backgroundColor: AppTheme.of(context).primaryColor,
+                                              textColor: AppTheme.of(context).primaryBackground,
+                                              fontSize: 16.0,
+                                              webBgColor: "linear-gradient(to right, #0XFF2E78FF, #0x00FFFFFF)",
+                                              webPosition: "center",
+                                            );
+                                            setState(() {
+                                              provider.ejecBloq = false;
+                                            });
+                                          } else {
+                                            if (!mounted) return;
+                                            Fluttertoast.showToast(
+                                              msg: 'sent error',
+                                              gravity: ToastGravity.CENTER,
+                                              timeInSecForIosWeb: 4,
+                                              backgroundColor: AppTheme.of(context).secondaryColor,
+                                              textColor: AppTheme.of(context).primaryBackground,
+                                              fontSize: 16.0,
+                                              webBgColor: "linear-gradient(to right, #B2333A, #4D4D4D)",
+                                              webPosition: "center",
+                                            );
+                                          }
+                                          context.pushReplacement(homeownerFTTHDocumentList);
+                                        },
+                                      ),
                               ],
                             ),
                             Padding(
@@ -372,8 +337,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                       : PdfView(
                                           pageSnapping: false,
                                           scrollDirection: Axis.vertical,
-                                          physics:
-                                              const BouncingScrollPhysics(),
+                                          physics: const BouncingScrollPhysics(),
                                           renderer: (PdfPage page) {
                                             if (page.width >= page.height) {
                                               return page.render(
@@ -382,8 +346,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                                 format: PdfPageImageFormat.jpeg,
                                                 backgroundColor: '#15FF0D',
                                               );
-                                            } else if (page.width ==
-                                                page.height) {
+                                            } else if (page.width == page.height) {
                                               return page.render(
                                                 width: page.width * 4,
                                                 height: page.height * 4,

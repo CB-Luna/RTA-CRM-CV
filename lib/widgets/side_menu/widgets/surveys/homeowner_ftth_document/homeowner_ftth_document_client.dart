@@ -39,6 +39,7 @@ class _HomeOwnerFTTHDocumentClientState extends State<HomeOwnerFTTHDocumentClien
         listen: false,
       );
       await provider.documentInfoClient(widget.token.documentId);
+      await provider.clientPDF();
       provider.anexo = false;
       provider.firmaAnexo = false;
     });
@@ -150,22 +151,6 @@ class _HomeOwnerFTTHDocumentClientState extends State<HomeOwnerFTTHDocumentClien
                                     keyboardType: TextInputType.datetime,
                                   ),
                                 ),
-                                /* Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: CustomTextIconButton(
-                                  isLoading: false,
-                                  icon: const Icon(
-                                    Icons.calendar_month,
-                                    color: AppTheme.primary,
-                                  ),
-                                  text: 'Date: ${DateFormat('MMMM, MM-dd-yyyy').format(provider.create)}',
-                                  style: const TextStyle(color: AppTheme.primary),
-                                  onTap: () {
-                                    provider.selectdate(context);
-                                  },
-                                  color: AppTheme.primaryBackground,
-                                ),
-                              ), */
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: CustomTextField(
@@ -206,6 +191,14 @@ class _HomeOwnerFTTHDocumentClientState extends State<HomeOwnerFTTHDocumentClien
                           icon: Icon(Icons.email, color: AppTheme.of(context).primaryBackground),
                           text: 'Send Document',
                           onTap: () async {
+                            if (provider.clientSignatureController.isNotEmpty) {
+                              await provider.clientExportSignature();
+                              await provider.clientPDF(); //pendiente como traer info del pdf
+                            } else {
+                              provider.clientSignatureController.clear();
+                              provider.firmaAnexo = false;
+                              await provider.clientPDF();
+                            }
                             //pendiente metodo y apis
                             if (await provider.updateDocument(widget.token.documentId)) {
                               if (!mounted) return;
