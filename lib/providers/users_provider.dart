@@ -12,7 +12,6 @@ import 'package:http/http.dart' as http;
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
-import 'package:rta_crm_cv/models/user_profile_api.dart';
 import 'package:rta_crm_cv/models/user_role.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 import 'package:uuid/uuid.dart';
@@ -47,7 +46,7 @@ class UsersProvider extends ChangeNotifier {
   List<User> installers = [];
   List<UserRole> usersRoleInstallers = [];
   List<String> idsinstallers = [];
-
+  bool? pagesearch = false;
   UserRole? userRoleInstaller;
   UserRole? userSelected;
   String? dropdownvalue = "Active";
@@ -324,11 +323,18 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // void clearListInstallers({bool notify = true}) {
+  //   usersRoleInstallers = [];
+  //   userRoleInstaller = null;
+  //   idsinstallers = [];
+  //   roleInstallers = [];
+  //   if (notify) notifyListeners();
+  // }
   Future<void> getInstallers({bool notify = true}) async {
     usersRoleInstallers = [];
     userRoleInstaller = null;
     idsinstallers = [];
-
+    roleInstallers = [];
     try {
       final res =
           await supabase.from('role').select("").eq('name', "Installers 1");
@@ -349,6 +355,8 @@ class UsersProvider extends ChangeNotifier {
         final id = user["user_fk"];
         idsinstallers.add(id);
       }
+
+      usersRoleInstallers = [];
       for (int i = 0; i < idsinstallers.length; i++) {
         final res3 = await supabase
             .from("users")
@@ -357,7 +365,7 @@ class UsersProvider extends ChangeNotifier {
 
         // print("----------");
         // print("res3: $res3");
-
+        print("Cuantas veces va: $i");
         userRoleInstaller = (res3 as List<dynamic>)
             .map((userrole) => UserRole.fromJson(jsonEncode(userrole)))
             .toList()
