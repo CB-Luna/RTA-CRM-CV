@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
+import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/widgets/job_complete_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/widgets/job_completed_technicians.dart';
+
+import '../../../../providers/users_provider.dart';
 
 class SurveysButton extends StatefulWidget {
   const SurveysButton({
@@ -40,6 +43,8 @@ class _SurveysButtonState extends State<SurveysButton> {
   final userPermissions = currentUser!.currentRole.permissions;
   @override
   Widget build(BuildContext context) {
+    UsersProvider provider = Provider.of<UsersProvider>(context);
+
     return MouseRegion(
       child: PortalTarget(
         visible: hover,
@@ -97,7 +102,10 @@ class _SurveysButtonState extends State<SurveysButton> {
                                     useGoogleFonts: false,
                                   ),
                             ),
-                            onTap: () async {},
+                            onTap: () async {
+                              provider.pagesearch = true;
+                              context.pushReplacement(routeJobCompleteTechni);
+                            },
                             hoverColor: AppTheme.of(context)
                                 .primaryColor
                                 .withOpacity(0.4),

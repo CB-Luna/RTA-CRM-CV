@@ -12,12 +12,13 @@ import 'package:pdfx/pdfx.dart';
 import 'dart:html' as html;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:rta_crm_cv/functions/date_format.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/document_info.dart';
 import 'package:rta_crm_cv/models/homeowner.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:signature/signature.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   //Lista
@@ -89,7 +90,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         },
       );
       var url = Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');
-      var response = await post(url, body: body);
+      var response = await http.post(url, body: body);
       if (response.statusCode == 200) {
         log((response.body));
       }
@@ -117,9 +118,9 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       }
       List<HouseownerList> docs = (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
       acountController.text = docs.first.formInfo!.acount!;
-      zipcodeController.text=docs.first.formInfo!.zipCode!;
+      zipcodeController.text = docs.first.formInfo!.zipCode!;
       emailController.text = docs.first.formInfo!.email!;
-      representativeNameController.text=docs.first.formInfo!.representativeName!;
+      representativeNameController.text = docs.first.formInfo!.representativeName!;
       addressController.text = docs.first.formInfo!.address!;
       acountNameController.text = docs.first.formInfo!.acountName!;
       phoneController.text = docs.first.formInfo!.phone!;
@@ -175,11 +176,11 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     notifyListeners();
     duedate = fecha.add(const Duration(days: 5));
     try {
-      var idDoc = (await supabase.from('homeowner_list').insert(
+      final int idDoc = (await supabase.from('homeowner_list').insert(
         {
           "due_date": duedate.toString(),
           "id_status": 2,
-          "document_info": {
+          "form_info": {
             "acount": acountController.text,
             "zip_code": zipcodeController.text,
             "email": emailController.text,
@@ -194,6 +195,17 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
 
       await supabase.storage.from('homeowner').uploadBinary('$idDoc.pdf', documento);
       await supabase.from('homeowner_list').update({'document': '$idDoc.pdf'}).eq('id', idDoc);
+
+      final token = generateToken(acountController.text, emailController.text, idDoc);
+
+      final link = '${Uri.base.origin}$homeownerFTTHDocumentClient?token=$token';
+
+      await sendEmail(
+        name: acountNameController.text,
+        account: acountController.text,
+        link: link,
+        email: emailController.text,
+      );
     } catch (e) {
       log('Error en createHomeowner() - $e');
       ejecBloq = false;
@@ -203,19 +215,19 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     return true;
   }
 
-  Future<bool> updateDocument() async {
+  Future<bool> updateDocument(int idClient) async {
     ejecBloq = true;
     notifyListeners();
     try {
-      var idDoc = (await supabase.from('homeowner_list').update(
+      await supabase.from('homeowner_list').update(
         {
           "due_date": fecha.toString(),
           "id_status": 1,
         },
-      ).select())[0]['id'];
+      ).eq('id', idClient);
 
-      await supabase.storage.from('homeowner').updateBinary('$idDoc.pdf', documento);
-      await supabase.from('homeowner_list').update({'document': '$idDoc.pdf'}).eq('id', idDoc);
+      await supabase.storage.from('homeowner').updateBinary('$idClient.pdf', documento);
+      await supabase.from('homeowner_list').update({'document': '$idClient.pdf'}).eq('id', idClient);
     } catch (e) {
       log('Error en createHomeowner() - $e');
       ejecBloq = false;
@@ -336,12 +348,13 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     return signature!;
   }
 
-  String generateToken(String userId, String email) {
+  String generateToken(String account, String email, int documentId) {
     //Generar token
     final jwt = JWT(
       {
-        'user_id': userId,
+        'account': account,
         'email': email,
+        'document_id': documentId,
         'creation_date': DateTime.now().toUtc().toIso8601String(),
       },
       issuer: 'https://github.com/jonasroussel/dart_jsonwebtoken',
@@ -351,11 +364,35 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     return jwt.sign(SecretKey('secret'));
   }
 
-  Future<bool> sendToken(String token) async {
+  Future<bool> sendEmail({
+    required String name,
+    required String account,
+    required String link,
+    required String email,
+  }) async {
     try {
+      final response = await http.post(
+        Uri.parse(urlNotifications),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(
+          {
+            "action": "rtaMail",
+            "template": "TemporaryLink",
+            "subject": "Homeowner FTTH Document",
+            "mailto": email,
+            "variables": [
+              {"name": "name", "value": name},
+              {"name": "account", "value": account},
+              {"name": "link", "value": link},
+            ]
+          },
+        ),
+      );
+      if (response.statusCode > 204) return false;
+
       return true;
     } catch (e) {
-      log('Error in sendToken() - $e');
+      log('Error in sendEmail() - $e');
       return false;
     }
   }
@@ -693,13 +730,60 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   Future<void> pickDocument(String document) async {
     try {
       var url = supabase.storage.from('homeowner').getPublicUrl(document);
-      var bodyBytes = (await get(Uri.parse(url))).bodyBytes;
+      var bodyBytes = (await http.get(Uri.parse(url))).bodyBytes;
       pdfController = PdfController(document: PdfDocument.openData(bodyBytes));
     } catch (e) {
       log('Error in pickDocument() - $e');
       return;
     }
     return;
+  }
+
+//Controladores Paginado Pluto?
+  void clearControllers({bool notify = true}) {
+    searchController.clear();
+
+    if (notify) notifyListeners();
+  }
+
+  void setPageSize(String x) {
+    switch (x) {
+      case 'more':
+        if (pageRowCount < rows.length) pageRowCount++;
+        break;
+      case 'less':
+        if (pageRowCount > 1) pageRowCount--;
+        break;
+      default:
+        return;
+    }
+    stateManager!.createFooter;
+    notifyListeners();
+  }
+
+  void setPage(String x) {
+    switch (x) {
+      case 'next':
+        if (page < stateManager!.totalPage) page++;
+        break;
+      case 'previous':
+        if (page > 1) page--;
+        break;
+      case 'start':
+        page = 1;
+        break;
+      case 'end':
+        page = stateManager!.totalPage;
+        break;
+      default:
+        return;
+    }
+    stateManager!.setPage(page);
+    notifyListeners();
+  }
+
+  void load() {
+    stateManager!.setShowLoading(true);
   }
 
   Future<void> selectdate(

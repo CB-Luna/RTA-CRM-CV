@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rta_crm_cv/functions/tokens.dart';
+import 'package:rta_crm_cv/models/token.dart';
 
 import 'package:rta_crm_cv/pages/crm/campaigns/campaigns_page.dart';
 import 'package:rta_crm_cv/pages/crm/reports_page.dart';
@@ -25,6 +27,7 @@ import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_docu
 import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document_list.dart';
 
 import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
+import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
 import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
 
 /// The route configuration.
@@ -37,6 +40,8 @@ final GoRouter router = GoRouter(
     final bool isLoggingIn = state.location == '/login';
 
     if (state.location == '/change-password') return null;
+
+    if (state.location.contains(homeownerFTTHDocumentClient)) return null;
 
     //If user is not logged in and not in the login page
     if (!loggedIn && !isLoggingIn) return '/login';
@@ -424,6 +429,15 @@ final GoRouter router = GoRouter(
       },
       // (context, state, const DetailsPopUp()),
     ),
+    GoRoute(
+      path: routeJobCompleteTechni,
+      name: 'Job complete Technicians',
+      builder: (BuildContext context, GoRouterState state) {
+        return const JobCompleteTechniciansPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+
     ////////Sales
     GoRoute(
       path: opcoSuscriberTarget,
@@ -1186,7 +1200,11 @@ final GoRouter router = GoRouter(
       path: homeownerFTTHDocumentClient,
       name: 'homeownerFTTHDocumentClient',
       builder: (BuildContext context, GoRouterState state) {
-        return const HomeOwnerFTTHDocumentClient();
+        final String? tokenString = state.queryParameters['token'];
+        if (tokenString == null) return const PageNotFoundPage();
+        final Token? token = parseToken(tokenString);
+        if (token == null) return const PageNotFoundPage();
+        return HomeOwnerFTTHDocumentClient(token: token);
       },
       // (context, state, const DetailsPopUp()),
     ),

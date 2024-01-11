@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/helpers/supabase/queries.dart';
+import 'package:rta_crm_cv/models/user.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -99,10 +100,10 @@ class _LoginButtonState extends State<LoginButton> {
               await SupabaseQueries.getUserTheme(),
             );
 
-            if (currentUser!.checkRoles()) {
-              userState.changeView(FormView.selectAppForm);
-              return;
-            }
+            // if (currentUser!.checkRoles()) {
+            //   userState.changeView(FormView.selectAppForm);
+            //   return;
+            // }
 
             if (!mounted) return;
             context.pushReplacement('/');
