@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_portal/flutter_portal.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
@@ -59,12 +57,13 @@ class _DashboardRtatelPageDesktopState
           provider.usersRoleInstallers.map((roles) => roles.email).toList();
 
       provider.pagesearch = false;
-      // if (currentUser!.isAdminDashboards) {
-      if (installersName.isEmpty) {
-        provider.usersRoleInstallers = [];
-        provider.userRoleInstaller = null;
-        provider.idsinstallers = [];
-        provider.getInstallers(notify: true);
+      if (currentUser!.isAdminDashboards) {
+        if (installersName.isEmpty) {
+          provider.usersRoleInstallers = [];
+          provider.userRoleInstaller = null;
+          provider.idsinstallers = [];
+          provider.getInstallers(notify: true);
+        }
       }
       return Material(
         child: SizedBox(
@@ -81,37 +80,33 @@ class _DashboardRtatelPageDesktopState
                   child: Column(
                     children: [
                       Visibility(
-                        visible: provider.pagesearch == true,
-                        child: Visibility(
-                          visible: currentUser!.isAdminDashboards,
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.10,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0),
-                                  child: Text(
-                                    "Search Job Technician: ",
-                                    style: AppTheme.of(context).bodyText1,
-                                  ),
+                        visible: currentUser!.isAdminDashboards,
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.10,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
+                                child: Text(
+                                  "Search Job Technician: ",
+                                  style: AppTheme.of(context).bodyText1,
                                 ),
-                                CustomDropDownInventory(
-                                  label: "",
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.27,
-                                  list: installersName,
-                                  dropdownValue: provider.userSelected?.email,
-                                  onChanged: (val) {
-                                    if (val == null) return;
-                                    provider.selectInstaller(val);
-                                    context.pushReplacement(
-                                        "/job_complete/job_complete_${provider.userSelected!.name.toLowerCase()}_${provider.userSelected!.lastName.toLowerCase()}");
-                                  },
-                                ),
-                              ],
-                            ),
+                              ),
+                              CustomDropDownInventory(
+                                label: "",
+                                width: MediaQuery.of(context).size.width * 0.27,
+                                list: installersName,
+                                dropdownValue: provider.userSelected?.email,
+                                onChanged: (val) {
+                                  if (val == null) return;
+                                  provider.selectInstaller(val);
+                                  context.pushReplacement(
+                                      "/job_complete/job_complete_${provider.userSelected!.name.toLowerCase()}_${provider.userSelected!.lastName.toLowerCase()}");
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ),

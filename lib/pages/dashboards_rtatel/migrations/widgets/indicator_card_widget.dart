@@ -31,12 +31,33 @@ class _IndicatorCardWidgetState extends State<IndicatorCardWidget> {
                 break;
               case 2:
                 print("2");
+                await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return StatefulBuilder(builder: (context, setState) {
+                        return const JobCompleteTechniPopUp();
+                      });
+                    });
                 break;
               case 3:
                 print("3");
+                await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return StatefulBuilder(builder: (context, setState) {
+                        return const JobCompleteTechniPopUp();
+                      });
+                    });
                 break;
               case 4:
                 print("4");
+                await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return StatefulBuilder(builder: (context, setState) {
+                        return const JobCompleteTechniPopUp();
+                      });
+                    });
                 break;
             }
           },
@@ -45,7 +66,7 @@ class _IndicatorCardWidgetState extends State<IndicatorCardWidget> {
             width: MediaQuery.of(context).size.width * 0.22,
             height: MediaQuery.of(context).size.height * 0.2,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 color: colorCard(widget.card ?? 0, context)),
             child: Column(
               children: [
@@ -53,7 +74,8 @@ class _IndicatorCardWidgetState extends State<IndicatorCardWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
-                        padding: const EdgeInsets.only(top: 30, left: 10),
+                        padding:
+                            const EdgeInsets.only(top: 30, left: 10, right: 10),
                         height: MediaQuery.of(context).size.height * 0.15,
                         width: MediaQuery.of(context).size.width * 0.15,
                         alignment: Alignment.centerLeft,
