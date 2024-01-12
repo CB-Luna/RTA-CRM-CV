@@ -1,17 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:signature/signature.dart';
-
 
 class FirmaPDF extends StatefulWidget {
   const FirmaPDF({
     super.key,
   });
-  //final Propuesta propuesta;
   @override
   State<FirmaPDF> createState() => FirmaPDFState();
 }
@@ -38,53 +36,39 @@ class FirmaPDFState extends State<FirmaPDF> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Tooltip(
-              message: 'Confirmar Firma',
-              child: IconButton(
-                iconSize: 30,
-                onPressed: () async {
-                  if (provider.clientSignatureController.isNotEmpty) {
-                    await provider.clientExportSignature();
-                    await provider.clientPDF(1);//pendiente como traer info del pdf
-                  } else {
-                    provider.clientSignatureController.clear();
-                    provider.firmaAnexo = false;
-                    await provider.clientPDF(1);
-                  }
-                },
-                icon: const Icon(
-                  Icons.check,
-                  color: Colors.green,
-                ),
-              ),
-            ),
-            Tooltip(
-              message: 'Limpiar Firma',
-              child: IconButton(
-                  iconSize: 30,
-                  onPressed: () {
-                    provider.clientSignatureController.clear();
-                    provider.firmaAnexo = false;
-                  },
-                  icon: const Icon(
-                    Icons.clear,
-                    color: Colors.red,
-                  )),
-            )
-          ],
-        ),
         provider.pdfController == null
             ? const CircularProgressIndicator()
-            : Signature(
-                controller: provider.clientSignatureController,
-                backgroundColor: AppTheme.of(context).primaryBackground,
-                width: width * 410,
-                height: height * 100,
+            : Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Container(
+                  decoration: BoxDecoration(border: Border.all(color: AppTheme.of(context).primaryColor)),
+                  child: Signature(
+                    controller: provider.clientSignatureController,
+                    backgroundColor: AppTheme.of(context).primaryBackground,
+                    width: width * 410,
+                    height: height * 100,
+                  ),
+                ),
               ),
+       
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: CustomTextIconButton(
+            width: width * 150,
+            text: 'Clean Signature',
+            isLoading: false,
+            icon: const Icon(
+              Icons.clear,
+              color: Colors.red,
+            ),
+            color: AppTheme.of(context).primaryColor,
+            onTap: () async{
+              provider.clientSignatureController.clear();
+              provider.firmaAnexo = false;
+              await provider.clientPDF();
+            },
+          ),
+        ),
       ],
     );
   }

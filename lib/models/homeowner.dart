@@ -44,6 +44,7 @@ class FormInfo {
     final String? acount;
     final String? zipCode;
     final String? email;
+    final String? email2;
     final String? representativeName;
     final String? address;
     final String? acountName;
@@ -54,6 +55,7 @@ class FormInfo {
         this.acount,
         this.zipCode,
         this.email,
+        this.email2,
         this.representativeName,
         this.address,
         this.acountName,
@@ -69,6 +71,7 @@ class FormInfo {
         acount: json["acount"],
         zipCode: json["zip_code"],
         email: json["email"],
+        email2: json["email2"],
         representativeName: json["representative_name"],
         address: json["address"],
         acountName: json["acountName"],
@@ -80,6 +83,7 @@ class FormInfo {
         "acount": acount,
         "zip_code": zipCode,
         "email": email,
+        "email2":email2,
         "representative_name": representativeName,
         "address": address,
         "acountName": acountName,

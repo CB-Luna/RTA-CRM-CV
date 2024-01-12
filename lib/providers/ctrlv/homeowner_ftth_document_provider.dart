@@ -39,16 +39,20 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   final acountController = TextEditingController();
   final zipcodeController = TextEditingController();
   final emailController = TextEditingController();
+  final email2Controller = TextEditingController();
   final representativeNameController = TextEditingController();
   final addressController = TextEditingController();
   final dateController = TextEditingController();
   final acountNameController = TextEditingController();
   final phoneController = TextEditingController();
+  final signatureTextController = TextEditingController();
 
   bool ejecBloq = false;
   bool listOpenned = true;
   bool anexo = false;
   bool firmaAnexo = false;
+  bool addEmail = false;
+  bool search = false;
   late Uint8List documento;
 
   late int? id;
@@ -58,11 +62,13 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     acountController.clear();
     zipcodeController.clear();
     emailController.clear();
+    email2Controller.clear();
     representativeNameController.clear();
     addressController.clear();
     dateController.clear();
     acountNameController.clear();
     phoneController.clear();
+    signatureTextController.clear();
   }
 
   Future<void> updateState() async {
@@ -98,12 +104,15 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       emailController.text = docInfo.result!.first.email!;
       addressController.text = '${docInfo.result!.first.street!}${docInfo.result!.first.city!}${docInfo.result!.first.state!}';
       dateController.text = dateFormat(fecha);
-      acountNameController.text = '${docInfo.result!.first.firstName!}${docInfo.result!.first.lastName!}';
+      acountNameController.text = '${docInfo.result!.first.firstName!} ${docInfo.result!.first.lastName!}';
       phoneController.text = '-';
+      signatureTextController.text = '${docInfo.result!.first.firstName!} ${docInfo.result!.first.lastName!}';
     } catch (e) {
+      search = false;
       log('Error en getInfo() - $e');
     }
     await crearPDF();
+    search = true;
     notifyListeners();
   }
 
@@ -125,6 +134,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       acountNameController.text = docs.first.formInfo!.acountName!;
       phoneController.text = docs.first.formInfo!.phone!;
       dateController.text = docs.first.formInfo!.date!;
+      signatureTextController.text = docs.first.formInfo!.acountName!;
     } catch (e) {
       log('Error en documentInfoClient() - $e');
     }
@@ -184,6 +194,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
             "acount": acountController.text,
             "zip_code": zipcodeController.text,
             "email": emailController.text,
+            "email2": email2Controller.text,
             "representative_name": representativeNameController.text,
             "address": addressController.text,
             "acountName": acountNameController.text,
@@ -494,27 +505,19 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                       color: pdfcolor.PdfColor.fromInt(0xFF060606),
                     ),
                   ),
-                  clientSignatureController.isNotEmpty
-                      ? pw.Image(
-                          pw.MemoryImage(signature!),
-                          height: 58,
-                          width: 200,
-                          fit: pw.BoxFit.fill,
-                          alignment: pw.Alignment.center,
-                        )
-                      : pw.SizedBox(
-                          height: 58,
-                          width: 200,
-                          child: pw.Center(
-                            child: pw.Text(
-                              'F. _______________________.',
-                              style: const pw.TextStyle(
-                                fontSize: 13,
-                                color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                              ),
-                            ),
-                          ),
+                  pw.SizedBox(
+                    height: 58,
+                    width: 200,
+                    child: pw.Center(
+                      child: pw.Text(
+                        'F. _______________________.',
+                        style: const pw.TextStyle(
+                          fontSize: 13,
+                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
                         ),
+                      ),
+                    ),
+                  ),
                   pw.Text(
                     acountNameController.text,
                     style: const pw.TextStyle(
@@ -561,13 +564,14 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     return pdfController;
   }
 
-  Future<PdfController?> clientPDF(int id) async {
-    final res = await supabase.from('homeowner_list').select().eq('id', id);
-    List<HouseownerList> docs = (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
+  Future<PdfController?> clientPDF() async {
     pdfController = null;
     notifyListeners();
     final logo = (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
     final firma = (await rootBundle.load('assets/images/firma.png')).buffer.asUint8List();
+    final data = (await rootBundle.load("assets/fonts/Raghen-Script.ttf")).buffer.asByteData();
+
+    final pw.Font raghenFont = pw.Font.ttf(data);
     final pdf = pw.Document();
     pdf.addPage(
       pw.Page(
@@ -595,7 +599,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                   ),
                 ),
                 pw.Text(
-                  'Date: ${dateFormat(docs.first.createdAt)}',
+                  'Date: ${dateController.text}',
                   style: const pw.TextStyle(
                     fontSize: 13,
                     color: pdfcolor.PdfColor.fromInt(0xFF060606),
@@ -667,17 +671,14 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                           fit: pw.BoxFit.fill,
                           alignment: pw.Alignment.center,
                         )
-                      : pw.SizedBox(
-                          height: 58,
+                      : pw.Container(
                           width: 200,
-                          child: pw.Center(
-                            child: pw.Text(
-                              'F. _______________________.',
-                              style: const pw.TextStyle(
-                                fontSize: 13,
-                                color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                              ),
-                            ),
+                          height: 58,
+                          alignment: pw.Alignment.center,
+                          child: pw.Text(
+                            signatureTextController.text,
+                            textAlign: pw.TextAlign.center,
+                            style: pw.TextStyle(fontSize: 30, font: raghenFont),
                           ),
                         ),
                   pw.Text(
