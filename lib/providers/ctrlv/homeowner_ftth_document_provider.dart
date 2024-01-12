@@ -39,20 +39,20 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   final acountController = TextEditingController();
   final zipcodeController = TextEditingController();
   final emailController = TextEditingController();
-  final email2Controller = TextEditingController();
   final representativeNameController = TextEditingController();
   final addressController = TextEditingController();
   final dateController = TextEditingController();
   final acountNameController = TextEditingController();
   final phoneController = TextEditingController();
   final signatureTextController = TextEditingController();
-
+  List<String> emails = [];
+  bool addemail = false;
   bool ejecBloq = false;
   bool listOpenned = true;
   bool anexo = false;
   bool firmaAnexo = false;
-  bool addEmail = false;
   bool search = false;
+  bool modificado = true;
   late Uint8List documento;
 
   late int? id;
@@ -62,13 +62,24 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     acountController.clear();
     zipcodeController.clear();
     emailController.clear();
-    email2Controller.clear();
     representativeNameController.clear();
     addressController.clear();
     dateController.clear();
     acountNameController.clear();
     phoneController.clear();
     signatureTextController.clear();
+  }
+
+  void agregarContacto() {
+    const contactoVacio = '';
+    emails.add(contactoVacio);
+    notifyListeners();
+  }
+
+  void eliminarContacto(int index) {
+    emails.removeAt(index);
+    modificado = true;
+    notifyListeners();
   }
 
   Future<void> updateState() async {
@@ -194,7 +205,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
             "acount": acountController.text,
             "zip_code": zipcodeController.text,
             "email": emailController.text,
-            "email2": email2Controller.text,
+            "email2": emails.toString(),
             "representative_name": representativeNameController.text,
             "address": addressController.text,
             "acountName": acountNameController.text,
@@ -210,12 +221,13 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       final token = generateToken(acountController.text, emailController.text, idDoc);
 
       final link = '${Uri.base.origin}$homeownerFTTHDocumentClient?token=$token';
+      emails.add(emailController.text);
 
       await sendEmail(
         name: acountNameController.text,
         account: acountController.text,
         link: link,
-        email: emailController.text,
+        email: emails,
       );
     } catch (e) {
       log('Error en createHomeowner() - $e');
@@ -379,13 +391,11 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     required String name,
     required String account,
     required String link,
-    required String email,
+    required List<String> email,
   }) async {
     try {
-      final response = await http.post(
-        Uri.parse(urlNotifications),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode(
+      for (var email in emails) {
+        String body = jsonEncode(
           {
             "action": "rtaMail",
             "template": "TemporaryLink",
@@ -397,9 +407,10 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
               {"name": "link", "value": link},
             ]
           },
-        ),
-      );
-      if (response.statusCode > 204) return false;
+        );
+        final response = await http.post(Uri.parse(urlNotifications), headers: {'Content-Type': 'application/json'}, body: body);
+        if (response.statusCode > 204) return false;
+      }
 
       return true;
     } catch (e) {

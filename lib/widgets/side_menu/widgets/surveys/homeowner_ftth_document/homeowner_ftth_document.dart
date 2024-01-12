@@ -9,6 +9,7 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/captura/custom_text_email.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
@@ -33,6 +34,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
         context,
         listen: false,
       );
+      provider.emails.clear();
       await provider.crearPDF();
       /* provider.acountController.text = '9528';
       provider.zipcodeController.text = '77650';
@@ -156,7 +158,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                                 enabled: true,
                                                 controller: provider.emailController,
                                                 icon: Icons.email,
-                                                label: 'Email',
+                                                label: 'Acount Email',
                                                 keyboardType: TextInputType.emailAddress,
                                               ),
                                               CustomTextIconButton(
@@ -169,26 +171,31 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                                 color: AppTheme.of(context).primaryColor,
                                                 onTap: () {
                                                   setState(() {
-                                                    provider.addEmail = true;
+                                                    provider.addemail = true;
+                                                    provider.agregarContacto();
+                                                    // print((provider.emails.toString()));
                                                   });
                                                 },
                                               )
                                             ],
                                           ),
                                         ),
-                                        provider.addEmail == true
-                                            ? Padding(
+                                        /* provider.addemail == true
+                                            ? */ Padding(
                                                 padding: const EdgeInsets.only(bottom: 10),
-                                                child: CustomTextField(
+                                                child: CustomTextEmail(
+                                                  width: width * 380,
+                                                )
+                                                /*  CustomTextField(
                                                   width: width * 380,
                                                   enabled: true,
                                                   controller: provider.email2Controller,
                                                   icon: Icons.email,
                                                   label: 'Other Email',
                                                   keyboardType: TextInputType.emailAddress,
+                                                ), */
                                                 ),
-                                              )
-                                            : const SizedBox.shrink(),
+                                           // : const SizedBox.shrink(),
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
