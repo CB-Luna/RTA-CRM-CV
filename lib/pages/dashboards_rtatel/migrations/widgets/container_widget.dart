@@ -11,29 +11,31 @@ class ContainerWidget extends StatefulWidget {
 class _ContainerWidgetState extends State<ContainerWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10.0),
-      width: MediaQuery.of(context).size.width * 0.44,
-      height: MediaQuery.of(context).size.height * 0.5,
-      decoration: BoxDecoration(
-          color: const Color(0xffFFFFFF),
-          border: Border.all(color: Colors.grey)),
-      child: Column(children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          height: MediaQuery.of(context).size.height * 0.07,
-          decoration: const BoxDecoration(
-              color: Color(0xffF7F7F7),
-              border: Border(bottom: BorderSide(color: Colors.grey))),
-          child: Row(children: [
-            widget.icon ?? const Icon(Icons.ac_unit_outlined),
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(widget.text ?? ''),
-            )
-          ]),
-        )
-      ]),
+    return Flexible(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
+        width: MediaQuery.of(context).size.width * 0.44,
+        height: MediaQuery.of(context).size.height * 0.5,
+        decoration: BoxDecoration(
+            color: const Color(0xffFFFFFF),
+            border: Border.all(color: Colors.grey)),
+        child: Column(children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            height: MediaQuery.of(context).size.height * 0.07,
+            decoration: const BoxDecoration(
+                color: Color(0xffF7F7F7),
+                border: Border(bottom: BorderSide(color: Colors.grey))),
+            child: Row(children: [
+              widget.icon ?? const Icon(Icons.ac_unit_outlined),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(widget.text ?? ''),
+              )
+            ]),
+          )
+        ]),
+      ),
     );
   }
 }

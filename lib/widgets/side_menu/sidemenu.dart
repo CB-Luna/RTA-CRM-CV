@@ -138,38 +138,44 @@ class _SideMenuState extends State<SideMenu> {
                           ),
                   ),
                   provider.isOpen
-                      ? LoginDropDown<Role>(
-                          label: 'Choose an app:',
-                          icon: Icons.person,
-                          width: 282,
-                          list: currentUser!.roles,
-                          dropdownValue: currentUser!.currentRole,
-                          onChanged: (role) async {
-                            if (role == null) return;
-                            print(currentUser!.currentRole.roleName);
-                            currentUser!.currentRole = role;
-                            print("----------");
-                            print(currentUser!.currentRole.roleName);
-                            // ignore: invalid_use_of_protected_member
-                            await prefs.setString('currentRole',
-                                currentUser!.currentRole.roleName);
-                            if (!mounted) return;
-                            print("-------------- a");
-                            print(currentUser!.currentRole.roleName);
-                            context.pushReplacement('/');
+                      ? Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: LoginDropDown<Role>(
+                            label: 'Choose an app:',
+                            icon: Icons.person,
+                            // width: 282,
+                            width: MediaQuery.of(context).size.width * 0.19,
+                            list: currentUser!.roles,
+                            dropdownValue: currentUser!.currentRole,
+                            onChanged: (role) async {
+                              if (role == null) return;
+                              print(currentUser!.currentRole.roleName);
+                              currentUser!.currentRole = role;
+                              print("----------");
+                              print(currentUser!.currentRole.roleName);
+                              // ignore: invalid_use_of_protected_member
+                              await prefs.setString('currentRole',
+                                  currentUser!.currentRole.roleName);
+                              if (!mounted) return;
+                              print("-------------- a");
+                              print(currentUser!.currentRole.roleName);
+                              context.pushReplacement('/');
 
-                            setState(() {});
-                          },
-                          items: currentUser!.roles
-                              .map<DropdownMenuItem<Role>>((Role value) {
-                            return DropdownMenuItem<Role>(
-                              value: value,
-                              child: Text(
-                                value.roleApplication,
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            );
-                          }).toList(),
+                              setState(() {});
+                            },
+                            items: currentUser!.roles
+                                .map<DropdownMenuItem<Role>>((Role value) {
+                              return DropdownMenuItem<Role>(
+                                value: value,
+                                child: Expanded(
+                                  child: Text(
+                                    value.roleApplication,
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
                         )
                       : Container(
                           width: 85,

@@ -212,11 +212,11 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                         titleSpan: TextSpan(children: [
                                           WidgetSpan(child: Icon(Icons.person, color: AppTheme.of(context).primaryBackground)),
                                           const WidgetSpan(child: SizedBox(width: 10)),
-                                          TextSpan(text: 'Name', style: AppTheme.of(context).encabezadoTablas)
+                                          TextSpan(text: 'Customer Name', style: AppTheme.of(context).encabezadoTablas)
                                         ]),
                                         backgroundColor: const Color(0XFF6491F7),
-                                        title: 'Name',
-                                        field: 'Name_Column',
+                                        title: 'Customer Name',
+                                        field: 'Customer_Name',
                                         titleTextAlign: PlutoColumnTextAlign.start,
                                         textAlign: PlutoColumnTextAlign.center,
                                         type: PlutoColumnType.text(),
@@ -282,6 +282,104 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                           );
                                         },
                                       ),
+                                      //Acount Name
+                                      PlutoColumn(
+                                        titleSpan: TextSpan(children: [
+                                          WidgetSpan(child: Icon(Icons.account_box, color: AppTheme.of(context).primaryBackground)),
+                                          const WidgetSpan(child: SizedBox(width: 10)),
+                                          TextSpan(text: 'Acount Number', style: AppTheme.of(context).encabezadoTablas)
+                                        ]),
+                                        backgroundColor: const Color(0XFF6491F7),
+                                        title: 'Customer_ID',
+                                        field: 'Customer_ID',
+                                        titleTextAlign: PlutoColumnTextAlign.start,
+                                        textAlign: PlutoColumnTextAlign.center,
+                                        type: PlutoColumnType.text(),
+                                        enableRowDrag: false,
+                                        enableDropToResize: false,
+                                        enableEditingMode: false,
+                                        width: width * 220,
+                                        cellPadding: EdgeInsets.zero,
+                                        renderer: (rendererContext) {
+                                          return Container(
+                                            height: rowHeight,
+                                            // width: rendererContext.cell.column.width,
+                                            decoration: BoxDecoration(gradient: whiteGradient),
+                                            child: Center(
+                                              child: Text(
+                                                rendererContext.cell.value.toString(),
+                                                style: AppTheme.of(context).contenidoTablas,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      //email
+                                      PlutoColumn(
+                                        titleSpan: TextSpan(children: [
+                                          WidgetSpan(child: Icon(Icons.email, color: AppTheme.of(context).primaryBackground)),
+                                          const WidgetSpan(child: SizedBox(width: 10)),
+                                          TextSpan(text: 'Email', style: AppTheme.of(context).encabezadoTablas)
+                                        ]),
+                                        backgroundColor: const Color(0XFF6491F7),
+                                        title: 'email',
+                                        field: 'email',
+                                        titleTextAlign: PlutoColumnTextAlign.start,
+                                        textAlign: PlutoColumnTextAlign.center,
+                                        type: PlutoColumnType.text(),
+                                        enableRowDrag: false,
+                                        enableDropToResize: false,
+                                        enableEditingMode: false,
+                                        width: width * 250,
+                                        cellPadding: EdgeInsets.zero,
+                                        renderer: (rendererContext) {
+                                          return Container(
+                                            height: rowHeight,
+                                            // width: rendererContext.cell.column.width,
+                                            decoration: BoxDecoration(gradient: whiteGradient),
+                                            child: Center(
+                                              child: Text(
+                                                rendererContext.cell.value.toString(),
+                                                style: AppTheme.of(context).contenidoTablas,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      //file name
+                                      /* PlutoColumn(
+                                        titleSpan: TextSpan(children: [
+                                          WidgetSpan(child: Icon(Icons.person, color: AppTheme.of(context).primaryBackground)),
+                                          const WidgetSpan(child: SizedBox(width: 10)),
+                                          TextSpan(text: 'File Name', style: AppTheme.of(context).encabezadoTablas)
+                                        ]),
+                                        backgroundColor: const Color(0XFF6491F7),
+                                        title: 'Name',
+                                        field: 'Name_Column',
+                                        titleTextAlign: PlutoColumnTextAlign.start,
+                                        textAlign: PlutoColumnTextAlign.center,
+                                        type: PlutoColumnType.text(),
+                                        enableRowDrag: false,
+                                        enableDropToResize: false,
+                                        enableEditingMode: false,
+                                        width: width * 250,
+                                        cellPadding: EdgeInsets.zero,
+                                        renderer: (rendererContext) {
+                                          return Container(
+                                            height: rowHeight,
+                                            // width: rendererContext.cell.column.width,
+                                            decoration: BoxDecoration(gradient: whiteGradient),
+                                            child: Center(
+                                              child: Text(
+                                                rendererContext.cell.value.toString(),
+                                                style: AppTheme.of(context).contenidoTablas,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        
+                                      ),
+                                       */
                                       //Creation Name
                                       PlutoColumn(
                                         titleSpan: TextSpan(children: [
@@ -413,7 +511,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                         enableRowDrag: false,
                                         enableDropToResize: false,
                                         enableEditingMode: false,
-                                        width: width * 200,
+                                        width: width * 160,
                                         cellPadding: EdgeInsets.zero,
                                         renderer: (rendererContext) {
                                           return Container(
@@ -455,7 +553,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                         enableRowDrag: false,
                                         enableDropToResize: false,
                                         enableEditingMode: false,
-                                        width: width * 273,
+                                        width: width * 150,
                                         cellPadding: EdgeInsets.zero,
                                         renderer: (rendererContext) {
                                           return Container(

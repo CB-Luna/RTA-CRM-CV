@@ -142,5 +142,8 @@ flutter:
     - family: Segoe
       fonts:
         - asset: assets/fonts/Segoe-Ui.ttf
+    - family: Raghen
+      fonts:
+        - asset: assets/fonts/Raghen-Script.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
