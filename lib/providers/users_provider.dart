@@ -709,6 +709,7 @@ class UsersProvider extends ChangeNotifier {
             'mobile_phone': phoneController.text,
             'address': '123 Main St.',
             'image': imageUrl,
+            'status': dropdownvalue,
             'birthdate': DateTime.now().toIso8601String(),
             'state_fk': selectedState!.id,
           },

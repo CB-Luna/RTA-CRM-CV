@@ -71,9 +71,7 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
       : PlutoGridStyleConfig.dark(
           rowHeight: rowHeight,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light
-              ? const Color(0xFFC7D8ED)
-              : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
