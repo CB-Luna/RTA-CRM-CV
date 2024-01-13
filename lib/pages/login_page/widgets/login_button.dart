@@ -104,7 +104,15 @@ class _LoginButtonState extends State<LoginButton> {
             //   userState.changeView(FormView.selectAppForm);
             //   return;
             // }
+            if (currentUser!.roles
+                .any((e) => e.application == "Dashboards RTA")) {
+              final role = currentUser!.roles
+                  .firstWhere((e) => e.application == "Dashboards RTA");
 
+              currentUser!.setRole(role.roleName);
+            }
+            await prefs.setString(
+                'currentRole', currentUser!.currentRole.roleName);
             if (!mounted) return;
             context.pushReplacement('/');
           } catch (e) {

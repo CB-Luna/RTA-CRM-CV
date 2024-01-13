@@ -12,20 +12,6 @@ import 'package:rta_crm_cv/theme/theme.dart';
 // const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 // String urlNotifications = 'https://supa43.rtatel.com/notifications/api';
 
-//////// PROD ////////
-/* final Uri urlFMTAPK = Uri.parse(
-    "https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
-const String supabaseUrl = 'https://supa41.rtatel.com';
-const String anonKey =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';
-const redirectUrl =
-    'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
-const themeId = String.fromEnvironment('themeId', defaultValue: '2');
-String urlNotifications = 'https://supa41.rtatel.com/notifications/api'; 
-const String configurator = 'https://cblsrvr1.rtatel.com';
-String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api";
-*/
-
 //////// TEST ////////
 final Uri urlFMTAPK = Uri.parse(
     "https://drive.google.com/file/d/1lUdS__gG-g4zSPjq_3-LFhnMOmHhYAR8/view?usp=share_link");
@@ -48,6 +34,16 @@ PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
   );
 }
 
+PlutoGridScrollbarConfig plutoGridScrollbarConfigDashboard(
+    BuildContext context) {
+  return PlutoGridScrollbarConfig(
+    isAlwaysShown: true,
+    scrollbarThickness: 5,
+    hoverWidth: 20,
+    scrollBarColor: AppTheme.of(context).gris,
+  );
+}
+
 double rowHeight = 60;
 
 PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
@@ -67,12 +63,12 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           enableRowColorAnimation: true,
           /////////////////////////////////////
           gridBackgroundColor: Colors.transparent,
-          menuBackgroundColor: AppTheme.of(context).primaryBackground,
-          activatedColor: AppTheme.of(context).primaryBackground,
+          menuBackgroundColor: AppTheme.of(context).gris,
+          activatedColor: AppTheme.of(context).gris,
           /////////////////////////////////////
           enableCellBorderVertical: false,
-          borderColor: AppTheme.of(context).primaryBackground,
-          gridBorderColor: AppTheme.of(context).primaryColor,
+          borderColor: Colors.black,
+          gridBorderColor: Colors.black,
           gridBorderRadius: BorderRadius.circular(15),
           gridPopupBorderRadius: BorderRadius.circular(15),
         )
@@ -98,6 +94,57 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           gridBackgroundColor: AppTheme.of(context).primaryBackground,
           gridBorderRadius: BorderRadius.circular(15),
           gridPopupBorderRadius: BorderRadius.circular(15),
+        );
+}
+
+double rowHeightDashboard = 40;
+
+PlutoGridStyleConfig plutoGridStyleConfigDashboard(BuildContext context) {
+  return AppTheme.themeMode == ThemeMode.light
+      ? PlutoGridStyleConfig(
+          //columnContextIcon: Icons.more_horiz,
+          rowHeight: rowHeightDashboard,
+          iconColor: AppTheme.of(context).primaryColor,
+          checkedColor: AppTheme.themeMode == ThemeMode.light
+              ? const Color(0xFFC7D8ED)
+              : const Color(0XFF4B4B4B),
+          /////////////////////////////////////
+          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          /////////////////////////////////////
+          rowColor: AppTheme.of(context).gris,
+          enableRowColorAnimation: true,
+          /////////////////////////////////////
+          gridBackgroundColor: Colors.transparent,
+          menuBackgroundColor: AppTheme.of(context).gris,
+          activatedColor: AppTheme.of(context).gris,
+          /////////////////////////////////////
+          enableCellBorderVertical: false,
+          borderColor: AppTheme.of(context).gris,
+          gridBorderColor: AppTheme.of(context).gris,
+          // gridBorderRadius: BorderRadius.circular(15),
+          // gridPopupBorderRadius: BorderRadius.circular(15),
+        )
+      : PlutoGridStyleConfig.dark(
+          rowHeight: rowHeight,
+          iconColor: AppTheme.of(context).primaryColor,
+          checkedColor: AppTheme.themeMode == ThemeMode.light
+              ? const Color(0xFFC7D8ED)
+              : const Color(0XFF4B4B4B),
+          /////////////////////////////////////
+          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          /////////////////////////////////////
+          rowColor: AppTheme.of(context).primaryBackground,
+          enableRowColorAnimation: true,
+          /////////////////////////////////////
+          menuBackgroundColor: AppTheme.of(context).primaryBackground,
+          activatedColor: AppTheme.of(context).primaryBackground,
+          /////////////////////////////////////
+          enableCellBorderVertical: false,
+          borderColor: AppTheme.of(context).primaryBackground,
+          gridBorderColor: Colors.transparent,
+          gridBackgroundColor: AppTheme.of(context).primaryBackground,
         );
 }
 
