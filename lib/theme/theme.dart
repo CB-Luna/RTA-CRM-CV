@@ -7,7 +7,8 @@ import 'package:rta_crm_cv/models/models.dart';
 
 const kThemeModeKey = '__theme_mode__';
 
-void setDarkModeSetting(BuildContext context, ThemeMode themeMode) => MyApp.of(context).setThemeMode(themeMode);
+void setDarkModeSetting(BuildContext context, ThemeMode themeMode) =>
+    MyApp.of(context).setThemeMode(themeMode);
 
 abstract class AppTheme {
   static ThemeMode get themeMode {
@@ -27,9 +28,12 @@ abstract class AppTheme {
     darkTheme = DarkModeTheme(mode: conf?.dark);
   }
 
-  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system ? prefs.remove(kThemeModeKey) : prefs.setBool(kThemeModeKey, mode == ThemeMode.dark);
+  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system
+      ? prefs.remove(kThemeModeKey)
+      : prefs.setBool(kThemeModeKey, mode == ThemeMode.dark);
 
-  static AppTheme of(BuildContext context) => Theme.of(context).brightness == Brightness.dark ? darkTheme : lightTheme;
+  static AppTheme of(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark ? darkTheme : lightTheme;
 
   abstract Color primaryColor;
   abstract Color secondaryColor;
@@ -70,6 +74,7 @@ abstract class AppTheme {
   TextStyle get contenidoTablas => typography.contenidoTablas;
   TextStyle get hintText => typography.hintText;
   TextStyle get textoError => typography.textoError;
+  TextStyle get encabezadoTablasBlack => typography.encabezadoTablasBlack;
 
   Typography get typography => ThemeTypography(this);
 }
@@ -136,7 +141,7 @@ class DarkModeTheme extends AppTheme {
   Color secondaryText = const Color(0XFFE6E5E6);
   @override
   Color gris = const Color(0XFF262626);
-   @override
+  @override
   Color managerPrimary = const Color(0xFF2F9992);
   @override
   Color techSupPrimary = const Color(0xFF3128FC);
@@ -219,6 +224,7 @@ abstract class Typography {
   TextStyle get contenidoTablas;
   TextStyle get hintText;
   TextStyle get textoError;
+  TextStyle get encabezadoTablasBlack;
 }
 
 class ThemeTypography extends Typography {
@@ -328,7 +334,11 @@ class ThemeTypography extends Typography {
       );
 
   @override
-  TextStyle get encabezadoSubTablas => TextStyle(fontSize: 35, fontFamily: 'Bicyclette-Bold', fontWeight: FontWeight.w800, color: theme.primaryColor);
+  TextStyle get encabezadoSubTablas => TextStyle(
+      fontSize: 35,
+      fontFamily: 'Bicyclette-Bold',
+      fontWeight: FontWeight.w800,
+      color: theme.primaryColor);
 
   @override
   TextStyle get contenidoTablas => TextStyle(
@@ -343,5 +353,12 @@ class ThemeTypography extends Typography {
         fontSize: 13,
         fontFamily: 'Gotham-Light',
         color: Colors.red,
+      );
+  @override
+  TextStyle get encabezadoTablasBlack => const TextStyle(
+        fontSize: 22,
+        fontFamily: 'Gotham-Light',
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
       );
 }

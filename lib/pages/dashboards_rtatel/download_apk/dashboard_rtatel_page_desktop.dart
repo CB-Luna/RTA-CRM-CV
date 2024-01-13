@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_portal/flutter_portal.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
@@ -32,13 +30,14 @@ class _DashboardRtatelPageDesktopState
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final UsersProvider provider = Provider.of<UsersProvider>(
-        context,
-        listen: false,
-      );
-      await provider.updateState();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    //   final UsersProvider provider = Provider.of<UsersProvider>(
+    //     context,
+    //     listen: false,
+    //   );
+    //   // provider.clearListInstallers(notify: true);
+    //   await provider.updateState();
+    // });
   }
 
   FToast fToast = FToast();
@@ -57,9 +56,14 @@ class _DashboardRtatelPageDesktopState
       final List<String> installersName =
           provider.usersRoleInstallers.map((roles) => roles.email).toList();
 
-      // if (currentUser!.isAdminDashboards) {
-      if (installersName.isEmpty) {
-        provider.getInstallers(notify: true);
+      provider.pagesearch = false;
+      if (currentUser!.isAdminDashboards) {
+        if (installersName.isEmpty) {
+          provider.usersRoleInstallers = [];
+          provider.userRoleInstaller = null;
+          provider.idsinstallers = [];
+          provider.getInstallers(notify: true);
+        }
       }
       return Material(
         child: SizedBox(
@@ -73,50 +77,51 @@ class _DashboardRtatelPageDesktopState
                 child: Container(
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(gradient: whiteGradient),
-                  child: CustomScrollBar(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                      children: [
-                        Visibility(
-                          visible: currentUser!.isAdminDashboards,
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.10,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0),
-                                  child: Text(
-                                    "Search Job Technician: ",
-                                    style: AppTheme.of(context).bodyText1,
-                                  ),
+                  child: Column(
+                    children: [
+                      Visibility(
+                        visible: currentUser!.isAdminDashboards,
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.10,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
+                                child: Text(
+                                  "Search Job Technician: ",
+                                  style: AppTheme.of(context).bodyText1,
                                 ),
-                                CustomDropDownInventory(
-                                  label: '',
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.27,
-                                  list: installersName,
-                                  dropdownValue: provider.userSelected?.email,
-                                  onChanged: (val) {
-                                    if (val == null) return;
-                                    provider.selectInstaller(val);
-                                    context.pushReplacement(
-                                        "/job_complete/job_complete_${provider.userSelected!.name.toLowerCase()}_${provider.userSelected!.lastName.toLowerCase()}");
-                                  },
-                                ),
-                              ],
-                            ),
+                              ),
+                              CustomDropDownInventory(
+                                label: "",
+                                width: MediaQuery.of(context).size.width * 0.27,
+                                list: installersName,
+                                dropdownValue: provider.userSelected?.email,
+                                onChanged: (val) {
+                                  if (val == null) return;
+                                  provider.selectInstaller(val);
+                                  context.pushReplacement(
+                                      "/job_complete/job_complete_${provider.userSelected!.name.toLowerCase()}_${provider.userSelected!.lastName.toLowerCase()}");
+                                },
+                              ),
+                            ],
                           ),
                         ),
-                        //Contenido
-                        IFrame(
-                          src: widget.source,
-                          width: MediaQuery.of(context).size.width * .95,
-                          height: MediaQuery.of(context).size.height,
+                      ),
+                      //Contenido
+                      Expanded(
+                        child: IgnorePointer(
+                          ignoring: true,
+                          child: IFrame(
+                            src: widget.source,
+                            width: MediaQuery.of(context).size.width * .95,
+                            height: MediaQuery.of(context).size.height,
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               )

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rta_crm_cv/functions/tokens.dart';
+import 'package:rta_crm_cv/models/token.dart';
 
 import 'package:rta_crm_cv/pages/crm/campaigns/campaigns_page.dart';
 import 'package:rta_crm_cv/pages/crm/reports_page.dart';
@@ -25,6 +27,7 @@ import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_docu
 import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document_list.dart';
 
 import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
+import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
 import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
 
 /// The route configuration.
@@ -38,6 +41,8 @@ final GoRouter router = GoRouter(
 
     if (state.location == '/change-password') return null;
 
+    if (state.location.contains(homeownerFTTHDocumentClient)) return null;
+
     //If user is not logged in and not in the login page
     if (!loggedIn && !isLoggingIn) return '/login';
 
@@ -50,187 +55,117 @@ final GoRouter router = GoRouter(
   errorBuilder: (context, state) => const PageNotFoundPage(),
   routes: <RouteBase>[
     GoRoute(
-      path: '/',
-      name: 'root',
-      builder: (BuildContext context, GoRouterState state) {
-        if (currentUser!.isCRM) {
-          return const QuotesPage();
-        } else if (currentUser!.isAdminCv || currentUser!.isManager) {
-          return const MonitoryPageDesktop();
-        } else if (currentUser!.isEmployee) {
-          return const DownloadAPKPage();
-        } else if (currentUser!.isDashboardsRTATEL) {
-          if (currentUser!.isDashboardsFinancial1) {
-            return const DashboardsRtatelPage(
-                title: "Bolivar Peninsula Fiber to the home",
-                source:
-                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
-          }
-          if (currentUser!.isDashboardsFinancial2) {
-            return const DashboardsRtatelPage(
-                title: "Bolivar Peninsula Fiber to the home",
-                source:
-                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
-          }
-          if (currentUser!.isDashboardsFinancial3) {
-            return const DashboardsRtatelPage(
-                title: "Bolivar Peninsula Fiber to the home",
-                source:
-                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
-          } else if (currentUser!.isDashboardsOperation1) {
-            return const DashboardsRtatelPage(
-                title: "Bolivar Peninsula Fiber to the home",
-                source:
-                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
-          } else if (currentUser!.isDashboardsOperation2) {
-            return const DashboardsRtatelPage(
-                title: "Monitoring Dashboard",
-                source:
-                    "https://lookerstudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC");
-          } else if (currentUser!.isDashboardsSupervisor1) {
-            return const DashboardsRtatelPage(
-                title: "Bolivar Peninsula Fiber to the home",
-                source:
-                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
-          } else if (currentUser!.isDashboardsSupervisor2) {
-            return const DashboardsRtatelPage(
-                title: "Bolivar Peninsula Fiber to the home",
-                source:
-                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
-          } else if (currentUser!.isDashboardsBank1) {
-            return const DashboardsRtatelPage(
-                title: "Bolivar Peninsula Fiber to the home",
-                source:
-                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
-          } else if (currentUser!.isDashboardsBank2) {
-            return const DashboardsRtatelPage(
-                title: "Monitoring Dashboard",
-                source:
-                    "https://lookerstudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC");
-          } else if (currentUser!.isDashboardsBank3) {
-            return const DashboardsRtatelPage(
-                title: "Wizpapalooza 2021 Survey",
-                source:
-                    "https://survey.rtatel.com/survey/dashboard_wispapalooza2021.html");
-          } else if (currentUser!.isDashboardsCareRep) {
-            return const DashboardsRtatelPage(
-                title: "EcommerceRTA",
-                source:
-                    "https://ecom.rtatel.com/#/rep/?rep=rtanumbers@gmail.com");
-          } else if (currentUser!.isDashboardsInstaller) {
-            return DashboardsRtatelPage(
-                title: currentUser!.name + currentUser!.lastName,
-                source:
-                    "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=${currentUser!.email}");
+        path: '/',
+        name: 'root',
+        builder: (BuildContext context, GoRouterState state) {
+          print("Router Raiz");
+          if (currentUser!.isDashboardsRTATEL) {
+            if (currentUser!.isDashboardsFinancial1 ||
+                currentUser!.isDashboardsFinancial2 ||
+                currentUser!.isDashboardsFinancial3 ||
+                currentUser!.isDashboardsOperation1 ||
+                currentUser!.isDashboardsSupervisor1 ||
+                currentUser!.isDashboardsSupervisor2 ||
+                currentUser!.isDashboardsBank1) {
+              return const DashboardsRtatelPage(
+                  title: "Bolivar Peninsula Fiber to the home",
+                  source:
+                      "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+            } else if (currentUser!.isDashboardsOperation2 ||
+                currentUser!.isDashboardsBank2) {
+              return const DashboardsRtatelPage(
+                  title: "Monitoring Dashboard",
+                  source:
+                      "https://lookerstudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC");
+            } else if (currentUser!.isDashboardsBank3) {
+              return const DashboardsRtatelPage(
+                  title: "Wizpapalooza 2021 Survey",
+                  source:
+                      "https://survey.rtatel.com/survey/dashboard_wispapalooza2021.html");
+            } else if (currentUser!.isDashboardsCareRep) {
+              return const DashboardsRtatelPage(
+                  title: "EcommerceRTA",
+                  source:
+                      "https://ecom.rtatel.com/#/rep/?rep=rtanumbers@gmail.com");
+            } else if (currentUser!.isDashboardsInstaller) {
+              return DashboardsRtatelPage(
+                  title: currentUser!.name + currentUser!.lastName,
+                  source:
+                      "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=${currentUser!.email}");
+            } else {
+              return const DashboardsRtatelPage(
+                  title: "OpCo Suscriber Targets",
+                  source: "https://cblsrvr1.rtatel.com/dash/#/business_plan");
+            }
+          } else if (currentUser!.isCRM) {
+            return const QuotesPage();
+          } else if (currentUser!.isAdminCv || currentUser!.isManager) {
+            return const MonitoryPageDesktop();
+          } else if (currentUser!.isEmployee) {
+            return const DownloadAPKPage();
           } else {
-            return const DashboardsRtatelPage(
-                title: "OpCo Suscriber Targets",
-                source: "https://cblsrvr1.rtatel.com/dash/#/business_plan");
+            return const PageNotFoundPage();
           }
-        } else {
-          return const PageNotFoundPage();
-        }
-      },
-      pageBuilder: (context, state) => CustomTransitionPage<void>(
-        key: state.pageKey,
-        child: currentUser!.isCRM
-            ? const QuotesPage()
-            : currentUser!.isAdminCv ||
-                    currentUser!.isManager ||
-                    currentUser!.isTechSupervisor
-                // Aqui toma el techsupervisor cuando se supone que no
-                ? const MonitoryPageDesktop()
-                : currentUser!.isEmployee
-                    ? const DownloadAPKPage()
-                    : currentUser!.isAdminDashboards
+        },
+        pageBuilder: (context, state) {
+          return CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: currentUser!.isAdminDashboards
+                ? const DashboardsRtatelPage(
+                    title: "Bolivar Peninsula Fiber to the home",
+                    source:
+                        "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                : currentUser!.isDashboardsFinancial1 ||
+                        currentUser!.isDashboardsFinancial2 ||
+                        currentUser!.isDashboardsFinancial3 ||
+                        currentUser!.isDashboardsOperation1 ||
+                        currentUser!.isDashboardsSupervisor1 ||
+                        currentUser!.isDashboardsSupervisor2 ||
+                        currentUser!.isDashboardsBank1
+                    ? const DashboardsRtatelPage(
+                        title: "Bolivar Peninsula Fiber to the home",
+                        source:
+                            "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                    : currentUser!.isDashboardsOperation2 ||
+                            currentUser!.isDashboardsBank2
                         ? const DashboardsRtatelPage(
-                            title: "Bolivar Peninsula Fiber to the home",
+                            title: "Monitoring Dashboard",
                             source:
-                                "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
-                        : currentUser!.isDashboardsFinancial1
+                                "https://lookerstudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC")
+                        : currentUser!.isDashboardsBank3
                             ? const DashboardsRtatelPage(
-                                title: "Bolivar Peninsula Fiber to the home",
+                                title: "Wizpapalooza 2021 Survey",
                                 source:
-                                    "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
-                            : currentUser!.isDashboardsFinancial2
+                                    "https://survey.rtatel.com/survey/dashboard_wispapalooza2021.html")
+                            : currentUser!.isDashboardsCareRep
                                 ? const DashboardsRtatelPage(
-                                    title:
-                                        "Bolivar Peninsula Fiber to the home",
+                                    title: "EcommerceRTA",
                                     source:
-                                        "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
-                                : currentUser!.isDashboardsFinancial3
-                                    ? const DashboardsRtatelPage(
-                                        title:
-                                            "Bolivar Peninsula Fiber to the home",
+                                        "https://ecom.rtatel.com/#/rep/?rep=rtanumbers@gmail.com")
+                                : currentUser!.isDashboardsInstaller
+                                    ? DashboardsRtatelPage(
+                                        title: currentUser!.name +
+                                            currentUser!.lastName,
                                         source:
-                                            "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
-                                    : currentUser!.isDashboardsOperation1
-                                        ? const DashboardsRtatelPage(
-                                            title:
-                                                "Bolivar Peninsula Fiber to the home",
-                                            source:
-                                                "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
-                                        : currentUser!.isDashboardsOperation2
-                                            ? const DashboardsRtatelPage(
-                                                title: "Monitoring Dashboard",
-                                                source:
-                                                    "https://lookerstudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC")
-                                            : currentUser!
-                                                    .isDashboardsSupervisor1
-                                                ? const DashboardsRtatelPage(
-                                                    title:
-                                                        "Bolivar Peninsula Fiber to the home",
-                                                    source:
-                                                        "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
-                                                : currentUser!
-                                                        .isDashboardsSupervisor2
-                                                    ? const DashboardsRtatelPage(
-                                                        title:
-                                                            "Bolivar Peninsula Fiber to the home",
-                                                        source:
-                                                            "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
-                                                    : currentUser!
-                                                            .isDashboardsBank1
-                                                        ? const DashboardsRtatelPage(
-                                                            title:
-                                                                "Bolivar Peninsula Fiber to the home",
-                                                            source:
-                                                                "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
-                                                        : currentUser!
-                                                                .isDashboardsBank2
-                                                            ? const DashboardsRtatelPage(
-                                                                title:
-                                                                    "Monitoring Dashboard",
-                                                                source:
-                                                                    "https://lookerstudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC")
-                                                            : currentUser!
-                                                                    .isDashboardsBank3
-                                                                ? const DashboardsRtatelPage(
-                                                                    title:
-                                                                        "Wizpapalooza 2021 Survey",
-                                                                    source:
-                                                                        "https://survey.rtatel.com/survey/dashboard_wispapalooza2021.html")
-                                                                : currentUser!
-                                                                        .isDashboardsCareRep
-                                                                    ? const DashboardsRtatelPage(
-                                                                        title:
-                                                                            "EcommerceRTA",
-                                                                        source:
-                                                                            "https://ecom.rtatel.com/#/rep/?rep=rtanumbers@gmail.com")
-                                                                    : currentUser!
-                                                                            .isDashboardsInstaller
-                                                                        ? DashboardsRtatelPage(
-                                                                            title:
-                                                                                currentUser!.name + currentUser!.lastName,
-                                                                            source: "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=${currentUser!.email}")
-                                                                        : const PageNotFoundPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            FadeTransition(
-          opacity: animation,
-          child: child,
-        ),
-      ),
-    ),
+                                            "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=${currentUser!.email}")
+                                    : currentUser!.isCRM
+                                        ? const QuotesPage()
+                                        : currentUser!.isAdminCv ||
+                                                currentUser!.isManager ||
+                                                currentUser!.isTechSupervisor
+                                            // Aqui toma el techsupervisor cuando se supone que no
+                                            ? const MonitoryPageDesktop()
+                                            : currentUser!.isEmployee
+                                                ? const DownloadAPKPage()
+                                                : const PageNotFoundPage(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        }),
     GoRoute(
       path: '/home',
       name: 'home',
@@ -424,6 +359,15 @@ final GoRouter router = GoRouter(
       },
       // (context, state, const DetailsPopUp()),
     ),
+    GoRoute(
+      path: routeJobCompleteTechni,
+      name: 'Job complete Technicians',
+      builder: (BuildContext context, GoRouterState state) {
+        return const JobCompleteTechniciansPage();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+
     ////////Sales
     GoRoute(
       path: opcoSuscriberTarget,
@@ -1186,7 +1130,11 @@ final GoRouter router = GoRouter(
       path: homeownerFTTHDocumentClient,
       name: 'homeownerFTTHDocumentClient',
       builder: (BuildContext context, GoRouterState state) {
-        return const HomeOwnerFTTHDocumentClient();
+        final String? tokenString = state.queryParameters['token'];
+        if (tokenString == null) return const PageNotFoundPage();
+        final Token? token = parseToken(tokenString);
+        if (token == null) return const PageNotFoundPage();
+        return HomeOwnerFTTHDocumentClient(token: token);
       },
       // (context, state, const DetailsPopUp()),
     ),

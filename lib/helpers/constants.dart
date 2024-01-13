@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
+
 //////// PROD ////////
 final Uri urlFMTAPK = Uri.parse("https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
 const String supabaseUrl = 'https://supa41.rtatel.com';
@@ -23,6 +24,16 @@ PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
   );
 }
 
+PlutoGridScrollbarConfig plutoGridScrollbarConfigDashboard(
+    BuildContext context) {
+  return PlutoGridScrollbarConfig(
+    isAlwaysShown: true,
+    scrollbarThickness: 5,
+    hoverWidth: 20,
+    scrollBarColor: AppTheme.of(context).gris,
+  );
+}
+
 double rowHeight = 60;
 
 PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
@@ -40,12 +51,12 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           enableRowColorAnimation: true,
           /////////////////////////////////////
           gridBackgroundColor: Colors.transparent,
-          menuBackgroundColor: AppTheme.of(context).primaryBackground,
-          activatedColor: AppTheme.of(context).primaryBackground,
+          menuBackgroundColor: AppTheme.of(context).gris,
+          activatedColor: AppTheme.of(context).gris,
           /////////////////////////////////////
           enableCellBorderVertical: false,
-          borderColor: AppTheme.of(context).primaryBackground,
-          gridBorderColor: AppTheme.of(context).primaryColor,
+          borderColor: Colors.black,
+          gridBorderColor: Colors.black,
           gridBorderRadius: BorderRadius.circular(15),
           gridPopupBorderRadius: BorderRadius.circular(15),
         )
@@ -72,6 +83,55 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
         );
 }
 
+double rowHeightDashboard = 40;
+
+PlutoGridStyleConfig plutoGridStyleConfigDashboard(BuildContext context) {
+  return AppTheme.themeMode == ThemeMode.light
+      ? PlutoGridStyleConfig(
+          //columnContextIcon: Icons.more_horiz,
+          rowHeight: rowHeightDashboard,
+          iconColor: AppTheme.of(context).primaryColor,
+          checkedColor: AppTheme.themeMode == ThemeMode.light
+              ? const Color(0xFFC7D8ED)
+              : const Color(0XFF4B4B4B),
+          /////////////////////////////////////
+          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          /////////////////////////////////////
+          rowColor: AppTheme.of(context).gris,
+          enableRowColorAnimation: true,
+          /////////////////////////////////////
+          gridBackgroundColor: Colors.transparent,
+          menuBackgroundColor: AppTheme.of(context).gris,
+          activatedColor: AppTheme.of(context).gris,
+          /////////////////////////////////////
+          enableCellBorderVertical: false,
+          borderColor: AppTheme.of(context).gris,
+          gridBorderColor: AppTheme.of(context).gris,
+          // gridBorderRadius: BorderRadius.circular(15),
+          // gridPopupBorderRadius: BorderRadius.circular(15),
+        )
+      : PlutoGridStyleConfig.dark(
+          rowHeight: rowHeight,
+          iconColor: AppTheme.of(context).primaryColor,
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
+          /////////////////////////////////////
+          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          /////////////////////////////////////
+          rowColor: AppTheme.of(context).primaryBackground,
+          enableRowColorAnimation: true,
+          /////////////////////////////////////
+          menuBackgroundColor: AppTheme.of(context).primaryBackground,
+          activatedColor: AppTheme.of(context).primaryBackground,
+          /////////////////////////////////////
+          enableCellBorderVertical: false,
+          borderColor: AppTheme.of(context).primaryBackground,
+          gridBorderColor: Colors.transparent,
+          gridBackgroundColor: AppTheme.of(context).primaryBackground,
+        );
+}
+
 CustomTransitionPage<void> pageTransition(BuildContext context, GoRouterState state, Widget page) {
   return CustomTransitionPage<void>(
     key: state.pageKey,
@@ -91,6 +151,7 @@ const String routeQuotes = '/order';
 const String routeCampaigns = '/campaigns';
 const String routeDownloadAPK = '/download_apk';
 const String routeInventory = '/inventory';
+const String routeJobCompleteTechni = '/job_complete_technicians';
 //Sales
 const String opcoSuscriberTarget = '/sales/opco_suscriber_target';
 const String newSalesTrackingDashboard = '/sales/new_sales_tracking_dashboard';

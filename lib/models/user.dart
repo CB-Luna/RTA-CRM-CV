@@ -81,11 +81,13 @@ class User {
       currentUser!.isFinance ||
       currentUser!.isOpperations;
 
-  bool get isAdminCrm => roles.any((role) => role.id == 4);
-  bool get isSales => roles.any((role) => role.id == 6);
-  bool get isSenExec => roles.any((role) => role.id == 9);
-  bool get isFinance => roles.any((role) => role.id == 8);
-  bool get isOpperations => roles.any((role) => role.id == 7);
+  // bool get isAdminCrm => roles.any((role) => role.id == 4);
+
+  bool get isAdminCrm => currentUser!.currentRole.id == 4;
+  bool get isSales => currentUser!.currentRole.id == 6;
+  bool get isOpperations => currentUser!.currentRole.id == 7;
+  bool get isFinance => currentUser!.currentRole.id == 8;
+  bool get isSenExec => currentUser!.currentRole.id == 9;
 
   // CV
   bool get isCV =>
@@ -94,7 +96,7 @@ class User {
       currentUser!.isEmployee ||
       currentUser!.isTechSupervisor;
 
-  bool get isAdminCv => currentUser!.currentRole.roleName == "Admin CV";
+  bool get isAdminCv => currentUser!.currentRole.roleName == "Admin FM";
   bool get isManager => currentUser!.currentRole.roleName == 'Manager';
   bool get isEmployee => currentUser!.currentRole.roleName == 'Employee';
   bool get isTechSupervisor =>
@@ -105,7 +107,7 @@ class User {
 
   // Dashboards RTATEL
   bool get isDashboardsRTATEL =>
-      currentUser!.isAdminDashboards ||
+      isAdminDashboards ||
       isDashboardsOperation1 ||
       isDashboardsOperation2 ||
       isDashboardsFinancial1 ||
