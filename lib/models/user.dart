@@ -107,7 +107,7 @@ class User {
 
   // Dashboards RTATEL
   bool get isDashboardsRTATEL =>
-      currentUser!.isAdminDashboards ||
+      isAdminDashboards ||
       isDashboardsOperation1 ||
       isDashboardsOperation2 ||
       isDashboardsFinancial1 ||

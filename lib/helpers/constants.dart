@@ -32,6 +32,16 @@ PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
   );
 }
 
+PlutoGridScrollbarConfig plutoGridScrollbarConfigDashboard(
+    BuildContext context) {
+  return PlutoGridScrollbarConfig(
+    isAlwaysShown: true,
+    scrollbarThickness: 5,
+    hoverWidth: 20,
+    scrollBarColor: AppTheme.of(context).gris,
+  );
+}
+
 double rowHeight = 60;
 
 PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
@@ -49,14 +59,67 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           enableRowColorAnimation: true,
           /////////////////////////////////////
           gridBackgroundColor: Colors.transparent,
+          menuBackgroundColor: AppTheme.of(context).gris,
+          activatedColor: AppTheme.of(context).gris,
+          /////////////////////////////////////
+          enableCellBorderVertical: false,
+          borderColor: Colors.black,
+          gridBorderColor: Colors.black,
+          gridBorderRadius: BorderRadius.circular(15),
+          gridPopupBorderRadius: BorderRadius.circular(15),
+        )
+      : PlutoGridStyleConfig.dark(
+          rowHeight: rowHeight,
+          iconColor: AppTheme.of(context).primaryColor,
+          checkedColor: AppTheme.themeMode == ThemeMode.light
+              ? const Color(0xFFC7D8ED)
+              : const Color(0XFF4B4B4B),
+          /////////////////////////////////////
+          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          /////////////////////////////////////
+          rowColor: AppTheme.of(context).primaryBackground,
+          enableRowColorAnimation: true,
+          /////////////////////////////////////
           menuBackgroundColor: AppTheme.of(context).primaryBackground,
           activatedColor: AppTheme.of(context).primaryBackground,
           /////////////////////////////////////
           enableCellBorderVertical: false,
           borderColor: AppTheme.of(context).primaryBackground,
-          gridBorderColor: AppTheme.of(context).primaryColor,
+          gridBorderColor: Colors.transparent,
+          gridBackgroundColor: AppTheme.of(context).primaryBackground,
           gridBorderRadius: BorderRadius.circular(15),
           gridPopupBorderRadius: BorderRadius.circular(15),
+        );
+}
+
+double rowHeightDashboard = 40;
+
+PlutoGridStyleConfig plutoGridStyleConfigDashboard(BuildContext context) {
+  return AppTheme.themeMode == ThemeMode.light
+      ? PlutoGridStyleConfig(
+          //columnContextIcon: Icons.more_horiz,
+          rowHeight: rowHeightDashboard,
+          iconColor: AppTheme.of(context).primaryColor,
+          checkedColor: AppTheme.themeMode == ThemeMode.light
+              ? const Color(0xFFC7D8ED)
+              : const Color(0XFF4B4B4B),
+          /////////////////////////////////////
+          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          /////////////////////////////////////
+          rowColor: AppTheme.of(context).gris,
+          enableRowColorAnimation: true,
+          /////////////////////////////////////
+          gridBackgroundColor: Colors.transparent,
+          menuBackgroundColor: AppTheme.of(context).gris,
+          activatedColor: AppTheme.of(context).gris,
+          /////////////////////////////////////
+          enableCellBorderVertical: false,
+          borderColor: AppTheme.of(context).gris,
+          gridBorderColor: AppTheme.of(context).gris,
+          // gridBorderRadius: BorderRadius.circular(15),
+          // gridPopupBorderRadius: BorderRadius.circular(15),
         )
       : PlutoGridStyleConfig.dark(
           rowHeight: rowHeight,
@@ -76,8 +139,6 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           borderColor: AppTheme.of(context).primaryBackground,
           gridBorderColor: Colors.transparent,
           gridBackgroundColor: AppTheme.of(context).primaryBackground,
-          gridBorderRadius: BorderRadius.circular(15),
-          gridPopupBorderRadius: BorderRadius.circular(15),
         );
 }
 
