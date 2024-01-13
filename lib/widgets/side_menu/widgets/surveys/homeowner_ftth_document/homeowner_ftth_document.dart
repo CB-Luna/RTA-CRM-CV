@@ -107,7 +107,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: CustomCard(
                                     width: width * 410,
-                                    height: height * 580,
+                                    height: height * 620,
                                     title: 'Document Info',
                                     child: Column(
                                       children: [
@@ -271,20 +271,12 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                     ),
                                   ),
                                 ),
-                                /* Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: CustomCard(
-                                    title: 'Signature',
-                                    width: width * 410,
-                                    height: height * 275,
-                                    child: const FirmaPDF(),
-                                  ),
-                                ), */
+                                
                                 SizedBox(
-                                  height: height * 275,
+                                  height: height * 235,
                                 ),
                                 provider.search == false
-                                    ? const SizedBox.shrink()
+                                    ? const SizedBox(height: 35,)
                                     : CustomTextIconButton(
                                         isLoading: false,
                                         icon: Icon(Icons.email, color: AppTheme.of(context).primaryBackground),

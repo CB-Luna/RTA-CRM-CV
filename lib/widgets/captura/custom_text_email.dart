@@ -77,10 +77,19 @@ class _EmailInfoState extends State<EmailInfo> {
             enabled: true,
             icon: Icons.email,
             label: 'Other Email',
+            keyboardType: TextInputType.emailAddress,
             controller: TextEditingController(text: contacto),
             onChanged: (value) => contacto = value,
             bgColor: readOnly ? Colors.white : const Color(0x4D0090FF),
             readOnly: false,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please add Email';
+              } else if (!value.contains('@')) {
+                return 'Please Add a Valid Email (missing "@")';
+              }
+              return null;
+            },
           ),
         ),
         const SizedBox(width: 5),
@@ -110,74 +119,10 @@ class _EmailInfoState extends State<EmailInfo> {
               setState(() {
                 provider.emails.add(contacto);
                 provider.eliminarContacto(widget.index);
-               //print((provider.emails.toString()));
-                
+                //print((provider.emails.toString()));
               });
-              
             })
-
-        /*  SizedBox(
-          height: 20,
-          width: 48.2,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              readOnly
-                  ? IconButton(
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      alignment: Alignment.center,
-                      icon: Transform.translate(
-                        offset: const Offset(0, -1.5),
-                        child: Icon(
-                          FontAwesomeIcons.penToSquare,
-                          size: 16,
-                          color: AppTheme.of(context).secondaryColor,
-                        ),
-                      ),
-                      splashRadius: 0.01,
-                      onPressed: () {
-                        provider.modificado = true;
-                        readOnly = false;
-                        setState(() {});
-                      },
-                    )
-                  : IconButton(
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      alignment: Alignment.center,
-                      icon: Transform.translate(
-                        offset: const Offset(0, -1.5),
-                        child: Icon(
-                          FontAwesomeIcons.floppyDisk,
-                          size: 16,
-                          color: AppTheme.of(context).secondaryColor,
-                        ),
-                      ),
-                      splashRadius: 0.01,
-                      onPressed: () {
-                        readOnly = true;
-                        setState(() {});
-                      },
-                    ),
-              IconButton(
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                icon: Icon(
-                  Icons.delete_outline_outlined,
-                  size: 20,
-                  color: AppTheme.of(context).secondaryColor,
-                ),
-                splashRadius: 0.01,
-                onPressed: () {
-                  provider.eliminarContacto(widget.index);
-                },
-              ),
-            ],
-          ),
-        ),
-      */
-      ],
+        ],
     );
   }
 }

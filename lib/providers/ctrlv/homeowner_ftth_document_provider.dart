@@ -173,6 +173,9 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'ID_Column': PlutoCell(value: doc.id),
+              'Customer_ID': PlutoCell(value: doc.formInfo!.acount),
+              'email': PlutoCell(value: doc.formInfo!.email),
+              'Customer_Name': PlutoCell(value: doc.formInfo!.acountName),
               'Name_Column': PlutoCell(value: doc.document),
               'Creation_Date_Column': PlutoCell(value: dateFormat(doc.createdAt)),
               'Due_Date_Column': PlutoCell(value: dateFormat(doc.dueDate)),
