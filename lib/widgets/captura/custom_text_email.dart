@@ -86,12 +86,15 @@ class _EmailInfoState extends State<EmailInfo> {
               },
               bgColor: readOnly ? Colors.white : const Color(0x4D0090FF),
               readOnly: false,
-              formatters: [FilteringTextInputFormatter.deny(RegExp(r'[^a-zA-Z0-9@._-]'))],
               validator: (value) {
+                RegExp emailRegExp = RegExp(
+                  r'^[a-zA-Z0-9._%+-]+(\.[a-zA-Z0-9._%+-]+)*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                );
+
                 if (value == null || value.isEmpty) {
                   return 'Please add Email';
-                } else if (!value.contains('@') || !value.contains('.com')) {
-                  return 'Please Add a Valid Email\n (missing "@" or ".com")';
+                } else if (!emailRegExp.hasMatch(value)) {
+                  return 'Please Add a Valid Email';
                 }
                 return null;
               },
