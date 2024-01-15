@@ -69,60 +69,69 @@ class _EmailInfoState extends State<EmailInfo> {
     final HomeownerFTTHDocumentProvider provider = Provider.of<HomeownerFTTHDocumentProvider>(context);
 
     String contacto = provider.emails[widget.index];
-
-    return Row(
-      children: [
-        Expanded(
-          child: CustomInputField(
-            enabled: true,
-            icon: Icons.email,
-            label: 'Other Email',
-            keyboardType: TextInputType.emailAddress,
-            controller: TextEditingController(text: contacto),
-            onChanged: (value) => contacto = value,
-            bgColor: readOnly ? Colors.white : const Color(0x4D0090FF),
-            readOnly: false,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please add Email';
-              } else if (!value.contains('@')) {
-                return 'Please Add a Valid Email (missing "@")';
-              }
-              return null;
-            },
+    final formKey = GlobalKey<FormState>();
+    return Form(
+      key: formKey,
+      child: Row(
+        children: [
+          Expanded(
+            child: CustomInputField(
+              enabled: true,
+              icon: Icons.email,
+              label: 'Other Email',
+              keyboardType: TextInputType.emailAddress,
+              controller: TextEditingController(text: contacto),
+              onChanged: (value) {
+                contacto = value;
+              },
+              bgColor: readOnly ? Colors.white : const Color(0x4D0090FF),
+              readOnly: false,
+              formatters: [FilteringTextInputFormatter.deny(RegExp(r'[^a-zA-Z0-9@._-]'))],
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please add Email';
+                } else if (!value.contains('@') || !value.contains('.com')) {
+                  return 'Please Add a Valid Email\n (missing "@" or ".com")';
+                }
+                return null;
+              },
+            ),
           ),
-        ),
-        const SizedBox(width: 5),
-        CustomTextIconButton(
-          text: 'Delete',
-          isLoading: false,
-          icon: Icon(
-            Icons.delete,
-            color: AppTheme.of(context).primaryBackground,
-          ),
-          color: AppTheme.of(context).secondaryColor,
-          onTap: () {
-            setState(() {
-              provider.eliminarContacto(widget.index);
-            });
-          },
-        ),
-        CustomTextIconButton(
-            text: 'save',
+          const SizedBox(width: 5),
+          CustomTextIconButton(
+            text: 'Delete',
             isLoading: false,
             icon: Icon(
-              Icons.save,
+              Icons.delete,
               color: AppTheme.of(context).primaryBackground,
             ),
-            color: AppTheme.of(context).primaryColor,
+            color: AppTheme.of(context).secondaryColor,
             onTap: () {
               setState(() {
-                provider.emails.add(contacto);
                 provider.eliminarContacto(widget.index);
-                //print((provider.emails.toString()));
               });
-            })
+            },
+          ),
+          CustomTextIconButton(
+              text: 'save',
+              isLoading: false,
+              icon: Icon(
+                Icons.save,
+                color: AppTheme.of(context).primaryBackground,
+              ),
+              color: AppTheme.of(context).primaryColor,
+              onTap: () {
+                if (!formKey.currentState!.validate()) {
+                  return;
+                }
+                setState(() {
+                  provider.emails.add(contacto);
+                  provider.eliminarContacto(widget.index);
+                  //print((provider.emails.toString()));
+                });
+              })
         ],
+      ),
     );
   }
 }
