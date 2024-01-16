@@ -58,7 +58,6 @@ final GoRouter router = GoRouter(
         path: '/',
         name: 'root',
         builder: (BuildContext context, GoRouterState state) {
-          print("Router Raiz");
           if (currentUser!.isDashboardsRTATEL) {
             if (currentUser!.isDashboardsFinancial1 ||
                 currentUser!.isDashboardsFinancial2 ||

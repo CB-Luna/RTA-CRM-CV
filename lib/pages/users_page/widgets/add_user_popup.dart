@@ -35,18 +35,24 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
     UsersProvider provider = Provider.of<UsersProvider>(context);
     final formKey = GlobalKey<FormState>();
 
-    final List<String> statesNames = provider.states.map((state) => state.name).toList();
+    final List<String> statesNames =
+        provider.states.map((state) => state.name).toList();
 
-    final List<String> selectedRoles = provider.selectedRoles.map((role) => role.roleName).toList();
+    final List<String> selectedRoles =
+        provider.selectedRoles.map((role) => role.roleName).toList();
 
     final bool isVisible = selectedRoles.contains('Employee') ||
         selectedRoles.contains('Tech Supervisor') ||
         selectedRoles.contains('Manager');
 
     final List<String> statusName = ["Not Active", "Active"];
-    final List<String> companyNames = provider.companys.map((companyName) => companyName.company).toList();
-    final List<String> vehicleNames = provider.vehicles.map((vehicleNames) => vehicleNames.licesensePlates).toList();
-    var cardMaskNumber = MaskTextInputFormatter(mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
+    final List<String> companyNames =
+        provider.companys.map((companyName) => companyName.company).toList();
+    final List<String> vehicleNames = provider.vehicles
+        .map((vehicleNames) => vehicleNames.licesensePlates)
+        .toList();
+    var cardMaskNumber = MaskTextInputFormatter(
+        mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
 
     return Dialog(
       shape: const RoundedRectangleBorder(
@@ -79,7 +85,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                       children: [
                         CustomTextIconButton(
                           isLoading: false,
-                          icon: Icon(Icons.arrow_back_outlined, color: AppTheme.of(context).primaryBackground),
+                          icon: Icon(Icons.arrow_back_outlined,
+                              color: AppTheme.of(context).primaryBackground),
                           text: '',
                           onTap: () {
                             context.pop();
@@ -93,7 +100,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         if (!valorImage) {
                           if (!mounted) return;
                           fToast.showToast(
-                            child: const FailedToastJA(message: 'The User image is larger than 1 MB'),
+                            child: const FailedToastJA(
+                                message: 'The User image is larger than 1 MB'),
                             gravity: ToastGravity.BOTTOM,
                             toastDuration: const Duration(seconds: 2),
                           );
@@ -211,7 +219,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                             if (val == null) return;
                             provider.selectCompany(val);
                             if (val != "RTA") {
-                              await provider.getVehicleActive(val, notify: true);
+                              await provider.getVehicleActive(val,
+                                  notify: true);
                             }
                           },
                         ),
@@ -244,7 +253,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                               icon: Icons.credit_card_outlined,
                               width: 190,
                               list: vehicleNames,
-                              dropdownValue: provider.selectedVehicle?.licesensePlates,
+                              dropdownValue:
+                                  provider.selectedVehicle?.licesensePlates,
                               onChanged: (val) {
                                 if (val == null) return;
                                 //print(val);
@@ -263,7 +273,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                                   isLoading: false,
                                   icon: Icon(
                                     Icons.cleaning_services_outlined,
-                                    color: AppTheme.of(context).primaryBackground,
+                                    color:
+                                        AppTheme.of(context).primaryBackground,
                                   ),
                                   text: 'Clear Plates',
                                   onTap: () async {
@@ -313,7 +324,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
             CustomTextIconButton(
               mainAxisAlignment: MainAxisAlignment.center,
               isLoading: false,
-              icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
+              icon: Icon(Icons.save_outlined,
+                  color: AppTheme.of(context).primaryBackground),
               text: 'Save User',
               width: MediaQuery.of(context).size.width * 0.1,
               onTap: () async {
@@ -326,7 +338,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                 }
 
                 //Registrar usuario
-                final Map<String, String>? result = await provider.registerUser();
+                final Map<String, String>? result =
+                    await provider.registerUser();
 
                 if (result == null) {
                   await ApiErrorHandler.callToast('Error registering user');
@@ -349,7 +362,8 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                 bool res = await provider.createUserProfile(userId);
 
                 if (!res) {
-                  await ApiErrorHandler.callToast('Error creating user profile');
+                  await ApiErrorHandler.callToast(
+                      'Error creating user profile');
                   return;
                 }
 

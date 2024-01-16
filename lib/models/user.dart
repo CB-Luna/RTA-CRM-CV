@@ -71,7 +71,10 @@ class User {
   }
 
   // Both
-  bool get isAdmin => currentUser!.isAdminCrm || currentUser!.isAdminCv;
+  bool get isAdmin =>
+      currentUser!.isAdminCrm ||
+      currentUser!.isAdminCv ||
+      currentUser!.isAdminDashboards;
 
   // CRM
   bool get isCRM =>
