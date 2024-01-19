@@ -6,6 +6,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/models/user.dart';
 import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toastJA.dart';
 import 'package:rta_crm_cv/pages/users_page/widgets/role_selector_widget.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
@@ -19,21 +20,35 @@ import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/success_toast.dart';
 
-class AddUserPopUp extends StatefulWidget {
-  const AddUserPopUp({super.key});
+class SaveUserPopUp extends StatefulWidget {
+  const SaveUserPopUp({super.key, this.user});
+
+  final User? user;
 
   @override
-  State<AddUserPopUp> createState() => _AddUserPopUpState();
+  State<SaveUserPopUp> createState() => _SaveUserPopUpState();
 }
 
-class _AddUserPopUpState extends State<AddUserPopUp> {
+class _SaveUserPopUpState extends State<SaveUserPopUp> {
   FToast fToast = FToast();
+
+  String? imageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.user?.image != null) {
+      imageUrl = supabase.storage.from('avatars').getPublicUrl(widget.user!.image!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
     UsersProvider provider = Provider.of<UsersProvider>(context);
     final formKey = GlobalKey<FormState>();
+
+    final bool editing = widget.user != null;
 
     final List<String> statesNames = provider.states.map((state) => state.name).toList();
 
@@ -44,7 +59,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
         selectedRoles.contains('Manager');
 
     final List<String> statusName = ["Not Active", "Active"];
-    final List<String> companyNames = provider.companys.map((companyName) => companyName.company).toList();
+    final List<String> companyNames = provider.companies.map((companyName) => companyName.company).toList();
     final List<String> vehicleNames = provider.vehicles.map((vehicleNames) => vehicleNames.licesensePlates).toList();
     var cardMaskNumber = MaskTextInputFormatter(mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
 
@@ -60,7 +75,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
       ),
       insetPadding: EdgeInsets.zero,
       child: CustomCard(
-        title: 'User Creation',
+        title: editing ? 'Update User' : 'User Creation',
         height: 709,
         width: 380,
         padding: EdgeInsets.zero,
@@ -106,7 +121,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                         ),
-                        child: getAddImageU(provider.webImage),
+                        child: getUserImage(provider.webImage ?? imageUrl),
                       ),
                     ),
                     Padding(
@@ -224,7 +239,7 @@ class _AddUserPopUpState extends State<AddUserPopUp> {
                         icon: Icons.settings_backup_restore_outlined,
                         width: 350,
                         list: statusName,
-                        dropdownValue: provider.dropdownvalue,
+                        dropdownValue: provider.selectedStatus,
                         onChanged: (val) {
                           if (val == null) return;
                           provider.getStatus(val);

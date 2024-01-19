@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toastJA.dart';
 import 'package:rta_crm_cv/pages/users_page/widgets/role_selector_widget.dart';
-import 'package:rta_crm_cv/widgets/get_image_widget.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -47,7 +46,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
         selectedRoles.contains('Tech Supervisor') ||
         selectedRoles.contains('Manager');
 
-    final List<String> companyNames = provider.companys.map((companyName) => companyName.company).toList();
+    final List<String> companyNames = provider.companies.map((companyName) => companyName.company).toList();
 
     final List<String> vehicleNames = provider.vehicles.map((vehicleNames) => vehicleNames.licesensePlates).toList();
     final List<String> statusName = ["Not Active", "Active"];
@@ -110,7 +109,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                         ),
-                        child: getUserImage(widget.user, provider.webImage),
+                        // child: getUserImage(widget.user, provider.webImage),
                       ),
                     ),
                     Padding(
@@ -118,7 +117,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                       child: CustomTextField(
                         label: 'Name',
                         icon: Icons.person_outline,
-                        controller: provider.nameControllerUpdate,
+                        controller: provider.nameController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
@@ -130,7 +129,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                       child: CustomTextField(
                         label: 'Last Name',
                         icon: Icons.person_outline,
-                        controller: provider.lastNameControllerUpdate,
+                        controller: provider.lastNameController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.name,
@@ -142,7 +141,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                       child: CustomTextField(
                         label: 'Mobile Phone',
                         icon: Icons.phone_outlined,
-                        controller: provider.phoneControllerUpdate,
+                        controller: provider.phoneController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.phone,
@@ -154,7 +153,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                       child: CustomTextField(
                         label: 'Address*',
                         icon: Icons.home_outlined,
-                        controller: provider.addressControllerUpdate,
+                        controller: provider.addressController,
                         enabled: true,
                         width: 350,
                         keyboardType: TextInputType.text,
@@ -169,10 +168,10 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         icon: Icons.location_on_outlined,
                         width: 350,
                         list: statesNames,
-                        dropdownValue: provider.selectedStateUpdate?.name,
+                        dropdownValue: provider.selectedState?.name,
                         onChanged: (val) {
                           if (val == null) return;
-                          provider.selectStateUpdate(val);
+                          provider.selectState(val);
                         },
                       ),
                     ),
@@ -189,10 +188,10 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                           icon: Icons.warehouse_outlined,
                           width: 350,
                           list: companyNames,
-                          dropdownValue: provider.selectedCompanyUpdate?.company,
+                          dropdownValue: provider.selectedCompany?.company,
                           onChanged: (val) async {
                             if (val == null) return;
-                            provider.selectCompanyUpdate(val);
+                            provider.selectCompany(val);
                             if (val != "RTA") {
                               await provider.getVehicleActive(val, notify: true);
                             }
@@ -207,10 +206,10 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         icon: Icons.settings_backup_restore_outlined,
                         width: 350,
                         list: statusName,
-                        dropdownValue: provider.dropdownvalueUpdate,
+                        dropdownValue: provider.selectedStatus,
                         onChanged: (val) {
                           if (val == null) return;
-                          provider.getStatusupdate(val);
+                          provider.getStatus(val);
                           //print(val);
                         },
                       ),
@@ -222,12 +221,12 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: CustomDDownMenu(
-                              hint: 'Choose a Vehicle [${provider.selectVehiclePlates ?? 'No Vehicle'}]',
+                              hint: 'Choose a Vehicle [${provider.selectedVehicle?.licesensePlates ?? 'No Vehicle'}]',
                               label: 'Vehicle',
                               icon: Icons.credit_card_outlined,
                               width: MediaQuery.of(context).size.width * 0.145,
                               list: vehicleNames,
-                              dropdownValue: provider.selectedVehicleUpdate?.licesensePlates,
+                              dropdownValue: provider.selectedVehicle?.licesensePlates,
                               onChanged: (val) {
                                 if (val == null) return;
                                 provider.selectVehicleUpdates(val);
@@ -248,10 +247,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                                     color: AppTheme.of(context).primaryBackground,
                                   ),
                                   text: '',
-                                  onTap: () async {
-                                    provider.clearVehicleLicense(notify: false);
-                                    provider.clearVehicleUpdate();
-                                  },
+                                  onTap: () async {},
                                 ),
                               ),
                             ],
@@ -266,7 +262,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         child: CustomTextField(
                           label: 'License',
                           icon: Icons.card_membership_outlined,
-                          controller: provider.licenseControllerUpdate,
+                          controller: provider.licenseController,
                           enabled: true,
                           width: 350,
                           keyboardType: TextInputType.text,
@@ -281,7 +277,7 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                         child: CustomTextField(
                           label: 'Certification',
                           icon: Icons.workspace_premium_outlined,
-                          controller: provider.certificationControllerUpdate,
+                          controller: provider.certificationController,
                           enabled: true,
                           width: 350,
                           keyboardType: TextInputType.text,
@@ -303,7 +299,6 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                 if (!formKey.currentState!.validate()) {
                   return;
                 }
-                await provider.deleteImage();
                 await provider.uploadImage();
 
                 // if (provider.webImage != null) {
@@ -314,9 +309,9 @@ class _UpdateUserPopUpState extends State<UpdateUserPopUp> {
                 // }
 
                 // Cambio del vehiculo del usuario a disponible
-                if (provider.selectedVehicleUpdate == null) {
-                  provider.updateVehiclestatusClear(widget.user);
-                }
+                // if (provider.selectedVehicleUpdate == null) {
+                //   provider.updateVehiclestatusClear(widget.user);
+                // }
 
                 //Crear perfil de usuario
                 bool res = await provider.updateUser(widget.user);
