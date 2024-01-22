@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart' hide State;
 import 'package:flutter/services.dart';
+import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,7 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
 import 'package:rta_crm_cv/models/user_role.dart';
+import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 import 'package:uuid/uuid.dart';
 
@@ -43,9 +45,10 @@ class UsersProvider extends ChangeNotifier {
   State? selectedState;
   Vehicle? selectedVehicle;
   String? imageName;
+
   Uint8List? webImage;
-  String? placeHolderImage;
   String? imageUrl;
+
   Uuid uuid = const Uuid();
 
   final nameController = TextEditingController();
@@ -95,7 +98,10 @@ class UsersProvider extends ChangeNotifier {
     selectedVehicle = null;
     licenseController.clear();
     certificationController.clear();
+
+    imageName = null;
     webImage = null;
+
     if (notify) notifyListeners();
   }
 
@@ -171,7 +177,7 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateVehiclestatus() async {
+  Future<void> updateVehicleStatus() async {
     try {
       await supabaseCtrlV.from('vehicle').update({'id_status_fk': 1}).eq('id_vehicle', selectedVehicle?.idVehicle);
     } catch (e) {
@@ -179,35 +185,13 @@ class UsersProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> updateVehiclestatusUpdate(User users) async {
+  Future<void> updateVehicleStatusUpdate(User user) async {
     try {
       // Aqui cambiamos el status del vehiculo que seleccionamos a Assignado
-      await supabaseCtrlV.from('vehicle').update({'id_status_fk': 1}).eq('id_vehicle', selectedVehicle?.idVehicle);
+      await updateVehicleStatus();
 
       // Aqui cambiamos el vehiculo viejo a disponible
-      await supabaseCtrlV.from('vehicle').update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
-
-      // Aqui cambiamos el id del vehiculo donde el id_sequential sea el mismo que el del usuario
-      // final cambioVehiculo = await supabase
-      //     .from('user_profile')
-      //     .update({'id_vehicle_fk': selectedVehicleUpdate!.idVehicle}).eq(
-      //         'sequential_id', users.sequentialId);
-
-      //print("entro a updateVehiclestatusUpdate: $res");
-      //print("Entro en el cambio del vehiculo viejo $res2");
-    } catch (e) {
-      log("Error in updateVehiclestatusUpdate $e");
-    }
-    notifyListeners();
-  }
-
-  Future<void> updateVehiclestatusClear(User users) async {
-    try {
-      // Aqui cambiamos el vehiculo viejo a disponible
-      await supabaseCtrlV.from('vehicle').update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
-
-      // Aqui cambiamos el id del vehiculo donde el id_sequential sea el mismo que el del usuario
-      await supabase.from('user_profile').update({'id_vehicle_fk': null}).eq('sequential_id', users.sequentialId);
+      await supabaseCtrlV.from('vehicle').update({'id_status_fk': 3}).eq('id_vehicle', user.idVehicle);
     } catch (e) {
       log("Error in updateVehiclestatusUpdate $e");
     }
@@ -580,43 +564,23 @@ class UsersProvider extends ChangeNotifier {
     }
   }
 
-  // Función para seleccionar la imagen
-  Future<bool> selectImage() async {
+  Future<void> selectImage() async {
     final ImagePicker picker = ImagePicker();
 
-    XFile? pickedImage = await picker.pickImage(
+    final XFile? pickedImage = await picker.pickImage(
       source: ImageSource.gallery,
     );
 
-    webImage = await pickedImage?.readAsBytes();
+    if (pickedImage == null) return;
 
-    if (pickedImage != null) {
-      if (await pickedImage.length() <= 1000000) {
-        // String? placeHolderImage;
-        notifyListeners();
-        placeHolderImage = "${uuid.v4()}${pickedImage.name}";
+    final String fileExtension = path.extension(pickedImage.name);
+    const uuid = Uuid();
+    final String fileName = uuid.v1();
+    imageName = 'avatar-$fileName$fileExtension';
 
-        // final storageResponse =
-        //     await supabase.storage.from('assets/user_profile').uploadBinary(
-        //           placeHolderImage!,
-        //           webImage!,
-        //           fileOptions: const FileOptions(
-        //             cacheControl: '3600',
-        //             upsert: false,
-        //           ),
-        //         );
+    webImage = await pickedImage.readAsBytes();
 
-        // if (storageResponse.isNotEmpty) {
-        //   imageUrl = supabase.storage.from('assets/user_profile').getPublicUrl(
-        //         placeHolderImage,
-        //       );
-        // }
-        return true;
-      } else {
-        return false;
-      }
-    }
-    return false;
+    notifyListeners();
   }
 
   void clearImage() {
@@ -625,10 +589,13 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> uploadImage() async {
-    try {
-      final storageResponse = await supabase.storage.from('assets/user_profile').uploadBinary(
-            placeHolderImage!,
+  Future<String?> uploadImage() async {
+    if (webImage != null && imageName != null) {
+      if (webImage!.length > 1000000) {
+        ApiErrorHandler.callToast('Image is bigger than 1 MB');
+      }
+      await supabase.storage.from('avatars').uploadBinary(
+            imageName!,
             webImage!,
             fileOptions: const FileOptions(
               cacheControl: '3600',
@@ -636,15 +603,36 @@ class UsersProvider extends ChangeNotifier {
             ),
           );
 
-      if (storageResponse.isNotEmpty) {
-        imageUrl = supabase.storage.from('assets/user_profile').getPublicUrl(
-              placeHolderImage!,
-            );
-      }
+      return imageName;
+    }
+    return null;
+  }
 
-      // return imageName;
-    } catch (e) {
-      log('Error in uploadImage() - $e');
+  Future<void> validateImage(String? image) async {
+    if (image == null) {
+      if (webImage != null) {
+        //usuario no tiene imagen y se agrego => se sube imagen
+        final res = await uploadImage();
+        if (res == null) {
+          ApiErrorHandler.callToast('Could not upload image');
+        }
+      }
+      //usuario no tiene imagen y no se agrego => no hace nada
+    } else {
+      //usuario tiene imagen y se borro => se borra en bd
+      if (webImage == null && imageName == null) {
+        await supabase.storage.from('avatars').remove([image]);
+      }
+      //usuario tiene imagen y no se modifico => no se hace nada
+
+      //usuario tiene imagen y se cambio => se borra en bd y se sube la nueva
+      if (webImage != null && imageName != image) {
+        await supabase.storage.from('avatars').remove([image]);
+        final res2 = await uploadImage();
+        if (res2 == null) {
+          ApiErrorHandler.callToast('Could not upload image');
+        }
+      }
     }
   }
 

@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/user.dart';
-import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toastJA.dart';
 import 'package:rta_crm_cv/pages/users_page/widgets/role_selector_widget.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/get_image_widget.dart';
@@ -104,15 +103,7 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
                     ),
                     InkWell(
                       onTap: () async {
-                        bool valorImage = await provider.selectImage();
-                        if (!valorImage) {
-                          if (!mounted) return;
-                          fToast.showToast(
-                            child: const FailedToastJA(message: 'The User image is larger than 1 MB'),
-                            gravity: ToastGravity.BOTTOM,
-                            toastDuration: const Duration(seconds: 2),
-                          );
-                        }
+                        await provider.selectImage();
                       },
                       child: Container(
                         width: 105,
@@ -336,57 +327,85 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
                   return;
                 }
 
-                if (provider.placeHolderImage != null) {
-                  await provider.uploadImage();
-                }
+                await provider.validateImage(widget.user?.image);
 
-                //Registrar usuario
-                final Map<String, String>? result = await provider.registerUser();
+                if (widget.user == null) {
+                  //Registrar usuario
+                  final Map<String, String>? result = await provider.registerUser();
 
-                if (result == null) {
-                  await ApiErrorHandler.callToast('Error registering user');
-                  return;
-                } else {
-                  if (result['Error'] != null) {
-                    await ApiErrorHandler.callToast(result['Error']!);
+                  if (result == null) {
+                    await ApiErrorHandler.callToast('Error registering user');
+                    return;
+                  } else {
+                    if (result['Error'] != null) {
+                      await ApiErrorHandler.callToast(result['Error']!);
+                      return;
+                    }
+                  }
+
+                  final String? userId = result['userId'];
+
+                  if (userId == null) {
+                    await ApiErrorHandler.callToast('Error registering user');
                     return;
                   }
-                }
 
-                final String? userId = result['userId'];
+                  //Crear perfil de usuario
+                  bool res = await provider.createUserProfile(userId);
 
-                if (userId == null) {
-                  await ApiErrorHandler.callToast('Error registering user');
+                  if (!res) {
+                    await ApiErrorHandler.callToast('Error creating user profile');
+                    return;
+                  }
+
+                  //Add roles
+                  res = await provider.addRoles(userId);
+                  if (!res) {
+                    await ApiErrorHandler.callToast('Error adding roles');
+                    return;
+                  }
+
+                  await provider.updateVehicleStatus();
+
+                  if (!mounted) return;
+                  fToast.showToast(
+                    child: const SuccessToast(
+                      message: 'User Created',
+                    ),
+                    gravity: ToastGravity.BOTTOM,
+                    toastDuration: const Duration(seconds: 2),
+                  );
+
+                  if (context.canPop()) context.pop();
                   return;
+                } else {
+                  //Crear perfil de usuario
+                  bool res = await provider.updateUser(widget.user!);
+
+                  if (!res) {
+                    await ApiErrorHandler.callToast('Error Updating user profile');
+                    return;
+                  }
+
+                  res = await provider.editRoles(widget.user!);
+                  if (!res) {
+                    await ApiErrorHandler.callToast('Error updating roles');
+                    return;
+                  }
+
+                  await provider.updateVehicleStatusUpdate(widget.user!);
+
+                  if (!mounted) return;
+                  fToast.showToast(
+                    child: const SuccessToast(
+                      message: 'User Updated',
+                    ),
+                    gravity: ToastGravity.BOTTOM,
+                    toastDuration: const Duration(seconds: 2),
+                  );
+
+                  if (context.canPop()) context.pop();
                 }
-
-                //Crear perfil de usuario
-                bool res = await provider.createUserProfile(userId);
-
-                if (!res) {
-                  await ApiErrorHandler.callToast('Error creating user profile');
-                  return;
-                }
-
-                //Add roles
-                res = await provider.addRoles(userId);
-                if (!res) {
-                  await ApiErrorHandler.callToast('Error adding roles');
-                  return;
-                }
-
-                await provider.updateVehiclestatus();
-
-                if (!mounted) return;
-                fToast.showToast(
-                  child: const SuccessToast(
-                    message: 'User Created',
-                  ),
-                  gravity: ToastGravity.BOTTOM,
-                  toastDuration: const Duration(seconds: 2),
-                );
-
-                if (context.canPop()) context.pop();
               },
             )
           ],
