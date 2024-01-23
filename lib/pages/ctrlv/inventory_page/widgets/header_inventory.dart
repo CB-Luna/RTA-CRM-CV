@@ -52,6 +52,9 @@ class _InventoryPageHeaderState extends State<InventoryPageHeader> {
                 provider.clearControllers(notify: false);
                 await provider.getCompanies(notify: false);
                 await provider.getStatus(notify: false);
+                await provider.getOwnerShip(notify: false);
+                provider.visibilty = false;
+
                 if (!mounted) return;
                 await showDialog(
                     context: context,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/public/colors.dart';
@@ -11,13 +12,21 @@ import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 import 'package:rta_crm_cv/widgets/vista_por_url/i_frame.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../providers/dashboard_RTA.dart';
 import '../../../widgets/custom_ddown_menu/custom_dropdown_inventory.dart';
 
 class DashboardRtatelPageDesktop extends StatefulWidget {
   final String title;
-  final String source;
-  const DashboardRtatelPageDesktop(
-      {super.key, required this.title, required this.source});
+  late String source;
+  final bool? searchVisibility;
+  late String? pathTechnicians;
+  DashboardRtatelPageDesktop({
+    super.key,
+    required this.title,
+    required this.source,
+    this.pathTechnicians,
+    this.searchVisibility,
+  });
 
   @override
   State<DashboardRtatelPageDesktop> createState() =>
@@ -30,14 +39,16 @@ class _DashboardRtatelPageDesktopState
   void initState() {
     super.initState();
 
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-    //   final UsersProvider provider = Provider.of<UsersProvider>(
-    //     context,
-    //     listen: false,
-    //   );
-    //   // provider.clearListInstallers(notify: true);
-    //   await provider.updateState();
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final UsersProvider provider = Provider.of<UsersProvider>(
+        context,
+        listen: false,
+      );
+      // provider.pagesearch = false;
+
+      // provider.clearListInstallers(notify: true);
+      await provider.updateState();
+    });
   }
 
   FToast fToast = FToast();
@@ -50,13 +61,17 @@ class _DashboardRtatelPageDesktopState
     if (widget.title != "Map Coverage") {
       fToast.init(context);
 
-      UsersProvider provider = Provider.of<UsersProvider>(context);
+      DashboardRTA provider = Provider.of<DashboardRTA>(context);
       provider.userSelected = null;
 
       final List<String> installersName =
           provider.usersRoleInstallers.map((roles) => roles.email).toList();
 
-      provider.pagesearch = false;
+      // if (provider.pagesearch == true) {
+      // } else {
+      //   provider.pagesearch = false;
+      // }
+
       if (currentUser!.isAdminDashboards) {
         if (installersName.isEmpty) {
           provider.usersRoleInstallers = [];
@@ -81,32 +96,47 @@ class _DashboardRtatelPageDesktopState
                     children: [
                       Visibility(
                         visible: currentUser!.isAdminDashboards,
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.10,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: Text(
-                                  "Search Job Technician: ",
-                                  style: AppTheme.of(context).bodyText1,
+                        child: Visibility(
+                          visible: widget.searchVisibility == true,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.10,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: Text(
+                                    "Search Job Technician: ",
+                                    style: AppTheme.of(context).bodyText1,
+                                  ),
                                 ),
-                              ),
-                              CustomDropDownInventory(
-                                label: "",
-                                width: MediaQuery.of(context).size.width * 0.27,
-                                list: installersName,
-                                dropdownValue: provider.userSelected?.email,
-                                onChanged: (val) {
-                                  if (val == null) return;
-                                  provider.selectInstaller(val);
-                                  context.pushReplacement(
-                                      "/job_complete/job_complete_${provider.userSelected!.name.toLowerCase()}_${provider.userSelected!.lastName.toLowerCase()}");
-                                },
-                              ),
-                            ],
+                                CustomDropDownInventory(
+                                  label: "",
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.27,
+                                  list: installersName,
+                                  dropdownValue: provider.userSelected?.email,
+                                  onChanged: (val) {
+                                    if (val == null) return;
+
+                                    provider.selectInstaller(val);
+
+                                    print("${provider.userSelected!.name}");
+                                    print(provider.userSelected!.email);
+                                    print(widget.source);
+                                    widget.source =
+                                        "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=${provider.userSelected!.email}";
+
+                                    print(widget.source);
+
+                                    // context.pushReplacement(
+                                    //     "/job_complete/job_complete_${provider.userSelected!.name.toLowerCase()}_${provider.userSelected!.lastName.toLowerCase()}");
+                                    // context.pushReplacement(jobCompleteTech);
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
@@ -12,7 +13,6 @@ import 'package:rta_crm_cv/widgets/side_menu/widgets/menu_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/sales/sales_button.dart';
 
 import 'call_center_button.dart';
-import 'create_menu_pop_up.dart';
 import 'gigfast_network_button.dart';
 import 'surveys/surveys_button.dart';
 
@@ -373,16 +373,18 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(
+                      buttonSize: 40,
                       tooltip: 'Create Menu',
                       fillColor: AppTheme.of(context).primaryColor,
                       icon: Icons.menu,
                       // isTaped: visualState.isTaped[7],
                       onPressed: () async {
-                        await showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const CreateMenuPopUP();
-                            });
+                        // await showDialog(
+                        //     context: context,
+                        //     builder: (BuildContext context) {
+                        //       return const ConfigPageDashboard();
+                        //     });
+                        context.pushReplacement(routemaintenanceDashboard);
                       },
                     ),
                   )

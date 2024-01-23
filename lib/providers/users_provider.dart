@@ -179,11 +179,11 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectInstaller(String installer, {bool notify = true}) {
-    userSelected =
-        usersRoleInstallers.firstWhere((elem) => elem.email == installer);
-    if (notify) notifyListeners();
-  }
+  // void selectInstaller(String installer, {bool notify = true}) {
+  //   userSelected =
+  //       usersRoleInstallers.firstWhere((elem) => elem.email == installer);
+  //   if (notify) notifyListeners();
+  // }
 
   void selectState(String state) {
     selectedState = states.firstWhere((elem) => elem.name == state);
@@ -330,56 +330,56 @@ class UsersProvider extends ChangeNotifier {
   //   roleInstallers = [];
   //   if (notify) notifyListeners();
   // }
-  Future<void> getInstallers({bool notify = true}) async {
-    usersRoleInstallers = [];
-    userRoleInstaller = null;
-    idsinstallers = [];
-    roleInstallers = [];
-    try {
-      final res =
-          await supabase.from('role').select("").eq('name', "Installers 1");
-      // print(res);
-      // print("--------");
-      roleInstallers = (res as List<dynamic>);
-      // print(roleInstallers.first["role_id"]);
+  // Future<void> getInstallers({bool notify = true}) async {
+  //   usersRoleInstallers = [];
+  //   userRoleInstaller = null;
+  //   idsinstallers = [];
+  //   roleInstallers = [];
+  //   try {
+  //     final res =
+  //         await supabase.from('role').select("").eq('name', "Installers 1");
+  //     // print(res);
+  //     // print("--------");
+  //     roleInstallers = (res as List<dynamic>);
+  //     // print(roleInstallers.first["role_id"]);
 
-      final res2 = await supabase
-          .from('user_role')
-          .select("user_fk")
-          .eq("role_fk", roleInstallers.first["role_id"]);
-      // print(res2);
-      usersRoleInstaller = (res2 as List<dynamic>);
+  //     final res2 = await supabase
+  //         .from('user_role')
+  //         .select("user_fk")
+  //         .eq("role_fk", roleInstallers.first["role_id"]);
+  //     // print(res2);
+  //     usersRoleInstaller = (res2 as List<dynamic>);
 
-      // Utiliza un bucle for para obtener los IDs
-      for (var user in usersRoleInstaller) {
-        final id = user["user_fk"];
-        idsinstallers.add(id);
-      }
+  //     // Utiliza un bucle for para obtener los IDs
+  //     for (var user in usersRoleInstaller) {
+  //       final id = user["user_fk"];
+  //       idsinstallers.add(id);
+  //     }
 
-      usersRoleInstallers = [];
-      for (int i = 0; i < idsinstallers.length; i++) {
-        final res3 = await supabase
-            .from("users")
-            .select("email, name, last_name")
-            .eq("id", idsinstallers[i]);
+  //     usersRoleInstallers = [];
+  //     for (int i = 0; i < idsinstallers.length; i++) {
+  //       final res3 = await supabase
+  //           .from("users")
+  //           .select("email, name, last_name")
+  //           .eq("id", idsinstallers[i]);
 
-        // print("----------");
-        // print("res3: $res3");
-        print("Cuantas veces va: $i");
-        userRoleInstaller = (res3 as List<dynamic>)
-            .map((userrole) => UserRole.fromJson(jsonEncode(userrole)))
-            .toList()
-            .first;
-        usersRoleInstallers.add(userRoleInstaller!);
-        // print("El UserRole es: ${usersRoleInstallers[i].email}");
-      }
-      print("Length ids ${idsinstallers.length}");
-      print("Length userRoleInstallers ${usersRoleInstallers.length}");
-      if (notify) notifyListeners();
-    } catch (e) {
-      log('Error in getInstallers() -$e');
-    }
-  }
+  //       // print("----------");
+  //       // print("res3: $res3");
+  //       // print("Cuantas veces va: $i");
+  //       userRoleInstaller = (res3 as List<dynamic>)
+  //           .map((userrole) => UserRole.fromJson(jsonEncode(userrole)))
+  //           .toList()
+  //           .first;
+  //       usersRoleInstallers.add(userRoleInstaller!);
+  //       // print("El UserRole es: ${usersRoleInstallers[i].email}");
+  //     }
+  //     // print("Length ids ${idsinstallers.length}");
+  //     // print("Length userRoleInstallers ${usersRoleInstallers.length}");
+  //     if (notify) notifyListeners();
+  //   } catch (e) {
+  //     log('Error in getInstallers() -$e');
+  //   }
+  // }
 
   Future<void> getStates({bool notify = true}) async {
     try {
@@ -621,13 +621,15 @@ class UsersProvider extends ChangeNotifier {
     }
     // Por el momento lo dejare que se vean los not active por que están nulos los demás gracias
     try {
+      // var res;
       final res = await supabase
           .from('users')
           .select()
           .like('name', '%${searchController.text}%')
           .not('status', 'eq', 'Not Active')
+          // .like("roles->>application",
+          //     "%${currentUser!.currentRole.application}%")
           .order('sequential_id', ascending: true);
-
       if (res == null) {
         log('Error en getUsuarios()');
         return;

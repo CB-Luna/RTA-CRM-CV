@@ -6,7 +6,7 @@ import 'package:rta_crm_cv/providers/ctrlv/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/issue_reported_provider.dart';
 import 'package:rta_crm_cv/providers/job_complete_technicians_provider.dart';
-import 'package:rta_crm_cv/providers/menu_provider.dart';
+import 'package:rta_crm_cv/providers/dashboard_RTA.dart';
 import 'package:rta_crm_cv/widgets/horizontalscroll.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
@@ -122,7 +122,7 @@ void main() async {
           create: (context) => JobCompleteProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => MenuProvider(),
+          create: (context) => DashboardRTA(),
         )
       ],
       child: const MyApp(),

@@ -7,7 +7,6 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/widgets/job_complete_button.dart';
-import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/widgets/job_completed_technicians.dart';
 
 import '../../../../providers/users_provider.dart';
 
@@ -104,7 +103,9 @@ class _SurveysButtonState extends State<SurveysButton> {
                             ),
                             onTap: () async {
                               provider.pagesearch = true;
-                              context.pushReplacement(routeJobCompleteTechni);
+                              context.pushReplacement(jobCompleteTechnicians);
+
+                              // context.pushReplacement(routeJobCompleteTechni);
                             },
                             hoverColor: AppTheme.of(context)
                                 .primaryColor

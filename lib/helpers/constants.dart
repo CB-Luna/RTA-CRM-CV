@@ -170,6 +170,7 @@ const String routeCampaigns = '/campaigns';
 const String routeDownloadAPK = '/download_apk';
 const String routeInventory = '/inventory';
 const String routeJobCompleteTechni = '/job_complete_technicians';
+const String routemaintenanceDashboard = '/maintenanceDashboard';
 //Sales
 const String opcoSuscriberTarget = '/sales/opco_suscriber_target';
 const String newSalesTrackingDashboard = '/sales/new_sales_tracking_dashboard';
@@ -214,6 +215,7 @@ const String homeownerFTTHDocumentClient =
 const String wispapalooza2021Survey = '/surveys/wispapalooza_2021_survey';
 const String jobComplete = '/surveys/job_complete';
 const String jobCompleteTechnicians = '/surveys/job_complete_technicians';
+const String jobCompleteTech = '/surveys/job_complete_technicians';
 const String itSurveyOctober2021 = '/surveys/it_survey_october_2021';
 
 // Job Complete
@@ -224,58 +226,6 @@ const String jobCompleteCRY = '/job_complete/job_complete_CRY';
 const String jobCompleteEAS = '/job_complete/job_complete_EAS';
 const String jobCompleteODE = '/job_complete/job_completeODE';
 const String jobCompleteSMI = '/job_complete/job_completeSMI';
-
-// Job Completed Technicians
-const String jobCompleteJosephAycock =
-    '/job_complete/job_complete_joseph_aycock';
-const String jobCompleteAdamBilliot = '/job_complete/job_complete_adam_billiot';
-const String jobCompleteTerryIsreal = '/job_complete/job_complete_terry_isreal';
-const String jobCompleteCharlieMilich =
-    '/job_complete/job_complete_charlie_milich';
-const String jobCompleteKamrinLilley =
-    '/job_complete/job_complete_kamrin_lilley';
-const String jobCompleteAlexanderOgle =
-    '/job_complete/job_complete_alexander_ogle';
-const String jobCompleteTimotheyMcClaine =
-    '/job_complete/job_complete_timothey_mcclaine';
-const String jobCompleteDylanNowell = '/job_complete/job_complete_dylan_nowell';
-const String jobCompleteJosephThomson =
-    '/job_complete/job_complete_joseph_thomson';
-const String jobCompleteScottNowell = '/job_complete/job_complete_scott_nowell';
-const String jobCompleteLarryPhillips =
-    '/job_complete/job_complete_larry_phillips';
-const String jobCompleteZacharyLawson =
-    '/job_complete/job_complete_zachary_lawson';
-const String jobCompleteBrandonMurdock =
-    '/job_complete/job_complete_brandon_murdock';
-const String jobCompleteLynnMcDaniel =
-    '/job_complete/job_complete_lynn_mcdaniel';
-const String jobCompleteStephenMcKinney =
-    '/job_complete/job_complete_stephen_mckinney';
-const String jobCompleteThomasHenry = '/job_complete/job_complete_thomas_henry';
-const String jobCompleteJosephBartek =
-    '/job_complete/job_complete_joseph_bartek';
-const String jobCompleteJohnnieThomas =
-    '/job_complete/job_complete_johnnie_thomas';
-const String jobCompleteBrandonSims = '/job_complete/job_complete_brandon_sims';
-const String jobCompleteEricBranton = '/job_complete/job_complete_eric_branton';
-const String jobCompleteTristanBilbo =
-    '/job_complete/job_complete_tristan_bilbo';
-const String jobCompleteGarrettstephens =
-    '/job_complete/job_complete_garrett_stephens';
-const String jobCompleteMasonCoon = '/job_complete/job_complete_mason_coon';
-const String jobCompleteBriceDrisdale =
-    '/job_complete/job_complete_brice_drisdale';
-const String jobCompleteAdamKosel = '/job_complete/job_complete_adam_kosel';
-const String jobCompleteRossHenry = '/job_complete/job_complete_ross_henry';
-const String jobCompleteEricHarmon = '/job_complete/job_complete_eric_harmon';
-const String jobCompletePaulHill = '/job_complete/job_complete_paul_hill';
-const String jobCompleteBrysonSmith = '/job_complete/job_complete_bryson_smith';
-const String jobCompleteJeffCalvin = '/job_complete/job_complete_jeff_calvin';
-const String jobCompleteKevinByrd = '/job_complete/job_complete_kevin_byrd';
-const String jobCompleteAzmonWalker = '/job_complete/job_complete_azmon_walker';
-const String jobCompleteEuniceTrevizo =
-    '/job_complete/job_complete_eunice_trevizo';
 
 const String fmt = '/fmt';
 const String wop = '/wop';

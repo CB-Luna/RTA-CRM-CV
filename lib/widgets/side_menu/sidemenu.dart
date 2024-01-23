@@ -212,11 +212,13 @@ class _SideMenuState extends State<SideMenu> {
                   const Spacer(),
                   SideMenuItemsList(isOpen: provider.isOpen),
                   const Spacer(),
-                  SideMenuFooter(
-                    isOpen: provider.isOpen,
-                    image: currentUser!.image ?? assets.avatar,
-                    text1: currentUser!.fullName,
-                    text2: currentUser!.currentRole.roleName,
+                  Expanded(
+                    child: SideMenuFooter(
+                      isOpen: provider.isOpen,
+                      image: currentUser!.image ?? assets.avatar,
+                      text1: currentUser!.fullName,
+                      text2: currentUser!.currentRole.roleName,
+                    ),
                   )
                 ],
               ),
