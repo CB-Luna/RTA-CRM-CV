@@ -956,7 +956,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       handoffList = (response as List<dynamic>).map((index) => GenericCat.fromRawJson(jsonEncode(index))).toList();
       handoffSelectedValue = handoffList.first.name!;
 
-      response = await supabaseCRM.from('cat_vendors').select().eq('visible', true);
+      response = await supabaseCRM.from('cat_vendors').select().eq('visible', true).order('vendor_name', ascending: true);
       vendorsList.clear();
       vendorsList = (response as List<dynamic>).map((index) => Vendor.fromJson(jsonEncode(index))).toList();
       vendorSelectedValue = vendorsList.first.vendorName!;
