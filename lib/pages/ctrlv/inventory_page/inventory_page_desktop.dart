@@ -691,6 +691,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   notify: false);
                                               await provider.getStatus(
                                                   notify: false);
+                                              await provider.getOwnerShip(
+                                                  notify: false);
                                               provider.inicializeColor(
                                                   rendererContext.cell.value);
 
@@ -700,6 +702,14 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   .updateInventoryControllers(
                                                       rendererContext
                                                           .cell.value);
+                                              // provider
+                                              //     .serviceDateControllerAvailable
+                                              //     .clear();
+                                              // provider.problemControllerUpdate
+                                              //     .text = "";
+                                              provider.getProblemVehicle(
+                                                  rendererContext.cell.value);
+                                              provider.visibilty = false;
                                               // ignore: use_build_context_synchronously
                                               await showDialog(
                                                   context: context,

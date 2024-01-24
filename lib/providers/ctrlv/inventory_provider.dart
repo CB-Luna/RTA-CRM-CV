@@ -23,6 +23,8 @@ import '../../helpers/constants.dart';
 import '../../models/issues.dart';
 import '../../models/issues_dashboards.dart' as issue_dashboard;
 import '../../models/issues_x_user.dart';
+import '../../models/ownership.dart';
+import '../../models/problem.dart';
 import '../../models/services.dart';
 import '../../models/vehicle_dashboard.dart';
 
@@ -45,10 +47,15 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController dateTimeControllerRFC = TextEditingController();
   TextEditingController dateTimeControllerLTFC = TextEditingController();
   TextEditingController serviceDateController = TextEditingController();
+  TextEditingController serviceDateControllerAvailable =
+      TextEditingController();
   TextEditingController? nextDateController = TextEditingController();
   TextEditingController searchController = TextEditingController();
   TextEditingController yearController = TextEditingController();
   TextEditingController mileageController = TextEditingController();
+  TextEditingController dateTimeControllerLTireChange = TextEditingController();
+  TextEditingController dateTimeControllerLBrakeChange =
+      TextEditingController();
 
   // Controllers para exportar datos
   TextEditingController dateExportDataController = TextEditingController();
@@ -87,7 +94,12 @@ class InventoryProvider extends ChangeNotifier {
   TextEditingController yearControllerUpdate = TextEditingController();
   TextEditingController colorControllers = TextEditingController();
   TextEditingController mileageControllerUpdate = TextEditingController();
-
+  TextEditingController problemControllerUpdate = TextEditingController();
+  TextEditingController dateTimeControllerLTireChangeUpdate =
+      TextEditingController();
+  TextEditingController dateTimeControllerLBrakeChangeUpdate =
+      TextEditingController();
+  bool visibilty = false;
   //------------------------------------------
   //Función del updateState
   Future<void> updateState() async {
@@ -147,6 +159,8 @@ class InventoryProvider extends ChangeNotifier {
   CompanyApi? companySelectedUpdate;
   IssuesComments? registroIssueComments;
   ServicesApi? servicesApi;
+  Ownership? ownershipSelected;
+  Ownership? ownershipSelectedUpdate;
 
 //------------------------------------------
 
@@ -155,9 +169,10 @@ class InventoryProvider extends ChangeNotifier {
   List<StatusApi> status = [];
   List<Services> service = [];
   List<Vehicle> vehicles = [];
-
+  List<Ownership> ownerships = [];
   List<ServicesApi> services = [];
   List<Issues> issues = [];
+  List<Problem> problems = [];
   List<BucketInspection> issuePart1 = [];
   List<BucketInspection> issuePartD = [];
   List<CarBodywork> issueCarBodywR = [];
@@ -394,6 +409,26 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void getProblemVehicle(Vehicle vehicle) async {
+    try {
+      final res = await supabaseCtrlV
+          .from('problems')
+          .select()
+          .eq("resolved", false)
+          .eq("id_vehicle_fk", vehicle.idVehicle);
+      // print(res);
+      problems = (res as List<dynamic>)
+          .map((prob) => Problem.fromJson(jsonEncode(prob)))
+          .toList();
+      print(problems.last.problem);
+      print(
+          "El ID del  vehiculo con problemas es: ${problems.last.idVehicleFk}");
+      notifyListeners();
+    } catch (e) {
+      print("Error in getProblemVehicle $e");
+    }
+  }
+
   // Función para hacerle Update a los controladores
   void updateInventoryControllers(Vehicle vehicle) {
     makeControllerUpdate.text = vehicle.make;
@@ -589,6 +624,19 @@ class InventoryProvider extends ChangeNotifier {
     if (notify) notifyListeners();
   }
 
+  // Función para obtener los ownership
+  Future<void> getOwnerShip({bool notify = true}) async {
+    final res = await supabaseCtrlV.from('ownership').select().order(
+          'ownership',
+          ascending: true,
+        );
+    ownerships = (res as List<dynamic>)
+        .map((owner) => Ownership.fromJson(jsonEncode(owner)))
+        .toList();
+
+    if (notify) notifyListeners();
+  }
+
 //---------------------------------------------
   // Función para cuando seleciconamos la compania en la alta de vehiculos
   void selectCompany(String companys) {
@@ -602,6 +650,12 @@ class InventoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void selectOwner(String owner) {
+    ownershipSelected =
+        ownerships.firstWhere((elem) => elem.ownership == owner);
+    notifyListeners();
+  }
+
   void selectMotor(String motor) {
     motorSel = motor;
     notifyListeners();
@@ -611,6 +665,13 @@ class InventoryProvider extends ChangeNotifier {
   void selectCompanyUpdate(String companys) {
     companySelectedUpdate =
         company.firstWhere((elem) => elem.company == companys);
+    notifyListeners();
+  }
+
+  // Función para cuando actualizamos el ownership en la actualización del vehiculo
+  void selectOwnershipUpdate(String ownershipval) {
+    ownershipSelectedUpdate =
+        ownerships.firstWhere((elem) => elem.ownership == ownershipval);
     notifyListeners();
   }
 
@@ -666,6 +727,8 @@ class InventoryProvider extends ChangeNotifier {
             statusSelectedUpdate?.statusId ?? vehicle.status.statusId,
         'id_company_fk':
             companySelectedUpdate?.companyId ?? vehicle.company.companyId,
+        'id_ownership_fk': ownershipSelectedUpdate?.idOwnership ??
+            vehicle.ownership.idOwnership,
         'image': imageUrl ?? vehicle.image,
         'date_added': DateTime.now().toIso8601String(),
         'oil_change_due': dateTimeControllerOilUpdate.text == ""
@@ -678,8 +741,13 @@ class InventoryProvider extends ChangeNotifier {
             dateTimeControllerLTFCUpadte.text == ""
                 ? null
                 : dateTimeControllerLTFCUpadte.text,
+        'last_tire_change': dateTimeControllerLTireChangeUpdate.text == ""
+            ? null
+            : dateTimeControllerLTireChangeUpdate.text,
+        'last_brake_change': dateTimeControllerLBrakeChangeUpdate.text == ""
+            ? null
+            : dateTimeControllerLBrakeChangeUpdate.text,
         'mileage': int.parse(mileageControllerUpdate.text.replaceAll(",", "")),
-
         //(registroIssueComments!.nameIssue)
       }).eq("id_vehicle", vehicle.idVehicle);
       return true;
@@ -717,6 +785,38 @@ class InventoryProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       //print("Error in createVehicleService() - $e");
+      //print(actualVehicle!.idVehicle);
+      return false;
+    }
+  }
+
+  // Función para crear el problema
+  Future<bool> createVehicleProblem(Vehicle vehicle) async {
+    try {
+      if (statusSelectedUpdate!.statusId == 2 ||
+          statusSelectedUpdate!.statusId == 4) {
+        await supabaseCtrlV.from('problems').insert({
+          'created_at': DateTime.now().toIso8601String(),
+          'problem': problemControllerUpdate.text,
+          'vehicle_status': statusSelectedUpdate!.status,
+          'resolved': false,
+          'id_vehicle_fk': vehicle.idVehicle,
+        });
+      } else {
+        await supabaseCtrlV.from('problems').insert({
+          'created_at': DateTime.now().toIso8601String(),
+          'problem': problemControllerUpdate.text,
+          'vehicle_status': statusSelectedUpdate!.status,
+          'resolved': true,
+          'id_vehicle_fk': vehicle.idVehicle,
+          'resolved_date': serviceDateControllerAvailable.text
+        });
+      }
+      notifyListeners();
+
+      return true;
+    } catch (e) {
+      print("Error in createVehicleProblem() - $e");
       //print(actualVehicle!.idVehicle);
       return false;
     }
@@ -775,7 +875,17 @@ class InventoryProvider extends ChangeNotifier {
         "Registered": "False",
         "Last Mileage Service": mileageController.text.replaceAll(",", ""),
       };
-      await supabaseCtrlV.from('vehicle').insert(
+      Map<String, dynamic> ruletirechangeService = {
+        "Value": "50000",
+        "Registered": "False",
+        "Last Mileage Service": mileageController.text.replaceAll(",", ""),
+      };
+      Map<String, dynamic> rulebrakechangeService = {
+        "Value": "20000",
+        "Registered": "False",
+        "Last Mileage Service": mileageController.text.replaceAll(",", ""),
+      };
+      final id = await supabaseCtrlV.from('vehicle').insert(
         {
           'make': brandController.text,
           'model': modelController.text,
@@ -787,6 +897,7 @@ class InventoryProvider extends ChangeNotifier {
           'image': imageUrl,
           'id_status_fk': statusSelected?.statusId,
           'id_company_fk': companySelected?.companyId,
+          'id_ownership_fk': ownershipSelected?.idOwnership,
           'date_added': DateTime.now().toIso8601String(),
           'oil_change_due': dateTimeControllerOil.text == ""
               ? null
@@ -797,12 +908,31 @@ class InventoryProvider extends ChangeNotifier {
           'last_transmission_fluid_change': dateTimeControllerLTFC.text == ""
               ? null
               : dateTimeControllerLTFC.text,
+          'last_tire_change': dateTimeControllerLTireChange.text == ""
+              ? null
+              : dateTimeControllerLTireChange.text,
+          'last_brake_change': dateTimeControllerLBrakeChange.text == ""
+              ? null
+              : dateTimeControllerLBrakeChange.text,
           'mileage': mileageController.text.replaceAll(",", ""),
           'rule_oil_change': lastMileageService,
           'rule_transmission_fluid_change': ruleTransmissionService,
           'rule_radiator_fluid_change': ruleRadiatorService,
+          'rule_tire_change': ruletirechangeService,
+          'rule_brake_change': rulebrakechangeService
         },
-      );
+      ).select<PostgrestList>('id_vehicle');
+
+      // Aqui estamos comprobando si el status del vehiculo que se va a crear es en Repair o en NotFuncional, para poder enviar el problema
+      if (statusSelected?.statusId == 2 || statusSelected?.statusId == 4) {
+        await supabaseCtrlV.from('problems').insert({
+          'created_at': DateTime.now().toIso8601String(),
+          'problem': problemControllerUpdate.text,
+          'vehicle_status': statusSelected!.status,
+          'resolved': false,
+          'id_vehicle_fk': id.first["id_vehicle"],
+        });
+      }
       return true;
     } catch (e) {
       print('Error in createVehicleInventory() - $e');
@@ -866,7 +996,8 @@ class InventoryProvider extends ChangeNotifier {
       final res = await supabaseCtrlV
           .from('inventory_view')
           .select()
-          .not('namestatus', 'eq', 'Not Active')
+          .not('status->>id_status', 'eq', 4)
+          // .not('status', 'eq', 'Not Functional')
           .order('license_plates', ascending: true);
 
       vehicles = (res as List<dynamic>)
@@ -965,7 +1096,9 @@ class InventoryProvider extends ChangeNotifier {
       final res = await supabaseCtrlV
           .from('inventory_view')
           .select()
-          .eq('namestatus', 'Not Active');
+          .eq('status->>id_status', 4);
+      // .eq('statusname', 'Not Functional');
+
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
           .toList();
@@ -1490,15 +1623,19 @@ class InventoryProvider extends ChangeNotifier {
     yearController.clear();
     vinController.clear();
     plateNumberController.clear();
-    versionMotorController?.clear();
+    versionMotorController.clear();
     statusSelected = null;
     motorSel = null;
     colorController = 0xffffffff;
-    dateTimeControllerOil?.clear();
-    dateTimeControllerRFC?.clear();
-    dateTimeControllerLTFC?.clear();
+    dateTimeControllerOil.clear();
+    dateTimeControllerRFC.clear();
+    dateTimeControllerLTFC.clear();
     mileageController.clear();
     webImage = null;
+    dateTimeControllerLBrakeChange.clear();
+    dateTimeControllerLTireChange.clear();
+    problemControllerUpdate.clear();
+    ownershipSelected = null;
     if (notify) notifyListeners();
   }
 
@@ -1523,7 +1660,7 @@ class InventoryProvider extends ChangeNotifier {
     modelController.dispose();
     vinController.dispose();
     plateNumberController.dispose();
-    versionMotorController?.dispose();
+    versionMotorController.dispose();
     // colorController.dispose();
 
     super.dispose();

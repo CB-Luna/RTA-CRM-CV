@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ContainerWidget extends StatefulWidget {
-  ContainerWidget({this.text, this.icon, super.key});
+  const ContainerWidget(
+      {this.text, this.icon, this.card, this.widget, super.key});
   final String? text;
   final Icon? icon;
+  final int? card;
+  final Widget? widget;
   @override
   State<ContainerWidget> createState() => _ContainerWidgetState();
 }
@@ -33,6 +36,29 @@ class _ContainerWidgetState extends State<ContainerWidget> {
                 child: Text(widget.text ?? ''),
               )
             ]),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 440, top: 10),
+            child: Row(
+              children: [
+                const Text("Search"),
+                Container(
+                  margin: const EdgeInsets.only(right: 15, left: 15),
+                  width: MediaQuery.of(context).size.width * 0.1,
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: const BorderRadius.all(Radius.circular(5))),
+                ),
+              ],
+            ),
+          ),
+          Flexible(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: widget.widget,
+            ),
           )
         ]),
       ),
