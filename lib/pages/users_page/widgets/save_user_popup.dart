@@ -63,9 +63,11 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
     final List<String> statusName = ["Not Active", "Active"];
     final List<String> companyNames =
         provider.companies.map((companyName) => companyName.company).toList();
+
     final List<String> vehicleNames = provider.vehicles
-        .map((vehicleNames) => vehicleNames.licesensePlates)
+        .map((vehicleName) => vehicleName.licesensePlates)
         .toList();
+
     var cardMaskNumber = MaskTextInputFormatter(
         mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
 

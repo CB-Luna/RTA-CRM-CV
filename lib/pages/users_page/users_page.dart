@@ -584,15 +584,6 @@ class _UsersPageState extends State<UsersPage> {
                                       style:
                                           AppTheme.of(context).encabezadoTablas)
                                 ]),
-                                titleSpan: TextSpan(
-                                  children: [
-                                    WidgetSpan(
-                                      child: Icon(Icons.home_outlined, color: AppTheme.of(context).primaryBackground),
-                                    ),
-                                    const WidgetSpan(child: SizedBox(width: 10)),
-                                    TextSpan(text: 'ADDRESS', style: AppTheme.of(context).encabezadoTablas),
-                                  ],
-                                ),
                                 backgroundColor: const Color(0XFF6491F7),
                                 title: 'ADDRESS',
                                 field: 'ADDRESS_Column',
@@ -617,13 +608,6 @@ class _UsersPageState extends State<UsersPage> {
                                               fontFamily: 'Gotham-Regular',
                                               useGoogleFonts: false),
                                     )),
-                                      child: Text(
-                                        rendererContext.cell.value ?? '-',
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
-                                      ),
-                                    ),
                                   );
                                 },
                               ),
@@ -897,16 +881,20 @@ class _UsersPageState extends State<UsersPage> {
                                             await provider.getVehicleUser(
                                                 rendererContext.cell.value,
                                                 notify: false);
-                                            provider.inicializeImage();
-                                            provider.updateControllers(
-                                                rendererContext.cell.value);
+                                            // provider.inicializeImage();
+                                            // provider.updateControllers(
+                                            //     rendererContext.cell.value);
                                             await provider.getVehicleActiveInit(
                                                 rendererContext.cell.value,
                                                 notify: false);
-                                            await provider.getCompany(notify: false);
-                                            await provider.getStates(notify: false);
-                                            await provider.getRoles(notify: false);
-                                            provider.initEditUser(rendererContext.cell.value);
+                                            await provider.getCompany(
+                                                notify: false);
+                                            await provider.getStates(
+                                                notify: false);
+                                            await provider.getRoles(
+                                                notify: false);
+                                            provider.initEditUser(
+                                                rendererContext.cell.value);
                                             await provider.getVehicleActiveInit(
                                               rendererContext.cell.value,
                                               notify: false,
@@ -918,11 +906,9 @@ class _UsersPageState extends State<UsersPage> {
                                               builder: (BuildContext context) {
                                                 return StatefulBuilder(builder:
                                                     (context, setState) {
-                                                  return UpdateUserPopUp(
+                                                  return SaveUserPopUp(
                                                       user: rendererContext
                                                           .cell.value);
-                                                return StatefulBuilder(builder: (context, setState) {
-                                                  return SaveUserPopUp(user: rendererContext.cell.value);
                                                 });
                                               },
                                             );

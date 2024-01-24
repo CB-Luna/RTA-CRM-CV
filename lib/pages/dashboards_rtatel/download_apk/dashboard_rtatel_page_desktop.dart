@@ -55,6 +55,8 @@ class _DashboardRtatelPageDesktopState
 
   @override
   Widget build(BuildContext context) {
+    // SideMenuProvider sideM = Provider.of<SideMenuProvider>(context);
+    // sideM.setIndex(13);
     fToast.init(context);
     if (widget.title != "Map Coverage") {
       fToast.init(context);
@@ -74,7 +76,7 @@ class _DashboardRtatelPageDesktopState
         if (installersName.isEmpty) {
           provider.usersRoleInstallers = [];
           provider.userRoleInstaller = null;
-          provider.installersIds = [];
+          provider.idsinstallers = [];
           provider.getInstallers(notify: true);
         }
       }
