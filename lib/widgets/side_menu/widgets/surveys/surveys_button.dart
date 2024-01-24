@@ -76,7 +76,9 @@ class _SurveysButtonState extends State<SurveysButton> {
                             onTap: () async {
                               context.pushReplacement(wispapalooza2021Survey);
                             },
-                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                     userPermissions.jobComplete != null
@@ -100,10 +102,13 @@ class _SurveysButtonState extends State<SurveysButton> {
                                   ),
                             ),
                             onTap: () async {
-                              provider.pageSearch = true;
-                              context.pushReplacement(routeJobCompleteTechni);
+                              context.pushReplacement(jobCompleteTechnicians);
+
+                              // context.pushReplacement(routeJobCompleteTechni);
                             },
-                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                     userPermissions.itSurveyOctober2021 != null
@@ -119,7 +124,9 @@ class _SurveysButtonState extends State<SurveysButton> {
                             onTap: () async {
                               context.pushReplacement(itSurveyOctober2021);
                             },
-                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                   ],
@@ -137,7 +144,8 @@ class _SurveysButtonState extends State<SurveysButton> {
           ),
         ),
         child: Material(
-          borderRadius: hover ? BorderRadius.circular(widget.borderRadius) : null,
+          borderRadius:
+              hover ? BorderRadius.circular(widget.borderRadius) : null,
           elevation: hover ? 5 : 0,
           color: Colors.transparent,
           clipBehavior: Clip.antiAlias,
@@ -146,7 +154,9 @@ class _SurveysButtonState extends State<SurveysButton> {
             height: MediaQuery.of(context).size.width * 65 / 1920,
             child: Container(
               decoration: BoxDecoration(
-                border: hover || widget.isTaped ? Border.all(color: const Color(0XFFFFFFFF), width: 2) : null,
+                border: hover || widget.isTaped
+                    ? Border.all(color: const Color(0XFFFFFFFF), width: 2)
+                    : null,
                 borderRadius: BorderRadius.circular(15),
                 color: hover || widget.isTaped ? widget.fillColor : null,
               ),
@@ -157,7 +167,9 @@ class _SurveysButtonState extends State<SurveysButton> {
                   child: Icon(
                     widget.icon,
                     size: MediaQuery.of(context).size.width * 45 / 1920,
-                    color: hover || widget.isTaped ? const Color(0XFFFFFFFF) : widget.iconColor,
+                    color: hover || widget.isTaped
+                        ? const Color(0XFFFFFFFF)
+                        : widget.iconColor,
                   ),
                 ),
               ),

@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toast.dart';
 import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toastJA.dart';
 import 'package:rta_crm_cv/providers/ctrlv/inventory_provider.dart';
 import 'package:rta_crm_cv/widgets/custom_ddown_menu/custom_dropdown_inventory.dart';
@@ -57,8 +58,21 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
         provider.company.map((companies) => companies.company).toList();
     final List<String> statusName =
         provider.status.map((statu) => statu.status).toList();
+    final List<String> ownsershipName =
+        provider.ownerships.map((owner) => owner.ownership).toList();
     List<String> motors = ["Gas", "Diesel"];
-
+    // print("El statusSelected es: ${widget.vehicle.status.status}");
+    // if (provider.statusSelectedUpdate?.status == null) {
+    //   if (provider.problems.isEmpty) {
+    //     provider.visibilty = false;
+    //   } else {
+    //     provider.visibilty = true;
+    //   }
+    //   if (widget.vehicle.status.statusId == 1 ||
+    //       widget.vehicle.status.statusId == 3) {
+    //     provider.visibilty = false;
+    //   }
+    // }
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
@@ -188,18 +202,77 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomDropDownInventory(
+                        hint: widget.vehicle.ownership.ownership,
+                        label: '7. Ownership',
+                        width: 350,
+                        list: ownsershipName,
+                        dropdownValue:
+                            provider.ownershipSelectedUpdate?.ownership,
+                        onChanged: (vasl) {
+                          if (vasl == null) return;
+                          provider.selectOwnershipUpdate(vasl);
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      child: CustomDropDownInventory(
                         hint: widget.vehicle.status.status,
-                        label: '7. Status',
+                        label: '8. Status',
                         width: 350,
                         list: statusName,
                         dropdownValue: provider.statusSelectedUpdate?.status,
-                        onChanged: (val) {
+                        onChanged: (val) async {
+                          // provider.visibilty = false;
+
                           if (val == null) {
                             return provider.selectStatUpdate(val!);
                           }
-
                           provider.selectStatUpdate(val);
+                          if (provider.statusSelectedUpdate?.statusId == 2 ||
+                              provider.statusSelectedUpdate?.statusId == 4 ||
+                              provider.statusSelectedUpdate?.statusId == 3) {
+                            provider.visibilty = true;
+                          } else {
+                            provider.visibilty = false;
+                          }
                         },
+                      ),
+                    ),
+                    Visibility(
+                      visible: provider.visibilty,
+                      child: CustomTextFieldForm(
+                        label: provider.problems.last.problem ??
+                            'What is the problem of the vehicle',
+                        controller: provider.problemControllerUpdate,
+                        enabled: true,
+                        width: 350,
+                        keyboardType: TextInputType.name,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Visibility(
+                        visible: provider.statusSelectedUpdate?.statusId == 3,
+                        child: CustomTextFieldForm(
+                            label: 'Select a Date',
+                            controller: provider.serviceDateControllerAvailable,
+                            enabled: true,
+                            onTapCheck: true,
+                            width: 350,
+                            keyboardType: TextInputType.datetime,
+                            onTap: () async {
+                              DateTime? newDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: date,
+                                  firstDate: DateTime(1980),
+                                  lastDate: DateTime(2050));
+
+                              if (newDate != null) {
+                                provider.serviceDateControllerAvailable.text =
+                                    DateFormat("MMM/dd/yyyy").format(newDate);
+                              }
+                            }),
                       ),
                     ),
                     Row(
@@ -207,7 +280,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: CustomDropDownInventory(
-                            label: '8. Motor*',
+                            label: '9. Motor*',
                             hint: provider.motorControllerUpadte.text,
                             width: 187,
                             list: motors,
@@ -243,7 +316,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           child: CustomTextFieldForm(
-                            label: '9. Color',
+                            label: '10. Color',
                             enabled: true,
                             controller: TextEditingController(),
                             onTapCheck: true,
@@ -275,7 +348,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                          label: '10. Last Oil Change',
+                          label: '11. Last Oil Change',
                           controller: provider.dateTimeControllerOilUpdate,
                           enabled: true,
                           onTapCheck: true,
@@ -297,7 +370,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                          label: '11. Last Radiator Fluid Change',
+                          label: '12. Last Radiator Fluid Change',
                           controller: provider.dateTimeControllerRFCUpadte,
                           enabled: true,
                           onTapCheck: true,
@@ -319,7 +392,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                          label: '12. Last Transmission Fluid Change',
+                          label: '13. Last Transmission Fluid Change',
                           controller: provider.dateTimeControllerLTFCUpadte,
                           enabled: true,
                           onTapCheck: true,
@@ -341,7 +414,55 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: CustomTextFieldForm(
-                        label: '13. Initial Mileage',
+                          label: '14. Last Tire Change',
+                          controller:
+                              provider.dateTimeControllerLTireChangeUpdate,
+                          enabled: true,
+                          onTapCheck: true,
+                          width: 350,
+                          keyboardType: TextInputType.name,
+                          onTap: () async {
+                            DateTime? newDate = await showDatePicker(
+                                context: context,
+                                initialDate: date,
+                                firstDate: DateTime(1980),
+                                lastDate: DateTime(2050));
+
+                            if (newDate != null) {
+                              provider.dateTimeControllerLTireChangeUpdate
+                                      .text =
+                                  DateFormat("MM/dd/yyyy").format(newDate);
+                            }
+                          }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      child: CustomTextFieldForm(
+                          label: '15. Last Brake Change',
+                          controller:
+                              provider.dateTimeControllerLBrakeChangeUpdate,
+                          enabled: true,
+                          onTapCheck: true,
+                          width: 350,
+                          keyboardType: TextInputType.name,
+                          onTap: () async {
+                            DateTime? newDate = await showDatePicker(
+                                context: context,
+                                initialDate: date,
+                                firstDate: DateTime(1980),
+                                lastDate: DateTime(2050));
+
+                            if (newDate != null) {
+                              provider.dateTimeControllerLBrakeChangeUpdate
+                                      .text =
+                                  DateFormat("MM/dd/yyyy").format(newDate);
+                            }
+                          }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      child: CustomTextFieldForm(
+                        label: '16. Initial Mileage',
                         inputFormatters: [cardMaskMileage],
                         controller: provider.mileageControllerUpdate,
                         enabled: true,
@@ -355,7 +476,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                       child: Column(
                         children: [
                           Text(
-                            "14. Update Vehicle Image",
+                            "17. Update Vehicle Image",
                             style: TextStyle(
                               color: AppTheme.of(context).primaryColor,
                             ),
@@ -405,6 +526,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                   }
                   await provider.deleteImage();
                   await provider.uploadImage();
+                  await provider.createVehicleProblem(widget.vehicle);
                   //Crear perfil de usuario
                   bool res = await provider.updateVehicle(widget.vehicle);
 

@@ -107,17 +107,20 @@ class UsersProvider extends ChangeNotifier {
 
   // NORMAL
   void setSelectedRoles(List<String> roles) {
-    selectedRoles = this.roles.where((role) => roles.contains(role.roleName)).toList();
+    selectedRoles =
+        this.roles.where((role) => roles.contains(role.roleName)).toList();
     notifyListeners();
   }
 
   void selectCompany(String companyName) {
-    selectedCompany = companies.firstWhere((elem) => elem.company == companyName);
+    selectedCompany =
+        companies.firstWhere((elem) => elem.company == companyName);
     notifyListeners();
   }
 
   void selectedVehiclee(String vehicle) {
-    selectedVehicle = vehicles.firstWhere((element) => element.licesensePlates == vehicle);
+    selectedVehicle =
+        vehicles.firstWhere((element) => element.licesensePlates == vehicle);
     notifyListeners();
   }
 
@@ -126,8 +129,14 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // void selectInstaller(String installer, {bool notify = true}) {
+  //   userSelected =
+  //       usersRoleInstallers.firstWhere((elem) => elem.email == installer);
+  //   if (notify) notifyListeners();
+  // }
   void selectInstaller(String installer, {bool notify = true}) {
-    userSelected = usersRoleInstallers.firstWhere((elem) => elem.email == installer);
+    userSelected =
+        usersRoleInstallers.firstWhere((elem) => elem.email == installer);
     if (notify) notifyListeners();
   }
 
@@ -179,7 +188,8 @@ class UsersProvider extends ChangeNotifier {
 
   Future<void> updateVehicleStatus() async {
     try {
-      await supabaseCtrlV.from('vehicle').update({'id_status_fk': 1}).eq('id_vehicle', selectedVehicle?.idVehicle);
+      await supabaseCtrlV.from('vehicle').update({'id_status_fk': 1}).eq(
+          'id_vehicle', selectedVehicle?.idVehicle);
     } catch (e) {
       log('Error en updateVehiclestatus() - $e');
     }
@@ -191,7 +201,9 @@ class UsersProvider extends ChangeNotifier {
       await updateVehicleStatus();
 
       // Aqui cambiamos el vehiculo viejo a disponible
-      await supabaseCtrlV.from('vehicle').update({'id_status_fk': 3}).eq('id_vehicle', user.idVehicle);
+      await supabaseCtrlV
+          .from('vehicle')
+          .update({'id_status_fk': 3}).eq('id_vehicle', user.idVehicle);
     } catch (e) {
       log("Error in updateVehiclestatusUpdate $e");
     }
@@ -199,10 +211,30 @@ class UsersProvider extends ChangeNotifier {
   }
 
   void selectVehicleUpdates(String vehicle) {
-    selectedVehicle = vehicles.firstWhere((element) => element.licesensePlates == vehicle);
+    selectedVehicle =
+        vehicles.firstWhere((element) => element.licesensePlates == vehicle);
     notifyListeners();
   }
 
+  // void clearListInstallers({bool notify = true}) {
+  //   usersRoleInstallers = [];
+  //   userRoleInstaller = null;
+  //   idsinstallers = [];
+  //   roleInstallers = [];
+  //   if (notify) notifyListeners();
+  // }
+  // Future<void> getInstallers({bool notify = true}) async {
+  //   usersRoleInstallers = [];
+  //   userRoleInstaller = null;
+  //   idsinstallers = [];
+  //   roleInstallers = [];
+  //   try {
+  //     final res =
+  //         await supabase.from('role').select("").eq('name', "Installers 1");
+  //     // print(res);
+  //     // print("--------");
+  //     roleInstallers = (res as List<dynamic>);
+  //     // print(roleInstallers.first["role_id"]);
   Future<void> getInstallers({bool notify = true}) async {
     usersRoleInstallers.clear();
     userRoleInstaller = null;
@@ -213,12 +245,27 @@ class UsersProvider extends ChangeNotifier {
     installersIds.clear();
 
     try {
-      final res = await supabase.from('role').select("").eq('name', "Installers 1");
+      final res =
+          await supabase.from('role').select("").eq('name', "Installers 1");
       roleInstallers = (res as List<dynamic>);
 
-      final res2 = await supabase.from('user_role').select("user_fk").eq("role_fk", roleInstallers.first["role_id"]);
+      //     final res2 = await supabase
+      //         .from('user_role')
+      //         .select("user_fk")
+      //         .eq("role_fk", roleInstallers.first["role_id"]);
+      //     // print(res2);
+      //     usersRoleInstaller = (res2 as List<dynamic>);
+      final res2 = await supabase
+          .from('user_role')
+          .select("user_fk")
+          .eq("role_fk", roleInstallers.first["role_id"]);
       usersRoleInstaller = (res2 as List<dynamic>);
 
+      //     // Utiliza un bucle for para obtener los IDs
+      //     for (var user in usersRoleInstaller) {
+      //       final id = user["user_fk"];
+      //       idsinstallers.add(id);
+      //     }
       // Utiliza un bucle for para obtener los IDs
       for (var user in usersRoleInstaller) {
         final id = user["user_fk"];
@@ -227,10 +274,15 @@ class UsersProvider extends ChangeNotifier {
 
       usersRoleInstallers = [];
       for (int i = 0; i < installersIds.length; i++) {
-        final res3 = await supabase.from("users").select("email, name, last_name").eq("id", installersIds[i]);
+        final res3 = await supabase
+            .from("users")
+            .select("email, name, last_name")
+            .eq("id", installersIds[i]);
 
-        userRoleInstaller =
-            (res3 as List<dynamic>).map((userrole) => UserRole.fromJson(jsonEncode(userrole))).toList().first;
+        userRoleInstaller = (res3 as List<dynamic>)
+            .map((userrole) => UserRole.fromJson(jsonEncode(userrole)))
+            .toList()
+            .first;
         usersRoleInstallers.add(userRoleInstaller!);
       }
 
@@ -247,7 +299,9 @@ class UsersProvider extends ChangeNotifier {
             ascending: true,
           );
 
-      states = (res as List<dynamic>).map((pais) => State.fromJson(jsonEncode(pais))).toList();
+      states = (res as List<dynamic>)
+          .map((pais) => State.fromJson(jsonEncode(pais)))
+          .toList();
 
       if (notify) notifyListeners();
     } catch (e) {
@@ -262,7 +316,9 @@ class UsersProvider extends ChangeNotifier {
             ascending: true,
           );
 
-      companies = (res as List<dynamic>).map((compani) => Company.fromJson(jsonEncode(compani))).toList();
+      companies = (res as List<dynamic>)
+          .map((compani) => Company.fromJson(jsonEncode(compani)))
+          .toList();
 
       if (notify) notifyListeners();
     } catch (e) {
@@ -271,7 +327,8 @@ class UsersProvider extends ChangeNotifier {
   }
 
   Future<void> getRoles({bool notify = true}) async {
-    final res = await supabase.rpc('get_roles', params: {'application': currentUser!.currentRole.application});
+    final res = await supabase.rpc('get_roles',
+        params: {'application': currentUser!.currentRole.application});
 
     roles = (res as List<dynamic>).map((rol) => Role.fromMap(rol)).toList();
 
@@ -336,9 +393,14 @@ class UsersProvider extends ChangeNotifier {
 
   Future<void> getVehicleUser(User users, {bool notify = true}) async {
     try {
-      final resC = await supabaseCtrlV.from('inventory_view').select().eq('id_vehicle', users.idVehicle);
+      final resC = await supabaseCtrlV
+          .from('inventory_view')
+          .select()
+          .eq('id_vehicle', users.idVehicle);
 
-      vehiclexUser = (resC as List<dynamic>).map((vehiclexUser) => Vehicle.fromJson(jsonEncode(vehiclexUser))).toList();
+      vehiclexUser = (resC as List<dynamic>)
+          .map((vehiclexUser) => Vehicle.fromJson(jsonEncode(vehiclexUser)))
+          .toList();
       //print("Entro a getVehicleUser");
     } catch (e) {
       log("Error in getVehicleUser() - $e");
@@ -348,7 +410,10 @@ class UsersProvider extends ChangeNotifier {
 
   Future<void> getVehicleActiveInit(User users, {bool notify = true}) async {
     try {
-      final resC = await supabase.from('company').select().eq('company', users.company.company);
+      final resC = await supabase
+          .from('company')
+          .select()
+          .eq('company', users.company.company);
 
       final company = (resC as List<dynamic>);
 
@@ -358,7 +423,9 @@ class UsersProvider extends ChangeNotifier {
           .eq('status ->id_status', 3)
           .eq('company ->id_company', company.first["id_company"]);
 
-      vehicles = (res as List<dynamic>).map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles))).toList();
+      vehicles = (res as List<dynamic>)
+          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
+          .toList();
     } catch (e) {
       log("Error in getVehicleActiveInit - $e");
     }
@@ -376,7 +443,9 @@ class UsersProvider extends ChangeNotifier {
           .eq('status ->id_status', 3)
           .eq('company ->id_company', company.first["id_company"]);
 
-      vehicles = (res as List<dynamic>).map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles))).toList();
+      vehicles = (res as List<dynamic>)
+          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
+          .toList();
       //print("Entro a getVehicles");
     } catch (e) {
       log("Error in getVehicleActive - $e");
@@ -386,10 +455,12 @@ class UsersProvider extends ChangeNotifier {
 
   Future<void> changeStatusUser(User users) async {
     try {
-      final res =
-          await supabase.from("user_profile").update({'status': 'Not Active'}).eq('sequential_id', users.sequentialId);
+      final res = await supabase.from("user_profile").update(
+          {'status': 'Not Active'}).eq('sequential_id', users.sequentialId);
 
-      vehicles = (res as List<dynamic>).map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles))).toList();
+      vehicles = (res as List<dynamic>)
+          .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
+          .toList();
     } catch (e) {
       log("Error in changeStatusUser() - $e");
     }
@@ -413,10 +484,13 @@ class UsersProvider extends ChangeNotifier {
         log('Error en getUsuarios()');
         return;
       }
-      users = (res as List<dynamic>).map((usuario) => User.fromMap(usuario)).toList();
+      users = (res as List<dynamic>)
+          .map((usuario) => User.fromMap(usuario))
+          .toList();
 
       users = users
-          .where((user) => user.roles.any((role) => role.application == currentUser!.currentRole.application))
+          .where((user) => user.roles.any((role) =>
+              role.application == currentUser!.currentRole.application))
           .toList();
 
       rows.clear();
@@ -496,7 +570,7 @@ class UsersProvider extends ChangeNotifier {
             'state_fk': selectedState!.id,
           },
         );
-      } else if (currentUser!.isCV) {
+      } else if (currentUser!.isCV || currentUser!.isDashboardsRTATEL) {
         await supabase.from('user_profile').insert(
           {
             'user_profile_id': userId,
@@ -511,8 +585,11 @@ class UsersProvider extends ChangeNotifier {
             'id_company_fk': selectedCompany!.id,
             'id_vehicle_fk': selectedVehicle?.idVehicle,
             'status': selectedStatus,
-            'license': licenseController.text.isEmpty ? null : licenseController.text,
-            'certification': certificationController.text.isEmpty ? null : licenseController.text
+            'license':
+                licenseController.text.isEmpty ? null : licenseController.text,
+            'certification': certificationController.text.isEmpty
+                ? null
+                : licenseController.text
           },
         );
       }
@@ -525,7 +602,8 @@ class UsersProvider extends ChangeNotifier {
 
   Future<bool> deleteUserAuth(User users) async {
     try {
-      final res = await supabase.rpc('borrar_usuario', params: {'correo': users.email});
+      final res =
+          await supabase.rpc('borrar_usuario', params: {'correo': users.email});
       if (res == null) {
         log('Error in res null, deleteUserAuth');
         return false;

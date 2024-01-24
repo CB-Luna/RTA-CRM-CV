@@ -26,9 +26,12 @@ class _JobCompleteTechniPopUpState extends State<JobCompleteTechniPopUp> {
     return AlertDialog(
       contentPadding: const EdgeInsets.all(0),
       content: Container(
-        height: MediaQuery.of(context).size.height * 0.6,
-        width: MediaQuery.of(context).size.width * 0.75,
-        color: Colors.white,
+        height: MediaQuery.of(context).size.height * 0.7,
+        width: MediaQuery.of(context).size.width * 0.80,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.black),
+            borderRadius: const BorderRadius.all(Radius.circular(5))),
         child: Column(
           children: [
             Container(
@@ -50,7 +53,7 @@ class _JobCompleteTechniPopUpState extends State<JobCompleteTechniPopUp> {
                   border: Border.all(color: Colors.black),
                 ),
                 child: Column(children: [
-                  Flexible(
+                  Expanded(
                     child: Container(
                       // height: MediaQuery.of(context).size.height * 0.418,
                       height: MediaQuery.of(context).size.height * 0.5,
@@ -73,6 +76,66 @@ class _JobCompleteTechniPopUpState extends State<JobCompleteTechniPopUp> {
                                     color: AppTheme.of(context).gris)),
                             child: const Text("Excelent service job detail"),
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                color: Colors.red,
+                                margin: const EdgeInsets.only(left: 10),
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomIconButton(
+                                      icon: Icons.keyboard_arrow_down_outlined,
+                                      toolTip: 'less',
+                                      onTap: () {
+                                        provider.setPageSize('less');
+                                      },
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      provider.pageRowCount.toString(),
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    CustomIconButton(
+                                      icon: Icons.keyboard_arrow_up_outlined,
+                                      toolTip: 'more',
+                                      onTap: () {
+                                        provider.setPageSize('more');
+                                      },
+                                    ),
+                                    const SizedBox(width: 10),
+                                    /* CustomIconButton(
+                                          icon: const Icon(Icons.refresh_rounded),
+                                          toolTip: 'load',
+                                          onTap: () {
+                                            provider.load();
+                                          },
+                                        ), */
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Search"),
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 10),
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.1,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.05,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.black),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(5))),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.35,
                             margin: const EdgeInsets.only(
@@ -89,20 +152,27 @@ class _JobCompleteTechniPopUpState extends State<JobCompleteTechniPopUp> {
                                   ],
                                   resolveDefaultColumnFilter:
                                       (column, resolver) {
-                                    if (column.field == 'ID_Column') {
+                                    if (column.field == 'Tech') {
+                                      return resolver<PlutoFilterTypeContains>()
+                                          as PlutoFilterType;
+                                    } else if (column.field == 'Jobld') {
+                                      return resolver<PlutoFilterTypeContains>()
+                                          as PlutoFilterType;
+                                    } else if (column.field == 'Type') {
+                                      return resolver<PlutoFilterTypeContains>()
+                                          as PlutoFilterType;
+                                    } else if (column.field == 'Account') {
+                                      return resolver<PlutoFilterTypeContains>()
+                                          as PlutoFilterType;
+                                    } else if (column.field == 'Deserve_Tip') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
                                     } else if (column.field ==
-                                        'AVATAR_Column') {
+                                        'Customer_Message') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'USER_Column') {
-                                      return resolver<PlutoFilterTypeContains>()
-                                          as PlutoFilterType;
-                                    } else if (column.field == 'ROLE_Column') {
-                                      return resolver<PlutoFilterTypeContains>()
-                                          as PlutoFilterType;
-                                    } else if (column.field == 'EMAIL_Column') {
+                                    } else if (column.field ==
+                                        'Date_Completed') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
                                     }
@@ -114,12 +184,12 @@ class _JobCompleteTechniPopUpState extends State<JobCompleteTechniPopUp> {
                               columns: [
                                 PlutoColumn(
                                   titleSpan: TextSpan(children: [
-                                    WidgetSpan(
-                                        child: Icon(Icons.vpn_key_outlined,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground)),
-                                    const WidgetSpan(
-                                        child: SizedBox(width: 10)),
+                                    // WidgetSpan(
+                                    //     child: Icon(Icons.vpn_key_outlined,
+                                    //         color: AppTheme.of(context)
+                                    //             .primaryBackground)),
+                                    // const WidgetSpan(
+                                    //     child: SizedBox(width: 10)),
                                     TextSpan(
                                         text: 'Tech',
                                         style: AppTheme.of(context)
@@ -157,56 +227,56 @@ class _JobCompleteTechniPopUpState extends State<JobCompleteTechniPopUp> {
                                       ),
                                     );
                                   },
-                                  footerRenderer: (context) {
-                                    return SizedBox(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          CustomIconButton(
-                                            icon: Icons
-                                                .keyboard_arrow_down_outlined,
-                                            toolTip: 'less',
-                                            onTap: () {
-                                              provider.setPageSize('less');
-                                            },
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            provider.pageRowCount.toString(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          CustomIconButton(
-                                            icon: Icons
-                                                .keyboard_arrow_up_outlined,
-                                            toolTip: 'more',
-                                            onTap: () {
-                                              provider.setPageSize('more');
-                                            },
-                                          ),
-                                          const SizedBox(width: 10),
-                                          /* CustomIconButton(
-                                          icon: const Icon(Icons.refresh_rounded),
-                                          toolTip: 'load',
-                                          onTap: () {
-                                            provider.load();
-                                          },
-                                        ), */
-                                        ],
-                                      ),
-                                    );
-                                  },
+                                  // footerRenderer: (context) {
+                                  //   return SizedBox(
+                                  //     child: Row(
+                                  //       mainAxisAlignment:
+                                  //           MainAxisAlignment.center,
+                                  //       children: [
+                                  //         CustomIconButton(
+                                  //           icon: Icons
+                                  //               .keyboard_arrow_down_outlined,
+                                  //           toolTip: 'less',
+                                  //           onTap: () {
+                                  //             provider.setPageSize('less');
+                                  //           },
+                                  //         ),
+                                  //         const SizedBox(width: 10),
+                                  //         Text(
+                                  //           provider.pageRowCount.toString(),
+                                  //           style: const TextStyle(
+                                  //               color: Colors.white),
+                                  //         ),
+                                  //         const SizedBox(width: 10),
+                                  //         CustomIconButton(
+                                  //           icon: Icons
+                                  //               .keyboard_arrow_up_outlined,
+                                  //           toolTip: 'more',
+                                  //           onTap: () {
+                                  //             provider.setPageSize('more');
+                                  //           },
+                                  //         ),
+                                  //         const SizedBox(width: 10),
+                                  //         /* CustomIconButton(
+                                  //         icon: const Icon(Icons.refresh_rounded),
+                                  //         toolTip: 'load',
+                                  //         onTap: () {
+                                  //           provider.load();
+                                  //         },
+                                  //       ), */
+                                  //       ],
+                                  //     ),
+                                  //   );
+                                  // },
                                 ),
                                 PlutoColumn(
                                   titleSpan: TextSpan(children: [
-                                    WidgetSpan(
-                                        child: Icon(Icons.person_outline,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground)),
-                                    const WidgetSpan(
-                                        child: SizedBox(width: 10)),
+                                    // WidgetSpan(
+                                    //     child: Icon(Icons.person_outline,
+                                    //         color: AppTheme.of(context)
+                                    //             .primaryBackground)),
+                                    // const WidgetSpan(
+                                    //     child: SizedBox(width: 10)),
                                     TextSpan(
                                         text: 'Jobld',
                                         style: AppTheme.of(context)
@@ -216,7 +286,212 @@ class _JobCompleteTechniPopUpState extends State<JobCompleteTechniPopUp> {
                                       AppTheme.of(context).primaryBackground,
                                   title: 'Jobld',
                                   field: 'Jobld',
+                                  width: 150,
+                                  titleTextAlign: PlutoColumnTextAlign.start,
+                                  textAlign: PlutoColumnTextAlign.center,
+                                  type: PlutoColumnType.text(),
+                                  enableEditingMode: false,
+                                  cellPadding: EdgeInsets.zero,
+                                  renderer: (rendererContext) {
+                                    return Container(
+                                      height: rowHeight,
+                                      // width: rendererContext.cell.column.width,
+                                      decoration: BoxDecoration(
+                                          gradient: whiteGradient),
+                                      child: Center(
+                                          child: Text(
+                                        rendererContext.cell.value ?? '-',
+                                        style: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false),
+                                      )),
+                                    );
+                                  },
+                                ),
+                                PlutoColumn(
+                                  titleSpan: TextSpan(children: [
+                                    // WidgetSpan(
+                                    //     child: Icon(Icons.local_offer_outlined,
+                                    //         color: AppTheme.of(context)
+                                    //             .primaryBackground)),
+                                    // const WidgetSpan(
+                                    //     child: SizedBox(width: 10)),
+                                    TextSpan(
+                                        text: 'Type',
+                                        style: AppTheme.of(context)
+                                            .encabezadoTablasBlack)
+                                  ]),
+                                  backgroundColor:
+                                      AppTheme.of(context).primaryBackground,
+                                  title: 'Type',
+                                  field: 'Type',
+                                  width: 150,
+                                  titleTextAlign: PlutoColumnTextAlign.start,
+                                  textAlign: PlutoColumnTextAlign.center,
+                                  type: PlutoColumnType.text(),
+                                  enableEditingMode: false,
+                                  cellPadding: EdgeInsets.zero,
+                                  renderer: (rendererContext) {
+                                    return Container(
+                                      height: rowHeight,
+                                      // width: rendererContext.cell.column.width,
+                                      decoration: BoxDecoration(
+                                          gradient: whiteGradient),
+                                      child: Center(
+                                          child: Text(
+                                        rendererContext.cell.value ?? '-',
+                                        style: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false),
+                                      )),
+                                    );
+                                  },
+                                ),
+                                PlutoColumn(
+                                  titleSpan: TextSpan(children: [
+                                    // WidgetSpan(
+                                    //     child: Icon(Icons.alternate_email,
+                                    //         color: AppTheme.of(context)
+                                    //             .primaryBackground)),
+                                    // const WidgetSpan(
+                                    //     child: SizedBox(width: 10)),
+                                    TextSpan(
+                                        text: 'Account',
+                                        style: AppTheme.of(context)
+                                            .encabezadoTablasBlack)
+                                  ]),
+                                  backgroundColor:
+                                      AppTheme.of(context).primaryBackground,
+                                  title: 'Account',
+                                  field: 'Account',
+                                  width: 150,
+                                  titleTextAlign: PlutoColumnTextAlign.start,
+                                  textAlign: PlutoColumnTextAlign.center,
+                                  type: PlutoColumnType.text(),
+                                  enableEditingMode: false,
+                                  cellPadding: EdgeInsets.zero,
+                                  renderer: (rendererContext) {
+                                    return Container(
+                                      height: rowHeight,
+                                      // width: rendererContext.cell.column.width,
+                                      decoration: BoxDecoration(
+                                          gradient: whiteGradient),
+                                      child: Center(
+                                          child: Text(
+                                        rendererContext.cell.value ?? '-',
+                                        style: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false),
+                                      )),
+                                    );
+                                  },
+                                ),
+                                PlutoColumn(
+                                  titleSpan: TextSpan(children: [
+                                    // WidgetSpan(
+                                    //     child: Icon(Icons.phone_outlined,
+                                    //         color: AppTheme.of(context)
+                                    //             .primaryBackground)),
+                                    // const WidgetSpan(
+                                    //     child: SizedBox(width: 10)),
+                                    TextSpan(
+                                        text: 'Deserve Tip',
+                                        style: AppTheme.of(context)
+                                            .encabezadoTablasBlack)
+                                  ]),
+                                  backgroundColor:
+                                      AppTheme.of(context).primaryBackground,
+                                  title: 'Deserve_Tip',
+                                  field: 'Deserve_Tip',
+                                  width: 175,
+                                  titleTextAlign: PlutoColumnTextAlign.start,
+                                  textAlign: PlutoColumnTextAlign.center,
+                                  type: PlutoColumnType.text(),
+                                  enableEditingMode: false,
+                                  cellPadding: EdgeInsets.zero,
+                                  renderer: (rendererContext) {
+                                    return Container(
+                                      height: rowHeight,
+                                      // width: rendererContext.cell.column.width,
+                                      decoration: BoxDecoration(
+                                          gradient: whiteGradient),
+                                      child: Center(
+                                          child: Text(
+                                        rendererContext.cell.value ?? '-',
+                                        style: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false),
+                                      )),
+                                    );
+                                  },
+                                ),
+                                PlutoColumn(
+                                  titleSpan: TextSpan(children: [
+                                    // WidgetSpan(
+                                    //     child: Icon(Icons.home_outlined,
+                                    //         color: AppTheme.of(context)
+                                    //             .primaryBackground)),
+                                    // const WidgetSpan(
+                                    //     child: SizedBox(width: 10)),
+                                    TextSpan(
+                                        text: 'Customer Message',
+                                        style: AppTheme.of(context)
+                                            .encabezadoTablasBlack)
+                                  ]),
+                                  backgroundColor:
+                                      AppTheme.of(context).primaryBackground,
+                                  title: 'Customer_Message',
+                                  field: 'Customer_Message',
                                   width: 200,
+                                  titleTextAlign: PlutoColumnTextAlign.start,
+                                  textAlign: PlutoColumnTextAlign.center,
+                                  type: PlutoColumnType.text(),
+                                  enableEditingMode: false,
+                                  cellPadding: EdgeInsets.zero,
+                                  renderer: (rendererContext) {
+                                    return Container(
+                                      height: rowHeight,
+                                      // width: rendererContext.cell.column.width,
+                                      decoration: BoxDecoration(
+                                          gradient: whiteGradient),
+                                      child: Center(
+                                          child: Text(
+                                        rendererContext.cell.value ?? '-',
+                                        style: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false),
+                                      )),
+                                    );
+                                  },
+                                ),
+                                PlutoColumn(
+                                  titleSpan: TextSpan(children: [
+                                    // WidgetSpan(
+                                    //     child: Icon(Icons.location_on_outlined,
+                                    //         color: AppTheme.of(context)
+                                    //             .primaryBackground)),
+                                    // const WidgetSpan(
+                                    //     child: SizedBox(width: 10)),
+                                    TextSpan(
+                                        text: 'Date Completed',
+                                        style: AppTheme.of(context)
+                                            .encabezadoTablasBlack)
+                                  ]),
+                                  backgroundColor:
+                                      AppTheme.of(context).primaryBackground,
+                                  title: 'Date_Completed',
+                                  field: 'Date_Completed',
+                                  width: 205,
                                   titleTextAlign: PlutoColumnTextAlign.start,
                                   textAlign: PlutoColumnTextAlign.center,
                                   type: PlutoColumnType.text(),
@@ -297,211 +572,6 @@ class _JobCompleteTechniPopUpState extends State<JobCompleteTechniPopUp> {
                                       ),
                                     );
                                     //PlutoPagination(context.stateManager);
-                                  },
-                                ),
-                                PlutoColumn(
-                                  titleSpan: TextSpan(children: [
-                                    WidgetSpan(
-                                        child: Icon(Icons.local_offer_outlined,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground)),
-                                    const WidgetSpan(
-                                        child: SizedBox(width: 10)),
-                                    TextSpan(
-                                        text: 'Type',
-                                        style: AppTheme.of(context)
-                                            .encabezadoTablasBlack)
-                                  ]),
-                                  backgroundColor:
-                                      AppTheme.of(context).primaryBackground,
-                                  title: 'Type',
-                                  field: 'Type',
-                                  width: 150,
-                                  titleTextAlign: PlutoColumnTextAlign.start,
-                                  textAlign: PlutoColumnTextAlign.center,
-                                  type: PlutoColumnType.text(),
-                                  enableEditingMode: false,
-                                  cellPadding: EdgeInsets.zero,
-                                  renderer: (rendererContext) {
-                                    return Container(
-                                      height: rowHeight,
-                                      // width: rendererContext.cell.column.width,
-                                      decoration: BoxDecoration(
-                                          gradient: whiteGradient),
-                                      child: Center(
-                                          child: Text(
-                                        rendererContext.cell.value ?? '-',
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false),
-                                      )),
-                                    );
-                                  },
-                                ),
-                                PlutoColumn(
-                                  titleSpan: TextSpan(children: [
-                                    WidgetSpan(
-                                        child: Icon(Icons.alternate_email,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground)),
-                                    const WidgetSpan(
-                                        child: SizedBox(width: 10)),
-                                    TextSpan(
-                                        text: 'Account',
-                                        style: AppTheme.of(context)
-                                            .encabezadoTablasBlack)
-                                  ]),
-                                  backgroundColor:
-                                      AppTheme.of(context).primaryBackground,
-                                  title: 'Account',
-                                  field: 'Account',
-                                  width: 170,
-                                  titleTextAlign: PlutoColumnTextAlign.start,
-                                  textAlign: PlutoColumnTextAlign.center,
-                                  type: PlutoColumnType.text(),
-                                  enableEditingMode: false,
-                                  cellPadding: EdgeInsets.zero,
-                                  renderer: (rendererContext) {
-                                    return Container(
-                                      height: rowHeight,
-                                      // width: rendererContext.cell.column.width,
-                                      decoration: BoxDecoration(
-                                          gradient: whiteGradient),
-                                      child: Center(
-                                          child: Text(
-                                        rendererContext.cell.value ?? '-',
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false),
-                                      )),
-                                    );
-                                  },
-                                ),
-                                PlutoColumn(
-                                  titleSpan: TextSpan(children: [
-                                    WidgetSpan(
-                                        child: Icon(Icons.phone_outlined,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground)),
-                                    const WidgetSpan(
-                                        child: SizedBox(width: 10)),
-                                    TextSpan(
-                                        text: 'Deserve Tip',
-                                        style: AppTheme.of(context)
-                                            .encabezadoTablasBlack)
-                                  ]),
-                                  backgroundColor:
-                                      AppTheme.of(context).primaryBackground,
-                                  title: 'Deserve Tip',
-                                  field: 'Deserve Tip',
-                                  width: 200,
-                                  titleTextAlign: PlutoColumnTextAlign.start,
-                                  textAlign: PlutoColumnTextAlign.center,
-                                  type: PlutoColumnType.text(),
-                                  enableEditingMode: false,
-                                  cellPadding: EdgeInsets.zero,
-                                  renderer: (rendererContext) {
-                                    return Container(
-                                      height: rowHeight,
-                                      // width: rendererContext.cell.column.width,
-                                      decoration: BoxDecoration(
-                                          gradient: whiteGradient),
-                                      child: Center(
-                                          child: Text(
-                                        rendererContext.cell.value ?? '-',
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false),
-                                      )),
-                                    );
-                                  },
-                                ),
-                                PlutoColumn(
-                                  titleSpan: TextSpan(children: [
-                                    WidgetSpan(
-                                        child: Icon(Icons.home_outlined,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground)),
-                                    const WidgetSpan(
-                                        child: SizedBox(width: 10)),
-                                    TextSpan(
-                                        text: 'Customer \n Message',
-                                        style: AppTheme.of(context)
-                                            .encabezadoTablasBlack)
-                                  ]),
-                                  backgroundColor:
-                                      AppTheme.of(context).primaryBackground,
-                                  title: 'Customer \n Message',
-                                  field: 'Customer \n Message',
-                                  width: 200,
-                                  titleTextAlign: PlutoColumnTextAlign.start,
-                                  textAlign: PlutoColumnTextAlign.center,
-                                  type: PlutoColumnType.text(),
-                                  enableEditingMode: false,
-                                  cellPadding: EdgeInsets.zero,
-                                  renderer: (rendererContext) {
-                                    return Container(
-                                      height: rowHeight,
-                                      // width: rendererContext.cell.column.width,
-                                      decoration: BoxDecoration(
-                                          gradient: whiteGradient),
-                                      child: Center(
-                                          child: Text(
-                                        rendererContext.cell.value ?? '-',
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false),
-                                      )),
-                                    );
-                                  },
-                                ),
-                                PlutoColumn(
-                                  titleSpan: TextSpan(children: [
-                                    WidgetSpan(
-                                        child: Icon(Icons.location_on_outlined,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground)),
-                                    const WidgetSpan(
-                                        child: SizedBox(width: 10)),
-                                    TextSpan(
-                                        text: 'Date Completed',
-                                        style: AppTheme.of(context)
-                                            .encabezadoTablasBlack)
-                                  ]),
-                                  backgroundColor:
-                                      AppTheme.of(context).primaryBackground,
-                                  title: 'Date Completed',
-                                  field: 'Date Completed',
-                                  width: 175,
-                                  titleTextAlign: PlutoColumnTextAlign.start,
-                                  textAlign: PlutoColumnTextAlign.center,
-                                  type: PlutoColumnType.text(),
-                                  enableEditingMode: false,
-                                  cellPadding: EdgeInsets.zero,
-                                  renderer: (rendererContext) {
-                                    return Container(
-                                      height: rowHeight,
-                                      // width: rendererContext.cell.column.width,
-                                      decoration: BoxDecoration(
-                                          gradient: whiteGradient),
-                                      child: Center(
-                                          child: Text(
-                                        rendererContext.cell.value ?? '-',
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false),
-                                      )),
-                                    );
                                   },
                                 ),
                               ],

@@ -181,12 +181,13 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                           ),
                                         ),
                                         /* provider.addemail == true
-                                            ? */ Padding(
-                                                padding: const EdgeInsets.only(bottom: 10),
-                                                child: CustomTextEmail(
-                                                  width: width * 380,
-                                                )
-                                                /*  CustomTextField(
+                                            ? */
+                                        Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
+                                            child: CustomTextEmail(
+                                              width: width * 380,
+                                            )
+                                            /*  CustomTextField(
                                                   width: width * 380,
                                                   enabled: true,
                                                   controller: provider.email2Controller,
@@ -194,8 +195,8 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                                   label: 'Other Email',
                                                   keyboardType: TextInputType.emailAddress,
                                                 ), */
-                                                ),
-                                           // : const SizedBox.shrink(),
+                                            ),
+                                        // : const SizedBox.shrink(),
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
@@ -271,12 +272,47 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                     ),
                                   ),
                                 ),
-                                
+                                /* SizedBox(
+                                  width: width * 380,
+                                  child: CheckboxListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    title: Text(
+                                      'I agree to use the default signature',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        color: const Color(0xFF4D4D4D),
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    value: provider.firmacheck,
+                                    onChanged: (value) async {
+                                      setState(() {
+                                        provider.firmacheck = !provider.firmacheck;
+                                      });
+                                      await provider.clientPDF();
+                                    },
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    activeColor: AppTheme.of(context).primaryColor,
+                                  ),
+                                ),
+                                provider.firmacheck == false
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(bottom: 10),
+                                        child: CustomCard(
+                                          title: 'Signature',
+                                          width: width * 410,
+                                          height: height * 275,
+                                          child: const FirmaPDF(),
+                                        ),
+                                      )
+                                    : */
                                 SizedBox(
                                   height: height * 235,
                                 ),
                                 provider.search == false
-                                    ? const SizedBox(height: 35,)
+                                    ? const SizedBox(
+                                        height: 35,
+                                      )
                                     : CustomTextIconButton(
                                         isLoading: false,
                                         icon: Icon(Icons.email, color: AppTheme.of(context).primaryBackground),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
 
@@ -177,15 +178,42 @@ class _HomeOwnerFTTHDocumentClientState extends State<HomeOwnerFTTHDocumentClien
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: CustomCard(
-                            title: 'Signature',
-                            width: width * 410,
-                            height: height * 275,
-                            child: const FirmaPDF(),
+                        SizedBox(
+                          width: width * 380,
+                          child: CheckboxListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(
+                              'I agree to use the default signature',
+                              style: GoogleFonts.poppins(
+                                fontSize: 15,
+                                color: const Color(0xFF4D4D4D),
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                            value: provider.firmacheck,
+                            onChanged: (value) async {
+                              setState(() {
+                                provider.firmacheck = !provider.firmacheck;
+                              });
+                              await provider.clientPDF();
+                            },
+                            controlAffinity: ListTileControlAffinity.leading,
+                            activeColor: AppTheme.of(context).primaryColor,
                           ),
                         ),
+                        provider.firmacheck == false
+                            ? Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: CustomCard(
+                                  title: 'Signature',
+                                  width: width * 410,
+                                  height: height * 275,
+                                  child: const FirmaPDF(),
+                                ),
+                              )
+                            : SizedBox(
+                                height: height * 235,
+                              ),
                         CustomTextIconButton(
                           isLoading: false,
                           icon: Icon(Icons.email, color: AppTheme.of(context).primaryBackground),
