@@ -213,26 +213,24 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: RoleSelectorWidget(),
                     ),
-                    if (currentUser!.isCV)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: CustomDDownMenu(
-                          hint: 'Choose a Company*',
-                          label: 'Company',
-                          icon: Icons.warehouse_outlined,
-                          width: 350,
-                          list: companyNames,
-                          dropdownValue: provider.selectedCompany?.company,
-                          onChanged: (val) async {
-                            if (val == null) return;
-                            provider.selectCompany(val);
-                            if (val != "RTA") {
-                              await provider.getVehicleActive(val,
-                                  notify: true);
-                            }
-                          },
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomDDownMenu(
+                        hint: 'Choose a Company*',
+                        label: 'Company',
+                        icon: Icons.warehouse_outlined,
+                        width: 350,
+                        list: companyNames,
+                        dropdownValue: provider.selectedCompany?.company,
+                        onChanged: (val) async {
+                          if (val == null) return;
+                          provider.selectCompany(val);
+                          if (val != "RTA") {
+                            await provider.getVehicleActive(val, notify: true);
+                          }
+                        },
                       ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDDownMenu(

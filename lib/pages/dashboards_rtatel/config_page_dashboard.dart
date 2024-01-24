@@ -1,9 +1,13 @@
+import 'dart:js_interop';
+
 import 'package:animated_tree_view/animated_tree_view.dart';
 import 'package:animated_tree_view/tree_view/tree_node.dart';
 import 'package:animated_tree_view/tree_view/tree_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
+import '../../providers/config_page_provider.dart';
 import '../../widgets/captura/custom_text_field.dart';
 
 const showSnackBar = false;
@@ -25,8 +29,10 @@ class _ConfigPageDashboardState extends State<ConfigPageDashboard> {
   @override
   Widget build(BuildContext context) {
     TreeViewController? _controller;
-    TextEditingController nameController = TextEditingController();
-    final GlobalKey<_ConfigPageDashboardState> treeViewKey = GlobalKey();
+    // final GlobalKey<_ConfigPageDashboardState> treeViewKey = GlobalKey();
+    // final Map<String, TextEditingController> controllers = {};
+    // final Map<String, TextEditingController> controllersRoute = {};
+    ConfigPageProvider provider = Provider.of<ConfigPageProvider>(context);
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
@@ -41,7 +47,7 @@ class _ConfigPageDashboardState extends State<ConfigPageDashboard> {
                   Container(
                     margin: const EdgeInsets.all(10),
                     height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.5,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
@@ -64,7 +70,7 @@ class _ConfigPageDashboardState extends State<ConfigPageDashboard> {
                           );
                         },
                       ),
-                      body: TreeView.simpleTyped(
+                      body: TreeView.simple(
                         expansionBehavior: ExpansionBehavior.scrollToLastChild,
                         tree: sampleTree,
                         showRootNode: true,
@@ -95,37 +101,138 @@ class _ConfigPageDashboardState extends State<ConfigPageDashboard> {
                             controller.expandAllChildren(sampleTree);
                           }
                         },
-                        builder: (context, node) => Card(
-                          // color: Colors.green,
-                          color: Colors.blue[100],
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomTextField(
-                                label: "",
-                                icon: Icons.workspace_premium_outlined,
-                                controller: nameController,
-                                enabled: true,
-                                width: 100,
-                                keyboardType: TextInputType.text,
-                                maxLength: 5,
-                              ),
-                              // Text("${node.key}"),
-                              InkWell(
-                                child: Icon(Icons.add),
-                                onTap: () {
-                                  node.add(TreeNode(key: "${node.key}"));
-                                },
-                              ),
-                              InkWell(
-                                child: Icon(Icons.remove),
-                                onTap: () {
-                                  node.delete();
-                                },
-                              )
-                            ],
-                          ),
-                        ),
+                        // Declara una lista de controladores
+
+                        builder: (context, node) {
+                          // Convierte la clave del nodo a un número
+                          // int nodeKey = int.tryParse(node.key) ?? 0;
+                          // // Verifica si el controlador ya ha sido creado para este nodo
+                          // if (controllers.length <= nodeKey) {
+                          //   // Si no existe, crea un nuevo controlador para este nodo
+                          //   controllers.add(TextEditingController());
+                          // }
+                          TextEditingController controllerName =
+                              provider.controllers[node.key] ??
+                                  TextEditingController();
+
+                          TextEditingController controllerRoute =
+                              provider.controllersRoute[node.key] ??
+                                  TextEditingController();
+
+                          provider.controllerName = controllerName;
+                          // controllersRoute == null
+                          //     ? node.data = "Route"
+                          //     : node.data = controllersRoute;
+                          return Card(
+                            color: Colors.blue[100],
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: CustomTextField(
+                                        height: 10,
+                                        label: node.key,
+                                        // label: node.data.toString(),
+                                        icon: Icons.workspace_premium_outlined,
+                                        controller: provider.controllerName ??
+                                            controllerName,
+                                        // controller: controllers[nodeKey],
+                                        enabled: true,
+                                        width: 250,
+                                        keyboardType: TextInputType.text,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: CustomTextField(
+                                        height: 10,
+                                        label: node.data.toString() == "null"
+                                            ? "Route"
+                                            : node.data.toString(),
+                                        icon: Icons.workspace_premium_outlined,
+                                        controller: controllerRoute,
+                                        enabled: true,
+                                        width: 250,
+                                        keyboardType: TextInputType.text,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                InkWell(
+                                  child: Icon(Icons.add),
+                                  onTap: () {
+                                    provider.controllerName.text =
+                                        controllerName.text;
+                                    node.add(TreeNode(
+                                        key: controllerName.text,
+                                        data: controllerRoute.text));
+
+                                    provider.controllers["${node.key}"] =
+                                        TextEditingController(
+                                            text: controllerName.text);
+
+                                    provider.controllersRoute["${node.key}"] =
+                                        TextEditingController(
+                                            text: controllerRoute.text);
+
+                                    print(
+                                        "ControlerName: ${controllerName.text}");
+                                    print(
+                                        "Provider de controllerName: ${provider.controllerName.text} del node: ${node.key}");
+
+                                    if (provider.controllerName.text !=
+                                        "null") {
+                                      print("Entro en createMenuPage");
+                                      provider.createMenuPage(node.key);
+
+                                      int idMenu = 0;
+                                      print(
+                                          "Cuantos valores hay en listaMenu: ${provider.listaMenu.length}");
+                                      // Bucle para buscar en la lista
+                                      // for (var lista in provider.listaMenu) {
+                                      //   lista.forEach((elemento) {
+                                      //     if (elemento["menu_name"] ==
+                                      //         node.key) {
+                                      //       idMenu = elemento["id"];
+                                      //     }
+                                      //   });
+                                      // }
+                                      print("------------------");
+                                      print("El id de ${node.key} + $idMenu");
+                                    }
+                                    controllerName.clear();
+                                    controllerRoute.clear();
+                                    provider.controllerName.clear();
+                                    provider.controllerRoute.clear();
+                                    setState(() {});
+                                    // final newNodeKey = nodeKey + 1;
+                                    // controllers["${node.key}-$newNodeKey"] =
+                                    //     TextEditingController();
+                                    // node.add(TreeNode(
+                                    //     key: "${node.key}-$newNodeKey"));
+                                    // print(
+                                    //     "${node.key} +$newNodeKey +${controllers[nodeKey]}");
+                                    // setState(() {});
+                                    // node.add(TreeNode(key: "${node.key}+1"));
+                                  },
+                                ),
+                                InkWell(
+                                  child: const Icon(Icons.remove),
+                                  onTap: () {
+                                    node.delete();
+                                    provider.controllers.remove(node.key);
+                                    setState(() {});
+                                    // node.delete();
+                                  },
+                                )
+                              ],
+                            ),
+                          );
+                        },
+
                         // builder: (context, node) => Card(
                         //   color: Colors.green,
                         //   child: ListTile(
