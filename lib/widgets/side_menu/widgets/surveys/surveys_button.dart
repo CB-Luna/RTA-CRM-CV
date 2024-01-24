@@ -102,7 +102,6 @@ class _SurveysButtonState extends State<SurveysButton> {
                                   ),
                             ),
                             onTap: () async {
-                              provider.pagesearch = true;
                               context.pushReplacement(jobCompleteTechnicians);
 
                               // context.pushReplacement(routeJobCompleteTechni);

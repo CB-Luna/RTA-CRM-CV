@@ -148,6 +148,12 @@ class User {
   bool get isDashboardsCareRep =>
       currentUser!.currentRole.roleName == 'Care Rep 1';
 
+  String get currentAppRole => roles
+      .where((role) => role.application == currentUser!.currentRole.application)
+      .toList()
+      .first
+      .roleName;
+
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
   factory User.fromMap(Map<String, dynamic> json) {

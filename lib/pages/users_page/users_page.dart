@@ -5,8 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/pages/users_page/widgets/add_user_popup.dart';
-import 'package:rta_crm_cv/pages/users_page/widgets/update_user_popup.dart';
+import 'package:rta_crm_cv/pages/users_page/widgets/save_user_popup.dart';
 import 'package:rta_crm_cv/pages/users_page/widgets/verify_to_eliminate_pop_up.dart';
 import 'package:rta_crm_cv/providers/side_menu_provider.dart';
 import 'package:rta_crm_cv/providers/users_provider.dart';
@@ -110,7 +109,7 @@ class _UsersPageState extends State<UsersPage> {
                                 color: AppTheme.of(context).primaryColor,
                                 onTap: () async {
                                   provider.page = 1;
-                                  await provider.getUsersNotActive();
+                                  await provider.getUsers(active: 'Not Active');
                                 },
                               ),
                             ),
@@ -201,7 +200,7 @@ class _UsersPageState extends State<UsersPage> {
                                   await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return const AddUserPopUp();
+                                      return const SaveUserPopUp();
                                     },
                                   );
                                   await provider.updateState();
@@ -358,34 +357,6 @@ class _UsersPageState extends State<UsersPage> {
                                   );
                                 },
                               ),
-                              /* PlutoColumn(
-                                titleSpan: const TextSpan(children: [WidgetSpan(child: Icon(Icons.image_outlined)), WidgetSpan(child: SizedBox(width: 10)), TextSpan(text: 'AVATAR')]),
-                                title: 'AVATAR',
-                                field: 'AVATAR_Column',
-                                width: 225,
-                                titleTextAlign: PlutoColumnTextAlign.start,
-                                textAlign: PlutoColumnTextAlign.center,
-                                type: PlutoColumnType.text(),
-                                enableEditingMode: false,
-                                cellPadding: EdgeInsets.zero,
-                                renderer: (rendererContext) {
-                                  return Container(
-                                    height: rowHeight,
-                                    // width: rendererContext.cell.column.width,
-                                    decoration: BoxDecoration(gradient: whiteGradient),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(2),
-                                      child: CircleAvatar(
-                                        backgroundImage: Image.network(
-                                          rendererContext.cell.value,
-                                          height: 10,
-                                          width: 10,
-                                        ).image,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ), */
                               PlutoColumn(
                                 titleSpan: TextSpan(children: [
                                   WidgetSpan(
@@ -613,6 +584,15 @@ class _UsersPageState extends State<UsersPage> {
                                       style:
                                           AppTheme.of(context).encabezadoTablas)
                                 ]),
+                                titleSpan: TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      child: Icon(Icons.home_outlined, color: AppTheme.of(context).primaryBackground),
+                                    ),
+                                    const WidgetSpan(child: SizedBox(width: 10)),
+                                    TextSpan(text: 'ADDRESS', style: AppTheme.of(context).encabezadoTablas),
+                                  ],
+                                ),
                                 backgroundColor: const Color(0XFF6491F7),
                                 title: 'ADDRESS',
                                 field: 'ADDRESS_Column',
@@ -637,6 +617,13 @@ class _UsersPageState extends State<UsersPage> {
                                               fontFamily: 'Gotham-Regular',
                                               useGoogleFonts: false),
                                     )),
+                                      child: Text(
+                                        rendererContext.cell.value ?? '-',
+                                        style: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
@@ -916,6 +903,14 @@ class _UsersPageState extends State<UsersPage> {
                                             await provider.getVehicleActiveInit(
                                                 rendererContext.cell.value,
                                                 notify: false);
+                                            await provider.getCompany(notify: false);
+                                            await provider.getStates(notify: false);
+                                            await provider.getRoles(notify: false);
+                                            provider.initEditUser(rendererContext.cell.value);
+                                            await provider.getVehicleActiveInit(
+                                              rendererContext.cell.value,
+                                              notify: false,
+                                            );
 
                                             if (!mounted) return;
                                             await showDialog(
@@ -926,6 +921,8 @@ class _UsersPageState extends State<UsersPage> {
                                                   return UpdateUserPopUp(
                                                       user: rendererContext
                                                           .cell.value);
+                                                return StatefulBuilder(builder: (context, setState) {
+                                                  return SaveUserPopUp(user: rendererContext.cell.value);
                                                 });
                                               },
                                             );
