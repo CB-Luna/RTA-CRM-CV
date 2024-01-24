@@ -565,6 +565,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                                 children: [
                                                   IconButton(
                                                     onPressed: () async {
+                                                      await provider.pickDocument(rendererContext.row.cells["Name_Column"]!.value);
                                                       await showDialog(
                                                         context: context,
                                                         builder: (BuildContext context) {
@@ -576,7 +577,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                                     icon: const Icon(Icons.email),
                                                     color: AppTheme.of(context).primaryColor,
                                                   ),
-                                                  Center(
+                                                  /*  Center(
                                                     child: IconButton(
                                                       onPressed: () async {
                                                         await provider.cancelDocument(rendererContext.row.cells["ID_Column"]!.value);
@@ -586,6 +587,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                                       color: AppTheme.of(context).primaryColor,
                                                     ),
                                                   ),
+                                                 */
                                                 ],
                                               ));
                                         },

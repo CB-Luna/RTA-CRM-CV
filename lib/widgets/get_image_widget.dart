@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/models/user.dart';
 import 'package:rta_crm_cv/models/vehicle.dart';
 
 Widget? getImage(String? image, {double height = 180}) {
@@ -27,10 +26,8 @@ Widget? getImage(String? image, {double height = 180}) {
   );
 }
 
-//     return Image.asset('assets/images/default-user-profile-picture.png');
-Widget? getUserImage(User users, dynamic image,
-    {double height = 180, BoxFit boxFit = BoxFit.cover}) {
-  if (users.image == null || users.image == "") {
+Widget? getUserImage(dynamic image, {double height = 180, BoxFit boxFit = BoxFit.cover}) {
+  if (image == null || image == "") {
     return Image.asset('assets/images/default-user-profile-picture.png');
   } else if (image is Uint8List) {
     return Image.memory(
@@ -47,19 +44,11 @@ Widget? getUserImage(User users, dynamic image,
       filterQuality: FilterQuality.high,
       fit: boxFit,
     );
-  } else {
-    return Image.network(
-      users.image!,
-      height: height,
-      width: double.infinity,
-      filterQuality: FilterQuality.high,
-      fit: boxFit,
-    );
   }
+  return Image.asset('assets/images/default-user-profile-picture.png');
 }
 
-Widget? getAddImageU(dynamic image,
-    {double height = 180, BoxFit boxFit = BoxFit.cover}) {
+Widget? getAddImageU(dynamic image, {double height = 180, BoxFit boxFit = BoxFit.cover}) {
   if (image == null) {
     return Image.asset('assets/images/default-user-profile-picture.png');
   } else if (image is Uint8List) {
@@ -83,8 +72,7 @@ Widget? getAddImageU(dynamic image,
 }
 
 //---------------------------------------------
-Widget? getAddImageV(dynamic image,
-    {double height = 180, BoxFit boxFit = BoxFit.cover}) {
+Widget? getAddImageV(dynamic image, {double height = 180, BoxFit boxFit = BoxFit.cover}) {
   if (image == null) {
     return Image.asset('assets/images/fadeInAnimation.gif');
   } else if (image is Uint8List) {
@@ -107,8 +95,7 @@ Widget? getAddImageV(dynamic image,
   }
 }
 
-Widget? getImageUpdate(Vehicle vehicle, dynamic newImage,
-    {double height = 180, BoxFit boxFit = BoxFit.cover}) {
+Widget? getImageUpdate(Vehicle vehicle, dynamic newImage, {double height = 180, BoxFit boxFit = BoxFit.cover}) {
   print("------------");
   print(vehicle.image);
   if (vehicle.image == null || vehicle.image == "") {

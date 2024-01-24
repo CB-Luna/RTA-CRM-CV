@@ -8,7 +8,7 @@
             "name": "RTA-CRM-CV",
             "request": "launch",
             "type": "dart",
-            "args": ["-d", "chrome", "--web-renderer", "html"]
+            "args": ["-d", "chrome"]
         },
         {
             "name": "RTA-CRM-CV (profile mode)",

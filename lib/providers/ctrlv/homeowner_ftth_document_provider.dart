@@ -53,6 +53,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   bool firmaAnexo = false;
   bool search = false;
   bool modificado = true;
+  bool firmacheck = false;
   late Uint8List documento;
 
   late int? id;
@@ -690,9 +691,14 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                           height: 58,
                           alignment: pw.Alignment.center,
                           child: pw.Text(
-                            signatureTextController.text,
+                            firmacheck == false ? 'F. _______________________.' : signatureTextController.text,
                             textAlign: pw.TextAlign.center,
-                            style: pw.TextStyle(fontSize: 30, font: raghenFont),
+                            style: firmacheck == false
+                                ? const pw.TextStyle(
+                                    fontSize: 13,
+                                    color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                                  )
+                                : pw.TextStyle(fontSize: 30, font: raghenFont),
                           ),
                         ),
                   pw.Text(

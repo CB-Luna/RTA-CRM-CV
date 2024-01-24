@@ -71,7 +71,10 @@ class User {
   }
 
   // Both
-  bool get isAdmin => currentUser!.isAdminCrm || currentUser!.isAdminCv;
+  bool get isAdmin =>
+      currentUser!.isAdminCrm ||
+      currentUser!.isAdminCv ||
+      currentUser!.isAdminDashboards;
 
   // CRM
   bool get isCRM =>
@@ -144,6 +147,12 @@ class User {
 
   bool get isDashboardsCareRep =>
       currentUser!.currentRole.roleName == 'Care Rep 1';
+
+  String get currentAppRole => roles
+      .where((role) => role.application == currentUser!.currentRole.application)
+      .toList()
+      .first
+      .roleName;
 
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
