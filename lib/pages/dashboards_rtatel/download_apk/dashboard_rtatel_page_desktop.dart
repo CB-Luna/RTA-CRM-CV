@@ -39,16 +39,16 @@ class _DashboardRtatelPageDesktopState
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final UsersProvider provider = Provider.of<UsersProvider>(
-        context,
-        listen: false,
-      );
-      // provider.pagesearch = false;
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    //   final UsersProvider provider = Provider.of<UsersProvider>(
+    //     context,
+    //     listen: false,
+    //   );
+    //   // provider.pagesearch = false;
 
-      // provider.clearListInstallers(notify: true);
-      await provider.updateState();
-    });
+    //   // provider.clearListInstallers(notify: true);
+    //   await provider.updateState();
+    // });
   }
 
   FToast fToast = FToast();

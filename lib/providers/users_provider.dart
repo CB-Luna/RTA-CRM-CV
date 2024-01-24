@@ -715,7 +715,7 @@ class UsersProvider extends ChangeNotifier {
             'state_fk': selectedState!.id,
           },
         );
-      } else if (currentUser!.isCV) {
+      } else if (currentUser!.isCV || currentUser!.isDashboardsRTATEL) {
         await supabase.from('user_profile').insert(
           {
             'user_profile_id': userId,
