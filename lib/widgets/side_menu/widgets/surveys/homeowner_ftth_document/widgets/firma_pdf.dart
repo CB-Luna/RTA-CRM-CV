@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -50,7 +51,6 @@ class FirmaPDFState extends State<FirmaPDF> {
                   ),
                 ),
               ),
-       
         Padding(
           padding: const EdgeInsets.only(bottom: 10),
           child: CustomTextIconButton(
@@ -62,11 +62,19 @@ class FirmaPDFState extends State<FirmaPDF> {
               color: Colors.red,
             ),
             color: AppTheme.of(context).primaryColor,
-            onTap: () async{
+            onTap: () async {
               provider.clientSignatureController.clear();
               provider.firmaAnexo = false;
               await provider.clientPDF();
             },
+          ),
+        ),
+        Text(
+          'Please draw a signature or select the default signature to continue',
+          style: GoogleFonts.poppins(
+            fontSize: 15,
+            color: const Color(0xFF4D4D4D),
+            fontWeight: FontWeight.normal,
           ),
         ),
       ],

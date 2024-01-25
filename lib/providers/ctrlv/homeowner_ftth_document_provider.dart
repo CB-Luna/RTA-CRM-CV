@@ -69,6 +69,8 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     acountNameController.clear();
     phoneController.clear();
     signatureTextController.clear();
+    pdfController = null;
+    emails.clear();
   }
 
   void agregarContacto() {
@@ -103,8 +105,9 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
           "street": "",
           "city": "",
           "state": "",
-          "zipcode": zipcodeController.text,
-          "email": ""
+          "zipcode": "", //zipcodeController.text,
+          "email": "",
+          "inst": currentUser!.company.company
         },
       );
       var url = Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');
@@ -117,8 +120,9 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       addressController.text = '${docInfo.result!.first.street!}${docInfo.result!.first.city!}${docInfo.result!.first.state!}';
       dateController.text = dateFormat(fecha);
       acountNameController.text = '${docInfo.result!.first.firstName!} ${docInfo.result!.first.lastName!}';
-      phoneController.text = '-';
+      phoneController.text = docInfo.result!.first.mobilePhone!;
       signatureTextController.text = '${docInfo.result!.first.firstName!} ${docInfo.result!.first.lastName!}';
+      zipcodeController.text = currentUser!.company.company;
     } catch (e) {
       search = false;
       log('Error en getInfo() - $e');
@@ -255,6 +259,21 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
 
       await supabase.storage.from('homeowner').updateBinary('$idClient.pdf', documento);
       await supabase.from('homeowner_list').update({'document': '$idClient.pdf'}).eq('id', idClient);
+      //Metodo powercode
+        String body = jsonEncode(
+        {
+          "apikey": "svsvs54sef5se4fsv",
+          "action": "ftthsign_docupload",
+          "customerID": acountController.text,
+          "inst":  zipcodeController.text,
+          "document": "$idClient.pdf"
+        },
+      );
+      var url = Uri.parse('https://apps.cblsrv42.rtatel.com/planbuilder/api'); //Produccion: Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');
+      var response = await http.post(url, body: body);
+      if (response.statusCode == 200) {
+        log((response.body));
+      }
     } catch (e) {
       log('Error en createHomeowner() - $e');
       ejecBloq = false;
