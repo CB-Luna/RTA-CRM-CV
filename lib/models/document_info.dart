@@ -37,6 +37,7 @@ class Result {
     final String? state;
     final String? zipcode;
     final String? email;
+    final String? mobilePhone;
 
     Result({
         this.customerId,
@@ -47,6 +48,7 @@ class Result {
         this.state,
         this.zipcode,
         this.email,
+        this.mobilePhone,
     });
 
     factory Result.fromJson(String str) => Result.fromMap(json.decode(str));
@@ -62,6 +64,7 @@ class Result {
         state: json["state"],
         zipcode: json["zipcode"],
         email: json["email"],
+        mobilePhone:json["mobilePhone"],
     );
 
     Map<String, dynamic> toMap() => {
@@ -73,5 +76,6 @@ class Result {
         "state": state,
         "zipcode": zipcode,
         "email": email,
+        "mobilePhone":mobilePhone,
     };
 }
