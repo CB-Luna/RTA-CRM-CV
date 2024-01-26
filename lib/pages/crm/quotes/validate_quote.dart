@@ -663,10 +663,10 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     onTap: () async {
                                                       if (formKey.currentState!.validate()) {
                                                         if (await provider.validateV2(true)) {
-                                                          if (currentUser!.currentRole.roleName == 'Sen. Exec.') {
+                                                          if (currentUser!.currentRole.id == 9) {
                                                             await provider.senExecAcceptsQuote();
                                                             await provider.senExecAcceptsQuoteSales();
-                                                          } else if (currentUser!.currentRole.roleName == 'Finance') {
+                                                          } else if (currentUser!.currentRole.id == 8) {
                                                             await provider.financeAcceptsQuote();
                                                             await provider.financeAcceptsQuoteSales();
                                                           } else {
