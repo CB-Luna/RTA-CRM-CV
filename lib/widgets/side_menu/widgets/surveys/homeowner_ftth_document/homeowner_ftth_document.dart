@@ -1,7 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
@@ -10,10 +13,13 @@ import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_email.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
+import 'package:rta_crm_cv/widgets/custom_buttom.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
+import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_document/widgets/firma_pdf.dart';
+import 'dart:html' as html;
 
 class HomeOwnerFTTHDocument extends StatefulWidget {
   const HomeOwnerFTTHDocument({super.key});
@@ -33,15 +39,15 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
         context,
         listen: false,
       );
-      provider.emails.clear();
+      await provider.clearAll();
       await provider.crearPDF();
-      /* provider.acountController.text = '9528';
-      provider.zipcodeController.text = '77650';
-      provider.emailController.text = '-';
-      provider.addressController.text = '-';
-      provider.acountNameController.text = '-';
-      provider.phoneController.text = '-';
-      provider.dateController.text = '-'; */
+      /*  provider.acountController.text = '';//'8958';
+      provider.zipcodeController.text = ''; //'77650';
+      provider.emailController.text = '';
+      provider.addressController.text = '';
+      provider.acountNameController.text = '';
+      provider.phoneController.text = '';
+      provider.dateController.text = ''; */
     });
   }
 
@@ -116,21 +122,21 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
                                               CustomTextField(
-                                                width: width * 140,
+                                                width: width * 300,
                                                 enabled: true,
                                                 controller: provider.acountController,
                                                 icon: Icons.settings,
-                                                label: 'Acount Number',
+                                                label: 'Account Number',
                                                 keyboardType: TextInputType.name,
                                               ),
-                                              CustomTextField(
+                                              /*   CustomTextField(
                                                 width: width * 140,
                                                 enabled: true,
                                                 controller: provider.zipcodeController,
                                                 icon: Icons.maps_home_work,
                                                 label: 'Zip Code',
                                                 keyboardType: TextInputType.name,
-                                              ),
+                                              ), */
                                               CustomTextIconButton(
                                                 text: 'Search',
                                                 isLoading: false,
@@ -157,7 +163,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                                 enabled: true,
                                                 controller: provider.emailController,
                                                 icon: Icons.email,
-                                                label: 'Acount Email',
+                                                label: 'Account Email',
                                                 keyboardType: TextInputType.emailAddress,
                                               ),
                                               CustomTextIconButton(
@@ -236,7 +242,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                             enabled: false,
                                             controller: provider.acountNameController,
                                             icon: Icons.person_pin,
-                                            label: 'Acount Name',
+                                            label: 'Account Name',
                                             keyboardType: TextInputType.name,
                                           ),
                                         ),
@@ -244,7 +250,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: CustomTextField(
                                             width: width * 380,
-                                            enabled: true,
+                                            enabled: false,
                                             controller: provider.phoneController,
                                             icon: Icons.phone,
                                             label: 'Phone Number',
@@ -267,6 +273,73 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                             },
                                           ),
                                         ),
+                                        /*       Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomTextIconButton(
+                                            width: width * 120,
+                                            text: 'Popup Preview',
+                                            isLoading: false,
+                                            icon: Icon(
+                                              Icons.refresh,
+                                              color: AppTheme.of(context).primaryBackground,
+                                            ),
+                                            color: AppTheme.of(context).primaryColor,
+                                            onTap: () async {
+                                              showDialog(
+                                                context: context, barrierDismissible: true, // Impide cerrar el diálogo tocando fuera de él
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    key: UniqueKey(),
+                                                    backgroundColor: Colors.transparent,
+                                                    shadowColor: Colors.transparent,
+                                                    content: Container(
+                                                      width: width * 420,
+                                                      height: height * 150,
+                                                      decoration: BoxDecoration(
+                                                        gradient: whiteGradient,
+                                                        borderRadius: const BorderRadius.all(
+                                                          Radius.circular(21),
+                                                        ),
+                                                      ),
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          const Spacer(),
+                                                          Text(
+                                                            'Document sent successfully',
+                                                            textAlign: TextAlign.center,
+                                                            style: AppTheme.of(context).title1.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: Colors.green),
+                                                          ),
+                                                          const Spacer(),
+                                                          CustomButton(
+                                                            text: 'Close Page',
+                                                            icon: const Icon(Icons.close),
+                                                            options: ButtonOptions(
+                                                              color: AppTheme.of(context).primaryColor,
+                                                              iconColor: AppTheme.of(context).primaryBackground,
+                                                              textStyle: AppTheme.of(context).title1.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: Colors.white),
+                                                              iconSize: 35
+                                                            ),
+                                                            onPressed: () {
+                                                              // Cierra la página actual
+                                                              //html.window.close();
+
+                                                              // O redirecciona a una URL específica
+                                                              html.window.location.assign('https://rtatel.com/');
+                                                            },
+                                                          ),
+                                                          const Spacer()
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                   */
                                       ],
                                     ),
                                   ),
@@ -275,13 +348,28 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                   width: width * 380,
                                   child: CheckboxListTile(
                                     contentPadding: EdgeInsets.zero,
-                                    title: Text(
-                                      'I agree to use the default signature',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        color: const Color(0xFF4D4D4D),
-                                        fontWeight: FontWeight.normal,
-                                      ),
+                                    title: Row(
+                                      children: [
+                                       const Padding(
+                                          padding:  EdgeInsets.only(right: 5),
+                                          child:  Tooltip(
+                                            message: 'The default signature is created based on the account name in an italic format',
+                                            child: Icon(Icons.info, size: 20),
+                                          ),
+                                        ),
+                                        Text(
+                                          'I agree to use the default signature:',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 15,
+                                            color: const Color(0xFF4D4D4D),
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        Text(
+                                          provider.acountNameController.text,
+                                          style: const TextStyle(fontSize: 30, fontFamily: 'Raghen'),
+                                        ),
+                                      ],
                                     ),
                                     value: provider.firmacheck,
                                     onChanged: (value) async {
@@ -304,7 +392,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                           child: const FirmaPDF(),
                                         ),
                                       )
-                                    : */
+                                    :  */
                                 SizedBox(
                                   height: height * 235,
                                 ),
@@ -317,34 +405,95 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                         icon: Icon(Icons.email, color: AppTheme.of(context).primaryBackground),
                                         text: 'Send Document',
                                         onTap: () async {
-                                          if (await provider.createHomeowner()) {
-                                            if (!mounted) return;
-                                            Fluttertoast.showToast(
-                                              msg: 'sent successfully',
-                                              gravity: ToastGravity.CENTER,
-                                              timeInSecForIosWeb: 4,
-                                              backgroundColor: AppTheme.of(context).primaryColor,
-                                              textColor: AppTheme.of(context).primaryBackground,
-                                              fontSize: 16.0,
-                                              webBgColor: "linear-gradient(to right, #0XFF2E78FF, #0x00FFFFFF)",
-                                              webPosition: "center",
-                                            );
-                                            setState(() {
-                                              provider.ejecBloq = false;
-                                            });
-                                          } else {
-                                            if (!mounted) return;
-                                            Fluttertoast.showToast(
-                                              msg: 'sent error',
-                                              gravity: ToastGravity.CENTER,
-                                              timeInSecForIosWeb: 4,
-                                              backgroundColor: AppTheme.of(context).secondaryColor,
-                                              textColor: AppTheme.of(context).primaryBackground,
-                                              fontSize: 16.0,
-                                              webBgColor: "linear-gradient(to right, #B2333A, #4D4D4D)",
-                                              webPosition: "center",
-                                            );
-                                          }
+                                          await provider.crearPDF();
+                                          Completer<bool> completer = Completer<bool>();
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: false, // Impide cerrar el diálogo tocando fuera de él
+                                            builder: (BuildContext context) {
+                                              return StatefulBuilder(
+                                                builder: (BuildContext context, StateSetter setState) {
+                                                  return AlertDialog(
+                                                    key: UniqueKey(),
+                                                    backgroundColor: Colors.transparent,
+                                                    shadowColor: Colors.transparent,
+                                                    content: Container(
+                                                      width: width * 420,
+                                                      height: height * 150,
+                                                      decoration: BoxDecoration(
+                                                        gradient: whiteGradient,
+                                                        borderRadius: const BorderRadius.all(
+                                                          Radius.circular(21),
+                                                        ),
+                                                      ),
+                                                      child: FutureBuilder<bool>(
+                                                        future: completer.future,
+                                                        builder: (context, snapshot) {
+                                                          if (snapshot.connectionState == ConnectionState.waiting) {
+                                                            return Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                Text(
+                                                                  'Uploading File Please Wait...',
+                                                                  textAlign: TextAlign.center,
+                                                                  style: AppTheme.of(context).title1,
+                                                                ),
+                                                                const CircularProgressIndicator()
+                                                              ],
+                                                            );
+                                                          } else {
+                                                            if (snapshot.hasError || snapshot.data == false) {
+                                                              return Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                children: [
+                                                                  Text(
+                                                                    'Error Uploading File',
+                                                                    textAlign: TextAlign.center,
+                                                                    style: AppTheme.of(context).title1.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: Colors.red),
+                                                                  ),
+                                                                  const Icon(
+                                                                    Icons.error,
+                                                                    color: Colors.red,
+                                                                    size: 30,
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            } else {
+                                                              return Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                children: [
+                                                                  Text(
+                                                                    'Document sent successfully',
+                                                                    textAlign: TextAlign.center,
+                                                                    style: AppTheme.of(context).title1.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false, color: Colors.green),
+                                                                  ),
+                                                                  const Icon(
+                                                                    Icons.check,
+                                                                    color: Colors.green,
+                                                                    size: 30,
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            }
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          );
+                                          // Realiza el trabajo asincrónico
+                                          bool success = await provider.createHomeowner();
+                                          // Completa el Future con el resultado del trabajo
+                                          completer.complete(success);
+                                          // Cierra el diálogo después de un tiempo
+                                          await Future.delayed(const Duration(seconds: 3));
+                                          Navigator.pop(context); // Cierra el diálogo
                                           context.pushReplacement(homeownerFTTHDocumentList);
                                         },
                                       ),
