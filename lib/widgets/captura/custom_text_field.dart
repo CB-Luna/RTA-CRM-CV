@@ -18,6 +18,7 @@ class CustomTextField extends StatefulWidget {
     this.onChanged,
     this.maxLength,
     this.validator,
+    this.hint,
   });
 
   final String label;
@@ -32,6 +33,7 @@ class CustomTextField extends StatefulWidget {
   final Function(String)? onDone;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
+  final String? hint;
 
   final int? maxLength;
 
@@ -65,32 +67,46 @@ class _CustomTextFieldState extends State<CustomTextField> {
           keyboardType: widget.keyboardType,
           inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
+            hintText: widget.hint,
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: AppTheme.of(context).primaryText),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppTheme.of(context).primaryColor, width: 0.5),
+              borderSide: BorderSide(
+                  color: AppTheme.of(context).primaryColor, width: 0.5),
               borderRadius: BorderRadius.circular(5),
             ),
             disabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
+              borderSide:
+                  BorderSide(color: Color(Colors.grey[350]!.value), width: 0.5),
               borderRadius: BorderRadius.circular(5),
             ),
             errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppTheme.of(context).secondaryColor, width: 0.5),
+              borderSide: BorderSide(
+                  color: AppTheme.of(context).secondaryColor, width: 0.5),
               borderRadius: BorderRadius.circular(5),
             ),
             prefixIcon: Icon(widget.icon),
-            prefixIconColor: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color,
+            prefixIconColor: widget.enabled
+                ? AppTheme.of(context).primaryColor
+                : AppTheme.of(context).hintText.color,
             label: RichText(
               text: TextSpan(
                 text: widget.label,
-                style: TextStyle(fontSize: 14, color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
+                style: TextStyle(
+                    fontSize: 14,
+                    color: widget.enabled
+                        ? AppTheme.of(context).primaryColor
+                        : AppTheme.of(context).hintText.color),
                 children: widget.required
                     ? [
                         TextSpan(
                           text: ' *',
-                          style: TextStyle(fontSize: 14, color: widget.enabled ? AppTheme.of(context).secondaryColor : AppTheme.of(context).hintText.color),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: widget.enabled
+                                  ? AppTheme.of(context).secondaryColor
+                                  : AppTheme.of(context).hintText.color),
                         )
                       ]
                     : null,

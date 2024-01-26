@@ -136,6 +136,7 @@ class InventoryProvider extends ChangeNotifier {
   Uint8List? webImage;
   Uint8List? webImageClear;
   String? placeHolderImage;
+  int? idActualProblem;
 
   String? imagepicked;
   IssuesXUser? actualIssueXUser;
@@ -420,9 +421,16 @@ class InventoryProvider extends ChangeNotifier {
       problems = (res as List<dynamic>)
           .map((prob) => Problem.fromJson(jsonEncode(prob)))
           .toList();
-      print(problems.last.problem);
-      print(
-          "El ID del  vehiculo con problemas es: ${problems.last.idVehicleFk}");
+
+      if (problems.isNotEmpty) {
+        print(problems.last.problem);
+        idActualProblem = problems.last.idProblem;
+        print("El idActualproblem es $idActualProblem");
+        print(
+            "El ID del  vehiculo con problemas es: ${problems.last.idVehicleFk}");
+      } else {
+        print("The list of problems are EMPTY");
+      }
       notifyListeners();
     } catch (e) {
       print("Error in getProblemVehicle $e");
@@ -802,7 +810,7 @@ class InventoryProvider extends ChangeNotifier {
           'resolved': false,
           'id_vehicle_fk': vehicle.idVehicle,
         });
-      } else {
+      } else if (statusSelectedUpdate!.statusId == 3) {
         await supabaseCtrlV.from('problems').insert({
           'created_at': DateTime.now().toIso8601String(),
           'problem': problemControllerUpdate.text,
@@ -811,6 +819,9 @@ class InventoryProvider extends ChangeNotifier {
           'id_vehicle_fk': vehicle.idVehicle,
           'resolved_date': serviceDateControllerAvailable.text
         });
+        await supabaseCtrlV.from('problems').update({
+          'resolved': true,
+        }).eq('id_problem', idActualProblem);
       }
       notifyListeners();
 

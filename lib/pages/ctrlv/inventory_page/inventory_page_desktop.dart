@@ -709,6 +709,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                               //     .text = "";
                                               provider.getProblemVehicle(
                                                   rendererContext.cell.value);
+                                              provider.problemControllerUpdate
+                                                  .clear();
                                               provider.visibilty = false;
                                               // ignore: use_build_context_synchronously
                                               await showDialog(
