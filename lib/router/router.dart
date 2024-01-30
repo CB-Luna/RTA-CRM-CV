@@ -434,6 +434,21 @@ final GoRouter router = GoRouter(
       // (context, state, const DetailsPopUp()),
     ),
     GoRoute(
+      path: '/dashboard-page',
+      name: 'dashboard_page',
+      builder: (BuildContext context, GoRouterState state) {
+        if (currentUser!.isDashboardsBank3) return const PageNotFoundPage();
+        final String? source = state.queryParameters['source'];
+        if (source == null) return const PageNotFoundPage();
+        final String? title = state.queryParameters['title'];
+        if (title == null) return const PageNotFoundPage();
+        return DashboardsRtatelPage(
+          title: title,
+          source: "https://cblsrvr1.rtatel.com/dash/#$source",
+        );
+      },
+    ),
+    GoRoute(
       path: newConfiguratorStats,
       name: 'New Configurator Stats',
       builder: (BuildContext context, GoRouterState state) {

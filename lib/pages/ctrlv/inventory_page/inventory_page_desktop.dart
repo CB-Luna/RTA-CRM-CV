@@ -533,9 +533,12 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                   type: PlutoColumnType.text(),
                                   enableEditingMode: false,
                                   renderer: (rendererContext) {
+                                    // return PlutoGridCompanyCellCV(
+                                    //   text: rendererContext.cell.value,
+                                    // );
                                     return PlutoGridCompanyCellCV(
-                                      text: rendererContext.cell.value,
-                                    );
+                                        companies:
+                                            rendererContext.cell.value ?? "-");
                                   },
                                 ),
                                 PlutoColumn(

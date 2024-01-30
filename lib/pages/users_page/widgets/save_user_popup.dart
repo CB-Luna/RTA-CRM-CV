@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/user.dart';
+import 'package:rta_crm_cv/pages/users_page/widgets/company_selector_widget.dart';
 import 'package:rta_crm_cv/pages/users_page/widgets/role_selector_widget.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/get_image_widget.dart';
@@ -209,28 +210,33 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
                         },
                       ),
                     ),
+
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: RoleSelectorWidget(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CustomDDownMenu(
-                        hint: 'Choose a Company*',
-                        label: 'Company',
-                        icon: Icons.warehouse_outlined,
-                        width: 350,
-                        list: companyNames,
-                        dropdownValue: provider.selectedCompany?.company,
-                        onChanged: (val) async {
-                          if (val == null) return;
-                          provider.selectCompany(val);
-                          if (val != "RTA") {
-                            await provider.getVehicleActive(val, notify: true);
-                          }
-                        },
-                      ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: CompanySelectorWidget(),
                     ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(vertical: 10),
+                    //   child: CustomDDownMenu(
+                    //     hint: 'Choose a Company*',
+                    //     label: 'Company',
+                    //     icon: Icons.warehouse_outlined,
+                    //     width: 350,
+                    //     list: companyNames,
+                    //     dropdownValue: provider.selectedCompany?.company,
+                    //     onChanged: (val) async {
+                    //       if (val == null) return;
+                    //       provider.selectCompany(val);
+                    //       if (val != "RTA") {
+                    //         await provider.getVehicleActive(val, notify: true);
+                    //       }
+                    //     },
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: CustomDDownMenu(
@@ -378,6 +384,12 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
                     await ApiErrorHandler.callToast('Error adding roles');
                     return;
                   }
+                  // addCompany
+                  res = await provider.addCompany(userId);
+                  if (!res) {
+                    await ApiErrorHandler.callToast('Error adding companies');
+                    return;
+                  }
 
                   await provider.updateVehicleStatus();
 
@@ -405,6 +417,12 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
                   res = await provider.editRoles(widget.user!);
                   if (!res) {
                     await ApiErrorHandler.callToast('Error updating roles');
+                    return;
+                  }
+
+                  res = await provider.editCompanys(widget.user!);
+                  if (!res) {
+                    await ApiErrorHandler.callToast('Error updating companies');
                     return;
                   }
 

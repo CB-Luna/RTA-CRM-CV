@@ -34,6 +34,7 @@ class UsersProvider extends ChangeNotifier {
   List<Role> roles = [];
   List<Company> companies = [];
   List<Role> selectedRoles = [];
+  List<Company> selectedCompanies = [];
   Company? selectedCompany;
   List<State> states = [];
   List<UserRole> usersRoleInstallers = [];
@@ -81,7 +82,8 @@ class UsersProvider extends ChangeNotifier {
     addressController.text = user.address;
     selectedState = user.state;
     selectedRoles = [...user.roles];
-    selectedCompany = user.company;
+    selectedCompanies = [...user.companies];
+    // selectedCompany = user.company;
     selectedVehicle = null;
     selectedStatus = user.status ?? "Not Active";
   }
@@ -109,6 +111,13 @@ class UsersProvider extends ChangeNotifier {
   void setSelectedRoles(List<String> roles) {
     selectedRoles =
         this.roles.where((role) => roles.contains(role.roleName)).toList();
+    notifyListeners();
+  }
+
+  void setSelectedCompany(List<String> compa) {
+    selectedCompanies =
+        // ignore: unnecessary_this
+        this.companies.where((comp) => compa.contains(comp.company)).toList();
     notifyListeners();
   }
 
@@ -326,6 +335,66 @@ class UsersProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> addCompany(String userId) async {
+    try {
+      for (final Company company in selectedCompanies) {
+        await supabase.from('user_company').insert(
+          {
+            'user_fk': userId,
+            'company_fk': company.id,
+          },
+        );
+      }
+      return true;
+    } catch (e) {
+      log('Error en addCompany() - $e');
+      return false;
+    }
+  }
+
+  Future<bool> editCompanys(User editedUser) async {
+    //Se inicializan los paises a agregar (todos)
+    final List<Company> addedCompanies = [...selectedCompanies];
+    //Se inicializan los paises a eliminar (todos)
+    final List<Company> deletedCompanies = [...editedUser.companies];
+
+    for (Company company in selectedCompanies) {
+      //seleccionados - usuario
+      //[a,b,c] - [d] => [a,b,c] - [d]
+      //[a,b,c] - [a,b] => [c] - []
+      //[a,b,c] - [a,b,d] => [c] - [d]
+      //[d] - [a,b] => [d] - [a,b]
+      if (editedUser.companies.contains(company)) {
+        //Si lo contiene, se elimina de los roles a agregar
+        addedCompanies.remove(company);
+        //Si lo contiene, se elimina de los roles a eliminar
+        deletedCompanies.remove(company);
+      }
+    }
+
+    for (final Company company in deletedCompanies) {
+      await supabase
+          .from('user_company')
+          .delete()
+          .eq('user_fk', editedUser.id)
+          .eq(
+            'company_fk',
+            company.id,
+          );
+    }
+
+    for (final Company company in addedCompanies) {
+      await supabase.from('user_company').insert(
+        {
+          'user_fk': editedUser.id,
+          'company_fk': company.id,
+        },
+      );
+    }
+
+    return true;
+  }
+
   Future<void> getRoles({bool notify = true}) async {
     final res = await supabase.rpc('get_roles',
         params: {'application': currentUser!.currentRole.application});
@@ -408,20 +477,28 @@ class UsersProvider extends ChangeNotifier {
     if (notify) notifyListeners();
   }
 
+  // Esta función lo que hace es muestra los vehiculos que sean del mismo company que el usuario.
   Future<void> getVehicleActiveInit(User users, {bool notify = true}) async {
     try {
-      final resC = await supabase
-          .from('company')
-          .select()
-          .eq('company', users.company.company);
+      List<int> companyIds =
+          users.companies.map((Company company) => company.id).toList();
 
-      final company = (resC as List<dynamic>);
+      // final resC =
+      //     await supabase.from('company').select().in_('id_company', companyIds);
+
+      // final company = (resC as List<dynamic>);
+
+      // // final res = await supabaseCtrlV
+      //     .from('inventory_view')
+      //     .select()
+      //     .eq('status ->id_status', 3)
+      //     .eq('company ->id_company', company.first["id_company"]);
 
       final res = await supabaseCtrlV
           .from('inventory_view')
           .select()
           .eq('status ->id_status', 3)
-          .eq('company ->id_company', company.first["id_company"]);
+          .in_('company ->id_company', companyIds);
 
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
@@ -507,7 +584,7 @@ class UsersProvider extends ChangeNotifier {
               'MOBILE_Column': PlutoCell(value: user.mobilePhone),
               'ADDRESS_Column': PlutoCell(value: user.address),
               'STATE_Column': PlutoCell(value: user.state.name),
-              'COMPANY_Column': PlutoCell(value: user.company.company),
+              'COMPANY_Column': PlutoCell(value: user.companies),
               'STATUS_Column': PlutoCell(value: user.status),
               'LicenseP_Column': PlutoCell(value: user.licensePlates),
               'LICENSE_Column': PlutoCell(value: user.license),
@@ -629,7 +706,7 @@ class UsersProvider extends ChangeNotifier {
         'birthdate': DateTime.now().toIso8601String(),
         'state_fk': selectedState?.id ?? users.state.id,
         'id_vehicle_fk': selectedVehicle?.idVehicle ?? users.idVehicle,
-        'id_company_fk': selectedCompany?.id ?? users.company.id,
+        // 'id_company_fk': selectedCompany?.id ?? users.company.id,
         'status': selectedStatus,
         'license': licenseController.text,
         'certification': certificationController.text
@@ -829,20 +906,31 @@ class UsersProvider extends ChangeNotifier {
 
     //Filtrat por compania
     if (companySel != "All") {
+      print("La compania seleccionada es: $companySel");
       for (int x = 0; x < users.length; x++) {
-        if (users[x].company.company == companySel) {
+        List<String> listCompanySel = [];
+        users[x].companies.forEach((company) {
+          listCompanySel.add(company.company);
+        });
+        if (listCompanySel.contains(companySel)) {
           selectedComp.add(users[x]);
         }
+        // if (companySel == listCompanySel) {
+        //   selectedComp.add(users[x]);
+        // }
       }
     } else {
       selectedComp = users;
     }
+
     //Agregar datos
     for (int i = 0; i < selectedComp.length; i++) {
       //Sortear por Compania
-
       User report = selectedComp[i];
-
+      List<String> listCompany = [];
+      report.companies.forEach((company) {
+        listCompany.add(company.company);
+      });
       final List<dynamic> row = [
         report.sequentialId,
         report.name,
@@ -851,7 +939,8 @@ class UsersProvider extends ChangeNotifier {
         report.email,
         report.mobilePhone,
         report.state.name,
-        report.company.company,
+        // report.companies,
+        listCompany,
         report.status,
         report.license,
         report.certification,
