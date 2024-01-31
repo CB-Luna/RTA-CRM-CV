@@ -199,7 +199,7 @@ class _LoginDropDownState<T> extends State<LoginDropDown<T>> {
           ),
           Container(
             width: widget.width,
-            height: 32,
+            height: 40,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: AppTheme.of(context).primaryBackground,

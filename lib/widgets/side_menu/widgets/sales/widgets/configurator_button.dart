@@ -20,7 +20,7 @@ class _ConfiguratorButtonState extends State<ConfiguratorButton> {
 
   @override
   Widget build(BuildContext context) {
-    final userPermissions = currentUser!;
+    final userPermissions = currentUser!.currentRole.permissions;
     return MouseRegion(
       child: PortalTarget(
         visible: widget.hover,
@@ -42,7 +42,7 @@ class _ConfiguratorButtonState extends State<ConfiguratorButton> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      userPermissions.isAdminDashboards
+                      userPermissions.configuratorStats != null
                           ? ListTile(
                               title: Text(
                                 'Configurator Stats',
@@ -60,7 +60,7 @@ class _ConfiguratorButtonState extends State<ConfiguratorButton> {
                                   .withOpacity(0.4),
                             )
                           : const SizedBox.shrink(),
-                      userPermissions.isAdminDashboards
+                      userPermissions.noCoverageLeads != null
                           ? ListTile(
                               title: Text(
                                 'No Coverage Leads',
@@ -80,7 +80,7 @@ class _ConfiguratorButtonState extends State<ConfiguratorButton> {
                                   .withOpacity(0.4),
                             )
                           : const SizedBox.shrink(),
-                      userPermissions.isAdminDashboards
+                      userPermissions.newConfiguratorStats != null
                           ? ListTile(
                               title: Text(
                                 'New Configurator Stats',
@@ -98,7 +98,7 @@ class _ConfiguratorButtonState extends State<ConfiguratorButton> {
                                   .withOpacity(0.4),
                             )
                           : const SizedBox.shrink(),
-                      userPermissions.isAdminDashboards
+                      userPermissions.referralsTracking != null
                           ? ListTile(
                               title: Text(
                                 'Referrals Tracking',
