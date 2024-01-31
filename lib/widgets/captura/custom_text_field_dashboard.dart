@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
-class CustomTextField extends StatefulWidget {
-  const CustomTextField({
+class CustomTextFieldDashboard extends StatefulWidget {
+  const CustomTextFieldDashboard({
     super.key,
     this.width = 150,
     this.height = 45,
@@ -38,10 +38,11 @@ class CustomTextField extends StatefulWidget {
   final int? maxLength;
 
   @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
+  State<CustomTextFieldDashboard> createState() =>
+      _CustomTextFieldDashboardState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class _CustomTextFieldDashboardState extends State<CustomTextFieldDashboard> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -50,7 +51,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: AppTheme.of(context).primaryBackground,
+          // color: AppTheme.of(context).primaryBackground,
+          color: Colors.blue[100],
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -73,7 +75,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                  color: AppTheme.of(context).primaryColor, width: 0.5),
+                  // color: AppTheme.of(context).primaryColor, width: 0.5),
+                  color: Colors.white,
+                  width: 0.5),
               borderRadius: BorderRadius.circular(5),
             ),
             disabledBorder: OutlineInputBorder(

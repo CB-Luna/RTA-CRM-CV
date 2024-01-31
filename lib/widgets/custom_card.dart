@@ -34,7 +34,8 @@ class _CustomCardState extends State<CustomCard> {
         height: widget.height,
         width: widget.width,
         decoration: BoxDecoration(
-          border: Border.all(color: AppTheme.of(context).primaryColor, width: 2),
+          border:
+              Border.all(color: AppTheme.of(context).primaryColor, width: 2),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(40),
             topRight: Radius.circular(15),

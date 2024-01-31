@@ -28,10 +28,11 @@ class _RoleSelectorWidgetState extends State<RoleSelectorWidget> {
         ),
       );
     } else {
-      final List<String> rolesNames = provider.roles.map((role) => role.roleName).toList();
+      final List<String> rolesNames =
+          provider.roles.map((role) => role.roleName).toList();
 
-      final List<String> selectedRolesNames = provider.selectedRoles.map((role) => role.roleName).toList();
-
+      final List<String> selectedRolesNames =
+          provider.selectedRoles.map((role) => role.roleName).toList();
       return MultiSelectDialogField(
         key: GlobalKey(),
         items: rolesNames.map((role) => MultiSelectItem(role, role)).toList(),
