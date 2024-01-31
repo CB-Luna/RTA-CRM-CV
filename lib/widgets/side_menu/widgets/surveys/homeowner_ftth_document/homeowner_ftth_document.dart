@@ -12,6 +12,7 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown_v2.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_email.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_buttom.dart';
@@ -42,6 +43,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
       );
       await provider.clearAll();
       await provider.crearPDF();
+      await provider.getCompany();
       /*  provider.acountController.text = '';//'8958';
       provider.zipcodeController.text = ''; //'77650';
       provider.emailController.text = '';
@@ -117,6 +119,21 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                     title: 'Document Info',
                                     child: Column(
                                       children: [
+                                       /*  Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomDDownMenu(
+                                            enabled: true,
+                                            list: provider.companyList.map((type) => type.company).toList(),
+                                            //provider.sadasdasda.map((comment) => comment.comment).toList(),
+                                            label: 'Company',
+                                            onChanged: (p0) {
+                                              if (p0 != null) provider.selectOT(p0);
+                                            },
+                                            dropdownValue: provider.companySelectedValue,
+                                            icon: Icons.store,
+                                            width: width * 380,
+                                          ),
+                                        ), */
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: Row(

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -35,6 +36,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
         listen: false,
       );
       await provider.getHomeowner();
+      print(currentUser!.companies.first.company);
     });
   }
 
