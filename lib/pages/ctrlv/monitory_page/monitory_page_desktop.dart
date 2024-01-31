@@ -88,20 +88,25 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                       height: 20,
                     ),
                     Container(
-                      padding: const EdgeInsets.only(top: 10, bottom: 40, right: 10),
+                      padding:
+                          const EdgeInsets.only(top: 10, bottom: 40, right: 10),
                       //color: Colors.red,
                       height: MediaQuery.of(context).size.height * 0.5,
                       child: const Calendario(),
                     ),
                     Container(
-                      padding: const EdgeInsets.only(top: 10, bottom: 40, right: 10),
+                      padding:
+                          const EdgeInsets.only(top: 10, bottom: 40, right: 10),
                       //color: Colors.red,
                       height: MediaQuery.of(context).size.height * 0.4,
-                      child: CustomAgenda(width: MediaQuery.of(context).size.width - 300),
+                      child: CustomAgenda(
+                          width: MediaQuery.of(context).size.width - 300),
                     ),
 
                     // Titulo de la tabla
-                    Padding(padding: const EdgeInsets.only(bottom: 10), child: MonitoryPageHeader()),
+                    Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: MonitoryPageHeader()),
 
                     // monitoryProvider.monitory.isEmpty
                     //     ? const CircularProgressIndicator()
@@ -122,7 +127,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                 ...FilterHelper.defaultFilters,
                               ],
                               resolveDefaultColumnFilter: (column, resolver) {
-                                return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
+                                return resolver<PlutoFilterTypeContains>()
+                                    as PlutoFilterType;
                               },
                             ),
                           ),
@@ -143,7 +149,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       child: SizedBox(
                                     width: 10,
                                   )),
-                                  TextSpan(text: 'License Plates', style: TextStyle(color: Colors.white, fontSize: 22)),
+                                  TextSpan(
+                                      text: 'License Plates',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 22)),
                                 ],
                               ),
                               width: MediaQuery.of(context).size.width * 0.16,
@@ -164,7 +173,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       CustomIconButton(
-                                        icon: Icons.keyboard_arrow_down_outlined,
+                                        icon:
+                                            Icons.keyboard_arrow_down_outlined,
                                         toolTip: 'less',
                                         onTap: () {
                                           monitoryProvider.setPageSize('less');
@@ -172,8 +182,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       ),
                                       const SizedBox(width: 10),
                                       Text(
-                                        monitoryProvider.pageRowCount.toString(),
-                                        style: const TextStyle(color: Colors.white),
+                                        monitoryProvider.pageRowCount
+                                            .toString(),
+                                        style: const TextStyle(
+                                            color: Colors.white),
                                       ),
                                       const SizedBox(width: 10),
                                       CustomIconButton(
@@ -205,7 +217,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       child: SizedBox(
                                     width: 10,
                                   )),
-                                  TextSpan(text: 'Status', style: TextStyle(color: Colors.white, fontSize: 22)),
+                                  TextSpan(
+                                      text: 'Status',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 22)),
                                 ],
                               ),
                               width: MediaQuery.of(context).size.width * 0.11,
@@ -216,7 +231,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                               enableEditingMode: false,
                               backgroundColor: const Color(0XFF6491F7),
                               renderer: (rendererContext) {
-                                return PlutoGridStatusCellCV(text: rendererContext.cell.value);
+                                return PlutoGridStatusCellCV(
+                                    text: rendererContext.cell.value);
                               },
                               footerRenderer: (context) {
                                 return SizedBox(
@@ -233,7 +249,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       ),
                                       const SizedBox(width: 2),
                                       CustomIconButton(
-                                        icon: Icons.keyboard_arrow_left_outlined,
+                                        icon:
+                                            Icons.keyboard_arrow_left_outlined,
                                         toolTip: 'previous',
                                         onTap: () {
                                           monitoryProvider.setPage('previous');
@@ -253,7 +270,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       ),
                                       const SizedBox(width: 5),
                                       CustomIconButton(
-                                        icon: Icons.keyboard_arrow_right_outlined,
+                                        icon:
+                                            Icons.keyboard_arrow_right_outlined,
                                         toolTip: 'next',
                                         onTap: () {
                                           monitoryProvider.setPage('next');
@@ -289,7 +307,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       child: SizedBox(
                                     width: 10,
                                   )),
-                                  TextSpan(text: 'Employee', style: TextStyle(color: Colors.white, fontSize: 22)),
+                                  TextSpan(
+                                      text: 'Employee',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 22)),
                                 ],
                               ),
                               width: MediaQuery.of(context).size.width * 0.1,
@@ -321,7 +342,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       child: SizedBox(
                                     width: 10,
                                   )),
-                                  TextSpan(text: 'VIN', style: TextStyle(color: Colors.white, fontSize: 22)),
+                                  TextSpan(
+                                      text: 'VIN',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 22)),
                                 ],
                               ),
                               width: MediaQuery.of(context).size.width * 0.12,
@@ -335,8 +359,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                 return Container(
                                   height: rowHeight,
                                   // width: rendererContext.cell.column.width,
-                                  decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value)),
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(rendererContext.cell.value)),
                                 );
                               },
                             ),
@@ -356,7 +382,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       child: SizedBox(
                                     width: 10,
                                   )),
-                                  TextSpan(text: 'Company', style: TextStyle(color: Colors.white, fontSize: 22)),
+                                  TextSpan(
+                                      text: 'Company',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 22)),
                                 ],
                               ),
                               width: MediaQuery.of(context).size.width * 0.11,
@@ -367,9 +396,12 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                               enableEditingMode: false,
                               backgroundColor: const Color(0XFF6491F7),
                               renderer: (rendererContext) {
+                                // return PlutoGridCompanyCellCV(
+                                //   text: rendererContext.cell.value,
+                                // );
                                 return PlutoGridCompanyCellCV(
-                                  text: rendererContext.cell.value,
-                                );
+                                    companies:
+                                        rendererContext.cell.value ?? "-");
                               },
                             ),
                             PlutoColumn(
@@ -388,7 +420,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       child: SizedBox(
                                     width: 10,
                                   )),
-                                  TextSpan(text: 'Check Out', style: TextStyle(color: Colors.white, fontSize: 22)),
+                                  TextSpan(
+                                      text: 'Check Out',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 22)),
                                 ],
                               ),
                               width: MediaQuery.of(context).size.width * 0.13,
@@ -402,8 +437,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                 return Container(
                                   height: rowHeight,
                                   // width: rendererContext.cell.column.width,
-                                  decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value)),
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(rendererContext.cell.value)),
                                 );
                               },
                             ),
@@ -423,7 +460,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       child: SizedBox(
                                     width: 10,
                                   )),
-                                  TextSpan(text: 'Check In', style: TextStyle(color: Colors.white, fontSize: 22)),
+                                  TextSpan(
+                                      text: 'Check In',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 22)),
                                 ],
                               ),
                               width: MediaQuery.of(context).size.width * 0.1,
@@ -437,8 +477,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                 return Container(
                                   height: rowHeight,
                                   // width: rendererContext.cell.column.width,
-                                  decoration: BoxDecoration(gradient: whiteGradient),
-                                  child: Center(child: Text(rendererContext.cell.value)),
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
+                                  child: Center(
+                                      child: Text(rendererContext.cell.value)),
                                 );
                               },
                             ),
@@ -457,7 +499,10 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                       child: SizedBox(
                                     width: 10,
                                   )),
-                                  TextSpan(text: 'Actions', style: TextStyle(color: Colors.white, fontSize: 22)),
+                                  TextSpan(
+                                      text: 'Actions',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 22)),
                                 ],
                               ),
                               width: 200,
@@ -469,26 +514,35 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                               renderer: (rendererContext) {
                                 return Container(
                                   height: rowHeight,
-                                  decoration: BoxDecoration(gradient: whiteGradient),
+                                  decoration:
+                                      BoxDecoration(gradient: whiteGradient),
                                   child: Center(
                                       child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       CustomTextIconButton(
                                         isLoading: false,
-                                        icon: Icon(Icons.remove_red_eye_outlined, color: AppTheme.of(context).primaryBackground),
+                                        icon: Icon(
+                                            Icons.remove_red_eye_outlined,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground),
                                         text: "Details",
                                         onTap: () async {
-                                          if (await monitoryProvider.getIssues(rendererContext.cell.value) == true) {
-                                            monitoryProvider.getMonitoryVehicle(rendererContext.cell.value);
-                                            monitoryProvider.initializeViewPopup();
+                                          if (await monitoryProvider.getIssues(
+                                                  rendererContext.cell.value) ==
+                                              true) {
+                                            monitoryProvider.getMonitoryVehicle(
+                                                rendererContext.cell.value);
+                                            monitoryProvider
+                                                .initializeViewPopup();
 
                                             // ignore: use_build_context_synchronously
                                             await showDialog(
                                                 context: context,
                                                 builder: (context) {
                                                   return DetailsPop(
-                                                    vehicle: rendererContext.cell.value,
+                                                    vehicle: rendererContext
+                                                        .cell.value,
                                                   );
                                                 });
                                           } else {
@@ -500,7 +554,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                                     height: 200,
                                                     width: 200,
                                                     child: Center(
-                                                      child: Text("No issues found"),
+                                                      child: Text(
+                                                          "No issues found"),
                                                     ),
                                                   );
                                                 });
@@ -515,7 +570,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                           ],
                           rows: monitoryProvider.rows,
                           createFooter: (stateManager) {
-                            stateManager.setPageSize(monitoryProvider.pageRowCount);
+                            stateManager
+                                .setPageSize(monitoryProvider.pageRowCount);
                             stateManager.setPage(monitoryProvider.page);
                             return const SizedBox(height: 0, width: 0);
                           },
