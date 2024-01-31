@@ -4,22 +4,19 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
+import 'package:rta_crm_cv/widgets/captura/custom_ddown_menu/custom_dropdown_v2.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_email.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
-import 'package:rta_crm_cv/widgets/custom_buttom.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
-import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_document/widgets/firma_pdf.dart';
-import 'dart:html' as html;
 
 class HomeOwnerFTTHDocument extends StatefulWidget {
   const HomeOwnerFTTHDocument({super.key});
@@ -118,11 +115,25 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomDDownMenu(
+                                            enabled: true,
+                                            list: provider.companyList,
+                                            label: 'Company',
+                                            onChanged: (p0) {
+                                              if (p0 != null) provider.selectOT(p0);
+                                            },
+                                            dropdownValue: provider.companySelectedValue,
+                                            icon: Icons.store,
+                                            width: width * 380,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
                                               CustomTextField(
-                                                width: width * 300,
+                                                width: width * 280,
                                                 enabled: true,
                                                 controller: provider.acountController,
                                                 icon: Icons.settings,
@@ -138,6 +149,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                                 keyboardType: TextInputType.name,
                                               ), */
                                               CustomTextIconButton(
+                                                width: width * 100,
                                                 text: 'Search',
                                                 isLoading: false,
                                                 icon: Icon(
@@ -167,6 +179,7 @@ class _HomeOwnerFTTHDocumentState extends State<HomeOwnerFTTHDocument> {
                                                 keyboardType: TextInputType.emailAddress,
                                               ),
                                               CustomTextIconButton(
+                                                width: width * 100,
                                                 text: 'Add Email',
                                                 isLoading: false,
                                                 icon: Icon(
