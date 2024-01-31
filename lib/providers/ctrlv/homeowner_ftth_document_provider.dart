@@ -34,7 +34,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   late List<PlutoGridStateManager> listStateManager;
   late DocumentInfo docInfo;
 
-  List<Company> companyList = [Company(company: 'RTA', id: 1)];
+  List<String> companyList = [];
   late String companySelectedValue;
 
   //PDF Formulario
@@ -63,7 +63,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
 
   late int? id;
 /////////////////////////////////////////////////////////////////////////////
-  clearAll() {
+  clearAll() async {
     listOpenned = true;
     acountController.clear();
     zipcodeController.clear();
@@ -75,8 +75,10 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     phoneController.clear();
     signatureTextController.clear();
     pdfController = null;
-    companySelectedValue = '';
+    companySelectedValue='';
+    companyList.clear();
     emails.clear();
+    await getCompany();
   }
 
   void selectOT(String selected) {
@@ -106,11 +108,10 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   //Get User Company
   Future<void> getCompany() async {
     try {
-      companyList.clear();
-      for (var company in currentUser!.companies) {
-        companyList.add(company);
-      }
-      companySelectedValue = companyList.first.company;
+     for (var comp in currentUser!.companies) {
+      companyList.add(comp.company);
+     }
+      companySelectedValue = companyList.first;
     } catch (e) {
       log('Error en getCompany() - $e');
     }
@@ -131,7 +132,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
           "state": "",
           "zipcode": "", //zipcodeController.text,
           "email": "",
-          "inst": currentUser!.companies.first.company
+          "inst": companySelectedValue
         },
       );
       var url = Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');
@@ -146,7 +147,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       acountNameController.text = '${docInfo.result!.first.firstName!} ${docInfo.result!.first.lastName!}';
       phoneController.text = docInfo.result!.first.mobilePhone!;
       signatureTextController.text = '${docInfo.result!.first.firstName!} ${docInfo.result!.first.lastName!}';
-      zipcodeController.text = currentUser!.companies.first.company;
+      zipcodeController.text = companySelectedValue;
     } catch (e) {
       search = false;
       log('Error en getInfo() - $e');

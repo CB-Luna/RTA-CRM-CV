@@ -36,7 +36,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
         listen: false,
       );
       await provider.getHomeowner();
-      print(currentUser!.companies.first.company);
+      await provider.clearAll();
     });
   }
 
