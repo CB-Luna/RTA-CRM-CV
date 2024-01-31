@@ -144,7 +144,7 @@ class _SideMenuState extends State<SideMenu> {
                             label: 'Choose an app:',
                             icon: Icons.person,
                             // width: 282,
-                            width: MediaQuery.of(context).size.width * 0.19,
+                            width: MediaQuery.of(context).size.width * 0.23,
                             list: currentUser!.roles,
                             dropdownValue: currentUser!.currentRole,
                             onChanged: (role) async {
@@ -167,11 +167,9 @@ class _SideMenuState extends State<SideMenu> {
                                 .map<DropdownMenuItem<Role>>((Role value) {
                               return DropdownMenuItem<Role>(
                                 value: value,
-                                child: Expanded(
-                                  child: Text(
-                                    value.roleApplication,
-                                    style: const TextStyle(fontSize: 14),
-                                  ),
+                                child: Text(
+                                  value.roleApplication,
+                                  style: const TextStyle(fontSize: 14),
                                 ),
                               );
                             }).toList(),

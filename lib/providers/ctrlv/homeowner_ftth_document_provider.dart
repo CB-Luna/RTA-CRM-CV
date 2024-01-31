@@ -19,6 +19,8 @@ import 'package:rta_crm_cv/models/homeowner.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:signature/signature.dart';
 import 'package:http/http.dart' as http;
+import '../../models/company.dart';
+import '../../models/crm/catalogos/model_ generic_cat.dart';
 
 class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   //Lista
@@ -31,6 +33,9 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   bool loadingGrid = false;
   late List<PlutoGridStateManager> listStateManager;
   late DocumentInfo docInfo;
+
+  List<String> companyList = [];
+  late String companySelectedValue;
 
   //PDF Formulario
   List<List<String>> data = [];
@@ -58,7 +63,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
 
   late int? id;
 /////////////////////////////////////////////////////////////////////////////
-  clearAll() {
+  clearAll() async {
     listOpenned = true;
     acountController.clear();
     zipcodeController.clear();
@@ -70,7 +75,15 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     phoneController.clear();
     signatureTextController.clear();
     pdfController = null;
+    companySelectedValue='';
+    companyList.clear();
     emails.clear();
+    await getCompany();
+  }
+
+  void selectOT(String selected) {
+    companySelectedValue = selected;
+    notifyListeners();
   }
 
   void agregarContacto() {
@@ -92,6 +105,18 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     return notifyListeners();
   }
 
+  //Get User Company
+  Future<void> getCompany() async {
+    try {
+     for (var comp in currentUser!.companies) {
+      companyList.add(comp.company);
+     }
+      companySelectedValue = companyList.first;
+    } catch (e) {
+      log('Error en getCompany() - $e');
+    }
+  }
+
   //Get info
   Future<void> documentInfo() async {
     try {
@@ -107,7 +132,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
           "state": "",
           "zipcode": "", //zipcodeController.text,
           "email": "",
-          "inst": currentUser!.companies.first.company
+          "inst": companySelectedValue
         },
       );
       var url = Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');
@@ -117,15 +142,12 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       }
       docInfo = DocumentInfo.fromJson(response.body);
       emailController.text = docInfo.result!.first.email!;
-      addressController.text =
-          '${docInfo.result!.first.street!}${docInfo.result!.first.city!}${docInfo.result!.first.state!}';
+      addressController.text = '${docInfo.result!.first.street!}${docInfo.result!.first.city!}${docInfo.result!.first.state!}';
       dateController.text = dateFormat(fecha);
-      acountNameController.text =
-          '${docInfo.result!.first.firstName!} ${docInfo.result!.first.lastName!}';
+      acountNameController.text = '${docInfo.result!.first.firstName!} ${docInfo.result!.first.lastName!}';
       phoneController.text = docInfo.result!.first.mobilePhone!;
-      signatureTextController.text =
-          '${docInfo.result!.first.firstName!} ${docInfo.result!.first.lastName!}';
-      // zipcodeController.text = currentUser!.company.company;
+      signatureTextController.text = '${docInfo.result!.first.firstName!} ${docInfo.result!.first.lastName!}';
+      zipcodeController.text = companySelectedValue;
     } catch (e) {
       search = false;
       log('Error en getInfo() - $e');
@@ -139,20 +161,16 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     try {
       await clearAll();
       notifyListeners();
-      final res =
-          await supabase.from('homeowner_list').select().eq('id', idClient);
+      final res = await supabase.from('homeowner_list').select().eq('id', idClient);
       if (res == null) {
         log('Error en getHomeowner()');
         return;
       }
-      List<HouseownerList> docs = (res as List<dynamic>)
-          .map((docs) => HouseownerList.fromJson(jsonEncode(docs)))
-          .toList();
+      List<HouseownerList> docs = (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
       acountController.text = docs.first.formInfo!.acount!;
       zipcodeController.text = docs.first.formInfo!.zipCode!;
       emailController.text = docs.first.formInfo!.email!;
-      representativeNameController.text =
-          docs.first.formInfo!.representativeName!;
+      representativeNameController.text = docs.first.formInfo!.representativeName!;
       addressController.text = docs.first.formInfo!.address!;
       acountNameController.text = docs.first.formInfo!.acountName!;
       phoneController.text = docs.first.formInfo!.phone!;
@@ -177,9 +195,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         log('Error en getHomeowner()');
         return;
       }
-      List<HouseownerList> docs = (res as List<dynamic>)
-          .map((docs) => HouseownerList.fromJson(jsonEncode(docs)))
-          .toList();
+      List<HouseownerList> docs = (res as List<dynamic>).map((docs) => HouseownerList.fromJson(jsonEncode(docs))).toList();
 
       rows.clear();
       for (HouseownerList doc in docs) {
@@ -191,8 +207,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
               'email': PlutoCell(value: doc.formInfo!.email),
               'Customer_Name': PlutoCell(value: doc.formInfo!.acountName),
               'Name_Column': PlutoCell(value: doc.document),
-              'Creation_Date_Column':
-                  PlutoCell(value: dateFormat(doc.createdAt)),
+              'Creation_Date_Column': PlutoCell(value: dateFormat(doc.createdAt)),
               'Due_Date_Column': PlutoCell(value: dateFormat(doc.dueDate)),
               'Status_Column': PlutoCell(value: doc.idStatus),
               'Document_Column': PlutoCell(value: ''),
@@ -233,18 +248,12 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         },
       ).select())[0]['id'];
 
-      await supabase.storage
-          .from('homeowner')
-          .uploadBinary('$idDoc.pdf', documento);
-      await supabase
-          .from('homeowner_list')
-          .update({'document': '$idDoc.pdf'}).eq('id', idDoc);
+      await supabase.storage.from('homeowner').uploadBinary('$idDoc.pdf', documento);
+      await supabase.from('homeowner_list').update({'document': '$idDoc.pdf'}).eq('id', idDoc);
 
-      final token =
-          generateToken(acountController.text, emailController.text, idDoc);
+      final token = generateToken(acountController.text, emailController.text, idDoc);
 
-      final link =
-          '${Uri.base.origin}$homeownerFTTHDocumentClient?token=$token';
+      final link = '${Uri.base.origin}$homeownerFTTHDocumentClient?token=$token';
       emails.add(emailController.text);
 
       await sendEmail(
@@ -273,24 +282,13 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         },
       ).eq('id', idClient);
 
-      await supabase.storage
-          .from('homeowner')
-          .updateBinary('$idClient.pdf', documento);
-      await supabase
-          .from('homeowner_list')
-          .update({'document': '$idClient.pdf'}).eq('id', idClient);
+      await supabase.storage.from('homeowner').updateBinary('$idClient.pdf', documento);
+      await supabase.from('homeowner_list').update({'document': '$idClient.pdf'}).eq('id', idClient);
       //Metodo powercode
       String body = jsonEncode(
-        {
-          "apikey": "svsvs54sef5se4fsv",
-          "action": "ftthsign_docupload",
-          "customerID": acountController.text,
-          "inst": zipcodeController.text,
-          "document": "$idClient.pdf"
-        },
+        {"apikey": "svsvs54sef5se4fsv", "action": "ftthsign_docupload", "customerID": acountController.text, "inst": zipcodeController.text, "document": "$idClient.pdf"},
       );
-      var url = Uri.parse(
-          'https://apps.cblsrv42.rtatel.com/planbuilder/api'); //Produccion: Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');
+      var url = Uri.parse('https://apps.cblsrv42.rtatel.com/planbuilder/api'); //Produccion: Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');
       var response = await http.post(url, body: body);
       if (response.statusCode == 200) {
         log((response.body));
@@ -372,8 +370,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
         document: PdfDocument.openData(picker.files.single.bytes!),
       );
     } else {
-      pdfController = PdfController(
-          document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
+      pdfController = PdfController(document: PdfDocument.openAsset('assets/docs/Anexo .pdf'));
     }
     firmaAnexo = true;
     return notifyListeners();
@@ -404,17 +401,12 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
 
   // Firma PDF
 
-  final SignatureController clientSignatureController =
-      SignatureController(penColor: Colors.black, penStrokeWidth: 5);
+  final SignatureController clientSignatureController = SignatureController(penColor: Colors.black, penStrokeWidth: 5);
   Uint8List? signature;
   Future<Uint8List> clientExportSignature() async {
     pdfController = null;
     notifyListeners();
-    final exportController = SignatureController(
-        penStrokeWidth: 2,
-        penColor: Colors.black,
-        exportBackgroundColor: Colors.white,
-        points: clientSignatureController.points);
+    final exportController = SignatureController(penStrokeWidth: 2, penColor: Colors.black, exportBackgroundColor: Colors.white, points: clientSignatureController.points);
     signature = await exportController.toPngBytes();
     exportController.dispose();
     firmaAnexo = true;
@@ -458,8 +450,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
             ]
           },
         );
-        final response = await http.post(Uri.parse(urlNotifications),
-            headers: {'Content-Type': 'application/json'}, body: body);
+        final response = await http.post(Uri.parse(urlNotifications), headers: {'Content-Type': 'application/json'}, body: body);
         if (response.statusCode > 204) return false;
       }
 
@@ -474,10 +465,8 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   Future<PdfController?> crearPDF() async {
     pdfController = null;
     notifyListeners();
-    final logo =
-        (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
-    final firma =
-        (await rootBundle.load('assets/images/firma.png')).buffer.asUint8List();
+    final logo = (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
+    final firma = (await rootBundle.load('assets/images/firma.png')).buffer.asUint8List();
     final pdf = pw.Document();
     pdf.addPage(
       pw.Page(
@@ -495,10 +484,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                 pw.Text(
                   textAlign: pw.TextAlign.center,
                   'Fiber Optic Access Agreement',
-                  style: const pw.TextStyle(
-                      fontSize: 20,
-                      color: pdfcolor.PdfColor.fromInt(0XFF0A0859),
-                      decoration: pw.TextDecoration.underline),
+                  style: const pw.TextStyle(fontSize: 20, color: pdfcolor.PdfColor.fromInt(0XFF0A0859), decoration: pw.TextDecoration.underline),
                 ),
                 pw.Text(
                   'Address: ${addressController.text}',
@@ -563,62 +549,60 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                   ),
             pw.SizedBox(height: 20),
             pw.Expanded(
-              child: pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
-                  children: [
-                    pw.Column(children: [
-                      pw.Text(
-                        'Owner, Title',
+              child: pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly, children: [
+                pw.Column(children: [
+                  pw.Text(
+                    'Owner, Title',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                  pw.SizedBox(
+                    height: 58,
+                    width: 200,
+                    child: pw.Center(
+                      child: pw.Text(
+                        'F. _______________________.',
                         style: const pw.TextStyle(
                           fontSize: 13,
                           color: pdfcolor.PdfColor.fromInt(0xFF060606),
                         ),
                       ),
-                      pw.SizedBox(
-                        height: 58,
-                        width: 200,
-                        child: pw.Center(
-                          child: pw.Text(
-                            'F. _______________________.',
-                            style: const pw.TextStyle(
-                              fontSize: 13,
-                              color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                            ),
-                          ),
-                        ),
-                      ),
-                      pw.Text(
-                        acountNameController.text,
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                    ]),
-                    pw.Column(children: [
-                      pw.Text(
-                        'Accepted and Agreed to by RTA:',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                      pw.Image(
-                        pw.MemoryImage(firma),
-                        height: 58,
-                        width: 200,
-                        fit: pw.BoxFit.fill,
-                        alignment: pw.Alignment.center,
-                      ),
-                      pw.Text(
-                        'Brooke Johnson, Business Manager',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                    ]),
-                  ]),
+                    ),
+                  ),
+                  pw.Text(
+                    acountNameController.text,
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                ]),
+                pw.Column(children: [
+                  pw.Text(
+                    'Accepted and Agreed to by RTA:',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                  pw.Image(
+                    pw.MemoryImage(firma),
+                    height: 58,
+                    width: 200,
+                    fit: pw.BoxFit.fill,
+                    alignment: pw.Alignment.center,
+                  ),
+                  pw.Text(
+                    'Brooke Johnson, Business Manager',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                ]),
+              ]),
             )
           ],
         ),
@@ -636,13 +620,9 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   Future<PdfController?> clientPDF() async {
     pdfController = null;
     notifyListeners();
-    final logo =
-        (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
-    final firma =
-        (await rootBundle.load('assets/images/firma.png')).buffer.asUint8List();
-    final data = (await rootBundle.load("assets/fonts/Raghen-Script.ttf"))
-        .buffer
-        .asByteData();
+    final logo = (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
+    final firma = (await rootBundle.load('assets/images/firma.png')).buffer.asUint8List();
+    final data = (await rootBundle.load("assets/fonts/Raghen-Script.ttf")).buffer.asByteData();
 
     final pw.Font raghenFont = pw.Font.ttf(data);
     final pdf = pw.Document();
@@ -662,10 +642,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                 pw.Text(
                   textAlign: pw.TextAlign.center,
                   'Fiber Optic Access Agreement',
-                  style: const pw.TextStyle(
-                      fontSize: 20,
-                      color: pdfcolor.PdfColor.fromInt(0XFF0A0859),
-                      decoration: pw.TextDecoration.underline),
+                  style: const pw.TextStyle(fontSize: 20, color: pdfcolor.PdfColor.fromInt(0XFF0A0859), decoration: pw.TextDecoration.underline),
                 ),
                 pw.Text(
                   'Address: ${addressController.text}',
@@ -730,76 +707,70 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                   ),
             pw.SizedBox(height: 20),
             pw.Expanded(
-              child: pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
-                  children: [
-                    pw.Column(children: [
-                      pw.Text(
-                        'Owner, Title',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
+              child: pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly, children: [
+                pw.Column(children: [
+                  pw.Text(
+                    'Owner, Title',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                  clientSignatureController.isNotEmpty
+                      ? pw.Image(
+                          pw.MemoryImage(signature!),
+                          height: 58,
+                          width: 200,
+                          fit: pw.BoxFit.fill,
+                          alignment: pw.Alignment.center,
+                        )
+                      : pw.Container(
+                          width: 200,
+                          height: 58,
+                          alignment: pw.Alignment.center,
+                          child: pw.Text(
+                            firmacheck == false ? 'F. _______________________.' : signatureTextController.text,
+                            textAlign: pw.TextAlign.center,
+                            style: firmacheck == false
+                                ? const pw.TextStyle(
+                                    fontSize: 13,
+                                    color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                                  )
+                                : pw.TextStyle(fontSize: 30, font: raghenFont),
+                          ),
                         ),
-                      ),
-                      clientSignatureController.isNotEmpty
-                          ? pw.Image(
-                              pw.MemoryImage(signature!),
-                              height: 58,
-                              width: 200,
-                              fit: pw.BoxFit.fill,
-                              alignment: pw.Alignment.center,
-                            )
-                          : pw.Container(
-                              width: 200,
-                              height: 58,
-                              alignment: pw.Alignment.center,
-                              child: pw.Text(
-                                firmacheck == false
-                                    ? 'F. _______________________.'
-                                    : signatureTextController.text,
-                                textAlign: pw.TextAlign.center,
-                                style: firmacheck == false
-                                    ? const pw.TextStyle(
-                                        fontSize: 13,
-                                        color: pdfcolor.PdfColor.fromInt(
-                                            0xFF060606),
-                                      )
-                                    : pw.TextStyle(
-                                        fontSize: 30, font: raghenFont),
-                              ),
-                            ),
-                      pw.Text(
-                        acountNameController.text,
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                    ]),
-                    pw.Column(children: [
-                      pw.Text(
-                        'Accepted and Agreed to by RTA:',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                      pw.Image(
-                        pw.MemoryImage(firma),
-                        height: 58,
-                        width: 200,
-                        fit: pw.BoxFit.fill,
-                        alignment: pw.Alignment.center,
-                      ),
-                      pw.Text(
-                        'Brooke Johnson, Business Manager',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                    ]),
-                  ]),
+                  pw.Text(
+                    acountNameController.text,
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                ]),
+                pw.Column(children: [
+                  pw.Text(
+                    'Accepted and Agreed to by RTA:',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                  pw.Image(
+                    pw.MemoryImage(firma),
+                    height: 58,
+                    width: 200,
+                    fit: pw.BoxFit.fill,
+                    alignment: pw.Alignment.center,
+                  ),
+                  pw.Text(
+                    'Brooke Johnson, Business Manager',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                ]),
+              ]),
             )
           ],
         ),
@@ -883,8 +854,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
             data: Theme.of(context).copyWith(
               colorScheme: ColorScheme.light(
                 primary: AppTheme.of(context).primaryColor, // color Appbar
-                onPrimary:
-                    AppTheme.of(context).primaryBackground, // Color letras
+                onPrimary: AppTheme.of(context).primaryBackground, // Color letras
                 onSurface: AppTheme.of(context).primaryColor, // Color Meses
               ),
               dialogBackgroundColor: AppTheme.of(context).primaryBackground,

@@ -11,6 +11,7 @@ class CustomDDownMenu extends StatefulWidget {
     required this.onChanged,
     required this.icon,
     required this.label,
+    this.width,
     this.hint,
   });
 
@@ -22,6 +23,7 @@ class CustomDDownMenu extends StatefulWidget {
   final String? dropdownValue;
   final Function(String?) onChanged;
   final String? hint;
+  final double? width;
 
   @override
   State<CustomDDownMenu> createState() => _CustomDDownMenuState();
@@ -36,7 +38,7 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
     }
     return SizedBox(
       //height: 55,
-      //width: widget.width,
+      width: widget.width,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -53,6 +55,7 @@ class _CustomDDownMenuState extends State<CustomDDownMenu> {
         ),
         child: DropdownMenu<String>(
           enabled: widget.enabled,
+          width: widget.width,
           leadingIcon: Icon(widget.icon, color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
           trailingIcon: Icon(Icons.arrow_drop_down, color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
           initialSelection: widget.dropdownValue,
