@@ -20,6 +20,7 @@ import '../../../widgets/custom_card.dart';
 import '../../../widgets/custom_icon_button.dart';
 import '../../../widgets/custom_text_icon_button.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_company_cell.dart';
+import '../../../widgets/pluto_grid_cells/pluto_grid_company_cell_inventory.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_status_cellCV.dart';
 
 import 'pop_up/verify_to_eliminate_pop_up.dart';
@@ -536,8 +537,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                     // return PlutoGridCompanyCellCV(
                                     //   text: rendererContext.cell.value,
                                     // );
-                                    return PlutoGridCompanyCellCV(
-                                        companies:
+                                    return PlutoGridCompanyCellCVInventory(
+                                        text:
                                             rendererContext.cell.value ?? "-");
                                   },
                                 ),

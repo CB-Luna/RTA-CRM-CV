@@ -107,7 +107,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
           "state": "",
           "zipcode": "", //zipcodeController.text,
           "email": "",
-          // "inst": currentUser!.company.company
+          "inst": currentUser!.companies.first.company
         },
       );
       var url = Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');
