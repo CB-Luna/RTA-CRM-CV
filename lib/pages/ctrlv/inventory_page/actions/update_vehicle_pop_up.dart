@@ -61,6 +61,7 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
     final List<String> ownsershipName =
         provider.ownerships.map((owner) => owner.ownership).toList();
     List<String> motors = ["Gas", "Diesel"];
+
     // print("El statusSelected es: ${widget.vehicle.status.status}");
     // if (provider.statusSelectedUpdate?.status == null) {
     //   if (provider.problems.isEmpty) {
@@ -68,10 +69,20 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
     //   } else {
     //     provider.visibilty = true;
     //   }
-    //   if (widget.vehicle.status.statusId == 1 ||
-    //       widget.vehicle.status.statusId == 3) {
-    //     provider.visibilty = false;
-    //   }
+    var ultimoProblema;
+    if (provider.problems.isNotEmpty) {
+      // Accede al último problema solo si la lista no está vacía
+      ultimoProblema = provider.problems.last.problem;
+      // Hacer algo con el último problema
+    } else {
+      // Manejar el caso en el que la lista de problemas está vacía
+      print('La lista de problemas está vacía');
+    }
+    // Si el widget es 1/3 entonces visibility
+    if (widget.vehicle.status.statusId == 2 ||
+        widget.vehicle.status.statusId == 4) {
+      provider.visibilty = true;
+    }
     // }
     return AlertDialog(
       backgroundColor: Colors.transparent,
@@ -242,8 +253,10 @@ class _UpdateVehiclePopUpState extends State<UpdateVehiclePopUp> {
                     Visibility(
                       visible: provider.visibilty,
                       child: CustomTextFieldForm(
-                        label: provider.problems.last.problem ??
+                        label: ultimoProblema ??
                             'What is the problem of the vehicle',
+                        // label: provider.problems.last.problem ??
+                        //     'What is the problem of the vehicle',
                         controller: provider.problemControllerUpdate,
                         enabled: true,
                         width: 350,

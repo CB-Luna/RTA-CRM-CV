@@ -234,7 +234,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 title: 'Users',
                 onTap: () async {
                   context.pushReplacement('/users');
-                  userProvider.company = currentUser!.company.company;
+                  // userProvider.company = currentUser!.company.company;
                 },
                 onEnter: (event) {
                   provider.iHoverUsers?.change(true);

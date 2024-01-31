@@ -672,8 +672,11 @@ class _UsersPageState extends State<UsersPage> {
                                 enableEditingMode: false,
                                 cellPadding: EdgeInsets.zero,
                                 renderer: (rendererContext) {
+                                  // return PlutoGridCompanyCellCV(
+                                  //     text: rendererContext.cell.value ?? "-");
                                   return PlutoGridCompanyCellCV(
-                                      text: rendererContext.cell.value ?? "-");
+                                      companies:
+                                          rendererContext.cell.value ?? "-");
                                 },
                               ),
                               PlutoColumn(
