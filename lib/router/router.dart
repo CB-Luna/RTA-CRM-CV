@@ -31,6 +31,7 @@ import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_docu
 
 import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 import '../pages/dashboards_rtatel/config_page_dashboard.dart';
+import '../pages/dashboards_rtatel/migrations/bolivar_peninsula_page_desktop.dart';
 import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
 import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
 
@@ -729,10 +730,11 @@ final GoRouter router = GoRouter(
       path: bolivarPeninsulaFibertotheHome,
       name: 'Bolivar Peninsula Fiber to the home',
       builder: (BuildContext context, GoRouterState state) {
-        return DashboardsRtatelPage(
-            title: "Bolivar Peninsula Fiber to the home",
-            source:
-                "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+        return const BolivarPeninsulaPageDeskop();
+        // return DashboardsRtatelPage(
+        //     title: "Bolivar Peninsula Fiber to the home",
+        //     source:
+        //         "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
       },
       // (context, state, const DetailsPopUp()),
     ),
