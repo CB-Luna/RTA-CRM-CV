@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart' hide State;
 import 'package:flutter/services.dart';
+import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,7 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
 import 'package:rta_crm_cv/models/user_role.dart';
+import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 import 'package:uuid/uuid.dart';
 
@@ -29,49 +31,31 @@ class UsersProvider extends ChangeNotifier {
   int pageRowCount = 10;
   int page = 1;
 
-  Future<void> updateState() async {
-    rows.clear();
-    await getUsers();
-  }
-
   List<Role> roles = [];
-  List<Company> companys = [];
-  List<String> statusy = [];
+  List<Company> companies = [];
   List<Role> selectedRoles = [];
+  List<Company> selectedCompanies = [];
   Company? selectedCompany;
-  Company? selectedCompanyUpdate;
   List<State> states = [];
-  List<dynamic> roleInstallers = [];
-  List<dynamic> usersRoleInstaller = [];
-  List<User> installers = [];
   List<UserRole> usersRoleInstallers = [];
-  List<String> idsinstallers = [];
-  bool? pagesearch = false;
+  List<String> installersIds = [];
+  bool? pageSearch = false;
   UserRole? userRoleInstaller;
   UserRole? userSelected;
-  String? dropdownvalue = "Active";
-  String? dropdownvalueUpdate = "Not Active";
+  String? selectedStatus = "Active";
   State? selectedState;
-  State? selectedStateUpdate;
   Vehicle? selectedVehicle;
-  Vehicle? selectedVehicleUpdate;
-  String? selectVehiclePlates;
   String? imageName;
+
   Uint8List? webImage;
-  Vehicle? actualVehicle;
-  String? placeHolderImage;
   String? imageUrl;
-  String? imageUrlUpdate;
+
   Uuid uuid = const Uuid();
 
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
-  final stateController = TextEditingController();
-  final roleController = TextEditingController();
-  final companyCOntroller = TextEditingController();
-  final statusController = TextEditingController();
   final licenseController = TextEditingController();
   final certificationController = TextEditingController();
   final addressController = TextEditingController();
@@ -83,37 +67,25 @@ class UsersProvider extends ChangeNotifier {
   //Empresa del Manager
   String company = '';
 
-  // EDIT
-  final nameControllerUpdate = TextEditingController();
-  final lastNameControllerUpdate = TextEditingController();
-  final emailControllerUpdate = TextEditingController();
-  final phoneControllerUpdate = TextEditingController();
-  final stateControllerUpdate = TextEditingController();
-  final roleControllerUpdate = TextEditingController();
-  final companyCOntrollerUpdate = TextEditingController();
-  final statusControllerUpdate = TextEditingController();
-  final licenseControllerUpdate = TextEditingController();
-  final certificationControllerUpdate = TextEditingController();
-  final addressControllerUpdate = TextEditingController();
+  Future<void> updateState() async {
+    rows.clear();
+    await getUsers();
+  }
 
-  void updateControllers(User user) {
-    nameControllerUpdate.text = user.name;
-    lastNameControllerUpdate.text = user.lastName;
-    emailControllerUpdate.text = user.email;
-    phoneControllerUpdate.text = user.homePhone ?? "-";
-    selectedStateUpdate = user.state;
+  void initEditUser(User user) {
+    nameController.text = user.name;
+    lastNameController.text = user.lastName;
+    emailController.text = user.email;
+    phoneController.text = user.homePhone ?? "-";
+    licenseController.text = user.license ?? "-";
+    certificationController.text = user.certification ?? "-";
+    addressController.text = user.address;
+    selectedState = user.state;
     selectedRoles = [...user.roles];
-    selectedCompanyUpdate = user.company;
-    selectedVehicleUpdate = null;
-    addressControllerUpdate.text = user.address;
-    dropdownvalueUpdate = user.status ?? "Not Active";
-    licenseControllerUpdate.text = user.license ?? "-";
-    certificationControllerUpdate.text = user.certification ?? "-";
-    selectVehiclePlates = user.licensePlates;
-    imageUrlUpdate = user.image == null
-        ? "$supabaseUrl/storage/v1/object/public/assets/user_profile/"
-        : user.image!.replaceAll(
-            "$supabaseUrl/storage/v1/object/public/assets/user_profile/", "");
+    selectedCompanies = [...user.companies];
+    // selectedCompany = user.company;
+    selectedVehicle = null;
+    selectedStatus = user.status ?? "Not Active";
   }
 
   void clearControllers({bool notify = true}) {
@@ -121,18 +93,17 @@ class UsersProvider extends ChangeNotifier {
     lastNameController.clear();
     emailController.clear();
     phoneController.clear();
-    stateController.clear();
-    roleController.clear();
     addressController.clear();
     selectedCompany = null;
     selectedState = null;
     selectedRoles.clear();
     selectedVehicle = null;
-    companyCOntroller.clear();
-    statusController.clear();
     licenseController.clear();
     certificationController.clear();
+
+    imageName = null;
     webImage = null;
+
     if (notify) notifyListeners();
   }
 
@@ -143,9 +114,16 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setSelectedCompany(List<String> compa) {
+    selectedCompanies =
+        // ignore: unnecessary_this
+        this.companies.where((comp) => compa.contains(comp.company)).toList();
+    notifyListeners();
+  }
+
   void selectCompany(String companyName) {
     selectedCompany =
-        companys.firstWhere((elem) => elem.company == companyName);
+        companies.firstWhere((elem) => elem.company == companyName);
     notifyListeners();
   }
 
@@ -157,28 +135,14 @@ class UsersProvider extends ChangeNotifier {
 
   void clearVehicle() {
     selectedVehicle = null;
-    log("Entro aqui");
     notifyListeners();
   }
 
-  // Función para inicializar la imagen
-  void inicializeImage() {
-    webImage = null;
-    notifyListeners();
-  }
-
-  void clearVehicleLicense({bool notify = true}) {
-    selectVehiclePlates = null;
-    if (notify) notifyListeners();
-  }
-
-  void clearVehicleUpdate() {
-    selectedVehicleUpdate = null;
-
-    log("Entro aqui Update");
-    notifyListeners();
-  }
-
+  // void selectInstaller(String installer, {bool notify = true}) {
+  //   userSelected =
+  //       usersRoleInstallers.firstWhere((elem) => elem.email == installer);
+  //   if (notify) notifyListeners();
+  // }
   void selectInstaller(String installer, {bool notify = true}) {
     userSelected =
         usersRoleInstallers.firstWhere((elem) => elem.email == installer);
@@ -190,33 +154,9 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectCompanyUpdate(String companyName) {
-    selectedCompanyUpdate =
-        companys.firstWhere((elem) => elem.company == companyName);
-    notifyListeners();
-  }
-
   void getStatus(String status, {bool notify = true}) {
-    dropdownvalue = status;
+    selectedStatus = status;
     if (notify) notifyListeners();
-  }
-
-  void getStatusupdate(String status, {bool notify = true}) {
-    dropdownvalueUpdate = status;
-    if (notify) notifyListeners();
-  }
-
-  void selectVehicleUpdates(String vehicle) {
-    selectedVehicleUpdate =
-        vehicles.firstWhere((element) => element.licesensePlates == vehicle);
-    //print("-----------");
-    //print("selectedVehicleUpdate: ${selectedVehicleUpdate?.licesensePlates}");
-    notifyListeners();
-  }
-
-  void selectStateUpdate(String state) {
-    selectedStateUpdate = states.firstWhere((elem) => elem.name == state);
-    notifyListeners();
   }
 
   void setPageSize(String x) {
@@ -255,7 +195,7 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateVehiclestatus() async {
+  Future<void> updateVehicleStatus() async {
     try {
       await supabaseCtrlV.from('vehicle').update({'id_status_fk': 1}).eq(
           'id_vehicle', selectedVehicle?.idVehicle);
@@ -264,62 +204,24 @@ class UsersProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteImage() async {
-    // Eliminar la imagen Anterior
+  Future<void> updateVehicleStatusUpdate(User user) async {
     try {
-      if (imageUrlUpdate != null) {
-        final List<FileObject> oldImage = await supabase.storage
-            .from('assets')
-            .remove(['user_profile/${imageUrlUpdate!}']);
-        if (oldImage.isEmpty) return;
-      }
-    } catch (e) {
-      //print("Error in deleteImage $e");
-    }
-  }
-
-  Future<void> updateVehiclestatusUpdate(User users) async {
-    try {
-      //print("Id del SelectedVehicleUpdate: ${selectedVehicleUpdate?.idVehicle}");
       // Aqui cambiamos el status del vehiculo que seleccionamos a Assignado
-      await supabaseCtrlV.from('vehicle').update({'id_status_fk': 1}).eq(
-          'id_vehicle', selectedVehicleUpdate?.idVehicle);
+      await updateVehicleStatus();
 
       // Aqui cambiamos el vehiculo viejo a disponible
       await supabaseCtrlV
           .from('vehicle')
-          .update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
-
-      // Aqui cambiamos el id del vehiculo donde el id_sequential sea el mismo que el del usuario
-      // final cambioVehiculo = await supabase
-      //     .from('user_profile')
-      //     .update({'id_vehicle_fk': selectedVehicleUpdate!.idVehicle}).eq(
-      //         'sequential_id', users.sequentialId);
-
-      //print("entro a updateVehiclestatusUpdate: $res");
-      //print("Entro en el cambio del vehiculo viejo $res2");
+          .update({'id_status_fk': 3}).eq('id_vehicle', user.idVehicle);
     } catch (e) {
-      //print("Error in updateVehiclestatusUpdate $e");
+      log("Error in updateVehiclestatusUpdate $e");
     }
     notifyListeners();
   }
 
-  void updateVehiclestatusClear(User users) async {
-    try {
-      // Aqui cambiamos el vehiculo viejo a disponible
-      await supabaseCtrlV
-          .from('vehicle')
-          .update({'id_status_fk': 3}).eq('id_vehicle', users.idVehicle);
-
-      // Aqui cambiamos el id del vehiculo donde el id_sequential sea el mismo que el del usuario
-      await supabase.from('user_profile').update({'id_vehicle_fk': null}).eq(
-          'sequential_id', users.sequentialId);
-
-      //print("entro a updateVehiclestatusUpdate: $res");
-      //print("Entro en el cambio del vehiculo viejo $res2");
-    } catch (e) {
-      //print("Error in updateVehiclestatusUpdate $e");
-    }
+  void selectVehicleUpdates(String vehicle) {
+    selectedVehicle =
+        vehicles.firstWhere((element) => element.licesensePlates == vehicle);
     notifyListeners();
   }
 
@@ -330,51 +232,69 @@ class UsersProvider extends ChangeNotifier {
   //   roleInstallers = [];
   //   if (notify) notifyListeners();
   // }
+  // Future<void> getInstallers({bool notify = true}) async {
+  //   usersRoleInstallers = [];
+  //   userRoleInstaller = null;
+  //   idsinstallers = [];
+  //   roleInstallers = [];
+  //   try {
+  //     final res =
+  //         await supabase.from('role').select("").eq('name', "Installers 1");
+  //     // print(res);
+  //     // print("--------");
+  //     roleInstallers = (res as List<dynamic>);
+  //     // print(roleInstallers.first["role_id"]);
   Future<void> getInstallers({bool notify = true}) async {
-    usersRoleInstallers = [];
+    usersRoleInstallers.clear();
     userRoleInstaller = null;
-    idsinstallers = [];
-    roleInstallers = [];
+
+    List<dynamic> roleInstallers = [];
+    List<dynamic> usersRoleInstaller = [];
+
+    installersIds.clear();
+
     try {
       final res =
           await supabase.from('role').select("").eq('name', "Installers 1");
-      // print(res);
-      // print("--------");
       roleInstallers = (res as List<dynamic>);
-      // print(roleInstallers.first["role_id"]);
 
+      //     final res2 = await supabase
+      //         .from('user_role')
+      //         .select("user_fk")
+      //         .eq("role_fk", roleInstallers.first["role_id"]);
+      //     // print(res2);
+      //     usersRoleInstaller = (res2 as List<dynamic>);
       final res2 = await supabase
           .from('user_role')
           .select("user_fk")
           .eq("role_fk", roleInstallers.first["role_id"]);
-      // print(res2);
       usersRoleInstaller = (res2 as List<dynamic>);
 
+      //     // Utiliza un bucle for para obtener los IDs
+      //     for (var user in usersRoleInstaller) {
+      //       final id = user["user_fk"];
+      //       idsinstallers.add(id);
+      //     }
       // Utiliza un bucle for para obtener los IDs
       for (var user in usersRoleInstaller) {
         final id = user["user_fk"];
-        idsinstallers.add(id);
+        installersIds.add(id);
       }
 
       usersRoleInstallers = [];
-      for (int i = 0; i < idsinstallers.length; i++) {
+      for (int i = 0; i < installersIds.length; i++) {
         final res3 = await supabase
             .from("users")
             .select("email, name, last_name")
-            .eq("id", idsinstallers[i]);
+            .eq("id", installersIds[i]);
 
-        // print("----------");
-        // print("res3: $res3");
-        print("Cuantas veces va: $i");
         userRoleInstaller = (res3 as List<dynamic>)
             .map((userrole) => UserRole.fromJson(jsonEncode(userrole)))
             .toList()
             .first;
         usersRoleInstallers.add(userRoleInstaller!);
-        // print("El UserRole es: ${usersRoleInstallers[i].email}");
       }
-      print("Length ids ${idsinstallers.length}");
-      print("Length userRoleInstallers ${usersRoleInstallers.length}");
+
       if (notify) notifyListeners();
     } catch (e) {
       log('Error in getInstallers() -$e');
@@ -405,7 +325,7 @@ class UsersProvider extends ChangeNotifier {
             ascending: true,
           );
 
-      companys = (res as List<dynamic>)
+      companies = (res as List<dynamic>)
           .map((compani) => Company.fromJson(jsonEncode(compani)))
           .toList();
 
@@ -415,8 +335,69 @@ class UsersProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> addCompany(String userId) async {
+    try {
+      for (final Company company in selectedCompanies) {
+        await supabase.from('user_company').insert(
+          {
+            'user_fk': userId,
+            'company_fk': company.id,
+          },
+        );
+      }
+      return true;
+    } catch (e) {
+      log('Error en addCompany() - $e');
+      return false;
+    }
+  }
+
+  Future<bool> editCompanys(User editedUser) async {
+    //Se inicializan los paises a agregar (todos)
+    final List<Company> addedCompanies = [...selectedCompanies];
+    //Se inicializan los paises a eliminar (todos)
+    final List<Company> deletedCompanies = [...editedUser.companies];
+
+    for (Company company in selectedCompanies) {
+      //seleccionados - usuario
+      //[a,b,c] - [d] => [a,b,c] - [d]
+      //[a,b,c] - [a,b] => [c] - []
+      //[a,b,c] - [a,b,d] => [c] - [d]
+      //[d] - [a,b] => [d] - [a,b]
+      if (editedUser.companies.contains(company)) {
+        //Si lo contiene, se elimina de los roles a agregar
+        addedCompanies.remove(company);
+        //Si lo contiene, se elimina de los roles a eliminar
+        deletedCompanies.remove(company);
+      }
+    }
+
+    for (final Company company in deletedCompanies) {
+      await supabase
+          .from('user_company')
+          .delete()
+          .eq('user_fk', editedUser.id)
+          .eq(
+            'company_fk',
+            company.id,
+          );
+    }
+
+    for (final Company company in addedCompanies) {
+      await supabase.from('user_company').insert(
+        {
+          'user_fk': editedUser.id,
+          'company_fk': company.id,
+        },
+      );
+    }
+
+    return true;
+  }
+
   Future<void> getRoles({bool notify = true}) async {
-    final res = await supabase.rpc('get_roles');
+    final res = await supabase.rpc('get_roles',
+        params: {'application': currentUser!.currentRole.application});
 
     roles = (res as List<dynamic>).map((rol) => Role.fromMap(rol)).toList();
 
@@ -479,7 +460,6 @@ class UsersProvider extends ChangeNotifier {
     return true;
   }
 
-  // -----------------------------------------------
   Future<void> getVehicleUser(User users, {bool notify = true}) async {
     try {
       final resC = await supabaseCtrlV
@@ -492,38 +472,43 @@ class UsersProvider extends ChangeNotifier {
           .toList();
       //print("Entro a getVehicleUser");
     } catch (e) {
-      //print("getVehicleUser $e");
+      log("Error in getVehicleUser() - $e");
     }
     if (notify) notifyListeners();
   }
 
-  // -----------------------------------------------
+  // Esta función lo que hace es muestra los vehiculos que sean del mismo company que el usuario.
   Future<void> getVehicleActiveInit(User users, {bool notify = true}) async {
     try {
-      final resC = await supabase
-          .from('company')
-          .select()
-          .eq('company', users.company.company);
+      List<int> companyIds =
+          users.companies.map((Company company) => company.id).toList();
 
-      final company = (resC as List<dynamic>);
+      // final resC =
+      //     await supabase.from('company').select().in_('id_company', companyIds);
+
+      // final company = (resC as List<dynamic>);
+
+      // // final res = await supabaseCtrlV
+      //     .from('inventory_view')
+      //     .select()
+      //     .eq('status ->id_status', 3)
+      //     .eq('company ->id_company', company.first["id_company"]);
 
       final res = await supabaseCtrlV
           .from('inventory_view')
           .select()
           .eq('status ->id_status', 3)
-          .eq('company ->id_company', company.first["id_company"]);
+          .in_('company ->id_company', companyIds);
 
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
           .toList();
-      //print("Entro a getVehicles");
     } catch (e) {
-      //print("getVehicleActive $e");
+      log("Error in getVehicleActiveInit - $e");
     }
     if (notify) notifyListeners();
   }
 
-  // -----------------------------------------------
   Future<void> getVehicleActive(String val, {bool notify = true}) async {
     try {
       final resC = await supabase.from('company').select().eq('company', val);
@@ -540,12 +525,11 @@ class UsersProvider extends ChangeNotifier {
           .toList();
       //print("Entro a getVehicles");
     } catch (e) {
-      //print("getVehicleActive $e");
+      log("Error in getVehicleActive - $e");
     }
     if (notify) notifyListeners();
   }
 
-  // -----------------------------------------------
   Future<void> changeStatusUser(User users) async {
     try {
       final res = await supabase.from("user_profile").update(
@@ -560,8 +544,7 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // -----------------------------------------------
-  Future<void> getUsersNotActive() async {
+  Future<void> getUsers({String active = 'Active'}) async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
@@ -571,61 +554,7 @@ class UsersProvider extends ChangeNotifier {
           .from('users')
           .select()
           .like('name', '%${searchController.text}%')
-          .eq('status', 'Not Active')
-          .order('sequential_id', ascending: true);
-
-      if (res == null) {
-        log('Error en getUsuarios()');
-        return;
-      }
-      users = (res as List<dynamic>)
-          .map((usuario) => User.fromJson(jsonEncode(usuario)))
-          .toList();
-
-      rows.clear();
-      for (User user in users) {
-        rows.add(
-          PlutoRow(
-            cells: {
-              'ID_Column': PlutoCell(value: user.sequentialId),
-              'AVATAR_Column': PlutoCell(value: user.image),
-              'USER_Column': PlutoCell(value: user.fullName),
-              'ROLE_Column': PlutoCell(value: user.roles.first.roleName),
-              'EMAIL_Column': PlutoCell(value: user.email),
-              'MOBILE_Column': PlutoCell(value: user.mobilePhone),
-              'ADDRESS_Column': PlutoCell(value: user.address),
-              'STATE_Column': PlutoCell(value: user.state.name),
-              'COMPANY_Column': PlutoCell(value: user.company.company),
-              'STATUS_Column': PlutoCell(value: user.status),
-              'LicenseP_Column': PlutoCell(value: user.licensePlates),
-              'LICENSE_Column': PlutoCell(value: user.license),
-              'CERTIFICATION_Column': PlutoCell(value: user.certification),
-              'ACTIONS_Column': PlutoCell(value: user),
-            },
-          ),
-        );
-      }
-      if (stateManager != null) stateManager!.notifyListeners();
-    } catch (e) {
-      log('Error en getUsuarios() - $e');
-    }
-
-    notifyListeners();
-  }
-
-  // -----------------------------------------------
-  Future<void> getUsers() async {
-    if (stateManager != null) {
-      stateManager!.setShowLoading(true);
-      notifyListeners();
-    }
-    // Por el momento lo dejare que se vean los not active por que están nulos los demás gracias
-    try {
-      final res = await supabase
-          .from('users')
-          .select()
-          .like('name', '%${searchController.text}%')
-          .not('status', 'eq', 'Not Active')
+          .eq('status', active)
           .order('sequential_id', ascending: true);
 
       if (res == null) {
@@ -636,7 +565,13 @@ class UsersProvider extends ChangeNotifier {
           .map((usuario) => User.fromMap(usuario))
           .toList();
 
+      users = users
+          .where((user) => user.roles.any((role) =>
+              role.application == currentUser!.currentRole.application))
+          .toList();
+
       rows.clear();
+
       for (User user in users) {
         rows.add(
           PlutoRow(
@@ -644,12 +579,12 @@ class UsersProvider extends ChangeNotifier {
               'ID_Column': PlutoCell(value: user.sequentialId),
               'AVATAR_Column': PlutoCell(value: user.image),
               'USER_Column': PlutoCell(value: user.fullName),
-              'ROLE_Column': PlutoCell(value: user.roles.first.roleName),
+              'ROLE_Column': PlutoCell(value: user.currentAppRole),
               'EMAIL_Column': PlutoCell(value: user.email),
               'MOBILE_Column': PlutoCell(value: user.mobilePhone),
               'ADDRESS_Column': PlutoCell(value: user.address),
               'STATE_Column': PlutoCell(value: user.state.name),
-              'COMPANY_Column': PlutoCell(value: user.company.company),
+              'COMPANY_Column': PlutoCell(value: user.companies),
               'STATUS_Column': PlutoCell(value: user.status),
               'LicenseP_Column': PlutoCell(value: user.licensePlates),
               'LICENSE_Column': PlutoCell(value: user.license),
@@ -687,12 +622,10 @@ class UsersProvider extends ChangeNotifier {
 
       //retornar el id del usuario
       if (userId != null) return {'userId': userId};
-
-      return {'Error': 'Error registering user'};
     } catch (e) {
-      log('Error en registrarUsuario() - $e');
-      return {'Error': 'Error registering user'};
+      log('Error in registerUser() - $e');
     }
+    return {'Error': 'Error registering user'};
   }
 
   Future<bool> createUserProfile(String userId) async {
@@ -709,12 +642,12 @@ class UsersProvider extends ChangeNotifier {
             'mobile_phone': phoneController.text,
             'address': '123 Main St.',
             'image': imageUrl,
-            'status': dropdownvalue,
+            'status': selectedStatus,
             'birthdate': DateTime.now().toIso8601String(),
             'state_fk': selectedState!.id,
           },
         );
-      } else if (currentUser!.isCV) {
+      } else if (currentUser!.isCV || currentUser!.isDashboardsRTATEL) {
         await supabase.from('user_profile').insert(
           {
             'user_profile_id': userId,
@@ -728,7 +661,7 @@ class UsersProvider extends ChangeNotifier {
             'state_fk': selectedState!.id,
             'id_company_fk': selectedCompany!.id,
             'id_vehicle_fk': selectedVehicle?.idVehicle,
-            'status': dropdownvalue,
+            'status': selectedStatus,
             'license':
                 licenseController.text.isEmpty ? null : licenseController.text,
             'certification': certificationController.text.isEmpty
@@ -764,67 +697,45 @@ class UsersProvider extends ChangeNotifier {
     try {
       await supabase.from('user_profile').update({
         'user_profile_id': users.id,
-        'name': nameControllerUpdate.text,
-        'last_name': lastNameControllerUpdate.text,
-        'home_phone': phoneControllerUpdate.text,
-        'mobile_phone': phoneControllerUpdate.text,
-        'address': addressControllerUpdate.text,
+        'name': nameController.text,
+        'last_name': lastNameController.text,
+        'home_phone': phoneController.text,
+        'mobile_phone': phoneController.text,
+        'address': addressController.text,
         'image': imageUrl,
         'birthdate': DateTime.now().toIso8601String(),
-        // 'id_role_fk': selectedRoleUpdate?.id ?? users.role.id,
-        'state_fk': selectedStateUpdate?.id ?? users.state.id,
-        'id_vehicle_fk': selectedVehicleUpdate?.idVehicle ?? users.idVehicle,
-        'id_company_fk': selectedCompanyUpdate?.id ?? users.company.id,
-        'status': dropdownvalueUpdate,
-        'license': licenseControllerUpdate.text,
-        'certification': certificationControllerUpdate.text
+        'state_fk': selectedState?.id ?? users.state.id,
+        'id_vehicle_fk': selectedVehicle?.idVehicle ?? users.idVehicle,
+        // 'id_company_fk': selectedCompany?.id ?? users.company.id,
+        'status': selectedStatus,
+        'license': licenseController.text,
+        'certification': certificationController.text
       }).eq('user_profile_id', users.id);
 
-      //print("Certification: ${certificationControllerUpdate.text}");
       return true;
     } catch (e) {
-      //print('Error in UpdateUser() - $e');
+      log('Error in UpdateUser() - $e');
       return false;
     }
   }
 
-  // Función para seleccionar la imagen
-  Future<bool> selectImage() async {
+  Future<void> selectImage() async {
     final ImagePicker picker = ImagePicker();
 
-    XFile? pickedImage = await picker.pickImage(
+    final XFile? pickedImage = await picker.pickImage(
       source: ImageSource.gallery,
     );
 
-    webImage = await pickedImage?.readAsBytes();
+    if (pickedImage == null) return;
 
-    if (pickedImage != null) {
-      if (await pickedImage.length() <= 1000000) {
-        // String? placeHolderImage;
-        notifyListeners();
-        placeHolderImage = "${uuid.v4()}${pickedImage.name}";
+    final String fileExtension = path.extension(pickedImage.name);
+    const uuid = Uuid();
+    final String fileName = uuid.v1();
+    imageName = 'avatar-$fileName$fileExtension';
 
-        // final storageResponse =
-        //     await supabase.storage.from('assets/user_profile').uploadBinary(
-        //           placeHolderImage!,
-        //           webImage!,
-        //           fileOptions: const FileOptions(
-        //             cacheControl: '3600',
-        //             upsert: false,
-        //           ),
-        //         );
+    webImage = await pickedImage.readAsBytes();
 
-        // if (storageResponse.isNotEmpty) {
-        //   imageUrl = supabase.storage.from('assets/user_profile').getPublicUrl(
-        //         placeHolderImage,
-        //       );
-        // }
-        return true;
-      } else {
-        return false;
-      }
-    }
-    return false;
+    notifyListeners();
   }
 
   void clearImage() {
@@ -833,28 +744,50 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> uploadImage() async {
-    try {
-      final storageResponse =
-          await supabase.storage.from('assets/user_profile').uploadBinary(
-                placeHolderImage!,
-                webImage!,
-                fileOptions: const FileOptions(
-                  cacheControl: '3600',
-                  upsert: false,
-                ),
-              );
-
-      if (storageResponse.isNotEmpty) {
-        imageUrl = supabase.storage.from('assets/user_profile').getPublicUrl(
-              placeHolderImage!,
-            );
+  Future<String?> uploadImage() async {
+    if (webImage != null && imageName != null) {
+      if (webImage!.length > 1000000) {
+        ApiErrorHandler.callToast('Image is bigger than 1 MB');
       }
+      await supabase.storage.from('avatars').uploadBinary(
+            imageName!,
+            webImage!,
+            fileOptions: const FileOptions(
+              cacheControl: '3600',
+              upsert: false,
+            ),
+          );
 
-      // return imageName;
-    } catch (e) {
-      log('Error in uploadImage() - $e');
-      // return null;
+      return imageName;
+    }
+    return null;
+  }
+
+  Future<void> validateImage(String? image) async {
+    if (image == null) {
+      if (webImage != null) {
+        //usuario no tiene imagen y se agrego => se sube imagen
+        final res = await uploadImage();
+        if (res == null) {
+          ApiErrorHandler.callToast('Could not upload image');
+        }
+      }
+      //usuario no tiene imagen y no se agrego => no hace nada
+    } else {
+      //usuario tiene imagen y se borro => se borra en bd
+      if (webImage == null && imageName == null) {
+        await supabase.storage.from('avatars').remove([image]);
+      }
+      //usuario tiene imagen y no se modifico => no se hace nada
+
+      //usuario tiene imagen y se cambio => se borra en bd y se sube la nueva
+      if (webImage != null && imageName != image) {
+        await supabase.storage.from('avatars').remove([image]);
+        final res2 = await uploadImage();
+        if (res2 == null) {
+          ApiErrorHandler.callToast('Could not upload image');
+        }
+      }
     }
   }
 
@@ -973,20 +906,31 @@ class UsersProvider extends ChangeNotifier {
 
     //Filtrat por compania
     if (companySel != "All") {
+      print("La compania seleccionada es: $companySel");
       for (int x = 0; x < users.length; x++) {
-        if (users[x].company.company == companySel) {
+        List<String> listCompanySel = [];
+        users[x].companies.forEach((company) {
+          listCompanySel.add(company.company);
+        });
+        if (listCompanySel.contains(companySel)) {
           selectedComp.add(users[x]);
         }
+        // if (companySel == listCompanySel) {
+        //   selectedComp.add(users[x]);
+        // }
       }
     } else {
       selectedComp = users;
     }
+
     //Agregar datos
     for (int i = 0; i < selectedComp.length; i++) {
       //Sortear por Compania
-
       User report = selectedComp[i];
-
+      List<String> listCompany = [];
+      report.companies.forEach((company) {
+        listCompany.add(company.company);
+      });
       final List<dynamic> row = [
         report.sequentialId,
         report.name,
@@ -995,7 +939,8 @@ class UsersProvider extends ChangeNotifier {
         report.email,
         report.mobilePhone,
         report.state.name,
-        report.company.company,
+        // report.companies,
+        listCompany,
         report.status,
         report.license,
         report.certification,
@@ -1012,5 +957,17 @@ class UsersProvider extends ChangeNotifier {
     if (fileBytes == null) return false;
 
     return true;
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    lastNameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    licenseController.dispose();
+    certificationController.dispose();
+    addressController.dispose();
+    super.dispose();
   }
 }

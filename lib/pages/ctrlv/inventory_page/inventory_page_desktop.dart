@@ -20,6 +20,7 @@ import '../../../widgets/custom_card.dart';
 import '../../../widgets/custom_icon_button.dart';
 import '../../../widgets/custom_text_icon_button.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_company_cell.dart';
+import '../../../widgets/pluto_grid_cells/pluto_grid_company_cell_inventory.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_status_cellCV.dart';
 
 import 'pop_up/verify_to_eliminate_pop_up.dart';
@@ -533,9 +534,12 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                   type: PlutoColumnType.text(),
                                   enableEditingMode: false,
                                   renderer: (rendererContext) {
-                                    return PlutoGridCompanyCellCV(
-                                      text: rendererContext.cell.value,
-                                    );
+                                    // return PlutoGridCompanyCellCV(
+                                    //   text: rendererContext.cell.value,
+                                    // );
+                                    return PlutoGridCompanyCellCVInventory(
+                                        text:
+                                            rendererContext.cell.value ?? "-");
                                   },
                                 ),
                                 PlutoColumn(
@@ -691,6 +695,8 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   notify: false);
                                               await provider.getStatus(
                                                   notify: false);
+                                              await provider.getOwnerShip(
+                                                  notify: false);
                                               provider.inicializeColor(
                                                   rendererContext.cell.value);
 
@@ -700,6 +706,16 @@ class _InventoryPageDesktopState extends State<InventoryPageDesktop> {
                                                   .updateInventoryControllers(
                                                       rendererContext
                                                           .cell.value);
+                                              // provider
+                                              //     .serviceDateControllerAvailable
+                                              //     .clear();
+                                              // provider.problemControllerUpdate
+                                              //     .text = "";
+                                              provider.getProblemVehicle(
+                                                  rendererContext.cell.value);
+                                              provider.problemControllerUpdate
+                                                  .clear();
+                                              provider.visibilty = false;
                                               // ignore: use_build_context_synchronously
                                               await showDialog(
                                                   context: context,

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -35,6 +36,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
         listen: false,
       );
       await provider.getHomeowner();
+      await provider.clearAll();
     });
   }
 
@@ -565,6 +567,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                                 children: [
                                                   IconButton(
                                                     onPressed: () async {
+                                                      await provider.pickDocument(rendererContext.row.cells["Name_Column"]!.value);
                                                       await showDialog(
                                                         context: context,
                                                         builder: (BuildContext context) {
@@ -576,7 +579,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                                     icon: const Icon(Icons.email),
                                                     color: AppTheme.of(context).primaryColor,
                                                   ),
-                                                  Center(
+                                                  /*  Center(
                                                     child: IconButton(
                                                       onPressed: () async {
                                                         await provider.cancelDocument(rendererContext.row.cells["ID_Column"]!.value);
@@ -586,6 +589,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                                       color: AppTheme.of(context).primaryColor,
                                                     ),
                                                   ),
+                                                 */
                                                 ],
                                               ));
                                         },

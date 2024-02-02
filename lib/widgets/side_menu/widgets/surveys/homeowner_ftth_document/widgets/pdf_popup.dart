@@ -17,7 +17,7 @@ class PdfPopupState extends State<PdfPopup> {
   void initState() {
     super.initState();
 
-   /*  WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    /*  WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final PDFListProvider provider = Provider.of<PDFListProvider>(
         context,
         listen: false,
@@ -39,9 +39,9 @@ class PdfPopupState extends State<PdfPopup> {
       content: Container(
         width: 750,
         height: 750,
-        decoration:  BoxDecoration(
+        decoration: BoxDecoration(
           gradient: whiteGradient,
-          borderRadius:const BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(21),
           ),
         ),
@@ -57,8 +57,8 @@ class PdfPopupState extends State<PdfPopup> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: IconButton(
-                      icon:  Icon(Icons.fullscreen, color: AppTheme.of(context).primaryColor),
-                      tooltip: 'Pantalla Completa',
+                      icon: Icon(Icons.fullscreen, color: AppTheme.of(context).primaryColor),
+                      tooltip: 'Full Screen',
                       color: AppTheme.of(context).primaryColor,
                       onPressed: () async {
                         await showDialog(
@@ -88,12 +88,12 @@ class PdfPopupState extends State<PdfPopup> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: IconButton(
-                    icon:  Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryColor),
-                    tooltip: 'Descargar Anexo',
+                    icon: Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryColor),
+                    tooltip: 'Download',
                     color: AppTheme.of(context).primaryColor,
                     onPressed: () {
                       provider.descargarArchivo(provider.documento, 'Homeowner_FTTH_Document.pdf');
-                      provider.anexo = true; 
+                      provider.anexo = true;
                       setState(() {});
                     },
                   ),
@@ -103,10 +103,11 @@ class PdfPopupState extends State<PdfPopup> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: IconButton(
-                    icon:  Icon(Icons.close, color: AppTheme.of(context).primaryColor),
-                    tooltip: 'Salir',
+                    icon: Icon(Icons.close, color: AppTheme.of(context).primaryColor),
+                    tooltip: 'Exit',
                     color: AppTheme.of(context).primaryColor,
                     onPressed: () {
+                      provider.pdfController = null;
                       Navigator.pop(context);
                     },
                   ),

@@ -8,6 +8,8 @@ import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
+import '../../../helpers/constants.dart';
+import '../../../models/company.dart';
 import '../../../models/user.dart';
 
 class DeletePopUp extends StatefulWidget {
@@ -26,7 +28,10 @@ class _DeletePopUpState extends State<DeletePopUp> {
     fToast.init(context);
 
     UsersProvider provider = Provider.of<UsersProvider>(context);
-
+    List<String> listCompany = [];
+    widget.users.companies.forEach((company) {
+      listCompany.add(company.company);
+    });
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
@@ -36,10 +41,10 @@ class _DeletePopUpState extends State<DeletePopUp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.03,
-              alignment: Alignment.centerLeft,
+            Align(
+              alignment: Alignment.topLeft,
               child: CustomTextIconButton(
+                width: MediaQuery.of(context).size.width * 0.04,
                 isLoading: false,
                 icon: Icon(Icons.arrow_back_outlined,
                     color: AppTheme.of(context).primaryBackground),
@@ -97,23 +102,62 @@ class _DeletePopUpState extends State<DeletePopUp> {
                   Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.1,
-                      height: MediaQuery.of(context).size.height * 0.03,
-                      decoration: BoxDecoration(
-                        color:
-                            statusColor(widget.users.company.company, context),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text(
-                          widget.users.company.company,
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.users.companies.length,
+                        itemBuilder: (context, index) {
+                          Company currentCompany =
+                              widget.users.companies[index];
+                          return Container(
+                            width: MediaQuery.of(context).size.width * 0.04,
+                            height: rowHeight,
+                            alignment: Alignment.center,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 2, vertical: 3),
+                            decoration: BoxDecoration(
+                              color:
+                                  statusColor(currentCompany.company, context),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              currentCompany.company,
+                              style: AppTheme.of(context)
+                                  .contenidoTablas
+                                  .override(
+                                    fontFamily: 'Gotham-Regular',
+                                    useGoogleFonts: false,
+                                    color:
+                                        AppTheme.of(context).primaryBackground,
+                                  ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(right: 15),
+                  //   child: Container(
+                  //     width: MediaQuery.of(context).size.width * 0.1,
+                  //     height: MediaQuery.of(context).size.height * 0.03,
+                  //     decoration: BoxDecoration(
+                  //       // color:
+                  //       //     statusColor(widget.users.company.company, context),
+                  //       color: Colors.red,
+                  //       borderRadius: BorderRadius.circular(10),
+                  //     ),
+                  //     child: Center(
+                  //       child: Text(
+                  //         "${listCompany}",
+                  //         style: const TextStyle(
+                  //           color: Colors.white,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

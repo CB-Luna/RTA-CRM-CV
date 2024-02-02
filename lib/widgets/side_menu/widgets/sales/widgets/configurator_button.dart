@@ -20,7 +20,7 @@ class _ConfiguratorButtonState extends State<ConfiguratorButton> {
 
   @override
   Widget build(BuildContext context) {
-    final userPermissions = currentUser!;
+    final userPermissions = currentUser!.currentRole.permissions;
     return MouseRegion(
       child: PortalTarget(
         visible: widget.hover,
@@ -42,74 +42,80 @@ class _ConfiguratorButtonState extends State<ConfiguratorButton> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      userPermissions.isAdminDashboards
-                        ? ListTile(
-                        title: Text(
-                          'Configurator Stats',
-                          style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
+                      userPermissions.configuratorStats != null
+                          ? ListTile(
+                              title: Text(
+                                'Configurator Stats',
+                                style: AppTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Gotham-Bold',
+                                      color: AppTheme.of(context).gris,
+                                      useGoogleFonts: false,
+                                    ),
                               ),
-                        ),
-                        onTap: () async {
-                          context.pushReplacement(configuratorStats);
-                        },
-                        hoverColor:
-                            AppTheme.of(context).primaryColor.withOpacity(0.4),
-                      )
-                      : const SizedBox.shrink(),
-                      userPermissions.isAdminDashboards
-                        ? ListTile(
-                        title: Text(
-                          'No Coverage Leads',
-                          style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
+                              onTap: () async {
+                                context.pushReplacement(configuratorStats);
+                              },
+                              hoverColor: AppTheme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4),
+                            )
+                          : const SizedBox.shrink(),
+                      userPermissions.noCoverageLeads != null
+                          ? ListTile(
+                              title: Text(
+                                'No Coverage Leads',
+                                style: AppTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Gotham-Bold',
+                                      color: AppTheme.of(context).gris,
+                                      useGoogleFonts: false,
+                                    ),
                               ),
-                        ),
-                        onTap: () async {
-                          context.pushReplacement(noCoverageLeads);
-                        },
-                        hoverColor:
-                            AppTheme.of(context).primaryColor.withOpacity(0.4),
-                      )
-                      : const SizedBox.shrink(),
-                      userPermissions.isAdminDashboards
-                        ? ListTile(
-                        title: Text(
-                          'New Configurator Stats',
-                          style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
+                              onTap: () async {
+                                // context.pushReplacement(noCoverageLeads);
+                                context.pushReplacement(
+                                    "/dashboard-page?title=${"No Coverage Leads"}&source=${"/configurator/nocoverageleads"}");
+                              },
+                              hoverColor: AppTheme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4),
+                            )
+                          : const SizedBox.shrink(),
+                      userPermissions.newConfiguratorStats != null
+                          ? ListTile(
+                              title: Text(
+                                'New Configurator Stats',
+                                style: AppTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Gotham-Bold',
+                                      color: AppTheme.of(context).gris,
+                                      useGoogleFonts: false,
+                                    ),
                               ),
-                        ),
-                        onTap: () async {
-                          context.pushReplacement(newConfiguratorStats);
-                        },
-                        hoverColor:
-                            AppTheme.of(context).primaryColor.withOpacity(0.4),
-                      )
-                      : const SizedBox.shrink(),
-                      userPermissions.isAdminDashboards
-                        ? ListTile(
-                        title: Text(
-                          'Referrals Tracking',
-                          style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
+                              onTap: () async {
+                                context.pushReplacement(newConfiguratorStats);
+                              },
+                              hoverColor: AppTheme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4),
+                            )
+                          : const SizedBox.shrink(),
+                      userPermissions.referralsTracking != null
+                          ? ListTile(
+                              title: Text(
+                                'Referrals Tracking',
+                                style: AppTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Gotham-Bold',
+                                      color: AppTheme.of(context).gris,
+                                      useGoogleFonts: false,
+                                    ),
                               ),
-                        ),
-                        onTap: () async {
-                          context.pushReplacement(referralsTracking);
-                        },
-                        hoverColor:
-                            AppTheme.of(context).primaryColor.withOpacity(0.4),
-                      )
-                      : const SizedBox.shrink(),
+                              onTap: () async {
+                                context.pushReplacement(referralsTracking);
+                              },
+                              hoverColor: AppTheme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4),
+                            )
+                          : const SizedBox.shrink(),
                     ],
                   ),
                 ),
@@ -131,16 +137,15 @@ class _ConfiguratorButtonState extends State<ConfiguratorButton> {
           title: Text(
             'Configurator',
             style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Bold',
-                                color: AppTheme.of(context).gris,
-                                useGoogleFonts: false,
-                              ),
+                  fontFamily: 'Gotham-Bold',
+                  color: AppTheme.of(context).gris,
+                  useGoogleFonts: false,
+                ),
           ),
-          trailing:  Icon(Icons.chevron_right_outlined, color: AppTheme.of(context).gris),
+          trailing: Icon(Icons.chevron_right_outlined,
+              color: AppTheme.of(context).gris),
           hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
-          onTap:() {
-
-          },
+          onTap: () {},
         ),
       ),
       onHover: (_) {

@@ -19,6 +19,8 @@ import 'package:rta_crm_cv/models/homeowner.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:signature/signature.dart';
 import 'package:http/http.dart' as http;
+import '../../models/company.dart';
+import '../../models/crm/catalogos/model_ generic_cat.dart';
 
 class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   //Lista
@@ -31,6 +33,9 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   bool loadingGrid = false;
   late List<PlutoGridStateManager> listStateManager;
   late DocumentInfo docInfo;
+
+  List<String> companyList = [];
+  late String companySelectedValue;
 
   //PDF Formulario
   List<List<String>> data = [];
@@ -53,11 +58,12 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   bool firmaAnexo = false;
   bool search = false;
   bool modificado = true;
+  bool firmacheck = false;
   late Uint8List documento;
 
   late int? id;
 /////////////////////////////////////////////////////////////////////////////
-  clearAll() {
+  clearAll() async {
     listOpenned = true;
     acountController.clear();
     zipcodeController.clear();
@@ -68,6 +74,16 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     acountNameController.clear();
     phoneController.clear();
     signatureTextController.clear();
+    pdfController = null;
+    companySelectedValue='';
+    companyList.clear();
+    emails.clear();
+    await getCompany();
+  }
+
+  void selectOT(String selected) {
+    companySelectedValue = selected;
+    notifyListeners();
   }
 
   void agregarContacto() {
@@ -89,6 +105,18 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     return notifyListeners();
   }
 
+  //Get User Company
+  Future<void> getCompany() async {
+    try {
+     for (var comp in currentUser!.companies) {
+      companyList.add(comp.company);
+     }
+      companySelectedValue = companyList.first;
+    } catch (e) {
+      log('Error en getCompany() - $e');
+    }
+  }
+
   //Get info
   Future<void> documentInfo() async {
     try {
@@ -102,8 +130,9 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
           "street": "",
           "city": "",
           "state": "",
-          "zipcode": zipcodeController.text,
-          "email": ""
+          "zipcode": "", //zipcodeController.text,
+          "email": "",
+          "inst": companySelectedValue
         },
       );
       var url = Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');
@@ -116,8 +145,9 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       addressController.text = '${docInfo.result!.first.street!}${docInfo.result!.first.city!}${docInfo.result!.first.state!}';
       dateController.text = dateFormat(fecha);
       acountNameController.text = '${docInfo.result!.first.firstName!} ${docInfo.result!.first.lastName!}';
-      phoneController.text = '-';
+      phoneController.text = docInfo.result!.first.mobilePhone!;
       signatureTextController.text = '${docInfo.result!.first.firstName!} ${docInfo.result!.first.lastName!}';
+      zipcodeController.text = companySelectedValue;
     } catch (e) {
       search = false;
       log('Error en getInfo() - $e');
@@ -254,6 +284,15 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
 
       await supabase.storage.from('homeowner').updateBinary('$idClient.pdf', documento);
       await supabase.from('homeowner_list').update({'document': '$idClient.pdf'}).eq('id', idClient);
+      //Metodo powercode
+      String body = jsonEncode(
+        {"apikey": "svsvs54sef5se4fsv", "action": "ftthsign_docupload", "customerID": acountController.text, "inst": zipcodeController.text, "document": "$idClient.pdf"},
+      );
+      var url = Uri.parse('https://apps.cblsrv42.rtatel.com/planbuilder/api'); //Produccion: Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');
+      var response = await http.post(url, body: body);
+      if (response.statusCode == 200) {
+        log((response.body));
+      }
     } catch (e) {
       log('Error en createHomeowner() - $e');
       ejecBloq = false;
@@ -690,9 +729,14 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                           height: 58,
                           alignment: pw.Alignment.center,
                           child: pw.Text(
-                            signatureTextController.text,
+                            firmacheck == false ? 'F. _______________________.' : signatureTextController.text,
                             textAlign: pw.TextAlign.center,
-                            style: pw.TextStyle(fontSize: 30, font: raghenFont),
+                            style: firmacheck == false
+                                ? const pw.TextStyle(
+                                    fontSize: 13,
+                                    color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                                  )
+                                : pw.TextStyle(fontSize: 30, font: raghenFont),
                           ),
                         ),
                   pw.Text(
