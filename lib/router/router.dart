@@ -730,11 +730,11 @@ final GoRouter router = GoRouter(
       path: bolivarPeninsulaFibertotheHome,
       name: 'Bolivar Peninsula Fiber to the home',
       builder: (BuildContext context, GoRouterState state) {
-        return const BolivarPeninsulaPageDeskop();
-        // return DashboardsRtatelPage(
-        //     title: "Bolivar Peninsula Fiber to the home",
-        //     source:
-        //         "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+        // return const BolivarPeninsulaPageDeskop();
+        return DashboardsRtatelPage(
+            title: "Bolivar Peninsula Fiber to the home",
+            source:
+                "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
       },
       // (context, state, const DetailsPopUp()),
     ),
