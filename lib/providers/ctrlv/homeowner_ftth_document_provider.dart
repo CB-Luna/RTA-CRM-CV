@@ -241,7 +241,8 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
             "acountName": acountNameController.text,
             "phone": phoneController.text,
             "date": dateController.text,
-          }
+          },
+          "id_usuario": currentUser!.id
         },
       ).select())[0]['id'];
 

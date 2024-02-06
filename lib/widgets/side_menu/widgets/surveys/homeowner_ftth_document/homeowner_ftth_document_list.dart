@@ -539,7 +539,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                         },
                                       ),
                                       //Actions
-                                      PlutoColumn(
+                                    /*   PlutoColumn(
                                         titleSpan: TextSpan(children: [
                                           WidgetSpan(child: Icon(Icons.calendar_month, color: AppTheme.of(context).primaryBackground)),
                                           const WidgetSpan(child: SizedBox(width: 10)),
@@ -593,7 +593,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                               ));
                                         },
                                       ),
-                                    ],
+                                    */ ],
                                     rows: provider.rows,
                                     onLoaded: (event) async {
                                       event.stateManager.setShowLoading(provider.loadingGrid);
