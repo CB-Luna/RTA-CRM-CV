@@ -310,7 +310,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                     child: ManagerButton(
                       tooltip: 'Manager',
                       fillColor: AppTheme.of(context).primaryColor,
-                      icon: Icons.admin_panel_settings_outlined,
+                      icon: Icons.group_outlined,
                       // isTaped: visualState.isTaped[3],
                     ),
                   )
