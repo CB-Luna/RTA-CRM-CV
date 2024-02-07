@@ -65,6 +65,59 @@ class DashboardRTA extends ChangeNotifier {
         usersRoleInstallers.add(userRoleInstaller!);
         // print("El UserRole es: ${usersRoleInstallers[i].email}");
       }
+      // if (currentUser!.isDashboardsSupervisor1) {
+      //   for (int i = 0; i < idsinstallers.length; i++) {
+      //     final res3 = await supabase
+      //         .from("users")
+      //         .select("email, name, last_name")
+      //         .eq("id", idsinstallers[i])
+      //         .eq('company', value);
+
+      //     // print("----------");
+      //     // print("res3: $res3");
+      //     // print("Cuantas veces va: $i");
+      //     userRoleInstaller = (res3 as List<dynamic>)
+      //         .map((userrole) => UserRole.fromJson(jsonEncode(userrole)))
+      //         .toList()
+      //         .first;
+      //     usersRoleInstallers.add(userRoleInstaller!);
+      //     // print("El UserRole es: ${usersRoleInstallers[i].email}");
+      //   }
+      // } else if (currentUser!.isDashboardsSupervisor2) {
+      //   for (int i = 0; i < idsinstallers.length; i++) {
+      //     final res3 = await supabase
+      //         .from("users")
+      //         .select("email, name, last_name")
+      //         .eq("id", idsinstallers[i]);
+
+      //     // print("----------");
+      //     // print("res3: $res3");
+      //     // print("Cuantas veces va: $i");
+      //     userRoleInstaller = (res3 as List<dynamic>)
+      //         .map((userrole) => UserRole.fromJson(jsonEncode(userrole)))
+      //         .toList()
+      //         .first;
+      //     usersRoleInstallers.add(userRoleInstaller!);
+      //     // print("El UserRole es: ${usersRoleInstallers[i].email}");
+      //   }
+      // } else {
+      //   for (int i = 0; i < idsinstallers.length; i++) {
+      //     final res3 = await supabase
+      //         .from("users")
+      //         .select("email, name, last_name")
+      //         .eq("id", idsinstallers[i]);
+
+      //     // print("----------");
+      //     // print("res3: $res3");
+      //     // print("Cuantas veces va: $i");
+      //     userRoleInstaller = (res3 as List<dynamic>)
+      //         .map((userrole) => UserRole.fromJson(jsonEncode(userrole)))
+      //         .toList()
+      //         .first;
+      //     usersRoleInstallers.add(userRoleInstaller!);
+      //     // print("El UserRole es: ${usersRoleInstallers[i].email}");
+      //   }
+      // }
       // print("Length ids ${idsinstallers.length}");
       // print("Length userRoleInstallers ${usersRoleInstallers.length}");
       if (notify) notifyListeners();
