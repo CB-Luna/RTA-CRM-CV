@@ -201,7 +201,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
   /// finanzas y operations
   Future<bool> senExecAcceptsQuote() async {
     try {
-      final res = await supabase.from('users').select('email').eq('id_role_fk', 8);
+      final res = await supabase.rpc('get_correo', params: {"role_id": 8});
       if (res == null) {
         log('Error en getemail()');
       }
@@ -243,7 +243,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
   Future<bool> financeAcceptsQuote() async {
     try {
-      final res = await supabase.from('users').select('email').eq('id_role_fk', 7);
+      final res = await supabase.rpc('get_correo', params: {"role_id": 7});
       if (res == null) {
         log('Error en getemail()');
       }
@@ -286,7 +286,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
   ////////Aceepts QUotes
   Future<bool> senExecAcceptsQuoteSales() async {
     try {
-      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      final res = await supabase.rpc('get_correo', params: {"role_id": 6});
       if (res == null) {
         log('Error en getemail()');
       }
@@ -331,7 +331,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
   Future<bool> financeAcceptsQuoteSales() async {
     try {
-      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      final res = await supabase.rpc('get_correo', params: {"role_id": 6});
       if (res == null) {
         log('Error en getemail()');
       }
@@ -373,7 +373,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
   Future<bool> opperationsAcceptQuoteSales() async {
     try {
-      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      final res = await supabase.rpc('get_correo', params: {"role_id": 6});
       if (res == null) {
         log('Error en getemail()');
       }
@@ -418,7 +418,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 ////////Reject QUotes
   Future<bool> senExecRejectsQuote() async {
     try {
-      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      final res = await supabase.rpc('get_correo', params: {"role_id": 6});
       if (res == null) {
         log('Error en getemail()');
       }
@@ -460,7 +460,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
   Future<bool> financeRejectsQuote() async {
     try {
-      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      final res = await supabase.rpc('get_correo', params: {"role_id": 6});
       if (res == null) {
         log('Error en getemail()');
       }
@@ -502,7 +502,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
   Future<bool> opperationsRejectsQuote() async {
     try {
-      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      final res = await supabase.rpc('get_correo', params: {"role_id": 6});
       if (res == null) {
         log('Error en getemail()');
       }

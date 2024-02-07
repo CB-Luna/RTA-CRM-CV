@@ -72,7 +72,10 @@ class _DashboardRtatelPageDesktopState
       //   provider.pagesearch = false;
       // }
 
-      if (currentUser!.isAdminDashboards) {
+      if (currentUser!.isAdminDashboards ||
+          currentUser!.isDashboardsOperation1 ||
+          currentUser!.isDashboardsSupervisor1 ||
+          currentUser!.isDashboardsSupervisor2) {
         if (installersName.isEmpty) {
           provider.usersRoleInstallers = [];
           provider.userRoleInstaller = null;
@@ -95,7 +98,10 @@ class _DashboardRtatelPageDesktopState
                   child: Column(
                     children: [
                       Visibility(
-                        visible: currentUser!.isAdminDashboards,
+                        visible: currentUser!.isAdminDashboards ||
+                            currentUser!.isDashboardsOperation1 ||
+                            currentUser!.isDashboardsSupervisor1 ||
+                            currentUser!.isDashboardsSupervisor2,
                         child: Visibility(
                           visible: widget.searchVisibility == true,
                           child: SizedBox(

@@ -1093,9 +1093,9 @@ class CreateQuoteProvider extends ChangeNotifier {
 
   Future<bool> salesAcceptsQuoteSenExec() async {
     try {
-      final res = await supabase.from('users').select('email').eq('id_role_fk', 6);
+      final res = await supabase.rpc('get_correo', params: {"role_id": 6});
       if (res == null) {
-        log('Error en getemail()');
+        log('Error en get_correo()');
       }
       for (var email in res) {
         //Json del correo;
@@ -1138,7 +1138,7 @@ class CreateQuoteProvider extends ChangeNotifier {
 
   Future<bool> salesAcceptsQuoteFinance() async {
     try {
-      final res = await supabase.from('users').select('email').eq('id_role_fk', 8);
+      final res = await supabase.rpc('get_correo', params: {"role_id": 8});
       if (res == null) {
         log('Error en getemail()');
       }
