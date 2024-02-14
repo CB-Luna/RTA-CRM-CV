@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 
 import '../../../../../public/colors.dart';
 import '../../../../../widgets/custom_card.dart';
+import '../line_chart_painter.dart';
 
 class SubscriberCardBolivar extends StatefulWidget {
   const SubscriberCardBolivar({super.key});
@@ -58,11 +61,54 @@ class _SubscriberCardBolivarState extends State<SubscriberCardBolivar> {
               ),
               Flexible(
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  height: MediaQuery.of(context).size.height * 0.10,
-                  color: Colors.white,
-                ),
-              )
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.10,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.blue),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      children: [
+                        const Text("2024"),
+                        Flexible(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.54,
+                            height: MediaQuery.of(context).size.height * 0.50,
+                            padding: const EdgeInsets.all(2),
+                            child: CustomPaint(
+                                painter: LineChartPainter(
+                                    leftText: "",
+                                    text: "FS Target Met:",
+                                    targetValue: 0.2)),
+                          ),
+                        ),
+                      ],
+                    )),
+              ),
+              Container(
+                  width: MediaQuery.of(context).size.width * 0.13,
+                  height: MediaQuery.of(context).size.height * 0.12,
+                  margin: const EdgeInsets.all(10),
+                  child: Center(
+                    child: CircularPercentIndicator(
+                      radius: MediaQuery.of(context).size.width *
+                          0.028, // Ajusta el radio al ancho del Container
+                      animation: true,
+                      lineWidth: 5.0,
+                      percent: 0.93,
+                      center: Text(
+                        "HP PERCENT %",
+                        style: TextStyle(fontSize: 10),
+                      ),
+                      footer: Text(
+                        "0.93",
+                        style: new TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17.0),
+                      ),
+                      progressColor: AppTheme.of(context).techSupPrimary,
+                    ),
+                  ))
             ],
           ),
           Row(
@@ -94,10 +140,28 @@ class _SubscriberCardBolivarState extends State<SubscriberCardBolivar> {
                     children: [Text("Converted to Date"), Spacer(), Text("0")]),
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.10,
-                color: Colors.white,
-              )
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.10,
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    children: [
+                      const Text("2024"),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.54,
+                        height: MediaQuery.of(context).size.height * 0.50,
+                        padding: const EdgeInsets.all(2),
+                        child: CustomPaint(
+                            painter: LineChartPainter(
+                                leftText: "",
+                                text: "WS Target Met:",
+                                targetValue: 0.2)),
+                      ),
+                    ],
+                  ))
             ],
           ),
           Row(
@@ -132,10 +196,28 @@ class _SubscriberCardBolivarState extends State<SubscriberCardBolivar> {
                 ]),
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.10,
-                color: Colors.white,
-              )
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.10,
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    children: [
+                      const Text("2024"),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.54,
+                        height: MediaQuery.of(context).size.height * 0.50,
+                        padding: const EdgeInsets.all(2),
+                        child: CustomPaint(
+                            painter: LineChartPainter(
+                                leftText: "",
+                                text: "CS Target Met:",
+                                targetValue: 0.2)),
+                      ),
+                    ],
+                  ))
             ],
           ),
           Row(
@@ -170,10 +252,28 @@ class _SubscriberCardBolivarState extends State<SubscriberCardBolivar> {
                 ]),
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.10,
-                color: Colors.white,
-              )
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.10,
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    children: [
+                      const Text("2024"),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.54,
+                        height: MediaQuery.of(context).size.height * 0.50,
+                        padding: const EdgeInsets.all(2),
+                        child: CustomPaint(
+                            painter: LineChartPainter(
+                                leftText: "",
+                                text: "SG Target Met:",
+                                targetValue: 0.5)),
+                      ),
+                    ],
+                  ))
             ],
           ),
         ]),
