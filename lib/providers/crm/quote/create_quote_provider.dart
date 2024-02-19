@@ -1373,8 +1373,10 @@ class CreateQuoteProvider extends ChangeNotifier {
       //Update Status
       if (margin > 20) {
         await supabaseCRM.from('x2_quotes').update({'id_status': 3}).eq('id', quote.quoteid);
+        await salesAcceptsQuoteFinance();
       } else {
         await supabaseCRM.from('x2_quotes').update({'id_status': 2}).eq('id', quote.quoteid);
+        await salesAcceptsQuoteSenExec();
       }
 
       //History

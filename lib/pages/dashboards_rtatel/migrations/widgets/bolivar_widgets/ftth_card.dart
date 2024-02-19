@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/migrations/widgets/bolivar_widgets/linear_percent_widget.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/migrations/widgets/bolivar_widgets/percent_widget.dart';
 
-import '../../../../../public/colors.dart';
+import '../../../../../providers/dashboard_rta/bolivar_peninsula_provider.dart';
 import '../../../../../widgets/custom_card.dart';
+import 'information_container.dart';
 
 class FTTHCard extends StatefulWidget {
   const FTTHCard({super.key});
@@ -13,127 +17,102 @@ class FTTHCard extends StatefulWidget {
 class _FTTHCardState extends State<FTTHCard> {
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
-      title: 'FTTH',
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-      width: MediaQuery.of(context).size.width * 0.3,
-      height: MediaQuery.of(context).size.height * 0.5,
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.38,
-        child:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.13,
-                height: MediaQuery.of(context).size.height * 0.10,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    gradient: whiteGradient,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.blue)),
-                child: const Column(children: [
-                  Text("FTTH Subs Target"),
-                  Spacer(),
-                  Text("349")
-                ]),
+    BolivarPeninsulaProvider provider =
+        Provider.of<BolivarPeninsulaProvider>(context);
+    return provider.homeandLots == null
+        ? const CircularProgressIndicator()
+        : CustomCard(
+            title: 'FTTH',
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            width: MediaQuery.of(context).size.width * 0.3,
+            height: MediaQuery.of(context).size.height * 0.73,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.61,
+              child: SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          // crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            InformationContainer(
+                              text: "FTTH Subs Target",
+                              valor: provider.ftth!.ftthSubsTarget ?? 0,
+                            ),
+                            InformationContainer(
+                              text: "FTTH Subs To Date",
+                              valor: provider.ftth!.ftthSubsToDate ?? 0,
+                            ),
+                            Flexible(
+                                child: LinearPercentIndicatorWidget(
+                                    percentValue:
+                                        provider.ftth!.ftthSubsPercent ?? 0)),
+                            PercentWidget(
+                                percentValue:
+                                    provider.ftth!.ftthSubsPercent ?? 0)
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            InformationContainer(
+                              text: "Converted FTTH Subs Tg.",
+                              valor:
+                                  provider.ftth!.convertedFtthSubsTarget ?? 0,
+                            ),
+                            InformationContainer(
+                              text: "Conv. FTTH Subs TD",
+                              valor: provider
+                                      .ftth!.convertedFtthSubsTargetToDate ??
+                                  0,
+                            ),
+                            Flexible(
+                                child: LinearPercentIndicatorWidget(
+                                    percentValue:
+                                        provider.ftth!.convertedFtthPercent ??
+                                            0)),
+                            PercentWidget(
+                                percentValue:
+                                    provider.ftth!.convertedFtthPercent ?? 0)
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            InformationContainer(
+                              text: "New FTTH Subs Target",
+                              valor: provider.ftth!.newFtthSubsTarget ?? 0,
+                            ),
+                            InformationContainer(
+                              text: "New FTTH Subs To Date",
+                              valor: provider.ftth!.ftthSubsToDate ?? 0,
+                            ),
+                            Flexible(
+                                child: LinearPercentIndicatorWidget(
+                                    percentValue:
+                                        provider.ftth!.newFtthSubsPercent ??
+                                            0)),
+                            PercentWidget(
+                                percentValue:
+                                    provider.ftth!.newFtthSubsPercent ?? 0)
+                          ],
+                        ),
+                      ),
+                    ]),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.13,
-                height: MediaQuery.of(context).size.height * 0.10,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    gradient: whiteGradient,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.blue)),
-                child: const Column(
-                    children: [Text("FTTH Subs To Date"), Spacer(), Text("0")]),
-              ),
-              Flexible(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  height: MediaQuery.of(context).size.height * 0.10,
-                  color: Colors.white,
-                ),
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.13,
-                height: MediaQuery.of(context).size.height * 0.10,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    gradient: whiteGradient,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.blue)),
-                child: const Column(children: [
-                  Text("Converted FTTH Subs Tg."),
-                  Spacer(),
-                  Text("217")
-                ]),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.13,
-                height: MediaQuery.of(context).size.height * 0.10,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    gradient: whiteGradient,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.blue)),
-                child: const Column(
-                    children: [Text("Conv. FTTH Sub TD"), Spacer(), Text("0")]),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.10,
-                color: Colors.white,
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.13,
-                height: MediaQuery.of(context).size.height * 0.10,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    gradient: whiteGradient,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.blue)),
-                child: const Column(children: [
-                  Text("New FTTH Subs Target"),
-                  Spacer(),
-                  Text("132")
-                ]),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.13,
-                height: MediaQuery.of(context).size.height * 0.10,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    gradient: whiteGradient,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.blue)),
-                child: const Column(
-                    children: [Text("New FTTH to Date"), Spacer(), Text("0")]),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.10,
-                color: Colors.white,
-              )
-            ],
-          ),
-        ]),
-      ),
-    );
+            ),
+          );
   }
 }
