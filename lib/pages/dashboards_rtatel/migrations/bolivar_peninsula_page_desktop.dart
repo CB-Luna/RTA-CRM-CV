@@ -10,7 +10,6 @@ import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 import '../../../functions/sizes.dart';
 import '../../../helpers/globals.dart';
 import '../../../providers/dashboard_rta/bolivar_peninsula_provider.dart';
-import 'widgets/bolivar_widgets/fixed_wireless_card.dart';
 import 'widgets/bolivar_widgets/ftth_card.dart';
 import 'widgets/bolivar_widgets/homes_and_lots.dart';
 
@@ -40,8 +39,8 @@ class _BolivarPeninsulaPageDeskopState
 
   @override
   Widget build(BuildContext context) {
-    BolivarPeninsulaProvider provider =
-        Provider.of<BolivarPeninsulaProvider>(context);
+    // BolivarPeninsulaProvider provider =
+    //     Provider.of<BolivarPeninsulaProvider>(context);
     return Material(
       child: Container(
         height: MediaQuery.of(context).size.height,

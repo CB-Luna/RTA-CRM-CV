@@ -160,6 +160,58 @@ PlutoGridStyleConfig plutoGridStyleConfigDashboard(BuildContext context) {
         );
 }
 
+PlutoGridStyleConfig plutoGridStyleConfigMonitoringDashboard(
+    BuildContext context) {
+  return AppTheme.themeMode == ThemeMode.light
+      ? PlutoGridStyleConfig(
+          //columnContextIcon: Icons.more_horiz,
+          rowHeight: rowHeightDashboard,
+          iconColor: AppTheme.of(context).primaryColor,
+          checkedColor: AppTheme.themeMode == ThemeMode.light
+              ? const Color(0xFFC7D8ED)
+              : const Color(0XFF4B4B4B),
+          /////////////////////////////////////
+          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          /////////////////////////////////////
+          rowColor: AppTheme.of(context).gris,
+          enableRowColorAnimation: true,
+          /////////////////////////////////////
+          gridBackgroundColor: Colors.white,
+          menuBackgroundColor: Colors.yellow,
+          // activatedColor: AppTheme.of(context).gris,
+          activatedColor: Colors.grey,
+
+          /////////////////////////////////////
+          enableCellBorderVertical: false,
+          borderColor: Colors.black,
+          gridBorderColor: Colors.black,
+          // gridBorderRadius: BorderRadius.circular(15),
+          // gridPopupBorderRadius: BorderRadius.circular(15),
+        )
+      : PlutoGridStyleConfig.dark(
+          rowHeight: rowHeight,
+          iconColor: AppTheme.of(context).primaryColor,
+          checkedColor: AppTheme.themeMode == ThemeMode.light
+              ? const Color(0xFFC7D8ED)
+              : const Color(0XFF4B4B4B),
+          /////////////////////////////////////
+          cellTextStyle: AppTheme.of(context).contenidoTablas,
+          columnTextStyle: AppTheme.of(context).contenidoTablas,
+          /////////////////////////////////////
+          rowColor: AppTheme.of(context).primaryBackground,
+          enableRowColorAnimation: true,
+          /////////////////////////////////////
+          menuBackgroundColor: AppTheme.of(context).primaryBackground,
+          activatedColor: AppTheme.of(context).primaryBackground,
+          /////////////////////////////////////
+          enableCellBorderVertical: false,
+          borderColor: AppTheme.of(context).primaryBackground,
+          gridBorderColor: Colors.transparent,
+          gridBackgroundColor: AppTheme.of(context).primaryBackground,
+        );
+}
+
 CustomTransitionPage<void> pageTransition(
     BuildContext context, GoRouterState state, Widget page) {
   return CustomTransitionPage<void>(

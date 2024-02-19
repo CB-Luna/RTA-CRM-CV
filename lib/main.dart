@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
+import 'package:path/path.dart';
 import 'package:rta_crm_cv/providers/config_page_provider.dart';
 import 'package:rta_crm_cv/providers/crm/accounts/tabs/order_provider.dart';
 import 'package:rta_crm_cv/providers/crm/dashboard_provider.dart';
@@ -7,6 +8,7 @@ import 'package:rta_crm_cv/providers/ctrlv/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/issue_reported_provider.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/bolivar_peninsula_provider.dart';
+import 'package:rta_crm_cv/providers/dashboard_rta/monitoring_provider.dart';
 import 'package:rta_crm_cv/providers/job_complete_technicians_provider.dart';
 import 'package:rta_crm_cv/providers/dashboard_RTA.dart';
 import 'package:rta_crm_cv/widgets/horizontalscroll.dart';
@@ -133,7 +135,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => BolivarPeninsulaProvider(),
-        )
+        ),
+        ChangeNotifierProvider(
+            create: (context) => MonitoringDashboardProvider())
       ],
       child: const MyApp(),
     ),
