@@ -11,6 +11,7 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/monitory.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import '../../models/company.dart';
 import '../../models/issues.dart';
 import '../../models/issues_comments.dart';
 
@@ -55,6 +56,7 @@ class MonitoryProvider extends ChangeNotifier {
 
   //List<RolApi> roles = [];
   List<String> dropdownMenuItems = [];
+  List<Company> companies = [];
 
   List<Monitory> monitory = [];
   List<Appointment> meet = <Appointment>[];
@@ -284,7 +286,7 @@ class MonitoryProvider extends ChangeNotifier {
         return;
       }
     } catch (e) {
-      //print("erro en: MonitoryProvider: getMonitory() $e");
+      print("erro en: MonitoryProvider: getMonitory() $e");
     }
   }
 

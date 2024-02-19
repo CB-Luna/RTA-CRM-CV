@@ -31,7 +31,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   late List<PlutoGridStateManager> listStateManager;
   late DocumentInfo docInfo;
 
-  List<String> companyList = [];
+  List<String> companyList = ["CRY"]; //Eliminar "CRY" Cuando se agruegen compañias 
   late String companySelectedValue;
 
   //PDF Formulario
@@ -73,9 +73,10 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     signatureTextController.clear();
     pdfController = null;
     companySelectedValue = '';
-    companyList.clear();
+    //companyList.clear(); //descomentar cuando se agreguen mas compañias
+    companySelectedValue = companyList.first; //Eliminar cuando se agreguen mas compañias
     emails.clear();
-    await getCompany();
+    //await getCompany(); //descomentar cuando se agreguen mas compañias
   }
 
   void selectOT(String selected) {

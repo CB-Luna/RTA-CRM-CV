@@ -672,12 +672,6 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                             );
                                                             await provider.insertOrderInfo();
 
-                                                            if (provider.margin > 20) {
-                                                              await provider.salesAcceptsQuoteFinance();
-                                                            } else {
-                                                              await provider.salesAcceptsQuoteSenExec();
-                                                            }
-
                                                             context.pushReplacement(routeQuotes);
                                                           } else {
                                                             ScaffoldMessenger.of(context).showSnackBar(
