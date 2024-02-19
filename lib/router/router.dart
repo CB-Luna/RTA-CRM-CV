@@ -33,6 +33,7 @@ import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 import '../pages/dashboards_rtatel/config_page_dashboard.dart';
 import '../pages/dashboards_rtatel/migrations/bolivar_peninsula_page_desktop.dart';
 import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
+import '../pages/dashboards_rtatel/migrations/monitoring_dashboards/monitoring_dashboard_page_desktop.dart';
 import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
 
 /// The route configuration.
@@ -796,6 +797,7 @@ final GoRouter router = GoRouter(
       path: monitoringDashboard,
       name: 'Monitoring Dashboard',
       builder: (BuildContext context, GoRouterState state) {
+        // return MonitoringDashboardPageDesktop();
         return DashboardsRtatelPage(
             title: "Monitoring Dashboard",
             source:
