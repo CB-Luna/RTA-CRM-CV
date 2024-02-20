@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -540,7 +539,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                         },
                                       ),
                                       //Actions
-                                      PlutoColumn(
+                                    /*   PlutoColumn(
                                         titleSpan: TextSpan(children: [
                                           WidgetSpan(child: Icon(Icons.calendar_month, color: AppTheme.of(context).primaryBackground)),
                                           const WidgetSpan(child: SizedBox(width: 10)),
@@ -594,7 +593,7 @@ class _HomeOwnerFTTHDocumentListState extends State<HomeOwnerFTTHDocumentList> {
                                               ));
                                         },
                                       ),
-                                    ],
+                                    */ ],
                                     rows: provider.rows,
                                     onLoaded: (event) async {
                                       event.stateManager.setShowLoading(provider.loadingGrid);

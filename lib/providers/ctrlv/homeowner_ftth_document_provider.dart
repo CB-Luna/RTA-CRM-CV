@@ -19,9 +19,6 @@ import 'package:rta_crm_cv/models/homeowner.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:signature/signature.dart';
 import 'package:http/http.dart' as http;
-import '../../models/company.dart';
-import '../../models/crm/catalogos/model_ generic_cat.dart';
-
 class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   //Lista
   final controllerBusqueda = TextEditingController();
@@ -34,7 +31,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   late List<PlutoGridStateManager> listStateManager;
   late DocumentInfo docInfo;
 
-  List<String> companyList = [];
+  List<String> companyList = ["CRY"]; //Eliminar "CRY" Cuando se agruegen compañias 
   late String companySelectedValue;
 
   //PDF Formulario
@@ -75,10 +72,11 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     phoneController.clear();
     signatureTextController.clear();
     pdfController = null;
-    companySelectedValue='';
-    companyList.clear();
+    companySelectedValue = '';
+    //companyList.clear(); //descomentar cuando se agreguen mas compañias
+    companySelectedValue = companyList.first; //Eliminar cuando se agreguen mas compañias
     emails.clear();
-    await getCompany();
+    //await getCompany(); //descomentar cuando se agreguen mas compañias
   }
 
   void selectOT(String selected) {
@@ -108,9 +106,9 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   //Get User Company
   Future<void> getCompany() async {
     try {
-     for (var comp in currentUser!.companies) {
-      companyList.add(comp.company);
-     }
+      for (var comp in currentUser!.companies) {
+        companyList.add(comp.company);
+      }
       companySelectedValue = companyList.first;
     } catch (e) {
       log('Error en getCompany() - $e');
@@ -244,7 +242,8 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
             "acountName": acountNameController.text,
             "phone": phoneController.text,
             "date": dateController.text,
-          }
+          },
+          "id_usuario": currentUser!.id
         },
       ).select())[0]['id'];
 
@@ -254,6 +253,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       final token = generateToken(acountController.text, emailController.text, idDoc);
 
       final link = '${Uri.base.origin}$homeownerFTTHDocumentClient?token=$token';
+      await supabase.from('homeowner_list').update({'link': link}).eq('id', idDoc);
       emails.add(emailController.text);
 
       await sendEmail(

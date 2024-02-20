@@ -17,6 +17,7 @@ import '../../../theme/theme.dart';
 import '../../../widgets/custom_icon_button.dart';
 import '../../../widgets/custom_text_icon_button.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_company_cell.dart';
+import '../../../widgets/pluto_grid_cells/pluto_grid_company_cell_inventory.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_license_cell.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_role_user_cell.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_status_cellCV.dart';
@@ -399,9 +400,8 @@ class _MonitoryPageDesktopState extends State<MonitoryPageDesktop> {
                                 // return PlutoGridCompanyCellCV(
                                 //   text: rendererContext.cell.value,
                                 // );
-                                return PlutoGridCompanyCellCV(
-                                    companies:
-                                        rendererContext.cell.value ?? "-");
+                                return PlutoGridCompanyCellCVInventory(
+                                    text: rendererContext.cell.value ?? "-");
                               },
                             ),
                             PlutoColumn(

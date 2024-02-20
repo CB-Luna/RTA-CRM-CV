@@ -31,7 +31,9 @@ import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_docu
 
 import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 import '../pages/dashboards_rtatel/config_page_dashboard.dart';
+import '../pages/dashboards_rtatel/migrations/bolivar_peninsula_page_desktop.dart';
 import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
+import '../pages/dashboards_rtatel/migrations/monitoring_dashboards/monitoring_dashboard_page_desktop.dart';
 import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
 
 /// The route configuration.
@@ -73,7 +75,7 @@ final GoRouter router = GoRouter(
               return DashboardsRtatelPage(
                   title: "Bolivar Peninsula Fiber to the home",
                   source:
-                      "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+                      "https://lookerstudio.google.com/embed/u/0/reporting/8661d186-8edb-45ee-b2ab-0fd8acc1d0e5/page/UO1aC");
             } else if (currentUser!.isDashboardsOperation2 ||
                 currentUser!.isDashboardsBank2) {
               return DashboardsRtatelPage(
@@ -117,7 +119,7 @@ final GoRouter router = GoRouter(
                 ? DashboardsRtatelPage(
                     title: "Bolivar Peninsula Fiber to the home",
                     source:
-                        "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                        "https://lookerstudio.google.com/embed/u/0/reporting/8661d186-8edb-45ee-b2ab-0fd8acc1d0e5/page/UO1aC")
                 : currentUser!.isDashboardsFinancial1 ||
                         currentUser!.isDashboardsFinancial2 ||
                         currentUser!.isDashboardsFinancial3 ||
@@ -128,7 +130,7 @@ final GoRouter router = GoRouter(
                     ? DashboardsRtatelPage(
                         title: "Bolivar Peninsula Fiber to the home",
                         source:
-                            "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                            "https://lookerstudio.google.com/embed/u/0/reporting/8661d186-8edb-45ee-b2ab-0fd8acc1d0e5/page/UO1aC")
                     : currentUser!.isDashboardsOperation2 ||
                             currentUser!.isDashboardsBank2
                         ? DashboardsRtatelPage(
@@ -729,10 +731,11 @@ final GoRouter router = GoRouter(
       path: bolivarPeninsulaFibertotheHome,
       name: 'Bolivar Peninsula Fiber to the home',
       builder: (BuildContext context, GoRouterState state) {
+        // return const BolivarPeninsulaPageDeskop();
         return DashboardsRtatelPage(
             title: "Bolivar Peninsula Fiber to the home",
             source:
-                "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+                "https://lookerstudio.google.com/embed/u/0/reporting/8661d186-8edb-45ee-b2ab-0fd8acc1d0e5/page/UO1aC");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -794,6 +797,7 @@ final GoRouter router = GoRouter(
       path: monitoringDashboard,
       name: 'Monitoring Dashboard',
       builder: (BuildContext context, GoRouterState state) {
+        // return MonitoringDashboardPageDesktop();
         return DashboardsRtatelPage(
             title: "Monitoring Dashboard",
             source:
