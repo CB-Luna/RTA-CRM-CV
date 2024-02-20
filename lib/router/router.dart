@@ -75,7 +75,7 @@ final GoRouter router = GoRouter(
               return DashboardsRtatelPage(
                   title: "Bolivar Peninsula Fiber to the home",
                   source:
-                      "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+                      "https://lookerstudio.google.com/embed/u/0/reporting/8661d186-8edb-45ee-b2ab-0fd8acc1d0e5/page/UO1aC");
             } else if (currentUser!.isDashboardsOperation2 ||
                 currentUser!.isDashboardsBank2) {
               return DashboardsRtatelPage(
@@ -119,7 +119,7 @@ final GoRouter router = GoRouter(
                 ? DashboardsRtatelPage(
                     title: "Bolivar Peninsula Fiber to the home",
                     source:
-                        "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                        "https://lookerstudio.google.com/embed/u/0/reporting/8661d186-8edb-45ee-b2ab-0fd8acc1d0e5/page/UO1aC")
                 : currentUser!.isDashboardsFinancial1 ||
                         currentUser!.isDashboardsFinancial2 ||
                         currentUser!.isDashboardsFinancial3 ||
@@ -130,7 +130,7 @@ final GoRouter router = GoRouter(
                     ? DashboardsRtatelPage(
                         title: "Bolivar Peninsula Fiber to the home",
                         source:
-                            "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC")
+                            "https://lookerstudio.google.com/embed/u/0/reporting/8661d186-8edb-45ee-b2ab-0fd8acc1d0e5/page/UO1aC")
                     : currentUser!.isDashboardsOperation2 ||
                             currentUser!.isDashboardsBank2
                         ? DashboardsRtatelPage(
@@ -735,7 +735,7 @@ final GoRouter router = GoRouter(
         return DashboardsRtatelPage(
             title: "Bolivar Peninsula Fiber to the home",
             source:
-                "https://lookerstudio.google.com/embed/reporting/f07ca1f5-f6af-41d5-9574-3de27a67978b/page/UO1aC");
+                "https://lookerstudio.google.com/embed/u/0/reporting/8661d186-8edb-45ee-b2ab-0fd8acc1d0e5/page/UO1aC");
       },
       // (context, state, const DetailsPopUp()),
     ),
