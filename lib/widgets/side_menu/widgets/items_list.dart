@@ -390,6 +390,70 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
 
+            // JSA Section
+            // JSA USERS
+            currentUser!.isJSA
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: MenuButton(
+                      buttonSize: 40,
+                      tooltip: 'JSA Users',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.person_outline,
+                      // isTaped: visualState.isTaped[7],
+                      onPressed: () async {
+                        // await showDialog(
+                        //     context: context,
+                        //     builder: (BuildContext context) {
+                        //       return const ConfigPageDashboard();
+                        //     });
+                        context.pushReplacement('/users');
+                      },
+                    ),
+                  )
+                : Container(),
+            // Jsa Dashboards
+            currentUser!.isJSA
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: MenuButton(
+                      buttonSize: 40,
+                      tooltip: 'JSA Dashbords',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.menu,
+                      // isTaped: visualState.isTaped[7],
+                      onPressed: () async {
+                        // await showDialog(
+                        //     context: context,
+                        //     builder: (BuildContext context) {
+                        //       return const ConfigPageDashboard();
+                        //     });
+                        context.pushReplacement(routeJSADashboard);
+                      },
+                    ),
+                  )
+                : Container(),
+            // JSA Document List
+            currentUser!.isJSA
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: MenuButton(
+                      buttonSize: 40,
+                      tooltip: 'JSA Document List',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.document_scanner_outlined,
+                      // isTaped: visualState.isTaped[7],
+                      onPressed: () async {
+                        // await showDialog(
+                        //     context: context,
+                        //     builder: (BuildContext context) {
+                        //       return const ConfigPageDashboard();
+                        //     });
+                        context.pushReplacement(routeJSADochument);
+                      },
+                    ),
+                  )
+                : Container(),
             SideMenuItem(
               selected: provider.indexSelected[12],
               leading: const Icon(Icons.power_settings_new_outlined,

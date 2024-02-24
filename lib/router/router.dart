@@ -15,6 +15,7 @@ import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dar
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/download_apk/dashboard_rtatel_page.dart';
+import 'package:rta_crm_cv/pages/jsa/jsa_document_list.dart';
 import 'package:rta_crm_cv/pages/login_page/login_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
@@ -34,6 +35,7 @@ import '../pages/dashboards_rtatel/config_page_dashboard.dart';
 import '../pages/dashboards_rtatel/migrations/bolivar_peninsula_page_desktop.dart';
 import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
 import '../pages/dashboards_rtatel/migrations/monitoring_dashboards/monitoring_dashboard_page_desktop.dart';
+import '../pages/jsa/jsa_dashboards.dart';
 import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
 
 /// The route configuration.
@@ -108,6 +110,10 @@ final GoRouter router = GoRouter(
             return const MonitoryPageDesktop();
           } else if (currentUser!.isEmployee) {
             return const DownloadAPKPage();
+          } else if (currentUser!.isAdminJSA) {
+            return const JSADashboards();
+          } else if (currentUser!.isEmployeeJSA) {
+            return const JSADashboards();
           } else {
             return const PageNotFoundPage();
           }
@@ -162,7 +168,11 @@ final GoRouter router = GoRouter(
                                             ? const MonitoryPageDesktop()
                                             : currentUser!.isEmployee
                                                 ? const DownloadAPKPage()
-                                                : const PageNotFoundPage(),
+                                                : currentUser!.isAdminJSA
+                                                    ? const JSADashboards()
+                                                    : currentUser!.isEmployeeJSA
+                                                        ? const JSADashboards()
+                                                        : const PageNotFoundPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(
@@ -377,6 +387,25 @@ final GoRouter router = GoRouter(
       name: 'Maintenance Dashboard',
       builder: (BuildContext context, GoRouterState state) {
         return const ConfigPageDashboard();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+
+    //////// JSA
+    GoRoute(
+      path: routeJSADochument,
+      name: 'JSA Document',
+      builder: (BuildContext context, GoRouterState state) {
+        return const JSADocumentList();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+
+    GoRoute(
+      path: routeJSADashboard,
+      name: 'JSA Dashboards',
+      builder: (BuildContext context, GoRouterState state) {
+        return const JSADashboards();
       },
       // (context, state, const DetailsPopUp()),
     ),

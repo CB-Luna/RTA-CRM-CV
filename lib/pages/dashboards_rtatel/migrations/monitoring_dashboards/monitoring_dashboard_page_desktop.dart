@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/migrations/monitoring_dashboards/widgets/action_log.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/migrations/monitoring_dashboards/widgets/summary.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/migrations/monitoring_dashboards/widgets/weekly_error_trends.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 import '../../../../public/colors.dart';
@@ -75,6 +77,8 @@ class _MonitoringDashboardPageDesktopState
                     ),
                     const TopBarButtons(),
                     const Summary(),
+                    const WeeklyErrorTrends(),
+                    const ActionLog(),
                   ],
                 ),
               ),
