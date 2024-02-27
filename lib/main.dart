@@ -8,7 +8,7 @@ import 'package:rta_crm_cv/providers/ctrlv/dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/providers/ctrlv/issue_reported_provider.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/bolivar_peninsula_provider.dart';
-import 'package:rta_crm_cv/providers/dashboard_rta/monitoring_provider.dart';
+import 'package:rta_crm_cv/providers/dashboard_rta/monitoring_dashboard_provider.dart';
 import 'package:rta_crm_cv/providers/job_complete_technicians_provider.dart';
 import 'package:rta_crm_cv/providers/dashboard_RTA.dart';
 import 'package:rta_crm_cv/widgets/horizontalscroll.dart';
@@ -169,7 +169,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Portal(
       child: MaterialApp.router(
-        title: 'RTA CRM',
+        title: 'RTA',
         debugShowCheckedModeBanner: false,
         locale: _locale,
         supportedLocales: const [Locale('en', 'US')],

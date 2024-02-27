@@ -93,7 +93,7 @@ final GoRouter router = GoRouter(
               return DashboardsRtatelPage(
                   title: "EcommerceRTA",
                   source:
-                      "https://ecom.rtatel.com/#/rep/?rep=rtanumbers@gmail.com");
+                      "https://ecom.rtatel.com/#/rep/?rep=${currentUser!.email}");
             } else if (currentUser!.isDashboardsInstaller) {
               return DashboardsRtatelPage(
                   title: currentUser!.name + currentUser!.lastName,
@@ -152,7 +152,7 @@ final GoRouter router = GoRouter(
                                 ? DashboardsRtatelPage(
                                     title: "EcommerceRTA",
                                     source:
-                                        "https://ecom.rtatel.com/#/rep/?rep=rtanumbers@gmail.com")
+                                        "https://ecom.rtatel.com/#/rep/?rep=${currentUser!.email}")
                                 : currentUser!.isDashboardsInstaller
                                     ? DashboardsRtatelPage(
                                         title: currentUser!.name +
@@ -848,10 +848,13 @@ final GoRouter router = GoRouter(
       path: ecommerceRTA,
       name: 'EcommerceRTA',
       builder: (BuildContext context, GoRouterState state) {
+        late String email = currentUser!.email;
+
         return DashboardsRtatelPage(
             title: "EcommerceRTA",
             source:
-                "https://ecom.rtatel.com/#/rep/?rep=${prefs.getString('email')}");
+                // "https://ecom.rtatel.com/#/rep/?rep=${prefs.getString('email')}");
+                "https://ecom.rtatel.com/#/rep/?rep=$email");
       },
       // (context, state, const DetailsPopUp()),
     ),

@@ -3,7 +3,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/migrations/monitoring_dashboards/widgets/weekly_error_trends_bar_chart.dart';
-import 'package:rta_crm_cv/providers/dashboard_rta/monitoring_provider.dart';
+import 'package:rta_crm_cv/providers/dashboard_rta/monitoring_dashboard_provider.dart';
 
 class ActionLog extends StatefulWidget {
   const ActionLog({super.key});
@@ -20,8 +20,9 @@ class _ActionLogState extends State<ActionLog> {
 
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 2.10,
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      height: MediaQuery.of(context).size.height * 1.35,
+      margin: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 5),
+      // margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       decoration: BoxDecoration(color: Colors.grey, border: Border.all()),
       child: Column(
         children: [
@@ -71,9 +72,9 @@ class _ActionLogState extends State<ActionLog> {
                     ),
                     columns: [
                       PlutoColumn(
-                        title: 'Month',
-                        field: 'month',
-                        width: 220,
+                        title: 'Cbluna Resource',
+                        field: 'cbluna_resource',
+                        width: 235,
                         enableContextMenu: false,
                         enableDropToResize: false,
                         titleTextAlign: PlutoColumnTextAlign.center,
@@ -82,9 +83,9 @@ class _ActionLogState extends State<ActionLog> {
                         enableEditingMode: false,
                       ),
                       PlutoColumn(
-                        title: 'System',
-                        field: 'system',
-                        width: 120,
+                        title: ' ',
+                        field: 'value_cbluna',
+                        width: 100,
                         enableContextMenu: false,
                         enableDropToResize: false,
                         titleTextAlign: PlutoColumnTextAlign.center,
@@ -112,85 +113,80 @@ class _ActionLogState extends State<ActionLog> {
             Container(
               width: MediaQuery.of(context).size.width * 0.5,
               height: MediaQuery.of(context).size.height * 0.60,
-              margin: const EdgeInsets.all(10),
+              margin: const EdgeInsets.only(top: 55),
               color: Colors.white,
               child: const WeeklyErrorTrendsBarChart(),
             ),
           ]),
 
           // Sector 3
-          Container(
-            color: Colors.red,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.22,
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    margin: const EdgeInsets.all(10),
-                    child: PlutoGrid(
-                      key: UniqueKey(),
-                      configuration: PlutoGridConfiguration(
-                        localeText: const PlutoGridLocaleText.spanish(),
-                        scrollbar: plutoGridScrollbarConfig(context),
-                        style: plutoGridStyleConfigMonitoringDashboard(context),
-                        columnFilter: PlutoGridColumnFilterConfig(
-                          filters: const [
-                            ...FilterHelper.defaultFilters,
-                          ],
-                          resolveDefaultColumnFilter: (column, resolver) {
-                            return resolver<PlutoFilterTypeContains>()
-                                as PlutoFilterType;
-                          },
-                        ),
-                      ),
-                      columns: [
-                        PlutoColumn(
-                          title: 'Error Type',
-                          field: 'error_type_powercode',
-                          width: 120,
-                          enableContextMenu: false,
-                          enableDropToResize: false,
-                          titleTextAlign: PlutoColumnTextAlign.center,
-                          textAlign: PlutoColumnTextAlign.center,
-                          type: PlutoColumnType.number(),
-                          enableEditingMode: false,
-                        ),
-                        PlutoColumn(
-                          title: 'Powercode Events',
-                          field: 'powercode_events',
-                          width: 220,
-                          enableContextMenu: false,
-                          enableDropToResize: false,
-                          titleTextAlign: PlutoColumnTextAlign.center,
-                          textAlign: PlutoColumnTextAlign.center,
-                          type: PlutoColumnType.text(),
-                          enableEditingMode: false,
-                        ),
-                      ],
-                      rows: provider.monthRows,
-                      createFooter: (stateManager) {
-                        stateManager.setPageSize(
-                          20,
-                          notify: false,
-                        );
-                        return PlutoPagination(stateManager);
-                      },
-                      onLoaded: (event) {
-                        provider.monthstateManager = event.stateManager;
-                      },
-                      onRowChecked: (event) {},
-                    ),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            Container(
+              width: MediaQuery.of(context).size.width * 0.22,
+              height: MediaQuery.of(context).size.height * 0.6,
+              margin: const EdgeInsets.all(10),
+              child: PlutoGrid(
+                key: UniqueKey(),
+                configuration: PlutoGridConfiguration(
+                  localeText: const PlutoGridLocaleText.spanish(),
+                  scrollbar: plutoGridScrollbarConfig(context),
+                  style: plutoGridStyleConfigMonitoringDashboard(context),
+                  columnFilter: PlutoGridColumnFilterConfig(
+                    filters: const [
+                      ...FilterHelper.defaultFilters,
+                    ],
+                    resolveDefaultColumnFilter: (column, resolver) {
+                      return resolver<PlutoFilterTypeContains>()
+                          as PlutoFilterType;
+                    },
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    margin: const EdgeInsets.all(10),
-                    color: Colors.white,
-                    child: const WeeklyErrorTrendsBarChart(),
+                ),
+                columns: [
+                  PlutoColumn(
+                    title: 'RTA Resource Contacted',
+                    field: 'rta_resource_contacted',
+                    width: 235,
+                    enableContextMenu: false,
+                    enableDropToResize: false,
+                    titleTextAlign: PlutoColumnTextAlign.center,
+                    textAlign: PlutoColumnTextAlign.center,
+                    type: PlutoColumnType.number(),
+                    enableEditingMode: false,
                   ),
-                ]),
-          ),
+                  PlutoColumn(
+                    title: ' ',
+                    field: 'value_rta',
+                    width: 100,
+                    enableContextMenu: false,
+                    enableDropToResize: false,
+                    titleTextAlign: PlutoColumnTextAlign.center,
+                    textAlign: PlutoColumnTextAlign.center,
+                    type: PlutoColumnType.text(),
+                    enableEditingMode: false,
+                  ),
+                ],
+                rows: provider.monthRows,
+                createFooter: (stateManager) {
+                  stateManager.setPageSize(
+                    20,
+                    notify: false,
+                  );
+                  return PlutoPagination(stateManager);
+                },
+                onLoaded: (event) {
+                  provider.monthstateManager = event.stateManager;
+                },
+                onRowChecked: (event) {},
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: MediaQuery.of(context).size.height * 0.6,
+              margin: const EdgeInsets.all(10),
+              color: Colors.white,
+              child: const WeeklyErrorTrendsBarChart(),
+            ),
+          ]),
         ],
       ),
     );

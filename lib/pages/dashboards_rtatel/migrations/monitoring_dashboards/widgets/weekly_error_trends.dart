@@ -3,7 +3,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/migrations/monitoring_dashboards/widgets/weekly_error_trends_bar_chart.dart';
-import 'package:rta_crm_cv/providers/dashboard_rta/monitoring_provider.dart';
+import 'package:rta_crm_cv/providers/dashboard_rta/monitoring_dashboard_provider.dart';
 
 class WeeklyErrorTrends extends StatefulWidget {
   const WeeklyErrorTrends({super.key});

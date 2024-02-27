@@ -391,27 +391,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                 : Container(),
 
             // JSA Section
-            // JSA USERS
-            currentUser!.isJSA
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                    child: MenuButton(
-                      buttonSize: 40,
-                      tooltip: 'JSA Users',
-                      fillColor: AppTheme.of(context).primaryColor,
-                      icon: Icons.person_outline,
-                      // isTaped: visualState.isTaped[7],
-                      onPressed: () async {
-                        // await showDialog(
-                        //     context: context,
-                        //     builder: (BuildContext context) {
-                        //       return const ConfigPageDashboard();
-                        //     });
-                        context.pushReplacement('/users');
-                      },
-                    ),
-                  )
-                : Container(),
+
             // Jsa Dashboards
             currentUser!.isJSA
                 ? Padding(
