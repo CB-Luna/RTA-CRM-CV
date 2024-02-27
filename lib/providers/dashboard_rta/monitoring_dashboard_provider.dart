@@ -8,6 +8,7 @@ import '../../models/dashboard_rta/ftth.dart';
 import '../../models/dashboard_rta/home_and_lots.dart';
 
 class MonitoringDashboardProvider extends ChangeNotifier {
+  int viewPopup = 2;
   // Table 1
   PlutoGridStateManager? monthstateManager;
   List<PlutoRow> monthRows = [];
@@ -48,6 +49,11 @@ class MonitoringDashboardProvider extends ChangeNotifier {
         return;
     }
     monthstateManager!.setPage(page);
+    notifyListeners();
+  }
+
+  void updateViewPopup(int value) {
+    viewPopup = value;
     notifyListeners();
   }
 }
