@@ -98,6 +98,9 @@ class Permissions {
   String? residentialAndBusinessCustomers;
   String? bolivarPeninsulaFiberToTheHome;
 
+  // JSA
+  String? dashboardJSA;
+
   Permissions(
       {
       //WOP
@@ -161,7 +164,8 @@ class Permissions {
       required this.monthlyArpuTrackingWholesale,
       required this.monthlyArpuTrackingResidential,
       required this.residentialAndBusinessCustomers,
-      required this.bolivarPeninsulaFiberToTheHome});
+      required this.bolivarPeninsulaFiberToTheHome,
+      required this.dashboardJSA});
 
   factory Permissions.fromJson(String str) =>
       Permissions.fromMap(json.decode(str));
@@ -169,72 +173,71 @@ class Permissions {
   String toJson() => json.encode(toMap());
 
   factory Permissions.fromMap(Map<String, dynamic> json) => Permissions(
-        //WOP
-        prospects: json["Prospects"],
-        scheduling: json["Scheduling"],
-        network: json["Network"],
-        tickets: json["Tickets"],
-        order: json["Order"],
-        campaigns: json["Campaigns"],
-        reports: json["Reports"],
-        //FMT
-        users: json["Users"],
-        inventory: json["Inventory"],
-        dashboards: json["Dashboards"],
-        configuratorSm: json["Configurator SM"],
-        vehicleStatus: json["Vehicle Status"],
-        downloadApk: json["Download APK"],
-        //Dashboards RTATEL
-        fmt: json["FMT"],
-        wop: json["WOP"],
-        sales: json["Sales"],
-        manager: json["Manager"],
-        surveys: json["Surveys"],
-        ivrStats: json["IVR Stats"],
-        callCenter: json["Call Center"],
-        configurator: json["Configurator"],
-        ecommerceRta: json["EcommerceRTA"],
-        homeownerFTTHDocument: json["Homeowner FTTH Document"],
-        jobComplete: json["Job Complete"],
-        mapCoverage: json["Map Coverage"],
-        engageOption: json["Engage Option"],
-        iptvTracking: json["IPTV Tracking"],
-        jobsTracking: json["Jobs Tracking"],
-        monthlyChurn: json["Monthly Churn"],
-        voipTracking: json["VOIP Tracking"],
-        gigFastNetwork: json["GigFast Network"],
-        jobCompleteCry: json["Job Complete CRY"],
-        jobCompleteEas: json["Job Complete EAS"],
-        jobCompleteOde: json["Job Complete ODE"],
-        jobCompleteSmi: json["Job Complete SMI"],
-        operationReport: json["Operation Report"],
-        deactContactLog: json["Deact Contact Log"],
-        noCoverageLeads: json["No Coverage Leads"],
-        configuratorStats: json["Configurator Stats"],
-        referralsTracking: json["Referrals Tracking"],
-        conversionRate: json["Conversion rate"],
-        monitoringDashboard: json["Monitoring Dashboard"],
-        itSurveyOctober2021: json["IT Survey October 2021"],
-        newConfiguratorStats: json["New Configurator Stats"],
-        techJobTimeTracking: json["Tech Job Time Tracking"],
-        arpuTrackingWholesale: json["ARPU Tracking Wholesale"],
-        jobCompleteIncentives: json["Job Complete Incentives"],
-        opCoSubscriberTargets: json["OpCo Subscriber Targets"],
-        jobCompleteTechnicians: json["Job Complete Technicians"],
-        wispapalooza2021Survey: json["WISPAPALOOZA 2021 Survey"],
-        arpuTrackingResidential: json["ARPU Tracking Residential"],
-        jobsUtilizationTracking: json["Jobs Utilization Tracking"],
-        wirelessFiberCustomers: json["Wireless & Fiber Customers"],
-        newSalesTrackingDashboard: json["New Sales Tracking Dashboard"],
-        jobCompletedServiceOverall: json["Job Completed Service Overall"],
-        monthlyArpuTrackingWholesale: json["Monthly ARPU Tracking Wholesale"],
-        monthlyArpuTrackingResidential:
-            json["Monthly ARPU Tracking Residential"],
-        residentialAndBusinessCustomers:
-            json["Residential and Business Customers"],
-        bolivarPeninsulaFiberToTheHome:
-            json["Bolivar Peninsula Fiber to the Home"],
-      );
+      //WOP
+      prospects: json["Prospects"],
+      scheduling: json["Scheduling"],
+      network: json["Network"],
+      tickets: json["Tickets"],
+      order: json["Order"],
+      campaigns: json["Campaigns"],
+      reports: json["Reports"],
+      //FMT
+      users: json["Users"],
+      inventory: json["Inventory"],
+      dashboards: json["Dashboards"],
+      configuratorSm: json["Configurator SM"],
+      vehicleStatus: json["Vehicle Status"],
+      downloadApk: json["Download APK"],
+      //Dashboards RTATEL
+      fmt: json["FMT"],
+      wop: json["WOP"],
+      sales: json["Sales"],
+      manager: json["Manager"],
+      surveys: json["Surveys"],
+      ivrStats: json["IVR Stats"],
+      callCenter: json["Call Center"],
+      configurator: json["Configurator"],
+      ecommerceRta: json["EcommerceRTA"],
+      homeownerFTTHDocument: json["Homeowner FTTH Document"],
+      jobComplete: json["Job Complete"],
+      mapCoverage: json["Map Coverage"],
+      engageOption: json["Engage Option"],
+      iptvTracking: json["IPTV Tracking"],
+      jobsTracking: json["Jobs Tracking"],
+      monthlyChurn: json["Monthly Churn"],
+      voipTracking: json["VOIP Tracking"],
+      gigFastNetwork: json["GigFast Network"],
+      jobCompleteCry: json["Job Complete CRY"],
+      jobCompleteEas: json["Job Complete EAS"],
+      jobCompleteOde: json["Job Complete ODE"],
+      jobCompleteSmi: json["Job Complete SMI"],
+      operationReport: json["Operation Report"],
+      deactContactLog: json["Deact Contact Log"],
+      noCoverageLeads: json["No Coverage Leads"],
+      configuratorStats: json["Configurator Stats"],
+      referralsTracking: json["Referrals Tracking"],
+      conversionRate: json["Conversion rate"],
+      monitoringDashboard: json["Monitoring Dashboard"],
+      itSurveyOctober2021: json["IT Survey October 2021"],
+      newConfiguratorStats: json["New Configurator Stats"],
+      techJobTimeTracking: json["Tech Job Time Tracking"],
+      arpuTrackingWholesale: json["ARPU Tracking Wholesale"],
+      jobCompleteIncentives: json["Job Complete Incentives"],
+      opCoSubscriberTargets: json["OpCo Subscriber Targets"],
+      jobCompleteTechnicians: json["Job Complete Technicians"],
+      wispapalooza2021Survey: json["WISPAPALOOZA 2021 Survey"],
+      arpuTrackingResidential: json["ARPU Tracking Residential"],
+      jobsUtilizationTracking: json["Jobs Utilization Tracking"],
+      wirelessFiberCustomers: json["Wireless & Fiber Customers"],
+      newSalesTrackingDashboard: json["New Sales Tracking Dashboard"],
+      jobCompletedServiceOverall: json["Job Completed Service Overall"],
+      monthlyArpuTrackingWholesale: json["Monthly ARPU Tracking Wholesale"],
+      monthlyArpuTrackingResidential: json["Monthly ARPU Tracking Residential"],
+      residentialAndBusinessCustomers:
+          json["Residential and Business Customers"],
+      bolivarPeninsulaFiberToTheHome:
+          json["Bolivar Peninsula Fiber to the Home"],
+      dashboardJSA: json["Dashboards JSA"]);
 
   Map<String, dynamic> toMap() => {
         //WOP
@@ -299,5 +302,6 @@ class Permissions {
         "Monthly ARPU Tracking Residential": monthlyArpuTrackingResidential,
         "Residential and Business Customers": residentialAndBusinessCustomers,
         "Bolivar Peninsula Fiber to the Home": bolivarPeninsulaFiberToTheHome,
+        "Dashboards JSA": dashboardJSA
       };
 }
