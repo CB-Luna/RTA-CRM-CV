@@ -236,6 +236,11 @@ const String routeDownloadAPK = '/download_apk';
 const String routeInventory = '/inventory';
 const String routeJobCompleteTechni = '/job_complete_technicians';
 const String routemaintenanceDashboard = '/maintenanceDashboard';
+
+// JSA
+const String routeJSADochument = '/jsa_document_list';
+const String routeJSADashboard = '/jsa_dashboards';
+
 //Sales
 const String opcoSuscriberTarget = '/sales/opco_suscriber_target';
 const String newSalesTrackingDashboard = '/sales/new_sales_tracking_dashboard';

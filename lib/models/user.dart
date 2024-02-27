@@ -74,7 +74,8 @@ class User {
   bool get isAdmin =>
       currentUser!.isAdminCrm ||
       currentUser!.isAdminCv ||
-      currentUser!.isAdminDashboards;
+      currentUser!.isAdminDashboards ||
+      currentUser!.isAdminJSA;
 
   // CRM
   bool get isCRM =>
@@ -146,6 +147,11 @@ class User {
   bool get isDashboardsBank3 => currentUser!.currentRole.id == 20; // Bank 3
 
   bool get isDashboardsCareRep => currentUser!.currentRole.id == 21; // Care Rep
+
+  // JSA
+  bool get isJSA => isAdminJSA || isEmployeeJSA;
+  bool get isAdminJSA => currentUser!.currentRole.id == 23;
+  bool get isEmployeeJSA => currentUser!.currentRole.id == 24;
 
   String get currentAppRole => roles
       .where((role) => role.application == currentUser!.currentRole.application)
