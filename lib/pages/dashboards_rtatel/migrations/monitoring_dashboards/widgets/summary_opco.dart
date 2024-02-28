@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/monitoring_dashboard_provider.dart';
 
-import 'bar_chart_example.dart';
+import 'bar_chart_example_1.dart';
 
 class SummaryOpco extends StatefulWidget {
   const SummaryOpco({super.key});
@@ -117,7 +117,7 @@ class _SummaryOpcoState extends State<SummaryOpco> {
           height: MediaQuery.of(context).size.height * 0.8,
           margin: const EdgeInsets.all(10),
           color: Colors.white,
-          child: BarChartSample2(),
+          child: BarChartSample3(),
         ))
       ]),
     );
