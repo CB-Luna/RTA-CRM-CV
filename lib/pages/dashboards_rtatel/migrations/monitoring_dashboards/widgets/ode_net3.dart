@@ -23,7 +23,8 @@ class _ODENET3State extends State<ODENET3> {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.75,
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-      decoration: BoxDecoration(color: Colors.purple, border: Border.all()),
+      decoration:
+          BoxDecoration(color: const Color(0xff1D9CAB), border: Border.all()),
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Column(
           children: [
@@ -148,26 +149,20 @@ class _ODENET3State extends State<ODENET3> {
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 height: MediaQuery.of(context).size.height * 0.07,
                 width: MediaQuery.of(context).size.width * 0.2,
                 alignment: Alignment.center,
-                margin: const EdgeInsets.only(top: 10),
-                decoration: BoxDecoration(
-                  color: Colors.grey[850],
+                margin: const EdgeInsets.only(top: 10, left: 10),
+                decoration: const BoxDecoration(
+                  color: Color(0xff263238),
                   border: Border.symmetric(
-                      vertical: BorderSide(color: Colors.black, width: 1.5)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.purple[300]!,
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
+                      horizontal:
+                          BorderSide(color: Color(0xff00B8CE), width: 6)),
                 ),
-                child: const Text("CRY/SBB",
+                child: const Text("ODE/NET3",
                     style: TextStyle(
                         fontFamily: 'Gotham-Regular',
                         color: Colors.white,

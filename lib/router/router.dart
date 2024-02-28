@@ -15,7 +15,7 @@ import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dar
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/download_apk/dashboard_rtatel_page.dart';
-import 'package:rta_crm_cv/pages/jsa/jsa_document_list.dart';
+import 'package:rta_crm_cv/pages/jsa/jsa_document_list/jsa_document_list.dart';
 import 'package:rta_crm_cv/pages/login_page/login_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
@@ -35,7 +35,7 @@ import '../pages/dashboards_rtatel/config_page_dashboard.dart';
 import '../pages/dashboards_rtatel/migrations/bolivar_peninsula_page_desktop.dart';
 import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
 import '../pages/dashboards_rtatel/migrations/monitoring_dashboards/monitoring_dashboard_page_desktop.dart';
-import '../pages/jsa/jsa_dashboards.dart';
+import '../pages/jsa/jsa_dashboard/jsa_dashboards.dart';
 import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
 
 /// The route configuration.
@@ -826,7 +826,7 @@ final GoRouter router = GoRouter(
       path: monitoringDashboard,
       name: 'Monitoring Dashboard',
       builder: (BuildContext context, GoRouterState state) {
-        // return MonitoringDashboardPageDesktop();
+        // return const MonitoringDashboardPageDesktop();
         return DashboardsRtatelPage(
             title: "Monitoring Dashboard",
             source:
