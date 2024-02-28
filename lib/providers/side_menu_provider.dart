@@ -11,7 +11,7 @@ class SideMenuProvider extends ChangeNotifier {
   bool forcedOpen = false;
 
   void checkWindowSize(BuildContext context) {
-    if (forcedOpen && MediaQuery.of(context).size.width > 1440) {
+    if (forcedOpen /*  && MediaQuery.of(context).size.width > 1440 */) {
       isOpen = true;
     } else {
       if (MediaQuery.of(context).size.width <= 1440) {
@@ -84,15 +84,13 @@ class SideMenuProvider extends ChangeNotifier {
   SMIInput<bool>? iHoverDashboards;
   SMIInput<bool>? iSelectedDashboards;
   Future<void> dashboardsIconRive() async {
-    final ByteData data =
-        await rootBundle.load('assets/rive/dashboards_icon.riv');
+    final ByteData data = await rootBundle.load('assets/rive/dashboards_icon.riv');
 
     final file = RiveFile.import(data);
 
     final artboard = file.mainArtboard;
 
-    sMCDashboards =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCDashboards = StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCDashboards != null) {
       artboard.addController(sMCDashboards!);
@@ -109,15 +107,13 @@ class SideMenuProvider extends ChangeNotifier {
   SMIInput<bool>? iHoverAccounts;
   SMIInput<bool>? iSelectedAccounts;
   Future<void> accountsIconRive() async {
-    final ByteData data =
-        await rootBundle.load('assets/rive/accounts_icon.riv');
+    final ByteData data = await rootBundle.load('assets/rive/accounts_icon.riv');
 
     final file = RiveFile.import(data);
 
     final artboard = file.mainArtboard;
 
-    sMCAccounts =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCAccounts = StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCAccounts != null) {
       artboard.addController(sMCAccounts!);
@@ -134,15 +130,13 @@ class SideMenuProvider extends ChangeNotifier {
   SMIInput<bool>? iHoverSchedulings;
   SMIInput<bool>? iSelectedSchedulings;
   Future<void> schedulingsIconRive() async {
-    final ByteData data =
-        await rootBundle.load('assets/rive/schedulings_icon.riv');
+    final ByteData data = await rootBundle.load('assets/rive/schedulings_icon.riv');
 
     final file = RiveFile.import(data);
 
     final artboard = file.mainArtboard;
 
-    sMCSchedulings =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCSchedulings = StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCSchedulings != null) {
       artboard.addController(sMCSchedulings!);
@@ -159,15 +153,13 @@ class SideMenuProvider extends ChangeNotifier {
   SMIInput<bool>? iHoverNetworks;
   SMIInput<bool>? iSelectedNetworks;
   Future<void> networksIconRive() async {
-    final ByteData data =
-        await rootBundle.load('assets/rive/networks_icon.riv');
+    final ByteData data = await rootBundle.load('assets/rive/networks_icon.riv');
 
     final file = RiveFile.import(data);
 
     final artboard = file.mainArtboard;
 
-    sMCNetworks =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCNetworks = StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCNetworks != null) {
       artboard.addController(sMCNetworks!);
@@ -190,8 +182,7 @@ class SideMenuProvider extends ChangeNotifier {
 
     final artboard = file.mainArtboard;
 
-    sMCTickets =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCTickets = StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCTickets != null) {
       artboard.addController(sMCTickets!);
@@ -208,15 +199,13 @@ class SideMenuProvider extends ChangeNotifier {
   SMIInput<bool>? iHoverInventories;
   SMIInput<bool>? iSelectedInventories;
   Future<void> inventoriesIconRive() async {
-    final ByteData data =
-        await rootBundle.load('assets/rive/inventories_icon.riv');
+    final ByteData data = await rootBundle.load('assets/rive/inventories_icon.riv');
 
     final file = RiveFile.import(data);
 
     final artboard = file.mainArtboard;
 
-    sMCInventories =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCInventories = StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCInventories != null) {
       artboard.addController(sMCInventories!);
@@ -239,8 +228,7 @@ class SideMenuProvider extends ChangeNotifier {
 
     final artboard = file.mainArtboard;
 
-    sMCReports =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCReports = StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCReports != null) {
       artboard.addController(sMCReports!);
@@ -280,15 +268,13 @@ class SideMenuProvider extends ChangeNotifier {
   SMIInput<bool>? iHoverMonitory;
   SMIInput<bool>? iSelectedMonitory;
   Future<void> monitoryIconRive() async {
-    final ByteData data =
-        await rootBundle.load('assets/rive/networks_icon.riv');
+    final ByteData data = await rootBundle.load('assets/rive/networks_icon.riv');
 
     final file = RiveFile.import(data);
 
     final artboard = file.mainArtboard;
 
-    sMCMonitory =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCMonitory = StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCMonitory != null) {
       artboard.addController(sMCInventories!);
@@ -305,15 +291,13 @@ class SideMenuProvider extends ChangeNotifier {
   SMIInput<bool>? iHoverDownloadAPK;
   SMIInput<bool>? iSelectedDownloadAPK;
   Future<void> downloadAPKIconRive() async {
-    final ByteData data =
-        await rootBundle.load('assets/rive/accounts_icon.riv');
+    final ByteData data = await rootBundle.load('assets/rive/accounts_icon.riv');
 
     final file = RiveFile.import(data);
 
     final artboard = file.mainArtboard;
 
-    sMCDownloadAPK =
-        StateMachineController.fromArtboard(artboard, 'State Machine 1');
+    sMCDownloadAPK = StateMachineController.fromArtboard(artboard, 'State Machine 1');
 
     if (sMCDownloadAPK != null) {
       artboard.addController(sMCDownloadAPK!);
