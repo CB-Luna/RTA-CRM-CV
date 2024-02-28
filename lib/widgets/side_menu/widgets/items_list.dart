@@ -354,21 +354,20 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                     ),
                   )
                 : Container(),
-
-            userPermissions.wop != null
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                    child: MenuButton(
-                      tooltip: 'WOP',
-                      fillColor: AppTheme.of(context).primaryColor,
-                      icon: Icons.engineering_outlined,
-                      // isTaped: visualState.isTaped[7],
-                      onPressed: () {
-                        context.pushReplacement(wop);
-                      },
-                    ),
-                  )
-                : Container(),
+            // userPermissions.wop != null
+            //     ? Padding(
+            //         padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+            //         child: MenuButton(
+            //           tooltip: 'WOP',
+            //           fillColor: AppTheme.of(context).primaryColor,
+            //           icon: Icons.engineering_outlined,
+            //           // isTaped: visualState.isTaped[7],
+            //           onPressed: () {
+            //             context.pushReplacement(wop);
+            //           },
+            //         ),
+            //       )
+            //     : Container(),
             currentUser!.isAdminDashboards
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
