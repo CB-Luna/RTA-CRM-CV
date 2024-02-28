@@ -826,11 +826,11 @@ final GoRouter router = GoRouter(
       path: monitoringDashboard,
       name: 'Monitoring Dashboard',
       builder: (BuildContext context, GoRouterState state) {
-        // return MonitoringDashboardPageDesktop();
-        return DashboardsRtatelPage(
-            title: "Monitoring Dashboard",
-            source:
-                "https://datastudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC");
+        return const MonitoringDashboardPageDesktop();
+        // return DashboardsRtatelPage(
+        //     title: "Monitoring Dashboard",
+        //     source:
+        //         "https://datastudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC");
       },
       // (context, state, const DetailsPopUp()),
     ),
