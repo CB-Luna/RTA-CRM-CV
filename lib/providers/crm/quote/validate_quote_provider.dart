@@ -232,7 +232,6 @@ class ValidateQuoteProvider extends ChangeNotifier {
           //Se marca como ejecutada la instrucción en Bitacora
           log('Se envio correo con exito');
           notifyListeners();
-          return true;
         }
       }
 
@@ -492,7 +491,6 @@ class ValidateQuoteProvider extends ChangeNotifier {
           //Se marca como ejecutada la instrucción en Bitacora
           log('Se envio correo con exito');
           notifyListeners();
-          return true;
         }
       }
       return true;
