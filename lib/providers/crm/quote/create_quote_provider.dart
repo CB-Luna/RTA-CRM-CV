@@ -1095,9 +1095,9 @@ class CreateQuoteProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> salesAcceptsQuoteSenExec() async {
+  Future<bool> salesAcceptsQuoteOperation() async {
     try {
-      final res = await supabase.rpc('get_correo', params: {"role_id": 6});
+      final res = await supabase.rpc('get_correo', params: {"role_id": 7});
       if (res == null) {
         log('Error en get_correo()');
       }
@@ -1106,13 +1106,13 @@ class CreateQuoteProvider extends ChangeNotifier {
         String body = jsonEncode(
           {
             "action": "rtaMail",
-            "template": "SalesAcceptsQuoteSenExec",
+            "template": "SalesAcceptsQuoteSenExec",//TODO: Checar Template
             "subject": "Validate quote - RTA WHOLESALE",
-            "mailto": email['email'], //Sen Exec nestalon1993@gmail.com
+            "mailto": email['email'], //Operations nestalon1993@gmail.com
             "variables": [
               {"name": "quote.quote", "value": "${quote.quote}"},
               {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-              {"name": "quote.status", "value": "Sen. Exec. Validate"},
+              {"name": "quote.status", "value": "Engineer Validate"},
               {"name": "quote.account", "value": "${quote.account}"},
               {"name": "currentUser!.id", "value": currentUser!.name}
             ]
@@ -1132,48 +1132,6 @@ class CreateQuoteProvider extends ChangeNotifier {
         }
       }
 
-      return true;
-    } catch (e) {
-      log('insertQuoteInfo() - Error: $e');
-      notifyListeners();
-      return false;
-    }
-  }
-
-  Future<bool> salesAcceptsQuoteFinance() async {
-    try {
-      final res = await supabase.rpc('get_correo', params: {"role_id": 8});
-      if (res == null) {
-        log('Error en getemail()');
-      }
-      for (var email in res) {
-        //Json del correo;
-        String body = jsonEncode(
-          {
-            "action": "rtaMail",
-            "template": "SalesAcceptsQuoteFinance",
-            "subject": "Validate quote - RTA WHOLESALE",
-            "mailto": email['email'], //Finance kevin.14985@gmail.com
-            "variables": [
-              {"name": "quote.quote", "value": quote.quote},
-              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-              {"name": "quote.status", "value": "Finance Validate"},
-              {"name": "quote.account", "value": quote.account},
-              {"name": "currentUser!.id", "value": currentUser!.name}
-            ]
-          },
-        );
-        var urlAutomatizacion = Uri.parse(urlNotifications);
-        //headers
-        final headers = ({
-          "Content-Type": "application/json",
-        });
-        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
-        if (responseAutomatizacion.statusCode == 200) {
-          //Se marca como ejecutada la instrucción en Bitacora
-          log('Se envio correo con exito');
-        }
-      }
       return true;
     } catch (e) {
       log('insertQuoteInfo() - Error: $e');
@@ -1379,7 +1337,7 @@ class CreateQuoteProvider extends ChangeNotifier {
         'update_quote_status',
         params: {"id_status": 4, "id": quote.quoteid, "user_uuid": currentUser!.id}, //Engineer Validate
       );
-      await salesAcceptsQuoteSenExec(); //TODO: Cambiar correo para Opperations/Network/Ingenieria
+      await salesAcceptsQuoteOperation(); //Sales a Operations
 
       //History
       await supabaseCRM.from('leads_history').insert(

@@ -689,13 +689,6 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                       onTap: () async {
                                                         if (formKey.currentState!.validate()) {
                                                           if (await provider.validateV2(false)) {
-                                                            if (currentUser!.currentRole.roleName == 'Sen. Exec.') {
-                                                              await provider.senExecRejectsQuote();
-                                                            } else if (currentUser!.currentRole.roleName == 'Finance') {
-                                                              await provider.financeRejectsQuote();
-                                                            } else {
-                                                              await provider.opperationsRejectsQuote();
-                                                            }
                                                             context.pushReplacement(routeQuotes);
                                                           }
                                                         } else {

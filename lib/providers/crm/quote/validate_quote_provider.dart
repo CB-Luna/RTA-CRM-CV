@@ -198,6 +198,94 @@ class ValidateQuoteProvider extends ChangeNotifier {
   }
 
 //////////////////////////////////////////////////
+  //operations a sen exec y fiananzas
+  Future<bool> operationAcceptsQuoteSenExec() async {
+    try {
+      final res = await supabase.rpc('get_correo', params: {"role_id": 9});
+      if (res == null) {
+        log('Error en get_correo()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "SalesAcceptsQuoteSenExec",
+            "subject": "Validate quote - RTA WHOLESALE",
+            "mailto": email['email'], //Sen Exec nestalon1993@gmail.com
+            "variables": [
+              {"name": "quote.quote", "value": "${quote.quote}"},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Sen. Exec. Validate"},
+              {"name": "quote.account", "value": "${quote.account}"},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+          notifyListeners();
+          return true;
+        }
+      }
+
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> operationAcceptsQuoteFinance() async {
+    try {
+      final res = await supabase.rpc('get_correo', params: {"role_id": 8});
+      if (res == null) {
+        log('Error en getemail()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "SalesAcceptsQuoteFinance",
+            "subject": "Validate quote - RTA WHOLESALE",
+            "mailto": email['email'], //Finance kevin.14985@gmail.com
+            "variables": [
+              {"name": "quote.quote", "value": quote.quote},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Finance Validate"},
+              {"name": "quote.account", "value": quote.account},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+        }
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
   /// finanzas y operations
   Future<bool> senExecAcceptsQuote() async {
     try {
@@ -346,7 +434,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "variables": [
               {"name": "quote.quote", "value": quote.quote},
               {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-              {"name": "quote.status", "value": "Engineer Validate"},
+              {"name": "quote.status", "value": "Approved"},
               {"name": "quote.account", "value": quote.account},
               {"name": "currentUser!.id", "value": currentUser!.name}
             ]
@@ -608,10 +696,12 @@ class ValidateQuoteProvider extends ChangeNotifier {
         if (currentUser!.isOpperations) {
           if (margin >= 20) {
             await updateRegister(3, quote.quoteid!); //Finance Validate
-            //await salesAcceptsQuoteFinance(); //TODO: Cambiar correo
+            await operationAcceptsQuoteFinance(); //operations a finance
+            await opperationsAcceptQuoteSales(); //operations a sales
           } else {
             await updateRegister(2, quote.quoteid!); //Sen. Exec. Validate
-            //await salesAcceptsQuoteSenExec(); //TODO: Cambiar correo
+            await operationAcceptsQuoteSenExec(); //operations a senExec
+            await opperationsAcceptQuoteSales(); //Operations a senExec
           }
 
           await supabaseCRM.from('order_info').update({
@@ -636,6 +726,8 @@ class ValidateQuoteProvider extends ChangeNotifier {
           });
         } else if (currentUser!.isSenExec) {
           await updateRegister(3, quote.quoteid!); //Finance Validate
+          await senExecAcceptsQuote(); //senExec a finances
+          await senExecAcceptsQuoteSales(); //senExec a sales
 
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,
@@ -646,7 +738,8 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
         } else if (currentUser!.isFinance) {
-          await updateRegister(7, quote.quoteid!); //Approved
+          await updateRegister(7, quote.quoteid!); //Approve
+          await financeAcceptsQuoteSales(); //finances a sales
 
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,
@@ -661,6 +754,13 @@ class ValidateQuoteProvider extends ChangeNotifier {
       } else {
         //Rejected
         await updateRegister(5, quote.quoteid!);
+        if (currentUser!.isSenExec) {
+          await senExecRejectsQuote();
+        } else if (currentUser!.isFinance) {
+          await financeRejectsQuote();
+        } else {
+          await opperationsRejectsQuote();
+        }
 
         await supabaseCRM.from('order_info').update({
           "handoff": handoffSelectedValue,
