@@ -270,7 +270,9 @@ class CreateQuoteProvider extends ChangeNotifier {
     } /* else if (imageBytes == null) {
       return false;
     } */
-    else {
+    else if (margin.isInfinite) {
+      return false;
+    } else {
       return true;
     }
   }
@@ -821,6 +823,8 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     if (totalPlusTax == 0 && subtotal == 0) {
       margin = 0;
+    } else if (cost == 0) {
+      margin = 100;
     } else {
       margin = (totalPlusTax / cost) * 100;
       //margin = ((totalPlusTax - cost) / totalPlusTax) * 100;
@@ -924,7 +928,7 @@ class CreateQuoteProvider extends ChangeNotifier {
 
     selectVendor(vendors.first.vendorName);
   }
- */
+*/
   void selectVendor(String vendorName) {
     vendorSelectedValue = vendorName;
     notifyListeners();
@@ -1073,7 +1077,7 @@ class CreateQuoteProvider extends ChangeNotifier {
               'ID_Column': PlutoCell(value: item.id),
               'LINE_ITEM_Column': PlutoCell(value: item.name),
               'UNIT_PRICE_Column': PlutoCell(value: item.price),
-              'UNIT_COST_Column': PlutoCell(value: item.adjustment! * -1),
+              'UNIT_COST_Column': PlutoCell(value: item.adjustment),
               'QUANTITY_Column': PlutoCell(value: item.quantity),
               'ACTIONS_Column': PlutoCell(value: ''),
             },
@@ -1371,13 +1375,11 @@ class CreateQuoteProvider extends ChangeNotifier {
       );
 
       //Update Status
-      if (margin > 20) {
-        await supabaseCRM.from('x2_quotes').update({'id_status': 3}).eq('id', quote.quoteid);
-        await salesAcceptsQuoteFinance();
-      } else {
-        await supabaseCRM.from('x2_quotes').update({'id_status': 2}).eq('id', quote.quoteid);
-        await salesAcceptsQuoteSenExec();
-      }
+      await supabaseCRM.rpc(
+        'update_quote_status',
+        params: {"id_status": 4, "id": quote.quoteid, "user_uuid": currentUser!.id}, //Engineer Validate
+      );
+      await salesAcceptsQuoteSenExec(); //TODO: Cambiar correo para Opperations/Network/Ingenieria
 
       //History
       await supabaseCRM.from('leads_history').insert(

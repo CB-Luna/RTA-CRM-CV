@@ -1402,9 +1402,14 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                SizedBox(
+                                Container(
                                   height: MediaQuery.of(context).size.height / 3,
-                                  width: MediaQuery.of(context).size.width / 1.6 - 10,
+                                  width: (MediaQuery.of(context).size.width / 5 + 13) * 3,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: AppTheme.of(context).primaryColor, width: 2),
+                                    borderRadius: BorderRadius.circular(18),
+                                    gradient: whiteGradient,
+                                  ),
                                   child: const PlutoGridCotizador(),
                                 ),
                                 Padding(

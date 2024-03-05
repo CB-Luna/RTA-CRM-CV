@@ -605,30 +605,14 @@ class ValidateQuoteProvider extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
       if (validate) {
-        if (currentUser!.isSenExec) {
-          await updateRegister(3, quote.quoteid!);
-
-          await supabaseCRM.from('leads_history').insert({
-            "user": currentUser!.id,
-            "action": 'UPDATE',
-            "description": 'Quote validated by Sen. Exec.',
-            "table": 'x2_quotes',
-            "id_table": quote.quoteid,
-            "name": "${currentUser!.name} ${currentUser!.lastName}"
-          });
-        } else if (currentUser!.isFinance) {
-          await updateRegister(4, quote.quoteid!);
-
-          await supabaseCRM.from('leads_history').insert({
-            "user": currentUser!.id,
-            "action": 'UPDATE',
-            "description": 'Quote validated by Finance',
-            "table": 'x2_quotes',
-            "id_table": quote.quoteid,
-            "name": "${currentUser!.name} ${currentUser!.lastName}",
-          });
-        } else if (currentUser!.isOpperations) {
-          await updateRegister(7, quote.quoteid!);
+        if (currentUser!.isOpperations) {
+          if (margin >= 20) {
+            await updateRegister(3, quote.quoteid!); //Finance Validate
+            //await salesAcceptsQuoteFinance(); //TODO: Cambiar correo
+          } else {
+            await updateRegister(2, quote.quoteid!); //Sen. Exec. Validate
+            //await salesAcceptsQuoteSenExec(); //TODO: Cambiar correo
+          }
 
           await supabaseCRM.from('order_info').update({
             "handoff": handoffSelectedValue,
@@ -650,9 +634,32 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "id_table": quote.quoteid,
             "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
+        } else if (currentUser!.isSenExec) {
+          await updateRegister(3, quote.quoteid!); //Finance Validate
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'UPDATE',
+            "description": 'Quote validated by Sen. Exec.',
+            "table": 'x2_quotes',
+            "id_table": quote.quoteid,
+            "name": "${currentUser!.name} ${currentUser!.lastName}"
+          });
+        } else if (currentUser!.isFinance) {
+          await updateRegister(7, quote.quoteid!); //Approved
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'UPDATE',
+            "description": 'Quote validated by Finance',
+            "table": 'x2_quotes',
+            "id_table": quote.quoteid,
+            "name": "${currentUser!.name} ${currentUser!.lastName}",
+          });
         }
         returning = true;
       } else {
+        //Rejected
         await updateRegister(5, quote.quoteid!);
 
         await supabaseCRM.from('order_info').update({
