@@ -724,8 +724,8 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                                 fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                                 fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
                                                                 fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                                color: AppTheme.of(context)
-                                                                    .primaryText), /* TextStyle(
+                                                                color: AppTheme.of(context).primaryText),
+                                                            /* TextStyle(
                                                               color: AppTheme.of(context).contenidoTablas.color,
                                                               fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             ), */
@@ -735,13 +735,15 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     ),
                                                     SizedBox(
                                                       width: 20,
-                                                      child: Text(':',
-                                                          style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)),
+                                                      child: Text(
+                                                        ':',
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                            fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            color: AppTheme.of(context).primaryText),
+                                                      ),
                                                     ),
                                                     SizedBox(
                                                       child: Text(
@@ -774,29 +776,33 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                             padding: const EdgeInsets.only(right: 10),
                                                             child: Icon(Icons.attach_money, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
-                                                          Text('Subtotal',
-                                                              style: TextStyle(
-                                                                  fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                  fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                  fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                  fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                                  color: AppTheme.of(context).primaryText)),
+                                                          Text(
+                                                            'Price',
+                                                            style: TextStyle(
+                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                color: AppTheme.of(context).primaryText),
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
                                                     SizedBox(
                                                       width: 20,
-                                                      child: Text(':',
-                                                          style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)),
+                                                      child: Text(
+                                                        ':',
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                            fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            color: AppTheme.of(context).primaryText),
+                                                      ),
                                                     ),
                                                     SizedBox(
                                                       child: Text(
-                                                        '\$ ${moneyFormat(provider.subtotal)} USD',
+                                                        '\$ ${moneyFormat(provider.price)} USD',
                                                         style: TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontFamily: 'Bicyclette-Thin',
@@ -825,25 +831,29 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                             padding: const EdgeInsets.only(right: 10),
                                                             child: Icon(Icons.money_off, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
-                                                          Text('Cost',
-                                                              style: TextStyle(
-                                                                  fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                  fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                  fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                  fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                                  color: AppTheme.of(context).primaryText)),
+                                                          Text(
+                                                            'Cost',
+                                                            style: TextStyle(
+                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                color: AppTheme.of(context).primaryText),
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
                                                     SizedBox(
                                                       width: 20,
-                                                      child: Text(':',
-                                                          style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)),
+                                                      child: Text(
+                                                        ':',
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                            fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            color: AppTheme.of(context).primaryText),
+                                                      ),
                                                     ),
                                                     SizedBox(
                                                       child: Text(
@@ -876,29 +886,33 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                             padding: const EdgeInsets.only(right: 10),
                                                             child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
-                                                          Text('Total',
-                                                              style: TextStyle(
-                                                                  fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                  fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                  fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                  fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                                  color: AppTheme.of(context).primaryText)),
+                                                          Text(
+                                                            'Revenue',
+                                                            style: TextStyle(
+                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                color: AppTheme.of(context).primaryText),
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
                                                     SizedBox(
                                                       width: 20,
-                                                      child: Text(':',
-                                                          style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)),
+                                                      child: Text(
+                                                        ':',
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                            fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            color: AppTheme.of(context).primaryText),
+                                                      ),
                                                     ),
                                                     SizedBox(
                                                       child: Text(
-                                                        '\$ ${moneyFormat(provider.total)} USD',
+                                                        '\$ ${moneyFormat(provider.revenue)} USD',
                                                         style: TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontFamily: 'Bicyclette-Thin',
@@ -927,25 +941,29 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                             padding: const EdgeInsets.only(right: 10),
                                                             child: Icon(Icons.confirmation_num_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
-                                                          Text('Tax',
-                                                              style: TextStyle(
-                                                                  fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                  fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                  fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                  fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                                  color: AppTheme.of(context).primaryText)),
+                                                          Text(
+                                                            'Tax',
+                                                            style: TextStyle(
+                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                color: AppTheme.of(context).primaryText),
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
                                                     SizedBox(
                                                       width: 20,
-                                                      child: Text(':',
-                                                          style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)),
+                                                      child: Text(
+                                                        ':',
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                            fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            color: AppTheme.of(context).primaryText),
+                                                      ),
                                                     ),
                                                     SizedBox(
                                                       child: Text(
@@ -978,29 +996,33 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                             padding: const EdgeInsets.only(right: 10),
                                                             child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
-                                                          Text('Total+Tax',
-                                                              style: TextStyle(
-                                                                  fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                                  fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                                  fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                                  fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                                  color: AppTheme.of(context).primaryText)),
+                                                          Text(
+                                                            'Price+Tax',
+                                                            style: TextStyle(
+                                                                fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                                fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                                fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                                fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                                color: AppTheme.of(context).primaryText),
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
                                                     SizedBox(
                                                       width: 20,
-                                                      child: Text(':',
-                                                          style: TextStyle(
-                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
-                                                              fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
-                                                              color: AppTheme.of(context).primaryText)),
+                                                      child: Text(
+                                                        ':',
+                                                        style: TextStyle(
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
+                                                            fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            color: AppTheme.of(context).primaryText),
+                                                      ),
                                                     ),
                                                     SizedBox(
                                                       child: Text(
-                                                        '\$ ${moneyFormat(provider.totalPlusTax)} USD',
+                                                        '\$ ${moneyFormat(provider.pricePlusTax)} USD',
                                                         style: TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontFamily: 'Bicyclette-Thin',

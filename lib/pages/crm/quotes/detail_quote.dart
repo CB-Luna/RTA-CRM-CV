@@ -717,7 +717,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                         child: Icon(Icons.attach_money, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
                                                       Text(
-                                                        'Subtotal',
+                                                        'Price',
                                                         style: TextStyle(
                                                             fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
@@ -742,7 +742,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 ),
                                                 SizedBox(
                                                   child: Text(
-                                                    '\$ ${moneyFormat(provider.subtotal)} USD',
+                                                    '\$ ${moneyFormat(provider.price)} USD',
                                                     style: TextStyle(
                                                       color: AppTheme.of(context).contenidoTablas.color,
                                                       fontFamily: 'Bicyclette-Thin',
@@ -827,7 +827,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                         child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
                                                       Text(
-                                                        'Total',
+                                                        'Revenue',
                                                         style: TextStyle(
                                                             fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
@@ -852,7 +852,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 ),
                                                 SizedBox(
                                                   child: Text(
-                                                    '\$ ${moneyFormat(provider.total)} USD',
+                                                    '\$ ${moneyFormat(provider.revenue)} USD',
                                                     style: TextStyle(
                                                       color: AppTheme.of(context).contenidoTablas.color,
                                                       fontFamily: 'Bicyclette-Thin',
@@ -937,7 +937,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                         child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
                                                       Text(
-                                                        'Total+Tax',
+                                                        'Price+Tax',
                                                         style: TextStyle(
                                                             fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
@@ -962,7 +962,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 ),
                                                 SizedBox(
                                                   child: Text(
-                                                    '\$ ${moneyFormat(provider.totalPlusTax)} USD',
+                                                    '\$ ${moneyFormat(provider.pricePlusTax)} USD',
                                                     style: TextStyle(
                                                       color: AppTheme.of(context).contenidoTablas.color,
                                                       fontFamily: 'Bicyclette-Thin',
