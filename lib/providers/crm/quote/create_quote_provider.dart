@@ -1106,7 +1106,7 @@ class CreateQuoteProvider extends ChangeNotifier {
         String body = jsonEncode(
           {
             "action": "rtaMail",
-            "template": "SalesAcceptsQuoteSenExec",//TODO: Checar Template
+            "template": "SalesAcceptsQuoteSenExec", //TODO: Checar Template
             "subject": "Validate quote - RTA WHOLESALE",
             "mailto": email['email'], //Operations nestalon1993@gmail.com
             "variables": [
@@ -1155,7 +1155,7 @@ class CreateQuoteProvider extends ChangeNotifier {
         'data_center_location': dataCenterSelectedValue == 'New' ? newDataCenterController.text : dataCenterSelectedValue,
         'handoff': "", //handoffSelectedValue,
         'rack_location': "", //rackLocationController.text,
-        'demarcation_point': "", //demarcationPointController.text,
+        'demarcation_point': demarcationPointController.text,
       };
 
       //OrderType

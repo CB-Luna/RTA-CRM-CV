@@ -134,6 +134,25 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                               },
                                             ),
                                           ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
+                                            child: CustomTextField(
+                                              key: const Key('demarcation_point'),
+                                              required: true,
+                                              enabled: false,
+                                              width: txfFieldWidth,
+                                              controller: provider.demarcationPointController,
+                                              label: 'Demarcation Point',
+                                              icon: Icons.fork_left_sharp,
+                                              keyboardType: TextInputType.text,
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Please enter some text';
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                          ),
                                           /* if (currentUser!.isOpperations)
                                             Padding(
                                               padding: const EdgeInsets.only(bottom: 10),
@@ -223,26 +242,6 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 },
                                                 icon: Icons.waving_hand_outlined,
                                                 label: 'Handoff',
-                                              ),
-                                            ),
-                                          if (currentUser!.isOpperations)
-                                            Padding(
-                                              padding: const EdgeInsets.only(bottom: 10),
-                                              child: CustomTextField(
-                                                key: const Key('demarcation_point'),
-                                                required: true,
-                                                enabled: true,
-                                                width: txfFieldWidth,
-                                                controller: provider.demarcationPointController,
-                                                label: 'Demarcation Point',
-                                                icon: Icons.fork_left_sharp,
-                                                keyboardType: TextInputType.text,
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {
-                                                    return 'Please enter some text';
-                                                  }
-                                                  return null;
-                                                },
                                               ),
                                             ),
                                         ],

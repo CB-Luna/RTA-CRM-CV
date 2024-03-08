@@ -143,6 +143,25 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
+                                            child: CustomTextField(
+                                              key: const Key('demarcation_point'),
+                                              required: true,
+                                              enabled: true,
+                                              width: txfFieldWidth,
+                                              controller: provider.demarcationPointController,
+                                              label: 'Demarcation Point',
+                                              icon: Icons.fork_left_sharp,
+                                              keyboardType: TextInputType.text,
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Please enter some text';
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
                                             child: CustomDDownMenu(
                                               enabled: true,
                                               list: provider.dataCentersList.map((dataCenter) => dataCenter.name!).toList(),

@@ -705,7 +705,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
           await supabaseCRM.from('order_info').update({
             "handoff": handoffSelectedValue,
             "rack_location": null, //rackLocationController.text,
-            "demarcation_point": demarcationPointController.text,
+            //"demarcation_point": demarcationPointController.text,
             "existing_circuit_id": typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.existingCircuitId!
                 ? existingCircuitIDController.text
                 : null,
@@ -763,7 +763,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
         await supabaseCRM.from('order_info').update({
           "handoff": handoffSelectedValue,
           "rack_location": rackLocationController.text,
-          "demarcation_point": demarcationPointController.text,
+          //"demarcation_point": demarcationPointController.text,
           "existing_circuit_id": existingCircuitIDController.text,
           "new_circuit_id": newCircuitIDController.text,
         }).eq('id', quote.idOrders!);
