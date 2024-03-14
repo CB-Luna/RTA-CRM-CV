@@ -887,7 +887,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       //rackLocationController.text = quote.orderInfo!.rackLocation ?? '';
       //handoffSelectedValue = quote.orderInfo!.handoff ?? '';
-      //demarcationPointController.text = quote.orderInfo!.demarcationPoint ?? '';
+      demarcationPointController.text = quote.orderInfo!.demarcationPoint ?? '';
 
       ///////////////Circuit Info////////////////////////////////////////////////////////////////////
 
