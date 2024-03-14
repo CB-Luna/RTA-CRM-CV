@@ -9,7 +9,7 @@ import 'package:rta_crm_cv/router/router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
-enum FormView { loginForm, selectAppForm }
+enum FormView { loginForm, selectAppForm, forgotPasswordForm, resetPasswordForm }
 
 class UserState extends ChangeNotifier {
   //EMAIL
