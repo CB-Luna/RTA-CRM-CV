@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/login_page/widgets/forgot_password_form.dart';
 
 import 'package:rta_crm_cv/pages/login_page/widgets/login_button.dart';
 import 'package:rta_crm_cv/pages/login_page/widgets/login_input_field.dart';
@@ -32,7 +33,7 @@ class _LoginFormState extends State<LoginForm> {
 
     final UserState userState = Provider.of<UserState>(context);
 
-    final Widget child = Column(
+    final Widget loginForm = Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -95,9 +96,7 @@ class _LoginFormState extends State<LoginForm> {
           child: MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
-              onTap: () {
-                //TODO: go to forgot password
-              },
+              onTap: () => userState.changeView(FormView.forgotPasswordForm),
               child: Text(
                 'Forgot password?',
                 style: GoogleFonts.poppins(
@@ -115,6 +114,25 @@ class _LoginFormState extends State<LoginForm> {
         ),
       ],
     );
+
+    Widget child = Container();
+
+    switch (userState.view) {
+      case FormView.loginForm:
+        child = loginForm;
+        break;
+      case FormView.selectAppForm:
+        child = const SelectAppForm();
+        break;
+      case FormView.forgotPasswordForm:
+        child = const ForgotPasswordForm();
+        break;
+      case FormView.resetPasswordForm:
+        // child = const SelectAppForm();
+        break;
+      default:
+        child = loginForm;
+    }
 
     return Container(
       decoration: BoxDecoration(
@@ -145,7 +163,7 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
               const SizedBox(height: 20),
-              userState.view == FormView.loginForm ? child : const SelectAppForm(),
+              child,
             ],
           ),
         ),
