@@ -143,6 +143,25 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
+                                            child: CustomTextField(
+                                              key: const Key('demarcation_point'),
+                                              required: true,
+                                              enabled: true,
+                                              width: txfFieldWidth,
+                                              controller: provider.demarcationPointController,
+                                              label: 'Demarcation Point',
+                                              icon: Icons.fork_left_sharp,
+                                              keyboardType: TextInputType.text,
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Please enter some text';
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
                                             child: CustomDDownMenu(
                                               enabled: true,
                                               list: provider.dataCentersList.map((dataCenter) => dataCenter.name!).toList(),
@@ -860,7 +879,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                             child: Icon(Icons.attach_money, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
-                                                            'Subtotal',
+                                                            'Price',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                                 fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
@@ -885,7 +904,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     ),
                                                     SizedBox(
                                                       child: Text(
-                                                        '\$ ${moneyFormat(provider.subtotal)} USD',
+                                                        '\$ ${moneyFormat(provider.price)} USD',
                                                         style: TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontFamily: 'Bicyclette-Thin',
@@ -970,7 +989,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                             child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
-                                                            'Total',
+                                                            'Revenue',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                                 fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
@@ -995,7 +1014,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     ),
                                                     SizedBox(
                                                       child: Text(
-                                                        '\$ ${moneyFormat(provider.total)} USD',
+                                                        '\$ ${moneyFormat(provider.revenue)} USD',
                                                         style: TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontFamily: 'Bicyclette-Thin',
@@ -1099,7 +1118,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                             child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
-                                                            'Total+Tax',
+                                                            'Price+Tax',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                                 fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
@@ -1124,7 +1143,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     ),
                                                     SizedBox(
                                                       child: Text(
-                                                        '\$ ${moneyFormat(provider.totalPlusTax)} USD',
+                                                        '\$ ${moneyFormat(provider.pricePlusTax)} USD',
                                                         style: TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontFamily: 'Bicyclette-Thin',
@@ -1402,9 +1421,14 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                SizedBox(
+                                Container(
                                   height: MediaQuery.of(context).size.height / 3,
-                                  width: MediaQuery.of(context).size.width / 1.6 - 10,
+                                  width: (MediaQuery.of(context).size.width / 5 + 13) * 3,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: AppTheme.of(context).primaryColor, width: 2),
+                                    borderRadius: BorderRadius.circular(18),
+                                    gradient: whiteGradient,
+                                  ),
                                   child: const PlutoGridCotizador(),
                                 ),
                                 Padding(
