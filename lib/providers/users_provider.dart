@@ -23,6 +23,8 @@ import '../models/vehicle.dart';
 
 class UsersProvider extends ChangeNotifier {
   List<User> users = [];
+  User? usersFilter;
+
   List<Vehicle> vehicles = [];
   List<Vehicle> vehiclexUser = [];
   final searchController = TextEditingController();
@@ -30,6 +32,8 @@ class UsersProvider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
   int pageRowCount = 10;
   int page = 1;
+  List<dynamic> usersRoleInstaller = [];
+  List<String> idusers = [];
 
   List<Role> roles = [];
   List<Company> companies = [];
@@ -569,6 +573,64 @@ class UsersProvider extends ChangeNotifier {
           .where((user) => user.roles.any((role) =>
               role.application == currentUser!.currentRole.application))
           .toList();
+
+      if (currentUser!.isManagerJSA) {
+        users.clear();
+        final res = await supabase
+            .from('users')
+            .select()
+            .like('name', '%${searchController.text}%')
+            .eq('status', active)
+            .eq('id_company_fk', currentUser!.company_fk)
+            .order('sequential_id', ascending: true);
+
+        if (res == null) {
+          log('Error en getUsuarios()');
+          return;
+        }
+        users = (res as List<dynamic>)
+            .map((usuario) => User.fromMap(usuario))
+            .toList();
+
+        users = users
+            .where((user) => user.roles.any((role) =>
+                role.application == currentUser!.currentRole.application))
+            .toList();
+        print(users.length);
+        print(currentUser!.company_fk);
+      }
+      if (currentUser!.isAdminJSA || currentUser!.isLeadJSA) {
+        users.clear();
+        final res2 = await supabase
+            .from('user_permission')
+            .select()
+            .eq('report_to', currentUser!.id);
+        usersRoleInstaller = (res2 as List<dynamic>);
+        for (var user in usersRoleInstaller) {
+          final id = user["user_fk"];
+          idusers.add(id);
+          print(id);
+        }
+
+        for (int i = 0; i < idusers.length; i++) {
+          final res = await supabase
+              .from('users')
+              .select()
+              .eq('status', active)
+              .eq('user_profile_id', idusers[i])
+              .order('sequential_id', ascending: true);
+
+          dynamic userMap = (res as List<dynamic>).first;
+          User userFilter = User.fromMap(userMap);
+
+          // usersFilter = usersFilter
+          //     .where((user) => user.roles.any((role) =>
+          //         role.application == currentUser!.currentRole.application))
+          //     .toList();
+          users.add(userFilter);
+        }
+        print(users.length);
+      }
 
       rows.clear();
 

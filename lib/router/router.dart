@@ -35,7 +35,7 @@ import '../pages/dashboards_rtatel/config_page_dashboard.dart';
 import '../pages/dashboards_rtatel/migrations/bolivar_peninsula_page_desktop.dart';
 import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
 import '../pages/dashboards_rtatel/migrations/monitoring_dashboards/monitoring_dashboard_page_desktop.dart';
-import '../pages/jsa/jsa_dashboard/jsa_dashboards.dart';
+import '../pages/jsa/jsa_dashboard/jsa_dashboards_page.dart';
 import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
 
 /// The route configuration.
@@ -110,10 +110,12 @@ final GoRouter router = GoRouter(
             return const MonitoryPageDesktop();
           } else if (currentUser!.isEmployee) {
             return const DownloadAPKPage();
-          } else if (currentUser!.isAdminJSA) {
-            return const JSADashboards();
-          } else if (currentUser!.isEmployeeJSA) {
-            return const JSADashboards();
+          } else if (currentUser!.isAdminJSA || currentUser!.isManagerJSA) {
+            return const JSADashboardsPageDesktop();
+          } else if (currentUser!.isTechnicianJSA ||
+              currentUser!.isRepresentativeJSA ||
+              currentUser!.isLeadJSA) {
+            return const JSADashboardsPageDesktop();
           } else {
             return const PageNotFoundPage();
           }
@@ -169,10 +171,22 @@ final GoRouter router = GoRouter(
                                             : currentUser!.isEmployee
                                                 ? const DownloadAPKPage()
                                                 : currentUser!.isAdminJSA
-                                                    ? const JSADashboards()
-                                                    : currentUser!.isEmployeeJSA
-                                                        ? const JSADashboards()
-                                                        : const PageNotFoundPage(),
+                                                    ? const JSADashboardsPageDesktop()
+                                                    : currentUser!.isManagerJSA
+                                                        ? const JSADashboardsPageDesktop()
+                                                        : currentUser!
+                                                                .isManagerJSA
+                                                            ? const JSADashboardsPageDesktop()
+                                                            : currentUser!
+                                                                    .isLeadJSA
+                                                                ? const JSADashboardsPageDesktop()
+                                                                : currentUser!
+                                                                        .isTechnicianJSA
+                                                                    ? const JSADashboardsPageDesktop()
+                                                                    : currentUser!
+                                                                            .isRepresentativeJSA
+                                                                        ? const JSADashboardsPageDesktop()
+                                                                        : const PageNotFoundPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(
@@ -405,7 +419,7 @@ final GoRouter router = GoRouter(
       path: routeJSADashboard,
       name: 'JSA Dashboards',
       builder: (BuildContext context, GoRouterState state) {
-        return const JSADashboards();
+        return const JSADashboardsPageDesktop();
       },
       // (context, state, const DetailsPopUp()),
     ),
