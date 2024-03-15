@@ -80,6 +80,8 @@ class _DashboardRtatelPageDesktopState
           provider.usersRoleInstallers = [];
           provider.userRoleInstaller = null;
           provider.idsinstallers = [];
+          provider.usersCRY = [];
+          provider.usersSMI = [];
           provider.getInstallers(notify: true);
         }
       }
