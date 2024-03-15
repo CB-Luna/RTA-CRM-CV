@@ -17,6 +17,7 @@ late SupabaseClient supabaseCtrlV;
 late SupabaseClient supabaseAuth;
 late SupabaseClient supabasePublic;
 late SupabaseClient supabaseDashboard;
+late SupabaseClient supabaseJsa;
 
 String key =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAic2VydmljZV9yb2xlIiwKICAgICJpc3MiOiAic3VwYWJhc2UiLAogICAgImlhdCI6IDE2ODQ4MjUyMDAsCiAgICAiZXhwIjogMTg0MjY3ODAwMAp9.gAA9u40KP0uFMjACjoUF1zMPpnxbrkUYCGP_ovgl9Io';
