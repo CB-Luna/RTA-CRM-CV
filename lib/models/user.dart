@@ -15,6 +15,7 @@ class User {
     this.mobilePhone,
     required this.address,
     this.image,
+    this.company_fk,
     this.birthDate,
     required this.roles,
     required this.companies,
@@ -38,6 +39,7 @@ class User {
   String? mobilePhone;
   String address;
   String? image;
+  int? company_fk;
   DateTime? birthDate;
   List<Role> roles;
   List<Company> companies;
@@ -149,9 +151,17 @@ class User {
   bool get isDashboardsCareRep => currentUser!.currentRole.id == 21; // Care Rep
 
   // JSA
-  bool get isJSA => isAdminJSA || isEmployeeJSA;
+  bool get isJSA =>
+      isAdminJSA ||
+      isManagerJSA ||
+      isLeadJSA ||
+      isTechnicianJSA ||
+      isRepresentativeJSA;
   bool get isAdminJSA => currentUser!.currentRole.id == 23;
-  bool get isEmployeeJSA => currentUser!.currentRole.id == 24;
+  bool get isManagerJSA => currentUser!.currentRole.id == 24;
+  bool get isLeadJSA => currentUser!.currentRole.id == 25;
+  bool get isTechnicianJSA => currentUser!.currentRole.id == 26;
+  bool get isRepresentativeJSA => currentUser!.currentRole.id == 27;
 
   String get currentAppRole => roles
       .where((role) => role.application == currentUser!.currentRole.application)
@@ -173,6 +183,7 @@ class User {
       mobilePhone: json['mobile_phone'],
       address: json['address'],
       image: json['image'],
+      company_fk: json["id_company_fk"],
       birthDate:
           json['birthdate'] == null ? null : DateTime.parse(json['birthdate']),
       roles: (json['roles'] as List).map((role) => Role.fromMap(role)).toList(),

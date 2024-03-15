@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:rta_crm_cv/pages/jsa/jsa_dashboard/widgets/dashboard_jsa.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 import '../../../theme/theme.dart';
-import 'widgets/custom_card_jsa.dart';
 
-class JSADocumentList extends StatefulWidget {
-  const JSADocumentList({super.key});
+class JSADashboardsPageDesktop extends StatefulWidget {
+  const JSADashboardsPageDesktop({super.key});
 
   @override
-  State<JSADocumentList> createState() => _JSADocumentListState();
+  State<JSADashboardsPageDesktop> createState() =>
+      _JSADashboardsPageDesktopState();
 }
 
-class _JSADocumentListState extends State<JSADocumentList> {
+class _JSADashboardsPageDesktopState extends State<JSADashboardsPageDesktop> {
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -44,7 +45,7 @@ class _JSADocumentListState extends State<JSADocumentList> {
                                     height: 40,
                                     width: 40,
                                     child: Icon(
-                                      Icons.document_scanner_outlined,
+                                      Icons.menu_outlined,
                                       color: AppTheme.of(context).primaryColor,
                                       size: 35,
                                     ))),
@@ -52,14 +53,14 @@ class _JSADocumentListState extends State<JSADocumentList> {
                               padding: const EdgeInsets.only(right: 10),
                               child: SizedBox(
                                 height: 40,
-                                child: Text('JSA Document List',
+                                child: Text('JSA Dashboards',
                                     style: AppTheme.of(context).title1),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      const CustomCardJSADocument()
+                      const DashboardJsa()
                     ],
                   ),
                 ),

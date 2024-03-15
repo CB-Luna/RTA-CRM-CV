@@ -33,11 +33,11 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
   clearAll() async {
     id = 0;
-    subtotal = 0;
+    price = 0;
     cost = 0;
-    total = 0;
+    revenue = 0;
     tax = 0;
-    totalPlusTax = 0;
+    pricePlusTax = 0;
     margin = 0;
 
     existingCircuitIDController.clear();
@@ -125,11 +125,11 @@ class ValidateQuoteProvider extends ChangeNotifier {
   var tableContentGroup = AutoSizeGroup();
 
   int totalItems = 0;
-  double subtotal = 0;
+  double price = 0;
   double cost = 0;
-  double total = 0;
+  double revenue = 0;
   double tax = 0;
-  double totalPlusTax = 0;
+  double pricePlusTax = 0;
   double margin = 0;
 
   List<GenericCat> orderTypesList = [GenericCat(name: 'Internal Circuit')];
@@ -198,6 +198,93 @@ class ValidateQuoteProvider extends ChangeNotifier {
   }
 
 //////////////////////////////////////////////////
+  //operations a sen exec y fiananzas
+  Future<bool> operationAcceptsQuoteSenExec() async {
+    try {
+      final res = await supabase.rpc('get_correo', params: {"role_id": 9});
+      if (res == null) {
+        log('Error en get_correo()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "SalesAcceptsQuoteSenExec",
+            "subject": "Validate quote - RTA WHOLESALE",
+            "mailto": email['email'], //Sen Exec nestalon1993@gmail.com
+            "variables": [
+              {"name": "quote.quote", "value": "${quote.quote}"},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Sen. Exec. Validate"},
+              {"name": "quote.account", "value": "${quote.account}"},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+          notifyListeners();
+        }
+      }
+
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> operationAcceptsQuoteFinance() async {
+    try {
+      final res = await supabase.rpc('get_correo', params: {"role_id": 8});
+      if (res == null) {
+        log('Error en getemail()');
+      }
+      for (var email in res) {
+        //Json del correo;
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "SalesAcceptsQuoteFinance",
+            "subject": "Validate quote - RTA WHOLESALE",
+            "mailto": email['email'], //Finance kevin.14985@gmail.com
+            "variables": [
+              {"name": "quote.quote", "value": quote.quote},
+              {"name": "quote.quoteid", "value": "${quote.quoteid}"},
+              {"name": "quote.status", "value": "Finance Validate"},
+              {"name": "quote.account", "value": quote.account},
+              {"name": "currentUser!.id", "value": currentUser!.name}
+            ]
+          },
+        );
+        var urlAutomatizacion = Uri.parse(urlNotifications);
+        //headers
+        final headers = ({
+          "Content-Type": "application/json",
+        });
+        var responseAutomatizacion = await post(urlAutomatizacion, headers: headers, body: body);
+        if (responseAutomatizacion.statusCode == 200) {
+          //Se marca como ejecutada la instrucción en Bitacora
+          log('Se envio correo con exito');
+        }
+      }
+      return true;
+    } catch (e) {
+      log('insertQuoteInfo() - Error: $e');
+      notifyListeners();
+      return false;
+    }
+  }
+
   /// finanzas y operations
   Future<bool> senExecAcceptsQuote() async {
     try {
@@ -346,7 +433,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "variables": [
               {"name": "quote.quote", "value": quote.quote},
               {"name": "quote.quoteid", "value": "${quote.quoteid}"},
-              {"name": "quote.status", "value": "Engineer Validate"},
+              {"name": "quote.status", "value": "Approved"},
               {"name": "quote.account", "value": quote.account},
               {"name": "currentUser!.id", "value": currentUser!.name}
             ]
@@ -404,7 +491,6 @@ class ValidateQuoteProvider extends ChangeNotifier {
           //Se marca como ejecutada la instrucción en Bitacora
           log('Se envio correo con exito');
           notifyListeners();
-          return true;
         }
       }
       return true;
@@ -605,35 +691,21 @@ class ValidateQuoteProvider extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
       if (validate) {
-        if (currentUser!.isSenExec) {
-          await updateRegister(3, quote.quoteid!);
-
-          await supabaseCRM.from('leads_history').insert({
-            "user": currentUser!.id,
-            "action": 'UPDATE',
-            "description": 'Quote validated by Sen. Exec.',
-            "table": 'x2_quotes',
-            "id_table": quote.quoteid,
-            "name": "${currentUser!.name} ${currentUser!.lastName}"
-          });
-        } else if (currentUser!.isFinance) {
-          await updateRegister(4, quote.quoteid!);
-
-          await supabaseCRM.from('leads_history').insert({
-            "user": currentUser!.id,
-            "action": 'UPDATE',
-            "description": 'Quote validated by Finance',
-            "table": 'x2_quotes',
-            "id_table": quote.quoteid,
-            "name": "${currentUser!.name} ${currentUser!.lastName}",
-          });
-        } else if (currentUser!.isOpperations) {
-          await updateRegister(7, quote.quoteid!);
+        if (currentUser!.isOpperations) {
+          if (margin >= 20) {
+            await updateRegister(3, quote.quoteid!); //Finance Validate
+            await operationAcceptsQuoteFinance(); //operations a finance
+            await opperationsAcceptQuoteSales(); //operations a sales
+          } else {
+            await updateRegister(2, quote.quoteid!); //Sen. Exec. Validate
+            await operationAcceptsQuoteSenExec(); //operations a senExec
+            await opperationsAcceptQuoteSales(); //Operations a senExec
+          }
 
           await supabaseCRM.from('order_info').update({
             "handoff": handoffSelectedValue,
             "rack_location": null, //rackLocationController.text,
-            "demarcation_point": demarcationPointController.text,
+            //"demarcation_point": demarcationPointController.text,
             "existing_circuit_id": typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.existingCircuitId!
                 ? existingCircuitIDController.text
                 : null,
@@ -650,15 +722,48 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "id_table": quote.quoteid,
             "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
+        } else if (currentUser!.isSenExec) {
+          await updateRegister(3, quote.quoteid!); //Finance Validate
+          await senExecAcceptsQuote(); //senExec a finances
+          await senExecAcceptsQuoteSales(); //senExec a sales
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'UPDATE',
+            "description": 'Quote validated by Sen. Exec.',
+            "table": 'x2_quotes',
+            "id_table": quote.quoteid,
+            "name": "${currentUser!.name} ${currentUser!.lastName}"
+          });
+        } else if (currentUser!.isFinance) {
+          await updateRegister(7, quote.quoteid!); //Approve
+          await financeAcceptsQuoteSales(); //finances a sales
+
+          await supabaseCRM.from('leads_history').insert({
+            "user": currentUser!.id,
+            "action": 'UPDATE',
+            "description": 'Quote validated by Finance',
+            "table": 'x2_quotes',
+            "id_table": quote.quoteid,
+            "name": "${currentUser!.name} ${currentUser!.lastName}",
+          });
         }
         returning = true;
       } else {
+        //Rejected
         await updateRegister(5, quote.quoteid!);
+        if (currentUser!.isSenExec) {
+          await senExecRejectsQuote();
+        } else if (currentUser!.isFinance) {
+          await financeRejectsQuote();
+        } else {
+          await opperationsRejectsQuote();
+        }
 
         await supabaseCRM.from('order_info').update({
           "handoff": handoffSelectedValue,
           "rack_location": rackLocationController.text,
-          "demarcation_point": demarcationPointController.text,
+          //"demarcation_point": demarcationPointController.text,
           "existing_circuit_id": existingCircuitIDController.text,
           "new_circuit_id": newCircuitIDController.text,
         }).eq('id', quote.idOrders!);
@@ -688,124 +793,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
       'update_quote_status',
       params: {"id_status": idStatus, "id": quoteId, "user_uuid": currentUser!.id}, //Network Cross Connected
     );
-
-    /* await supabaseCRM.from('x2_quotes').update({
-      'id_status': idStatus,
-    }).eq('id', quoteId);
-    await supabaseCRM.from('order_info').update(
-      {
-        'updated_at': DateTime.now().toIso8601String(),
-        'updated_by': currentUser!.id,
-      },
-    ).eq('id', orderId); */
   }
-
-  /*  
-  Future<void> getData() async {
-    clearAll();
-
-    if (id != null) {
-      var response = await supabaseCRM.from('quotes_view').select().eq('id', id);
-
-      if (response == null) {
-        log('Error en getData()-DetailQuoteProvider');
-        return;
-      }
-
-      Quotes quote = Quotes.fromJson(jsonEncode(response[0]));
-
-      orderTypesSelectedValue = quote.orderInfo.orderType;
-      typesSelectedValue = quote.orderInfo.type;
-      if (quote.orderInfo.type == 'New') {
-        newCircuitIDController.text = quote.orderInfo.newCircuitId!;
-      } else if (quote.orderInfo.type == 'Disconnect') {
-        evcCircuitId.text = quote.orderInfo.existingCircuitId!;
-      } else if (quote.orderInfo.type == 'Upgrade') {
-        evcCircuitId.text = quote.orderInfo.existingCircuitId!;
-        newCircuitIDController.text = quote.orderInfo.newCircuitId!;
-      }
-
-      if (quote.orderInfo.dataCenterType == 'New') {
-        dataCenterSelectedValue = 'New';
-        newDataCenterController.text = quote.orderInfo.dataCenterLocation;
-      } else {
-        dataCenterSelectedValue = quote.orderInfo.dataCenterLocation;
-      }
-
-      await getVendors();
-      var responseVendor = await supabaseCRM.from('cat_vendors').select().eq('id', quote.idVendor);
-      Vendor vendor = Vendor.fromJson(jsonEncode(responseVendor[0]));
-      vendorSelectedValue = vendor.vendorName;
-
-      circuitTypeSelectedValue = quote.orderInfo.circuitType;
-      if (quote.orderInfo.circuitType == 'EVCoD') {
-        evcodSelectedValue = quote.orderInfo.evcodType!;
-        if (quote.orderInfo.evcodType == 'Existing EVC') {
-          existingEVCController.text = quote.orderInfo.evcCircuitId!;
-        }
-      }
-
-      ddosSelectedValue = quote.orderInfo.ddosType;
-      bgpSelectedValue = quote.orderInfo.bgpType;
-
-      ipAdressSelectedValue = quote.orderInfo.ipType;
-      if (quote.orderInfo.ipType == 'Interface') {
-        ipInterfaceSelectedValue = quote.orderInfo.interfaceType!;
-      } else {
-        subnetSelectedValue = quote.orderInfo.subnetType!;
-      }
-
-      companyController.clear();
-      nameController.clear();
-      lastNameController.clear();
-      emailController.clear();
-      phoneController.clear();
-
-      var responseLead = await supabaseCRM.from('leads').select().eq('id', quote.idLead);
-
-      Leads lead = Leads.fromJson(jsonEncode(responseLead[0]));
-
-      companyController.text = lead.account;
-      nameController.text = lead.firstName;
-      lastNameController.text = lead.lastName;
-      emailController.text = lead.email;
-      phoneController.text = lead.phoneNumber;
-
-      subtotal = quote.subtotal;
-      cost = quote.cost;
-      total = quote.total;
-      tax = quote.tax;
-      totalPlusTax = quote.totalPlusTax;
-      margin = quote.margin;
-
-      for (var item in quote.items) {
-        globalRows.add(PlutoRow(
-          cells: {
-            'LINE_ITEM_Column': PlutoCell(value: item.lineItem),
-            'UNIT_PRICE_Column': PlutoCell(value: item.unitPrice),
-            'UNIT_COST_Column': PlutoCell(value: item.unitCost),
-            'QUANTITY_Column': PlutoCell(value: item.quantity),
-            'ACTIONS_Column': PlutoCell(value: ''),
-          },
-        ));
-      }
-
-      comments.clear();
-      for (var comment in quote.comments) {
-        comments.add(
-          Comment(
-            role: comment.role,
-            name: comment.name,
-            comment: comment.comment,
-            sended: comment.sended,
-          ),
-        );
-      }
-    }
-
-    notifyListeners();
-  }
-  */
 
   Future<bool> getCatalogData() async {
     try {
@@ -899,7 +887,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       //rackLocationController.text = quote.orderInfo!.rackLocation ?? '';
       //handoffSelectedValue = quote.orderInfo!.handoff ?? '';
-      //demarcationPointController.text = quote.orderInfo!.demarcationPoint ?? '';
+      demarcationPointController.text = quote.orderInfo!.demarcationPoint ?? '';
 
       ///////////////Circuit Info////////////////////////////////////////////////////////////////////
 
@@ -954,11 +942,11 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       ///////////////Totals////////////////////////////////////////////////////////////////////
 
-      subtotal = quote.subtotal!;
+      price = quote.subtotal!;
       cost = quote.totals!.cost!;
-      total = quote.totals!.total!;
+      revenue = quote.totals!.total!;
       tax = quote.totals!.tax!;
-      totalPlusTax = quote.totals!.totalTax!;
+      pricePlusTax = quote.totals!.totalTax!;
       margin = quote.totals!.margin!;
 
       for (var item in quote.items!) {

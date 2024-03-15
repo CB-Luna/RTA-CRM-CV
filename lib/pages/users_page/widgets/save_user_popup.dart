@@ -38,8 +38,7 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
   void initState() {
     super.initState();
     if (widget.user?.image != null) {
-      imageUrl =
-          supabase.storage.from('avatars').getPublicUrl(widget.user!.image!);
+      imageUrl = supabase.storage.from('avatars').getPublicUrl(widget.user!.image!);
     }
   }
 
@@ -51,26 +50,19 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
 
     final bool editing = widget.user != null;
 
-    final List<String> statesNames =
-        provider.states.map((state) => state.name).toList();
+    final List<String> statesNames = provider.states.map((state) => state.name).toList();
 
-    final List<String> selectedRoles =
-        provider.selectedRoles.map((role) => role.roleName).toList();
+    final List<String> selectedRoles = provider.selectedRoles.map((role) => role.roleName).toList();
 
     final bool isVisible = selectedRoles.contains('Employee') ||
         selectedRoles.contains('Tech Supervisor') ||
         selectedRoles.contains('Manager');
 
     final List<String> statusName = ["Not Active", "Active"];
-    final List<String> companyNames =
-        provider.companies.map((companyName) => companyName.company).toList();
 
-    final List<String> vehicleNames = provider.vehicles
-        .map((vehicleName) => vehicleName.licesensePlates)
-        .toList();
+    final List<String> vehicleNames = provider.vehicles.map((vehicleName) => vehicleName.licesensePlates).toList();
 
-    var cardMaskNumber = MaskTextInputFormatter(
-        mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
+    var cardMaskNumber = MaskTextInputFormatter(mask: '(###) ###-####', filter: {"#": RegExp(r'[0-9]')});
 
     return Dialog(
       shape: const RoundedRectangleBorder(
@@ -103,8 +95,7 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
                       children: [
                         CustomTextIconButton(
                           isLoading: false,
-                          icon: Icon(Icons.arrow_back_outlined,
-                              color: AppTheme.of(context).primaryBackground),
+                          icon: Icon(Icons.arrow_back_outlined, color: AppTheme.of(context).primaryBackground),
                           text: '',
                           onTap: () {
                             context.pop();
@@ -265,8 +256,7 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
                               icon: Icons.credit_card_outlined,
                               width: 190,
                               list: vehicleNames,
-                              dropdownValue:
-                                  provider.selectedVehicle?.licesensePlates,
+                              dropdownValue: provider.selectedVehicle?.licesensePlates,
                               onChanged: (val) {
                                 if (val == null) return;
                                 //print(val);
@@ -285,8 +275,7 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
                                   isLoading: false,
                                   icon: Icon(
                                     Icons.cleaning_services_outlined,
-                                    color:
-                                        AppTheme.of(context).primaryBackground,
+                                    color: AppTheme.of(context).primaryBackground,
                                   ),
                                   text: 'Clear Plates',
                                   onTap: () async {
@@ -336,8 +325,7 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
             CustomTextIconButton(
               mainAxisAlignment: MainAxisAlignment.center,
               isLoading: false,
-              icon: Icon(Icons.save_outlined,
-                  color: AppTheme.of(context).primaryBackground),
+              icon: Icon(Icons.save_outlined, color: AppTheme.of(context).primaryBackground),
               text: 'Save User',
               width: MediaQuery.of(context).size.width * 0.1,
               onTap: () async {
@@ -349,8 +337,7 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
 
                 if (widget.user == null) {
                   //Registrar usuario
-                  final Map<String, String>? result =
-                      await provider.registerUser();
+                  final Map<String, String>? result = await provider.registerUser();
 
                   if (result == null) {
                     await ApiErrorHandler.callToast('Error registering user');
@@ -373,8 +360,7 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
                   bool res = await provider.createUserProfile(userId);
 
                   if (!res) {
-                    await ApiErrorHandler.callToast(
-                        'Error creating user profile');
+                    await ApiErrorHandler.callToast('Error creating user profile');
                     return;
                   }
 
@@ -409,8 +395,7 @@ class _SaveUserPopUpState extends State<SaveUserPopUp> {
                   bool res = await provider.updateUser(widget.user!);
 
                   if (!res) {
-                    await ApiErrorHandler.callToast(
-                        'Error Updating user profile');
+                    await ApiErrorHandler.callToast('Error Updating user profile');
                     return;
                   }
 

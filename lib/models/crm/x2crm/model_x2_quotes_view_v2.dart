@@ -105,7 +105,7 @@ class ModelX2V2QuotesView {
         quoteid: json["quoteid"],
         quote: json["quote"],
         x2Quoteid: json["x2quoteid"],
-        probability: json["probability"],
+        probability: json["probability"] == "" || json["probability"] == null ? null : double.parse(json["probability"]),
         idStatus: json["id_status"],
         status: json["status"],
         description: json["description"],

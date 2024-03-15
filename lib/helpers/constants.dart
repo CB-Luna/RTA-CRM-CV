@@ -102,6 +102,65 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
         );
 }
 
+PlutoGridStyleConfig plutoGridStyleConfigJSA(BuildContext context) {
+  return AppTheme.themeMode == ThemeMode.light
+      ? PlutoGridStyleConfig(
+          menuBackgroundColor: AppTheme.of(context).secondaryBackground,
+          gridPopupBorderRadius: BorderRadius.circular(16),
+          //
+          enableColumnBorderVertical: false,
+          columnTextStyle: AppTheme.of(context).bodyText2,
+          iconColor: AppTheme.of(context).tertiaryColor,
+          borderColor: Colors.transparent,
+          //
+          // cellTextStyle: AppTheme.of(context).bodyText3,
+
+          rowHeight: 60,
+          rowColor: Colors.transparent,
+          cellTextStyle: AppTheme.of(context).bodyText2.override(
+                fontFamily: 'Quicksand',
+                fontSize: 15,
+                color: AppTheme.of(context).primaryText,
+                fontWeight: FontWeight.w600,
+              ),
+          enableColumnBorderHorizontal: false,
+          enableCellBorderVertical: false,
+          enableCellBorderHorizontal: false,
+          checkedColor: Colors.transparent,
+          enableRowColorAnimation: false,
+          gridBackgroundColor: Colors.transparent,
+          gridBorderColor: AppTheme.of(context).primaryColor,
+          gridBorderRadius: BorderRadius.circular(16),
+          //
+          activatedColor: AppTheme.of(context).primaryBackground,
+          activatedBorderColor: AppTheme.of(context).tertiaryColor,
+        )
+      : PlutoGridStyleConfig.dark(
+          menuBackgroundColor: AppTheme.of(context).secondaryBackground,
+          gridPopupBorderRadius: BorderRadius.circular(16),
+          //
+          enableColumnBorderVertical: false,
+          columnTextStyle: AppTheme.of(context).bodyText2,
+          iconColor: AppTheme.of(context).tertiaryColor,
+          borderColor: Colors.transparent,
+          //
+          rowHeight: 60,
+          rowColor: Colors.transparent,
+          cellTextStyle: AppTheme.of(context).bodyText2,
+          enableColumnBorderHorizontal: false,
+          enableCellBorderVertical: false,
+          enableCellBorderHorizontal: false,
+          checkedColor: Colors.transparent,
+          enableRowColorAnimation: false,
+          gridBackgroundColor: Colors.transparent,
+          gridBorderColor: AppTheme.of(context).secondaryText,
+          gridBorderRadius: BorderRadius.circular(16),
+          //
+          activatedColor: AppTheme.of(context).primaryBackground,
+          activatedBorderColor: AppTheme.of(context).tertiaryColor,
+        );
+}
+
 double rowHeightDashboard = 40;
 
 PlutoGridStyleConfig plutoGridStyleConfigDashboard(BuildContext context) {

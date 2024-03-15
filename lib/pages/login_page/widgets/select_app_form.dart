@@ -32,10 +32,7 @@ class _SelectAppFormState extends State<SelectAppForm> {
           dropdownValue: currentUser!.currentRole,
           onChanged: (role) {
             if (role == null) return;
-            print(currentUser!.currentRole.roleName);
             currentUser!.currentRole = role;
-            print("----------");
-            print(currentUser!.currentRole.roleName);
             setState(() {});
           },
           items: currentUser!.roles.map<DropdownMenuItem<Role>>((Role value) {
@@ -63,11 +60,8 @@ class _SelectAppFormState extends State<SelectAppForm> {
           buttonColor: AppTheme.of(context).primaryColor,
           onPressed: () async {
             userState.view = FormView.loginForm;
-            await prefs.setString(
-                'currentRole', currentUser!.currentRole.roleName);
+            await prefs.setString('currentRole', currentUser!.currentRole.roleName);
             if (!mounted) return;
-            print("-------------- a");
-            print(currentUser!.currentRole.roleName);
             context.pushReplacement('/');
           },
         ),
@@ -192,9 +186,7 @@ class _LoginDropDownState<T> extends State<LoginDropDown<T>> {
               widget.label,
               style: TextStyle(
                   fontSize: 16,
-                  color: widget.enabled
-                      ? AppTheme.of(context).primaryColor
-                      : AppTheme.of(context).hintText.color),
+                  color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color),
             ),
           ),
           Container(
@@ -218,9 +210,7 @@ class _LoginDropDownState<T> extends State<LoginDropDown<T>> {
                 const SizedBox(width: 10),
                 Icon(
                   widget.icon,
-                  color: widget.enabled
-                      ? AppTheme.of(context).primaryColor
-                      : AppTheme.of(context).hintText.color,
+                  color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color,
                 ),
                 const SizedBox(width: 10),
                 SizedBox(
@@ -229,9 +219,7 @@ class _LoginDropDownState<T> extends State<LoginDropDown<T>> {
                     hint: Text(
                       widget.hint ?? '',
                       style: TextStyle(
-                        color: widget.enabled
-                            ? AppTheme.of(context).primaryColor
-                            : AppTheme.of(context).hintText.color,
+                        color: widget.enabled ? AppTheme.of(context).primaryColor : AppTheme.of(context).hintText.color,
                       ),
                     ),
                     icon: Expanded(
