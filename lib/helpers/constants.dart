@@ -13,17 +13,15 @@ import 'package:rta_crm_cv/theme/theme.dart';
 // String urlNotifications = 'https://supa43.rtatel.com/notifications/api';
 
 //////// TEST ////////
-final Uri urlFMTAPK = Uri.parse(
-    "https://drive.google.com/file/d/1lUdS__gG-g4zSPjq_3-LFhnMOmHhYAR8/view?usp=share_link");
+final Uri urlFMTAPK = Uri.parse("https://drive.google.com/file/d/1lUdS__gG-g4zSPjq_3-LFhnMOmHhYAR8/view?usp=share_link");
 const String supabaseUrl = 'https://supa42.rtatel.com';
 const String anonKey =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';
-const redirectUrl =
-    'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
+const redirectUrl = 'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 String urlNotifications = 'https://supa42.rtatel.com/notifications/api';
 const String configurator = 'https://cblsrvr404.rtatel.com';
-String apiGatewayURL = "https://apps.cblsrv42.rtatel.com/wop_x2/api";
+String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api";
 
 // final Uri urlFMTAPK = Uri.parse(
 //     "https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
@@ -46,8 +44,7 @@ PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
   );
 }
 
-PlutoGridScrollbarConfig plutoGridScrollbarConfigDashboard(
-    BuildContext context) {
+PlutoGridScrollbarConfig plutoGridScrollbarConfigDashboard(BuildContext context) {
   return PlutoGridScrollbarConfig(
     isAlwaysShown: true,
     scrollbarThickness: 5,
@@ -64,9 +61,7 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           //columnContextIcon: Icons.more_horiz,
           rowHeight: rowHeight,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light
-              ? const Color(0xFFC7D8ED)
-              : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
@@ -87,9 +82,7 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
       : PlutoGridStyleConfig.dark(
           rowHeight: rowHeight,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light
-              ? const Color(0xFFC7D8ED)
-              : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
@@ -176,9 +169,7 @@ PlutoGridStyleConfig plutoGridStyleConfigDashboard(BuildContext context) {
           //columnContextIcon: Icons.more_horiz,
           rowHeight: rowHeightDashboard,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light
-              ? const Color(0xFFC7D8ED)
-              : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
@@ -199,9 +190,7 @@ PlutoGridStyleConfig plutoGridStyleConfigDashboard(BuildContext context) {
       : PlutoGridStyleConfig.dark(
           rowHeight: rowHeight,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light
-              ? const Color(0xFFC7D8ED)
-              : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
@@ -219,16 +208,13 @@ PlutoGridStyleConfig plutoGridStyleConfigDashboard(BuildContext context) {
         );
 }
 
-PlutoGridStyleConfig plutoGridStyleConfigMonitoringDashboard(
-    BuildContext context) {
+PlutoGridStyleConfig plutoGridStyleConfigMonitoringDashboard(BuildContext context) {
   return AppTheme.themeMode == ThemeMode.light
       ? PlutoGridStyleConfig(
           //columnContextIcon: Icons.more_horiz,
           rowHeight: rowHeightDashboard,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light
-              ? const Color(0xFFC7D8ED)
-              : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
@@ -251,9 +237,7 @@ PlutoGridStyleConfig plutoGridStyleConfigMonitoringDashboard(
       : PlutoGridStyleConfig.dark(
           rowHeight: rowHeight,
           iconColor: AppTheme.of(context).primaryColor,
-          checkedColor: AppTheme.themeMode == ThemeMode.light
-              ? const Color(0xFFC7D8ED)
-              : const Color(0XFF4B4B4B),
+          checkedColor: AppTheme.themeMode == ThemeMode.light ? const Color(0xFFC7D8ED) : const Color(0XFF4B4B4B),
           /////////////////////////////////////
           cellTextStyle: AppTheme.of(context).contenidoTablas,
           columnTextStyle: AppTheme.of(context).contenidoTablas,
@@ -271,13 +255,11 @@ PlutoGridStyleConfig plutoGridStyleConfigMonitoringDashboard(
         );
 }
 
-CustomTransitionPage<void> pageTransition(
-    BuildContext context, GoRouterState state, Widget page) {
+CustomTransitionPage<void> pageTransition(BuildContext context, GoRouterState state, Widget page) {
   return CustomTransitionPage<void>(
     key: state.pageKey,
     child: page,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-        FadeTransition(opacity: animation, child: child),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
   );
 }
 
@@ -307,23 +289,19 @@ const String configuratorStats = '/sales/configurator_stats';
 const String noCoverageLeads = '/sales/no_coverage_leads';
 const String newConfiguratorStats = '/sales/new_configurator_stats';
 const String referralsTracking = '/sales/referrals_tracking';
-const String residentialAndBusinessCustomer =
-    '/sales/residential_and_business_customer';
+const String residentialAndBusinessCustomer = '/sales/residential_and_business_customer';
 const String wirelessAndFiberCustomer = '/sales/wirelessAndFiberCustomer';
 const String voIPTracking = '/sales/voip_tracking';
 const String ipTVTracking = '/sales/iptv_tracking';
 const String arpuTrackingResidential = '/sales/arpu_tracking_residential';
 const String arpuTrackingWholesale = '/sales/arpu_tracking_wholesale';
-const String monthlyARPUTrackingWholesale =
-    '/sales/monthly_arpu_tracking_wholesale';
-const String monthlyARPUTrackingResidential =
-    '/sales/monthly_arpu_tracking_residential';
+const String monthlyARPUTrackingWholesale = '/sales/monthly_arpu_tracking_wholesale';
+const String monthlyARPUTrackingResidential = '/sales/monthly_arpu_tracking_residential';
 const String engageOption = '/sales/engage_option';
 const String conversionRate = '/sales/conversion_rate';
 const String deactContactLog = '/sales/deact_contact_log';
 // Manager
-const String bolivarPeninsulaFibertotheHome =
-    '/manager/bolivar_peninsula_fiber_to_the_home';
+const String bolivarPeninsulaFibertotheHome = '/manager/bolivar_peninsula_fiber_to_the_home';
 const String operationReport = '/manager/operation_report';
 const String techJobTimeTracking = '/manager/tech_job_time_tracking';
 const String jobsTracking = '/manager/jobs_tracking';
@@ -335,10 +313,8 @@ const String mapCoverage = '/gigfast_network/map_coverage';
 // Call Center
 const String ecommerceRTA = '/call_center/ecommerceRTA';
 const String homeownerFTTHDocument = '/call_center/homeownerFTTHDocument';
-const String homeownerFTTHDocumentList =
-    '/call_center/homeownerFTTHDocumentList';
-const String homeownerFTTHDocumentClient =
-    '/call_center/homeownerFTTHDocumentClient';
+const String homeownerFTTHDocumentList = '/call_center/homeownerFTTHDocumentList';
+const String homeownerFTTHDocumentClient = '/call_center/homeownerFTTHDocumentClient';
 // Surveys
 const String wispapalooza2021Survey = '/surveys/wispapalooza_2021_survey';
 const String jobComplete = '/surveys/job_complete';
@@ -348,8 +324,7 @@ const String itSurveyOctober2021 = '/surveys/it_survey_october_2021';
 
 // Job Complete
 const String jobCompleteIncentives = '/job_complete/job_complete_incentives';
-const String jobCompletedServiceOverall =
-    '/job_complete/job_completed_service_overall';
+const String jobCompletedServiceOverall = '/job_complete/job_completed_service_overall';
 const String jobCompleteCRY = '/job_complete/job_complete_CRY';
 const String jobCompleteEAS = '/job_complete/job_complete_EAS';
 const String jobCompleteODE = '/job_complete/job_completeODE';
