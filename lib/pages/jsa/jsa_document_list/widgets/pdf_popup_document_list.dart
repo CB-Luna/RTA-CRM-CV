@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_document_list_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-
-import '../../../../providers/jsa/jsa_dashboards_provider.dart';
 
 class PdfPopupJSADocumentList extends StatefulWidget {
   const PdfPopupJSADocumentList({super.key});
