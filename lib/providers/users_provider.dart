@@ -604,6 +604,7 @@ class UsersProvider extends ChangeNotifier {
       }
       if (currentUser!.isLeadJSA) {
         users.clear();
+        idusers.clear();
         final res2 = await supabase
             .from('user_permission')
             .select()
@@ -616,20 +617,21 @@ class UsersProvider extends ChangeNotifier {
         }
 
         for (int i = 0; i < idusers.length; i++) {
-          final res = await supabase
+          final resLead = await supabase
               .from('users')
               .select()
               .eq('status', active)
               .eq('user_profile_id', idusers[i])
               .order('sequential_id', ascending: true);
 
-          dynamic userMap = (res as List<dynamic>).first;
+          dynamic userMap = (resLead as List<dynamic>).first;
           User userFilter = User.fromMap(userMap);
 
           // usersFilter = usersFilter
           //     .where((user) => user.roles.any((role) =>
           //         role.application == currentUser!.currentRole.application))
           //     .toList();
+          print("El usuario nuevo es: ${userFilter.name}");
           users.add(userFilter);
         }
         print(users.length);
