@@ -596,10 +596,13 @@ class UsersProvider extends ChangeNotifier {
             .where((user) => user.roles.any((role) =>
                 role.application == currentUser!.currentRole.application))
             .toList();
-        print(users.length);
+        for (var user in users) {
+          print("Nombre de los usuarios: ${user.name}");
+        }
+        print("El length de los users son: ${users.length}");
         print(currentUser!.company_fk);
       }
-      if (currentUser!.isAdminJSA || currentUser!.isLeadJSA) {
+      if (currentUser!.isLeadJSA) {
         users.clear();
         final res2 = await supabase
             .from('user_permission')

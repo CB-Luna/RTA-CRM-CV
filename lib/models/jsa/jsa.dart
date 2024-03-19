@@ -148,6 +148,7 @@ class Usersjsa {
   String? userFk;
   int? jsaFk;
   int? idStatus;
+  String? docName;
   String? lastName;
   Status? status;
   Role? role;
@@ -157,6 +158,7 @@ class Usersjsa {
     this.userFk,
     this.jsaFk,
     this.idStatus,
+    this.docName,
     this.lastName,
     this.status,
     this.role,
@@ -171,6 +173,7 @@ class Usersjsa {
         userFk: json["user_fk"],
         jsaFk: json["jsa_fk"],
         idStatus: json["id_status"],
+        docName: json["doc_name"],
         lastName: json["last_name"],
         status: json["status"] == null ? null : Status.fromMap(json["status"]),
         role: json["role"] == null ? null : Role.fromMap(json["role"]),
@@ -181,6 +184,7 @@ class Usersjsa {
         "user_fk": userFk,
         "jsa_fk": jsaFk,
         "id_status": idStatus,
+        "doc_name": docName,
         "last_name": lastName,
         "status": status?.toMap(),
         "role": role?.toMap(),

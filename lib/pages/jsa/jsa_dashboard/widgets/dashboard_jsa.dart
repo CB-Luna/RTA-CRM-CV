@@ -62,7 +62,7 @@ class _DashboardJsaState extends State<DashboardJsa> {
           ],
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.4,
+          height: MediaQuery.of(context).size.height * 0.35,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -177,108 +177,6 @@ class _DashboardJsaState extends State<DashboardJsa> {
           ),
         ),
         const PlutoGridDashboardJSA()
-        // Container(
-        //     decoration: BoxDecoration(
-        //         border: Border.all(color: AppTheme.of(context).primaryColor),
-        //         borderRadius: BorderRadius.circular(10)),
-        //     child: Column(
-        //       mainAxisAlignment: MainAxisAlignment.start,
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         Padding(
-        //           padding: const EdgeInsets.symmetric(
-        //               horizontal: 20.0, vertical: 10.0),
-        //           child: Text(
-        //             "JSA Document History",
-        //             style: TextStyle(
-        //                 color: AppTheme.of(context).primaryColor, fontSize: 25),
-        //           ),
-        //         ),
-        //         ExpansionPanelList(
-        //           expandedHeaderPadding: EdgeInsets.zero,
-        //           elevation: 0,
-        //           children: [
-        //             ExpansionPanel(
-        //               isExpanded: provider.istaped,
-        //               canTapOnHeader: true,
-        //               headerBuilder: (context, expanded) {
-        //                 return Container(
-        //                   decoration: BoxDecoration(
-        //                       gradient: whiteGradient,
-        //                       borderRadius: BorderRadius.circular(10)),
-        //                   child: const Row(
-        //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //                     children: [
-        //                       Text("a"),
-        //                       Text("b"),
-        //                       Text("c"),
-        //                       Text("d"),
-        //                       Text("e"),
-        //                       Text("f"),
-        //                       Text("g"),
-        //                     ],
-        //                   ),
-        //                 );
-        //               },
-        //               body: Container(
-        //                 height: 300,
-        //                 child: Padding(
-        //                   padding: const EdgeInsets.symmetric(
-        //                     //horizontal: 24,
-        //                     vertical: 6,
-        //                   ),
-        //                   child: ListView.builder(
-        //                     shrinkWrap: true,
-        //                     itemCount: provider.jsaDocuments.length,
-        //                     controller: ScrollController(),
-        //                     scrollDirection: Axis.vertical,
-        //                     itemBuilder: (BuildContext ctx, index) {
-        //                       return Container(
-        //                         height: 50,
-        //                         width: 200,
-        //                         color: Colors.red,
-        //                       );
-        //                     },
-        //                   ),
-        //                 ),
-        //               ),
-        //             )
-
-        //             // const PlutoGridDashboardJSA()),
-        //             // ExpansionPanel(
-        //             //     isExpanded: provider.istaped,
-        //             //     canTapOnHeader: true,
-        //             //     headerBuilder: (context, expanded) {
-        //             //       return Container(
-        //             //         margin: const EdgeInsets.symmetric(horizontal: 10),
-        //             //         decoration: BoxDecoration(
-        //             //             gradient: whiteGradient,
-        //             //             borderRadius: BorderRadius.circular(10)),
-        //             //         child: const Row(
-        //             //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //             //           children: [
-        //             //             Text("a"),
-        //             //             Text("b"),
-        //             //             Text("c"),
-        //             //             Text("d"),
-        //             //             Text("e"),
-        //             //             Text("f"),
-        //             //             Text("g"),
-        //             //           ],
-        //             //         ),
-        //             //       );
-        //             //     },
-        //             //     body: const PlutoGridDashboardJSA()),
-        //           ],
-        //           expansionCallback: (panelIndex, isExpanded) {
-        //             print(provider.jsaDocuments.length);
-        //             setState(() {
-        //               provider.istaped = !provider.istaped;
-        //             });
-        //           },
-        //         ),
-        //       ],
-        //     ))
       ],
     );
   }
