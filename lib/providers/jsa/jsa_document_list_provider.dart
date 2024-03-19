@@ -1,14 +1,18 @@
 // ignore_for_file: unused_local_variable, prefer_typing_uninitialized_variables, unrelated_type_equality_checks
 
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/crm/quotes/quotes_tab.dart';
+import 'package:pdfx/pdfx.dart';
 
 import '../../models/jsa/jsa.dart';
 import '../../models/jsa/jsa_document_list.dart';
 import '../../models/jsa/users_jsa.dart';
+import 'package:http/http.dart' as http;
+import 'dart:html' as html;
 
 class JSADocumentListProvider extends ChangeNotifier {
   bool istaped = false;
@@ -22,6 +26,7 @@ class JSADocumentListProvider extends ChangeNotifier {
   List<UsersJsa> usersJsa = [];
   List<Jsa> listJSA = [];
   List<Jsa> listJSAFiltered = [];
+  PdfController? pdfController;
 
   List<Jsa> list = [];
 
@@ -94,6 +99,7 @@ class JSADocumentListProvider extends ChangeNotifier {
                     PlutoCell(value: "${user.name} ${user.lastName}"),
                 'ROLE_Column': PlutoCell(value: user.role!.name),
                 'STATUS_Column': PlutoCell(value: user.status!.status),
+                'DOCUMENT_Column': PlutoCell(value: user.docName),
               },
             ),
           );
@@ -106,6 +112,20 @@ class JSADocumentListProvider extends ChangeNotifier {
       print('Error en getInformationJSA() - $e');
     }
     // notifyListeners();
+  }
+
+  Future<void> pickDocument(String document) async {
+    try {
+      var url = supabase.storage.from('jsa/signed_docs').getPublicUrl(document);
+      print(url);
+      // .getPublicUrl("${jsa.id}_${jsa.createdAt}_14.pdf");
+      var bodyBytes = (await http.get(Uri.parse(url))).bodyBytes;
+      pdfController = PdfController(document: PdfDocument.openData(bodyBytes));
+    } catch (e) {
+      log('Error in pickDocument() - $e');
+      return;
+    }
+    return;
   }
 
   void filterDocuments(String query) {
