@@ -13,8 +13,9 @@ import 'package:rta_crm_cv/theme/theme.dart';
 // String urlNotifications = 'https://supa43.rtatel.com/notifications/api';
 
 //////// TEST ////////
-final Uri urlFMTAPK = Uri.parse(
-    "https://drive.google.com/file/d/1lUdS__gG-g4zSPjq_3-LFhnMOmHhYAR8/view?usp=share_link");
+
+final Uri urlFMTAPK =
+    Uri.parse("https://drive.google.com/file/d/1lUdS__gG-g4zSPjq_3-LFhnMOmHhYAR8/view?usp=share_link");
 const String supabaseUrl = 'https://supa42.rtatel.com';
 const String anonKey =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';

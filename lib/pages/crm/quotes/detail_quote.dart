@@ -302,14 +302,8 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             }, */
                                           ),
                                         ), */
-                                        if (provider
-                                                .typesList[provider.typesList
-                                                    .map((type) => type.name!)
-                                                    .toList()
-                                                    .indexWhere(
-                                                        (element) => element.startsWith(provider.typesSelectedValue))]
-                                                .parameters!
-                                                .existingCircuitId! &&
+                                        if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
+                                                .parameters!.existingCircuitId! &&
                                             provider.quote.orderInfo!.existingCircuitId != null)
                                           Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
@@ -323,14 +317,8 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                               icon: Icons.cable_outlined,
                                               keyboardType: TextInputType.text,
                                               validator: (value) {
-                                                if (provider
-                                                    .typesList[provider.typesList
-                                                        .map((type) => type.name!)
-                                                        .toList()
-                                                        .indexWhere((element) =>
-                                                            element.startsWith(provider.typesSelectedValue))]
-                                                    .parameters!
-                                                    .existingCircuitId!) {
+                                                if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
+                                                    .parameters!.existingCircuitId!) {
                                                   if (value == null || value.isEmpty) {
                                                     print('aqui1');
                                                     return 'Please enter some text';
@@ -341,14 +329,8 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                               },
                                             ),
                                           ),
-                                        if (provider
-                                                .typesList[provider.typesList
-                                                    .map((type) => type.name!)
-                                                    .toList()
-                                                    .indexWhere(
-                                                        (element) => element.startsWith(provider.typesSelectedValue))]
-                                                .parameters!
-                                                .newCircuitId! &&
+                                        if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
+                                                .parameters!.newCircuitId! &&
                                             provider.quote.orderInfo!.newCircuitId != null)
                                           Padding(
                                             padding: const EdgeInsets.only(bottom: 10),
@@ -362,14 +344,8 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                               icon: Icons.cable_outlined,
                                               keyboardType: TextInputType.text,
                                               validator: (value) {
-                                                if (provider
-                                                    .typesList[provider.typesList
-                                                        .map((type) => type.name!)
-                                                        .toList()
-                                                        .indexWhere((element) =>
-                                                            element.startsWith(provider.typesSelectedValue))]
-                                                    .parameters!
-                                                    .newCircuitId!) {
+                                                if (provider.typesList[provider.typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.typesSelectedValue))]
+                                                    .parameters!.newCircuitId!) {
                                                   if (value == null || value.isEmpty) {
                                                     print('aqui2');
                                                     return 'Please enter some text';
@@ -394,19 +370,13 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                           ),
                                         ),
                                         if (provider
-                                                .circuitTypeList[provider.circuitTypeList
-                                                    .map((type) => type.name!)
-                                                    .toList()
-                                                    .indexWhere((element) =>
-                                                        element.startsWith(provider.circuitTypeSelectedValue))]
+                                                .circuitTypeList[
+                                                    provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
                                                 .parameters!
                                                 .cir! ||
                                             provider
-                                                .circuitTypeList[provider.circuitTypeList
-                                                    .map((type) => type.name!)
-                                                    .toList()
-                                                    .indexWhere((element) =>
-                                                        element.startsWith(provider.circuitTypeSelectedValue))]
+                                                .circuitTypeList[
+                                                    provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
                                                 .parameters!
                                                 .portSize!)
                                           Padding(
@@ -414,11 +384,8 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             child: Row(
                                               children: [
                                                 if (provider
-                                                    .circuitTypeList[provider.circuitTypeList
-                                                        .map((type) => type.name!)
-                                                        .toList()
-                                                        .indexWhere((element) =>
-                                                            element.startsWith(provider.circuitTypeSelectedValue))]
+                                                    .circuitTypeList[
+                                                        provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
                                                     .parameters!
                                                     .cir!)
                                                   CustomDDownMenu(
@@ -432,11 +399,8 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                     label: 'CIR',
                                                   ),
                                                 if (provider
-                                                    .circuitTypeList[provider.circuitTypeList
-                                                        .map((type) => type.name!)
-                                                        .toList()
-                                                        .indexWhere((element) =>
-                                                            element.startsWith(provider.circuitTypeSelectedValue))]
+                                                    .circuitTypeList[
+                                                        provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
                                                     .parameters!
                                                     .portSize!)
                                                   Padding(
@@ -470,11 +434,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             ),
                                           ),
                                         if (provider
-                                            .circuitTypeList[provider.circuitTypeList
-                                                .map((type) => type.name!)
-                                                .toList()
-                                                .indexWhere(
-                                                    (element) => element.startsWith(provider.circuitTypeSelectedValue))]
+                                            .circuitTypeList[provider.circuitTypeList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(provider.circuitTypeSelectedValue))]
                                             .parameters!
                                             .evcod!)
                                           Padding(
@@ -533,8 +493,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                           padding: const EdgeInsets.only(bottom: 10),
                                           child: Row(
                                             children: [
-                                              if (provider.circuitTypeSelectedValue == 'DIA' &&
-                                                  provider.bgpSelectedValue == 'No')
+                                              if (provider.circuitTypeSelectedValue == 'DIA' && provider.bgpSelectedValue == 'No')
                                                 Padding(
                                                   padding: const EdgeInsets.only(left: 0),
                                                   child: CustomDDownMenu(
@@ -548,8 +507,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                     label: 'IP Block',
                                                   ),
                                                 ),
-                                              if (provider.circuitTypeSelectedValue == 'DIA' &&
-                                                  provider.bgpSelectedValue == 'Current ASN(s)')
+                                              if (provider.circuitTypeSelectedValue == 'DIA' && provider.bgpSelectedValue == 'Current ASN(s)')
                                                 Padding(
                                                   padding: const EdgeInsets.only(left: 0),
                                                   child: CustomDDownMenu(
@@ -701,19 +659,15 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.only(right: 10),
-                                                        child: Icon(Icons.format_list_numbered,
-                                                            color: AppTheme.of(context).contenidoTablas.color,
-                                                            size: 25),
+                                                        child: Icon(Icons.format_list_numbered, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
                                                       Text(
                                                         'Items',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight:
-                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ],
@@ -733,8 +687,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 ),
                                                 SizedBox(
                                                   child: Text(
-                                                    moneyFormat(provider.globalRows.length.toDouble()).substring(0,
-                                                        moneyFormat(provider.globalRows.length.toDouble()).length - 3),
+                                                    moneyFormat(provider.globalRows.length.toDouble()).substring(0, moneyFormat(provider.globalRows.length.toDouble()).length - 3),
                                                     style: TextStyle(
                                                       color: AppTheme.of(context).contenidoTablas.color,
                                                       fontFamily: 'Bicyclette-Thin',
@@ -761,19 +714,15 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.only(right: 10),
-                                                        child: Icon(Icons.attach_money,
-                                                            color: AppTheme.of(context).contenidoTablas.color,
-                                                            size: 25),
+                                                        child: Icon(Icons.attach_money, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
                                                       Text(
-                                                        'Subtotal',
+                                                        'Price',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight:
-                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ],
@@ -793,7 +742,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 ),
                                                 SizedBox(
                                                   child: Text(
-                                                    '\$ ${moneyFormat(provider.subtotal)} USD',
+                                                    '\$ ${moneyFormat(provider.price)} USD',
                                                     style: TextStyle(
                                                       color: AppTheme.of(context).contenidoTablas.color,
                                                       fontFamily: 'Bicyclette-Thin',
@@ -820,19 +769,15 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.only(right: 10),
-                                                        child: Icon(Icons.money_off,
-                                                            color: AppTheme.of(context).contenidoTablas.color,
-                                                            size: 25),
+                                                        child: Icon(Icons.money_off, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
                                                       Text(
                                                         'Cost',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight:
-                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ],
@@ -879,19 +824,15 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.only(right: 10),
-                                                        child: Icon(Icons.monetization_on_outlined,
-                                                            color: AppTheme.of(context).contenidoTablas.color,
-                                                            size: 25),
+                                                        child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
                                                       Text(
-                                                        'Total',
+                                                        'Revenue',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight:
-                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ],
@@ -911,7 +852,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 ),
                                                 SizedBox(
                                                   child: Text(
-                                                    '\$ ${moneyFormat(provider.total)} USD',
+                                                    '\$ ${moneyFormat(provider.revenue)} USD',
                                                     style: TextStyle(
                                                       color: AppTheme.of(context).contenidoTablas.color,
                                                       fontFamily: 'Bicyclette-Thin',
@@ -938,19 +879,15 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.only(right: 10),
-                                                        child: Icon(Icons.confirmation_num_outlined,
-                                                            color: AppTheme.of(context).contenidoTablas.color,
-                                                            size: 25),
+                                                        child: Icon(Icons.confirmation_num_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
                                                       Text(
                                                         'Tax',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight:
-                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ],
@@ -997,19 +934,15 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.only(right: 10),
-                                                        child: Icon(Icons.monetization_on_outlined,
-                                                            color: AppTheme.of(context).contenidoTablas.color,
-                                                            size: 25),
+                                                        child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
                                                       Text(
-                                                        'Total+Tax',
+                                                        'Price+Tax',
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                            fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
                                                             fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                            fontWeight:
-                                                                AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                            fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                             color: AppTheme.of(context).primaryText),
                                                       ),
                                                     ],
@@ -1029,7 +962,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 ),
                                                 SizedBox(
                                                   child: Text(
-                                                    '\$ ${moneyFormat(provider.totalPlusTax)} USD',
+                                                    '\$ ${moneyFormat(provider.pricePlusTax)} USD',
                                                     style: TextStyle(
                                                       color: AppTheme.of(context).contenidoTablas.color,
                                                       fontFamily: 'Bicyclette-Thin',
@@ -1046,9 +979,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                           child: Container(
                                             //width: MediaQuery.of(context).size.width / 5 - 150,
                                             decoration: BoxDecoration(
-                                              color: provider.margin < 20
-                                                  ? secondaryColor
-                                                  : AppTheme.of(context).primaryColor,
+                                              color: provider.margin < 20 ? secondaryColor : AppTheme.of(context).primaryColor,
                                               borderRadius: const BorderRadius.all(
                                                 Radius.circular(15),
                                               ),
@@ -1065,19 +996,15 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                       children: [
                                                         Padding(
                                                           padding: const EdgeInsets.only(right: 10),
-                                                          child: Icon(Icons.percent,
-                                                              color: AppTheme.of(context).primaryBackground, size: 25),
+                                                          child: Icon(Icons.percent, color: AppTheme.of(context).primaryBackground, size: 25),
                                                         ),
                                                         Text(
                                                           'Margin',
                                                           style: TextStyle(
-                                                              fontFamily:
-                                                                  AppTheme.of(context).encabezadoTablas.fontFamily,
+                                                              fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                               fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
-                                                              fontStyle:
-                                                                  AppTheme.of(context).encabezadoTablas.fontStyle,
-                                                              fontWeight:
-                                                                  AppTheme.of(context).encabezadoTablas.fontWeight,
+                                                              fontStyle: AppTheme.of(context).encabezadoTablas.fontStyle,
+                                                              fontWeight: AppTheme.of(context).encabezadoTablas.fontWeight,
                                                               color: AppTheme.of(context).primaryBackground),
                                                         ),
                                                       ],
@@ -1263,17 +1190,14 @@ class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height / 2.25 - 150,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: AppTheme.of(context).primaryBackground,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 0.1,
-                    blurRadius: 3,
-                    offset: const Offset(0, 0), // changes position of shadow
-                  ),
-                ]),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: AppTheme.of(context).primaryBackground, boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 0.1,
+                blurRadius: 3,
+                offset: const Offset(0, 0), // changes position of shadow
+              ),
+            ]),
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
@@ -1282,10 +1206,8 @@ class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: Row(
-                    mainAxisAlignment: provider.comments[index].name == currentUser!.name &&
-                            provider.comments[index].role == currentUser!.currentRole.roleName
-                        ? MainAxisAlignment.end
-                        : MainAxisAlignment.start,
+                    mainAxisAlignment:
+                        provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.currentRole.roleName ? MainAxisAlignment.end : MainAxisAlignment.start,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -1296,8 +1218,7 @@ class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                  color: provider.comments[index].name == currentUser!.name &&
-                                          provider.comments[index].role == currentUser!.currentRole.roleName
+                                  color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.currentRole.roleName
                                       ? AppTheme.of(context).secondaryColor
                                       : AppTheme.of(context).primaryColor),
                               color: AppTheme.of(context).primaryBackground,
@@ -1317,8 +1238,7 @@ class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
                                 Container(
                                   height: 30,
                                   decoration: BoxDecoration(
-                                    color: provider.comments[index].name == currentUser!.name &&
-                                            provider.comments[index].role == currentUser!.currentRole.roleName
+                                    color: provider.comments[index].name == currentUser!.name && provider.comments[index].role == currentUser!.currentRole.roleName
                                         ? AppTheme.of(context).secondaryColor
                                         : AppTheme.of(context).primaryColor,
                                   ),
@@ -1500,8 +1420,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                     style: AppTheme.of(context).contenidoTablas,
                                     group: provider.tableTopGroup,
                                   ),
-                                  if (provider.quotes[index].type == 'Disconnect')
-                                    Text('ID: ${provider.quotes[index].existingCircuitID}'),
+                                  if (provider.quotes[index].type == 'Disconnect') Text('ID: ${provider.quotes[index].existingCircuitID}'),
                                   if (provider.quotes[index].type == 'Upgrade')
                                     RichText(
                                       text: TextSpan(
@@ -1534,8 +1453,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                     ),
                                   if (provider.quotes[index].circuitType == 'EVCoD')
                                     TableTopText(
-                                      text:
-                                          '${provider.quotes[index].circuitType} - ${provider.quotes[index].evcodType}',
+                                      text: '${provider.quotes[index].circuitType} - ${provider.quotes[index].evcodType}',
                                       style: AppTheme.of(context).contenidoTablas,
                                       group: provider.tableTopGroup,
                                     ),
@@ -1623,9 +1541,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                   columns: [
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(
-                                            child: Icon(Icons.local_offer_outlined,
-                                                color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(child: Icon(Icons.local_offer_outlined, color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
                                         TextSpan(text: 'Line Item', style: AppTheme.of(context).encabezadoTablas)
                                       ]),
@@ -1646,18 +1562,14 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                               child: Text(
                                             rendererContext.cell.value ?? '-',
-                                            style: AppTheme.of(context)
-                                                .contenidoTablas
-                                                .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                            style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                                           )),
                                         );
                                       },
                                     ),
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(
-                                            child: Icon(Icons.attach_money_outlined,
-                                                color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(child: Icon(Icons.attach_money_outlined, color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
                                         TextSpan(text: 'Unit Price', style: AppTheme.of(context).encabezadoTablas)
                                       ]),
@@ -1678,18 +1590,14 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                               child: Text(
                                             '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                                            style: AppTheme.of(context)
-                                                .contenidoTablas
-                                                .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                            style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                                           )),
                                         );
                                       },
                                     ),
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(
-                                            child: Icon(Icons.price_check_outlined,
-                                                color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(child: Icon(Icons.price_check_outlined, color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
                                         TextSpan(text: 'Unit Cost', style: AppTheme.of(context).encabezadoTablas)
                                       ]),
@@ -1710,18 +1618,14 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                               child: Text(
                                             '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                                            style: AppTheme.of(context)
-                                                .contenidoTablas
-                                                .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                            style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                                           )),
                                         );
                                       },
                                     ),
                                     PlutoColumn(
                                       titleSpan: TextSpan(children: [
-                                        WidgetSpan(
-                                            child: Icon(Icons.shopping_cart_outlined,
-                                                color: AppTheme.of(context).primaryBackground)),
+                                        WidgetSpan(child: Icon(Icons.shopping_cart_outlined, color: AppTheme.of(context).primaryBackground)),
                                         const WidgetSpan(child: SizedBox(width: 10)),
                                         TextSpan(text: 'Quantity', style: AppTheme.of(context).encabezadoTablas)
                                       ]),
@@ -1742,9 +1646,7 @@ class _ExpansionPanelListCotizadorState extends State<ExpansionPanelListCotizado
                                           child: Center(
                                               child: Text(
                                             rendererContext.cell.value ?? '-'.toString(),
-                                            style: AppTheme.of(context)
-                                                .contenidoTablas
-                                                .override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                                            style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
                                           )),
                                         );
                                       },
@@ -1881,8 +1783,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 rendererContext.cell.value ?? '-',
-                style:
-                    AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
@@ -1910,8 +1811,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                style:
-                    AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
@@ -1939,8 +1839,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 '\$ ${moneyFormat(rendererContext.cell.value)} USD',
-                style:
-                    AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
@@ -1968,8 +1867,7 @@ class _PlutoGridCotizadorState extends State<PlutoGridCotizador> {
               child: Center(
                   child: Text(
                 rendererContext.cell.value != null ? rendererContext.cell.value.toString() : '-',
-                style:
-                    AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
+                style: AppTheme.of(context).contenidoTablas.override(fontFamily: 'Gotham-Regular', useGoogleFonts: false),
               )),
             );
           },
