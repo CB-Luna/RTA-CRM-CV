@@ -21,7 +21,7 @@ class _JSAInformationCardState extends State<JSAInformationCard> {
     return Container(
       height: MediaQuery.of(context).size.height * 0.24,
       width: MediaQuery.of(context).size.width * 0.14,
-      margin: const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           border: Border.all(color: widget.colorCard, width: 2),
           borderRadius: BorderRadius.circular(10)),

@@ -21,63 +21,66 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   Widget build(BuildContext context) {
     final UserState userState = Provider.of<UserState>(context);
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Forgot Password?',
-          style: GoogleFonts.poppins(
-            color: AppTheme.of(context).primaryColor,
-            fontSize: 30,
-            fontWeight: FontWeight.w500,
+    return Form(
+      key: formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Forgot Password?',
+            style: GoogleFonts.poppins(
+              color: AppTheme.of(context).primaryColor,
+              fontSize: 30,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          'Please enter your email below, to send a password recovery link directly to you.',
-          style: GoogleFonts.poppins(
-            color: const Color(0xFF9E9E9E),
-            fontSize: 15,
-            fontWeight: FontWeight.normal,
+          const SizedBox(height: 10),
+          Text(
+            'Please enter your email below, to send a password recovery link directly to you.',
+            style: GoogleFonts.poppins(
+              color: const Color(0xFF9E9E9E),
+              fontSize: 15,
+              fontWeight: FontWeight.normal,
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        LoginInputField(
-          key: const Key('email'),
-          label: 'Email',
-          controller: userState.emailController,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'The email is required';
-            } else if (!EmailValidator.validate(value)) {
-              return 'Please enter a valid email';
-            }
-            return null;
-          },
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 20, bottom: 40, left: 5),
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () => userState.changeView(FormView.loginForm),
-              child: Text(
-                'Back to login',
-                style: GoogleFonts.poppins(
-                  color: AppTheme.of(context).primaryColor,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
+          const SizedBox(height: 20),
+          LoginInputField(
+            key: const Key('email'),
+            label: 'Email',
+            controller: userState.emailController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'The email is required';
+              } else if (!EmailValidator.validate(value)) {
+                return 'Please enter a valid email';
+              }
+              return null;
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20, bottom: 40, left: 5),
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () => userState.changeView(FormView.loginForm),
+                child: Text(
+                  'Back to login',
+                  style: GoogleFonts.poppins(
+                    color: AppTheme.of(context).primaryColor,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        ContinueButton(
-          buttonColor: AppTheme.of(context).primaryColor,
-          formKey: formKey,
-        ),
-      ],
+          ContinueButton(
+            buttonColor: AppTheme.of(context).primaryColor,
+            formKey: formKey,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -134,6 +137,8 @@ class _ContinueButtonState extends State<ContinueButton> {
           if (!widget.formKey.currentState!.validate()) {
             return;
           }
+
+          await userState.sendResetPasswordEmail();
         },
         child: Container(
           height: 41,
