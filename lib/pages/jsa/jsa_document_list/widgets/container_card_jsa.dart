@@ -82,7 +82,7 @@ class _ContainerCardJSAState extends State<ContainerCardJSA> {
                         child: Visibility(
                           visible: !widget.isExpanded,
                           child: Text(
-                            '${provider.listJSA[widget.index].docName}',
+                            '${provider.listJSA[widget.index].title}',
                             style: AppTheme.of(context).title3.override(
                                 fontFamily: AppTheme.of(context).title3Family,
                                 useGoogleFonts: false,

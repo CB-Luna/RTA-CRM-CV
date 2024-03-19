@@ -172,9 +172,6 @@ class JSADashboardProvider extends ChangeNotifier {
         listJSA = (res as List<dynamic>)
             .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
             .toList();
-        print(listJSA.length);
-        print(
-            "El ID de la compania del usuario es: ${currentUser!.company_fk}");
       } else {
         final res = await supabaseJsa.from('jsa_view').select();
         if (res == null) {
@@ -186,7 +183,7 @@ class JSADashboardProvider extends ChangeNotifier {
             .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
             .toList();
 
-        print("ListJSA.length = ${listJSA.length}");
+        // print("ListJSA.length = ${listJSA.length}");
       }
       // final res = await supabaseJsa.from('jsa_view').select();
 
@@ -197,15 +194,13 @@ class JSADashboardProvider extends ChangeNotifier {
       // listJSA = (res as List<dynamic>)
       //     .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
       //     .toList();
-      // print("La lista de los jsa son: ${listJSA.length}");
+      print("La lista de los jsa son: ${listJSA.length}");
       rows.clear();
       for (Jsa jsa in listJSA) {
         // print("-------- Los id son: ${jsa.id}");
         DateTime dateAdded = DateTime.parse(jsa.toMap()["created_at"]);
         if (jsa.idStatus == 1) {
           jsaDraft++;
-          print("DateAdded de los jsa son ${dateAdded.month}");
-
           if (dateAdded.month == dateRange.end.month) actualMonthEndDraft++;
           if (dateAdded.month == (dateRange.end.month - 1) &&
               dateAdded.isAfter(dateRange.start)) oneMonthAgoEndDraft++;
@@ -301,7 +296,20 @@ class JSADashboardProvider extends ChangeNotifier {
           ),
         );
       }
+      print("jsaDraft: $jsaDraft");
 
+      print("actualMonthEndDraft: $actualMonthEndDraft");
+      print("oneMonthAgoEndDraft: $oneMonthAgoEndDraft");
+      print("twoMonthsAgoEndDraft: $twoMonthsAgoEndDraft");
+      print("threeMonthsAgoEndDraft: $threeMonthsAgoEndDraft");
+      print("fourMonthsAgoEndDraft: $fourMonthsAgoEndDraft");
+      print("fiveMonthsAgoEndDraft: $fiveMonthsAgoEndDraft");
+      print("sixMonthsAgoEndDraft: $sixMonthsAgoEndDraft");
+      print("sevenMonthsAgoEndDraft: $sevenMonthsAgoEndDraft");
+      print("eightMonthsAgoEndDraft: $eightMonthsAgoEndDraft");
+      print("nineMonthsAgoEndDraft: $nineMonthsAgoEndDraft");
+      print("tenMonthsAgoEndDraft: $tenMonthsAgoEndDraft");
+      print("elevenMonthsAgoEndDraft: $elevenMonthsAgoEndDraft");
       notifyListeners();
     } catch (e) {
       print('Error en getDashboards() - $e');

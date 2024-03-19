@@ -22,19 +22,6 @@ class PlutoGridDashboardJSA extends StatefulWidget {
 }
 
 class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-  //     final JSADashboardProvider provider = Provider.of<JSADashboardProvider>(
-  //       context,
-  //       listen: false,
-  //     );
-  //     await provider.updateState();
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     JSADashboardProvider provider = Provider.of<JSADashboardProvider>(context);
@@ -87,7 +74,7 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Container(
-                height: rowHeight,
+                height: rowHeightJSA,
                 // width: rendererContext.cell.column.width,
                 decoration: BoxDecoration(gradient: whiteGradient),
                 child: Center(
@@ -156,7 +143,7 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Container(
-                height: rowHeight,
+                height: rowHeightJSA,
                 // width: rendererContext.cell.column.width,
                 decoration: BoxDecoration(gradient: whiteGradient),
                 child: Center(
@@ -248,7 +235,7 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Container(
-                height: rowHeight,
+                height: rowHeightJSA,
                 // width: rendererContext.cell.column.width,
                 decoration: BoxDecoration(gradient: whiteGradient),
                 child: Center(
@@ -287,7 +274,7 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Container(
-                height: rowHeight,
+                height: rowHeightJSA,
                 // width: rendererContext.cell.column.width,
                 decoration: BoxDecoration(gradient: whiteGradient),
                 child: Center(
@@ -326,7 +313,7 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Container(
-                height: rowHeight,
+                height: rowHeightJSA,
                 // width: rendererContext.cell.column.width,
                 decoration: BoxDecoration(gradient: whiteGradient),
                 child: Center(
@@ -365,7 +352,7 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Container(
-                height: rowHeight,
+                height: rowHeightJSA,
                 // width: rendererContext.cell.column.width,
                 decoration: BoxDecoration(gradient: whiteGradient),
                 child: Center(
@@ -439,7 +426,7 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
                   );
                 },
                 child: Container(
-                  height: rowHeight,
+                  height: rowHeightJSA,
                   // width: rendererContext.cell.column.width,
                   decoration: BoxDecoration(gradient: whiteGradient),
                   child: Center(
