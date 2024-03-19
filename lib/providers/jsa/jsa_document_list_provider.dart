@@ -5,14 +5,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/pages/crm/quotes/quotes_tab.dart';
 import 'package:pdfx/pdfx.dart';
 
 import '../../models/jsa/jsa.dart';
 import '../../models/jsa/jsa_document_list.dart';
 import '../../models/jsa/users_jsa.dart';
 import 'package:http/http.dart' as http;
-import 'dart:html' as html;
 
 class JSADocumentListProvider extends ChangeNotifier {
   bool istaped = false;
@@ -91,6 +89,7 @@ class JSADocumentListProvider extends ChangeNotifier {
         for (Usersjsa user in jsaSelected!.usersjsa) {
           // if (user.role!.application == "JSA") {
           // for (Usersjsa user in filteredUsers) {
+          print("UsersName: ${user.name}");
           rows.add(
             PlutoRow(
               cells: {
