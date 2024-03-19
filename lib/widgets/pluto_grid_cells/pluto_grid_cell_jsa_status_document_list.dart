@@ -46,13 +46,13 @@ Color statusColor(String status, BuildContext context) {
 
   switch (status) {
     case "Received": //Sales Form
-      color = AppTheme.of(context).employeePrimary;
+      color = AppTheme.of(context).odePrimary;
       break;
     case "Signed": //Sen. Exec. Validate
       color = Colors.green;
       break;
     case "Opened": //Finance Validate
-      color = AppTheme.of(context).primaryColor;
+      color = AppTheme.of(context).employeePrimary;
       break;
 
     case "-": //Finance Validate

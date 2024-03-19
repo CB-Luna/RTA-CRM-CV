@@ -159,7 +159,17 @@ class JSADashboardProvider extends ChangeNotifier {
     elevenMonthsAgoEndDraft = 0;
 
     try {
-      if (currentUser!.isManagerJSA) {
+      if (currentUser!.isAdminJSA) {
+        final res = await supabaseJsa.from('jsa_view').select();
+        if (res == null) {
+          print('Error en getDocumentList()');
+          return;
+        }
+        // print(res);
+        listJSA = (res as List<dynamic>)
+            .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
+            .toList();
+      } else {
         final res = await supabaseJsa
             .from('jsa_view')
             .select()
@@ -172,19 +182,19 @@ class JSADashboardProvider extends ChangeNotifier {
         listJSA = (res as List<dynamic>)
             .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
             .toList();
-      } else {
-        final res = await supabaseJsa.from('jsa_view').select();
-        if (res == null) {
-          print('Error en getDocumentList()');
-          return;
-        }
-        // print(res);
-        listJSA = (res as List<dynamic>)
-            .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
-            .toList();
-
-        // print("ListJSA.length = ${listJSA.length}");
       }
+      // final res = await supabaseJsa.from('jsa_view').select();
+      // if (res == null) {
+      //   print('Error en getDocumentList()');
+      //   return;
+      // }
+      // // print(res);
+      // listJSA = (res as List<dynamic>)
+      //     .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
+      //     .toList();
+
+      // print("ListJSA.length = ${listJSA.length}");
+
       // final res = await supabaseJsa.from('jsa_view').select();
 
       // // if (res == null) {
@@ -296,20 +306,20 @@ class JSADashboardProvider extends ChangeNotifier {
           ),
         );
       }
-      print("jsaDraft: $jsaDraft");
+      // print("jsaDraft: $jsaDraft");
 
-      print("actualMonthEndDraft: $actualMonthEndDraft");
-      print("oneMonthAgoEndDraft: $oneMonthAgoEndDraft");
-      print("twoMonthsAgoEndDraft: $twoMonthsAgoEndDraft");
-      print("threeMonthsAgoEndDraft: $threeMonthsAgoEndDraft");
-      print("fourMonthsAgoEndDraft: $fourMonthsAgoEndDraft");
-      print("fiveMonthsAgoEndDraft: $fiveMonthsAgoEndDraft");
-      print("sixMonthsAgoEndDraft: $sixMonthsAgoEndDraft");
-      print("sevenMonthsAgoEndDraft: $sevenMonthsAgoEndDraft");
-      print("eightMonthsAgoEndDraft: $eightMonthsAgoEndDraft");
-      print("nineMonthsAgoEndDraft: $nineMonthsAgoEndDraft");
-      print("tenMonthsAgoEndDraft: $tenMonthsAgoEndDraft");
-      print("elevenMonthsAgoEndDraft: $elevenMonthsAgoEndDraft");
+      // print("actualMonthEndDraft: $actualMonthEndDraft");
+      // print("oneMonthAgoEndDraft: $oneMonthAgoEndDraft");
+      // print("twoMonthsAgoEndDraft: $twoMonthsAgoEndDraft");
+      // print("threeMonthsAgoEndDraft: $threeMonthsAgoEndDraft");
+      // print("fourMonthsAgoEndDraft: $fourMonthsAgoEndDraft");
+      // print("fiveMonthsAgoEndDraft: $fiveMonthsAgoEndDraft");
+      // print("sixMonthsAgoEndDraft: $sixMonthsAgoEndDraft");
+      // print("sevenMonthsAgoEndDraft: $sevenMonthsAgoEndDraft");
+      // print("eightMonthsAgoEndDraft: $eightMonthsAgoEndDraft");
+      // print("nineMonthsAgoEndDraft: $nineMonthsAgoEndDraft");
+      // print("tenMonthsAgoEndDraft: $tenMonthsAgoEndDraft");
+      // print("elevenMonthsAgoEndDraft: $elevenMonthsAgoEndDraft");
       notifyListeners();
     } catch (e) {
       print('Error en getDashboards() - $e');
