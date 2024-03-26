@@ -19,6 +19,7 @@ import 'package:rta_crm_cv/models/homeowner.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:signature/signature.dart';
 import 'package:http/http.dart' as http;
+
 class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   //Lista
   final controllerBusqueda = TextEditingController();
@@ -31,7 +32,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
   late List<PlutoGridStateManager> listStateManager;
   late DocumentInfo docInfo;
 
-  List<String> companyList = ["CRY"]; //Eliminar "CRY" Cuando se agruegen compañias 
+  List<String> companyList = ["CRY"]; //Eliminar "CRY" Cuando se agruegen compañias
   late String companySelectedValue;
 
   //PDF Formulario
@@ -790,6 +791,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
     try {
       var url = supabase.storage.from('homeowner').getPublicUrl(document);
       var bodyBytes = (await http.get(Uri.parse(url))).bodyBytes;
+      documento = bodyBytes;
       pdfController = PdfController(document: PdfDocument.openData(bodyBytes));
     } catch (e) {
       log('Error in pickDocument() - $e');

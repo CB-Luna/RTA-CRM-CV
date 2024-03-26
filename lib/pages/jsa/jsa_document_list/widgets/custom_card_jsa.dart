@@ -34,6 +34,8 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
   Widget build(BuildContext context) {
     JSADocumentListProvider provider =
         Provider.of<JSADocumentListProvider>(context);
+    // provider.listJSA.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+    provider.listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
     return CustomCard(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -53,11 +55,12 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               SizedBox(
@@ -81,7 +84,10 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                                   icon: Icons.search,
                                   label: 'Search',
                                   keyboardType: TextInputType.text,
-                                  onChanged: provider.filterDocuments,
+                                  onChanged: (String query) async {
+                                    provider.filterDocuments(query);
+                                    // provider.updateState();
+                                  },
                                 ),
                               ),
                               // CustomTextIconButton(

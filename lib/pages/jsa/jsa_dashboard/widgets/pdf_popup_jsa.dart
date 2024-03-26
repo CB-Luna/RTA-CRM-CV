@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/providers/ctrlv/homeowner_ftth_document_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 import '../../../../providers/jsa/jsa_dashboards_provider.dart';
 
 class PdfPopupJSA extends StatefulWidget {
-  const PdfPopupJSA({super.key});
+  final String name;
+
+  const PdfPopupJSA({required this.name, super.key});
 
   @override
   State<PdfPopupJSA> createState() => PdfPopupJSAState();
@@ -98,7 +99,7 @@ class PdfPopupJSAState extends State<PdfPopupJSA> {
                     color: AppTheme.of(context).primaryColor,
                     onPressed: () {
                       provider.descargarArchivo(
-                          provider.documento, '${provider.pdfController}');
+                          provider.documento, widget.name);
                       // provider.anexo = true;
                       setState(() {});
                     },
