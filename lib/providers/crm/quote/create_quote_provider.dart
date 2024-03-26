@@ -700,7 +700,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "data_center_location": dataCenterSelectedValue == 'New' ? newDataCenterController.text : dataCenterSelectedValue,
           "handoff": null,
           "rack_location": null,
-          "demarcation_point": null,
+          "demarcation_point": demarcationPointController.text,
           "vendor_id": vendor.id,
           "multicast": multicastRequired,
           //"location": locationController.text,
