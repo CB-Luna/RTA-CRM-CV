@@ -32,6 +32,7 @@ class _DashboardJsaState extends State<DashboardJsa> {
   @override
   Widget build(BuildContext context) {
     JSADashboardProvider provider = Provider.of<JSADashboardProvider>(context);
+    provider.listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
     return Column(
       children: [

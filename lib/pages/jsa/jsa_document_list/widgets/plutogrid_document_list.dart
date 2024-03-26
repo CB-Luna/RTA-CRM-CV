@@ -25,7 +25,7 @@ class _PlutoGridDocumentListState extends State<PlutoGridDocumentList> {
         Provider.of<JSADocumentListProvider>(context);
 
     return Container(
-      height: getHeight(300, context),
+      height: getHeight(10, context),
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: PlutoGrid(
         key: UniqueKey(),
@@ -70,7 +70,7 @@ class _PlutoGridDocumentListState extends State<PlutoGridDocumentList> {
             enableDropToResize: false,
             enableEditingMode: false,
             enableContextMenu: false,
-            width: 300,
+            width: 600,
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Center(
@@ -192,7 +192,8 @@ class _PlutoGridDocumentListState extends State<PlutoGridDocumentList> {
                   await showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return const PdfPopupJSADocumentList();
+                      return PdfPopupJSADocumentList(
+                          name: rendererContext.cell.value);
                     },
                   );
                 },
