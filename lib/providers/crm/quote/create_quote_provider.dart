@@ -367,12 +367,14 @@ class CreateQuoteProvider extends ChangeNotifier {
       pricePlusTax = price;
     }
 
+    var profit = revenue - cost;
+
     if (pricePlusTax == 0 && price == 0) {
       margin = 0;
     } else if (cost == 0) {
       margin = 100;
     } else {
-      margin = (pricePlusTax / cost) * 100;
+      margin = (profit / revenue) * 100;
     }
     notifyListeners();
     return null;
