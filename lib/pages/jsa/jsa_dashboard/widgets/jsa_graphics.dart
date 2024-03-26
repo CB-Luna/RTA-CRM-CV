@@ -18,7 +18,7 @@ class BarChartExample extends StatelessWidget {
       required this.totalsigned,
       required this.totalpending,
       required this.totalDraft,
-      this.color = Colors.blue});
+      this.color = Colors.white});
 
   @override
   Widget build(BuildContext context) {

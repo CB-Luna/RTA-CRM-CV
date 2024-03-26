@@ -6,7 +6,8 @@ import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 class PdfPopupJSADocumentList extends StatefulWidget {
-  const PdfPopupJSADocumentList({super.key});
+  final String name;
+  const PdfPopupJSADocumentList({required this.name, super.key});
 
   @override
   State<PdfPopupJSADocumentList> createState() =>
@@ -96,8 +97,8 @@ class PdfPopupJSADocumentListState extends State<PdfPopupJSADocumentList> {
                     tooltip: 'Download',
                     color: AppTheme.of(context).primaryColor,
                     onPressed: () {
-                      // provider.descargarArchivo(
-                      //     provider.documento, '${provider.pdfController}');
+                      provider.descargarArchivo(
+                          provider.documento, widget.name);
                       // provider.anexo = true;
                       setState(() {});
                     },

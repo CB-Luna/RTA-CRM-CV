@@ -29,7 +29,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
   @override
   Widget build(BuildContext context) {
     SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
-    UsersProvider userProvider = Provider.of<UsersProvider>(context);
+    // UsersProvider userProvider = Provider.of<UsersProvider>(context);
     final UserState userState = Provider.of<UserState>(context);
     final userPermissions = currentUser!.currentRole.permissions;
     return Padding(
@@ -429,6 +429,27 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                         //       return const ConfigPageDashboard();
                         //     });
                         context.pushReplacement(routeJSADochument);
+                      },
+                    ),
+                  )
+                : Container(),
+            // Download apk
+            currentUser!.isTechnicianJSA
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: MenuButton(
+                      buttonSize: 40,
+                      tooltip: 'JSA Download APK',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.download_done_outlined,
+                      // isTaped: visualState.isTaped[7],
+                      onPressed: () async {
+                        // await showDialog(
+                        //     context: context,
+                        //     builder: (BuildContext context) {
+                        //       return const ConfigPageDashboard();
+                        //     });
+                        context.pushReplacement(routeDownloadAPKJSA);
                       },
                     ),
                   )
