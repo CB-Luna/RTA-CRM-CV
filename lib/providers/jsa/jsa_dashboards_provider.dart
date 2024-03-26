@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures, avoid_web_libraries_in_flutter
+
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
@@ -115,6 +117,8 @@ class JSADashboardProvider extends ChangeNotifier {
   }
 
   Future<void> getDashboards() async {
+    listJSA.sort((a, b) => a.id!.compareTo(b.id!));
+
     jsaDraft = 0;
     jsaPending = 0;
     jsaSigned = 0;
@@ -183,111 +187,93 @@ class JSADashboardProvider extends ChangeNotifier {
             .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
             .toList();
       }
-      // final res = await supabaseJsa.from('jsa_view').select();
-      // if (res == null) {
-      //   print('Error en getDocumentList()');
-      //   return;
-      // }
-      // // print(res);
-      // listJSA = (res as List<dynamic>)
-      //     .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
-      //     .toList();
-
-      // print("ListJSA.length = ${listJSA.length}");
-
-      // final res = await supabaseJsa.from('jsa_view').select();
-
-      // // if (res == null) {
-      // //   print('Error en getDashboards()');
-      // //   return;
-      // // }
-      // listJSA = (res as List<dynamic>)
-      //     .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
-      //     .toList();
-      print("La lista de los jsa son: ${listJSA.length}");
       rows.clear();
+      listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+
       for (Jsa jsa in listJSA) {
         // print("-------- Los id son: ${jsa.id}");
         DateTime dateAdded = DateTime.parse(jsa.toMap()["created_at"]);
         if (jsa.idStatus == 1) {
           jsaDraft++;
-          if (dateAdded.month == dateRange.end.month) actualMonthEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 1) &&
-              dateAdded.isAfter(dateRange.start)) oneMonthAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 2) &&
-              dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 3) &&
-              dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 4) &&
-              dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 5) &&
-              dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 6) &&
-              dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 7) &&
-              dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 8) &&
-              dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 9) &&
-              dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 10) &&
-              dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 11) &&
-              dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month)) actualMonthEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 1))
+            oneMonthAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 2))
+            twoMonthsAgoEndDraft++;
+          if (dateAdded.month == dateRange.end.month - 3)
+            threeMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 4))
+            fourMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 5))
+            fiveMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 6))
+            sixMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 7))
+            sevenMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 8))
+            eightMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 9))
+            nineMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 10))
+            tenMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 11))
+            elevenMonthsAgoEndDraft++;
         }
         if (jsa.idStatus == 2) {
           jsaPending++;
           // print("jsaPending $jsaPending");
           if (dateAdded.month == dateRange.end.month) actualMonthEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 1) &&
-              dateAdded.isAfter(dateRange.start)) oneMonthAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 2) &&
-              dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 3) &&
-              dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 4) &&
-              dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 5) &&
-              dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 6) &&
-              dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 7) &&
-              dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 8) &&
-              dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 9) &&
-              dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 10) &&
-              dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 11) &&
-              dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndPending++;
+          if (dateAdded.month == dateRange.end.month - 1)
+            oneMonthAgoEndPending++;
+          if (dateAdded.month == dateRange.end.month - 2)
+            twoMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 3))
+            threeMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 4))
+            fourMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 5))
+            fiveMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 6))
+            sixMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 7))
+            sevenMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 8))
+            eightMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 9))
+            nineMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 10))
+            tenMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 11))
+            elevenMonthsAgoEndPending++;
         }
         if (jsa.idStatus == 3) {
           jsaSigned++;
           // print("jsaSigned $jsaSigned");
           if (dateAdded.month == dateRange.end.month) actualMonthEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 1) &&
-              dateAdded.isAfter(dateRange.start)) oneMonthAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 2) &&
-              dateAdded.isAfter(dateRange.start)) twoMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 3) &&
-              dateAdded.isAfter(dateRange.start)) threeMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 4) &&
-              dateAdded.isAfter(dateRange.start)) fourMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 5) &&
-              dateAdded.isAfter(dateRange.start)) fiveMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 6) &&
-              dateAdded.isAfter(dateRange.start)) sixMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 7) &&
-              dateAdded.isAfter(dateRange.start)) sevenMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 8) &&
-              dateAdded.isAfter(dateRange.start)) eightMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 9) &&
-              dateAdded.isAfter(dateRange.start)) nineMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 10) &&
-              dateAdded.isAfter(dateRange.start)) tenMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 11) &&
-              dateAdded.isAfter(dateRange.start)) elevenMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 1)
+              // &&
+              //     dateAdded.isAfter(dateRange.start)
+              ) oneMonthAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 2))
+            twoMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 3))
+            threeMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 4))
+            fourMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 5))
+            fiveMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 6))
+            sixMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 7))
+            sevenMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 8))
+            eightMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 9))
+            nineMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 10))
+            tenMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 11))
+            elevenMonthsAgoEndSigned++;
         }
         rows.add(
           PlutoRow(
@@ -306,20 +292,20 @@ class JSADashboardProvider extends ChangeNotifier {
           ),
         );
       }
-      // print("jsaDraft: $jsaDraft");
+      // print("jsaSigned: $jsaSigned");
 
-      // print("actualMonthEndDraft: $actualMonthEndDraft");
-      // print("oneMonthAgoEndDraft: $oneMonthAgoEndDraft");
-      // print("twoMonthsAgoEndDraft: $twoMonthsAgoEndDraft");
-      // print("threeMonthsAgoEndDraft: $threeMonthsAgoEndDraft");
-      // print("fourMonthsAgoEndDraft: $fourMonthsAgoEndDraft");
-      // print("fiveMonthsAgoEndDraft: $fiveMonthsAgoEndDraft");
-      // print("sixMonthsAgoEndDraft: $sixMonthsAgoEndDraft");
-      // print("sevenMonthsAgoEndDraft: $sevenMonthsAgoEndDraft");
-      // print("eightMonthsAgoEndDraft: $eightMonthsAgoEndDraft");
-      // print("nineMonthsAgoEndDraft: $nineMonthsAgoEndDraft");
-      // print("tenMonthsAgoEndDraft: $tenMonthsAgoEndDraft");
-      // print("elevenMonthsAgoEndDraft: $elevenMonthsAgoEndDraft");
+      // print("actualMonthEndSigned: $actualMonthEndSigned");
+      // print("oneMonthAgoEndSigned: $oneMonthAgoEndSigned");
+      // print("twoMonthsAgoEndSigned: $twoMonthsAgoEndSigned");
+      // print("threeMonthsAgoEndSigned: $threeMonthsAgoEndSigned");
+      // print("fourMonthsAgoEndSigned: $fourMonthsAgoEndSigned");
+      // print("fiveMonthsAgoEndSigned: $fiveMonthsAgoEndSigned");
+      // print("sixMonthsAgoEndSigned: $sixMonthsAgoEndSigned");
+      // print("sevenMonthsAgoEndSigned: $sevenMonthsAgoEndSigned");
+      // print("eightMonthsAgoEndSigned: $eightMonthsAgoEndSigned");
+      // print("nineMonthsAgoEndSigned: $nineMonthsAgoEndSigned");
+      // print("tenMonthsAgoEndSigned: $tenMonthsAgoEndSigned");
+      // print("elevenMonthsAgoEndSigned: $elevenMonthsAgoEndSigned");
       notifyListeners();
     } catch (e) {
       print('Error en getDashboards() - $e');
@@ -333,11 +319,11 @@ class JSADashboardProvider extends ChangeNotifier {
       // .getPublicUrl("${jsa.id}_${jsa.createdAt}_14.pdf");
       var bodyBytes = (await http.get(Uri.parse(url))).bodyBytes;
       pdfController = PdfController(document: PdfDocument.openData(bodyBytes));
+      documento = bodyBytes;
     } catch (e) {
       log('Error in pickDocument() - $e');
       return;
     }
-    return;
   }
 
   //Descargar PDF
