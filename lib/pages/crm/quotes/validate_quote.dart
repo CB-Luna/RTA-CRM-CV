@@ -231,19 +231,20 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                 },
                                               ),
                                             ), */
-                                          if (currentUser!.isOpperations)
-                                            Padding(
-                                              padding: const EdgeInsets.only(bottom: 10),
-                                              child: CustomDDownMenu(
-                                                list: provider.handoffList.map((location) => location.name!).toList(),
-                                                dropdownValue: provider.handoffSelectedValue,
-                                                onChanged: (p0) {
-                                                  if (p0 != null) provider.selectHandoff(p0);
-                                                },
-                                                icon: Icons.waving_hand_outlined,
-                                                label: 'Handoff',
-                                              ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(bottom: 10),
+                                            child: CustomDDownMenu(
+                                              enabled: currentUser!.isOpperations,
+                                              required: true,
+                                              list: provider.handoffList.map((location) => location.name!).toList(),
+                                              dropdownValue: provider.handoffSelectedValue,
+                                              onChanged: (p0) {
+                                                if (p0 != null) provider.selectHandoff(p0);
+                                              },
+                                              icon: Icons.waving_hand_outlined,
+                                              label: 'Handoff',
                                             ),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -777,7 +778,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                             child: Icon(Icons.attach_money, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
-                                                            'Price',
+                                                            'Revenue',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                                 fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
@@ -802,7 +803,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     ),
                                                     SizedBox(
                                                       child: Text(
-                                                        '\$ ${moneyFormat(provider.price)} USD',
+                                                        '\$ ${moneyFormat(provider.revenue)} USD',
                                                         style: TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontFamily: 'Bicyclette-Thin',
@@ -887,7 +888,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                             child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
-                                                            'Revenue',
+                                                            'Net',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                                 fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
@@ -912,7 +913,7 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                                     ),
                                                     SizedBox(
                                                       child: Text(
-                                                        '\$ ${moneyFormat(provider.revenue)} USD',
+                                                        '\$ ${moneyFormat(provider.net)} USD',
                                                         style: TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontFamily: 'Bicyclette-Thin',
