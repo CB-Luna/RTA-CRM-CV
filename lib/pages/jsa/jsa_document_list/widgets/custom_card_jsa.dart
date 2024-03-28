@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/pages/jsa/doc_creation/jsa_doc_creation_screen.dart';
+import 'package:rta_crm_cv/providers/jsa/jsa_provider.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
@@ -37,6 +41,7 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
     // provider.listJSA.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
     provider.listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
+    JsaProvider jsaProvider = Provider.of<JsaProvider>(context);
     return CustomCard(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         title: "JSA Document List",
@@ -90,18 +95,19 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                                   },
                                 ),
                               ),
-                              // CustomTextIconButton(
-                              //   width: 185,
-                              //   isLoading: false,
-                              //   icon: Icon(Icons.add_outlined,
-                              //       color:
-                              //           AppTheme.of(context).primaryBackground),
-                              //   text: 'Create Document JSA',
-                              //   color: AppTheme.of(context).primaryColor,
-                              //   onTap: () async {
-                              //     // await provider.exportData();
-                              //   },
-                              // ),
+                              CustomTextIconButton(
+                                width: 185,
+                                isLoading: false,
+                                icon: Icon(Icons.add_outlined,
+                                    color:
+                                        AppTheme.of(context).primaryBackground),
+                                text: 'Create Document JSA',
+                                color: AppTheme.of(context).primaryColor,
+                                onTap: () async {
+                                  jsaProvider.createJsaGeneralInfo('', '', '');
+                                  context.pushReplacement(routeJSACreation);
+                                },
+                              ),
                             ],
                           )),
                       Row(

@@ -14,6 +14,7 @@ import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dar
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/download_apk/dashboard_rtatel_page.dart';
+import 'package:rta_crm_cv/pages/jsa/doc_creation/jsa_doc_creation_screen.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_document_list/jsa_document_list.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_safety_briefing/job_safety_briefing.dart';
 import 'package:rta_crm_cv/pages/login_page/login_page.dart';
@@ -404,6 +405,15 @@ final GoRouter router = GoRouter(
       name: 'JSA Document',
       builder: (BuildContext context, GoRouterState state) {
         return const JSADocumentList();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+
+     GoRoute(
+      path: routeJSACreation,
+      name: 'JSA Creation',
+      builder: (BuildContext context, GoRouterState state) {
+        return const JsaDocCreationScreen();
       },
       // (context, state, const DetailsPopUp()),
     ),
