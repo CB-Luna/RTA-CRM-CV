@@ -92,11 +92,11 @@ class JSADocumentListProvider extends ChangeNotifier {
         for (Usersjsa user in jsaSelected!.usersjsa) {
           // if (user.role!.application == "JSA") {
           // for (Usersjsa user in filteredUsers) {
-          print("UsersName: ${user.name}");
+          // print("UsersName: ${user.name}");
           rows.add(
             PlutoRow(
               cells: {
-                'ID_Column': PlutoCell(value: user.userFk),
+                'ID_Column': PlutoCell(value: user.sequentialId),
                 'NAME_Column':
                     PlutoCell(value: "${user.name} ${user.lastName}"),
                 'ROLE_Column': PlutoCell(value: user.role!.name),

@@ -14,6 +14,7 @@ import 'package:rta_crm_cv/providers/job_complete_technicians_provider.dart';
 import 'package:rta_crm_cv/providers/dashboard_RTA.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_dashboards_provider.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_document_list_provider.dart';
+import 'package:rta_crm_cv/providers/jsa/jsa_provider.dart';
 import 'package:rta_crm_cv/widgets/horizontalscroll.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
@@ -144,6 +145,8 @@ void main() async {
             create: (context) => MonitoringDashboardProvider()),
         ChangeNotifierProvider(create: (context) => JSADocumentListProvider()),
         ChangeNotifierProvider(create: (context) => JSADashboardProvider()),
+                ChangeNotifierProvider(create: (context) => JsaProvider()),
+
       ],
       child: const MyApp(),
     ),

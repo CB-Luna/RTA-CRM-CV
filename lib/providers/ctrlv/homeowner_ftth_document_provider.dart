@@ -289,7 +289,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       String body = jsonEncode(
         {"apikey": "svsvs54sef5se4fsv", "action": "ftthsign_docupload", "customerID": acountController.text, "inst": zipcodeController.text, "document": "$idClient.pdf"},
       );
-      var url = Uri.parse('https://apps.cblsrv42.rtatel.com/planbuilder/api'); //Produccion: Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');
+      var  url =Uri.parse(powercodeURL);  //Produccion: Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');  Desarrollo:  Uri.parse('https://apps.cblsrv42.rtatel.com/planbuilder/api');
       var response = await http.post(url, body: body);
       if (response.statusCode == 200) {
         log((response.body));
