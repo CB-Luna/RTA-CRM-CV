@@ -34,6 +34,7 @@ import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 import '../pages/dashboards_rtatel/config_page_dashboard.dart';
 import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
 import '../pages/dashboards_rtatel/migrations/monitoring_dashboards/monitoring_dashboard_page_desktop.dart';
+import '../pages/jsa/download_apk/download_apk_jsa_page_desktop.dart';
 import '../pages/jsa/jsa_dashboard/jsa_dashboards_page.dart';
 
 import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
@@ -78,7 +79,8 @@ final GoRouter router = GoRouter(
                   title: "Bolivar Peninsula Fiber to the home",
                   source:
                       "https://lookerstudio.google.com/embed/u/0/reporting/8661d186-8edb-45ee-b2ab-0fd8acc1d0e5/page/UO1aC");
-            } else if (currentUser!.isDashboardsOperation2 || currentUser!.isDashboardsBank2) {
+            } else if (currentUser!.isDashboardsOperation2 ||
+                currentUser!.isDashboardsBank2) {
               return DashboardsRtatelPage(
                   title: "Monitoring Dashboard",
                   source:
@@ -86,17 +88,22 @@ final GoRouter router = GoRouter(
             } else if (currentUser!.isDashboardsBank3) {
               return DashboardsRtatelPage(
                   title: "Wizpapalooza 2021 Survey",
-                  source: "https://survey.rtatel.com/survey/dashboard_wispapalooza2021.html");
+                  source:
+                      "https://survey.rtatel.com/survey/dashboard_wispapalooza2021.html");
             } else if (currentUser!.isDashboardsCareRep) {
               return DashboardsRtatelPage(
-                  title: "EcommerceRTA", source: "https://ecom.rtatel.com/#/rep/?rep=${currentUser!.email}");
+                  title: "EcommerceRTA",
+                  source:
+                      "https://ecom.rtatel.com/#/rep/?rep=${currentUser!.email}");
             } else if (currentUser!.isDashboardsInstaller) {
               return DashboardsRtatelPage(
                   title: currentUser!.name + currentUser!.lastName,
-                  source: "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=${currentUser!.email}");
+                  source:
+                      "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=${currentUser!.email}");
             } else {
               return DashboardsRtatelPage(
-                  title: "OpCo Suscriber Targets", source: "https://cblsrvr1.rtatel.com/dash/#/business_plan");
+                  title: "OpCo Suscriber Targets",
+                  source: "https://cblsrvr1.rtatel.com/dash/#/business_plan");
             }
           } else if (currentUser!.isCRM) {
             return const QuotesPage();
@@ -133,7 +140,8 @@ final GoRouter router = GoRouter(
                         title: "Bolivar Peninsula Fiber to the home",
                         source:
                             "https://lookerstudio.google.com/embed/u/0/reporting/8661d186-8edb-45ee-b2ab-0fd8acc1d0e5/page/UO1aC")
-                    : currentUser!.isDashboardsOperation2 || currentUser!.isDashboardsBank2
+                    : currentUser!.isDashboardsOperation2 ||
+                            currentUser!.isDashboardsBank2
                         ? DashboardsRtatelPage(
                             title: "Monitoring Dashboard",
                             source:
@@ -141,14 +149,17 @@ final GoRouter router = GoRouter(
                         : currentUser!.isDashboardsBank3
                             ? DashboardsRtatelPage(
                                 title: "Wizpapalooza 2021 Survey",
-                                source: "https://survey.rtatel.com/survey/dashboard_wispapalooza2021.html")
+                                source:
+                                    "https://survey.rtatel.com/survey/dashboard_wispapalooza2021.html")
                             : currentUser!.isDashboardsCareRep
                                 ? DashboardsRtatelPage(
                                     title: "EcommerceRTA",
-                                    source: "https://ecom.rtatel.com/#/rep/?rep=${currentUser!.email}")
+                                    source:
+                                        "https://ecom.rtatel.com/#/rep/?rep=${currentUser!.email}")
                                 : currentUser!.isDashboardsInstaller
                                     ? DashboardsRtatelPage(
-                                        title: currentUser!.name + currentUser!.lastName,
+                                        title: currentUser!.name +
+                                            currentUser!.lastName,
                                         source:
                                             "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=${currentUser!.email}")
                                     : currentUser!.isCRM
@@ -180,7 +191,6 @@ final GoRouter router = GoRouter(
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(
-
               opacity: animation,
               child: child,
             ),
@@ -231,7 +241,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const AccountsPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const AccountsPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const AccountsPage()),
     ),
     GoRoute(
       path: routeQuoteCreation,
@@ -239,7 +250,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const CreateQuotePage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const CreateQuotePage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const CreateQuotePage()),
     ),
     GoRoute(
       path: routeQuoteDetail,
@@ -247,7 +259,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const DetailQuotePage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const DetailQuotePage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const DetailQuotePage()),
     ),
     GoRoute(
       path: routeQuoteValidation,
@@ -255,7 +268,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const ValidateQuotePage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const ValidateQuotePage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const ValidateQuotePage()),
     ),
     GoRoute(
       path: '/schedulings',
@@ -263,7 +277,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const SchedulingsPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const SchedulingsPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const SchedulingsPage()),
     ),
     GoRoute(
       path: '/network',
@@ -271,7 +286,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const NetworkPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const NetworkPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const NetworkPage()),
     ),
     GoRoute(
       path: '/tickets',
@@ -279,7 +295,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const TicketsPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const TicketsPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const TicketsPage()),
     ),
     GoRoute(
       path: routeQuotes,
@@ -287,7 +304,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const QuotesPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const QuotesPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const QuotesPage()),
     ),
 
     GoRoute(
@@ -296,7 +314,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const CampaignsPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const CampaignsPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const CampaignsPage()),
     ),
     GoRoute(
       path: '/reports',
@@ -304,7 +323,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const ReportsPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const ReportsPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const ReportsPage()),
     ),
     GoRoute(
       path: '/users',
@@ -312,7 +332,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const UsersPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const UsersPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const UsersPage()),
     ),
     GoRoute(
       path: '/vehicle_status',
@@ -320,7 +341,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const MonitoryPageDesktop();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const MonitoryPageDesktop()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const MonitoryPageDesktop()),
     ),
     GoRoute(
       path: '/inventory',
@@ -328,7 +350,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const InventoryPageDesktop();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const InventoryPageDesktop()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const InventoryPageDesktop()),
     ),
     GoRoute(
       path: routeDetailsInventory,
@@ -402,7 +425,14 @@ final GoRouter router = GoRouter(
       },
       // (context, state, const DetailsPopUp()),
     ),
-
+    GoRoute(
+      path: routeDownloadAPKJSA,
+      name: 'Download APK JSA',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPageDesktopJSA();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
     ////////Sales
     GoRoute(
       path: opcoSuscriberTarget,
@@ -420,7 +450,8 @@ final GoRouter router = GoRouter(
       name: 'New Sales Tracking Dashboards',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "New Sales Tracking Dashboards", source: "https://cblsrvr1.rtatel.com/dash/#/sales_tracking");
+            title: "New Sales Tracking Dashboards",
+            source: "https://cblsrvr1.rtatel.com/dash/#/sales_tracking");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -429,7 +460,9 @@ final GoRouter router = GoRouter(
       name: 'Monthly Churn %',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Monthly Churn %", source: "https://cblsrvr1.rtatel.com/dash/#/sales_tracking/MonthlyChurnPercent");
+            title: "Monthly Churn %",
+            source:
+                "https://cblsrvr1.rtatel.com/dash/#/sales_tracking/MonthlyChurnPercent");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -438,7 +471,8 @@ final GoRouter router = GoRouter(
       name: 'Configurator Stats',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Configurator Stats", source: "https://cblsrvr1.rtatel.com/dash/#/configurator_stats");
+            title: "Configurator Stats",
+            source: "https://cblsrvr1.rtatel.com/dash/#/configurator_stats");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -447,7 +481,9 @@ final GoRouter router = GoRouter(
       name: 'No Coverage Leads',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "No Coverage Leads", source: "https://cblsrvr1.rtatel.com/dash/#/configurator/nocoverageleads");
+            title: "No Coverage Leads",
+            source:
+                "https://cblsrvr1.rtatel.com/dash/#/configurator/nocoverageleads");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -471,7 +507,9 @@ final GoRouter router = GoRouter(
       name: 'New Configurator Stats',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "New Configurator Stats", source: "https://cblsrvr1.rtatel.com/dashstats/configuratorStats.html");
+            title: "New Configurator Stats",
+            source:
+                "https://cblsrvr1.rtatel.com/dashstats/configuratorStats.html");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -480,7 +518,9 @@ final GoRouter router = GoRouter(
       name: 'Referrals Tracking',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Referrals Tracking", source: "https://cblsrvr1.rtatel.com/dashstats/referralsTracking.html");
+            title: "Referrals Tracking",
+            source:
+                "https://cblsrvr1.rtatel.com/dashstats/referralsTracking.html");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -500,7 +540,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
             title: "Wireless and Fiber Customers",
-            source: "https://cblsrvr1.rtatel.com/dash/#/customers_tracking/network");
+            source:
+                "https://cblsrvr1.rtatel.com/dash/#/customers_tracking/network");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -509,7 +550,9 @@ final GoRouter router = GoRouter(
       name: 'VoIP Tracking',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "VoIP Tracking", source: "https://cblsrvr1.rtatel.com/dash/#/customers_tracking/voip");
+            title: "VoIP Tracking",
+            source:
+                "https://cblsrvr1.rtatel.com/dash/#/customers_tracking/voip");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -518,7 +561,9 @@ final GoRouter router = GoRouter(
       name: 'IPTV Tracking',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "IPTV Tracking", source: "https://cblsrvr1.rtatel.com/dash/#/customers_tracking_iptv");
+            title: "IPTV Tracking",
+            source:
+                "https://cblsrvr1.rtatel.com/dash/#/customers_tracking_iptv");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -528,7 +573,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
             title: "ARPU Tracking Residential",
-            source: "https://cblsrvr1.rtatel.com/dash/#/customers_tracking_arpuCustom");
+            source:
+                "https://cblsrvr1.rtatel.com/dash/#/customers_tracking_arpuCustom");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -538,7 +584,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
             title: "ARPU Tracking Wholesale",
-            source: "https://cblsrvr1.rtatel.com/dash/#/customers_tracking_arpu_wholesale");
+            source:
+                "https://cblsrvr1.rtatel.com/dash/#/customers_tracking_arpu_wholesale");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -548,7 +595,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
             title: "Monthly ARPU Tracking Wholesale",
-            source: "https://cblsrvr1.rtatel.com/dash/#/customers_tracking_arpuCustom_wholesale");
+            source:
+                "https://cblsrvr1.rtatel.com/dash/#/customers_tracking_arpuCustom_wholesale");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -558,7 +606,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
             title: "Monthly ARPU Tracking Residential",
-            source: "https://cblsrvr1.rtatel.com/dash/#/customers_tracking_arpuCustom");
+            source:
+                "https://cblsrvr1.rtatel.com/dash/#/customers_tracking_arpuCustom");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -567,7 +616,9 @@ final GoRouter router = GoRouter(
       name: 'Engage Option',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Engage Option", source: "https://cblsrvr1.rtatel.com/dash/#/engage_option_tracking");
+            title: "Engage Option",
+            source:
+                "https://cblsrvr1.rtatel.com/dash/#/engage_option_tracking");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -576,7 +627,9 @@ final GoRouter router = GoRouter(
       name: 'Conversion rate',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Conversion rate", source: "https://cblsrvr1.rtatel.com/dashstats/conversionRate.html");
+            title: "Conversion rate",
+            source:
+                "https://cblsrvr1.rtatel.com/dashstats/conversionRate.html");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -585,7 +638,8 @@ final GoRouter router = GoRouter(
       name: 'Deact Contact Log',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Deact Contact Log", source: "https://cblsrvr1.rtatel.com/dashstats/contactLogV2.html");
+            title: "Deact Contact Log",
+            source: "https://cblsrvr1.rtatel.com/dashstats/contactLogV2.html");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -596,7 +650,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
             title: "WISPAPALOOZA 2021 Survey",
-            source: "https://survey.rtatel.com/survey/dashboard_wispapalooza2021.html");
+            source:
+                "https://survey.rtatel.com/survey/dashboard_wispapalooza2021.html");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -605,7 +660,9 @@ final GoRouter router = GoRouter(
       name: 'Job Complete Incentives',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Job Complete Incentives", source: "https://survey.rtatel.com/survey/dash/jobcomplete/financial");
+            title: "Job Complete Incentives",
+            source:
+                "https://survey.rtatel.com/survey/dash/jobcomplete/financial");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -614,7 +671,8 @@ final GoRouter router = GoRouter(
       name: 'Job Completed Service Overall',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Job Completed Service Overall", source: "https://techsurvey.rtatel.com/survey/dash/jobcomplete");
+            title: "Job Completed Service Overall",
+            source: "https://techsurvey.rtatel.com/survey/dash/jobcomplete");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -623,7 +681,9 @@ final GoRouter router = GoRouter(
       name: 'Job Complete CRY',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Job Complete CRY", source: "https://survey.rtatel.com/survey/dash/jobcomplete/bm?comp=CRY");
+            title: "Job Complete CRY",
+            source:
+                "https://survey.rtatel.com/survey/dash/jobcomplete/bm?comp=CRY");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -632,7 +692,9 @@ final GoRouter router = GoRouter(
       name: 'Job Complete EAS',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Job Complete EAS", source: "https://survey.rtatel.com/survey/dash/jobcomplete/bm?comp=EAS");
+            title: "Job Complete EAS",
+            source:
+                "https://survey.rtatel.com/survey/dash/jobcomplete/bm?comp=EAS");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -641,7 +703,9 @@ final GoRouter router = GoRouter(
       name: 'Job Complete ODE',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Job Complete ODE", source: "https://survey.rtatel.com/survey/dash/jobcomplete/bm?comp=ODE");
+            title: "Job Complete ODE",
+            source:
+                "https://survey.rtatel.com/survey/dash/jobcomplete/bm?comp=ODE");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -650,7 +714,9 @@ final GoRouter router = GoRouter(
       name: 'Job Complete SMI',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Job Complete SMI", source: "https://survey.rtatel.com/survey/dash/jobcomplete/bm?comp=SMI");
+            title: "Job Complete SMI",
+            source:
+                "https://survey.rtatel.com/survey/dash/jobcomplete/bm?comp=SMI");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -669,7 +735,8 @@ final GoRouter router = GoRouter(
         return DashboardsRtatelPage(
           title: "Job Complete Technicians",
           // source: "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=",
-          source: "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=${email}",
+          source:
+              "https://survey.rtatel.com/survey/dash/jobcomplete/tec?tec=${email}",
           searchVisibility: true,
           isjobcompletetech: true,
         );
@@ -706,7 +773,8 @@ final GoRouter router = GoRouter(
       name: 'IT Survey October 2021',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "IT Survey October 2021", source: "https://survey.rtatel.com/survey/dashboard_IT1.html");
+            title: "IT Survey October 2021",
+            source: "https://survey.rtatel.com/survey/dashboard_IT1.html");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -728,7 +796,9 @@ final GoRouter router = GoRouter(
       name: 'Operation Report',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Operation Report", source: "https://cblsrvr1.rtatel.com/dash/#/weekly_operation_report  ");
+            title: "Operation Report",
+            source:
+                "https://cblsrvr1.rtatel.com/dash/#/weekly_operation_report  ");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -737,7 +807,8 @@ final GoRouter router = GoRouter(
       name: 'Tech Job Time Tracking',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Tech Job Time Tracking", source: "https://cblsrvr1.rtatel.com/dash/#/job_minutes");
+            title: "Tech Job Time Tracking",
+            source: "https://cblsrvr1.rtatel.com/dash/#/job_minutes");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -746,7 +817,8 @@ final GoRouter router = GoRouter(
       name: 'Jobs Tracking',
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
-            title: "Jobs Tracking", source: "https://cblsrvr1.rtatel.com/dashstats/jobTracking.html");
+            title: "Jobs Tracking",
+            source: "https://cblsrvr1.rtatel.com/dashstats/jobTracking.html");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -756,7 +828,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
             title: "Jobs Utilization Tracking",
-            source: "https://cblsrvr1.rtatel.com/dashstats/jobTimeUtilization.html");
+            source:
+                "https://cblsrvr1.rtatel.com/dashstats/jobTimeUtilization.html");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -776,10 +849,11 @@ final GoRouter router = GoRouter(
       path: monitoringDashboard,
       name: 'Monitoring Dashboard',
       builder: (BuildContext context, GoRouterState state) {
-        // return const MonitoringDashboardPageDesktop();
-        return DashboardsRtatelPage(
-            title: "Monitoring Dashboard",
-            source: "https://datastudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC");
+        return const MonitoringDashboardPageDesktop();
+        // return DashboardsRtatelPage(
+        //     title: "Monitoring Dashboard",
+        //     source:
+        //         "https://datastudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -787,7 +861,8 @@ final GoRouter router = GoRouter(
       path: mapCoverage,
       name: 'Map Coverage',
       builder: (BuildContext context, GoRouterState state) {
-        return DashboardsRtatelPage(title: "Map Coverage", source: "https://dashboards.rtatel.com/");
+        return DashboardsRtatelPage(
+            title: "Map Coverage", source: "https://dashboards.rtatel.com/");
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -862,7 +937,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const ConfigPage();
       },
-      pageBuilder: (context, state) => pageTransition(context, state, const ConfigPage()),
+      pageBuilder: (context, state) =>
+          pageTransition(context, state, const ConfigPage()),
     ),
   ],
 );

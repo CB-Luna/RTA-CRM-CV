@@ -11,8 +11,7 @@ import '../../../../providers/jsa/jsa_dashboards_provider.dart';
 import '../../../../public/colors.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/pluto_grid_cells/pluto_grid_cell_jsa_status.dart';
-import '../../../../widgets/side_menu/widgets/surveys/homeowner_ftth_document/widgets/pdf_popup.dart';
-import 'pdf_popup.dart';
+import 'pdf_popup_jsa.dart';
 
 class PlutoGridDashboardJSA extends StatefulWidget {
   const PlutoGridDashboardJSA({super.key});
@@ -25,6 +24,7 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
   @override
   Widget build(BuildContext context) {
     JSADashboardProvider provider = Provider.of<JSADashboardProvider>(context);
+
     return Container(
       height: getHeight(300, context),
       margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -70,7 +70,8 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             enableDropToResize: false,
             enableEditingMode: false,
             enableContextMenu: false,
-            width: 175,
+            // width: 175,
+            width: MediaQuery.of(context).size.width * 0.065,
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Container(
@@ -139,7 +140,8 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             enableDropToResize: false,
             enableEditingMode: false,
             enableContextMenu: false,
-            width: 185,
+            // width: 185,
+            width: MediaQuery.of(context).size.width * 0.12,
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Container(
@@ -231,7 +233,8 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             enableDropToResize: false,
             enableContextMenu: false,
             enableEditingMode: false,
-            width: 175,
+            // width: 175,
+            width: MediaQuery.of(context).size.width * 0.12,
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Container(
@@ -270,7 +273,8 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             enableDropToResize: false,
             enableEditingMode: false,
             enableContextMenu: false,
-            width: 175,
+            // width: 175,
+            width: MediaQuery.of(context).size.width * 0.12,
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Container(
@@ -309,7 +313,10 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             enableDropToResize: false,
             enableEditingMode: false,
             enableContextMenu: false,
-            width: 175,
+            enableSorting: true,
+            sort: PlutoColumnSort.descending,
+            // width: 175,
+            width: MediaQuery.of(context).size.width * 0.12,
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Container(
@@ -348,7 +355,8 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             enableDropToResize: false,
             enableContextMenu: false,
             enableEditingMode: false,
-            width: 175,
+            // width: 175,
+            width: MediaQuery.of(context).size.width * 0.12,
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return Container(
@@ -386,7 +394,8 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             enableContextMenu: false,
             enableDropToResize: false,
             enableEditingMode: false,
-            width: 175,
+            // width: 175,
+            width: MediaQuery.of(context).size.width * 0.12,
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return PlutoGrdiJsaStatus(
@@ -412,7 +421,8 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
             enableDropToResize: false,
             enableContextMenu: false,
             enableEditingMode: false,
-            width: 175,
+            // width: 175,
+            width: MediaQuery.of(context).size.width * 0.12,
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
               return InkWell(
@@ -421,7 +431,7 @@ class _PlutoGridDashboardJSAState extends State<PlutoGridDashboardJSA> {
                   await showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return const PdfPopupJSA();
+                      return PdfPopupJSA(name: rendererContext.cell.value);
                     },
                   );
                 },

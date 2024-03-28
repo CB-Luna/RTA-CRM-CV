@@ -43,7 +43,8 @@ class _ContainerCardJSAState extends State<ContainerCardJSA> {
               backgroundColor: Colors.transparent,
               headerBuilder: (context, expanded) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -209,8 +210,8 @@ class _ContainerCardJSAState extends State<ContainerCardJSA> {
                   ),
                 );
               },
-              body: Container(
-                height: MediaQuery.of(context).size.height * 0.4,
+              body: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.25,
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
                     padding: const EdgeInsets.symmetric(
