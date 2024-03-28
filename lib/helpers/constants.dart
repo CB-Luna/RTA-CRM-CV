@@ -14,8 +14,8 @@ import 'package:rta_crm_cv/theme/theme.dart';
 
 //////// TEST ////////
 
-final Uri urlFMTAPK =
-    Uri.parse("https://drive.google.com/file/d/1lUdS__gG-g4zSPjq_3-LFhnMOmHhYAR8/view?usp=share_link");
+final Uri urlFMTAPK = Uri.parse(
+    "https://drive.google.com/file/d/1lUdS__gG-g4zSPjq_3-LFhnMOmHhYAR8/view?usp=share_link");
 const String supabaseUrl = 'https://supa42.rtatel.com';
 const String anonKey =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';
@@ -302,6 +302,8 @@ const String routeJSADochument = '/jsa_document_list';
 const String routeJSADashboard = '/jsa_dashboards';
 const String routeJSACreation = '/jsa_creation';
 
+
+const String routeDownloadAPKJSA = '/download_apk_jsa';
 
 //Sales
 const String opcoSuscriberTarget = '/sales/opco_suscriber_target';
