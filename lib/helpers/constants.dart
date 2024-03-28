@@ -302,7 +302,11 @@ const String routemaintenanceDashboard = '/maintenanceDashboard';
 // JSA
 const String routeJSADochument = '/jsa_document_list';
 const String routeJSADashboard = '/jsa_dashboards';
+const String routeJSACreation = '/jsa_creation';
+
+
 const String routeDownloadAPKJSA = '/download_apk_jsa';
+const String routeJSASafetyBriefing = '/jsa_safety_briefing';
 
 //Sales
 const String opcoSuscriberTarget = '/sales/opco_suscriber_target';
