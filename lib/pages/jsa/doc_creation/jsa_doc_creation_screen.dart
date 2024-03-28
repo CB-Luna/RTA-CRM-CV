@@ -28,9 +28,7 @@ class _JsaDocCreationScreenState extends State<JsaDocCreationScreen> {
             Flexible(
               child: Container(
                 height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
-                  gradient: whiteGradient
-                ),
+                decoration: BoxDecoration(gradient: whiteGradient),
                 child: CustomScrollBar(
                   scrollDirection: Axis.vertical,
                   child: Column(
@@ -62,11 +60,9 @@ class _JsaDocCreationScreenState extends State<JsaDocCreationScreen> {
                           ],
                         ),
                       ),
-                   
-                   
-                           CustomDocCreationCard( title: "JSA Document Creation",),
-
-                      
+                      CustomDocCreationCard(
+                        title: "JSA Document Creation",
+                      ),
                     ],
                   ),
                 ),
