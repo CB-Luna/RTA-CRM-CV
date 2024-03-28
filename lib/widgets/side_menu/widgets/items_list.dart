@@ -454,6 +454,27 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                     ),
                   )
                 : Container(),
+            // JSA Safety Briefing
+            currentUser!.isAdminJSA
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: MenuButton(
+                      buttonSize: 40,
+                      tooltip: 'JSA Safety Briefing',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.description_outlined,
+                      // isTaped: visualState.isTaped[7],
+                      onPressed: () async {
+                        // await showDialog(
+                        //     context: context,
+                        //     builder: (BuildContext context) {
+                        //       return const ConfigPageDashboard();
+                        //     });
+                        context.pushReplacement(routeJSASafetyBriefing);
+                      },
+                    ),
+                  )
+                : Container(),
             SideMenuItem(
               selected: provider.indexSelected[12],
               leading: const Icon(Icons.power_settings_new_outlined,
