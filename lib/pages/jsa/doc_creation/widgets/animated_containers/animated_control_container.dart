@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../providers/jsa/jsa_provider.dart';
-import '../../risks_hazards_screen.dart';
+import '../../risks_hazards_widget.dart';
 import '../popups/control_matrix_popup.dart';
 import '../popups/control_popups.dart';
 
@@ -94,7 +94,7 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
                       // Menu Icon
 
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.25,
+                        width: MediaQuery.of(context).size.width * 0.14,
                         alignment: Alignment.center,
                         child: Text(
                           jsaProvider.jsa.jsaStepsJson![i].title.toString(),
@@ -109,7 +109,7 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
                       ),
                       // Text "Steps"
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.25,
+                        width: MediaQuery.of(context).size.width * 0.14,
                         alignment: Alignment.center,
                         child: Text(
                           jsaProvider.jsa.jsaStepsJson![i].controls.isEmpty

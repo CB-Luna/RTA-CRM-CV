@@ -17,6 +17,14 @@ class JsaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+    void editJsaGeneralInfo(String? company, String? title, String? taskName) {
+    jsaGeneralInfo!.company = company;
+    jsaGeneralInfo!.title = title;
+    jsaGeneralInfo!.taskName = taskName; 
+    print(jsaGeneralInfo!.toJson());
+    notifyListeners();
+  }
+
   void addJsaSteps(String title, String description) {
     jsaGeneralInfo!.jsaStepsJson!.add(JsaStepsJson(title, description, [], [],
         uuid.v1(), '', Colors.transparent, Colors.transparent, ''));

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../providers/jsa/jsa_provider.dart';
-import '../../risks_hazards_screen.dart';
+import '../../risks_hazards_widget.dart';
 import '../popups/risk_matrix_popup.dart';
 import '../popups/risk_popups.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rta_crm_cv/pages/jsa/doc_creation/risks_hazards_screen.dart';
+import 'package:rta_crm_cv/pages/jsa/doc_creation/risks_hazards_widget.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/custom_task_input.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/team_members_list.dart';
 
