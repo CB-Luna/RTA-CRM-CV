@@ -150,6 +150,7 @@ class Usersjsa {
   int? idStatus;
   String? docName;
   String? lastName;
+  int? sequentialId;
   Status? status;
   Role? role;
 
@@ -160,6 +161,7 @@ class Usersjsa {
     this.idStatus,
     this.docName,
     this.lastName,
+    this.sequentialId,
     this.status,
     this.role,
   });
@@ -175,6 +177,7 @@ class Usersjsa {
         idStatus: json["id_status"],
         docName: json["doc_name"],
         lastName: json["last_name"],
+        sequentialId: json["sequential_id"],
         status: json["status"] == null ? null : Status.fromMap(json["status"]),
         role: json["role"] == null ? null : Role.fromMap(json["role"]),
       );
@@ -186,6 +189,7 @@ class Usersjsa {
         "id_status": idStatus,
         "doc_name": docName,
         "last_name": lastName,
+        "sequential_id": sequentialId,
         "status": status?.toMap(),
         "role": role?.toMap(),
       };
