@@ -27,11 +27,11 @@ class DetailQuoteProvider extends ChangeNotifier {
   late ModelX2V2QuotesView quote;
 
   clearAll() {
-    subtotal = 0;
+    revenue = 0;
     cost = 0;
-    total = 0;
+    net = 0;
     tax = 0;
-    totalPlusTax = 0;
+    pricePlusTax = 0;
     margin = 0;
 
     existingCircuitIDController.clear();
@@ -128,11 +128,11 @@ class DetailQuoteProvider extends ChangeNotifier {
   var tableContentGroup = AutoSizeGroup();
 
   int totalItems = 0;
-  double subtotal = 0;
+  double revenue = 0;
   double cost = 0;
-  double total = 0;
+  double net = 0;
   double tax = 0;
-  double totalPlusTax = 0;
+  double pricePlusTax = 0;
   double margin = 0;
 
   List<GenericCat> orderTypesList = [GenericCat(name: 'Internal Circuit')];
@@ -193,104 +193,6 @@ class DetailQuoteProvider extends ChangeNotifier {
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
 
-/*   Future<void> getData() async {
-    if (id != 0) {
-      var responseQuote = await supabaseCRM.from('quotes_view').select().eq('id', id);
-
-      if (responseQuote == null) {
-        log('Error en getData()-DetailQuoteProvider');
-        return;
-      }
-
-      Quotes quote = Quotes.fromJson(jsonEncode(responseQuote[0]));
-
-      orderTypesSelectedValue = quote.orderInfo.orderType;
-      typesSelectedValue = quote.orderInfo.type;
-      if (quote.orderInfo.type == 'New') {
-        newCircuitIDController.text = quote.orderInfo.newCircuitId!;
-      } else if (quote.orderInfo.type == 'Disconnect') {
-        existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
-      } else if (quote.orderInfo.type == 'Upgrade') {
-        existingCircuitIDController.text = quote.orderInfo.existingCircuitId!;
-        newCircuitIDController.text = quote.orderInfo.newCircuitId!;
-      }
-
-      if (quote.orderInfo.dataCenterType == 'New') {
-        dataCenterSelectedValue = 'New';
-        newDataCenterController.text = quote.orderInfo.dataCenterLocation;
-      } else {
-        dataCenterSelectedValue = quote.orderInfo.dataCenterLocation;
-      }
-
-      await getVendors();
-      var responseVendor = await supabaseCRM.from('cat_vendors').select().eq('id', quote.idVendor);
-      Vendor vendor = Vendor.fromJson(jsonEncode(responseVendor[0]));
-      vendorSelectedValue = vendor.vendorName;
-
-      circuitTypeSelectedValue = quote.orderInfo.circuitType;
-      if (quote.orderInfo.circuitType == 'EVCoD') {
-        evcodSelectedValue = quote.orderInfo.evcodType!;
-        if (quote.orderInfo.evcodType == 'Existing EVC') {
-          evcCircuitIdController.text = quote.orderInfo.evcCircuitId!;
-        }
-      }
-
-      ddosSelectedValue = quote.orderInfo.ddosType;
-      bgpSelectedValue = quote.orderInfo.bgpType;
-
-      ipAdressSelectedValue = quote.orderInfo.ipType;
-      if (quote.orderInfo.ipType == 'Interface') {
-        ipInterfaceSelectedValue = quote.orderInfo.interfaceType!;
-      } else {
-        subnetSelectedValue = quote.orderInfo.subnetType!;
-      }
-
-      subtotal = quote.subtotal;
-      cost = quote.cost;
-      total = quote.total;
-      tax = quote.tax;
-      totalPlusTax = quote.totalPlusTax;
-      margin = quote.margin;
-
-      globalRows.clear();
-      for (var item in quote.items) {
-        globalRows.add(PlutoRow(
-          cells: {
-            'LINE_ITEM_Column': PlutoCell(value: item.lineItem),
-            'UNIT_PRICE_Column': PlutoCell(value: item.unitPrice),
-            'UNIT_COST_Column': PlutoCell(value: item.unitCost),
-            'QUANTITY_Column': PlutoCell(value: item.quantity),
-            'ACTIONS_Column': PlutoCell(value: ''),
-          },
-        ));
-      }
-
-      comments.clear();
-      for (var comment in quote.comments) {
-        comments.add(
-          Comment(
-            role: comment.role,
-            name: comment.name,
-            comment: comment.comment,
-            sended: comment.sended,
-          ),
-        );
-      }
-
-      var responseLead = await supabaseCRM.from('leads').select().eq('id', quote.idLead);
-
-      Leads lead = Leads.fromJson(jsonEncode(responseLead[0]));
-
-      companyController.text = lead.account;
-      nameController.text = lead.firstName;
-      lastNameController.text = lead.lastName;
-      emailController.text = lead.email;
-      phoneController.text = lead.phoneNumber;
-
-      notifyListeners();
-    }
-  }
- */
   final myChannel = supabaseCRM.channel('quotes');
 
   Future<void> realTimeSuscription() async {
@@ -304,289 +206,6 @@ class DetailQuoteProvider extends ChangeNotifier {
       await getDataV2(id);
     }).subscribe();
   }
-
-  /* Future<void> getVendors() async {
-    var response = await supabaseCRM.from('vendors').select();
-
-    List<Vendor> vendors = (response as List<dynamic>).map((vendor) => Vendor.fromJson(jsonEncode(vendor))).toList();
-
-    vendorsList.clear();
-    for (var vendor in vendors) {
-      vendorsList.add(vendor.vendorName);
-    }
-    notifyListeners();
-  } */
-
-/*   void selectOT(String selected) {
-    orderTypesSelectedValue = selected;
-    notifyListeners();
-  }
-
-  void selectType(String selected) {
-    typesSelectedValue = selected;
-    existingCircuitIDController.clear();
-    newCircuitIDController.clear();
-    notifyListeners();
-  }
-
-  void selectDataCenter(String selected) {
-    dataCenterSelectedValue = selected;
-    newDataCenterController.clear();
-    notifyListeners();
-  }
-
-  void selectCircuitInfo(String selected) {
-    circuitTypeSelectedValue = selected;
-    selectEVCOD(evcodList.first);
-    notifyListeners();
-  }
-
-  void selectEVCOD(String selected) {
-    evcodSelectedValue = selected;
-    evcCircuitIdController.clear();
-    notifyListeners();
-  }
-
-  void selectDDOS() {
-    if (ddosSelectedValue == 'Yes') {
-      ddosSelectedValue = ddosList[1];
-    } else {
-      ddosSelectedValue = ddosList[0];
-    }
-    notifyListeners();
-  }
-
-  void selectBGP(String selected) {
-    bgpSelectedValue = selected;
-    notifyListeners();
-  }
-
-  void selectIPAdress() {
-    if (ipAdressSelectedValue == 'Interface') {
-      ipAdressSelectedValue = ipAdressList[1];
-    } else {
-      ipAdressSelectedValue = ipAdressList[0];
-    }
-    selectIPInterface();
-    selectSubnet(subnetList.first);
-    notifyListeners();
-  }
-
-  void selectIPInterface() {
-    if (ipInterfaceSelectedValue == 'IPv4') {
-      ipInterfaceSelectedValue = ipInterfaceList[1];
-    } else {
-      ipInterfaceSelectedValue = ipInterfaceList[0];
-    }
-    notifyListeners();
-  }
-
-  void selectSubnet(String selected) {
-    subnetSelectedValue = selected;
-    notifyListeners();
-  }
-
-  bool isValidated() {
-    if (typesSelectedValue == 'Disconnect' && existingCircuitIDController.text.isEmpty) {
-      return false;
-    } else if (typesSelectedValue == 'Upgrade' && existingCircuitIDController.text.isEmpty && newCircuitIDController.text.isEmpty) {
-      return false;
-    } else if (dataCenterSelectedValue == 'New' && existingCircuitIDController.text.isEmpty && newCircuitIDController.text.isEmpty) {
-      return false;
-    } else if (evcodSelectedValue == 'Existing EVC' && evcCircuitIdController.text.isEmpty) {
-      return false;
-    } else if (lineItemCenterController.text.isEmpty ||
-        unitPriceController.text.isEmpty ||
-        double.parse(unitPriceController.text) < 0 ||
-        unitCostController.text.isEmpty ||
-        double.parse(unitCostController.text) < 0 ||
-        quantityController.text.isEmpty ||
-        double.parse(quantityController.text) < 0) {
-      return false;
-    } else {
-      addRow();
-      return true;
-    }
-  }
-
-  void addRow() {
-    var dataCenterType = 'New';
-    if (dataCenterSelectedValue != 'New') {
-      dataCenterType = 'Existing';
-    }
-
-    var dataCenterLocation = '';
-    if (dataCenterSelectedValue != 'New') {
-      dataCenterLocation = dataCenterSelectedValue;
-    } else {
-      dataCenterLocation = newDataCenterController.text;
-    }
-
-    var evcod = '';
-    var evcodId = '';
-    if (circuitTypeSelectedValue == 'EVCoD') {
-      evcod = evcodSelectedValue;
-      if (evcodSelectedValue == 'Existing EVC') {
-        evcodId = evcCircuitIdController.text;
-      }
-    }
-
-    var ipInterface = '';
-    var ipSubnet = '';
-    if (ipAdressSelectedValue == 'Interface') {
-      ipInterface = ipInterfaceSelectedValue;
-    } else {
-      ipSubnet = subnetSelectedValue;
-    }
-
-    var row = PlutoRow(
-      cells: {
-        'ORDER_TYPE_Column': PlutoCell(value: orderTypesSelectedValue),
-        'TYPE_Column': PlutoCell(value: typesSelectedValue),
-        'EXISTING_CIRCUIT_Column': PlutoCell(value: existingCircuitIDController.text),
-        'NEW_CIRCUIT_Column': PlutoCell(value: newCircuitIDController.text),
-        'DATA_CENTER_TYPE_Column': PlutoCell(value: dataCenterType),
-        'DATA_CENTER_LOCATION_Column': PlutoCell(value: dataCenterLocation),
-        ////////////////////////////////////////////////////////////////////
-        'CIRCUIT_TYPE_Column': PlutoCell(value: circuitTypeSelectedValue),
-        'EVCOD_TYPE_Column': PlutoCell(value: evcod),
-        'CIRCUIT_ID_Column': PlutoCell(value: evcodId),
-        'DDOS_Column': PlutoCell(value: ddosSelectedValue),
-        'BGP_Column': PlutoCell(value: bgpSelectedValue),
-        'IP_ADRESS_Column': PlutoCell(value: ipAdressSelectedValue),
-        'IP_INTERFACE_Column': PlutoCell(value: ipInterface),
-        'IP_SUBNET_Column': PlutoCell(value: ipSubnet),
-        ////////////////////////////////////////////////////////////////////
-        'LINE_ITEM_Column': PlutoCell(value: lineItemCenterController.text),
-        'UNIT_PRICE_Column': PlutoCell(value: double.parse(unitPriceController.text)),
-        'UNIT_COST_Column': PlutoCell(value: double.parse(unitCostController.text) * -1),
-        'QUANTITY_Column': PlutoCell(value: int.parse(quantityController.text)),
-        'ACTIONS_Column': PlutoCell(value: 'Actions'),
-      },
-    );
-
-    globalRows.add(row);
-
-    bool founded = false;
-    for (var quote in quotes) {
-      if (orderTypesSelectedValue == quote.orderType &&
-          typesSelectedValue == quote.type &&
-          existingCircuitIDController.text == quote.existingCircuitID &&
-          newCircuitIDController.text == quote.newCircuitID &&
-          dataCenterType == quote.dataCenterType &&
-          dataCenterLocation == quote.dataCenterLocation &&
-          circuitTypeSelectedValue == quote.circuitType &&
-          evcod == quote.evcodType &&
-          evcodId == quote.evcodCircuitID &&
-          ddosSelectedValue == quote.ddos &&
-          bgpSelectedValue == quote.bgp &&
-          ipAdressSelectedValue == quote.ipAdress &&
-          ipInterface == quote.ipInterface &&
-          ipSubnet == quote.ipSubnet) {
-        founded = true;
-        quote.items.add(PlutoRow(cells: {
-          'LINE_ITEM_Column': PlutoCell(value: row.cells['LINE_ITEM_Column']!.value.toString()),
-          'UNIT_PRICE_Column': PlutoCell(value: row.cells['UNIT_PRICE_Column']!.value),
-          'UNIT_COST_Column': PlutoCell(value: row.cells['UNIT_COST_Column']!.value),
-          'QUANTITY_Column': PlutoCell(value: row.cells['QUANTITY_Column']!.value),
-          'ACTIONS_Column': PlutoCell(value: 'Actions'),
-        }));
-      }
-    }
-    if (!founded) {
-      quotes.add(
-        QuoteOrder(
-          rowId: row.sortIdx,
-          orderType: row.cells['ORDER_TYPE_Column']!.value.toString(),
-          type: row.cells['TYPE_Column']!.value.toString(),
-          existingCircuitID: row.cells['EXISTING_CIRCUIT_Column']!.value.toString(),
-          newCircuitID: row.cells['NEW_CIRCUIT_Column']!.value.toString(),
-          dataCenterType: row.cells['DATA_CENTER_TYPE_Column']!.value.toString(),
-          dataCenterLocation: row.cells['DATA_CENTER_LOCATION_Column']!.value.toString(),
-          ////////////////////////////////////////////////////////////////////
-          circuitType: row.cells['CIRCUIT_TYPE_Column']!.value.toString(),
-          evcodType: row.cells['EVCOD_TYPE_Column']!.value.toString(),
-          evcodCircuitID: row.cells['CIRCUIT_ID_Column']!.value.toString(),
-          ddos: row.cells['DDOS_Column']!.value.toString(),
-          bgp: row.cells['BGP_Column']!.value.toString(),
-          ipAdress: row.cells['IP_ADRESS_Column']!.value.toString(),
-          ipInterface: row.cells['IP_INTERFACE_Column']!.value.toString(),
-          ipSubnet: row.cells['IP_SUBNET_Column']!.value.toString(),
-          items: [
-            PlutoRow(
-              cells: {
-                'LINE_ITEM_Column': PlutoCell(value: row.cells['LINE_ITEM_Column']!.value.toString()),
-                'UNIT_PRICE_Column': PlutoCell(value: row.cells['UNIT_PRICE_Column']!.value),
-                'UNIT_COST_Column': PlutoCell(value: row.cells['UNIT_COST_Column']!.value),
-                'QUANTITY_Column': PlutoCell(value: row.cells['QUANTITY_Column']!.value),
-                'ACTIONS_Column': PlutoCell(value: 'Actions'),
-              },
-            )
-          ],
-        ),
-      );
-    }
-
-    lineItemCenterController.clear();
-    unitPriceController.clear();
-    unitCostController.clear();
-    quantityController.clear();
-    countRows();
-    notifyListeners();
-  }
-
-  void countRows() {
-    totalItems = 0;
-    subtotal = 0;
-    cost = 0;
-    total = 0;
-    margin = 0;
-
-    // ExpansionPanelList
-    for (var quote in quotes) {
-      for (var item in quote.items) {
-        totalItems++;
-        subtotal = (item.cells['UNIT_PRICE_Column']!.value * item.cells['QUANTITY_Column']!.value) + subtotal;
-        cost = ((item.cells['UNIT_COST_Column']!.value * -1) * item.cells['QUANTITY_Column']!.value) + cost;
-      }
-    }
-
-    // PlutoGrid
-    /* for (var row in globalRows) {
-      totalItems++;
-      subtotal = (row.cells['UNIT_PRICE_Column']!.value * row.cells['QUANTITY_Column']!.value) + subtotal;
-      cost = ((row.cells['UNIT_COST_Column']!.value * -1) * row.cells['QUANTITY_Column']!.value) + cost;
-    } */
-
-    total = subtotal - cost;
-    margin = total * 100 / subtotal;
-    notifyListeners();
-  }
-
-  void resetForm() {
-    existingCircuitIDController.clear();
-    newCircuitIDController.clear();
-    newDataCenterController.clear();
-    evcCircuitIdController.clear();
-
-    orderTypesSelectedValue = orderTypesList.first;
-    typesSelectedValue = typesList.first;
-    dataCenterSelectedValue = dataCentersList.first;
-    circuitTypeSelectedValue = circuitInfosList.first;
-    evcodSelectedValue = evcodList.first;
-    ddosSelectedValue = ddosList.first;
-    bgpSelectedValue = bgpList.first;
-    ipAdressSelectedValue = ipAdressList.first;
-    ipInterfaceSelectedValue = ipInterfaceList.first;
-    subnetSelectedValue = subnetList.first;
-
-    lineItemCenterController.clear();
-    unitPriceController.clear();
-    unitCostController.clear();
-    quantityController.clear();
-
-    notifyListeners();
-  } */
 
   Future<bool> getCatalogData() async {
     try {
@@ -617,8 +236,7 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       response = await supabaseCRM.from('cat_circuit_types').select().eq('visible', true);
       circuitTypeList.clear();
-      circuitTypeList =
-          (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
+      circuitTypeList = (response as List<dynamic>).map((index) => CatCircuitTypes.fromRawJson(jsonEncode(index))).toList();
       circuitTypeSelectedValue = circuitTypeList.first.name!;
 
       response = await supabaseCRM.from('cat_ports').select().eq('visible', true);
@@ -656,8 +274,7 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       quote = ModelX2V2QuotesView.fromJson(jsonEncode(response[0]));
 
-      dynamic parameter =
-          (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
+      dynamic parameter = (await supabaseCRM.from('cat_order_info_types').select().eq('name', quote.orderInfo!.type))[0];
       parameter = CatOrderInfoTypes.fromRawJson(jsonEncode(parameter));
 
       ///////////////Order Info////////////////////////////////////////////////////////////////////
@@ -732,18 +349,18 @@ class DetailQuoteProvider extends ChangeNotifier {
       ///////////////Customer Info////////////////////////////////////////////////////////////////////
 
       companyController.text = quote.account!;
-      nameController.text = quote.contactfirstname!;
-      lastNameController.text = quote.contactlastname!;
-      emailController.text = quote.contactemail!;
-      phoneController.text = quote.contactphone!;
+      nameController.text = quote.contactfirstname ?? 'Not Configured';
+      lastNameController.text = quote.contactlastname ?? 'Not Configured';
+      emailController.text = quote.contactemail ?? 'Not Configured';
+      phoneController.text = quote.contactphone ?? 'Not Configured';
 
       ///////////////Totals////////////////////////////////////////////////////////////////////
 
-      subtotal = quote.subtotal!;
+      revenue = quote.subtotal!;
       cost = quote.totals!.cost!;
-      total = quote.totals!.total!;
+      net = quote.totals!.total!;
       tax = quote.totals!.tax!;
-      totalPlusTax = quote.totals!.totalTax!;
+      pricePlusTax = quote.totals!.totalTax!;
       margin = quote.totals!.margin!;
 
       for (var item in quote.items!) {

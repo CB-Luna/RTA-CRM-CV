@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/tokens.dart';
 import 'package:rta_crm_cv/models/token.dart';
@@ -15,7 +14,9 @@ import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dar
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/download_apk/dashboard_rtatel_page.dart';
+import 'package:rta_crm_cv/pages/jsa/doc_creation/jsa_doc_creation_screen.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_document_list/jsa_document_list.dart';
+import 'package:rta_crm_cv/pages/jsa/jsa_safety_briefing/job_safety_briefing.dart';
 import 'package:rta_crm_cv/pages/login_page/login_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
@@ -32,10 +33,11 @@ import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_docu
 
 import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 import '../pages/dashboards_rtatel/config_page_dashboard.dart';
-import '../pages/dashboards_rtatel/migrations/bolivar_peninsula_page_desktop.dart';
 import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
 import '../pages/dashboards_rtatel/migrations/monitoring_dashboards/monitoring_dashboard_page_desktop.dart';
-import '../pages/jsa/jsa_dashboard/jsa_dashboards.dart';
+import '../pages/jsa/download_apk/download_apk_jsa_page_desktop.dart';
+import '../pages/jsa/jsa_dashboard/jsa_dashboards_page.dart';
+
 import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
 
 /// The route configuration.
@@ -110,10 +112,12 @@ final GoRouter router = GoRouter(
             return const MonitoryPageDesktop();
           } else if (currentUser!.isEmployee) {
             return const DownloadAPKPage();
-          } else if (currentUser!.isAdminJSA) {
-            return const JSADashboards();
-          } else if (currentUser!.isEmployeeJSA) {
-            return const JSADashboards();
+          } else if (currentUser!.isAdminJSA || currentUser!.isManagerJSA) {
+            return const JSADashboardsPageDesktop();
+          } else if (currentUser!.isTechnicianJSA ||
+              currentUser!.isRepresentativeJSA ||
+              currentUser!.isLeadJSA) {
+            return const JSADashboardsPageDesktop();
           } else {
             return const PageNotFoundPage();
           }
@@ -169,10 +173,22 @@ final GoRouter router = GoRouter(
                                             : currentUser!.isEmployee
                                                 ? const DownloadAPKPage()
                                                 : currentUser!.isAdminJSA
-                                                    ? const JSADashboards()
-                                                    : currentUser!.isEmployeeJSA
-                                                        ? const JSADashboards()
-                                                        : const PageNotFoundPage(),
+                                                    ? const JSADashboardsPageDesktop()
+                                                    : currentUser!.isManagerJSA
+                                                        ? const JSADashboardsPageDesktop()
+                                                        : currentUser!
+                                                                .isManagerJSA
+                                                            ? const JSADashboardsPageDesktop()
+                                                            : currentUser!
+                                                                    .isLeadJSA
+                                                                ? const JSADashboardsPageDesktop()
+                                                                : currentUser!
+                                                                        .isTechnicianJSA
+                                                                    ? const JSADashboardsPageDesktop()
+                                                                    : currentUser!
+                                                                            .isRepresentativeJSA
+                                                                        ? const JSADashboardsPageDesktop()
+                                                                        : const PageNotFoundPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(
@@ -196,14 +212,6 @@ final GoRouter router = GoRouter(
       name: 'login',
       builder: (BuildContext context, GoRouterState state) {
         return const LoginPage();
-      },
-    ),
-    GoRoute(
-      path: '/cambio-contrasena',
-      name: 'cambio_contrasena',
-      builder: (BuildContext context, GoRouterState state) {
-        if (currentUser == null) return const LoginPage();
-        return const ChangePasswordPage();
       },
     ),
     GoRoute(
@@ -401,15 +409,39 @@ final GoRouter router = GoRouter(
       // (context, state, const DetailsPopUp()),
     ),
 
-    GoRoute(
-      path: routeJSADashboard,
-      name: 'JSA Dashboards',
+     GoRoute(
+      path: routeJSACreation,
+      name: 'JSA Creation',
       builder: (BuildContext context, GoRouterState state) {
-        return const JSADashboards();
+        return const JsaDocCreationScreen();
       },
       // (context, state, const DetailsPopUp()),
     ),
 
+    GoRoute(
+      path: routeJSADashboard,
+      name: 'JSA Dashboards',
+      builder: (BuildContext context, GoRouterState state) {
+        return const JSADashboardsPageDesktop();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeDownloadAPKJSA,
+      name: 'Download APK JSA',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DownloadAPKPageDesktopJSA();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeJSASafetyBriefing,
+      name: 'JSA Safety Briefing',
+      builder: (BuildContext context, GoRouterState state) {
+        return const JobSafetyBriefing();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
     ////////Sales
     GoRoute(
       path: opcoSuscriberTarget,
@@ -826,11 +858,11 @@ final GoRouter router = GoRouter(
       path: monitoringDashboard,
       name: 'Monitoring Dashboard',
       builder: (BuildContext context, GoRouterState state) {
-        // return const MonitoringDashboardPageDesktop();
-        return DashboardsRtatelPage(
-            title: "Monitoring Dashboard",
-            source:
-                "https://datastudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC");
+        return const MonitoringDashboardPageDesktop();
+        // return DashboardsRtatelPage(
+        //     title: "Monitoring Dashboard",
+        //     source:
+        //         "https://datastudio.google.com/embed/reporting/7a7ad430-e653-4b1f-ac1b-f7fe6934a805/page/zM2eC");
       },
       // (context, state, const DetailsPopUp()),
     ),

@@ -34,9 +34,6 @@ const String anonKey =
 const redirectUrl =
     'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
-String urlNotifications = 'https://supa41.rtatel.com/notifications/api';
-const String configurator = 'https://cblsrvr1.rtatel.com';
-String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api";
 
 // final Uri urlFMTAPK = Uri.parse(
 //     "https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
@@ -49,6 +46,7 @@ String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api";
 // String urlNotifications = 'https://supa41.rtatel.com/notifications/api';
 // const String configurator = 'https://cblsrvr1.rtatel.com';
 // String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api";
+// String powercodeURL= "https://cblsrvr1.rtatel.com/planbuilder/api";
 
 PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
   return PlutoGridScrollbarConfig(
@@ -70,6 +68,7 @@ PlutoGridScrollbarConfig plutoGridScrollbarConfigDashboard(
 }
 
 double rowHeight = 60;
+double rowHeightJSA = 45;
 
 PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
   return AppTheme.themeMode == ThemeMode.light
@@ -119,6 +118,65 @@ PlutoGridStyleConfig plutoGridStyleConfig(BuildContext context) {
           gridBackgroundColor: AppTheme.of(context).primaryBackground,
           gridBorderRadius: BorderRadius.circular(15),
           gridPopupBorderRadius: BorderRadius.circular(15),
+        );
+}
+
+PlutoGridStyleConfig plutoGridStyleConfigJSA(BuildContext context) {
+  return AppTheme.themeMode == ThemeMode.light
+      ? PlutoGridStyleConfig(
+          menuBackgroundColor: AppTheme.of(context).secondaryBackground,
+          gridPopupBorderRadius: BorderRadius.circular(16),
+          //
+          enableColumnBorderVertical: false,
+          columnTextStyle: AppTheme.of(context).bodyText2,
+          iconColor: AppTheme.of(context).tertiaryColor,
+          borderColor: Colors.transparent,
+          //
+          // cellTextStyle: AppTheme.of(context).bodyText3,
+
+          rowHeight: 45,
+          rowColor: Colors.transparent,
+          cellTextStyle: AppTheme.of(context).bodyText2.override(
+                fontFamily: 'Quicksand',
+                fontSize: 15,
+                color: AppTheme.of(context).primaryText,
+                fontWeight: FontWeight.w600,
+              ),
+          enableColumnBorderHorizontal: false,
+          enableCellBorderVertical: false,
+          enableCellBorderHorizontal: false,
+          checkedColor: Colors.transparent,
+          enableRowColorAnimation: false,
+          gridBackgroundColor: Colors.transparent,
+          gridBorderColor: AppTheme.of(context).primaryColor,
+          gridBorderRadius: BorderRadius.circular(16),
+          //
+          activatedColor: AppTheme.of(context).primaryBackground,
+          activatedBorderColor: AppTheme.of(context).tertiaryColor,
+        )
+      : PlutoGridStyleConfig.dark(
+          menuBackgroundColor: AppTheme.of(context).secondaryBackground,
+          gridPopupBorderRadius: BorderRadius.circular(16),
+          //
+          enableColumnBorderVertical: false,
+          columnTextStyle: AppTheme.of(context).bodyText2,
+          iconColor: AppTheme.of(context).tertiaryColor,
+          borderColor: Colors.transparent,
+          //
+          rowHeight: 60,
+          rowColor: Colors.transparent,
+          cellTextStyle: AppTheme.of(context).bodyText2,
+          enableColumnBorderHorizontal: false,
+          enableCellBorderVertical: false,
+          enableCellBorderHorizontal: false,
+          checkedColor: Colors.transparent,
+          enableRowColorAnimation: false,
+          gridBackgroundColor: Colors.transparent,
+          gridBorderColor: AppTheme.of(context).secondaryText,
+          gridBorderRadius: BorderRadius.circular(16),
+          //
+          activatedColor: AppTheme.of(context).primaryBackground,
+          activatedBorderColor: AppTheme.of(context).tertiaryColor,
         );
 }
 
@@ -252,6 +310,11 @@ const String routemaintenanceDashboard = '/maintenanceDashboard';
 // JSA
 const String routeJSADochument = '/jsa_document_list';
 const String routeJSADashboard = '/jsa_dashboards';
+const String routeJSACreation = '/jsa_creation';
+
+
+const String routeDownloadAPKJSA = '/download_apk_jsa';
+const String routeJSASafetyBriefing = '/jsa_safety_briefing';
 
 //Sales
 const String opcoSuscriberTarget = '/sales/opco_suscriber_target';

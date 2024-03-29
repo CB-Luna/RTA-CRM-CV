@@ -9,7 +9,7 @@ import 'package:rta_crm_cv/router/router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
-enum FormView { loginForm, selectAppForm }
+enum FormView { loginForm, selectAppForm, forgotPasswordForm, resetPasswordForm }
 
 class UserState extends ChangeNotifier {
   //EMAIL
@@ -88,6 +88,14 @@ class UserState extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> sendResetPasswordEmail() async {
+    try {
+      await supabase.auth.resetPasswordForEmail(emailController.text);
+    } catch (e) {
+      log('Error in sendResetPasswordEmail() - $e');
+    }
+  }
+
   // void initPerfilUsuario() {
   //   if (currentUser == null) return;
   //   nombrePerfil.text = currentUser!.nombre;
@@ -160,7 +168,7 @@ class UserState extends ChangeNotifier {
     }
   }
 
-  Future<void> updateRecuerdame() async {
+  Future<void> updateRememberMe() async {
     rememberMe = !rememberMe;
     await prefs.setBool('recuerdame', rememberMe);
     notifyListeners();

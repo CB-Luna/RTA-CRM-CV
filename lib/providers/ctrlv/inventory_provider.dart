@@ -1014,6 +1014,7 @@ class InventoryProvider extends ChangeNotifier {
       vehicles = (res as List<dynamic>)
           .map((vehicles) => Vehicle.fromJson(jsonEncode(vehicles)))
           .toList();
+
       rows.clear();
       totalVehicleODE = 0;
       totalVehicleCRY = 0;

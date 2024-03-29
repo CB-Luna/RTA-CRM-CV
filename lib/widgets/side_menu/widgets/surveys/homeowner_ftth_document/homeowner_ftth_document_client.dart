@@ -204,7 +204,7 @@ class _HomeOwnerFTTHDocumentClientState extends State<HomeOwnerFTTHDocumentClien
                                   ),
                                 ),
                                 Text(
-                                  provider.acountNameController.text,
+                                  provider.representativeNameController.text.isEmpty ? provider.acountNameController.text : provider.representativeNameController.text,
                                   style: const TextStyle(fontSize: 30, fontFamily: 'Raghen'),
                                 ),
                               ],
