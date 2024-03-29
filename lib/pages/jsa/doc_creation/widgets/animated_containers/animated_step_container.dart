@@ -20,7 +20,7 @@ class _AnimatedStepContainerState extends State<AnimatedStepContainer> {
 
     super.initState();
     setState(() {
-      jsaProvider.createJsaGeneralInfo('', '', '');
+
 
       // context
       //     .read<UsuarioController>()
