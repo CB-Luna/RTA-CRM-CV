@@ -77,7 +77,11 @@ class OrdersProvider extends ChangeNotifier {
       typesSelectedValue.text = quote.orderInfo!.type!;
       orderTypesSelectedValue.text = quote.orderInfo!.orderType!;
       circuitTypeSelectedValue.text = quote.circuitInfo!.circuitType!;
-      titulo = quote.demarcationUrl!.toString();
+      if (quote.demarcationUrl == null) {
+        titulo = '';
+      } else {
+        titulo = quote.demarcationUrl!.toString();
+      }
 
       //Datos Form
       if (circuitTypeSelectedValue.text == 'ASEoD' || circuitTypeSelectedValue.text == 'PTP') {

@@ -32,9 +32,9 @@ class CreateQuoteProvider extends ChangeNotifier {
   }
 
   Future<void> clearAll() async {
-    price = 0;
-    cost = 0;
     revenue = 0;
+    cost = 0;
+    net = 0;
     taxController.text = '0';
     pricePlusTax = 0;
     margin = 0;
@@ -93,9 +93,9 @@ class CreateQuoteProvider extends ChangeNotifier {
   var tableContentGroup = AutoSizeGroup();
 
   int totalItems = 0;
-  double price = 0;
-  double cost = 0;
   double revenue = 0;
+  double cost = 0;
+  double net = 0;
   final taxController = TextEditingController();
   double pricePlusTax = 0;
   double margin = 0;
@@ -343,9 +343,9 @@ class CreateQuoteProvider extends ChangeNotifier {
 
   Function()? countRowsPlutoGrid() {
     totalItems = 0;
-    price = 0;
-    cost = 0;
     revenue = 0;
+    cost = 0;
+    net = 0;
     margin = 0;
 
     if (taxController.text.isEmpty) {
@@ -355,26 +355,26 @@ class CreateQuoteProvider extends ChangeNotifier {
     // PlutoGrid
     for (var row in globalRows) {
       totalItems++;
-      price = (row.cells['UNIT_PRICE_Column']!.value * row.cells['QUANTITY_Column']!.value) + price;
+      revenue = (row.cells['UNIT_PRICE_Column']!.value * row.cells['QUANTITY_Column']!.value) + revenue;
       cost = ((row.cells['UNIT_COST_Column']!.value) * row.cells['QUANTITY_Column']!.value) + cost;
     }
 
-    revenue = price - cost;
+    net = revenue - cost;
 
     if (taxController.text != '0' || taxController.text != '0.00' && double.parse(taxController.text.replaceAll(RegExp(r','), '')) != 0 && taxController.text.isNotEmpty) {
-      pricePlusTax = (double.parse(taxController.text.replaceAll(RegExp(r','), '')) * price / 100) + price;
+      pricePlusTax = (double.parse(taxController.text.replaceAll(RegExp(r','), '')) * revenue / 100) + revenue;
     } else {
-      pricePlusTax = price;
+      pricePlusTax = revenue;
     }
 
-    var profit = revenue - cost;
+    //var profit = net - cost;
 
-    if (pricePlusTax == 0 && price == 0) {
+    if (pricePlusTax == 0 && revenue == 0) {
       margin = 0;
     } else if (cost == 0) {
       margin = 100;
     } else {
-      margin = (profit / revenue) * 100;
+      margin = (net / revenue) * 100;
     }
     notifyListeners();
     return null;
@@ -653,10 +653,10 @@ class CreateQuoteProvider extends ChangeNotifier {
 
       Map<String, dynamic> totals = {
         "items": globalRows.length,
-        "subtotal": price,
+        "subtotal": revenue,
         "cost": cost,
         "tax": double.parse(taxController.text.replaceAll(RegExp(r','), '')),
-        "total": revenue,
+        "total": net,
         "total_tax": pricePlusTax,
         "margin": margin,
       };
@@ -722,10 +722,10 @@ class CreateQuoteProvider extends ChangeNotifier {
           "peering_type": circuitTypeSelectedValue == 'DIA' && bgpSelectedValue == 'Current ASN(s)' ? peeringTypeSelectedValue : null,
           "contact_id": quote.contactid,
           "items": totalItems,
-          "subtotal": price,
+          "subtotal": revenue,
           "cost": cost,
           "tax": double.parse(taxController.text),
-          "total": revenue,
+          "total": net,
           "total_tax": pricePlusTax,
           "margin": margin,
         },

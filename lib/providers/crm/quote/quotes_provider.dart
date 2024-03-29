@@ -216,7 +216,7 @@ class QuotesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-/*   Future<void> 
+/* Future<void> 
   getX2CRMQuotes() async {
     var headers = {
       'Authorization': 'Basic YWxleGM6NW1saDM5UjhQUVc4WnI3TzhDcGlPSDJvZE1xaGtFOE8=',
@@ -239,10 +239,10 @@ class QuotesProvider extends ChangeNotifier {
     } else {
       log(response.reasonPhrase.toString());
     }
-  } */
+  } 
+*/
 
-/*   
-  Future<void> getQuotes(int? status) async {
+/* Future<void> getQuotes(int? status) async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
       notifyListeners();
@@ -314,7 +314,8 @@ class QuotesProvider extends ChangeNotifier {
             },
           ),
         );
-      } */
+      } 
+      */
 
       if (stateManager != null) stateManager!.notifyListeners();
     } catch (e) {
@@ -324,7 +325,8 @@ class QuotesProvider extends ChangeNotifier {
     notifyListeners();
 
     await getX2Quotes(null);
-  } */
+  } 
+*/
 
   Future<void> getStatus() async {
     var res = await supabaseCRM.from('cat_quotes_status').select().eq('visible', true);
@@ -361,11 +363,13 @@ class QuotesProvider extends ChangeNotifier {
         } else if (currentUser!.isSenExec) {
           res = await supabaseCRM.from('x2_quotes_view_v2').select().eq('id_status', 2); //Sen. Exec. Validate
         } else if (currentUser!.isFinance) {
-          res = await supabaseCRM.from('x2_quotes_view_v2').select().eq('id_status', 3); //Finance Validate
+          res = await supabaseCRM.from('x2_quotes_view_v2').select().or(
+                'id_status.eq.3,id_status.eq.7,id_status.eq.9,id_status.eq.10,id_status.eq.11',
+              ); //Finance Validate, Approved, Network Cross-Connect, Network Issues, Ticket Closed,
         } else if (currentUser!.isOpperations) {
           res = await supabaseCRM.from('x2_quotes_view_v2').select().or(
                 'id_status.eq.4,id_status.eq.7,id_status.eq.9,id_status.eq.10,id_status.eq.11',
-              ); //Engineer Validate, Approved, Network Cross-Connect, Network Issues, id_status.eq.Ticket Closed,
+              ); //Engineer Validate, Approved, Network Cross-Connect, Network Issues, Ticket Closed,
         }
       }
 
