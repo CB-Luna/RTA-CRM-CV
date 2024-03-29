@@ -130,6 +130,26 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                           },
                                         ),
                                       ),
+                                      if (provider.quote.orderInfo!.demarcationPoint != null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomTextField(
+                                            key: const Key('demarcation_point'),
+                                            required: true,
+                                            enabled: false,
+                                            width: txfFieldWidth,
+                                            controller: provider.demarcationPointController,
+                                            label: 'Demarcation Point',
+                                            icon: Icons.fork_left_sharp,
+                                            keyboardType: TextInputType.text,
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'Please enter some text';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
                                       if (provider.quote.circuitInfo!.bandwidth != null)
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),
@@ -220,26 +240,6 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             },
                                             icon: Icons.waving_hand_outlined,
                                             label: 'Handoff',
-                                          ),
-                                        ),
-                                      if (provider.quote.orderInfo!.demarcationPoint != null)
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: 10),
-                                          child: CustomTextField(
-                                            key: const Key('demarcation_point'),
-                                            required: true,
-                                            enabled: false,
-                                            width: txfFieldWidth,
-                                            controller: provider.demarcationPointController,
-                                            label: 'Demarcation Point',
-                                            icon: Icons.fork_left_sharp,
-                                            keyboardType: TextInputType.text,
-                                            validator: (value) {
-                                              if (value == null || value.isEmpty) {
-                                                return 'Please enter some text';
-                                              }
-                                              return null;
-                                            },
                                           ),
                                         ),
                                     ],
@@ -717,7 +717,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                         child: Icon(Icons.attach_money, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
                                                       Text(
-                                                        'Price',
+                                                        'Revenue',
                                                         style: TextStyle(
                                                             fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
@@ -742,7 +742,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 ),
                                                 SizedBox(
                                                   child: Text(
-                                                    '\$ ${moneyFormat(provider.price)} USD',
+                                                    '\$ ${moneyFormat(provider.revenue)} USD',
                                                     style: TextStyle(
                                                       color: AppTheme.of(context).contenidoTablas.color,
                                                       fontFamily: 'Bicyclette-Thin',
@@ -827,7 +827,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                         child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                       ),
                                                       Text(
-                                                        'Revenue',
+                                                        'Net',
                                                         style: TextStyle(
                                                             fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                             fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
@@ -852,7 +852,7 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                                 ),
                                                 SizedBox(
                                                   child: Text(
-                                                    '\$ ${moneyFormat(provider.revenue)} USD',
+                                                    '\$ ${moneyFormat(provider.net)} USD',
                                                     style: TextStyle(
                                                       color: AppTheme.of(context).contenidoTablas.color,
                                                       fontFamily: 'Bicyclette-Thin',
