@@ -33,9 +33,9 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
   clearAll() async {
     id = 0;
-    price = 0;
-    cost = 0;
     revenue = 0;
+    cost = 0;
+    net = 0;
     tax = 0;
     pricePlusTax = 0;
     margin = 0;
@@ -125,9 +125,9 @@ class ValidateQuoteProvider extends ChangeNotifier {
   var tableContentGroup = AutoSizeGroup();
 
   int totalItems = 0;
-  double price = 0;
-  double cost = 0;
   double revenue = 0;
+  double cost = 0;
+  double net = 0;
   double tax = 0;
   double pricePlusTax = 0;
   double margin = 0;
@@ -723,7 +723,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
         } else if (currentUser!.isSenExec) {
-          await updateRegister(3, quote.quoteid!); //Finance Validate
+          await updateRegister(7, quote.quoteid!); //Approved
           await senExecAcceptsQuote(); //senExec a finances
           await senExecAcceptsQuoteSales(); //senExec a sales
 
@@ -736,7 +736,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
         } else if (currentUser!.isFinance) {
-          await updateRegister(7, quote.quoteid!); //Approve
+          await updateRegister(7, quote.quoteid!); //Approved
           await financeAcceptsQuoteSales(); //finances a sales
 
           await supabaseCRM.from('leads_history').insert({
@@ -886,7 +886,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
       }
 
       //rackLocationController.text = quote.orderInfo!.rackLocation ?? '';
-      //handoffSelectedValue = quote.orderInfo!.handoff ?? '';
+      handoffSelectedValue = quote.orderInfo!.handoff ?? '';
       demarcationPointController.text = quote.orderInfo!.demarcationPoint ?? '';
 
       ///////////////Circuit Info////////////////////////////////////////////////////////////////////
@@ -935,16 +935,16 @@ class ValidateQuoteProvider extends ChangeNotifier {
       ///////////////Customer Info////////////////////////////////////////////////////////////////////
 
       companyController.text = quote.account!;
-      nameController.text = quote.contactfirstname!;
-      lastNameController.text = quote.contactlastname!;
-      emailController.text = quote.contactemail!;
-      phoneController.text = quote.contactphone!;
+      nameController.text = quote.contactfirstname ?? 'Not Configured';
+      lastNameController.text = quote.contactlastname ?? 'Not Configured';
+      emailController.text = quote.contactemail ?? 'Not Configured';
+      phoneController.text = quote.contactphone ?? 'Not Configured';
 
       ///////////////Totals////////////////////////////////////////////////////////////////////
 
-      price = quote.subtotal!;
+      revenue = quote.subtotal!;
       cost = quote.totals!.cost!;
-      revenue = quote.totals!.total!;
+      net = quote.totals!.total!;
       tax = quote.totals!.tax!;
       pricePlusTax = quote.totals!.totalTax!;
       margin = quote.totals!.margin!;

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/pages/jsa/doc_creation/jsa_doc_creation_screen.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_provider.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
@@ -105,6 +104,8 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                                 color: AppTheme.of(context).primaryColor,
                                 onTap: () async {
                                   jsaProvider.createJsaGeneralInfo('', '', '');
+                                  jsaProvider.setButtonViewTaped(0);
+                                  jsaProvider.setIcons(0);
                                   context.pushReplacement(routeJSACreation);
                                 },
                               ),

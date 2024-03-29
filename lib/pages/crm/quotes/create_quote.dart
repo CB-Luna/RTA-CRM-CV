@@ -879,7 +879,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                             child: Icon(Icons.attach_money, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
-                                                            'Price',
+                                                            'Revenue',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                                 fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
@@ -904,7 +904,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     ),
                                                     SizedBox(
                                                       child: Text(
-                                                        '\$ ${moneyFormat(provider.price)} USD',
+                                                        '\$ ${moneyFormat(provider.revenue)} USD',
                                                         style: TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontFamily: 'Bicyclette-Thin',
@@ -989,7 +989,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                             child: Icon(Icons.monetization_on_outlined, color: AppTheme.of(context).contenidoTablas.color, size: 25),
                                                           ),
                                                           Text(
-                                                            'Revenue',
+                                                            'Net',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.of(context).encabezadoTablas.fontFamily,
                                                                 fontSize: AppTheme.of(context).encabezadoTablas.fontSize,
@@ -1014,7 +1014,7 @@ class _CreateQuotePageState extends State<CreateQuotePage> {
                                                     ),
                                                     SizedBox(
                                                       child: Text(
-                                                        '\$ ${moneyFormat(provider.revenue)} USD',
+                                                        '\$ ${moneyFormat(provider.net)} USD',
                                                         style: TextStyle(
                                                           color: AppTheme.of(context).contenidoTablas.color,
                                                           fontFamily: 'Bicyclette-Thin',

@@ -1,12 +1,87 @@
 import 'package:flutter/material.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/pages/jsa/doc_creation/doc_create_final_document.dart';
+import 'package:rta_crm_cv/pages/jsa/doc_creation/doc_create_task_risk_control.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../models/user.dart';
+import '../../pages/jsa/doc_creation/doc_create_resume.dart';
+import '../../pages/jsa/doc_creation/doc_creation_card.dart';
 
 var uuid = const Uuid();
 
 class JsaProvider extends ChangeNotifier {
   JsaGeneralInfo? jsaGeneralInfo;
-
+  List<User> users = [];
+  String? companySelected;
   JsaGeneralInfo get jsa => jsaGeneralInfo!;
+  final searchController = TextEditingController();
+
+  // Valores JSA
+  bool selectedList = true;
+  bool circleList = true;
+  bool selectedTask = false;
+  bool circleListTask = false;
+  bool selectedResume = false;
+  bool circleResume = false;
+  bool selectedFinal = false;
+  bool circleFinal = false;
+  int stepperTaped = 0;
+  // int buttonViewTaped = 0;
+  int buttonViewTaped = 0;
+  final viewTaped = {
+    0: const CustomDocCreationCard(), // Step 1
+    1: const CustomDocCreationTaskRiskControl(), // Step 2
+    2: const CustomDocResume(), // Step 2
+    3: const CustomDocCreationFinalDocument(), // Step 2
+    // 2: const Step3PaymentDetailsForm(), // Step 3
+  };
+
+  void setIcons(int index) {
+    if (index == 0) {
+      selectedList = true;
+      circleList = true;
+      selectedTask = false;
+      circleListTask = false;
+      selectedResume = false;
+      circleResume = false;
+      selectedFinal = false;
+      circleFinal = false;
+    } else if (index == 1) {
+      selectedList = true;
+      circleList = true;
+      selectedTask = true;
+      circleListTask = true;
+      selectedResume = false;
+      circleResume = false;
+      selectedFinal = false;
+      circleFinal = false;
+    } else if (index == 2) {
+      selectedList = true;
+      circleList = true;
+      selectedTask = true;
+      circleListTask = true;
+      selectedResume = true;
+      circleResume = true;
+      selectedFinal = false;
+      circleFinal = false;
+    } else {
+      selectedList = true;
+      circleList = true;
+      selectedTask = true;
+      circleListTask = true;
+      selectedResume = true;
+      circleResume = true;
+      selectedFinal = true;
+      circleFinal = true;
+    }
+  }
+
+  void setButtonViewTaped(int index) {
+    buttonViewTaped = index;
+    stepperTaped = index;
+    notifyListeners();
+  }
 
   void createJsaGeneralInfo(String? company, String? title, String? taskName) {
     print("JsaCreation");
@@ -17,10 +92,10 @@ class JsaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-    void editJsaGeneralInfo(String? company, String? title, String? taskName) {
+  void editJsaGeneralInfo(String? company, String? title, String? taskName) {
     jsaGeneralInfo!.company = company;
     jsaGeneralInfo!.title = title;
-    jsaGeneralInfo!.taskName = taskName; 
+    jsaGeneralInfo!.taskName = taskName;
     print(jsaGeneralInfo!.toJson());
     notifyListeners();
   }
@@ -41,6 +116,31 @@ class JsaProvider extends ChangeNotifier {
       }
     });
 
+    notifyListeners();
+  }
+
+  Future<void> getListUsers(String company) async {
+    try {
+      final res = await supabase
+          .from('users')
+          .select()
+          .eq('company->>company', company);
+      if (res == null) {
+        print('Error en getDocumentList()');
+        return;
+      }
+      users = (res as List<dynamic>)
+          .map((usuario) => User.fromMap(usuario))
+          .toList();
+      users = users
+          .where((user) => user.roles.any((role) =>
+              role.application == currentUser!.currentRole.application))
+          .toList();
+
+      // print("En getInformationJSA con el JSA_FK: con res: $res");
+    } catch (e) {
+      print('Error en getListUsers() - $e');
+    }
     notifyListeners();
   }
 
