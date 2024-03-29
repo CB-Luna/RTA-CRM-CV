@@ -15,6 +15,37 @@ class AnimatedStepContainer extends StatefulWidget {
 
 class _AnimatedStepContainerState extends State<AnimatedStepContainer> {
   @override
+  void initState() {
+    JsaProvider jsaProvider = Provider.of<JsaProvider>(context, listen: true);
+
+    super.initState();
+    setState(() {
+      jsaProvider.createJsaGeneralInfo('', '', '');
+
+      // context
+      //     .read<UsuarioController>()
+      //     .recoverPreviousControlForms(DateTime.now());
+      // controlFormCheckOut = context
+      //     .read<UsuarioController>()
+      //     .getControlFormCheckOutToday(DateTime.now());
+      // controlFormCheckIn = context
+      //     .read<UsuarioController>()
+      //     .getControlFormCheckInToday(DateTime.now());
+      // context
+      //     .read<UsuarioController>()
+      //     .getUser(prefs.getString("userId") ?? "");
+      // vehicleServicesList = context
+      //     .read<UsuarioController>()
+      //     .usuarioCurrent
+      //     ?.vehicle
+      //     .target
+      //     ?.vehicleServices
+      //     .where((element) => !element.completed)
+      //     .toList();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     JsaProvider jsaProvider = Provider.of<JsaProvider>(context, listen: true);
     return AnimatedContainer(
@@ -44,7 +75,7 @@ class _AnimatedStepContainerState extends State<AnimatedStepContainer> {
                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
 
                 // Text "Steps"
-                Expanded(
+                const Expanded(
                   child: Text(
                     'Steps',
                     style: TextStyle(
@@ -221,6 +252,8 @@ class _CustomPopupState extends State<CustomPopup> {
       ),
       child: Container(
         // height: MediaQuery.of(context).size.height * 0.6,
+        height: MediaQuery.of(context).size.height * 0.3,
+        width: MediaQuery.of(context).size.width * 0.2,
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
@@ -241,7 +274,7 @@ class _CustomPopupState extends State<CustomPopup> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
-                editStep == false ? 'Add Step' : 'Edit Step',
+                editStep == false ? 'Create a Step' : 'Edit Step',
                 style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
