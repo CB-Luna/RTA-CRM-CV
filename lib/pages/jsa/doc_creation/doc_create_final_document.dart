@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/jsa/doc_creation/risks_hazards_widget.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/custom_task_input.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/team_members_list.dart';
-import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 import '../../../providers/jsa/jsa_provider.dart';
@@ -11,16 +11,31 @@ TextEditingController titleController = TextEditingController();
 TextEditingController taskController = TextEditingController();
 TextEditingController companyController = TextEditingController();
 
-class CustomDocCreationCard extends StatefulWidget {
-  const CustomDocCreationCard({
+class CustomDocCreationFinalDocument extends StatefulWidget {
+  const CustomDocCreationFinalDocument({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<CustomDocCreationCard> createState() => _CustomDocCreationCardState();
+  State<CustomDocCreationFinalDocument> createState() =>
+      _CustomDocCreationFinalDocumentState();
 }
 
-class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
+class _CustomDocCreationFinalDocumentState
+    extends State<CustomDocCreationFinalDocument> {
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+  //     final JsaProvider provider = Provider.of<JsaProvider>(
+  //       context,
+  //       listen: false,
+  //     );
+  //     await provider.updateState();
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     JsaProvider provider = Provider.of<JsaProvider>(context);
@@ -30,7 +45,6 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
       height: MediaQuery.of(context).size.height * 0.87,
       // alignment: Alignment.center,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -68,41 +82,32 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
                   child: const TeamMemberList())
             ],
           ),
-          InkWell(
-            onTap: () {
-              provider.setButtonViewTaped(1);
-              provider.setIcons(1);
-              setState(() {});
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.6,
-              height: MediaQuery.of(context).size.height * 0.04,
-              margin: const EdgeInsets.all(10),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: AppTheme.of(context).cryPrimary,
-                  borderRadius: BorderRadius.circular(20)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Next", style: AppTheme.of(context).subtitle2),
-                  const Icon(
-                    Icons.arrow_right_outlined,
-                    color: Colors.white,
-                  ),
-                ],
-              ),
-            ),
+          Row(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    provider.selectedTask = true;
+                    provider.circleListTask = true;
+
+                    print(provider.selectedTask);
+                    provider.setButtonViewTaped(2);
+                    provider.setIcons(2);
+                    setState(() {});
+                  },
+                  child: Text("Back")),
+              // ElevatedButton(
+              //     onPressed: () {
+              //       provider.selectedTask = true;
+              //       provider.circleListTask = true;
+
+              //       print(provider.selectedTask);
+              //       provider.setButtonViewTaped(2);
+              //       provider.setIcons(2);
+              //       setState(() {});
+              //     },
+              //     child: Text("Next"))
+            ],
           ),
-          // ElevatedButton(
-          //     style: ElevatedButton.styleFrom(
-          //         backgroundColor: AppTheme.of(context).cryPrimary),
-          //     onPressed: () {
-          //       provider.setButtonViewTaped(1);
-          //       provider.setIcons(1);
-          //       setState(() {});
-          //     },
-          //     child: Text("Next"))
         ],
       ),
     );

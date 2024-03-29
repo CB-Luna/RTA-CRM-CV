@@ -174,7 +174,11 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       acountNameController.text = docs.first.formInfo!.acountName!;
       phoneController.text = docs.first.formInfo!.phone!;
       dateController.text = docs.first.formInfo!.date!;
-      signatureTextController.text = docs.first.formInfo!.acountName!;
+      if (representativeNameController.text.isEmpty) {
+        signatureTextController.text = docs.first.formInfo!.acountName!;
+      } else {
+        signatureTextController.text = docs.first.formInfo!.representativeName!;
+      }
     } catch (e) {
       log('Error en documentInfoClient() - $e');
     }
@@ -289,7 +293,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
       String body = jsonEncode(
         {"apikey": "svsvs54sef5se4fsv", "action": "ftthsign_docupload", "customerID": acountController.text, "inst": zipcodeController.text, "document": "$idClient.pdf"},
       );
-      var  url =Uri.parse(powercodeURL);  //Produccion: Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');  Desarrollo:  Uri.parse('https://apps.cblsrv42.rtatel.com/planbuilder/api');
+      var url = Uri.parse(powercodeURL); //Produccion: Uri.parse('https://cblsrvr1.rtatel.com/planbuilder/api');  Desarrollo:  Uri.parse('https://apps.cblsrv42.rtatel.com/planbuilder/api');
       var response = await http.post(url, body: body);
       if (response.statusCode == 200) {
         log((response.body));
@@ -553,7 +557,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
               child: pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly, children: [
                 pw.Column(children: [
                   pw.Text(
-                    'Owner, Title',
+                    representativeNameController.text.isEmpty ? 'Owner, Title' : 'Representative Name',
                     style: const pw.TextStyle(
                       fontSize: 13,
                       color: pdfcolor.PdfColor.fromInt(0xFF060606),
@@ -573,7 +577,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                     ),
                   ),
                   pw.Text(
-                    acountNameController.text,
+                    representativeNameController.text.isEmpty ? acountNameController.text : representativeNameController.text,
                     style: const pw.TextStyle(
                       fontSize: 13,
                       color: pdfcolor.PdfColor.fromInt(0xFF060606),
@@ -711,7 +715,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
               child: pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly, children: [
                 pw.Column(children: [
                   pw.Text(
-                    'Owner, Title',
+                    representativeNameController.text.isEmpty ? 'Owner, Title' : 'Representative Name',
                     style: const pw.TextStyle(
                       fontSize: 13,
                       color: pdfcolor.PdfColor.fromInt(0xFF060606),
@@ -741,7 +745,7 @@ class HomeownerFTTHDocumentProvider extends ChangeNotifier {
                           ),
                         ),
                   pw.Text(
-                    acountNameController.text,
+                    representativeNameController.text.isEmpty ? acountNameController.text : representativeNameController.text,
                     style: const pw.TextStyle(
                       fontSize: 13,
                       color: pdfcolor.PdfColor.fromInt(0xFF060606),
