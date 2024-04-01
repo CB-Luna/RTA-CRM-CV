@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toast.dart';
 import 'package:rta_crm_cv/providers/crm/accounts/tabs/order_provider.dart';
 import 'package:rta_crm_cv/providers/crm/quote/quotes_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -269,16 +270,28 @@ class _CreateOrderState extends State<CreateOrder> {
                     border: Border.all(color: AppTheme.of(context).tertiaryColor),
                     color: AppTheme.of(context).primaryBackground,
                     onTap: () async {
-                      await (QuotesProvider()).insertPowerCode(widget.id);
+                      if (await (QuotesProvider()).insertPowerCode(widget.id)) {
+                        if (!mounted) return;
+                        fToast.showToast(
+                          child: const SuccessToast(
+                            message: 'Order Created Successfully',
+                          ),
+                          gravity: ToastGravity.BOTTOM,
+                          toastDuration: const Duration(seconds: 2),
+                        );
+                        if (context.canPop()) context.pop();
+                      } else {
+                        if (!mounted) return;
+                        fToast.showToast(
+                          child: const FailedToast(
+                            message: 'Order Creation Failed',
+                          ),
+                          gravity: ToastGravity.BOTTOM,
+                          toastDuration: const Duration(seconds: 2),
+                        );
+                        if (context.canPop()) context.pop();
+                      }
                       await (QuotesProvider()).getX2Quotes(null);
-                      fToast.showToast(
-                        child: const SuccessToast(
-                          message: 'Order Created Successfully',
-                        ),
-                        gravity: ToastGravity.BOTTOM,
-                        toastDuration: const Duration(seconds: 2),
-                      );
-                      if (context.canPop()) context.pop();
                     },
                   ),
                 ],

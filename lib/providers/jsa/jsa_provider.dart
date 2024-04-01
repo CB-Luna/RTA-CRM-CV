@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/doc_create_final_document.dart';
@@ -86,7 +88,10 @@ class JsaProvider extends ChangeNotifier {
   void createJsaGeneralInfo(String? company, String? title, String? taskName) {
     print("JsaCreation");
     List<JsaStepsJson> jsaStepsJson = [];
-    jsaGeneralInfo = JsaGeneralInfo(company, title, taskName, jsaStepsJson);
+    List<TeamMembers> teamMembers = [];
+
+    jsaGeneralInfo =
+        JsaGeneralInfo(company, title, taskName, jsaStepsJson, teamMembers);
     print(jsaGeneralInfo!.toJson());
     print("JsaCreation End");
     notifyListeners();
@@ -284,6 +289,18 @@ class JsaProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void addTeamMembers(TeamMembers teamMember) {
+    jsaGeneralInfo!.teamMembers!.add(teamMember);
+    print(
+        "El length del jsaGeneralInformation es: ${jsaGeneralInfo!.teamMembers!.length}");
+    notifyListeners();
+  }
+
+  void deleteTeamMembers(String id) {
+    jsaGeneralInfo!.teamMembers!.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
 }
 
 class JsaGeneralInfo {
@@ -291,11 +308,14 @@ class JsaGeneralInfo {
   String? title;
   String? taskName;
   List<JsaStepsJson>? jsaStepsJson;
+  List<TeamMembers>? teamMembers;
+
   JsaGeneralInfo(
     this.company,
     this.title,
     this.taskName,
     this.jsaStepsJson,
+    this.teamMembers,
   );
 
   Map<String, dynamic> toJson() {
@@ -345,4 +365,23 @@ class Control {
   String? controlLevel;
   Color? color;
   Control(this.title, this.controlLevel);
+}
+
+class TeamMembers {
+  String? name;
+  String? role;
+  String? picString;
+  String? pic;
+  String? id;
+
+  TeamMembers(this.name, this.role, this.id, this.picString, [this.pic]);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'role': role,
+      'id': id,
+      'pic': pic,
+    };
+  }
 }
