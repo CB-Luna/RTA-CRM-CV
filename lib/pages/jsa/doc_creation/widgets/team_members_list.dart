@@ -1,5 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
@@ -16,7 +18,13 @@ class TeamMemberList extends StatefulWidget {
 class _TeamMemberListState extends State<TeamMemberList> {
   @override
   Widget build(BuildContext context) {
+    var membersSelection = [];
+
+    TeamMembers teamMember = new TeamMembers("", "", "", "");
+
     JsaProvider provider = Provider.of<JsaProvider>(context);
+    membersSelection = List.filled(provider.users.length, false);
+
     return Container(
       color: Colors.transparent,
       padding: const EdgeInsets.all(8.0),
@@ -69,23 +77,6 @@ class _TeamMemberListState extends State<TeamMemberList> {
                   ),
                 ),
               ),
-              // Text(
-              //   'Team Members',
-              //   style: TextStyle(
-              //     color: Color(0xFF335594),
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
-              // SizedBox(
-              //   width: 20,
-              // ),
-              // Text(
-              //   'Rol',
-              //   style: TextStyle(
-              //     color: Color(0xFF335594),
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
             ],
           ),
           SingleChildScrollView(
@@ -100,9 +91,27 @@ class _TeamMemberListState extends State<TeamMemberList> {
                         width: MediaQuery.of(context).size.width * 0.02,
                         child: Checkbox(
                           activeColor: const Color(0xFF335594),
-                          value: false,
+                          value: membersSelection[index],
                           // Set the initial value as per your requirement
                           onChanged: (bool? value) {
+                            print(provider.users[index].name);
+                            setState(() {
+                              membersSelection[index] =
+                                  !membersSelection[index];
+                            });
+                            if (membersSelection[index] == true) {
+                              teamMember = TeamMembers(
+                                  provider.users[index].name,
+                                  provider.users[index].currentAppRole,
+                                  provider.users[index].id,
+                                  "",
+                                  // ignore: unnecessary_null_in_if_null_operators
+                                  (provider.users[index].image ?? null));
+                              provider.addTeamMembers(teamMember);
+                            } else {
+                              provider.deleteTeamMembers(
+                                  provider.users[index].id.toString());
+                            }
                             // Handle checkbox state changes here
                           },
                         ),
