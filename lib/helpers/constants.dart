@@ -14,6 +14,8 @@ import 'package:rta_crm_cv/theme/theme.dart';
 
 //////// TEST ////////
 
+//////// TEST ////////
+
 final Uri urlFMTAPK = Uri.parse(
     "https://drive.google.com/file/d/1lUdS__gG-g4zSPjq_3-LFhnMOmHhYAR8/view?usp=share_link");
 const String supabaseUrl = 'https://supa42.rtatel.com';
@@ -23,9 +25,9 @@ const redirectUrl =
     'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 String urlNotifications = 'https://supa42.rtatel.com/notifications/api';
-const String configurator = 'https://cblsrvr1.rtatel.com';//'https://cblsrvr404.rtatel.com';
+const String configurator = 'https://cblsrvr404.rtatel.com';
 String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api";
-String powercodeURL= "https://apps.cblsrv42.rtatel.com/planbuilder/api";
+String powercodeURL = "https://apps.cblsrv42.rtatel.com/planbuilder/api";
 
 // final Uri urlFMTAPK = Uri.parse(
 //     "https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
@@ -303,7 +305,6 @@ const String routemaintenanceDashboard = '/maintenanceDashboard';
 const String routeJSADochument = '/jsa_document_list';
 const String routeJSADashboard = '/jsa_dashboards';
 const String routeJSACreation = '/jsa_creation';
-
 
 const String routeDownloadAPKJSA = '/download_apk_jsa';
 const String routeJSASafetyBriefing = '/jsa_safety_briefing';
