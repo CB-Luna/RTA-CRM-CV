@@ -21,6 +21,13 @@ class CustomDocCreationCard extends StatefulWidget {
 }
 
 class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   JsaProvider jsaProvider = Provider.of<JsaProvider>(context, listen: false);
+  //   jsaProvider.createJsaGeneralInfo("", "", "");
+  // }
+
   @override
   Widget build(BuildContext context) {
     JsaProvider provider = Provider.of<JsaProvider>(context);
