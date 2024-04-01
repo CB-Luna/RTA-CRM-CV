@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/models/jsa/jsa_general_information.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 
 import '../../../../providers/jsa/jsa_provider.dart';
@@ -20,7 +21,8 @@ class _TeamMemberListState extends State<TeamMemberList> {
   Widget build(BuildContext context) {
     var membersSelection = [];
 
-    TeamMembers teamMember = new TeamMembers("", "", "", "");
+    TeamMembers teamMember =
+        new TeamMembers(name: "", role: "", pic: "", id: "");
 
     JsaProvider provider = Provider.of<JsaProvider>(context);
     membersSelection = List.filled(provider.users.length, false);
@@ -98,15 +100,16 @@ class _TeamMemberListState extends State<TeamMemberList> {
                             setState(() {
                               membersSelection[index] =
                                   !membersSelection[index];
+                              print(
+                                  "memberSelection: ${membersSelection[index]}");
                             });
                             if (membersSelection[index] == true) {
                               teamMember = TeamMembers(
-                                  provider.users[index].name,
-                                  provider.users[index].currentAppRole,
-                                  provider.users[index].id,
-                                  "",
+                                  name: provider.users[index].name,
+                                  role: provider.users[index].currentAppRole,
+                                  id: provider.users[index].id,
                                   // ignore: unnecessary_null_in_if_null_operators
-                                  (provider.users[index].image ?? null));
+                                  pic: provider.users[index].image ?? "");
                               provider.addTeamMembers(teamMember);
                             } else {
                               provider.deleteTeamMembers(
