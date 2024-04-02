@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../models/jsa/jsa_general_information.dart';
 import '../../../../../providers/jsa/jsa_provider.dart';
 import '../../risks_hazards_widget.dart';
 import '../CustomTextInput.dart';
@@ -142,9 +143,12 @@ class _CustomControlPopupState extends State<CustomControlPopup> {
                       onPressed: () {
                         //ToDo: hacer que esto funcione correctamente
                         setState(() {
-                          //erasing works and the ui updates but second revision should be done 
+                          //erasing works and the ui updates but second revision should be done
                           showControlDeleteConfirmation(
-                              context, matchingStep.controls[i].title.toString(), widget.title, widget.stepId);
+                              context,
+                              matchingStep.controls[i].title.toString(),
+                              widget.title,
+                              widget.stepId);
                         });
                       },
                     ),
@@ -156,10 +160,12 @@ class _CustomControlPopupState extends State<CustomControlPopup> {
                       onPressed: () {
                         editControl = true;
 
-                        controlNameController.text = matchingStep.controls[i].title.toString();
+                        controlNameController.text =
+                            matchingStep.controls[i].title.toString();
                         compareControlTitle = controlNameController.text;
 
-                        showAddControlPopup(context, widget.title, widget.stepId);
+                        showAddControlPopup(
+                            context, widget.title, widget.stepId);
                       },
                     ),
                   ],
@@ -172,7 +178,8 @@ class _CustomControlPopupState extends State<CustomControlPopup> {
   }
 }
 
-showControlDeleteConfirmation(BuildContext context, String controlTitle, String title, String stepId) {
+showControlDeleteConfirmation(
+    BuildContext context, String controlTitle, String title, String stepId) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -188,13 +195,16 @@ showControlDeleteConfirmation(BuildContext context, String controlTitle, String 
 class DeleteControlConfirmationDialog extends StatefulWidget {
   final controlTitle, title, stepId;
 
-  const DeleteControlConfirmationDialog({super.key, required this.controlTitle, this.title, this.stepId});
+  const DeleteControlConfirmationDialog(
+      {super.key, required this.controlTitle, this.title, this.stepId});
 
   @override
-  State<DeleteControlConfirmationDialog> createState() => _DeleteControlConfirmationDialogState();
+  State<DeleteControlConfirmationDialog> createState() =>
+      _DeleteControlConfirmationDialogState();
 }
 
-class _DeleteControlConfirmationDialogState extends State<DeleteControlConfirmationDialog> {
+class _DeleteControlConfirmationDialogState
+    extends State<DeleteControlConfirmationDialog> {
   @override
   Widget build(BuildContext context) {
     JsaProvider jsaProvider = Provider.of<JsaProvider>(context, listen: false);
@@ -205,64 +215,60 @@ class _DeleteControlConfirmationDialogState extends State<DeleteControlConfirmat
       ),
       elevation: 0,
       backgroundColor: Colors.white,
-      title:  const Text(
-              'Delete Confirmation',
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Color(0xFF335594),
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Quicksand',
-              ),
-            ),
-      content:  const Text(
-              'Are you sure you want to delete this item?',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Quicksand',
-              ),
-            ),
+      title: const Text(
+        'Delete Confirmation',
+        style: TextStyle(
+          fontSize: 18.0,
+          color: Color(0xFF335594),
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Quicksand',
+        ),
+      ),
+      content: const Text(
+        'Are you sure you want to delete this item?',
+        style: TextStyle(
+          fontSize: 16.0,
+          color: Colors.black,
+          fontWeight: FontWeight.w400,
+          fontFamily: 'Quicksand',
+        ),
+      ),
       actions: <Widget>[
-          ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                  const Color(0xFF335594),
-                )),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Cancel',
-                    style: TextStyle(
-                      color: Colors.white,
-                    )),
-              ),
-            ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                  const Color(0xFF335594),
-                )),
-                onPressed: () {
-                  deleteControlItem(widget.controlTitle, jsaProvider);
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  showControlPopup(
-                    context,
-                    widget.title,
-                    widget.stepId,
-                  );
-                },
-                child: Text('Delete',
-                    style: TextStyle(
-                      color: Colors.white,
-                    )),
-              ),
-     
+        ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+            const Color(0xFF335594),
+          )),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('Cancel',
+              style: TextStyle(
+                color: Colors.white,
+              )),
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+            const Color(0xFF335594),
+          )),
+          onPressed: () {
+            deleteControlItem(widget.controlTitle, jsaProvider);
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+            showControlPopup(
+              context,
+              widget.title,
+              widget.stepId,
+            );
+          },
+          child: Text('Delete',
+              style: TextStyle(
+                color: Colors.white,
+              )),
+        ),
       ],
     );
-
-
-
   }
 
   deleteControlItem(String controlTitle, JsaProvider jsaProvider) {
@@ -347,10 +353,10 @@ class _CustomAddControlPopupState extends State<CustomAddControlPopup> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-              child: const Text('Cancel',
-              style: TextStyle(
-                color:  Colors.white,
-              )),
+                child: const Text('Cancel',
+                    style: TextStyle(
+                      color: Colors.white,
+                    )),
               ),
               SizedBox(width: MediaQuery.of(context).size.width * 0.02),
               ElevatedButton(
@@ -363,10 +369,9 @@ class _CustomAddControlPopupState extends State<CustomAddControlPopup> {
 
                   _saveData();
                   Navigator.of(context).pop();
-                                    setState(() {});
-
+                  setState(() {});
                 },
-               child: const Text('Save',
+                child: const Text('Save',
                     style: TextStyle(
                       color: Colors.white,
                     )),

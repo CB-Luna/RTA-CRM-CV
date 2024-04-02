@@ -13,7 +13,6 @@ import 'package:rta_crm_cv/theme/theme.dart';
 // String urlNotifications = 'https://supa43.rtatel.com/notifications/api';
 
 //////// TEST ////////
-
 final Uri urlFMTAPK = Uri.parse(
     "https://drive.google.com/file/d/1lUdS__gG-g4zSPjq_3-LFhnMOmHhYAR8/view?usp=share_link");
 const String supabaseUrl = 'https://supa42.rtatel.com';
@@ -26,6 +25,7 @@ String urlNotifications = 'https://supa42.rtatel.com/notifications/api';
 const String configurator = 'https://cblsrvr404.rtatel.com';
 String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api";
 String powercodeURL = "https://apps.cblsrv42.rtatel.com/planbuilder/api";
+
 
 //////// PROD ////////
 // final Uri urlFMTAPK = Uri.parse(
