@@ -27,6 +27,23 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
   //   JsaProvider jsaProvider = Provider.of<JsaProvider>(context, listen: false);
   //   jsaProvider.createJsaGeneralInfo("", "", "");
   // }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   JsaProvider jsaProvider = Provider.of<JsaProvider>(context, listen: false);
+  //   jsaProvider.createJsaGeneralInfo("", "", "");
+  // }
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final JsaProvider jsaProvider =
+          Provider.of<JsaProvider>(context, listen: false);
+
+      jsaProvider.createJsaGeneralInfo("", "", "");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +96,9 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
             onTap: () {
               provider.setButtonViewTaped(1);
               provider.setIcons(1);
+              provider.createJsaGeneralInfo(companyController.text,
+                  titleController.text, taskController.text);
+
               setState(() {});
             },
             child: Container(

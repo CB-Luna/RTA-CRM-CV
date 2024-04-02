@@ -304,11 +304,14 @@ class JsaProvider extends ChangeNotifier {
   }
 
   void addTeamMembers(TeamMembers teamMember) {
-    print("Dentro del addTeamMembers");
-    jsaGeneralInfo!.teamMembers!.add(teamMember);
-    print(
-        "El length del jsaGeneralInformation es: ${jsaGeneralInfo!.teamMembers!.length}");
-    notifyListeners();
+    try {
+      jsaGeneralInfo!.teamMembers!.add(teamMember);
+      print(
+          "El length del jsaGeneralInformation es: ${jsaGeneralInfo!.teamMembers!.length}");
+      notifyListeners();
+    } catch (e) {
+      print("Error in addTeamMembers() - $e");
+    }
   }
 
   void deleteTeamMembers(String id) {

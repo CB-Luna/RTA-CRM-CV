@@ -249,8 +249,8 @@ class _CustomPopupState extends State<CustomPopup> {
         initialScrollOffset: 0,
       ),
       child: Container(
-        // height: MediaQuery.of(context).size.height * 0.6,
-        height: MediaQuery.of(context).size.height * 0.3,
+        height: MediaQuery.of(context).size.height * 0.35,
+        // height: MediaQuery.of(context).size.height * 0.3,
         width: MediaQuery.of(context).size.width * 0.2,
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
@@ -286,40 +286,43 @@ class _CustomPopupState extends State<CustomPopup> {
                   title: 'Step Description',
                   controller: stepDescriptionController),
               const SizedBox(height: 24.0),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color(0xFF335594),
+                  )),
+                  onPressed: () {
+                    // Save your data or perform any action here
+                    if (formKey.currentState!.validate()) {
+                      _saveData();
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: const Text('Save',
+                      style: TextStyle(
+                        color: Colors.white,
+                      )),
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                      const Color(0xFF335594),
-                    )),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Cancel',
-                        style: TextStyle(
-                          color: Colors.white,
-                        )),
-                  ),
+                  // ElevatedButton(
+                  //   style: ButtonStyle(
+                  //       backgroundColor: MaterialStateProperty.all<Color>(
+                  //     const Color(0xFF335594),
+                  //   )),
+                  //   onPressed: () {
+                  //     Navigator.of(context).pop();
+                  //   },
+                  //   child: const Text('Cancel',
+                  //       style: TextStyle(
+                  //         color: Colors.white,
+                  //       )),
+                  // ),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                      const Color(0xFF335594),
-                    )),
-                    onPressed: () {
-                      // Save your data or perform any action here
-                      if (formKey.currentState!.validate()) {
-                        _saveData();
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    child: const Text('Save',
-                        style: TextStyle(
-                          color: Colors.white,
-                        )),
-                  ),
                 ],
               ),
             ],

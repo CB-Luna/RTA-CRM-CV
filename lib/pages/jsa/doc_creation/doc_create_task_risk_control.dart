@@ -85,11 +85,11 @@ class _CustomDocCreationTaskRiskControlState
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Previous", style: AppTheme.of(context).subtitle2),
                       const Icon(
-                        Icons.arrow_right_outlined,
+                        Icons.arrow_left_outlined,
                         color: Colors.white,
                       ),
+                      Text("Previous", style: AppTheme.of(context).subtitle2),
                     ],
                   ),
                 ),

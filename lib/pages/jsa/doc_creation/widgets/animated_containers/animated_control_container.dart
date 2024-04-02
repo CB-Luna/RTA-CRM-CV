@@ -22,9 +22,7 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
     JsaProvider jsaProvider = Provider.of<JsaProvider>(context, listen: true);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      height: isContainerOpen
-          ? MediaQuery.of(context).size.height * 0.21
-          : MediaQuery.of(context).size.height * 0.095,
+      height: MediaQuery.of(context).size.height * 0.21,
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFF335594)),
         borderRadius: BorderRadius.circular(10.0),
@@ -62,131 +60,118 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
 
                   // Open/Close Button
                   const Spacer(),
-                  IconButton(
-                    icon: Icon(
-                      isContainerOpen
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
-                      color: const Color(0xFF335594),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        isContainerOpen = !isContainerOpen;
-                      });
-                    },
-                  ),
                 ],
               ),
             ),
 
             // Second Row (Additional content when the container is open)
-            if (isContainerOpen)
-              Container(
-                height: MediaQuery.of(context).size.height * 0.2,
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: jsaProvider.jsa.jsaStepsJson!.length,
-                  itemBuilder: (context, i) => Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      // Menu Icon
+            // if (isContainerOpen)
+            Container(
+              height: MediaQuery.of(context).size.height * 0.2,
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: jsaProvider.jsa.jsaStepsJson!.length,
+                itemBuilder: (context, i) => Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // Menu Icon
 
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.14,
-                        alignment: Alignment.center,
-                        child: Text(
-                          jsaProvider.jsa.jsaStepsJson![i].title.toString(),
-                          style: const TextStyle(
-                            fontSize: 15.0,
-                            color: Color(0xFF335594),
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Outfit',
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.07,
+                      alignment: Alignment.center,
+                      child: Text(
+                        jsaProvider.jsa.jsaStepsJson![i].title.toString(),
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                          color: Color(0xFF335594),
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Outfit',
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      // Text "Steps"
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.14,
-                        alignment: Alignment.center,
-                        child: Text(
-                          jsaProvider.jsa.jsaStepsJson![i].controls.isEmpty
-                              ? 'No Control(s)'
-                              //corregir para que haga display el numero correcto
-                              : '${jsaProvider.jsa.jsaStepsJson![i].controls.length} Control(s)',
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Outfit',
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                    ),
+                    // Text "Steps"
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.07,
+                      alignment: Alignment.center,
+                      child: Text(
+                        jsaProvider.jsa.jsaStepsJson![i].controls.isEmpty
+                            ? 'No Control(s)'
+                            //corregir para que haga display el numero correcto
+                            : '${jsaProvider.jsa.jsaStepsJson![i].controls.length} Control(s)',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.grey[600],
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Outfit',
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
+                    ),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () => showControlMatrixPopup(
-                                context,
-                                jsaProvider.jsa.jsaStepsJson![i].id.toString(),
-                                jsaProvider),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  border: Border.all(
-                                    color: jsaProvider.jsa.jsaStepsJson![i].controlColor ?? Colors.transparent,
-                                    width: 1.0,
-                                    
-                                  ),
-                                  color: jsaProvider
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () => showControlMatrixPopup(
+                              context,
+                              jsaProvider.jsa.jsaStepsJson![i].id.toString(),
+                              jsaProvider),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(
+                                color: jsaProvider
+                                        .jsa.jsaStepsJson![i].controlColor ??
+                                    Colors.transparent,
+                                width: 1.0,
+                              ),
+                              color: jsaProvider
                                           .jsa.jsaStepsJson![i].controlColor ==
                                       Colors.transparent
                                   ? Colors.transparent
                                   : jsaProvider
-                                      .jsa.jsaStepsJson![i].controlColor,),
-                              
-                              child: Text(
-                                jsaProvider.jsa.jsaStepsJson![i].controlLevel!
-                                        .isEmpty
-                                    ? 'N/A'
-                                    : jsaProvider
-                                        .jsa.jsaStepsJson![i].controlLevel
-                                        .toString(),
-                                style: const TextStyle(
-                                  fontSize: 15.0,
-                                  color: Color(0xFF335594),
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Outfit',
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                      .jsa.jsaStepsJson![i].controlColor,
+                            ),
+                            child: Text(
+                              jsaProvider.jsa.jsaStepsJson![i].controlLevel!
+                                      .isEmpty
+                                  ? 'N/A'
+                                  : jsaProvider
+                                      .jsa.jsaStepsJson![i].controlLevel
+                                      .toString(),
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                                color: Color(0xFF335594),
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Outfit',
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.remove_red_eye,
-                              color: Color(0xFF335594),
-                            ),
-                            onPressed: () {
-                              showControlPopup(
-                                  context,
-                                  jsaProvider.jsa.jsaStepsJson![i].title,
-                                  jsaProvider.jsa.jsaStepsJson![i].id
-                                      .toString());
-                            },
+                        ),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.remove_red_eye,
+                            color: Color(0xFF335594),
                           ),
-                        ],
-                      ),
+                          onPressed: () {
+                            showControlPopup(
+                                context,
+                                jsaProvider.jsa.jsaStepsJson![i].title,
+                                jsaProvider.jsa.jsaStepsJson![i].id.toString());
+                          },
+                        ),
+                      ],
+                    ),
 
-                      // Open/Close Button
-                    ],
-                  ),
+                    // Open/Close Button
+                  ],
                 ),
               ),
+            ),
           ],
         ),
       ),
