@@ -237,6 +237,18 @@ class _CreateOrderState extends State<CreateOrder> {
                             keyboardType: TextInputType.name,
                           ),
                         ), */
+                      //Power mode
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: CustomTextField(
+                          label: 'Power Mode',
+                          icon: Icons.flash_on,
+                          controller: provider.powermodeController,
+                          enabled: false,
+                          width: 350,
+                          keyboardType: TextInputType.name,
+                        ),
+                      ),
                     ],
                   ),
                 ),
