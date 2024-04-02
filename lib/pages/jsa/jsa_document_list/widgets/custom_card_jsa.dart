@@ -103,7 +103,6 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                                 text: 'Create Document JSA',
                                 color: AppTheme.of(context).primaryColor,
                                 onTap: () async {
-                                  jsaProvider.createJsaGeneralInfo('', '', '');
                                   jsaProvider.setButtonViewTaped(0);
                                   jsaProvider.setIcons(0);
                                   context.pushReplacement(routeJSACreation);

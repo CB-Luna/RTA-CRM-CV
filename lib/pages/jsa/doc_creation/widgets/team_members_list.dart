@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/models/jsa/jsa_general_information.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 
 import '../../../../providers/jsa/jsa_provider.dart';
@@ -16,7 +16,13 @@ class TeamMemberList extends StatefulWidget {
 class _TeamMemberListState extends State<TeamMemberList> {
   @override
   Widget build(BuildContext context) {
+    var membersSelection = [];
+
+    TeamMembers teamMember = TeamMembers(name: "", role: "", pic: "", id: "");
+
     JsaProvider provider = Provider.of<JsaProvider>(context);
+    membersSelection = List.filled(provider.users.length, false);
+
     return Container(
       color: Colors.transparent,
       padding: const EdgeInsets.all(8.0),
@@ -69,23 +75,6 @@ class _TeamMemberListState extends State<TeamMemberList> {
                   ),
                 ),
               ),
-              // Text(
-              //   'Team Members',
-              //   style: TextStyle(
-              //     color: Color(0xFF335594),
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
-              // SizedBox(
-              //   width: 20,
-              // ),
-              // Text(
-              //   'Rol',
-              //   style: TextStyle(
-              //     color: Color(0xFF335594),
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
             ],
           ),
           SingleChildScrollView(
@@ -100,9 +89,26 @@ class _TeamMemberListState extends State<TeamMemberList> {
                         width: MediaQuery.of(context).size.width * 0.02,
                         child: Checkbox(
                           activeColor: const Color(0xFF335594),
-                          value: false,
+                          value: membersSelection[index],
                           // Set the initial value as per your requirement
                           onChanged: (bool? value) {
+                            print(provider.users[index].name);
+                            setState(() {
+                              membersSelection[index] =
+                                  !membersSelection[index];
+                              print("memberSelection: ${value}");
+                            });
+                            if (membersSelection[index] == true) {
+                              teamMember = TeamMembers(
+                                  name: provider.users[index].name,
+                                  role: provider.users[index].currentAppRole,
+                                  id: provider.users[index].id,
+                                  pic: provider.users[index].image);
+                              provider.addTeamMembers(teamMember);
+                            } else {
+                              provider.deleteTeamMembers(
+                                  provider.users[index].id.toString());
+                            }
                             // Handle checkbox state changes here
                           },
                         ),

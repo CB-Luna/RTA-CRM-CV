@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/doc_create_final_document.dart';
@@ -7,6 +9,7 @@ import 'package:uuid/uuid.dart';
 import '../../models/user.dart';
 import '../../pages/jsa/doc_creation/doc_create_resume.dart';
 import '../../pages/jsa/doc_creation/doc_creation_card.dart';
+import '../../models/jsa/jsa_general_information.dart';
 
 var uuid = const Uuid();
 
@@ -86,7 +89,14 @@ class JsaProvider extends ChangeNotifier {
   void createJsaGeneralInfo(String? company, String? title, String? taskName) {
     print("JsaCreation");
     List<JsaStepsJson> jsaStepsJson = [];
-    jsaGeneralInfo = JsaGeneralInfo(company, title, taskName, jsaStepsJson);
+    List<TeamMembers> teamMembers = [];
+
+    jsaGeneralInfo = JsaGeneralInfo(
+        company: company,
+        title: title,
+        taskName: taskName,
+        jsaStepsJson: jsaStepsJson,
+        teamMembers: teamMembers);
     print(jsaGeneralInfo!.toJson());
     print("JsaCreation End");
     notifyListeners();
@@ -101,8 +111,16 @@ class JsaProvider extends ChangeNotifier {
   }
 
   void addJsaSteps(String title, String description) {
-    jsaGeneralInfo!.jsaStepsJson!.add(JsaStepsJson(title, description, [], [],
-        uuid.v1(), '', Colors.transparent, Colors.transparent, ''));
+    jsaGeneralInfo!.jsaStepsJson!.add(JsaStepsJson(
+        title: title,
+        description: description,
+        risks: [],
+        controls: [],
+        id: uuid.v1(),
+        controlLevel: '',
+        controlColor: Colors.transparent,
+        riskColor: Colors.transparent,
+        riskLevel: ''));
     print('Step Name: ${title}');
     print('Step Description: ${description}');
 
@@ -112,7 +130,7 @@ class JsaProvider extends ChangeNotifier {
   void addJsaRisks(String title, String stepId) {
     jsaGeneralInfo!.jsaStepsJson!.forEach((element) {
       if (element.id == stepId) {
-        element.risks.add(Risks(title));
+        element.risks.add(Risks(title: title));
       }
     });
 
@@ -211,7 +229,7 @@ class JsaProvider extends ChangeNotifier {
   void addJsaControl(String title, String stepId) {
     jsaGeneralInfo!.jsaStepsJson!.forEach((element) {
       if (element.id == stepId) {
-        element.controls.add(Control(title, ''));
+        element.controls.add(Control(title: title, controlLevel: ''));
       }
     });
 
@@ -284,65 +302,20 @@ class JsaProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-}
 
-class JsaGeneralInfo {
-  String? company;
-  String? title;
-  String? taskName;
-  List<JsaStepsJson>? jsaStepsJson;
-  JsaGeneralInfo(
-    this.company,
-    this.title,
-    this.taskName,
-    this.jsaStepsJson,
-  );
-
-  Map<String, dynamic> toJson() {
-    return {
-      'company': company,
-      'title': title,
-      'taskName': taskName,
-      'jsaSteps': jsaStepsJson,
-    };
+  void addTeamMembers(TeamMembers teamMember) {
+    try {
+      jsaGeneralInfo!.teamMembers!.add(teamMember);
+      print(
+          "El length del jsaGeneralInformation es: ${jsaGeneralInfo!.teamMembers!.length}");
+      notifyListeners();
+    } catch (e) {
+      print("Error in addTeamMembers() - $e");
+    }
   }
-}
 
-class JsaStepsJson {
-  String title;
-  String description;
-  String? riskLevel;
-  Color? riskColor;
-  Color? controlColor;
-
-  String? controlLevel;
-  List<Risks> risks;
-  List<Control> controls;
-  String? id;
-
-  JsaStepsJson(this.title, this.description, this.risks, this.controls, this.id,
-      this.riskLevel, this.riskColor, this.controlColor, this.controlLevel);
-
-  Map<String, dynamic> toJson() {
-    return {
-      'title': title,
-      'id': uuid.v1(),
-      'description': description,
-      'risks': risks,
-      'controls': controls,
-    };
+  void deleteTeamMembers(String id) {
+    jsaGeneralInfo!.teamMembers!.removeWhere((element) => element.id == id);
+    notifyListeners();
   }
-}
-
-class Risks {
-  String? title;
-
-  Risks(this.title);
-}
-
-class Control {
-  String? title;
-  String? controlLevel;
-  Color? color;
-  Control(this.title, this.controlLevel);
 }

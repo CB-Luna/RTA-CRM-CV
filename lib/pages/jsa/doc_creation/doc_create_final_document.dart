@@ -6,6 +6,7 @@ import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/team_members_list.dart
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 import '../../../providers/jsa/jsa_provider.dart';
+import '../../../theme/theme.dart';
 
 TextEditingController titleController = TextEditingController();
 TextEditingController taskController = TextEditingController();
@@ -44,71 +45,124 @@ class _CustomDocCreationFinalDocumentState
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.87,
       // alignment: Alignment.center,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CustomCard(
-                title: "General Info",
-                height: MediaQuery.of(context).size.height * 0.38,
-                width: MediaQuery.of(context).size.width * 0.2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CustomCard(
+                    title: "JSA PREVIEW",
+                    height: MediaQuery.of(context).size.height * 0.79,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: Container(
+                      color: Colors.red,
+                    )),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                ),
+                CustomCard(
+                    title: "JSA TEMPLATE PREVIEW ",
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: Expanded(
+                      child: Container(
+                        color: Colors.green,
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 100,
+                              width: 100,
+                              color: Colors.blue,
+                            ),
+                            Column(
+                              children: [
+                                Text("Title : ",
+                                    style: AppTheme.of(context).bodyText2),
+                                Text(
+                                    provider.jsaGeneralInfo?.title ?? "No Name",
+                                    style: TextStyle(
+                                      fontFamily: 'Gotham-Light',
+                                      color: AppTheme.of(context).cryPrimary,
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 18,
+                                    )),
+                                Text("Task: ",
+                                    style: AppTheme.of(context).bodyText2),
+                                Text(
+                                    provider.jsaGeneralInfo?.taskName ??
+                                        "No Task",
+                                    style: TextStyle(
+                                      fontFamily: 'Gotham-Light',
+                                      color: AppTheme.of(context).cryPrimary,
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 18,
+                                    ))
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ))
+              ],
+            ),
+            InkWell(
+              onTap: () {
+                provider.setButtonViewTaped(2);
+                provider.setIcons(2);
+                setState(() {});
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.6,
+                height: MediaQuery.of(context).size.height * 0.04,
+                margin: const EdgeInsets.all(10),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: AppTheme.of(context).cryPrimary,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const CustomDrop(
-                      title: "OpCo Name",
+                    const Icon(
+                      Icons.arrow_left_outlined,
+                      color: Colors.white,
                     ),
-                    CustomtaskTextInput(
-                      task: "Title Name",
-                      controller: titleController,
-                    ),
-                    CustomtaskTextInput(
-                      task: "Task Name",
-                      controller: taskController,
-                    ),
-                    // TeamMemberList(),
+                    Text("Previous", style: AppTheme.of(context).subtitle2),
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-              ),
-              CustomCard(
-                  title: "Team Members",
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  child: const TeamMemberList())
-            ],
-          ),
-          Row(
-            children: [
-              ElevatedButton(
-                  onPressed: () {
-                    provider.selectedTask = true;
-                    provider.circleListTask = true;
+            ),
+            // Row(
+            //   children: [
+            //     ElevatedButton(
+            //         onPressed: () {
+            //           provider.selectedTask = true;
+            //           provider.circleListTask = true;
 
-                    print(provider.selectedTask);
-                    provider.setButtonViewTaped(2);
-                    provider.setIcons(2);
-                    setState(() {});
-                  },
-                  child: Text("Back")),
-              // ElevatedButton(
-              //     onPressed: () {
-              //       provider.selectedTask = true;
-              //       provider.circleListTask = true;
+            //           print(provider.selectedTask);
+            //           provider.setButtonViewTaped(2);
+            //           provider.setIcons(2);
+            //           setState(() {});
+            //         },
+            //         child: Text("Back")),
+            //     // ElevatedButton(
+            //     //     onPressed: () {
+            //     //       provider.selectedTask = true;
+            //     //       provider.circleListTask = true;
 
-              //       print(provider.selectedTask);
-              //       provider.setButtonViewTaped(2);
-              //       provider.setIcons(2);
-              //       setState(() {});
-              //     },
-              //     child: Text("Next"))
-            ],
-          ),
-        ],
+            //     //       print(provider.selectedTask);
+            //     //       provider.setButtonViewTaped(2);
+            //     //       provider.setIcons(2);
+            //     //       setState(() {});
+            //     //     },
+            //     //     child: Text("Next"))
+            //   ],
+            // ),
+          ],
+        ),
       ),
     );
   }

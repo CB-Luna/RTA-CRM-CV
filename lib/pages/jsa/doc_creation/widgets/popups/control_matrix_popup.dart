@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/popups/image_popup.dart';
 
-
 import '../../../../../providers/jsa/jsa_provider.dart';
+import '../../../../../theme/theme.dart';
 
 class ControlMatrixPopup extends StatefulWidget {
   final Function(String, String) onRiskSelected;
@@ -297,38 +298,93 @@ class _ControlMatrixPopupState extends State<ControlMatrixPopup> {
             Navigator.of(context).pop();
           },
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton(
-                  onPressed: () {
-                    // Show the image popup dialog on button press
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ImagePopup(
-                          imagePath:
-                              'assets/images/3x3-risk-assessment-matrix.png', // Change the path accordingly
-                        );
-                      },
-                    );
-                  },
-                  child: const Text(
-                    'Open Image',
-                    style: TextStyle(
-                      color: Color(0xFF335594),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
-              const SizedBox(
-                width: 60,
+              InkWell(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ImagePopup(
+                        imagePath:
+                            'assets/images/3x3-risk-assessment-matrix.png', // Change the path accordingly
+                      );
+                    },
+                  );
+                  // setState(() {});
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.04,
+                  margin: const EdgeInsets.all(10),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: AppTheme.of(context).cryPrimary,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Open Image", style: AppTheme.of(context).subtitle2),
+                    ],
+                  ),
+                ),
               ),
-              const Text(
-                'OK',
-                style: TextStyle(
-                  color: Color(0xFF335594),
-                  fontWeight: FontWeight.bold,
+              InkWell(
+                onTap: () {
+                  context.pop();
+                  setState(() {});
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.04,
+                  margin: const EdgeInsets.all(10),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: AppTheme.of(context).cryPrimary,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("OK", style: AppTheme.of(context).subtitle2),
+                    ],
+                  ),
                 ),
               ),
             ],
+
+            // Row(
+            //   children: [
+            //     TextButton(
+            //         onPressed: () {
+            //           // Show the image popup dialog on button press
+            //           showDialog(
+            //             context: context,
+            //             builder: (BuildContext context) {
+            //               return ImagePopup(
+            //                 imagePath:
+            //                     'assets/images/3x3-risk-assessment-matrix.png', // Change the path accordingly
+            //               );
+            //             },
+            //           );
+            //         },
+            //         child: const Text(
+            //           'Open Image',
+            //           style: TextStyle(
+            //             color: Color(0xFF335594),
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         )),
+            //     const SizedBox(
+            //       width: 60,
+            //     ),
+            //     const Text(
+            //       'OK',
+            //       style: TextStyle(
+            //         color: Color(0xFF335594),
+            //         fontWeight: FontWeight.bold,
+            //       ),
+            //     ),
+            //   ],
           ),
         ),
       ],

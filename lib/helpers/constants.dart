@@ -12,21 +12,51 @@ import 'package:rta_crm_cv/theme/theme.dart';
 // const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 // String urlNotifications = 'https://supa43.rtatel.com/notifications/api';
 
-// //////// TEST ////////
+//////// TEST ////////
+final Uri urlFMTAPK = Uri.parse(
+    "https://drive.google.com/file/d/1lUdS__gG-g4zSPjq_3-LFhnMOmHhYAR8/view?usp=share_link");
+const String supabaseUrl = 'https://supa42.rtatel.com';
+const String anonKey =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';
+const redirectUrl =
+    'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
+const themeId = String.fromEnvironment('themeId', defaultValue: '2');
+String urlNotifications = 'https://supa42.rtatel.com/notifications/api';
+const String configurator = 'https://cblsrvr404.rtatel.com';
+String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api";
+String powercodeURL = "https://apps.cblsrv42.rtatel.com/planbuilder/api";
+
+
+//////// PROD ////////
 // final Uri urlFMTAPK = Uri.parse(
-//     "https://drive.google.com/file/d/1lUdS__gG-g4zSPjq_3-LFhnMOmHhYAR8/view?usp=share_link");
-// const String supabaseUrl = 'https://supa42.rtatel.com';
+//     "https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
+// const String supabaseUrl = 'https://supa41.rtatel.com';
 // const String anonKey =
 //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';
 // const redirectUrl =
 //     'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
 // const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 // String urlNotifications = 'https://supa42.rtatel.com/notifications/api';
+// const String configurator = 'https://cblsrvr1.rtatel.com';//'https://cblsrvr404.rtatel.com';
+// String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api";
+// String powercodeURL= "https://apps.cblsrv42.rtatel.com/planbuilder/api";
+
+// final Uri urlFMTAPK = Uri.parse(
+//     "https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
+// const String supabaseUrl = 'https://supa41.rtatel.com';
+// const String anonKey =
+//     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';
+// const redirectUrl =
+//     'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
+// const themeId = String.fromEnvironment('themeId', defaultValue: '2');
+// String urlNotifications = 'https://supa41.rtatel.com/notifications/api';
+// const String configurator = 'https://cblsrvr1.rtatel.com';
+// String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api";
+// String powercodeURL= "https://cblsrvr1.rtatel.com/planbuilder/api";
 // const String configurator = 'https://cblsrvr404.rtatel.com';
 // String apiGatewayURL = "https://apps.cblsrv42.rtatel.com/wop_x2/api";
 
 //////// PROD ////////
-
 final Uri urlFMTAPK = Uri.parse(
     "https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
 const String supabaseUrl = 'https://supa41.rtatel.com';
@@ -39,6 +69,7 @@ String urlNotifications = 'https://supa41.rtatel.com/notifications/api';
 const String configurator = 'https://cblsrvr1.rtatel.com';
 String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api";
 String powercodeURL = "https://cblsrvr1.rtatel.com/planbuilder/api";
+
 
 PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
   return PlutoGridScrollbarConfig(
