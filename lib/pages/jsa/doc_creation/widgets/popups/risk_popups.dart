@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../models/jsa/jsa_general_information.dart';
 import '../../../../../providers/jsa/jsa_provider.dart';
 import '../../risks_hazards_widget.dart';
 import '../CustomTextInput.dart';
@@ -143,7 +144,7 @@ class _CustomRiskPopupState extends State<CustomRiskPopup> {
                         setState(() {
                           showRiskDeleteConfirmation(
                               context,
-                        matchingStep.risks[i].title.toString(),
+                              matchingStep.risks[i].title.toString(),
                               widget.stepId,
                               widget.title);
                         });
@@ -157,7 +158,8 @@ class _CustomRiskPopupState extends State<CustomRiskPopup> {
                       onPressed: () {
                         editControl = true;
 
-                        controlNameController.text =                         matchingStep.risks[i].title.toString();
+                        controlNameController.text =
+                            matchingStep.risks[i].title.toString();
                         compareRiskTitle = controlNameController.text;
 
                         showAddRiskPopup(context, widget.title, widget.stepId);
@@ -204,56 +206,55 @@ class _DeleteRiskConfirmationDialogState
   Widget build(BuildContext context) {
     JsaProvider jsaProvider = Provider.of<JsaProvider>(context, listen: false);
 
-    
-  return AlertDialog(
-       shape: RoundedRectangleBorder(
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
       ),
       elevation: 0,
       backgroundColor: Colors.white,
-      title:  const Text(
-              'Delete Confirmation',
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Color(0xFF335594),
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Quicksand',
-              ),
-            ),
-      content:  const Text(
-              'Are you sure you want to delete this item?',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Quicksand',
-              ),
-            ),
+      title: const Text(
+        'Delete Confirmation',
+        style: TextStyle(
+          fontSize: 18.0,
+          color: Color(0xFF335594),
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Quicksand',
+        ),
+      ),
+      content: const Text(
+        'Are you sure you want to delete this item?',
+        style: TextStyle(
+          fontSize: 16.0,
+          color: Colors.black,
+          fontWeight: FontWeight.w400,
+          fontFamily: 'Quicksand',
+        ),
+      ),
       actions: <Widget>[
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child:     ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                  const Color(0xFF335594),
+          child: ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+              const Color(0xFF335594),
+            )),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Cancel',
+                style: TextStyle(
+                  color: Colors.white,
                 )),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Cancel',
-                    style: TextStyle(
-                      color: Colors.white,
-                    )),
-              ),
+          ),
         ),
-            ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                  const Color(0xFF335594),
-                )),
-                        onPressed: () {
+        ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+            const Color(0xFF335594),
+          )),
+          onPressed: () {
             // Perform delete operation here
             setState(() {
               _deleteRiskItem(widget.riskTitle, jsaProvider);
@@ -266,13 +267,11 @@ class _DeleteRiskConfirmationDialogState
               widget.stepId,
             );
           },
-                
-                child: Text('Delete',
-                    style: TextStyle(
-                      color: Colors.white,
-                    )),
-              ),
-       
+          child: Text('Delete',
+              style: TextStyle(
+                color: Colors.white,
+              )),
+        ),
       ],
     );
 
@@ -284,9 +283,9 @@ class _DeleteRiskConfirmationDialogState
           onPressed: () {
             Navigator.of(context).pop();
           },
-     child: Text('Cancel',
+          child: Text('Cancel',
               style: TextStyle(
-                color:  Colors.white,
+                color: Colors.white,
               )),
         ),
         TextButton(
@@ -393,10 +392,10 @@ class _CustomAddRiskPopupState extends State<CustomAddRiskPopup> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-            child: const Text('Cancel',
-              style: TextStyle(
-                color:  Colors.white,
-              )),
+                child: const Text('Cancel',
+                    style: TextStyle(
+                      color: Colors.white,
+                    )),
               ),
               SizedBox(width: MediaQuery.of(context).size.width * 0.02),
               ElevatedButton(
@@ -411,7 +410,7 @@ class _CustomAddRiskPopupState extends State<CustomAddRiskPopup> {
                   setState(() {});
                   Navigator.of(context).pop();
                 },
-         child: Text('Save',
+                child: Text('Save',
                     style: TextStyle(
                       color: Colors.white,
                     )),
