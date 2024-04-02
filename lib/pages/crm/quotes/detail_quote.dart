@@ -242,6 +242,22 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             label: 'Handoff',
                                           ),
                                         ),
+                                      if (provider.powerMode != null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomSwitch(
+                                            enabled: false,
+                                            iconOn: Icons.lightbulb_circle,
+                                            optOn: 'DC',
+                                            iconOff: Icons.lightbulb_circle_outlined,
+                                            optOff: 'AC',
+                                            value: provider.powerMode!,
+                                            label: 'Power Mode',
+                                            onChanged: (p0) {
+                                              //provider.selectPowerMode();
+                                            },
+                                          ),
+                                        ),
                                     ],
                                   ),
                                 ),

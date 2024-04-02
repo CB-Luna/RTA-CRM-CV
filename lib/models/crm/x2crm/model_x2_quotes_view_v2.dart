@@ -378,6 +378,7 @@ class OrderInfo {
   String? type;
   String? address;
   String? handoff;
+  bool? powerMode;
   String? orderType;
   String? rackLocation;
   String? newCircuitId;
@@ -390,6 +391,7 @@ class OrderInfo {
     this.type,
     this.address,
     this.handoff,
+    this.powerMode,
     this.orderType,
     this.rackLocation,
     this.newCircuitId,
@@ -407,6 +409,11 @@ class OrderInfo {
         type: json["type"],
         address: json["address"],
         handoff: json["handoff"],
+        powerMode: json["power_mode"] != null
+            ? json["power_mode"] == "AC"
+                ? false
+                : true
+            : null,
         orderType: json["order_type"],
         rackLocation: json["rack_location"],
         newCircuitId: json["new_circuit_id"],
@@ -420,6 +427,7 @@ class OrderInfo {
         "type": type,
         "address": address,
         "handoff": handoff,
+        "power_mode": powerMode,
         "order_type": orderType,
         "rack_location": rackLocation,
         "new_circuit_id": newCircuitId,

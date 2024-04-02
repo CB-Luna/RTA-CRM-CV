@@ -142,13 +142,14 @@ class DetailQuoteProvider extends ChangeNotifier {
   final existingCircuitIDController = TextEditingController();
   final newCircuitIDController = TextEditingController();
   final addressController = TextEditingController();
+  final demarcationPointController = TextEditingController();
   List<GenericCat> dataCentersList = [GenericCat(name: 'New')];
   late String dataCenterSelectedValue;
   final newDataCenterController = TextEditingController();
   final rackLocationController = TextEditingController();
   List<GenericCat> handoffList = [GenericCat(name: 'New')];
   late String handoffSelectedValue;
-  final demarcationPointController = TextEditingController();
+  bool? powerMode;
 
   List<Vendor> vendorsList = [Vendor(vendorName: 'ATT')];
   String vendorSelectedValue = '';
@@ -290,6 +291,8 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       addressController.text = quote.orderInfo!.address!;
 
+      demarcationPointController.text = quote.orderInfo!.demarcationPoint ?? '';
+
       if (quote.orderInfo!.dataCenterType == 'New') {
         dataCenterSelectedValue = 'New';
         newDataCenterController.text = quote.orderInfo!.dataCenterLocation!;
@@ -299,7 +302,7 @@ class DetailQuoteProvider extends ChangeNotifier {
 
       rackLocationController.text = quote.orderInfo!.rackLocation ?? '';
       handoffSelectedValue = quote.orderInfo!.handoff ?? '';
-      demarcationPointController.text = quote.orderInfo!.demarcationPoint ?? '';
+      powerMode = quote.orderInfo!.powerMode;
 
       ///////////////Circuit Info////////////////////////////////////////////////////////////////////
 
