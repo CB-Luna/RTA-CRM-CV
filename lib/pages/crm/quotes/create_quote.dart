@@ -1538,14 +1538,14 @@ class Comments extends StatelessWidget {
                                     padding: const EdgeInsets.all(5),
                                     child: CustomScrollBar(
                                       scrollDirection: Axis.vertical,
-                                      child: Text(provider.comments[index].comment!),
+                                      child: SelectableText(provider.comments[index].comment!),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Text(
+                          SelectableText(
                             dateFormat(provider.comments[index].sended, true),
                             style: AppTheme.of(context).hintText,
                           )
