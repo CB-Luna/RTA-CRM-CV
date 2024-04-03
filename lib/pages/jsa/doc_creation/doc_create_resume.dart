@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/pages/jsa/doc_creation/risks_hazards_widget.dart';
-import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/custom_task_input.dart';
-import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/team_members_list.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 import '../../../providers/jsa/jsa_provider.dart';
@@ -38,7 +35,6 @@ class _CustomDocResumeState extends State<CustomDocResume> {
   @override
   Widget build(BuildContext context) {
     JsaProvider provider = Provider.of<JsaProvider>(context);
-
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.87,
@@ -95,10 +91,9 @@ class _CustomDocResumeState extends State<CustomDocResume> {
               title: "Team Members",
               height: MediaQuery.of(context).size.height * 0.20,
               width: MediaQuery.of(context).size.width * 0.2,
-              child: Container(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.15,
                 width: MediaQuery.of(context).size.width * 0.2,
-                color: Colors.red,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -187,18 +182,35 @@ class _CustomDocResumeState extends State<CustomDocResume> {
                     Container(
                       width: MediaQuery.of(context).size.width * 0.07,
                       alignment: Alignment.center,
-                      child: Text(
-                        provider.jsa.jsaStepsJson![i].risks.isEmpty
-                            ? 'No Risk(s)'
-                            //corregir para que haga display el numero correcto
-                            : '${provider.jsa.jsaStepsJson![i].risks.length} Risk(s)',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          color: Colors.grey[600],
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Outfit',
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      child: Column(
+                        children: [
+                          Text(
+                            provider.jsa.jsaStepsJson![i].risks.isEmpty
+                                ? 'No Risk(s)'
+                                //corregir para que haga display el numero correcto
+                                : '${provider.jsa.jsaStepsJson![i].risks.length} Risk(s)',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Outfit',
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Text(
+                            provider.jsa.jsaStepsJson![i].controls.isEmpty
+                                ? 'No Controls(s)'
+                                //corregir para que haga display el numero correcto
+                                : '${provider.jsa.jsaStepsJson![i].controls.length} Control(s)',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Outfit',
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
 
@@ -291,9 +303,13 @@ class _CustomDocResumeState extends State<CustomDocResume> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     provider.setButtonViewTaped(3);
                     provider.setIcons(3);
+                    // Aqui es donde se tiene que crear el documento pdf
+                    final pdfController = await provider.clientPDF(provider);
+                    print("PDF CONTROLLER: $pdfController");
+
                     setState(() {});
                   },
                   child: Container(
@@ -341,127 +357,6 @@ class _CustomDocResumeState extends State<CustomDocResume> {
               ],
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class CustomDrop extends StatefulWidget {
-  final String title;
-  const CustomDrop({Key? key, required this.title});
-
-  @override
-  _CustomDropState createState() => _CustomDropState();
-}
-
-class _CustomDropState extends State<CustomDrop> {
-  @override
-  Widget build(BuildContext context) {
-    JsaProvider provider = Provider.of<JsaProvider>(context);
-
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            widget.title,
-            style: const TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.normal,
-              color: Color(0xFF737373),
-            ),
-          ),
-          const SizedBox(height: 8.0),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(color: const Color(0xFF335594), width: 1.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: DropdownButton(
-                value: text,
-                items: const [
-                  DropdownMenuItem(
-                    value: "CRY",
-                    child: Text("CRY"),
-                  ),
-                  DropdownMenuItem(
-                    value: "ODE",
-                    child: Text("ODE"),
-                  ),
-                  DropdownMenuItem(
-                    value: "SMI",
-                    child: Text("SMI"),
-                  ),
-                ],
-                onChanged: (value) {
-                  text = value.toString();
-                  companyController.text = text;
-                  print(companyController.text);
-                  provider.getListUsers(companyController.text);
-                  setState(() {});
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-String text = "CRY";
-
-class IconButtonCustom extends StatelessWidget {
-  const IconButtonCustom(
-      {super.key, this.icon, required this.selected, required this.circle});
-
-  final IconData? icon;
-  final bool selected;
-  final bool circle;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.1,
-          height: MediaQuery.of(context).size.height * 0.055,
-          padding: const EdgeInsets.all(5),
-          clipBehavior: Clip.antiAlias,
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  width: 1,
-                  color: circle ? const Color(0xFF335594) : Colors.transparent),
-              borderRadius: BorderRadius.circular(100),
-            ),
-          ),
-          child: Icon(
-            icon,
-            color: selected ? const Color(0xFF335594) : Colors.grey[500],
-            size: 24,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class IconButtonCustomDivisor extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 24.02,
-      decoration: const ShapeDecoration(
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            width: 1,
-            strokeAlign: BorderSide.strokeAlignCenter,
-            color: Color(0xFFB7B7B7),
-          ),
         ),
       ),
     );
