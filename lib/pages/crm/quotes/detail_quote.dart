@@ -4,6 +4,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/date_format.dart';
 import 'package:rta_crm_cv/functions/money_format.dart';
+import 'package:rta_crm_cv/functions/sizes.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/crm/accounts/tabs/table_top_text.dart';
@@ -240,6 +241,86 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             },
                                             icon: Icons.waving_hand_outlined,
                                             label: 'Handoff',
+                                          ),
+                                        ),
+                                      if (provider.powerMode != null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: CustomSwitch(
+                                            enabled: false,
+                                            iconOn: Icons.lightbulb_circle,
+                                            optOn: 'DC',
+                                            iconOff: Icons.lightbulb_circle_outlined,
+                                            optOff: 'AC',
+                                            value: provider.powerMode!,
+                                            label: 'Power Mode',
+                                            onChanged: (p0) {
+                                              //provider.selectPowerMode();
+                                            },
+                                          ),
+                                        ),
+                                      if (provider.titulo != '')
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 10),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(right: 10),
+                                                child: CustomTextIconButton(
+                                                  color: provider.titulo != '' ? AppTheme.of(context).primaryColor : AppTheme.of(context).secondaryColor,
+                                                  isLoading: false,
+                                                  icon: Icon(
+                                                    provider.titulo != '' ? Icons.remove_red_eye_outlined : Icons.image_not_supported_outlined,
+                                                    color: AppTheme.of(context).primaryBackground,
+                                                  ),
+                                                  text: provider.titulo != '' ? 'View Image of Demarkation Point' : 'No Image',
+                                                  onTap: (provider.titulo != '')
+                                                      ? () async {
+                                                          await showDialog(
+                                                            context: context,
+                                                            builder: (BuildContext context) {
+                                                              return AlertDialog(
+                                                                backgroundColor: Colors.transparent,
+                                                                shadowColor: Colors.transparent,
+                                                                content: SizedBox(
+                                                                  width: getWidth(1000, context),
+                                                                  height: getHeight(1000, context),
+                                                                  child: CustomScrollBar(
+                                                                    scrollDirection: Axis.vertical,
+                                                                    child: Column(
+                                                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(bottom: 20),
+                                                                          child: CustomTextIconButton(
+                                                                            isLoading: false,
+                                                                            icon: Icon(Icons.close, color: AppTheme.of(context).secondaryColor),
+                                                                            border: Border.all(color: AppTheme.of(context).secondaryColor),
+                                                                            color: AppTheme.of(context).primaryBackground,
+                                                                            style: TextStyle(color: AppTheme.of(context).secondaryColor),
+                                                                            text: 'Exit',
+                                                                            width: getWidth(60, context),
+                                                                            onTap: () {
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                        Image.network(provider.titulo)
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                          );
+                                                        }
+                                                      : () {},
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                     ],
@@ -1260,14 +1341,14 @@ class _DetailQuoteCommentsState extends State<DetailQuoteComments> {
                                     padding: const EdgeInsets.all(5),
                                     child: CustomScrollBar(
                                       scrollDirection: Axis.vertical,
-                                      child: Text(provider.comments[index].comment!),
+                                      child: SelectableText(provider.comments[index].comment!),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Text(
+                          SelectableText(
                             dateFormat(provider.comments[index].sended, true),
                             style: AppTheme.of(context).hintText,
                           )

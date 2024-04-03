@@ -141,6 +141,25 @@ class _CreateOrderState extends State<CreateOrder> {
                             keyboardType: TextInputType.name,
                           ),
                         ),
+                      if (provider.powermodeController.text.isNotEmpty)
+                        //Power mode
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomTextField(
+                            label: 'Power Mode',
+                            icon: Icons.flash_on,
+                            controller: provider.powermodeController,
+                            enabled: false,
+                            width: 350,
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                      if (provider.circuitTypeSelectedValue.text == 'X-Connect')
+                        CustomDetails(
+                          title: 'Detail',
+                          icon: Icons.details_outlined,
+                          description: provider.detailController.text,
+                        ),
                       if (provider.typesSelectedValue.text != 'Circuit Removal' && (provider.circuitTypeSelectedValue.text == 'ASEoD' || provider.circuitTypeSelectedValue.text == 'PTP'))
                         //demarkation image
                         Padding(
@@ -219,12 +238,7 @@ class _CreateOrderState extends State<CreateOrder> {
                             keyboardType: TextInputType.name,
                           ),
                         ), */
-                      if (provider.circuitTypeSelectedValue.text == 'X-Connect')
-                        CustomDetails(
-                          title: 'Detail',
-                          icon: Icons.details_outlined,
-                          description: provider.detailController.text,
-                        ),
+
                       /* if (provider.circuitTypeSelectedValue.text == 'DIA')
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
