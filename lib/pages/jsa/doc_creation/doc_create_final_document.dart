@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/pages/jsa/doc_creation/risks_hazards_widget.dart';
-import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/custom_task_input.dart';
-import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/team_members_list.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 import '../../../providers/jsa/jsa_provider.dart';
 import '../../../theme/theme.dart';
+import 'widgets/pdf_full_size.dart';
 
 TextEditingController titleController = TextEditingController();
 TextEditingController taskController = TextEditingController();
@@ -24,23 +23,11 @@ class CustomDocCreationFinalDocument extends StatefulWidget {
 
 class _CustomDocCreationFinalDocumentState
     extends State<CustomDocCreationFinalDocument> {
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-  //     final JsaProvider provider = Provider.of<JsaProvider>(
-  //       context,
-  //       listen: false,
-  //     );
-  //     await provider.updateState();
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     JsaProvider provider = Provider.of<JsaProvider>(context);
-
+    double width = MediaQuery.of(context).size.width / 1440;
+    double height = MediaQuery.of(context).size.height / 1024;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.87,
@@ -55,30 +42,93 @@ class _CustomDocCreationFinalDocumentState
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CustomCard(
-                    title: "JSA PREVIEW",
-                    height: MediaQuery.of(context).size.height * 0.79,
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Container(
-                      color: Colors.red,
-                    )),
+                  title: "JSA PREVIEW",
+                  height: MediaQuery.of(context).size.height * 0.79,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: IconButton(
+                                icon: Icon(Icons.fullscreen,
+                                    color: AppTheme.of(context).primaryColor),
+                                tooltip: 'Full Screen',
+                                color: AppTheme.of(context).primaryColor,
+                                onPressed: () async {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                          backgroundColor: Colors.transparent,
+                                          shadowColor: Colors.transparent,
+                                          content: SizedBox(
+                                            width: width * 1000,
+                                            height: height * 1000,
+                                            child: PdfView(
+                                              backgroundDecoration:
+                                                  const BoxDecoration(
+                                                color: Colors.transparent,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(21),
+                                                ),
+                                              ),
+                                              controller:
+                                                  provider.finalPdfController!,
+                                            ),
+                                          ));
+                                    },
+                                  );
+                                }),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: IconButton(
+                              icon: Icon(Icons.file_download_outlined,
+                                  color: AppTheme.of(context).primaryColor),
+                              tooltip: 'Download',
+                              color: AppTheme.of(context).primaryColor,
+                              onPressed: () {
+                                provider.descargarArchivo(provider.documento!,
+                                    '${provider.jsaGeneralInfo!.title}');
+                                // provider.anexo = true;
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      provider.finalPdfController == null
+                          ? const CircularProgressIndicator()
+                          : PdfFullSize(
+                              pdfController: provider.finalPdfController!,
+                            ),
+                    ],
+                  ),
+                ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                 ),
                 CustomCard(
                     title: "JSA TEMPLATE PREVIEW ",
                     height: MediaQuery.of(context).size.height * 0.3,
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Expanded(
-                      child: Container(
-                        color: Colors.green,
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 100,
-                              width: 100,
-                              color: Colors.blue,
-                            ),
-                            Column(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: Container(
+                      color: Colors.green,
+                      child: Row(
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            // width: MediaQuery.of(context).size.width * 0.3,
+                            width: 100,
+                            color: Colors.blue,
+                          ),
+                          Container(
+                            color: Colors.red,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Title : ",
                                     style: AppTheme.of(context).bodyText2),
@@ -102,9 +152,9 @@ class _CustomDocCreationFinalDocumentState
                                       fontSize: 18,
                                     ))
                               ],
-                            )
-                          ],
-                        ),
+                            ),
+                          )
+                        ],
                       ),
                     ))
               ],
@@ -135,154 +185,7 @@ class _CustomDocCreationFinalDocumentState
                 ),
               ),
             ),
-            // Row(
-            //   children: [
-            //     ElevatedButton(
-            //         onPressed: () {
-            //           provider.selectedTask = true;
-            //           provider.circleListTask = true;
-
-            //           print(provider.selectedTask);
-            //           provider.setButtonViewTaped(2);
-            //           provider.setIcons(2);
-            //           setState(() {});
-            //         },
-            //         child: Text("Back")),
-            //     // ElevatedButton(
-            //     //     onPressed: () {
-            //     //       provider.selectedTask = true;
-            //     //       provider.circleListTask = true;
-
-            //     //       print(provider.selectedTask);
-            //     //       provider.setButtonViewTaped(2);
-            //     //       provider.setIcons(2);
-            //     //       setState(() {});
-            //     //     },
-            //     //     child: Text("Next"))
-            //   ],
-            // ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class CustomDrop extends StatefulWidget {
-  final String title;
-  const CustomDrop({Key? key, required this.title});
-
-  @override
-  _CustomDropState createState() => _CustomDropState();
-}
-
-class _CustomDropState extends State<CustomDrop> {
-  @override
-  Widget build(BuildContext context) {
-    JsaProvider provider = Provider.of<JsaProvider>(context);
-
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            widget.title,
-            style: const TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.normal,
-              color: Color(0xFF737373),
-            ),
-          ),
-          const SizedBox(height: 8.0),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(color: const Color(0xFF335594), width: 1.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: DropdownButton(
-                value: text,
-                items: const [
-                  DropdownMenuItem(
-                    value: "CRY",
-                    child: Text("CRY"),
-                  ),
-                  DropdownMenuItem(
-                    value: "ODE",
-                    child: Text("ODE"),
-                  ),
-                  DropdownMenuItem(
-                    value: "SMI",
-                    child: Text("SMI"),
-                  ),
-                ],
-                onChanged: (value) {
-                  text = value.toString();
-                  companyController.text = text;
-                  print(companyController.text);
-                  provider.getListUsers(companyController.text);
-                  setState(() {});
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-String text = "CRY";
-
-class IconButtonCustom extends StatelessWidget {
-  const IconButtonCustom(
-      {super.key, this.icon, required this.selected, required this.circle});
-
-  final IconData? icon;
-  final bool selected;
-  final bool circle;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.1,
-          height: MediaQuery.of(context).size.height * 0.055,
-          padding: const EdgeInsets.all(5),
-          clipBehavior: Clip.antiAlias,
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  width: 1,
-                  color: circle ? const Color(0xFF335594) : Colors.transparent),
-              borderRadius: BorderRadius.circular(100),
-            ),
-          ),
-          child: Icon(
-            icon,
-            color: selected ? const Color(0xFF335594) : Colors.grey[500],
-            size: 24,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class IconButtonCustomDivisor extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 24.02,
-      decoration: const ShapeDecoration(
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            width: 1,
-            strokeAlign: BorderSide.strokeAlignCenter,
-            color: Color(0xFFB7B7B7),
-          ),
         ),
       ),
     );

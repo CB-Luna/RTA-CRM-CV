@@ -332,6 +332,8 @@ class _ControlMatrixPopupState extends State<ControlMatrixPopup> {
               InkWell(
                 onTap: () {
                   context.pop();
+                  widget.onRiskSelected(
+                      selectedLikelihood, selectedConsequence);
                   setState(() {});
                 },
                 child: Container(

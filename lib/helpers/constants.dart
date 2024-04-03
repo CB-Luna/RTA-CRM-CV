@@ -22,7 +22,7 @@ const redirectUrl =
     'https://supabase.cbluna-dev.com/arux-change-pass/#/change-password/token';
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 String urlNotifications = 'https://supa42.rtatel.com/notifications/api';
-const String configurator = 'https://cblsrvr404.rtatel.com';
+const String configurator = 'https://cblsrvr1.rtatel.com';
 String apiGatewayURL = "https://apps.cblsrv41.rtatel.com/wop_x2/api";
 String powercodeURL = "https://apps.cblsrv42.rtatel.com/planbuilder/api";
 

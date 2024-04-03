@@ -294,7 +294,6 @@ class _RiskMatrixPopupState extends State<RiskMatrixPopup> {
       actions: [
         TextButton(
           onPressed: () {
-            widget.onRiskSelected(selectedLikelihood, selectedConsequence);
             Navigator.of(context).pop();
           },
           child: Row(
@@ -331,6 +330,8 @@ class _RiskMatrixPopupState extends State<RiskMatrixPopup> {
               InkWell(
                 onTap: () {
                   context.pop();
+                  widget.onRiskSelected(
+                      selectedLikelihood, selectedConsequence);
                   setState(() {});
                 },
                 child: Container(
