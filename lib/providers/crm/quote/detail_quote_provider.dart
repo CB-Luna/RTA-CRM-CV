@@ -72,6 +72,7 @@ class DetailQuoteProvider extends ChangeNotifier {
     isLoading = false;
 
     id = 0;
+    titulo = '';
 
     notifyListeners();
   }
@@ -150,6 +151,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   List<GenericCat> handoffList = [GenericCat(name: 'New')];
   late String handoffSelectedValue;
   bool? powerMode;
+  late String titulo;
 
   List<Vendor> vendorsList = [Vendor(vendorName: 'ATT')];
   String vendorSelectedValue = '';
@@ -303,6 +305,11 @@ class DetailQuoteProvider extends ChangeNotifier {
       rackLocationController.text = quote.orderInfo!.rackLocation ?? '';
       handoffSelectedValue = quote.orderInfo!.handoff ?? '';
       powerMode = quote.orderInfo!.powerMode;
+       if (quote.demarcationUrl == null) {
+        titulo = '';
+      } else {
+        titulo = quote.demarcationUrl!.toString();
+      }
 
       ///////////////Circuit Info////////////////////////////////////////////////////////////////////
 
