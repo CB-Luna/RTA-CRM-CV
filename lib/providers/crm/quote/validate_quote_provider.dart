@@ -145,6 +145,8 @@ class ValidateQuoteProvider extends ChangeNotifier {
   final rackLocationController = TextEditingController();
   List<GenericCat> handoffList = [GenericCat(name: 'New')];
   late String handoffSelectedValue;
+  bool? powerMode;
+
   final demarcationPointController = TextEditingController();
 
   List<Vendor> vendorsList = [Vendor(vendorName: 'ATT')];
@@ -194,6 +196,11 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
   void selectHandoff(String selected) async {
     handoffSelectedValue = selected;
+    notifyListeners();
+  }
+
+  void selectPowerMode() {
+    powerMode = !powerMode!;
     notifyListeners();
   }
 
@@ -712,6 +719,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "new_circuit_id":
                 typesList[typesList.map((type) => type.name!).toList().indexWhere((element) => element.startsWith(typesSelectedValue))].parameters!.newCircuitId! ? newCircuitIDController.text : null,
             "bandwidth": null, //bandwidthController.text,
+            "power_mode": powerMode! ? "DC" : "AC",
           }).eq('id', quote.idOrders!);
 
           await supabaseCRM.from('leads_history').insert({
@@ -878,6 +886,8 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
       addressController.text = quote.orderInfo!.address!;
 
+      demarcationPointController.text = quote.orderInfo!.demarcationPoint ?? '';
+
       if (quote.orderInfo!.dataCenterType == 'New') {
         dataCenterSelectedValue = 'New';
         newDataCenterController.text = quote.orderInfo!.dataCenterLocation!;
@@ -886,8 +896,14 @@ class ValidateQuoteProvider extends ChangeNotifier {
       }
 
       //rackLocationController.text = quote.orderInfo!.rackLocation ?? '';
+
       handoffSelectedValue = quote.orderInfo!.handoff ?? '';
-      demarcationPointController.text = quote.orderInfo!.demarcationPoint ?? '';
+
+      if (currentUser!.isOpperations) {
+        powerMode = false;
+      } else {
+        powerMode = quote.orderInfo!.powerMode;
+      }
 
       ///////////////Circuit Info////////////////////////////////////////////////////////////////////
 

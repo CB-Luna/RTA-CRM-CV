@@ -28,6 +28,7 @@ class OrdersProvider extends ChangeNotifier {
   final cirSelectedValue = TextEditingController();
   final handoffSelectedValue = TextEditingController();
   final demarcationPointController = TextEditingController();
+  final powermodeController = TextEditingController();
   //final rackLocationController = TextEditingController();
   final detailController = TextEditingController();
   //final bandwidthController = TextEditingController();
@@ -56,6 +57,7 @@ class OrdersProvider extends ChangeNotifier {
     cirSelectedValue.clear();
     handoffSelectedValue.clear();
     demarcationPointController.clear();
+    powermodeController.clear();
     //rackLocationController.clear();
     detailController.clear();
     //bandwidthController.clear();
@@ -108,6 +110,7 @@ class OrdersProvider extends ChangeNotifier {
         detailController.text = quote.comments!.first.comment!; //quote.description!;
       }
       dataCenterSelectedValue.text = quote.orderInfo!.dataCenterLocation!;
+      powermodeController.text = quote.orderInfo!.powerMode! ? 'DC' : 'AC';
     } catch (e) {
       log('Error en GetData() - $e');
     }
