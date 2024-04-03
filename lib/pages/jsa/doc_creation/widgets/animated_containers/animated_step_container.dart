@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, duplicate_ignore
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../../providers/jsa/jsa_provider.dart';
@@ -118,94 +120,92 @@ class _AnimatedStepContainerState extends State<AnimatedStepContainer> {
           ),
 
           // Second Row (Additional content when the container is open)
-          if (isContainerOpen)
-            Container(
-              height: MediaQuery.of(context).size.height * 0.145,
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: jsaProvider.jsa.jsaStepsJson!.length,
-                itemBuilder: (context, i) => Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.02,
-                      child: const Icon(
-                        Icons.more_vert_outlined,
-                        color: Color(0xFF335594),
-                        size: 24,
-                      ),
+          // if (isContainerOpen)
+          Container(
+            height: MediaQuery.of(context).size.height * 0.145,
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: jsaProvider.jsa.jsaStepsJson!.length,
+              itemBuilder: (context, i) => Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.02,
+                    child: const Icon(
+                      Icons.more_vert_outlined,
+                      color: Color(0xFF335594),
+                      size: 24,
                     ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.26,
-                            child: Text(
-                              jsaProvider.jsa.jsaStepsJson!.isEmpty
-                                  ? ""
-                                  : jsaProvider.jsa.jsaStepsJson![i].title,
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.grey[600],
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Outfit',
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.26,
+                          child: Text(
+                            jsaProvider.jsa.jsaStepsJson!.isEmpty
+                                ? ""
+                                : jsaProvider.jsa.jsaStepsJson![i].title,
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Outfit',
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.26,
-                            child: Text(
-                              jsaProvider.jsa.jsaStepsJson!.isEmpty
-                                  ? ""
-                                  : jsaProvider
-                                          .jsa.jsaStepsJson![i].description ??
-                                      "",
-                              style: const TextStyle(
-                                fontSize: 15.0,
-                                color: Color(0xFF335594),
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Outfit',
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.26,
+                          child: Text(
+                            jsaProvider.jsa.jsaStepsJson!.isEmpty
+                                ? ""
+                                : jsaProvider.jsa.jsaStepsJson![i].description,
+                            style: const TextStyle(
+                              fontSize: 15.0,
+                              color: Color(0xFF335594),
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Outfit',
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.remove,
-                        color: Color(0xFF335594),
-                      ),
-                      onPressed: () {
-                        showDeleteConfirmation(
-                            context, jsaProvider.jsa.jsaStepsJson![i].id!);
-                      },
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.remove,
+                      color: Color(0xFF335594),
                     ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.edit_document,
-                        color: Color(0xFF335594),
-                      ),
-                      onPressed: () {
-                        editStep = true;
-                        print(jsaProvider.jsa.jsaStepsJson![i]);
-                        id = jsaProvider.jsa.jsaStepsJson![i].id!;
-                        stepNameController.text =
-                            jsaProvider.jsa.jsaStepsJson![i].title;
-                        stepDescriptionController.text =
-                            jsaProvider.jsa.jsaStepsJson![i].description;
-                        _showPopup(context);
-                      },
+                    onPressed: () {
+                      showDeleteConfirmation(
+                          context, jsaProvider.jsa.jsaStepsJson![i].id!);
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.edit_document,
+                      color: Color(0xFF335594),
                     ),
-                  ],
-                ),
+                    onPressed: () {
+                      editStep = true;
+                      print(jsaProvider.jsa.jsaStepsJson![i]);
+                      id = jsaProvider.jsa.jsaStepsJson![i].id!;
+                      stepNameController.text =
+                          jsaProvider.jsa.jsaStepsJson![i].title;
+                      stepDescriptionController.text =
+                          jsaProvider.jsa.jsaStepsJson![i].description;
+                      _showPopup(context);
+                    },
+                  ),
+                ],
               ),
             ),
+          ),
         ],
       ),
     );
@@ -223,6 +223,8 @@ _showPopup(BuildContext context) {
 
 class CustomPopup extends StatefulWidget {
   late ScrollController sController;
+
+  CustomPopup({super.key});
 
   @override
   _CustomPopupState createState() => _CustomPopupState();

@@ -41,7 +41,7 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
       final JsaProvider jsaProvider =
           Provider.of<JsaProvider>(context, listen: false);
 
-      jsaProvider.createJsaGeneralInfo("", "", "");
+      jsaProvider.createJsaGeneralInfo("", "", "", []);
     });
   }
 
@@ -96,8 +96,11 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
             onTap: () {
               provider.setButtonViewTaped(1);
               provider.setIcons(1);
-              provider.createJsaGeneralInfo(companyController.text,
-                  titleController.text, taskController.text);
+              provider.createJsaGeneralInfo(
+                  companyController.text,
+                  titleController.text,
+                  taskController.text,
+                  provider.jsaGeneralInfo!.teamMembers!);
 
               setState(() {});
             },
