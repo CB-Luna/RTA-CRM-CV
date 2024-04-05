@@ -245,6 +245,22 @@ class _ValidateQuotePageState extends State<ValidateQuotePage> {
                                               label: 'Handoff',
                                             ),
                                           ),
+                                          if (provider.powerMode != null)
+                                            Padding(
+                                              padding: const EdgeInsets.only(bottom: 10),
+                                              child: CustomSwitch(
+                                                enabled: currentUser!.isOpperations,
+                                                iconOn: Icons.lightbulb_circle,
+                                                optOn: 'DC',
+                                                iconOff: Icons.lightbulb_circle_outlined,
+                                                optOff: 'AC',
+                                                value: provider.powerMode!,
+                                                label: 'Power Mode',
+                                                onChanged: (p0) {
+                                                  provider.selectPowerMode();
+                                                },
+                                              ),
+                                            ),
                                         ],
                                       ),
                                     ),
@@ -1327,14 +1343,14 @@ class _CommentsSectionState extends State<CommentsSection> {
                                     padding: const EdgeInsets.all(5),
                                     child: CustomScrollBar(
                                       scrollDirection: Axis.vertical,
-                                      child: Text(provider.comments[index].comment!),
+                                      child: SelectableText(provider.comments[index].comment!),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Text(
+                          SelectableText(
                             dateFormat(provider.comments[index].sended, true),
                             style: AppTheme.of(context).hintText,
                           )

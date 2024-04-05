@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/models/jsa/jsa_general_information.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 
+import '../../../../models/user.dart';
 import '../../../../providers/jsa/jsa_provider.dart';
 
 class TeamMemberList extends StatefulWidget {
@@ -14,14 +15,20 @@ class TeamMemberList extends StatefulWidget {
 }
 
 class _TeamMemberListState extends State<TeamMemberList> {
+  List<User> membersSelection = [];
+
+  @override
+  void initState() {
+    super.initState();
+    membersSelection = [];
+  }
+
   @override
   Widget build(BuildContext context) {
-    var membersSelection = [];
-
     TeamMembers teamMember = TeamMembers(name: "", role: "", pic: "", id: "");
 
     JsaProvider provider = Provider.of<JsaProvider>(context);
-    membersSelection = List.filled(provider.users.length, false);
+    // membersSelection = List.filled(provider.users.length, false);
 
     return Container(
       color: Colors.transparent,
@@ -77,87 +84,88 @@ class _TeamMemberListState extends State<TeamMemberList> {
               ),
             ],
           ),
-          SingleChildScrollView(
-            child: Column(
-              children: List.generate(provider.users.length, (index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.02,
-                        child: Checkbox(
-                          activeColor: const Color(0xFF335594),
-                          value: membersSelection[index],
-                          // Set the initial value as per your requirement
-                          onChanged: (bool? value) {
-                            print(provider.users[index].name);
-                            setState(() {
-                              membersSelection[index] =
-                                  !membersSelection[index];
-                              print("memberSelection: ${value}");
-                            });
-                            if (membersSelection[index] == true) {
-                              teamMember = TeamMembers(
-                                  name: provider.users[index].name,
-                                  role: provider.users[index].currentAppRole,
-                                  id: provider.users[index].id,
-                                  pic: provider.users[index].image);
-                              provider.addTeamMembers(teamMember);
-                            } else {
-                              provider.deleteTeamMembers(
-                                  provider.users[index].id.toString());
-                            }
-                            // Handle checkbox state changes here
-                          },
-                        ),
-                      ),
-                      // Profile Picture Placeholder
-                      // Container(
-                      //   width: MediaQuery.of(context).size.width * 0.02,
-                      //   child: const CircleAvatar(
-                      //     radius: 20, // Adjust the size as needed
-                      //     backgroundColor: Colors.grey, // Placeholder color
-                      //     backgroundImage:
-                      //         AssetImage('assets/images/avatar2.png'),
-                      //   ),
-                      // ),
-                      // User Name Placeholder
-                      Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width * 0.04,
-                        child: Text(
-                          provider.users[index].fullName,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontFamily: "Outfit",
-                            color: Color(0xFF335594),
-                          ),
-                          // overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      // User Role Placeholder
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width * 0.04,
-                          child: Text(
-                            provider.users[index].currentAppRole,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontFamily: "Outfit",
-                              color: Color(0xFF335594),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.3,
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: Builder(builder: (context) {
+              return ListView.builder(
+                  itemCount: provider.users.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final user = provider.users[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02,
+                            child: Checkbox(
+                              activeColor: const Color(0xFF335594),
+                              value: membersSelection.contains(user),
+                              // Set the initial value as per your requirement
+                              onChanged: (bool? value) {
+                                if (value == true) {
+                                  membersSelection.add(user);
+                                  teamMember = TeamMembers(
+                                      name: user.name,
+                                      role: user.currentAppRole,
+                                      id: user.id,
+                                      pic: user.image);
+                                  provider.addTeamMembers(teamMember);
+                                } else {
+                                  membersSelection.remove(user);
+                                  provider.deleteTeamMembers(
+                                      provider.users[index].id.toString());
+                                }
+                                // Handle checkbox state changes here
+                              },
                             ),
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
+                          // Profile Picture Placeholder
+                          // Container(
+                          //   width: MediaQuery.of(context).size.width * 0.02,
+                          //   child: const CircleAvatar(
+                          //     radius: 20, // Adjust the size as needed
+                          //     backgroundColor: Colors.grey, // Placeholder color
+                          //     backgroundImage:
+                          //         AssetImage('assets/images/avatar2.png'),
+                          //   ),
+                          // ),
+                          // User Name Placeholder
+                          Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width * 0.04,
+                            child: Text(
+                              user.fullName,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontFamily: "Outfit",
+                                color: Color(0xFF335594),
+                              ),
+                              // overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          // User Role Placeholder
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width * 0.04,
+                              child: Text(
+                                user.currentAppRole,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: "Outfit",
+                                  color: Color(0xFF335594),
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              }),
-            ),
+                    );
+                  });
+            }),
           ),
         ],
       )),
