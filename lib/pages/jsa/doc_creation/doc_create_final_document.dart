@@ -115,43 +115,100 @@ class _CustomDocCreationFinalDocumentState
                     height: MediaQuery.of(context).size.height * 0.3,
                     width: MediaQuery.of(context).size.width * 0.3,
                     child: Container(
-                      color: Colors.green,
                       child: Row(
                         children: [
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
+                            color: Colors.grey,
+                            height: MediaQuery.of(context).size.height * 0.2,
                             // width: MediaQuery.of(context).size.width * 0.3,
-                            width: 100,
-                            color: Colors.blue,
+                            width: MediaQuery.of(context).size.height * 0.2,
+                            child: provider.finalPdfController == null
+                                ? const CircularProgressIndicator()
+                                : PdfView(
+                                    pageSnapping: false,
+                                    scrollDirection: Axis.vertical,
+                                    physics: const BouncingScrollPhysics(),
+                                    renderer: (PdfPage page) {
+                                      if (page.width >= page.height) {
+                                        return page.render(
+                                          width: page.width * 7,
+                                          height: page.height * 4,
+                                          format: PdfPageImageFormat.jpeg,
+                                          backgroundColor: '#15FF0D',
+                                        );
+                                      } else if (page.width == page.height) {
+                                        return page.render(
+                                          width: page.width * 4,
+                                          height: page.height * 4,
+                                          format: PdfPageImageFormat.jpeg,
+                                          backgroundColor: '#15FF0D',
+                                        );
+                                      } else {
+                                        return page.render(
+                                          width: page.width * 4,
+                                          height: page.height * 7,
+                                          format: PdfPageImageFormat.jpeg,
+                                          backgroundColor: '#15FF0D',
+                                        );
+                                      }
+                                    },
+                                    controller: provider.finalPdfController!,
+                                    onDocumentLoaded: (document) {},
+                                    onPageChanged: (page) {},
+                                    onDocumentError: (error) {},
+                                  ),
                           ),
-                          Container(
-                            color: Colors.red,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Title : ",
-                                    style: AppTheme.of(context).bodyText2),
-                                Text(
-                                    provider.jsaGeneralInfo?.title ?? "No Name",
-                                    style: TextStyle(
-                                      fontFamily: 'Gotham-Light',
-                                      color: AppTheme.of(context).cryPrimary,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 18,
-                                    )),
-                                Text("Task: ",
-                                    style: AppTheme.of(context).bodyText2),
-                                Text(
-                                    provider.jsaGeneralInfo?.taskName ??
-                                        "No Task",
-                                    style: TextStyle(
-                                      fontFamily: 'Gotham-Light',
-                                      color: AppTheme.of(context).cryPrimary,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 18,
-                                    ))
-                              ],
+                          Expanded(
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.2,
+                              alignment: Alignment.topCenter,
+                              child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Title : ",
+                                      style: TextStyle(
+                                        fontFamily: 'Gotham-Light',
+                                        color: AppTheme.of(context).cryPrimary,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 18,
+                                      )),
+                                  Text(
+                                      provider.jsaGeneralInfo?.title ??
+                                          "No Name",
+                                      style: TextStyle(
+                                        fontFamily: 'Gotham-Light',
+                                        color: AppTheme.of(context).odePrimary,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 18,
+                                      )),
+                                  Text("Task: ",
+                                      style: TextStyle(
+                                        fontFamily: 'Gotham-Light',
+                                        color: AppTheme.of(context).cryPrimary,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 18,
+                                      )),
+                                  Text(
+                                      provider.jsaGeneralInfo?.taskName ??
+                                          "No Task",
+                                      style: TextStyle(
+                                        fontFamily: 'Gotham-Light',
+                                        color: AppTheme.of(context).cryPrimary,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 18,
+                                      )),
+                                  Text("Creation Date: ",
+                                      style: TextStyle(
+                                        fontFamily: 'Gotham-Light',
+                                        color: AppTheme.of(context).cryPrimary,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 18,
+                                      )),
+                                  Text(provider.date.toString(),
+                                      style: AppTheme.of(context).bodyText2)
+                                ],
+                              ),
                             ),
                           )
                         ],

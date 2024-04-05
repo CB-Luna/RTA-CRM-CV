@@ -24,7 +24,8 @@ class JsaProvider extends ChangeNotifier {
   String? companySelected;
   JsaGeneralInfo get jsa => jsaGeneralInfo!;
   final searchController = TextEditingController();
-
+  String? compareRiskTitle;
+  int risksLength = 0;
   // Valores JSA
   bool selectedList = true;
   bool circleList = true;
@@ -34,6 +35,8 @@ class JsaProvider extends ChangeNotifier {
   bool circleResume = false;
   bool selectedFinal = false;
   bool circleFinal = false;
+  bool editControl = false;
+
   int stepperTaped = 0;
   // int buttonViewTaped = 0;
   int buttonViewTaped = 0;
@@ -48,6 +51,7 @@ class JsaProvider extends ChangeNotifier {
   // PDF Data
   PdfController? finalPdfController;
   Uint8List? documento;
+  final date = DateTime.now();
 
   final borderStyle = const pw.BorderSide(width: 1);
   final columnWidths = {
@@ -102,6 +106,21 @@ class JsaProvider extends ChangeNotifier {
     stepperTaped = index;
     notifyListeners();
   }
+  // Add Risk
+  // Future<void> addRisk(){
+  //   try{
+
+  //      if (editControl == false) {
+  //     jsaProvider.addJsaRisks(controlNameController.text, widget.stepId);
+  //   } else {
+  //     //agregar funcionalidad edit risks
+  //     jsaProvider.editJsaRisk(compareRiskTitle.toString(),
+  //         widget.stepId.toString(), controlNameController.text);
+  //   }
+  //   }catch(e){
+  //     print("Error in AddRisk() - $e")
+  //   }
+  // }
 
   void createJsaGeneralInfo(String? company, String? title, String? taskName,
       List<TeamMembers> list) {
@@ -144,13 +163,18 @@ class JsaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addJsaRisks(String title, String stepId) {
+  Future<void> addJsaRisks(String title, String stepId) async {
     jsaGeneralInfo!.jsaStepsJson!.forEach((element) {
       if (element.id == stepId) {
         element.risks.add(Risks(title: title));
       }
     });
+    print("AddJSARISK");
+    JsaStepsJson? matchingStep =
+        jsa.jsaStepsJson!.firstWhere((step) => step.id == stepId);
 
+// Get the length of risks if a matching step is found, otherwise set to 0
+    risksLength = matchingStep.risks.length;
     notifyListeners();
   }
 
@@ -383,13 +407,12 @@ class JsaProvider extends ChangeNotifier {
 
   Future<PdfController> clientPDF(JsaProvider jsa) async {
     finalPdfController = null;
-    notifyListeners();
+    // notifyListeners();
     final logo = (await rootBundle.load('assets/images/rta_logo.png'))
         .buffer
         .asUint8List();
 
     final pdf = pw.Document();
-    final date = DateTime.now();
 
     int step = jsa.jsaGeneralInfo!.jsaStepsJson!.length;
     final generalInfo = jsa.jsaGeneralInfo;

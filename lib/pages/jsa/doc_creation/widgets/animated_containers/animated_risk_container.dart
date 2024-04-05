@@ -104,7 +104,7 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                         ),
                       ),
                     ),
-
+                    // Boton para ver la matriz de riesgo
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -144,12 +144,26 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                             ),
                           ),
                         ),
+                        // Aqui es para agregar un risk
                         IconButton(
                           icon: const Icon(
                             Icons.remove_red_eye,
                             color: Color(0xFF335594),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            // await showDialog(
+                            //     context: context,
+                            //     builder: (BuildContext context) {
+                            //       return StatefulBuilder(
+                            //           builder: (context, setState) {
+                            //         return showRiskPopup(
+                            //             title: jsaProvider
+                            //                 .jsa.jsaStepsJson![i].title,
+                            //             stepId: jsaProvider
+                            //                 .jsa.jsaStepsJson![i].id
+                            //                 .toString());
+                            //       });
+                            //     });
                             showRiskPopup(
                                 context,
                                 jsaProvider.jsa.jsaStepsJson![i].title,
