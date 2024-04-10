@@ -398,6 +398,7 @@ class QuotesProvider extends ChangeNotifier {
               'ACTIONS_Column': PlutoCell(value: null),
               'ID_LEAD_Column': PlutoCell(value: null),
               'X2_QUOTE_Column': PlutoCell(value: quote.x2Quoteid),
+              'ACTIONS': PlutoCell(value: ''),
             },
           ),
         );
@@ -505,6 +506,15 @@ class QuotesProvider extends ChangeNotifier {
     } catch (e) {
       log('Error insertPowerCode() - $e');
       return false;
+    }
+  }
+
+  Future<void> deleteDraft(int id) async {
+    try {
+      await supabaseCRM.from('x2_quotes').delete().eq('id', id);
+      notifyListeners();
+    } catch (e) {
+      log('Error deleteDraft() - $e');
     }
   }
 
