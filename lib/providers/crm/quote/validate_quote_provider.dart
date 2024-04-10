@@ -21,6 +21,8 @@ import 'package:rta_crm_cv/pages/crm/accounts/models/orders.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
+import 'package:http/http.dart' as http;
+
 class ValidateQuoteProvider extends ChangeNotifier {
   ValidateQuoteProvider() {
     realTimeSuscription();
@@ -206,7 +208,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
 
 //////////////////////////////////////////////////
   //operations a sen exec y fiananzas
-  Future<bool> operationAcceptsQuoteSenExec() async {
+  /* Future<bool> operationAcceptsQuoteSenExec() async {
     try {
       final res = await supabase.rpc('get_correo', params: {"role_id": 9});
       if (res == null) {
@@ -506,10 +508,10 @@ class ValidateQuoteProvider extends ChangeNotifier {
       notifyListeners();
       return false;
     }
-  }
+  } */
 
 ////////Reject QUotes
-  Future<bool> senExecRejectsQuote() async {
+  /* Future<bool> senExecRejectsQuote() async {
     try {
       final res = await supabase.rpc('get_correo', params: {"role_id": 6});
       if (res == null) {
@@ -634,7 +636,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
       notifyListeners();
       return false;
     }
-  }
+  } */
 
 ////////////////////////////////////////////////////
 /* 
@@ -697,9 +699,12 @@ class ValidateQuoteProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
+
+      callAirflow(validate);
+
       if (validate) {
         if (currentUser!.isOpperations) {
-          if (margin >= 20) {
+          /* if (margin >= 20) {
             await updateRegister(3, quote.quoteid!); //Finance Validate
             await operationAcceptsQuoteFinance(); //operations a finance
             await opperationsAcceptQuoteSales(); //operations a sales
@@ -707,7 +712,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
             await updateRegister(2, quote.quoteid!); //Sen. Exec. Validate
             await operationAcceptsQuoteSenExec(); //operations a senExec
             await opperationsAcceptQuoteSales(); //Operations a senExec
-          }
+          } */
 
           await supabaseCRM.from('order_info').update({
             "handoff": handoffSelectedValue,
@@ -725,15 +730,15 @@ class ValidateQuoteProvider extends ChangeNotifier {
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,
             "action": 'UPDATE',
-            "description": 'Quote validated by Opperations',
-            "table": 'x2_quotes',
-            "id_table": quote.quoteid,
+            "description": 'Order Updated by Engineering',
+            "table": 'order_info',
+            "id_table": quote.idOrders!,
             "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
         } else if (currentUser!.isSenExec) {
-          await updateRegister(7, quote.quoteid!); //Approved
+          /* await updateRegister(7, quote.quoteid!); //Approved
           await senExecAcceptsQuote(); //senExec a finances
-          await senExecAcceptsQuoteSales(); //senExec a sales
+          await senExecAcceptsQuoteSales(); //senExec a sales */
 
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,
@@ -744,8 +749,8 @@ class ValidateQuoteProvider extends ChangeNotifier {
             "name": "${currentUser!.name} ${currentUser!.lastName}"
           });
         } else if (currentUser!.isFinance) {
-          await updateRegister(7, quote.quoteid!); //Approved
-          await financeAcceptsQuoteSales(); //finances a sales
+          /* await updateRegister(7, quote.quoteid!); //Approved
+          await financeAcceptsQuoteSales(); //finances a sales */
 
           await supabaseCRM.from('leads_history').insert({
             "user": currentUser!.id,
@@ -759,22 +764,22 @@ class ValidateQuoteProvider extends ChangeNotifier {
         returning = true;
       } else {
         //Rejected
-        await updateRegister(5, quote.quoteid!);
+        /* await updateRegister(5, quote.quoteid!);
         if (currentUser!.isSenExec) {
           await senExecRejectsQuote();
         } else if (currentUser!.isFinance) {
           await financeRejectsQuote();
         } else {
           await opperationsRejectsQuote();
-        }
+        } */
 
-        await supabaseCRM.from('order_info').update({
+        /* await supabaseCRM.from('order_info').update({
           "handoff": handoffSelectedValue,
           "rack_location": rackLocationController.text,
           //"demarcation_point": demarcationPointController.text,
           "existing_circuit_id": existingCircuitIDController.text,
           "new_circuit_id": newCircuitIDController.text,
-        }).eq('id', quote.idOrders!);
+        }).eq('id', quote.idOrders!); */
 
         await supabaseCRM.from('leads_history').insert({
           "user": currentUser!.id,
@@ -796,12 +801,41 @@ class ValidateQuoteProvider extends ChangeNotifier {
     return returning;
   }
 
-  Future<void> updateRegister(int idStatus, int quoteId) async {
+  Future<void> callAirflow(bool validated) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $airflowPW',
+    };
+    var request = http.Request('POST', Uri.parse('$airflowURL/quote_validate_v1/dagRuns'));
+    request.body = json.encode({
+      "conf": {
+        "x2_quote_id": quote.quoteid,
+        "x2_quote_name": quote.quote,
+        "x2_quote_account": quote.account,
+        if (currentUser!.isOpperations) "margin": margin,
+        "id_status": quote.idStatus,
+        "currentUserId": currentUser!.id,
+        "currentUserFullName": currentUser!.fullName,
+        "validated": validated,
+      },
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      log(await response.stream.bytesToString());
+    } else {
+      log(response.reasonPhrase!);
+    }
+  }
+
+  /* Future<void> updateRegister(int idStatus, int quoteId) async {
     await supabaseCRM.rpc(
       'update_quote_status',
       params: {"id_status": idStatus, "id": quoteId, "user_uuid": currentUser!.id}, //Network Cross Connected
     );
-  }
+  } */
 
   Future<bool> getCatalogData() async {
     try {
