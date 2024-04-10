@@ -1,8 +1,14 @@
+// ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables, unused_local_variable
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabaseFlutter;
 
+import '../../../helpers/constants.dart';
 import '../../../providers/jsa/jsa_provider.dart';
 import '../../../theme/theme.dart';
 import 'widgets/pdf_full_size.dart';
@@ -216,32 +222,117 @@ class _CustomDocCreationFinalDocumentState
                     ))
               ],
             ),
-            InkWell(
-              onTap: () {
-                provider.setButtonViewTaped(2);
-                provider.setIcons(2);
-                setState(() {});
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.04,
-                margin: const EdgeInsets.all(10),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: AppTheme.of(context).cryPrimary,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.arrow_left_outlined,
-                      color: Colors.white,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    provider.setButtonViewTaped(2);
+                    provider.setIcons(2);
+                    setState(() {});
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.04,
+                    margin: const EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: AppTheme.of(context).cryPrimary,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.arrow_left_outlined,
+                          color: Colors.white,
+                        ),
+                        Text("Previous", style: AppTheme.of(context).subtitle2),
+                      ],
                     ),
-                    Text("Previous", style: AppTheme.of(context).subtitle2),
-                  ],
+                  ),
                 ),
-              ),
-            ),
+                InkWell(
+                  onTap: () async {
+                    // provider.setButtonViewTaped(2);
+                    // provider.setIcons(2);
+                    //PDF
+                    var pdfDesglose =
+                        await provider.finalPdfController!.document;
+
+                    Map<String, dynamic> risksData = {};
+                    var stepResponse;
+                    var teamResponse;
+
+                    int company = 1000;
+
+                    // Subir el JSA
+                    supabaseFlutter.PostgrestList response =
+                        await provider.mainUpload(provider, company);
+                    //STEPS
+                    for (int i = 0;
+                        i < provider.jsa.jsaStepsJson!.length;
+                        i++) {
+                      stepResponse = await provider.stepUpload(
+                          provider, i, response, stepResponse);
+                      //RISKS
+                      for (int x = 0;
+                          x < provider.jsa.jsaStepsJson![i].risks.length;
+                          x++) {
+                        await provider.riskUpload(provider, i, x, stepResponse);
+                      }
+                      // Controls
+                      for (int x = 0;
+                          x < provider.jsa.jsaStepsJson![i].controls.length;
+                          x++) {
+                        await provider.controlUpload(
+                            provider, i, x, stepResponse);
+                      }
+                    }
+
+                    //DOCUMENT
+                    var uploadCorrect = await provider.uploadDocument(
+                      currentUser!.sequentialId,
+                      response[0]['id'],
+                    );
+                    // //USERS
+                    if (uploadCorrect) {
+                      for (int i = 0;
+                          i < provider.jsa.teamMembers!.length;
+                          i++) {
+                        teamResponse = await provider.teamUpload(
+                            provider, i, response, teamResponse);
+
+                        await provider.linkTemplateMembers(
+                            provider.jsa.teamMembers![i].id.toString(),
+                            response[0]['id']);
+                      }
+                    }
+                    context.pushReplacement(routeJSADochument);
+
+                    setState(() {});
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.04,
+                    margin: const EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: AppTheme.of(context).cryPrimary,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.arrow_left_outlined,
+                          color: Colors.white,
+                        ),
+                        Text("Submit", style: AppTheme.of(context).subtitle2),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),

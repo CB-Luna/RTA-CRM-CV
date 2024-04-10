@@ -43,11 +43,12 @@ class _TeamMemberListState extends State<TeamMemberList> {
               height: 35,
               width: 500,
               enabled: true,
-              controller: provider.searchController,
+              controller: provider.searchUserController,
               icon: Icons.search,
               label: 'Search',
               keyboardType: TextInputType.text,
               onChanged: (String query) async {
+                provider.filterUsers(query);
                 // provider.filterDocuments(query);
                 // provider.updateState();
               },

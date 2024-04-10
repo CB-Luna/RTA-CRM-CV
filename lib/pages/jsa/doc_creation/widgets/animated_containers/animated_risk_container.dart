@@ -74,7 +74,7 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                     // Menu Icon
                     Container(
                       alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.05,
                       child: Text(
                         jsaProvider.jsa.jsaStepsJson![i].title.toString(),
                         style: const TextStyle(
@@ -88,7 +88,7 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                     ),
                     // Text "Steps"
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.05,
                       alignment: Alignment.center,
                       child: Text(
                         jsaProvider.jsa.jsaStepsJson![i].risks.isEmpty
@@ -114,6 +114,8 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                               jsaProvider.jsa.jsaStepsJson![i].id.toString(),
                               jsaProvider),
                           child: Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width * 0.04,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
                               border: Border.all(

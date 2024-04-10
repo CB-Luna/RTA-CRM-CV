@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -5,8 +7,11 @@ import 'package:pdf/widgets.dart' as pw;
 
 import 'package:flutter/material.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/models/jsa/data_jsa_view.dart';
+import 'package:rta_crm_cv/models/jsa/risk_control_model.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/doc_create_final_document.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/doc_create_task_risk_control.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabaseFlutter;
 import 'package:uuid/uuid.dart';
 import 'package:pdfx/pdfx.dart';
 
@@ -24,8 +29,19 @@ class JsaProvider extends ChangeNotifier {
   String? companySelected;
   JsaGeneralInfo get jsa => jsaGeneralInfo!;
   final searchController = TextEditingController();
+  final searchUserController = TextEditingController();
+  TextEditingController companyController = TextEditingController();
+  DateTime today = DateTime.now();
+  String? tiempo = '';
   String? compareRiskTitle;
   int risksLength = 0;
+
+  // Techinician JSA
+  DataJSAView? dataJSAView;
+  List<RiskControlModel> risks = [];
+  List<RiskControlModel> controls = [];
+  List<int> stepsId = [];
+
   // Valores JSA
   bool selectedList = true;
   bool circleList = true;
@@ -200,6 +216,49 @@ class JsaProvider extends ChangeNotifier {
     } catch (e) {
       print('Error en getListUsers() - $e');
     }
+    notifyListeners();
+  }
+
+  // Filtrar usuarios en seleccionar
+  Future<void> filterUsers(String query) async {
+    if (searchUserController.text.isEmpty) {
+      // if (currentUser!.isManagerJSA) {
+      final res = await supabase
+          .from('users')
+          .select()
+          .eq('company->>company', companyController.text);
+      // .eq('company->>company', company);
+      if (res == null) {
+        print('Error en filterUsers()');
+        return;
+      }
+      users = (res as List<dynamic>)
+          .map((usuario) => User.fromMap(usuario))
+          .toList();
+      users = users
+          .where((user) => user.roles.any((role) =>
+              role.application == currentUser!.currentRole.application))
+          .toList();
+    } else {
+      // listJSA = listJSA
+      //     .where((elemento) =>
+      //         elemento.title != null &&
+      //         elemento.title!
+      //             .toLowerCase()
+      //             .contains(searchController.text.toLowerCase()))
+      //     .toList();
+      print("searchUserController: ${searchUserController.text}");
+      users = users
+          .where((elemento) => elemento.fullName
+              .toLowerCase()
+              // elemento.lastName
+              //     .toLowerCase()
+              .contains(searchUserController.text.toLowerCase()))
+          .toList();
+    }
+
+    print(
+        "La lista users con nombre ${searchUserController.text}: ${users.length}");
     notifyListeners();
   }
 
@@ -405,6 +464,194 @@ class JsaProvider extends ChangeNotifier {
     }
   }
 
+  // MainUpload
+  Future<supabaseFlutter.PostgrestList> mainUpload(
+      JsaProvider jsaProvider, int company) async {
+    switch (jsaProvider.jsa.company) {
+      case "CRY":
+        company = 1;
+        break;
+      case "ODE":
+        company = 2;
+        break;
+      case "SMI":
+        company = 3;
+        break;
+      case "RTA":
+        company = 4;
+        break;
+    }
+    Map<String, dynamic> mainData = {
+      'title': jsaProvider.jsa.title,
+      'task': jsaProvider.jsa.taskName,
+      'company_fk': company,
+      'user_fk': currentUser!.id,
+      'status': 1,
+      //traer foraneas
+    };
+    final response = await supabaseJsa
+        .from('job_safety_app')
+        .insert(mainData)
+        .select<supabaseFlutter.PostgrestList>('id');
+
+    if (response == null) {
+      print('Error inserting MAIN data: ${response.toString()}');
+    } else {
+      print('MAIN Data inserted successfully!');
+    }
+    return response;
+  }
+
+  // // Upload Steps
+  Future<dynamic> stepUpload(JsaProvider jsaProvider, int i,
+      supabaseFlutter.PostgrestList response, stepResponse) async {
+    try {
+      Map<String, dynamic> stepData = {
+        'title': jsaProvider.jsa.jsaStepsJson![i].title,
+        'risk_level': int.parse(
+            jsaProvider.jsa.jsaStepsJson![i].riskLevel!.substring(0, 1)),
+        'control_level': int.parse(
+            jsaProvider.jsa.jsaStepsJson![i].controlLevel!.substring(0, 1)),
+        'description': jsaProvider.jsa.jsaStepsJson![i].description,
+        'jsa_fk': response[0]['id'],
+        //traer foranea de risks y control
+      };
+      stepResponse = await supabaseJsa
+          .from('step')
+          .insert(stepData)
+          .select<supabaseFlutter.PostgrestList>('id');
+
+      if (stepResponse == null) {
+        print('Error inserting STEP data: ${stepResponse.toString()}');
+      } else {
+        print('STEP Data inserted successfully!');
+      }
+      return stepResponse;
+    } catch (e) {
+      print("Error in stepUpload() -$e");
+    }
+  }
+
+// ControlUpload
+  Future<void> controlUpload(
+      JsaProvider jsaProvider, int i, int x, stepResponse) async {
+    Map<String, dynamic> controlsDataInterno = {
+      'name': jsaProvider.jsa.jsaStepsJson![i].controls[x].title,
+      'step_fk': stepResponse[0]['id'],
+    };
+
+    final controlResponse = await supabaseJsa
+        .from('control')
+        .insert(controlsDataInterno)
+        .select<supabaseFlutter.PostgrestList>('id');
+
+    if (controlResponse == null) {
+      print('Error inserting CONTROL data: $controlResponse');
+    } else {
+      print('CONTROL Data inserted successfully!');
+    }
+  }
+
+  Future<void> riskUpload(
+      JsaProvider jsaProvider, int i, int x, stepResponse) async {
+    Map<String, dynamic> risksDataInterno = {
+      'name': jsaProvider.jsa.jsaStepsJson![i].risks[x].title,
+      'step_fk': stepResponse[0]['id'],
+    };
+
+    final riskResponse = await supabaseJsa
+        .from('risk')
+        .insert(risksDataInterno)
+        .select<supabaseFlutter.PostgrestList>('id');
+
+    if (riskResponse == null) {
+      print('Error inserting RISK data: ${riskResponse.toString()}');
+    } else {
+      print('RISK Data inserted successfully!');
+    }
+  }
+
+// Upload Document
+  Future<bool> uploadDocument(int seqId, int idJsa) async {
+    // ejecBloq = true;
+    // notifyListeners();
+    today = DateTime.now();
+    tiempo =
+        '${today.year}-${(today.month)}-${(today.day)}_${(today.hour)}:${(today.minute)}:${(today.second)}';
+
+    try {
+      if (documento == null) {
+        return false;
+      }
+//se sube el documento
+      await supabase.storage
+          .from('jsa/templates')
+          .uploadBinary('${tiempo}_$seqId.pdf', documento!);
+
+      await supabaseJsa
+          .from('job_safety_app')
+          .update({'doc_name': '${tiempo}_$seqId.pdf'}).eq("id", idJsa);
+
+      print("subida correcta a Supabase");
+    } catch (e) {
+      log('Error en uploadDocument() - $e');
+      // ejecBloq = false;
+      // notifyListeners();
+      return false;
+    }
+
+    return true;
+  }
+
+  // Función para linkear los miembros con el jsa, creado
+  Future<bool> linkTemplateMembers(String userFk, int idJsa) async {
+    // ejecBloq = true;
+    // notifyListeners();
+
+    try {
+      await supabaseJsa
+          .from('jsa_user_status')
+          .update({'id_status': 3})
+          .eq('user_fk', userFk)
+          .eq("jsa_fk", idJsa);
+
+      print("subida correcta a Supabase para unir usuarios con jsa");
+    } catch (e) {
+      log('Error en linkTemplateMembers() - $e');
+      // ejecBloq = false;
+      // notifyListeners();
+      return false;
+    }
+    return true;
+  }
+
+  // TeamUpload
+  Future<dynamic> teamUpload(JsaProvider jsaProvider, int i,
+      supabaseFlutter.PostgrestList response, teamResponse) async {
+    try {
+      Map<String, dynamic> jsaUserData = {
+        'user_fk': jsaProvider.jsa.teamMembers![i].id,
+        'jsa_fk': response[0]['id'],
+        'id_status': 3,
+        //traer foranea de risks y control
+      };
+      teamResponse = await supabaseJsa
+          .from('jsa_user_status')
+          .insert(jsaUserData)
+          .select<supabaseFlutter.PostgrestList>('jsa_signed_id');
+
+      if (teamResponse == null) {
+        print('Error inserting TeamMember data: ${teamResponse.toString()}');
+      } else {
+        print('TeamMember Data inserted successfully!');
+      }
+      return teamResponse;
+    } catch (e) {
+      print("Error in teamUpload() -$e");
+    }
+  }
+
+  // Crear PDF
   Future<PdfController> clientPDF(JsaProvider jsa) async {
     finalPdfController = null;
     // notifyListeners();
