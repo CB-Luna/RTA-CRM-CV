@@ -816,22 +816,25 @@ class CreateQuoteProvider extends ChangeNotifier {
   }
 
   Future<void> callAirflow() async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic $airflowPW',
-    };
-    var request = http.Request('POST', Uri.parse('$airflowURL/quote_validate_v1/dagRuns'));
-    request.body = json.encode({
-      "conf": {
-        "x2_quote_id": quote.quoteid,
-        "x2_quote_name": quote.quote,
-        "x2_quote_account": quote.account,
-        "id_status": quote.idStatus,
-        "currentUserId": currentUser!.id,
-        "currentUserFullName": currentUser!.fullName,
-        "validated": true,
+    var request = http.Request('POST', Uri.parse(apiGatewayURL));
+    var headers = {'Content-Type': 'application/json', 'key': supabase.auth.currentSession!.accessToken};
+    request.headers.addAll(headers);
+    request.body = json.encode(
+      {
+        "action": "AIRFLOW",
+        "process": "quote_validate_v1",
+        "data": {
+          "x2_quote_id": quote.quoteid,
+          "x2_quote_name": quote.quote,
+          "x2_quote_account": quote.account,
+          "id_status": quote.idStatus,
+          "currentUserId": currentUser!.id,
+          "currentUserFullName": currentUser!.fullName,
+          "validated": true,
+        }
       },
-    });
+    );
+
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
