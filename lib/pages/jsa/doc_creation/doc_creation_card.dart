@@ -9,7 +9,6 @@ import '../../../providers/jsa/jsa_provider.dart';
 
 TextEditingController titleController = TextEditingController();
 TextEditingController taskController = TextEditingController();
-TextEditingController companyController = TextEditingController();
 
 class CustomDocCreationCard extends StatefulWidget {
   const CustomDocCreationCard({
@@ -97,7 +96,7 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
               provider.setButtonViewTaped(1);
               provider.setIcons(1);
               provider.createJsaGeneralInfo(
-                  companyController.text,
+                  provider.companyController.text,
                   titleController.text,
                   taskController.text,
                   provider.jsaGeneralInfo!.teamMembers!);
@@ -191,9 +190,12 @@ class _CustomDropState extends State<CustomDrop> {
                 ],
                 onChanged: (value) {
                   text = value.toString();
-                  companyController.text = text;
-                  print(companyController.text);
-                  provider.getListUsers(companyController.text);
+                  provider.companyController.text = text;
+                  print(provider.companyController.text);
+                  provider.getListUsers(provider.companyController.text);
+                  if (provider.companyController.text != value.toString()) {
+                    provider.users.clear();
+                  }
                   setState(() {});
                 },
               ),
