@@ -1134,6 +1134,48 @@ class _QuotesTabState extends State<QuotesTab> {
                     );
                   },
                 ),
+                currentUser!.isSales
+                    ? PlutoColumn(
+                        titleSpan: TextSpan(children: [
+                          WidgetSpan(child: Icon(Icons.settings, color: AppTheme.of(context).primaryBackground)),
+                          const WidgetSpan(child: SizedBox(width: 10)),
+                          TextSpan(text: 'Actions', style: AppTheme.of(context).encabezadoTablas)
+                        ]),
+                        backgroundColor: const Color(0XFF6491F7),
+                        title: 'ACTIONS',
+                        field: 'ACTIONS',
+                        width: 200,
+                        titleTextAlign: PlutoColumnTextAlign.start,
+                        textAlign: PlutoColumnTextAlign.center,
+                        type: PlutoColumnType.text(),
+                        enableEditingMode: false,
+                        cellPadding: EdgeInsets.zero,
+                        renderer: (rendererContext) {
+                          return Container(
+                            height: rowHeight,
+                            // width: rendererContext.cell.column.width,
+                            decoration: BoxDecoration(gradient: whiteGradient),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                CustomTextIconButton(
+                                  isLoading: false,
+                                  icon: Icon(
+                                    Icons.shopping_basket_outlined,
+                                    color: AppTheme.of(context).primaryBackground,
+                                  ),
+                                  color: secondaryColor,
+                                  text: 'Delete',
+                                  onTap: () async {
+                                    provider.deleteDraft(rendererContext.row.cells['ID_Column']!.value);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      )
+                    : PlutoColumn(width:0,title: '', field: 'ACTIONS', type: PlutoColumnType.text())
               ],
               rows: provider.rows,
               onLoaded: (event) async {
