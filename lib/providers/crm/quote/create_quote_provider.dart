@@ -8,6 +8,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:path/path.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
@@ -546,7 +547,7 @@ class CreateQuoteProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> salesAcceptsQuoteOperation() async {
+  /* Future<bool> salesAcceptsQuoteOperation() async {
     try {
       final res = await supabase.rpc('get_correo', params: {"role_id": 7});
       if (res == null) {
@@ -588,7 +589,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       notifyListeners();
       return false;
     }
-  }
+  } */
 
   Future<bool> insertOrderInfo() async {
     try {
@@ -774,7 +775,7 @@ class CreateQuoteProvider extends ChangeNotifier {
       await supabaseCRM.from('leads_history').insert(
         {
           "action": 'INSERT',
-          "description": 'OrderCreated - Order Inserted',
+          "description": 'Order Created',
           "table": 'order_info',
           "id_table": resp["id"].toString(),
           "user": currentUser!.id,
@@ -782,15 +783,17 @@ class CreateQuoteProvider extends ChangeNotifier {
         },
       );
 
+      await callAirflow();
+
       //Update Status
-      await supabaseCRM.rpc(
+      /* await supabaseCRM.rpc(
         'update_quote_status',
         params: {"id_status": 4, "id": quote.quoteid, "user_uuid": currentUser!.id}, //Engineer Validate
-      );
-      await salesAcceptsQuoteOperation(); //Sales a Operations
+      ); */
+      //await salesAcceptsQuoteOperation(); //Sales a Operations
 
       //History
-      await supabaseCRM.from('leads_history').insert(
+      /* await supabaseCRM.from('leads_history').insert(
         {
           "action": 'UPDATE',
           "description": 'OrderCreated - Change Quote Status',
@@ -799,7 +802,7 @@ class CreateQuoteProvider extends ChangeNotifier {
           "user": currentUser!.id,
           "name": "${currentUser!.name} ${currentUser!.lastName}"
         },
-      );
+      ); */
 
       isLoading = false;
       notifyListeners();
@@ -809,6 +812,41 @@ class CreateQuoteProvider extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
       return false;
+    }
+  }
+
+  Future<void> callAirflow() async {
+    try {
+      var request = http.Request('POST', Uri.parse(apiGatewayAirflowURL));
+      var headers = {'Content-Type': 'application/json', 'key': supabase.auth.currentSession!.accessToken};
+      request.headers.addAll(headers);
+      request.body = json.encode(
+        {
+          "action": "AIRFLOW",
+          "process": "quote_validate_v1",
+          "data": {
+            "x2_quote_id": quote.quoteid,
+            "x2_quote_name": quote.quote,
+            "x2_quote_account": quote.account,
+            "id_status": quote.idStatus,
+            "currentUserId": currentUser!.id,
+            "currentUserFullName": currentUser!.fullName,
+            "validated": true,
+          }
+        },
+      );
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        log(await response.stream.bytesToString());
+      } else {
+        log(response.reasonPhrase!);
+      }
+    } catch (e) {
+      log('callAirflow() - Error: $e');
     }
   }
 
