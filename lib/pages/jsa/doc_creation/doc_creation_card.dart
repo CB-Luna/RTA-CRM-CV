@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/custom_task_input.dart';
@@ -191,10 +193,12 @@ class _CustomDropState extends State<CustomDrop> {
                 onChanged: (value) {
                   text = value.toString();
                   provider.companyController.text = text;
-                  print(provider.companyController.text);
+                  // print(provider.companyController.text);
                   provider.getListUsers(provider.companyController.text);
-                  if (provider.companyController.text != value.toString()) {
-                    provider.users.clear();
+
+                  if (provider.companyController.text ==
+                      provider.companyController.text) {
+                    provider.jsaGeneralInfo!.teamMembers!.clear();
                   }
                   setState(() {});
                 },

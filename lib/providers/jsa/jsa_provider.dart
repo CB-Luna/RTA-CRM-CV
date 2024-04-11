@@ -117,26 +117,12 @@ class JsaProvider extends ChangeNotifier {
     }
   }
 
+  // Stepper Cambiante
   void setButtonViewTaped(int index) {
     buttonViewTaped = index;
     stepperTaped = index;
     notifyListeners();
   }
-  // Add Risk
-  // Future<void> addRisk(){
-  //   try{
-
-  //      if (editControl == false) {
-  //     jsaProvider.addJsaRisks(controlNameController.text, widget.stepId);
-  //   } else {
-  //     //agregar funcionalidad edit risks
-  //     jsaProvider.editJsaRisk(compareRiskTitle.toString(),
-  //         widget.stepId.toString(), controlNameController.text);
-  //   }
-  //   }catch(e){
-  //     print("Error in AddRisk() - $e")
-  //   }
-  // }
 
   void createJsaGeneralInfo(String? company, String? title, String? taskName,
       List<TeamMembers> list) {
@@ -210,6 +196,10 @@ class JsaProvider extends ChangeNotifier {
       users = users
           .where((user) => user.roles.any((role) =>
               role.application == currentUser!.currentRole.application))
+          .toList();
+      // Se supone que esto filtra por el id 26 que es el technician jsa
+      users = users
+          .where((user) => user.roles.any((role) => role.id == 26))
           .toList();
 
       // print("En getInformationJSA con el JSA_FK: con res: $res");

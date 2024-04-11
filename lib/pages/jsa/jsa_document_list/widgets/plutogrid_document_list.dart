@@ -186,25 +186,36 @@ class _PlutoGridDocumentListState extends State<PlutoGridDocumentList> {
             width: 150,
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
-              return InkWell(
-                onTap: () async {
-                  await provider.pickDocument(rendererContext.cell.value);
-                  await showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return PdfPopupJSADocumentList(
-                          name: rendererContext.cell.value);
-                    },
-                  );
-                },
-                child: Container(
-                  height: rowHeightJSA,
-                  // width: rendererContext.cell.column.width,
-                  child: Center(
-                      child: Icon(
-                    Icons.remove_red_eye_outlined,
-                    color: AppTheme.of(context).primaryColor,
-                  )),
+              bool statusBool;
+
+              if (rendererContext.cell.value != null) {
+                statusBool = true;
+              } else {
+                statusBool = false;
+              }
+
+              return Visibility(
+                visible: statusBool,
+                child: InkWell(
+                  onTap: () async {
+                    await provider.pickDocument(rendererContext.cell.value);
+                    await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return PdfPopupJSADocumentList(
+                            name: rendererContext.cell.value);
+                      },
+                    );
+                  },
+                  child: Container(
+                    height: rowHeightJSA,
+                    // width: rendererContext.cell.column.width,
+                    child: Center(
+                        child: Icon(
+                      Icons.remove_red_eye_outlined,
+                      color: AppTheme.of(context).primaryColor,
+                    )),
+                  ),
                 ),
               );
             },
