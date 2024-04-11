@@ -74,7 +74,7 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                     // Menu Icon
                     Container(
                       alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.05,
                       child: Text(
                         jsaProvider.jsa.jsaStepsJson![i].title.toString(),
                         style: const TextStyle(
@@ -88,7 +88,7 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                     ),
                     // Text "Steps"
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.05,
                       alignment: Alignment.center,
                       child: Text(
                         jsaProvider.jsa.jsaStepsJson![i].risks.isEmpty
@@ -104,7 +104,7 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                         ),
                       ),
                     ),
-
+                    // Boton para ver la matriz de riesgo
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -114,6 +114,8 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                               jsaProvider.jsa.jsaStepsJson![i].id.toString(),
                               jsaProvider),
                           child: Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width * 0.04,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
                               border: Border.all(
@@ -144,12 +146,26 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                             ),
                           ),
                         ),
+                        // Aqui es para agregar un risk
                         IconButton(
                           icon: const Icon(
                             Icons.remove_red_eye,
                             color: Color(0xFF335594),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            // await showDialog(
+                            //     context: context,
+                            //     builder: (BuildContext context) {
+                            //       return StatefulBuilder(
+                            //           builder: (context, setState) {
+                            //         return showRiskPopup(
+                            //             title: jsaProvider
+                            //                 .jsa.jsaStepsJson![i].title,
+                            //             stepId: jsaProvider
+                            //                 .jsa.jsaStepsJson![i].id
+                            //                 .toString());
+                            //       });
+                            //     });
                             showRiskPopup(
                                 context,
                                 jsaProvider.jsa.jsaStepsJson![i].title,

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
@@ -308,9 +310,9 @@ class _CustomDocResumeState extends State<CustomDocResume> {
                     provider.setIcons(3);
                     // Aqui es donde se tiene que crear el documento pdf
                     final pdfController = await provider.clientPDF(provider);
-                    print("PDF CONTROLLER: $pdfController");
+                    // print("PDF CONTROLLER: $pdfController");
 
-                    setState(() {});
+                    // setState(() {});
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.3,

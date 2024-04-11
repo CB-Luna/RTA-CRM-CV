@@ -29,7 +29,8 @@ class PdfPopupState extends State<PdfPopup> {
 
   @override
   Widget build(BuildContext context) {
-    final HomeownerFTTHDocumentProvider provider = Provider.of<HomeownerFTTHDocumentProvider>(context);
+    final HomeownerFTTHDocumentProvider provider =
+        Provider.of<HomeownerFTTHDocumentProvider>(context);
     double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
     return AlertDialog(
@@ -57,7 +58,8 @@ class PdfPopupState extends State<PdfPopup> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: IconButton(
-                      icon: Icon(Icons.fullscreen, color: AppTheme.of(context).primaryColor),
+                      icon: Icon(Icons.fullscreen,
+                          color: AppTheme.of(context).primaryColor),
                       tooltip: 'Full Screen',
                       color: AppTheme.of(context).primaryColor,
                       onPressed: () async {
@@ -88,11 +90,13 @@ class PdfPopupState extends State<PdfPopup> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: IconButton(
-                    icon: Icon(Icons.file_download_outlined, color: AppTheme.of(context).primaryColor),
+                    icon: Icon(Icons.file_download_outlined,
+                        color: AppTheme.of(context).primaryColor),
                     tooltip: 'Download',
                     color: AppTheme.of(context).primaryColor,
                     onPressed: () {
-                      provider.descargarArchivo(provider.documento, 'Homeowner_FTTH_Document.pdf');
+                      provider.descargarArchivo(
+                          provider.documento, 'Homeowner_FTTH_Document.pdf');
                       provider.anexo = true;
                       setState(() {});
                     },
@@ -103,7 +107,8 @@ class PdfPopupState extends State<PdfPopup> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: IconButton(
-                    icon: Icon(Icons.close, color: AppTheme.of(context).primaryColor),
+                    icon: Icon(Icons.close,
+                        color: AppTheme.of(context).primaryColor),
                     tooltip: 'Exit',
                     color: AppTheme.of(context).primaryColor,
                     onPressed: () {
@@ -178,7 +183,9 @@ class PdfPopupState extends State<PdfPopup> {
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 8,
-                            shadowColor: AppTheme.of(context).primaryBackground.withOpacity(0.8),
+                            shadowColor: AppTheme.of(context)
+                                .primaryBackground
+                                .withOpacity(0.8),
                             backgroundColor: AppTheme.of(context).tertiaryColor,
                           ),
                           child: SizedBox(
@@ -240,7 +247,9 @@ class PdfPopupState extends State<PdfPopup> {
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 8,
-                            shadowColor: AppTheme.of(context).primaryBackground.withOpacity(0.8),
+                            shadowColor: AppTheme.of(context)
+                                .primaryBackground
+                                .withOpacity(0.8),
                             backgroundColor: AppTheme.of(context).primaryColor,
                           ),
                           child: SizedBox(

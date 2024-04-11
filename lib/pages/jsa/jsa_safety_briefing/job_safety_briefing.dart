@@ -4,6 +4,7 @@ import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 import '../../../theme/theme.dart';
+import 'widgets/custom_card_jsa_jsb.dart';
 
 class JobSafetyBriefing extends StatefulWidget {
   const JobSafetyBriefing({super.key});
@@ -58,6 +59,7 @@ class _JobSafetyBriefingState extends State<JobSafetyBriefing> {
                           ],
                         ),
                       ),
+                      const CustomCardJSB()
                     ],
                   ),
                 ),

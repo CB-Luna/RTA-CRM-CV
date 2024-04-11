@@ -1,10 +1,11 @@
-import 'dart:math';
+// ignore_for_file: library_private_types_in_public_api, duplicate_ignore
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../models/jsa/jsa_general_information.dart';
 import '../../../../../providers/jsa/jsa_provider.dart';
+import '../../../../../theme/theme.dart';
 import '../../risks_hazards_widget.dart';
 import '../CustomTextInput.dart';
 
@@ -39,20 +40,26 @@ class _CustomControlPopupState extends State<CustomControlPopup> {
       ),
       elevation: 0,
       backgroundColor: Colors.transparent,
-      child: contentBox(context, stepId: widget.stepId),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.4,
+        width: MediaQuery.of(context).size.width * 0.2,
+        child: contentBox(context, stepId: widget.stepId),
+      ),
     );
   }
 
   contentBox(context, {required String stepId}) {
-    JsaProvider jsaProvider = Provider.of<JsaProvider>(context, listen: false);
+    JsaProvider jsaProvider = Provider.of<JsaProvider>(context);
     // Find the JsaStepsJson object with the matching title
     JsaStepsJson? matchingStep =
         jsaProvider.jsa.jsaStepsJson!.firstWhere((step) => step.id == stepId);
 
 // Get the length of risks if a matching step is found, otherwise set to 0
-    int controlLength = matchingStep.controls.length ?? 0;
+    // int controlLength = matchingStep.controls.length ?? 0;
+    int controlLength = matchingStep.controls.length;
 
     return Container(
+      height: MediaQuery.of(context).size.height * 0.2,
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
@@ -74,6 +81,10 @@ class _CustomControlPopupState extends State<CustomControlPopup> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            Text(
+              "List of Controls",
+              style: AppTheme.of(context).title3,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -94,7 +105,6 @@ class _CustomControlPopupState extends State<CustomControlPopup> {
                   onPressed: () {
                     controlNameController.text = "";
                     editControl = false;
-
                     showAddControlPopup(context, widget.title, widget.stepId);
                   },
                 ),
@@ -110,8 +120,8 @@ class _CustomControlPopupState extends State<CustomControlPopup> {
                   children: [
                     // Menu Icon
 
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.07,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.05,
                       child: const Icon(
                         Icons.more_vert_outlined,
                         color: Color(0xFF335594),
@@ -121,7 +131,7 @@ class _CustomControlPopupState extends State<CustomControlPopup> {
 
                     // Text "Steps"
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
+                      width: MediaQuery.of(context).size.width * 0.07,
                       child: Text(
                         matchingStep.controls[i].title.toString(),
                         style: const TextStyle(
@@ -132,8 +142,6 @@ class _CustomControlPopupState extends State<CustomControlPopup> {
                         ),
                       ),
                     ),
-
-                    const Spacer(),
                     // Open/Close   Button
                     IconButton(
                       icon: const Icon(
@@ -311,14 +319,17 @@ class _CustomAddControlPopupState extends State<CustomAddControlPopup> {
   }
 
   contentBox(context) {
+    JsaProvider provider = Provider.of<JsaProvider>(context);
+
     return Container(
+      width: MediaQuery.of(context).size.width * 0.2,
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.0),
-        boxShadow: [
-          const BoxShadow(
+        boxShadow: const [
+          BoxShadow(
             color: Colors.black,
             offset: Offset(0, 10),
             blurRadius: 10,
@@ -333,7 +344,7 @@ class _CustomAddControlPopupState extends State<CustomAddControlPopup> {
             style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w600,
-                color: const Color(0xFF335594)),
+                color: Color(0xFF335594)),
           ),
           const SizedBox(height: 16.0),
           CustomTextInput(
@@ -367,9 +378,17 @@ class _CustomAddControlPopupState extends State<CustomAddControlPopup> {
                 onPressed: () {
                   // Save your data or perform any action here
 
-                  _saveData();
+                  if (editControl == false) {
+                    provider.addJsaControl(
+                        controlNameController.text, widget.stepId);
+                  } else {
+                    //agregar funcionalidad edit risks
+                    provider.editJsaControl(compareControlTitle.toString(),
+                        widget.stepId.toString(), controlNameController.text);
+                  }
+
+                  // _saveData();
                   Navigator.of(context).pop();
-                  setState(() {});
                 },
                 child: const Text('Save',
                     style: TextStyle(

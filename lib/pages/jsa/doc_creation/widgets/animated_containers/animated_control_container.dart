@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../providers/jsa/jsa_provider.dart';
-import '../../risks_hazards_widget.dart';
 import '../popups/control_matrix_popup.dart';
 import '../popups/control_popups.dart';
 
@@ -45,7 +44,7 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
 
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                   // Text "Steps"
-                  Expanded(
+                  const Expanded(
                     child: Text(
                       'Control',
                       style: TextStyle(
@@ -79,7 +78,7 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
                     // Menu Icon
 
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.05,
                       alignment: Alignment.center,
                       child: Text(
                         jsaProvider.jsa.jsaStepsJson![i].title.toString(),
@@ -94,7 +93,7 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
                     ),
                     // Text "Steps"
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.05,
                       alignment: Alignment.center,
                       child: Text(
                         jsaProvider.jsa.jsaStepsJson![i].controls.isEmpty
@@ -120,6 +119,8 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
                               jsaProvider.jsa.jsaStepsJson![i].id.toString(),
                               jsaProvider),
                           child: Container(
+                            width: MediaQuery.of(context).size.width * 0.05,
+                            alignment: Alignment.center,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
                               border: Border.all(
