@@ -816,33 +816,37 @@ class CreateQuoteProvider extends ChangeNotifier {
   }
 
   Future<void> callAirflow() async {
-    var request = http.Request('POST', Uri.parse(apiGatewayURL));
-    var headers = {'Content-Type': 'application/json', 'key': supabase.auth.currentSession!.accessToken};
-    request.headers.addAll(headers);
-    request.body = json.encode(
-      {
-        "action": "AIRFLOW",
-        "process": "quote_validate_v1",
-        "data": {
-          "x2_quote_id": quote.quoteid,
-          "x2_quote_name": quote.quote,
-          "x2_quote_account": quote.account,
-          "id_status": quote.idStatus,
-          "currentUserId": currentUser!.id,
-          "currentUserFullName": currentUser!.fullName,
-          "validated": true,
-        }
-      },
-    );
+    try {
+      var request = http.Request('POST', Uri.parse(apiGatewayAirflowURL));
+      var headers = {'Content-Type': 'application/json', 'key': supabase.auth.currentSession!.accessToken};
+      request.headers.addAll(headers);
+      request.body = json.encode(
+        {
+          "action": "AIRFLOW",
+          "process": "quote_validate_v1",
+          "data": {
+            "x2_quote_id": quote.quoteid,
+            "x2_quote_name": quote.quote,
+            "x2_quote_account": quote.account,
+            "id_status": quote.idStatus,
+            "currentUserId": currentUser!.id,
+            "currentUserFullName": currentUser!.fullName,
+            "validated": true,
+          }
+        },
+      );
 
-    request.headers.addAll(headers);
+      request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
+      http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
-      log(await response.stream.bytesToString());
-    } else {
-      log(response.reasonPhrase!);
+      if (response.statusCode == 200) {
+        log(await response.stream.bytesToString());
+      } else {
+        log(response.reasonPhrase!);
+      }
+    } catch (e) {
+      log('callAirflow() - Error: $e');
     }
   }
 

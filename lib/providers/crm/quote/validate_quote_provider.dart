@@ -802,7 +802,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
   }
 
   Future<void> callAirflow(bool validated) async {
-    var request = http.Request('POST', Uri.parse(apiGatewayURL));
+    var request = http.Request('POST', Uri.parse(apiGatewayAirflowURL));
     var headers = {'Content-Type': 'application/json', 'key': supabase.auth.currentSession!.accessToken};
     request.headers.addAll(headers);
     request.body = json.encode(

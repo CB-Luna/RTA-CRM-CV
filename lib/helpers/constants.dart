@@ -14,6 +14,7 @@ String urlNotifications = 'https://supa42.rtatel.com/notifications/api';
 const String configurator = 'https://cblsrvr1.rtatel.com';
 String enviromentDomain = 'https://apps.cblsrv41.rtatel.com';
 String apiGatewayURL = "$enviromentDomain/wop_x2/api";
+String apiGatewayAirflowURL = "https://apps.cblsrv42.rtatel.com/wop_x2/api"; //TODO: Este no debe de existir en producción
 String powercodeURL = "https://apps.cblsrv42.rtatel.com/planbuilder/api";
 
 PlutoGridScrollbarConfig plutoGridScrollbarConfig(BuildContext context) {
