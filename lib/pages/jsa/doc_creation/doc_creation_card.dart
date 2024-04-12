@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/custom_task_input.dart';
@@ -9,7 +11,6 @@ import '../../../providers/jsa/jsa_provider.dart';
 
 TextEditingController titleController = TextEditingController();
 TextEditingController taskController = TextEditingController();
-TextEditingController companyController = TextEditingController();
 
 class CustomDocCreationCard extends StatefulWidget {
   const CustomDocCreationCard({
@@ -97,7 +98,7 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
               provider.setButtonViewTaped(1);
               provider.setIcons(1);
               provider.createJsaGeneralInfo(
-                  companyController.text,
+                  provider.companyController.text,
                   titleController.text,
                   taskController.text,
                   provider.jsaGeneralInfo!.teamMembers!);
@@ -191,9 +192,14 @@ class _CustomDropState extends State<CustomDrop> {
                 ],
                 onChanged: (value) {
                   text = value.toString();
-                  companyController.text = text;
-                  print(companyController.text);
-                  provider.getListUsers(companyController.text);
+                  provider.companyController.text = text;
+                  // print(provider.companyController.text);
+                  provider.getListUsers(provider.companyController.text);
+
+                  if (provider.companyController.text ==
+                      provider.companyController.text) {
+                    provider.jsaGeneralInfo!.teamMembers!.clear();
+                  }
                   setState(() {});
                 },
               ),
