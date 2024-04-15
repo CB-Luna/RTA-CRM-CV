@@ -31,6 +31,10 @@ class JsaProvider extends ChangeNotifier {
   final searchController = TextEditingController();
   final searchUserController = TextEditingController();
   TextEditingController companyController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController taskController = TextEditingController();
+  TextEditingController stepNameController = TextEditingController();
+  TextEditingController stepDescriptionController = TextEditingController();
   DateTime today = DateTime.now();
   String? tiempo = '';
   String? compareRiskTitle;
