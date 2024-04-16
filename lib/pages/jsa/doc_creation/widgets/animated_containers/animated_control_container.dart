@@ -156,7 +156,7 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
                         ),
                         IconButton(
                           icon: const Icon(
-                            Icons.remove_red_eye,
+                            Icons.add_outlined,
                             color: Color(0xFF335594),
                           ),
                           onPressed: () {

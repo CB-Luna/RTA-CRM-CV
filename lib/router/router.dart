@@ -442,6 +442,16 @@ final GoRouter router = GoRouter(
       },
       // (context, state, const DetailsPopUp()),
     ),
+
+    GoRoute(
+      path: routeJSATraining,
+      name: 'JSA Training',
+      builder: (BuildContext context, GoRouterState state) {
+        return const JobSafetyBriefing();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    // ------------------------------- DASHBOARDS RTATEL ---------------------- //
     ////////Sales
     GoRoute(
       path: opcoSuscriberTarget,

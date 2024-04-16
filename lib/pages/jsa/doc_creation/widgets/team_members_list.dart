@@ -29,13 +29,13 @@ class _TeamMemberListState extends State<TeamMemberList> {
 
     JsaProvider provider = Provider.of<JsaProvider>(context);
     // membersSelection = List.filled(provider.users.length, false);
-
     return Container(
       color: Colors.transparent,
       padding: const EdgeInsets.all(8.0),
       width: MediaQuery.of(context).size.width * 0.3,
       child: SingleChildScrollView(
           child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(10),
@@ -52,6 +52,75 @@ class _TeamMemberListState extends State<TeamMemberList> {
                 // provider.filterDocuments(query);
                 // provider.updateState();
               },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                  alignment: Alignment.centerRight),
+              onPressed: () {
+                setState(() {
+                  // Toggle all checkboxes
+                  // bool allSelected =
+                  //     !membersSelection.every((element) => element);
+                  if (membersSelection.isNotEmpty) {
+                    membersSelection.clear();
+                    provider.jsaGeneralInfo!.teamMembers!.clear();
+                    print("Memberselection: ${membersSelection.length}");
+                    print(
+                        "JsaGeneralInforTeamMembers: ${provider.jsaGeneralInfo!.teamMembers!.length}");
+                    // provider.deleteTeamMembers(provider.users.id.toString());
+                  } else {
+                    for (var user in provider.users) {
+                      membersSelection.add(user);
+                      // allselected = true;
+                      teamMember = TeamMembers(
+                        name: user.name,
+                        role: user.currentAppRole,
+                        id: user.id,
+                        pic: user.image,
+                      );
+                      provider.addTeamMembers(teamMember);
+                    }
+                  }
+
+                  // Se supone que al volver a seleccionarlo y la lista esta llena, entonces lo limpiara
+
+                  for (int i = 0; i < membersSelection.length; i++) {
+                    // membersSelection[i] = allSelected;
+
+                    // // Add or remove team members based on checkbox state
+                    // if (allSelected) {
+                    //   teamMember = TeamMembers(
+                    //       name: membersSelection[i].name,
+                    //       role: membersSelection[i].currentAppRole,
+                    //       id: membersSelection[i].id,
+                    //       pic: membersSelection[i].image);
+                    //   setState(() {
+                    //     provider.addTeamMembers(teamMember);
+                    //   });
+                    // } else {
+                    //   setState(() {
+                    //     provider
+                    //         .deleteTeamMembers(provider.users[i].id.toString());
+                    //   });
+                    // }
+                  }
+                });
+              },
+              child: const Text(
+                'Select All',
+                style: TextStyle(
+                  color: Color(0xFF335594),
+                  fontSize: 15,
+                  fontFamily: 'Outfit',
+                  fontWeight: FontWeight.w700,
+                  height: 0,
+                ),
+              ),
             ),
           ),
           Row(

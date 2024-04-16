@@ -285,6 +285,7 @@ const String routeJSACreation = '/jsa_creation';
 
 const String routeDownloadAPKJSA = '/download_apk_jsa';
 const String routeJSASafetyBriefing = '/jsa_safety_briefing';
+const String routeJSATraining = '/jsa_training';
 
 //Sales
 const String opcoSuscriberTarget = '/sales/opco_suscriber_target';
