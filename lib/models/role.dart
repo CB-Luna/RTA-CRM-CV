@@ -97,6 +97,10 @@ class Permissions {
   String? monthlyArpuTrackingResidential;
   String? residentialAndBusinessCustomers;
   String? bolivarPeninsulaFiberToTheHome;
+  String? applefwadashboard;
+  String? sheridianfwadashboard;
+  String? stoneridgeftthdashboard;
+  String? greenwoodftthdashboard;
 
   // JSA
   String? dashboardJSA;
@@ -165,6 +169,11 @@ class Permissions {
       required this.monthlyArpuTrackingResidential,
       required this.residentialAndBusinessCustomers,
       required this.bolivarPeninsulaFiberToTheHome,
+      required this.applefwadashboard,
+      required this.sheridianfwadashboard,
+      required this.stoneridgeftthdashboard,
+      required this.greenwoodftthdashboard,
+      // JSA
       required this.dashboardJSA});
 
   factory Permissions.fromJson(String str) =>
@@ -237,6 +246,10 @@ class Permissions {
           json["Residential and Business Customers"],
       bolivarPeninsulaFiberToTheHome:
           json["Bolivar Peninsula Fiber to the Home"],
+      applefwadashboard: json["Apple FWA Dashboard"],
+      sheridianfwadashboard: json["Sheridian FWA Dashboard"],
+      stoneridgeftthdashboard: json["Stoneridge FTTH Dashboard"],
+      greenwoodftthdashboard: json["Greenwood FTTH Dashboard"],
       dashboardJSA: json["Dashboards JSA"]);
 
   Map<String, dynamic> toMap() => {
@@ -302,6 +315,11 @@ class Permissions {
         "Monthly ARPU Tracking Residential": monthlyArpuTrackingResidential,
         "Residential and Business Customers": residentialAndBusinessCustomers,
         "Bolivar Peninsula Fiber to the Home": bolivarPeninsulaFiberToTheHome,
+        "Apple FWA Dashboard": applefwadashboard,
+        "Sheridian FWA Dashboard": sheridianfwadashboard,
+        "Stoneridge FTTH Dashboard": stoneridgeftthdashboard,
+        "Greenwood FTTH Dashboard": greenwoodftthdashboard,
+        // JSA
         "Dashboards JSA": dashboardJSA
       };
 }

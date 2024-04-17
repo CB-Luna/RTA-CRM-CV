@@ -90,18 +90,18 @@ class _AnimatedStepContainerState extends State<AnimatedStepContainer> {
                 const Spacer(),
                 // Open/Close Button
 
-                IconButton(
-                  icon: const Icon(
-                    Icons.add,
-                    color: Color(0xFF335594),
-                  ),
-                  onPressed: () {
-                    stepNameController.text = "";
-                    stepDescriptionController.text = "";
-                    editStep = false;
-                    _showPopup(context);
-                  },
-                ),
+                // IconButton(
+                //   icon: const Icon(
+                //     Icons.add,
+                //     color: Color(0xFF335594),
+                //   ),
+                //   onPressed: () {
+                //     stepNameController.text = "";
+                //     stepDescriptionController.text = "";
+                //     editStep = false;
+                //     _showPopup(context);
+                //   },
+                // ),
               ],
             ),
           ),
