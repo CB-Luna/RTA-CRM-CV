@@ -73,7 +73,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.bolivarPeninsulaFiberToTheHome != null
+                    userPermissions.applefwadashboard != null
                         ? ListTile(
                             title: Text(
                               'Apple FWA Dashboard',
@@ -91,7 +91,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.bolivarPeninsulaFiberToTheHome != null
+                    userPermissions.sheridianfwadashboard != null
                         ? ListTile(
                             title: Text(
                               'Sheridan FWA Dashboard',
@@ -109,7 +109,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.bolivarPeninsulaFiberToTheHome != null
+                    userPermissions.stoneridgeftthdashboard != null
                         ? ListTile(
                             title: Text(
                               'Stoneridge FTTH Dashboard',
@@ -127,7 +127,7 @@ class _ManagerButtonState extends State<ManagerButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    userPermissions.bolivarPeninsulaFiberToTheHome != null
+                    userPermissions.greenwoodftthdashboard != null
                         ? ListTile(
                             title: Text(
                               'Greenwood FTTH Dashboard',
