@@ -11,8 +11,9 @@ const String anonKey =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjg0ODI1MjAwLAogICAgImV4cCI6IDE4NDI2NzgwMDAKfQ.Atj9wTNbdEEVPOjstsO14DtxbY2SEpnr50elVXBgAmM';
 const redirectUrl = '$supabaseUrl/arux-change-pass/#/change-password/token';
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
-String urlNotifications = 'https://supa42.rtatel.com/notifications/api';
+String urlNotifications = '$supabaseUrl/notifications/api';
 const String configurator = 'https://cblsrvr1.rtatel.com';
+
 String enviromentDomain = 'https://apps.cblsrv41.rtatel.com';
 String apiGatewayURL = "$enviromentDomain/wop_x2/api";
 String apiGatewayAirflowURL =
