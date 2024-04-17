@@ -21,7 +21,7 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
     JsaProvider jsaProvider = Provider.of<JsaProvider>(context, listen: true);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      height: MediaQuery.of(context).size.height * 0.21,
+      height: MediaQuery.of(context).size.height * 0.60,
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFF335594)),
         borderRadius: BorderRadius.circular(10.0),
@@ -93,11 +93,12 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
                     ),
                     // Text "Steps"
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.05,
+                      width: MediaQuery.of(context).size.width * 0.07,
                       alignment: Alignment.center,
                       child: Text(
                         jsaProvider.jsa.jsaStepsJson![i].controls.isEmpty
-                            ? 'No Control(s)'
+                            // ? 'No Control(s)'
+                            ? 'Control(s) Required'
                             //corregir para que haga display el numero correcto
                             : '${jsaProvider.jsa.jsaStepsJson![i].controls.length} Control(s)',
                         style: TextStyle(
@@ -119,7 +120,7 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
                               jsaProvider.jsa.jsaStepsJson![i].id.toString(),
                               jsaProvider),
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.05,
+                            width: MediaQuery.of(context).size.width * 0.033,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
@@ -155,7 +156,7 @@ class _AnimatedControlContainerState extends State<AnimatedControlContainer> {
                         ),
                         IconButton(
                           icon: const Icon(
-                            Icons.remove_red_eye,
+                            Icons.add_outlined,
                             color: Color(0xFF335594),
                           ),
                           onPressed: () {

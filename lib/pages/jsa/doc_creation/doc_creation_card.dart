@@ -9,9 +9,7 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 
 import '../../../providers/jsa/jsa_provider.dart';
 
-TextEditingController titleController = TextEditingController();
-TextEditingController taskController = TextEditingController();
-
+//
 class CustomDocCreationCard extends StatefulWidget {
   const CustomDocCreationCard({
     Key? key,
@@ -73,11 +71,11 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
                     ),
                     CustomtaskTextInput(
                       task: "Title Name",
-                      controller: titleController,
+                      controller: provider.titleController,
                     ),
                     CustomtaskTextInput(
                       task: "Task Name",
-                      controller: taskController,
+                      controller: provider.taskController,
                     ),
                     // TeamMemberList(),
                   ],
@@ -99,10 +97,10 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
               provider.setIcons(1);
               provider.createJsaGeneralInfo(
                   provider.companyController.text,
-                  titleController.text,
-                  taskController.text,
+                  provider.titleController.text,
+                  provider.taskController.text,
                   provider.jsaGeneralInfo!.teamMembers!);
-
+              provider.searchUserController.clear();
               setState(() {});
             },
             child: Container(

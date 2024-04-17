@@ -65,9 +65,84 @@ class _ManagerButtonState extends State<ManagerButton> {
                                   ),
                             ),
                             onTap: () async {
-                              context.pushReplacement(bolivarPeninsulaFibertotheHome);
+                              context.pushReplacement(
+                                  bolivarPeninsulaFibertotheHome);
                             },
-                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.applefwadashboard != null
+                        ? ListTile(
+                            title: Text(
+                              'Apple FWA Dashboard',
+                              style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(applefwaDashboard);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.sheridianfwadashboard != null
+                        ? ListTile(
+                            title: Text(
+                              'Sheridan FWA Dashboard',
+                              style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(sheridianfwaDashboard);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.stoneridgeftthdashboard != null
+                        ? ListTile(
+                            title: Text(
+                              'Stoneridge FTTH Dashboard',
+                              style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(stoneridgeFTTHDashboard);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
+                          )
+                        : const SizedBox.shrink(),
+                    userPermissions.greenwoodftthdashboard != null
+                        ? ListTile(
+                            title: Text(
+                              'Greenwood FTTH Dashboard',
+                              style: AppTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Gotham-Bold',
+                                    color: AppTheme.of(context).gris,
+                                    useGoogleFonts: false,
+                                  ),
+                            ),
+                            onTap: () async {
+                              context.pushReplacement(greenwoodFTTHDashboard);
+                            },
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                     userPermissions.operationReport != null
@@ -83,7 +158,9 @@ class _ManagerButtonState extends State<ManagerButton> {
                             onTap: () async {
                               context.pushReplacement(operationReport);
                             },
-                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                     userPermissions.techJobTimeTracking != null
@@ -99,7 +176,9 @@ class _ManagerButtonState extends State<ManagerButton> {
                             onTap: () async {
                               context.pushReplacement(techJobTimeTracking);
                             },
-                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                     userPermissions.jobsTracking != null
@@ -115,7 +194,9 @@ class _ManagerButtonState extends State<ManagerButton> {
                             onTap: () async {
                               context.pushReplacement(jobsTracking);
                             },
-                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                     userPermissions.jobsUtilizationTracking != null
@@ -131,7 +212,9 @@ class _ManagerButtonState extends State<ManagerButton> {
                             onTap: () async {
                               context.pushReplacement(jobsUtilizationTracking);
                             },
-                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                     userPermissions.ivrStats != null
@@ -147,7 +230,9 @@ class _ManagerButtonState extends State<ManagerButton> {
                             onTap: () async {
                               context.pushReplacement(ivrStats);
                             },
-                            hoverColor: AppTheme.of(context).primaryColor.withOpacity(0.4),
+                            hoverColor: AppTheme.of(context)
+                                .primaryColor
+                                .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
                   ],
@@ -165,7 +250,8 @@ class _ManagerButtonState extends State<ManagerButton> {
           ),
         ),
         child: Material(
-          borderRadius: hover ? BorderRadius.circular(widget.borderRadius) : null,
+          borderRadius:
+              hover ? BorderRadius.circular(widget.borderRadius) : null,
           elevation: hover ? 5 : 0,
           color: Colors.transparent,
           clipBehavior: Clip.antiAlias,
@@ -174,7 +260,9 @@ class _ManagerButtonState extends State<ManagerButton> {
             height: MediaQuery.of(context).size.width * 65 / 1920,
             child: Container(
               decoration: BoxDecoration(
-                border: hover || widget.isTaped ? Border.all(color: const Color(0XFFFFFFFF), width: 2) : null,
+                border: hover || widget.isTaped
+                    ? Border.all(color: const Color(0XFFFFFFFF), width: 2)
+                    : null,
                 borderRadius: BorderRadius.circular(15),
                 color: hover || widget.isTaped ? widget.fillColor : null,
               ),
@@ -185,7 +273,9 @@ class _ManagerButtonState extends State<ManagerButton> {
                   child: Icon(
                     widget.icon,
                     size: MediaQuery.of(context).size.width * 45 / 1920,
-                    color: hover || widget.isTaped ? const Color(0XFFFFFFFF) : widget.iconColor,
+                    color: hover || widget.isTaped
+                        ? const Color(0XFFFFFFFF)
+                        : widget.iconColor,
                   ),
                 ),
               ),
