@@ -50,9 +50,9 @@ class _AnimatedStepContainerState extends State<AnimatedStepContainer> {
     JsaProvider jsaProvider = Provider.of<JsaProvider>(context, listen: true);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      height: isContainerOpen
-          ? MediaQuery.of(context).size.height * 0.21
-          : MediaQuery.of(context).size.height * 0.095,
+      height: MediaQuery.of(context).size.height * 0.30,
+
+      // height: MediaQuery.of(context).size.height * 0.21,
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFF335594)),
         borderRadius: BorderRadius.circular(10.0),
@@ -90,29 +90,16 @@ class _AnimatedStepContainerState extends State<AnimatedStepContainer> {
                 const Spacer(),
                 // Open/Close Button
 
-                IconButton(
-                  icon: const Icon(
-                    Icons.add,
-                    color: Color(0xFF335594),
-                  ),
-                  onPressed: () {
-                    stepNameController.text = "";
-                    stepDescriptionController.text = "";
-                    editStep = false;
-                    _showPopup(context);
-                  },
-                ),
                 // IconButton(
-                //   icon: Icon(
-                //     isContainerOpen
-                //         ? Icons.keyboard_arrow_up
-                //         : Icons.keyboard_arrow_down,
-                //     color: const Color(0xFF335594),
+                //   icon: const Icon(
+                //     Icons.add,
+                //     color: Color(0xFF335594),
                 //   ),
                 //   onPressed: () {
-                //     setState(() {
-                //       isContainerOpen = !isContainerOpen;
-                //     });
+                //     stepNameController.text = "";
+                //     stepDescriptionController.text = "";
+                //     editStep = false;
+                //     _showPopup(context);
                 //   },
                 // ),
               ],
@@ -131,7 +118,7 @@ class _AnimatedStepContainerState extends State<AnimatedStepContainer> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.02,
                     child: const Icon(
                       Icons.more_vert_outlined,
@@ -143,7 +130,7 @@ class _AnimatedStepContainerState extends State<AnimatedStepContainer> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.26,
                           child: Text(
                             jsaProvider.jsa.jsaStepsJson!.isEmpty
@@ -158,7 +145,7 @@ class _AnimatedStepContainerState extends State<AnimatedStepContainer> {
                             ),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.26,
                           child: Text(
                             jsaProvider.jsa.jsaStepsJson!.isEmpty

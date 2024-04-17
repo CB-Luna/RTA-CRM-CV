@@ -37,6 +37,8 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
   Widget build(BuildContext context) {
     JSADocumentListProvider provider =
         Provider.of<JSADocumentListProvider>(context);
+    JsaProvider Jsaprovider = Provider.of<JsaProvider>(context);
+
     // provider.listJSA.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
     provider.listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
@@ -103,6 +105,9 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                                 text: 'Create Document JSA',
                                 color: AppTheme.of(context).primaryColor,
                                 onTap: () async {
+                                  jsaProvider.titleController.clear();
+                                  jsaProvider.taskController.clear();
+                                  jsaProvider.searchController.clear();
                                   jsaProvider.setButtonViewTaped(0);
                                   jsaProvider.setIcons(0);
                                   context.pushReplacement(routeJSACreation);

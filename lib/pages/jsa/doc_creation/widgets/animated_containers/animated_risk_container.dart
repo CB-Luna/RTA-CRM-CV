@@ -20,7 +20,8 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
     JsaProvider jsaProvider = Provider.of<JsaProvider>(context, listen: true);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      height: MediaQuery.of(context).size.height * 0.21,
+      height: MediaQuery.of(context).size.height * 0.60,
+      // height: MediaQuery.of(context).size.height * 0.21,
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFF335594)),
         borderRadius: BorderRadius.circular(10.0),
@@ -62,7 +63,9 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
             // Second Row (Additional content when the container is open)
             // if (isContainerOpen)
             Container(
-              height: MediaQuery.of(context).size.height * 0.2,
+              // height: MediaQuery.of(context).size.height * 0.2,
+              height: MediaQuery.of(context).size.height * 0.5,
+
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: ListView.builder(
                 shrinkWrap: true,
@@ -88,11 +91,12 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                     ),
                     // Text "Steps"
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.05,
+                      width: MediaQuery.of(context).size.width * 0.07,
                       alignment: Alignment.center,
                       child: Text(
                         jsaProvider.jsa.jsaStepsJson![i].risks.isEmpty
-                            ? 'No Risk(s)'
+                            // ? 'No Risk(s)'
+                            ? 'Risk(s) Required'
                             //corregir para que haga display el numero correcto
                             : '${jsaProvider.jsa.jsaStepsJson![i].risks.length} Risk(s)',
                         style: TextStyle(
@@ -115,7 +119,8 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                               jsaProvider),
                           child: Container(
                             alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width * 0.04,
+                            width: MediaQuery.of(context).size.width * 0.033,
+                            // width: MediaQuery.of(context).size.width * 0.04,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
                               border: Border.all(
@@ -149,7 +154,8 @@ class _AnimatedRiskContainerState extends State<AnimatedRiskContainer> {
                         // Aqui es para agregar un risk
                         IconButton(
                           icon: const Icon(
-                            Icons.remove_red_eye,
+                            Icons.add_outlined,
+                            // Icons.remove_red_eye,
                             color: Color(0xFF335594),
                           ),
                           onPressed: () async {

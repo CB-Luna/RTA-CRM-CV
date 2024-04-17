@@ -409,7 +409,7 @@ final GoRouter router = GoRouter(
       // (context, state, const DetailsPopUp()),
     ),
 
-     GoRoute(
+    GoRoute(
       path: routeJSACreation,
       name: 'JSA Creation',
       builder: (BuildContext context, GoRouterState state) {
@@ -442,6 +442,16 @@ final GoRouter router = GoRouter(
       },
       // (context, state, const DetailsPopUp()),
     ),
+
+    GoRoute(
+      path: routeJSATraining,
+      name: 'JSA Training',
+      builder: (BuildContext context, GoRouterState state) {
+        return const JobSafetyBriefing();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    // ------------------------------- DASHBOARDS RTATEL ---------------------- //
     ////////Sales
     GoRoute(
       path: opcoSuscriberTarget,
@@ -797,6 +807,54 @@ final GoRouter router = GoRouter(
             title: "Bolivar Peninsula Fiber to the home",
             source:
                 "https://lookerstudio.google.com/embed/u/0/reporting/8661d186-8edb-45ee-b2ab-0fd8acc1d0e5/page/UO1aC");
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: applefwaDashboard,
+      name: 'Apple FWA Dashboard',
+      builder: (BuildContext context, GoRouterState state) {
+        // return const BolivarPeninsulaPageDeskop();
+        return DashboardsRtatelPage(
+            title: "Apple FWA Dashboard",
+            source:
+                "https://lookerstudio.google.com/embed/reporting/e75ff267-d891-49f1-ad02-1adae446b4c2/page/p_yq51y3l9fd");
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: sheridianfwaDashboard,
+      name: 'Sheridan FWA Dashboard',
+      builder: (BuildContext context, GoRouterState state) {
+        // return const BolivarPeninsulaPageDeskop();
+        return DashboardsRtatelPage(
+            title: "Sheridan FWA Dashboard",
+            source:
+                "https://lookerstudio.google.com/embed/reporting/eae60183-db7a-4d10-a359-4a70f7c11d5c/page/p_yq51y3l9fd");
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: stoneridgeFTTHDashboard,
+      name: 'Stoneridge FTTH Dashboard',
+      builder: (BuildContext context, GoRouterState state) {
+        // return const BolivarPeninsulaPageDeskop();
+        return DashboardsRtatelPage(
+            title: "Stoneridge FTTH Dashboard",
+            source:
+                "https://lookerstudio.google.com/embed/reporting/29025f30-3144-4d28-9ff0-2659f076b043/page/p_yq51y3l9fd");
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: greenwoodFTTHDashboard,
+      name: 'Greenwood FTTH Dashboard',
+      builder: (BuildContext context, GoRouterState state) {
+        // return const BolivarPeninsulaPageDeskop();
+        return DashboardsRtatelPage(
+            title: "Greenwood FTTH Dashboard",
+            source:
+                "https://lookerstudio.google.com/embed/reporting/0cc9f622-e066-4a01-be08-11963002647b/page/p_yq51y3l9fd");
       },
       // (context, state, const DetailsPopUp()),
     ),
