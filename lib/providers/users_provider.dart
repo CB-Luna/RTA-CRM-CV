@@ -602,10 +602,11 @@ class UsersProvider extends ChangeNotifier {
 
   Future<bool> deleteUser(User user) async {
     final rolesToDelete = user.roles.where((role) => role.application == currentUser!.currentRole.application).toList();
+    final roleIds = rolesToDelete.map((role) => role.id).toList();
 
     try {
       //first delete roles in current application
-      await supabase.from('user_role').delete().eq('user_fk', user.id).in_('role_fk', rolesToDelete);
+      await supabase.from('user_role').delete().eq('user_fk', user.id).in_('role_fk', roleIds);
 
       //if application is jsa - delete jsa records
       if (currentUser!.currentRole.application == 'JSA') {
