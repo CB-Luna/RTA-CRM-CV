@@ -726,19 +726,11 @@ class _UsersPageState extends State<UsersPage> {
                                             await provider.getStates(notify: false);
                                             await provider.getRoles(notify: false);
                                             await provider.getVehicleUser(rendererContext.cell.value, notify: false);
-                                            // provider.inicializeImage();
-                                            // provider.updateControllers(
-                                            //     rendererContext.cell.value);
-                                            await provider.getVehicleActiveInit(rendererContext.cell.value,
-                                                notify: false);
-                                            await provider.getCompanies(notify: false);
-                                            await provider.getStates(notify: false);
-                                            await provider.getRoles(notify: false);
-                                            provider.initEditUser(rendererContext.cell.value);
                                             await provider.getVehicleActiveInit(
                                               rendererContext.cell.value,
                                               notify: false,
                                             );
+                                            provider.initEditUser(rendererContext.cell.value);
 
                                             if (!mounted) return;
                                             await showDialog(
@@ -770,9 +762,7 @@ class _UsersPageState extends State<UsersPage> {
                                                 context: context,
                                                 builder: (BuildContext context) {
                                                   return StatefulBuilder(builder: (context, setState) {
-                                                    return DeletePopUp(
-                                                      user: rendererContext.cell.value,
-                                                    );
+                                                    return DeletePopUp(user: rendererContext.cell.value);
                                                   });
                                                 });
                                             await provider.getUsers();

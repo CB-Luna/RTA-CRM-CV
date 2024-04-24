@@ -457,7 +457,7 @@ class UsersProvider extends ChangeNotifier {
     try {
       final query = supabase.from('users').select().like('name', '%${searchController.text}%').eq('status', active);
 
-      if (currentUser!.isManagerJSA) query.eq('id_company_fk', currentUser!.company_fk);
+      if (currentUser!.isManagerJSA) query.eq('id_company_fk', currentUser!.companyFk);
 
       final res = await query.order('sequential_id', ascending: true);
 
@@ -601,12 +601,22 @@ class UsersProvider extends ChangeNotifier {
   }
 
   Future<bool> deleteUser(User user) async {
+    final rolesToDelete = user.roles.where((role) => role.application == currentUser!.currentRole.application).toList();
+
     try {
-      final res = await supabase.rpc('delete_user', params: {'user_id': user.id});
-      if (res == null) {
-        log('Error deleteUser()');
-        return false;
+      //first delete roles in current application
+      await supabase.from('user_role').delete().eq('user_fk', user.id).in_('role_fk', rolesToDelete);
+
+      //if application is jsa - delete jsa records
+      if (currentUser!.currentRole.application == 'JSA') {
+        await supabase.rpc('delete_jsa_user', params: {'user_id': user.id});
       }
+
+      //if role deleted is last role - delete user completely
+      if (rolesToDelete.length == user.roles.length) {
+        await supabase.rpc('delete_user', params: {'user_id': user.id});
+      }
+
       return true;
     } catch (e) {
       log('Error in deleteUser() - $e');

@@ -143,6 +143,8 @@ class _DeletePopUpState extends State<DeletePopUp> {
                   text: 'Delete',
                   color: AppTheme.of(context).secondaryColor,
                   onTap: () async {
+                    await provider.deleteUser(widget.user);
+                    await provider.updateState();
                     if (!mounted) return;
                     fToast.showToast(
                       child: const SuccessToast(
@@ -151,10 +153,6 @@ class _DeletePopUpState extends State<DeletePopUp> {
                       gravity: ToastGravity.BOTTOM,
                       toastDuration: const Duration(seconds: 2),
                     );
-                    context.pop();
-                    provider.deleteUser(widget.user);
-                    //provider.deleteUser(widget.users);
-                    provider.updateState();
                   },
                 ),
                 CustomTextIconButton(
@@ -164,7 +162,8 @@ class _DeletePopUpState extends State<DeletePopUp> {
                   text: 'Archive',
                   color: AppTheme.of(context).primaryColor,
                   onTap: () async {
-                    if (!mounted) return;
+                    await provider.changeStatusUser(widget.user);
+                    await provider.updateState();
                     fToast.showToast(
                       child: const SuccessToast(
                         message: 'The user has been successfully archived',
@@ -172,9 +171,8 @@ class _DeletePopUpState extends State<DeletePopUp> {
                       gravity: ToastGravity.BOTTOM,
                       toastDuration: const Duration(seconds: 2),
                     );
-                    provider.changeStatusUser(widget.user);
-                    provider.updateState();
-                    context.pop();
+                    if (!mounted) return;
+                    if (context.canPop()) context.pop();
                   },
                 ),
               ],
