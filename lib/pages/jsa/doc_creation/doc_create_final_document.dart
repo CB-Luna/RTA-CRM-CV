@@ -1,10 +1,13 @@
 // ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables, unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/success_toast.dart';
+import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabaseFlutter;
 
@@ -29,11 +32,15 @@ class CustomDocCreationFinalDocument extends StatefulWidget {
 
 class _CustomDocCreationFinalDocumentState
     extends State<CustomDocCreationFinalDocument> {
+  FToast fToast = FToast();
+
   @override
   Widget build(BuildContext context) {
     JsaProvider provider = Provider.of<JsaProvider>(context);
     double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
+    fToast.init(context);
+
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.87,
@@ -120,7 +127,7 @@ class _CustomDocCreationFinalDocumentState
                     title: "JSA TEMPLATE PREVIEW ",
                     height: MediaQuery.of(context).size.height * 0.3,
                     width: MediaQuery.of(context).size.width * 0.3,
-                    child: Container(
+                    child: SizedBox(
                       child: Row(
                         children: [
                           Container(
@@ -307,6 +314,22 @@ class _CustomDocCreationFinalDocumentState
                             response[0]['id']);
                       }
                     }
+
+                    if (!uploadCorrect) {
+                      await ApiErrorHandler.callToast(
+                          'Error to create JSA Document');
+                      return;
+                    }
+
+                    if (!mounted) return;
+                    fToast.showToast(
+                      child: const SuccessToast(
+                        message: 'JSA Document Added Succesfuly',
+                      ),
+                      gravity: ToastGravity.BOTTOM,
+                      toastDuration: const Duration(seconds: 2),
+                    );
+
                     context.pushReplacement(routeJSADochument);
 
                     setState(() {});

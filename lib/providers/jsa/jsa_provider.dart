@@ -1,4 +1,5 @@
-import 'dart:convert';
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:developer';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
@@ -295,7 +296,8 @@ class JsaProvider extends ChangeNotifier {
       case '7':
       case '8':
       case '9':
-        color = Colors.red.shade200;
+        color = Colors.red;
+        // color = Colors.red.shade200;
         break;
     }
     print("El color despues del switch es: $color");
