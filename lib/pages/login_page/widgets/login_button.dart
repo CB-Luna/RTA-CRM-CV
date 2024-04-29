@@ -99,8 +99,8 @@ class _LoginButtonState extends State<LoginButton> {
               await SupabaseQueries.getUserTheme(),
             );
 
-            if (currentUser!.roles.any((e) => e.application == "Dashboards RTA")) {
-              final role = currentUser!.roles.firstWhere((e) => e.application == "Dashboards RTA");
+            if (currentUser!.roles.any((e) => e.application == "Dashboards")) {
+              final role = currentUser!.roles.firstWhere((e) => e.application == "Dashboards");
 
               currentUser!.setRole(role.roleName);
             }

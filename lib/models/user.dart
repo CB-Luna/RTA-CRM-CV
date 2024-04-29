@@ -90,9 +90,6 @@ class User {
   bool get isEmployee => currentRole.id == 5;
   bool get isTechSupervisor => currentRole.id == 10;
 
-  // bool get isTechSupervisor =>
-  //     roles.any((role) => role.roleName == 'Tech Supervisor');
-
   // Dashboards RTATEL
   bool get isDashboardsRTATEL =>
       isAdminDashboards ||
