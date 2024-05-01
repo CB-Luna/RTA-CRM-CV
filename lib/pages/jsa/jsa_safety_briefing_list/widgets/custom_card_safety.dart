@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/providers/jsa/jsa_provider.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
-import '../../../../providers/jsa/jsa_document_list_provider.dart';
+import '../../../../providers/jsa/jsa_safety_briefing_provider.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/custom_card.dart';
-import 'container_card_jsa.dart';
+import 'container_card_safety_briefg.dart';
 
-class CustomCardJSADocument extends StatefulWidget {
-  const CustomCardJSADocument({super.key});
+class CustomCardSafetyList extends StatefulWidget {
+  const CustomCardSafetyList({super.key});
 
   @override
-  State<CustomCardJSADocument> createState() => _CustomCardJSADocumentState();
+  State<CustomCardSafetyList> createState() => _CustomCardSafetyListState();
 }
 
-class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
+class _CustomCardSafetyListState extends State<CustomCardSafetyList> {
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final JSADocumentListProvider provider =
-          Provider.of<JSADocumentListProvider>(
+      final JsaSafetyProvider provider = Provider.of<JsaSafetyProvider>(
         context,
         listen: false,
       );
@@ -35,16 +31,15 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
 
   @override
   Widget build(BuildContext context) {
-    JSADocumentListProvider provider =
-        Provider.of<JSADocumentListProvider>(context);
+    JsaSafetyProvider provider = Provider.of<JsaSafetyProvider>(context);
 
     // provider.listJSA.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
-    provider.listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    // provider.listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
-    JsaProvider jsaProvider = Provider.of<JsaProvider>(context);
+    // JsaProvider jsaProvider = Provider.of<JsaProvider>(context);
     return CustomCard(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        title: "JSA Document List",
+        title: "Safety Briefing List",
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -65,8 +60,8 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                       Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            // crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               SizedBox(
                                 width: 60,
@@ -95,23 +90,23 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                                   },
                                 ),
                               ),
-                              CustomTextIconButton(
-                                width: 185,
-                                isLoading: false,
-                                icon: Icon(Icons.add_outlined,
-                                    color:
-                                        AppTheme.of(context).primaryBackground),
-                                text: 'Create Document JSA',
-                                color: AppTheme.of(context).primaryColor,
-                                onTap: () async {
-                                  jsaProvider.titleController.clear();
-                                  jsaProvider.taskController.clear();
-                                  jsaProvider.searchController.clear();
-                                  jsaProvider.setButtonViewTaped(0);
-                                  jsaProvider.setIcons(0);
-                                  context.pushReplacement(routeJSACreation);
-                                },
-                              ),
+                              // CustomTextIconButton(
+                              //   width: 185,
+                              //   isLoading: false,
+                              //   icon: Icon(Icons.add_outlined,
+                              //       color:
+                              //           AppTheme.of(context).primaryBackground),
+                              //   text: 'Create Document JSA',
+                              //   color: AppTheme.of(context).primaryColor,
+                              //   onTap: () async {
+                              //     jsaProvider.titleController.clear();
+                              //     jsaProvider.taskController.clear();
+                              //     jsaProvider.searchController.clear();
+                              //     jsaProvider.setButtonViewTaped(0);
+                              //     jsaProvider.setIcons(0);
+                              //     context.pushReplacement(routeJSACreation);
+                              //   },
+                              // ),
                             ],
                           )),
                       Row(
@@ -174,61 +169,61 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                               ),
                             ],
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.sell_outlined,
-                                size: 18,
-                                color: AppTheme.of(context).primaryText,
-                              ),
-                              Text(
-                                'Num. Employee',
-                                style: AppTheme.of(context).title3.override(
-                                    fontFamily:
-                                        AppTheme.of(context).title3Family,
-                                    useGoogleFonts: false,
-                                    color: AppTheme.of(context).primaryText,
-                                    fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.credit_card_outlined,
-                                color: AppTheme.of(context).primaryText,
-                              ),
-                              Text(
-                                'Creation Date',
-                                style: AppTheme.of(context).title3.override(
-                                    fontFamily:
-                                        AppTheme.of(context).title3Family,
-                                    useGoogleFonts: false,
-                                    color: AppTheme.of(context).primaryText,
-                                    fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.sell_outlined,
-                                color: AppTheme.of(context).primaryText,
-                              ),
-                              Text(
-                                'Send Date',
-                                style: AppTheme.of(context).title3.override(
-                                    fontFamily:
-                                        AppTheme.of(context).title3Family,
-                                    useGoogleFonts: false,
-                                    color: AppTheme.of(context).primaryText,
-                                    fontSize: 18),
-                              ),
-                            ],
-                          ),
+                          // Column(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //     Icon(
+                          //       Icons.sell_outlined,
+                          //       size: 18,
+                          //       color: AppTheme.of(context).primaryText,
+                          //     ),
+                          //     Text(
+                          //       'Num. Employee',
+                          //       style: AppTheme.of(context).title3.override(
+                          //           fontFamily:
+                          //               AppTheme.of(context).title3Family,
+                          //           useGoogleFonts: false,
+                          //           color: AppTheme.of(context).primaryText,
+                          //           fontSize: 18),
+                          //     ),
+                          //   ],
+                          // ),
+                          // Column(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //     Icon(
+                          //       Icons.credit_card_outlined,
+                          //       color: AppTheme.of(context).primaryText,
+                          //     ),
+                          //     Text(
+                          //       'Creation Date',
+                          //       style: AppTheme.of(context).title3.override(
+                          //           fontFamily:
+                          //               AppTheme.of(context).title3Family,
+                          //           useGoogleFonts: false,
+                          //           color: AppTheme.of(context).primaryText,
+                          //           fontSize: 18),
+                          //     ),
+                          //   ],
+                          // ),
+                          // Column(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //     Icon(
+                          //       Icons.sell_outlined,
+                          //       color: AppTheme.of(context).primaryText,
+                          //     ),
+                          //     Text(
+                          //       'Send Date',
+                          //       style: AppTheme.of(context).title3.override(
+                          //           fontFamily:
+                          //               AppTheme.of(context).title3Family,
+                          //           useGoogleFonts: false,
+                          //           color: AppTheme.of(context).primaryText,
+                          //           fontSize: 18),
+                          //     ),
+                          //   ],
+                          // ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -278,11 +273,12 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: provider.listJSA.length,
+                itemCount: provider.listSafety.length,
                 controller: ScrollController(),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext ctx, index) {
-                  return ContainerCardJSA(index: index, isExpanded: false);
+                  return ContainerCardJSASafety(
+                      index: index, isExpanded: false);
                 },
               ),
             )

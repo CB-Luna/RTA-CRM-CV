@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/providers/jsa/jsa_safety_briefing_provider.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/item.dart';
@@ -29,6 +32,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
   @override
   Widget build(BuildContext context) {
     SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
+    JsaSafetyProvider providerJSASP = Provider.of<JsaSafetyProvider>(context);
+
     // UsersProvider userProvider = Provider.of<UsersProvider>(context);
     final UserState userState = Provider.of<UserState>(context);
     final userPermissions = currentUser!.currentRole.permissions;
@@ -470,12 +475,43 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                         //     builder: (BuildContext context) {
                         //       return const ConfigPageDashboard();
                         //     });
-                        context.pushReplacement(routeJSASafetyBriefing);
+                        // providerJSASP.createJsaGeneralInfo("", "", "", []);
+
+                        // await providerJSASP.getListUsers();
+                        // final pdfController = await providerJSASP.clientPDF();
+
+                        context.pushReplacement(routeSafetyBriefing);
                       },
                     ),
                   )
                 : Container(),
-            // JSA Safety Briefing
+            // JSA Safety Briefing List
+            currentUser!.isAdminJSA
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: MenuButton(
+                      buttonSize: 40,
+                      tooltip: 'JSA Safety Briefing List',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.list_alt_outlined,
+                      // isTaped: visualState.isTaped[7],
+                      onPressed: () async {
+                        // await showDialog(
+                        //     context: context,
+                        //     builder: (BuildContext context) {
+                        //       return const ConfigPageDashboard();
+                        //     });
+                        // providerJSASP.createJsaGeneralInfo("", "", "", []);
+
+                        // await providerJSASP.getListUsers();
+                        // final pdfController = await providerJSASP.clientPDF();
+
+                        context.pushReplacement(routeSafetyBriefingList);
+                      },
+                    ),
+                  )
+                : Container(),
+            // JSA Training
             currentUser!.isAdminJSA
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
@@ -491,11 +527,12 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                         //     builder: (BuildContext context) {
                         //       return const ConfigPageDashboard();
                         //     });
-                        context.pushReplacement(routeJSATraining);
+                        context.pushReplacement(routeTraining);
                       },
                     ),
                   )
                 : Container(),
+
             SideMenuItem(
               selected: provider.indexSelected[12],
               leading: const Icon(Icons.power_settings_new_outlined,
