@@ -27,9 +27,8 @@ class JSADashboardProvider extends ChangeNotifier {
   int jsaSigned = 0;
   int jsaPending = 0;
   PdfController? pdfController;
-  DateTimeRange dateRange = DateTimeRange(
-      start: DateTime.now().subtract(const Duration(days: 28)),
-      end: DateTime.now());
+  DateTimeRange dateRange =
+      DateTimeRange(start: DateTime.now().subtract(const Duration(days: 28)), end: DateTime.now());
 
   bool loadingGrid = false;
   late Uint8List documento;
@@ -170,22 +169,15 @@ class JSADashboardProvider extends ChangeNotifier {
           return;
         }
         // print(res);
-        listJSA = (res as List<dynamic>)
-            .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
-            .toList();
+        listJSA = (res as List<dynamic>).map((jSA) => Jsa.fromJson(jsonEncode(jSA))).toList();
       } else {
-        final res = await supabaseJsa
-            .from('jsa_view')
-            .select()
-            .eq('company_fk', currentUser!.company_fk);
+        final res = await supabaseJsa.from('jsa_view').select().eq('company_fk', currentUser!.companyFk);
         if (res == null) {
           print('Error en getDocumentList()');
           return;
         }
         // print(res);
-        listJSA = (res as List<dynamic>)
-            .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
-            .toList();
+        listJSA = (res as List<dynamic>).map((jSA) => Jsa.fromJson(jsonEncode(jSA))).toList();
       }
       rows.clear();
       listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
@@ -196,55 +188,33 @@ class JSADashboardProvider extends ChangeNotifier {
         if (jsa.idStatus == 1) {
           jsaDraft++;
           if (dateAdded.month == (dateRange.end.month)) actualMonthEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 1))
-            oneMonthAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 2))
-            twoMonthsAgoEndDraft++;
-          if (dateAdded.month == dateRange.end.month - 3)
-            threeMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 4))
-            fourMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 5))
-            fiveMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 6))
-            sixMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 7))
-            sevenMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 8))
-            eightMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 9))
-            nineMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 10))
-            tenMonthsAgoEndDraft++;
-          if (dateAdded.month == (dateRange.end.month - 11))
-            elevenMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 1)) oneMonthAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 2)) twoMonthsAgoEndDraft++;
+          if (dateAdded.month == dateRange.end.month - 3) threeMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 4)) fourMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 5)) fiveMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 6)) sixMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 7)) sevenMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 8)) eightMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 9)) nineMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 10)) tenMonthsAgoEndDraft++;
+          if (dateAdded.month == (dateRange.end.month - 11)) elevenMonthsAgoEndDraft++;
         }
         if (jsa.idStatus == 2) {
           jsaPending++;
           // print("jsaPending $jsaPending");
           if (dateAdded.month == dateRange.end.month) actualMonthEndPending++;
-          if (dateAdded.month == dateRange.end.month - 1)
-            oneMonthAgoEndPending++;
-          if (dateAdded.month == dateRange.end.month - 2)
-            twoMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 3))
-            threeMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 4))
-            fourMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 5))
-            fiveMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 6))
-            sixMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 7))
-            sevenMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 8))
-            eightMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 9))
-            nineMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 10))
-            tenMonthsAgoEndPending++;
-          if (dateAdded.month == (dateRange.end.month - 11))
-            elevenMonthsAgoEndPending++;
+          if (dateAdded.month == dateRange.end.month - 1) oneMonthAgoEndPending++;
+          if (dateAdded.month == dateRange.end.month - 2) twoMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 3)) threeMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 4)) fourMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 5)) fiveMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 6)) sixMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 7)) sevenMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 8)) eightMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 9)) nineMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 10)) tenMonthsAgoEndPending++;
+          if (dateAdded.month == (dateRange.end.month - 11)) elevenMonthsAgoEndPending++;
         }
         if (jsa.idStatus == 3) {
           jsaSigned++;
@@ -254,26 +224,16 @@ class JSADashboardProvider extends ChangeNotifier {
               // &&
               //     dateAdded.isAfter(dateRange.start)
               ) oneMonthAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 2))
-            twoMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 3))
-            threeMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 4))
-            fourMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 5))
-            fiveMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 6))
-            sixMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 7))
-            sevenMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 8))
-            eightMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 9))
-            nineMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 10))
-            tenMonthsAgoEndSigned++;
-          if (dateAdded.month == (dateRange.end.month - 11))
-            elevenMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 2)) twoMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 3)) threeMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 4)) fourMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 5)) fiveMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 6)) sixMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 7)) sevenMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 8)) eightMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 9)) nineMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 10)) tenMonthsAgoEndSigned++;
+          if (dateAdded.month == (dateRange.end.month - 11)) elevenMonthsAgoEndSigned++;
         }
         rows.add(
           PlutoRow(
@@ -282,10 +242,8 @@ class JSADashboardProvider extends ChangeNotifier {
               'CREATED_Column': PlutoCell(value: jsa.employee!.name),
               'TITLE_Column': PlutoCell(value: jsa.title),
               'NUM_EMPL_Column': PlutoCell(value: jsa.usersjsa.length),
-              'CREATION_Column': PlutoCell(
-                  value: DateFormat("MMM/dd/yyyy").format(jsa.createdAt!)),
-              'SEND_Column': PlutoCell(
-                  value: DateFormat("MMM/dd/yyyy").format(jsa.createdAt!)),
+              'CREATION_Column': PlutoCell(value: DateFormat("MMM/dd/yyyy").format(jsa.createdAt!)),
+              'SEND_Column': PlutoCell(value: DateFormat("MMM/dd/yyyy").format(jsa.createdAt!)),
               'STATUS_Column': PlutoCell(value: jsa.status),
               'PREVIEW_Column': PlutoCell(value: jsa.docName),
             },
