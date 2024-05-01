@@ -10,6 +10,7 @@ class LoginInputField extends StatefulWidget {
     required this.controller,
     this.validator,
     this.unfocusedTextColor = Colors.grey,
+    this.icon,
   }) : super(key: key);
 
   final String label;
@@ -17,6 +18,7 @@ class LoginInputField extends StatefulWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final Color unfocusedTextColor;
+  final IconData? icon;
 
   @override
   State<LoginInputField> createState() => _LoginInputFieldState();
@@ -35,6 +37,14 @@ class _LoginInputFieldState extends State<LoginInputField> {
 
   @override
   Widget build(BuildContext context) {
+    Widget prefixIcon;
+
+    if (widget.icon != null) {
+      prefixIcon = Icon(widget.icon);
+    } else {
+      prefixIcon = widget.isPasswordField ? const Icon(Icons.key_sharp) : const Icon(Icons.person_2_outlined);
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: SizedBox(
@@ -104,13 +114,9 @@ class _LoginInputFieldState extends State<LoginInputField> {
                 borderRadius: BorderRadius.circular(4.88),
               ),
               focusColor: AppTheme.of(context).primaryColor,
-              prefixIcon: widget.isPasswordField
-                  ? const Icon(Icons.key_sharp)
-                  : const Icon(Icons.person_2_outlined),
-              prefixIconColor: MaterialStateColor.resolveWith((states) =>
-                  states.contains(MaterialState.focused)
-                      ? AppTheme.of(context).primaryColor
-                      : Colors.grey),
+              prefixIcon: prefixIcon,
+              prefixIconColor: MaterialStateColor.resolveWith(
+                  (states) => states.contains(MaterialState.focused) ? AppTheme.of(context).primaryColor : Colors.grey),
               suffixIcon: widget.isPasswordField
                   ? InkWell(
                       onTap: () => setState(
@@ -118,9 +124,7 @@ class _LoginInputFieldState extends State<LoginInputField> {
                       ),
                       focusNode: FocusNode(skipTraversal: true),
                       child: Icon(
-                        passwordVisibility
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
+                        passwordVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                         color: Colors.grey,
                         size: 22,
                       ),

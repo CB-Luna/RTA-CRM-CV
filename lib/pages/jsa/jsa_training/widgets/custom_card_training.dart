@@ -1,50 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/providers/jsa/jsa_provider.dart';
-import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
+import 'package:rta_crm_cv/providers/jsa/jsa_training.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
-import '../../../../providers/jsa/jsa_document_list_provider.dart';
 import '../../../../theme/theme.dart';
+import '../../../../widgets/captura/custom_text_field.dart';
 import '../../../../widgets/custom_card.dart';
-import 'container_card_jsa.dart';
 
-class CustomCardJSADocument extends StatefulWidget {
-  const CustomCardJSADocument({super.key});
+class CustomCardTraining extends StatefulWidget {
+  const CustomCardTraining({super.key});
 
   @override
-  State<CustomCardJSADocument> createState() => _CustomCardJSADocumentState();
+  State<CustomCardTraining> createState() => _CustomCardTrainingState();
 }
 
-class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
+class _CustomCardTrainingState extends State<CustomCardTraining> {
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final JSADocumentListProvider provider =
-          Provider.of<JSADocumentListProvider>(
+      final JsaTraining provider = Provider.of<JsaTraining>(
         context,
         listen: false,
       );
-      await provider.updateState();
+      // await provider.updateState();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    JSADocumentListProvider provider =
-        Provider.of<JSADocumentListProvider>(context);
+    JsaTraining provider = Provider.of<JsaTraining>(context);
 
     // provider.listJSA.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
-    provider.listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    // provider.listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
-    JsaProvider jsaProvider = Provider.of<JsaProvider>(context);
+    // JsaProvider jsaProvider = Provider.of<JsaProvider>(context);
     return CustomCard(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        title: "JSA Document List",
+        title: "Training List",
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -52,7 +46,8 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
               padding: const EdgeInsets.only(bottom: 16.0),
               child: Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.15,
+                //                 height: MediaQuery.of(context).size.height * 0.15,
+                height: MediaQuery.of(context).size.height * 0.13,
                 margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
@@ -90,26 +85,26 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                                   label: 'Search',
                                   keyboardType: TextInputType.text,
                                   onChanged: (String query) async {
-                                    provider.filterDocuments(query);
+                                    // provider.filterDocuments(query);
                                     // provider.updateState();
                                   },
                                 ),
                               ),
                               CustomTextIconButton(
-                                width: 185,
+                                width: 225,
                                 isLoading: false,
                                 icon: Icon(Icons.add_outlined,
                                     color:
                                         AppTheme.of(context).primaryBackground),
-                                text: 'Create Document JSA',
+                                text: 'Add Training',
                                 color: AppTheme.of(context).primaryColor,
                                 onTap: () async {
-                                  jsaProvider.titleController.clear();
-                                  jsaProvider.taskController.clear();
-                                  jsaProvider.searchController.clear();
-                                  jsaProvider.setButtonViewTaped(0);
-                                  jsaProvider.setIcons(0);
-                                  context.pushReplacement(routeJSACreation);
+                                  // jsaProvider.titleController.clear();
+                                  // jsaProvider.taskController.clear();
+                                  // jsaProvider.searchController.clear();
+                                  // jsaProvider.setButtonViewTaped(0);
+                                  // jsaProvider.setIcons(0);
+                                  // context.pushReplacement(routeJSACreation);
                                 },
                               ),
                             ],
@@ -122,7 +117,7 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                             children: [
                               Icon(
                                 Icons.calendar_month,
-                                size: 18,
+                                size: 30,
                                 color: AppTheme.of(context).primaryText,
                               ),
                               Text(
@@ -132,7 +127,7 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                                         AppTheme.of(context).title3Family,
                                     useGoogleFonts: false,
                                     color: AppTheme.of(context).primaryText,
-                                    fontSize: 18),
+                                    fontSize: 22),
                               ),
                             ],
                           ),
@@ -141,17 +136,17 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                             children: [
                               Icon(
                                 Icons.document_scanner_outlined,
-                                size: 18,
+                                size: 30,
                                 color: AppTheme.of(context).primaryText,
                               ),
                               Text(
-                                'Created By',
+                                'Employee',
                                 style: AppTheme.of(context).title3.override(
                                     fontFamily:
                                         AppTheme.of(context).title3Family,
                                     useGoogleFonts: false,
                                     color: AppTheme.of(context).primaryText,
-                                    fontSize: 18),
+                                    fontSize: 22),
                               ),
                             ],
                           ),
@@ -160,17 +155,17 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                             children: [
                               Icon(
                                 Icons.work_outlined,
-                                size: 18,
+                                size: 30,
                                 color: AppTheme.of(context).primaryText,
                               ),
                               Text(
-                                'Title',
+                                'No. Trainings',
                                 style: AppTheme.of(context).title3.override(
                                     fontFamily:
                                         AppTheme.of(context).title3Family,
                                     useGoogleFonts: false,
                                     color: AppTheme.of(context).primaryText,
-                                    fontSize: 18),
+                                    fontSize: 22),
                               ),
                             ],
                           ),
@@ -179,17 +174,17 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                             children: [
                               Icon(
                                 Icons.sell_outlined,
-                                size: 18,
+                                size: 30,
                                 color: AppTheme.of(context).primaryText,
                               ),
                               Text(
-                                'Num. Employee',
+                                'Rol',
                                 style: AppTheme.of(context).title3.override(
                                     fontFamily:
                                         AppTheme.of(context).title3Family,
                                     useGoogleFonts: false,
                                     color: AppTheme.of(context).primaryText,
-                                    fontSize: 18),
+                                    fontSize: 22),
                               ),
                             ],
                           ),
@@ -199,73 +194,19 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
                               Icon(
                                 Icons.credit_card_outlined,
                                 color: AppTheme.of(context).primaryText,
+                                size: 30,
                               ),
                               Text(
-                                'Creation Date',
+                                'Company',
                                 style: AppTheme.of(context).title3.override(
                                     fontFamily:
                                         AppTheme.of(context).title3Family,
                                     useGoogleFonts: false,
                                     color: AppTheme.of(context).primaryText,
-                                    fontSize: 18),
+                                    fontSize: 22),
                               ),
                             ],
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.sell_outlined,
-                                color: AppTheme.of(context).primaryText,
-                              ),
-                              Text(
-                                'Send Date',
-                                style: AppTheme.of(context).title3.override(
-                                    fontFamily:
-                                        AppTheme.of(context).title3Family,
-                                    useGoogleFonts: false,
-                                    color: AppTheme.of(context).primaryText,
-                                    fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.sell_outlined,
-                                color: AppTheme.of(context).primaryText,
-                              ),
-                              Text(
-                                'Status',
-                                style: AppTheme.of(context).title3.override(
-                                    fontFamily:
-                                        AppTheme.of(context).title3Family,
-                                    useGoogleFonts: false,
-                                    color: AppTheme.of(context).primaryText,
-                                    fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.menu,
-                                color: AppTheme.of(context).primaryText,
-                              ),
-                              Text(
-                                'Preview',
-                                style: AppTheme.of(context).title3.override(
-                                    fontFamily:
-                                        AppTheme.of(context).title3Family,
-                                    useGoogleFonts: false,
-                                    color: AppTheme.of(context).primaryText,
-                                    fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          //const SizedBox(width: 65),
                         ],
                       ),
                     ],
@@ -278,11 +219,17 @@ class _CustomCardJSADocumentState extends State<CustomCardJSADocument> {
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: provider.listJSA.length,
+                itemCount: 3,
                 controller: ScrollController(),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext ctx, index) {
-                  return ContainerCardJSA(index: index, isExpanded: false);
+                  return Container(
+                    color: Colors.red,
+                    height: 50,
+                    width: 50,
+                  );
+                  // return ContainerCardJSASafety(
+                  //     index: index, isExpanded: false);
                 },
               ),
             )

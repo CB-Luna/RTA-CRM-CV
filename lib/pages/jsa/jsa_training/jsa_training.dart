@@ -4,16 +4,16 @@ import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 import '../../../theme/theme.dart';
-import 'widgets/custom_card_jsa_jsb.dart';
+import 'widgets/custom_card_training.dart';
 
-class JobSafetyBriefing extends StatefulWidget {
-  const JobSafetyBriefing({super.key});
+class JSATraining extends StatefulWidget {
+  const JSATraining({super.key});
 
   @override
-  State<JobSafetyBriefing> createState() => _JobSafetyBriefingState();
+  State<JSATraining> createState() => _JSATrainingState();
 }
 
-class _JobSafetyBriefingState extends State<JobSafetyBriefing> {
+class _JSATrainingState extends State<JSATraining> {
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -52,14 +52,14 @@ class _JobSafetyBriefingState extends State<JobSafetyBriefing> {
                               padding: const EdgeInsets.only(right: 10),
                               child: SizedBox(
                                 height: 40,
-                                child: Text('Safety Briefing',
+                                child: Text('Training',
                                     style: AppTheme.of(context).title1),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      const CustomCardJSB()
+                      const CustomCardTraining()
                     ],
                   ),
                 ),
