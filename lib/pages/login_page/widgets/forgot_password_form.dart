@@ -49,6 +49,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
             key: const Key('email'),
             label: 'Email',
             controller: userState.emailController,
+            icon: Icons.email_outlined,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'The email is required';
@@ -58,23 +59,30 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               return null;
             },
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 40, left: 5),
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                onTap: () => userState.changeView(FormView.loginForm),
-                child: Text(
-                  'Back to login',
-                  style: GoogleFonts.poppins(
-                    color: AppTheme.of(context).primaryColor,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: () => userState.changeView(FormView.loginForm),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.arrow_back_ios_new,
+                    color: Color(0xFF9E9E9E),
                   ),
-                ),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Back to login',
+                    style: GoogleFonts.poppins(
+                      color: const Color(0xFF9E9E9E),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
+          const SizedBox(height: 30),
           ContinueButton(
             buttonColor: AppTheme.of(context).primaryColor,
             formKey: formKey,

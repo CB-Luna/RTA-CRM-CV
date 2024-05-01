@@ -26,7 +26,8 @@ Widget? getImage(String? image, {double height = 180}) {
   );
 }
 
-Widget? getUserImage(dynamic image, {double height = 180, BoxFit boxFit = BoxFit.cover}) {
+Widget? getUserImage(dynamic image,
+    {double height = 180, BoxFit boxFit = BoxFit.cover}) {
   if (image == null || image == "") {
     return Image.asset('assets/images/default-user-profile-picture.png');
   } else if (image is Uint8List) {
@@ -48,7 +49,8 @@ Widget? getUserImage(dynamic image, {double height = 180, BoxFit boxFit = BoxFit
   return Image.asset('assets/images/default-user-profile-picture.png');
 }
 
-Widget? getAddImageU(dynamic image, {double height = 180, BoxFit boxFit = BoxFit.cover}) {
+Widget? getAddImageU(dynamic image,
+    {double height = 180, BoxFit boxFit = BoxFit.cover}) {
   if (image == null) {
     return Image.asset('assets/images/default-user-profile-picture.png');
   } else if (image is Uint8List) {
@@ -72,7 +74,8 @@ Widget? getAddImageU(dynamic image, {double height = 180, BoxFit boxFit = BoxFit
 }
 
 //---------------------------------------------
-Widget? getAddImageV(dynamic image, {double height = 180, BoxFit boxFit = BoxFit.cover}) {
+Widget? getAddImageV(dynamic image,
+    {double height = 180, BoxFit boxFit = BoxFit.cover}) {
   if (image == null) {
     return Image.asset('assets/images/fadeInAnimation.gif');
   } else if (image is Uint8List) {
@@ -95,7 +98,8 @@ Widget? getAddImageV(dynamic image, {double height = 180, BoxFit boxFit = BoxFit
   }
 }
 
-Widget? getImageUpdate(Vehicle vehicle, dynamic newImage, {double height = 180, BoxFit boxFit = BoxFit.cover}) {
+Widget? getImageUpdate(Vehicle vehicle, dynamic newImage,
+    {double height = 180, BoxFit boxFit = BoxFit.cover}) {
   print("------------");
   print(vehicle.image);
   if (vehicle.image == null || vehicle.image == "") {
@@ -147,4 +151,52 @@ Image getNullableImage(
     filterQuality: FilterQuality.high,
     fit: boxFit,
   );
+}
+
+//----------     Safety Briefing
+Widget? getAddImageSafetyBrifing(dynamic image,
+    {double height = 180, BoxFit boxFit = BoxFit.cover}) {
+  if (image == null) {
+    return Image.asset('assets/images/fadeInAnimation.gif');
+  } else if (image is Uint8List) {
+    return Image.memory(
+      image,
+      height: height,
+      width: double.infinity,
+      fit: boxFit,
+    );
+  } else if (image is String) {
+    return Image.network(
+      image,
+      height: height,
+      width: double.infinity,
+      filterQuality: FilterQuality.high,
+      fit: boxFit,
+    );
+  } else {
+    return Image.asset('assets/images/fadeInAnimation.gif');
+  }
+}
+
+Widget? getImageUpdateSafety(dynamic newImage,
+    {double height = 180, BoxFit boxFit = BoxFit.cover}) {
+  print("------------");
+  print(newImage);
+  if (newImage is Uint8List) {
+    return Image.memory(
+      newImage,
+      height: height,
+      width: double.infinity,
+      fit: boxFit,
+    );
+  } else if (newImage is String) {
+    return Image.network(
+      newImage,
+      height: height,
+      width: double.infinity,
+      filterQuality: FilterQuality.high,
+      fit: boxFit,
+    );
+  }
+  return null;
 }

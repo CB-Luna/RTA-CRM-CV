@@ -204,7 +204,7 @@ class _TeamMemberListState extends State<TeamMemberList> {
                           // User Name Placeholder
                           Container(
                             alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width * 0.04,
+                            width: MediaQuery.of(context).size.width * 0.06,
                             child: Text(
                               user.fullName,
                               style: const TextStyle(

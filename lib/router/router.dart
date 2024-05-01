@@ -17,6 +17,7 @@ import 'package:rta_crm_cv/pages/dashboards_rtatel/download_apk/dashboard_rtatel
 import 'package:rta_crm_cv/pages/jsa/doc_creation/jsa_doc_creation_screen.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_document_list/jsa_document_list.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_safety_briefing/job_safety_briefing.dart';
+import 'package:rta_crm_cv/pages/jsa/jsa_training/jsa_training.dart';
 import 'package:rta_crm_cv/pages/login_page/login_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
@@ -34,10 +35,11 @@ import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_docu
 import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 import '../pages/dashboards_rtatel/config_page_dashboard.dart';
 import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
-import '../pages/dashboards_rtatel/migrations/monitoring_dashboards/monitoring_dashboard_page_desktop.dart';
 import '../pages/jsa/download_apk/download_apk_jsa_page_desktop.dart';
 import '../pages/jsa/jsa_dashboard/jsa_dashboards_page.dart';
 
+import '../pages/jsa/jsa_safety_briefing/widgets/safety_briefing_resume.dart';
+import '../pages/jsa/jsa_safety_briefing_list/job_safety_briefing_list.dart';
 import '../widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document.dart';
 
 /// The route configuration.
@@ -435,19 +437,34 @@ final GoRouter router = GoRouter(
       // (context, state, const DetailsPopUp()),
     ),
     GoRoute(
-      path: routeJSASafetyBriefing,
-      name: 'JSA Safety Briefing',
+      path: routeSafetyBriefing,
+      name: 'Safety Briefing',
       builder: (BuildContext context, GoRouterState state) {
         return const JobSafetyBriefing();
       },
       // (context, state, const DetailsPopUp()),
     ),
-
     GoRoute(
-      path: routeJSATraining,
-      name: 'JSA Training',
+      path: routeSafetyBriefingList,
+      name: 'Safety Briefing List',
       builder: (BuildContext context, GoRouterState state) {
-        return const JobSafetyBriefing();
+        return const JobSafetyBriefingList();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeSafetyBriefingResume,
+      name: 'Safety Briefing Resume',
+      builder: (BuildContext context, GoRouterState state) {
+        return const SafetyBriefingResume();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeTraining,
+      name: 'Training',
+      builder: (BuildContext context, GoRouterState state) {
+        return const JSATraining();
       },
       // (context, state, const DetailsPopUp()),
     ),
