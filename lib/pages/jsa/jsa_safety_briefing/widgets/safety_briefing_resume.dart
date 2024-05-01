@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_safety_briefing_provider.dart';
@@ -7,6 +9,11 @@ import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabaseFlutter;
+import 'package:rta_crm_cv/services/api_error_handler.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/success_toast.dart';
+import '../../../../helpers/constants.dart';
+import '../../../../helpers/globals.dart';
 
 class SafetyBriefingResume extends StatefulWidget {
   const SafetyBriefingResume({super.key});
@@ -16,6 +23,8 @@ class SafetyBriefingResume extends StatefulWidget {
 }
 
 class _SafetyBriefingResumeState extends State<SafetyBriefingResume> {
+  FToast fToast = FToast();
+
   @override
   Widget build(BuildContext context) {
     JsaSafetyProvider provider = Provider.of<JsaSafetyProvider>(context);
@@ -257,12 +266,72 @@ class _SafetyBriefingResumeState extends State<SafetyBriefingResume> {
                                         Text(provider.contactController.text)
                                       ],
                                     ),
+                                    InkWell(
+                                      onTap: () async {
+                                        supabaseFlutter.PostgrestList response =
+                                            await provider.mainUpload();
+                                        var teamResponse;
+
+                                        // //DOCUMENT
+                                        var uploadCorrect = await provider.uploadDocument(
+                                          currentUser!.sequentialId,
+                                          response[0]['id'],
+                                        );
+
+                                        // // //USERS
+                                        if (uploadCorrect) {
+                                          for (int i = 0; i < provider.teamMembers.length; i++) {
+                                            teamResponse =
+                                                await provider.teamUpload(i, response, teamResponse);
+                                          }
+                                        }
+
+                                        if (!uploadCorrect) {
+                                          await ApiErrorHandler.callToast(
+                                              'Error to create Safety Briefing Document');
+                                          return;
+                                        }
+
+                                        if (!mounted) return;
+                                        fToast.showToast(
+                                          child: const SuccessToast(
+                                            message: 'Safety Briefing Added Succesfuly',
+                                          ),
+                                          gravity: ToastGravity.BOTTOM,
+                                          toastDuration: const Duration(seconds: 2),
+                                        );
+
+                                        context.pushReplacement(routeSafetyBriefingList);
+                                        if (uploadCorrect) {
+                                          print("Subido con exito a supabase");
+                                        }
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width * 0.3,
+                                        height: MediaQuery.of(context).size.height * 0.04,
+                                        margin: const EdgeInsets.all(10),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            color: AppTheme.of(context).cryPrimary,
+                                            borderRadius: BorderRadius.circular(20)),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons.arrow_left_outlined,
+                                              color: Colors.white,
+                                            ),
+                                            Text("Submit", style: AppTheme.of(context).subtitle2),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
-                              ))
+                              )),
                         ],
                       )
-                      // const CustomCardJSB()
                     ],
                   ),
                 ),
