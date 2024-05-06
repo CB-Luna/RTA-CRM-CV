@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/models/jsa/team_members.dart';
-import 'package:rta_crm_cv/pages/jsa/doc_creation/doc_creation_card.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_safety_briefing_provider.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
-
-import '../../../../models/user.dart';
 
 class TeamMembersSafety extends StatefulWidget {
   const TeamMembersSafety({super.key});
@@ -15,20 +14,16 @@ class TeamMembersSafety extends StatefulWidget {
 }
 
 class _TeamMembersSafetyState extends State<TeamMembersSafety> {
-  List<User> membersSelection = [];
-
   @override
   void initState() {
     super.initState();
-    membersSelection = [];
+    // provider.membersSelection = [];
   }
 
   @override
   Widget build(BuildContext context) {
-    TeamMembersSafetyModel teamMember =
-        TeamMembersSafetyModel(name: "", role: "", pic: "", id: "");
+    TeamMembersSafetyModel teamMember;
     JsaSafetyProvider provider = Provider.of<JsaSafetyProvider>(context);
-
     return AlertDialog(
       backgroundColor: Colors.transparent,
       content: CustomCard(
@@ -51,52 +46,79 @@ class _TeamMembersSafetyState extends State<TeamMembersSafety> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
-                          alignment: Alignment.centerRight),
-                      onPressed: () {
-                        setState(() {
-                          // Toggle all checkboxes
-                          // bool allSelected =
-                          //     !membersSelection.every((element) => element);
-                          if (membersSelection.isNotEmpty) {
-                            membersSelection.clear();
-                            provider.teamMembers.clear();
-                            print(
-                                "Memberselection: ${membersSelection.length}");
-                            print(
-                                "TeamMembersSafety: ${provider.teamMembers.length}");
-                            // provider.deleteTeamMembersSafety(provider.users.id.toString());
-                          } else {
-                            for (var user in provider.users) {
-                              membersSelection.add(user);
-                              // allselected = true;
-                              teamMember = TeamMembersSafetyModel(
-                                name: user.name,
-                                role: user.currentAppRole,
-                                id: user.id,
-                                pic: user.image,
-                              );
-                              provider.addTeamMembers(teamMember);
-                            }
-                          }
+                    child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (provider.membersSelection.isNotEmpty) {
+                              var membersCopy =
+                                  List.from(provider.membersSelection);
 
-                          // Se supone que al volver a seleccionarlo y la lista esta llena, entonces lo limpiara
-                        });
-                      },
-                      child: const Text(
-                        'Select All',
-                        style: TextStyle(
-                          color: Color(0xFF335594),
-                          fontSize: 15,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w700,
-                          height: 0,
-                        ),
-                      ),
-                    ),
+                              for (var user in membersCopy) {
+                                provider.membersSelection.remove(user);
+                                provider.deleteTeamMembers(user.id.toString());
+                              }
+                            } else {
+                              for (var user in provider.users) {
+                                provider.membersSelection.add(user);
+                                // allselected = true;
+                                teamMember = TeamMembersSafetyModel(
+                                    name: user.fullName,
+                                    role: user.currentAppRole,
+                                    id: user.id,
+                                    pic: user.image,
+                                    email: user.email);
+                                provider.addTeamMembers(teamMember);
+                              }
+                            }
+                          });
+                        },
+                        child: provider.membersSelection.isNotEmpty
+                            ? Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.06,
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  border: Border.all(
+                                      color: AppTheme.of(context).odePrimary,
+                                      width: 1.0),
+                                ),
+                                child: Text(
+                                  'Unselect All',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: AppTheme.of(context).odePrimary,
+                                    fontSize: 15,
+                                    fontFamily: 'Outfit',
+                                    fontWeight: FontWeight.w700,
+                                    height: 0,
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.06,
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  border: Border.all(
+                                      color: const Color(0xFF335594),
+                                      width: 1.0),
+                                ),
+                                child: const Text(
+                                  'Select All',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF335594),
+                                    fontSize: 15,
+                                    fontFamily: 'Outfit',
+                                    fontWeight: FontWeight.w700,
+                                    height: 0,
+                                  ),
+                                ),
+                              )),
                   ),
                 ],
               ),
@@ -111,7 +133,6 @@ class _TeamMembersSafetyState extends State<TeamMembersSafety> {
                         color: Color(0xFF335594),
                         fontWeight: FontWeight.bold,
                       ),
-                      // overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   // User Role Placeholder
@@ -133,7 +154,8 @@ class _TeamMembersSafetyState extends State<TeamMembersSafety> {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
-                height: MediaQuery.of(context).size.height * 0.7,
+                height: MediaQuery.of(context).size.height * 0.4,
+                // height: MediaQuery.of(context).size.height * 0.7,
                 child: Builder(builder: (context) {
                   return ListView.builder(
                       itemCount: provider.users.length,
@@ -148,39 +170,30 @@ class _TeamMembersSafetyState extends State<TeamMembersSafety> {
                                 width: MediaQuery.of(context).size.width * 0.02,
                                 child: Checkbox(
                                   activeColor: const Color(0xFF335594),
-                                  value: membersSelection.contains(user),
+                                  value:
+                                      provider.membersSelection.contains(user),
                                   // Set the initial value as per your requirement
                                   onChanged: (bool? value) {
                                     if (value == true) {
-                                      membersSelection.add(user);
+                                      provider.membersSelection.add(user);
                                       teamMember = TeamMembersSafetyModel(
-                                          name: user.name,
+                                          name: user.fullName,
                                           role: user.currentAppRole,
                                           id: user.id,
+                                          email: user.email,
                                           pic: user.image);
                                       provider.addTeamMembers(teamMember);
                                     } else {
-                                      membersSelection.remove(user);
+                                      provider.membersSelection.remove(user);
                                       provider.deleteTeamMembers(
                                           provider.users[index].id.toString());
                                     }
-                                    // Handle checkbox state changes here
                                   },
                                 ),
                               ),
-                              // Profile Picture Placeholder
-                              // Container(
-                              //   width: MediaQuery.of(context).size.width * 0.02,
-                              //   child: const CircleAvatar(
-                              //     radius: 20, // Adjust the size as needed
-                              //     backgroundColor: Colors.grey, // Placeholder color
-                              //     backgroundImage:
-                              //         AssetImage('assets/images/avatar2.png'),
-                              //   ),
-                              // ),
-                              // User Name Placeholder
+
                               Container(
-                                alignment: Alignment.center,
+                                alignment: Alignment.centerLeft,
                                 width: MediaQuery.of(context).size.width * 0.06,
                                 child: Text(
                                   user.fullName,
@@ -215,6 +228,60 @@ class _TeamMembersSafetyState extends State<TeamMembersSafety> {
                       });
                 }),
               ),
+              // Container(
+              //   height: 50,
+              //   color: Colors.red,
+              // )
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      var membersCopy = List.from(provider.membersSelection);
+
+                      for (var user in membersCopy) {
+                        provider.membersSelection.remove(user);
+                        provider.deleteTeamMembers(user.id.toString());
+                      }
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.07,
+                      height: MediaQuery.of(context).size.height * 0.04,
+                      margin: const EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: AppTheme.of(context).odePrimary,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Cancel", style: AppTheme.of(context).subtitle2),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.07,
+                      height: MediaQuery.of(context).size.height * 0.04,
+                      margin: const EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: AppTheme.of(context).cryPrimary,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Accept", style: AppTheme.of(context).subtitle2),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           )),
         ),
@@ -241,18 +308,22 @@ class _CustomDropSafetyState extends State<CustomDropSafety> {
 
     return Container(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.title,
-            style: const TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.normal,
-              color: Color(0xFF737373),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 13.0),
+            child: Text(
+              widget.title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.normal,
+                color: Color(0xFF737373),
+              ),
             ),
           ),
-          const SizedBox(height: 8.0),
+          const SizedBox(width: 8.0),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),

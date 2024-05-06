@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
-import 'package:rta_crm_cv/providers/jsa/jsa_safety_briefing_provider.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/item.dart';
@@ -465,7 +464,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(
                       buttonSize: 40,
-                      tooltip: 'JSA Safety Briefing',
+                      tooltip: 'Safety Briefing',
                       fillColor: AppTheme.of(context).primaryColor,
                       icon: Icons.description_outlined,
                       // isTaped: visualState.isTaped[7],
@@ -477,7 +476,14 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                         //     });
                         // providerJSASP.createJsaGeneralInfo("", "", "", []);
 
-                        // await providerJSASP.getListUsers();
+                        providerJSASP.teamMembers.clear();
+                        var membersCopy =
+                            List.from(providerJSASP.membersSelection);
+
+                        for (var user in membersCopy) {
+                          providerJSASP.membersSelection.remove(user);
+                          providerJSASP.deleteTeamMembers(user.id.toString());
+                        }
                         // final pdfController = await providerJSASP.clientPDF();
 
                         context.pushReplacement(routeSafetyBriefing);
@@ -491,7 +497,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(
                       buttonSize: 40,
-                      tooltip: 'JSA Safety Briefing List',
+                      tooltip: 'Safety Briefing List',
                       fillColor: AppTheme.of(context).primaryColor,
                       icon: Icons.list_alt_outlined,
                       // isTaped: visualState.isTaped[7],

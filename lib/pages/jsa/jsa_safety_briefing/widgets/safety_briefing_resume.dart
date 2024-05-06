@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
@@ -10,8 +14,6 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabaseFlutter;
-import 'package:rta_crm_cv/services/api_error_handler.dart';
-import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/success_toast.dart';
 import '../../../../helpers/constants.dart';
 import '../../../../helpers/globals.dart';
 
@@ -27,6 +29,8 @@ class _SafetyBriefingResumeState extends State<SafetyBriefingResume> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width / 1440;
+    double height = MediaQuery.of(context).size.height / 1024;
     JsaSafetyProvider provider = Provider.of<JsaSafetyProvider>(context);
 
     return Material(
@@ -268,61 +272,197 @@ class _SafetyBriefingResumeState extends State<SafetyBriefingResume> {
                                     ),
                                     InkWell(
                                       onTap: () async {
+                                        // await provider.crearPDF();
+                                        Completer<bool> completer =
+                                            Completer<bool>();
+                                        showDialog(
+                                          context: context,
+                                          barrierDismissible:
+                                              false, // Impide cerrar el diálogo tocando fuera de él
+                                          builder: (BuildContext context) {
+                                            return StatefulBuilder(
+                                              builder: (BuildContext context,
+                                                  StateSetter setState) {
+                                                return AlertDialog(
+                                                  key: UniqueKey(),
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  shadowColor:
+                                                      Colors.transparent,
+                                                  content: Container(
+                                                    width: width * 420,
+                                                    height: height * 150,
+                                                    decoration: BoxDecoration(
+                                                      gradient: whiteGradient,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                        Radius.circular(21),
+                                                      ),
+                                                    ),
+                                                    child: FutureBuilder<bool>(
+                                                      future: completer.future,
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .waiting) {
+                                                          return Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                'Uploading File Please Wait...',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: AppTheme.of(
+                                                                        context)
+                                                                    .title1,
+                                                              ),
+                                                              const CircularProgressIndicator()
+                                                            ],
+                                                          );
+                                                        } else {
+                                                          if (snapshot
+                                                                  .hasError ||
+                                                              snapshot.data ==
+                                                                  false) {
+                                                            return Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Text(
+                                                                  'Error Uploading File',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: AppTheme.of(context).title1.override(
+                                                                      fontFamily:
+                                                                          'Gotham-Regular',
+                                                                      useGoogleFonts:
+                                                                          false,
+                                                                      color: Colors
+                                                                          .red),
+                                                                ),
+                                                                const Icon(
+                                                                  Icons.error,
+                                                                  color: Colors
+                                                                      .red,
+                                                                  size: 30,
+                                                                ),
+                                                              ],
+                                                            );
+                                                          } else {
+                                                            return Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Text(
+                                                                  'Document sent successfully',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: AppTheme.of(context).title1.override(
+                                                                      fontFamily:
+                                                                          'Gotham-Regular',
+                                                                      useGoogleFonts:
+                                                                          false,
+                                                                      color: Colors
+                                                                          .green),
+                                                                ),
+                                                                const Icon(
+                                                                  Icons.check,
+                                                                  color: Colors
+                                                                      .green,
+                                                                  size: 30,
+                                                                ),
+                                                              ],
+                                                            );
+                                                          }
+                                                        }
+                                                      },
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          },
+                                        );
                                         supabaseFlutter.PostgrestList response =
                                             await provider.mainUpload();
+
                                         var teamResponse;
 
-                                        // //DOCUMENT
-                                        var uploadCorrect = await provider.uploadDocument(
+                                        // // //DOCUMENT
+                                        var uploadCorrect =
+                                            await provider.uploadDocument(
                                           currentUser!.sequentialId,
                                           response[0]['id'],
                                         );
 
-                                        // // //USERS
+                                        print(provider.teamMembers.length);
+                                        // // // //USERS
                                         if (uploadCorrect) {
-                                          for (int i = 0; i < provider.teamMembers.length; i++) {
+                                          for (int i = 0;
+                                              i < provider.teamMembers.length;
+                                              i++) {
                                             teamResponse =
-                                                await provider.teamUpload(i, response, teamResponse);
+                                                await provider.teamUpload(
+                                                    i,
+                                                    response,
+                                                    teamResponse,
+                                                    response[0]['id']);
                                           }
                                         }
-
-                                        if (!uploadCorrect) {
-                                          await ApiErrorHandler.callToast(
-                                              'Error to create Safety Briefing Document');
-                                          return;
-                                        }
-
-                                        if (!mounted) return;
-                                        fToast.showToast(
-                                          child: const SuccessToast(
-                                            message: 'Safety Briefing Added Succesfuly',
-                                          ),
-                                          gravity: ToastGravity.BOTTOM,
-                                          toastDuration: const Duration(seconds: 2),
-                                        );
-
-                                        context.pushReplacement(routeSafetyBriefingList);
-                                        if (uploadCorrect) {
-                                          print("Subido con exito a supabase");
-                                        }
-                                        setState(() {});
+                                        // Completa el Future con el resultado del trabajo
+                                        completer.complete(uploadCorrect);
+                                        // Cierra el diálogo después de un tiempo
+                                        await Future.delayed(
+                                            const Duration(seconds: 3));
+                                        Navigator.pop(
+                                            context); // Cierra el diálogo
+                                        context.pushReplacement(
+                                            routeSafetyBriefingList);
                                       },
                                       child: Container(
-                                        width: MediaQuery.of(context).size.width * 0.3,
-                                        height: MediaQuery.of(context).size.height * 0.04,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.3,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.04,
                                         margin: const EdgeInsets.all(10),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
-                                            color: AppTheme.of(context).cryPrimary,
-                                            borderRadius: BorderRadius.circular(20)),
+                                            color:
+                                                AppTheme.of(context).cryPrimary,
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
+                                            Text("Submit",
+                                                style: AppTheme.of(context)
+                                                    .subtitle2),
                                             const Icon(
-                                              Icons.arrow_left_outlined,
+                                              Icons.arrow_right_outlined,
                                               color: Colors.white,
                                             ),
-                                            Text("Submit", style: AppTheme.of(context).subtitle2),
                                           ],
                                         ),
                                       ),
