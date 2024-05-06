@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,6 +12,8 @@ import 'package:pdf/pdf.dart' as pwp;
 import 'package:pdfx/pdfx.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/models/models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabaseFlutter;
 import 'package:storage_client/src/types.dart';
 import 'package:rta_crm_cv/models/jsa/team_members.dart';
@@ -28,6 +31,7 @@ class JsaSafetyProvider extends ChangeNotifier {
   final titleController = TextEditingController();
   final userController = TextEditingController();
   final dateController = TextEditingController();
+  final datedueController = TextEditingController();
   final issueController = TextEditingController();
   final backgroundController = TextEditingController();
   final contactController = TextEditingController();
@@ -41,6 +45,8 @@ class JsaSafetyProvider extends ChangeNotifier {
   List<User> users = [];
   List<PlutoRow> rows = [];
   List<TeamMembersSafetyModel> teamMembers = [];
+  List<User> membersSelection = [];
+  List<String> emails = [];
 
   // ------------ Variables individuales ---------------
   User? user;
@@ -284,7 +290,8 @@ class JsaSafetyProvider extends ChangeNotifier {
   void addTeamMembers(TeamMembersSafetyModel teamMember) {
     try {
       teamMembers.add(teamMember);
-      print("El length del jsaGeneralInformation es: ${teamMembers.length}");
+      print(
+          "El length del teamMembers es: ${teamMembers.length} en addTeamMembers");
       notifyListeners();
     } catch (e) {
       print("Error in addTeamMembers() - $e");
@@ -294,7 +301,8 @@ class JsaSafetyProvider extends ChangeNotifier {
   void deleteTeamMembers(String id) {
     try {
       teamMembers.removeWhere((element) => element.id == id);
-      print("El length del jsaGeneralInformation es: ${teamMembers.length}");
+      print(
+          "El length del teamMembers es: ${teamMembers.length} en deleteTeamMembers");
       notifyListeners();
     } catch (e) {
       print("Error in deleteTeamMembers() - $e");
@@ -356,8 +364,8 @@ class JsaSafetyProvider extends ChangeNotifier {
   }
 
   // TeamUpload
-  Future<dynamic> teamUpload(
-      int i, supabaseFlutter.PostgrestList response, teamResponse) async {
+  Future<dynamic> teamUpload(int i, supabaseFlutter.PostgrestList response,
+      teamResponse, int idSafety) async {
     try {
       Map<String, dynamic> jsaUserData = {
         'user_fk': teamMembers[i].id,
@@ -365,20 +373,81 @@ class JsaSafetyProvider extends ChangeNotifier {
         'id_status': 2,
         //traer foranea de risks y control
       };
+
       teamResponse = await supabaseJsa
           .from('safety_briefing_user_status')
           .insert(jsaUserData)
           .select<supabaseFlutter.PostgrestList>('id');
 
-      if (teamResponse == null) {
-        print('Error inserting TeamMember data: ${teamResponse.toString()}');
-      } else {
-        print('TeamMember Data inserted successfully!');
-      }
+      // emails.add(teamMembers[i].email!);
+
+      emails.add("juan.aispuro72@gmail.com");
+
+      print("El length del correo es: ${emails.length}");
+
+      String token;
+      token = generateToken("juan.aispuro72@gmail.com", idSafety);
+      final link = '${Uri.base.origin}SafetyBriefing?token=$token';
+
+      await sendEmail(
+        name: teamMembers[i].name!,
+        link: link,
+        email: emails,
+      );
+      emails.clear();
+      // return true;
       return teamResponse;
     } catch (e) {
       print("Error in teamUpload() -$e");
     }
+  }
+
+  // Función de mandar correo
+  Future<bool> sendEmail({
+    required String name,
+    required String link,
+    required List<String> email,
+  }) async {
+    try {
+      for (var email in emails) {
+        String body = jsonEncode(
+          {
+            "action": "rtaMail",
+            "template": "TemporaryLink",
+            "subject": "Safety Briefing",
+            "mailto": email,
+            "variables": [
+              {"name": "name", "value": name},
+              {"name": "link", "value": link},
+            ]
+          },
+        );
+        final response = await http.post(Uri.parse(urlNotifications),
+            headers: {'Content-Type': 'application/json'}, body: body);
+        if (response.statusCode > 204) return false;
+      }
+
+      return true;
+    } catch (e) {
+      log('Error in sendEmail() - $e');
+      return false;
+    }
+  }
+
+  // Generate Token
+  String generateToken(String email, int documentId) {
+    //Generar token
+    final jwt = JWT(
+      {
+        'email': email,
+        'document_id': documentId,
+        'creation_date': DateTime.now().toUtc().toIso8601String(),
+      },
+      issuer: 'https://github.com/jonasroussel/dart_jsonwebtoken',
+    );
+
+    // Sign it (default with HS256 algorithm)
+    return jwt.sign(SecretKey('secret'));
   }
 
   // Función para seleccionar la imagen
@@ -442,374 +511,6 @@ class JsaSafetyProvider extends ChangeNotifier {
   //     // return null;
   //   }
   // }
-
-  Future<PdfController?> crearPDF() async {
-    finalPdfController = null;
-    notifyListeners();
-    final logo =
-        (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
-    // final firma =
-    //     (await rootBundle.load('assets/images/firma.png')).buffer.asUint8List();
-    final pdf = pw.Document();
-    pdf.addPage(
-      pw.Page(
-        build: (context) => pw.Column(
-          children: [
-            // pw.Text(titleController.text),
-            // pw.Text(userController.text),
-            pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                children: [
-                  pw.Container(
-                    alignment: pw.Alignment.topLeft,
-                    width: 250,
-                    height: 80,
-                    child: pw.Image(pw.MemoryImage(logo), fit: pw.BoxFit.fill),
-                  ),
-                ]),
-            pw.Container(
-                height: 100,
-                width: 700,
-                padding: const pw.EdgeInsets.symmetric(vertical: 10.0),
-                // decoration: pw.BoxDecoration(
-                //     color: pwp.PdfColors.grey300, border: pw.Border.all()),
-                child: pw.Table(
-                    border: pw.TableBorder(
-                      left: borderStyle,
-                      right: borderStyle,
-                      top: borderStyle,
-                      bottom: borderStyle,
-                      verticalInside: borderStyle,
-                      horizontalInside: borderStyle,
-                    ),
-                    columnWidths: columnWidths,
-                    children: [
-                      pw.TableRow(
-                          decoration: const pw.BoxDecoration(
-                            color: pwp.PdfColors.grey300,
-                          ),
-                          verticalAlignment: pw.TableCellVerticalAlignment.top,
-                          children: [
-                            pw.Padding(
-                              padding: const pw.EdgeInsets.only(left: 10),
-                              child: pw.Text('Briefing Note',
-                                  textAlign: pw.TextAlign
-                                      .start, // Aqui lo cambio a star para que inicie
-                                  style: const pw.TextStyle(
-                                    fontSize: 15,
-                                  )),
-                            ),
-                            pw.Text(titleController.text,
-                                textAlign: pw.TextAlign.center,
-                                style: const pw.TextStyle(
-                                  fontSize: 15,
-                                )),
-                          ]),
-                      pw.TableRow(
-                          decoration: const pw.BoxDecoration(
-                            color: pwp.PdfColors.grey300,
-                          ),
-                          verticalAlignment:
-                              pw.TableCellVerticalAlignment.middle,
-                          children: [
-                            pw.Padding(
-                              padding: const pw.EdgeInsets.only(left: 10),
-                              child: pw.Text('Prepared By: ',
-                                  textAlign: pw.TextAlign.start,
-                                  style: const pw.TextStyle(
-                                    fontSize: 15,
-                                  )),
-                            ),
-                            pw.Text(userController.text,
-                                textAlign: pw.TextAlign.center,
-                                style: const pw.TextStyle(
-                                  fontSize: 15,
-                                )),
-                          ]),
-                      pw.TableRow(
-                          decoration: const pw.BoxDecoration(
-                            color: pwp.PdfColors.grey300,
-                          ),
-                          verticalAlignment:
-                              pw.TableCellVerticalAlignment.middle,
-                          children: [
-                            pw.Padding(
-                              padding: const pw.EdgeInsets.only(left: 10),
-                              child: pw.Text('Prepared For: ',
-                                  textAlign: pw.TextAlign.start,
-                                  style: const pw.TextStyle(
-                                    fontSize: 15,
-                                  )),
-                            ),
-                            pw.Row(
-                              children:
-                                  List.generate(teamMembers.length, (index) {
-                                return pw.Row(
-                                  children: [
-                                    pw.Text(
-                                      teamMembers[index].name!,
-                                      style: pw.TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: pw.FontWeight.normal,
-                                      ),
-                                    ),
-                                    if (index < teamMembers.length - 1)
-                                      pw.Text(', '),
-                                  ],
-                                );
-                              }),
-                            ),
-                          ]),
-                      pw.TableRow(
-                          decoration: const pw.BoxDecoration(
-                            color: pwp.PdfColors.grey300,
-                          ),
-                          verticalAlignment:
-                              pw.TableCellVerticalAlignment.middle,
-                          children: [
-                            pw.Padding(
-                              padding: const pw.EdgeInsets.only(left: 10),
-                              child: pw.Text('Date: ',
-                                  textAlign: pw.TextAlign.start,
-                                  style: const pw.TextStyle(
-                                    fontSize: 15,
-                                  )),
-                            ),
-                            pw.Text(dateController.text,
-                                textAlign: pw.TextAlign.center,
-                                style: const pw.TextStyle(
-                                  fontSize: 15,
-                                )),
-                          ]),
-                    ])),
-
-            pw.SizedBox(height: 10),
-
-            pw.SizedBox(height: 15),
-            pw.Container(
-                color: pwp.PdfColors.grey300,
-                child: pw.Table(children: [
-                  pw.TableRow(children: [
-                    pw.Padding(
-                      padding: const pw.EdgeInsets.only(left: 10),
-                      child: pw.Text("Issue ",
-                          style: const pw.TextStyle(
-                            fontSize: 15,
-                          )),
-                    ),
-                    pw.Container(
-                      child: pw.Column(children: []),
-                    ),
-                  ]),
-                ])),
-            pw.SizedBox(height: 15),
-            pw.Column(children: [
-              pw.Row(children: [
-                pw.Text(
-                  issueController.text,
-                  style: const pw.TextStyle(
-                    fontSize: 10,
-                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                  ),
-                ),
-              ]),
-              pw.SizedBox(height: 5),
-            ]),
-            pw.SizedBox(height: 15),
-
-            pw.Container(
-                color: pwp.PdfColors.grey300,
-                child: pw.Table(children: [
-                  pw.TableRow(children: [
-                    pw.Padding(
-                      padding: const pw.EdgeInsets.only(left: 10),
-                      child: pw.Text("Background",
-                          style: const pw.TextStyle(
-                            fontSize: 15,
-                          )),
-                    ),
-                    pw.Container(
-                      child: pw.Column(children: []),
-                    ),
-                  ]),
-                ])),
-            pw.SizedBox(height: 15),
-            pw.Column(children: [
-              pw.Row(children: [
-                pw.Text(
-                  backgroundController.text,
-                  style: const pw.TextStyle(
-                    fontSize: 10,
-                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                  ),
-                ),
-              ]),
-              pw.SizedBox(height: 5),
-              // pw.Row(children: [
-              //   pw.Text(
-              //     "2. Must be approved by preparer's management supervisor",
-              //     style: const pw.TextStyle(
-              //       fontSize: 10,
-              //       // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-              //     ),
-              //   ),
-              // ]),
-            ]),
-            pw.SizedBox(height: 15),
-
-            pw.Container(
-                color: pwp.PdfColors.grey300,
-                child: pw.Table(children: [
-                  pw.TableRow(children: [
-                    pw.Padding(
-                      padding: const pw.EdgeInsets.only(left: 10),
-                      child: pw.Text("Recommendadations/ Conclusion",
-                          style: const pw.TextStyle(
-                            fontSize: 15,
-                          )),
-                    ),
-                    pw.Container(
-                      child: pw.Column(children: []),
-                    ),
-                  ]),
-                ])),
-            pw.SizedBox(height: 15),
-            pw.Column(children: [
-              pw.Row(children: [
-                pw.Text(
-                  recomendationsController.text,
-                  style: const pw.TextStyle(
-                    fontSize: 10,
-                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                  ),
-                ),
-              ]),
-              pw.SizedBox(height: 5),
-              // pw.Row(children: [
-              //   pw.Text(
-              //     "2. Must be approved by preparer's management supervisor",
-              //     style: const pw.TextStyle(
-              //       fontSize: 10,
-              //       // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-              //     ),
-              //   ),
-              // ]),
-            ]),
-            pw.SizedBox(height: 15),
-
-            pw.Container(
-                color: pwp.PdfColors.grey300,
-                child: pw.Table(children: [
-                  pw.TableRow(children: [
-                    pw.Padding(
-                      padding: const pw.EdgeInsets.only(left: 10),
-                      child: pw.Text("Contact",
-                          style: const pw.TextStyle(
-                            fontSize: 15,
-                          )),
-                    ),
-                    pw.Container(
-                      child: pw.Column(children: []),
-                    ),
-                  ]),
-                ])),
-
-            pw.SizedBox(height: 15),
-            pw.Column(children: [
-              pw.Row(children: [
-                pw.Text(
-                  contactController.text,
-                  style: const pw.TextStyle(
-                    fontSize: 10,
-                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                  ),
-                ),
-              ]),
-              pw.SizedBox(height: 5),
-            ]),
-            pw.SizedBox(height: 10),
-            pw.Container(
-                color: pwp.PdfColors.grey300,
-                child: pw.Table(children: [
-                  pw.TableRow(children: [
-                    pw.Padding(
-                      padding: const pw.EdgeInsets.only(left: 10),
-                      child: pw.Text("Addiontal Info:",
-                          style: const pw.TextStyle(
-                            fontSize: 15,
-                          )),
-                    ),
-                  ]),
-                ])),
-            pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: [
-                  pw.Container(
-                    alignment: pw.Alignment.topRight,
-                    color: pwp.PdfColors.grey300,
-                    child: pw.Column(children: [
-                      pw.Text("URL: ${urlController.text}"),
-                      pw.Text("Image:"),
-                      webImage == null
-                          ? pw.Container(
-                              alignment: pw.Alignment.topLeft,
-                              width: 250,
-                              height: 80,
-                            )
-                          : pw.Container(
-                              alignment: pw.Alignment.topLeft,
-                              width: 250,
-                              height: 80,
-                              child: pw.Image(pw.MemoryImage(webImage!),
-                                  fit: pw.BoxFit.fill),
-                            ),
-                    ]),
-                  ),
-                ]),
-            pw.SizedBox(height: 10),
-
-            pw.SizedBox(height: 20),
-            pw.Expanded(
-              child: pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.center,
-                  children: [
-                    pw.Column(children: [
-                      pw.Text(
-                        'Accepted and Agreed to by RTA:',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                      // pw.Image(
-                      //   pw.MemoryImage(signature!),
-                      //   height: 58,
-                      //   width: 200,
-                      //   fit: pw.BoxFit.fill,
-                      //   alignment: pw.Alignment.center,
-                      // ),
-                      pw.Text(
-                        '${currentUser!.name} ${currentUser!.lastName}, Employee',
-                        style: const pw.TextStyle(
-                          fontSize: 13,
-                          // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-                        ),
-                      ),
-                    ]),
-                  ]),
-            )
-          ],
-        ),
-      ),
-    );
-    pdf.save();
-    finalPdfController = PdfController(
-      document: PdfDocument.openData(pdf.save()),
-    );
-    documento = await pdf.save();
-    notifyListeners();
-    return finalPdfController;
-  }
 
   // Crear PDF
   Future<PdfController?> clientPDF() async {
@@ -910,24 +611,40 @@ class JsaSafetyProvider extends ChangeNotifier {
                                     fontSize: 15,
                                   )),
                             ),
-                            pw.Row(
+                            pw.Column(
                               children:
                                   List.generate(teamMembers.length, (index) {
-                                return pw.Row(
-                                  children: [
-                                    pw.Text(
-                                      teamMembers[index].name!,
-                                      style: pw.TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: pw.FontWeight.normal,
-                                      ),
+                                return pw.Container(
+                                  padding: const pw.EdgeInsets.symmetric(
+                                      vertical:
+                                          5.0), // Ajusta el espaciado vertical entre los nombres
+                                  child: pw.Text(
+                                    "${teamMembers[index].name!}",
+                                    style: pw.TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: pw.FontWeight.normal,
                                     ),
-                                    if (index < teamMembers.length - 1)
-                                      pw.Text(', '),
-                                  ],
+                                  ),
                                 );
                               }),
                             ),
+                            // pw.Row(
+                            //   children:
+                            //       List.generate(teamMembers.length, (index) {
+                            //     return pw.Row(
+                            //       children: [
+                            //         pw.SizedBox(width: 10),
+                            //         pw.Text(
+                            //           "${teamMembers[index].name!} \n",
+                            //           style: pw.TextStyle(
+                            //             fontSize: 16.0,
+                            //             fontWeight: pw.FontWeight.normal,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   }),
+                            // ),
                           ]),
                       pw.TableRow(
                           decoration: const pw.BoxDecoration(
@@ -1009,20 +726,10 @@ class JsaSafetyProvider extends ChangeNotifier {
                   backgroundController.text,
                   style: const pw.TextStyle(
                     fontSize: 10,
-                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
                   ),
                 ),
               ]),
               pw.SizedBox(height: 5),
-              // pw.Row(children: [
-              //   pw.Text(
-              //     "2. Must be approved by preparer's management supervisor",
-              //     style: const pw.TextStyle(
-              //       fontSize: 10,
-              //       // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-              //     ),
-              //   ),
-              // ]),
             ]),
             pw.SizedBox(height: 15),
 
@@ -1054,15 +761,6 @@ class JsaSafetyProvider extends ChangeNotifier {
                 ),
               ]),
               pw.SizedBox(height: 5),
-              // pw.Row(children: [
-              //   pw.Text(
-              //     "2. Must be approved by preparer's management supervisor",
-              //     style: const pw.TextStyle(
-              //       fontSize: 10,
-              //       // color: pdfcolor.PdfColor.fromInt(0xFF060606),
-              //     ),
-              //   ),
-              // ]),
             ]),
             pw.SizedBox(height: 15),
 
@@ -1110,29 +808,35 @@ class JsaSafetyProvider extends ChangeNotifier {
                     ),
                   ]),
                 ])),
-            pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: [
-                  pw.Container(
-                    child: pw.Column(children: [
-                      pw.Text("URL: ${urlController.text}"),
-                      pw.Text("Image:"),
-                      webImage == null
-                          ? pw.Container(
-                              alignment: pw.Alignment.topLeft,
-                              width: 250,
-                              height: 80,
-                            )
-                          : pw.Container(
-                              alignment: pw.Alignment.topLeft,
-                              width: 250,
-                              height: 80,
-                              child: pw.Image(pw.MemoryImage(webImage!),
-                                  fit: pw.BoxFit.fill),
-                            ),
-                    ]),
-                  ),
-                ]),
+            pw.Container(
+                child: pw.Table(children: [
+              pw.TableRow(children: [
+                pw.Padding(
+                  padding: const pw.EdgeInsets.only(left: 10),
+                  child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      mainAxisAlignment: pw.MainAxisAlignment.start,
+                      children: [
+                        pw.Text("URL: ${urlController.text}"),
+                        pw.Text("Image:"),
+                        webImage == null
+                            ? pw.Container(
+                                alignment: pw.Alignment.topLeft,
+                                width: 250,
+                                height: 80,
+                              )
+                            : pw.Container(
+                                alignment: pw.Alignment.topLeft,
+                                width: 250,
+                                height: 80,
+                                child: pw.Image(pw.MemoryImage(webImage!),
+                                    fit: pw.BoxFit.fill),
+                              ),
+                      ]),
+                ),
+              ]),
+            ])),
+
             pw.SizedBox(height: 10),
 
             pw.SizedBox(height: 20),
@@ -1148,13 +852,6 @@ class JsaSafetyProvider extends ChangeNotifier {
                           // color: pdfcolor.PdfColor.fromInt(0xFF060606),
                         ),
                       ),
-                      // pw.Image(
-                      //   pw.MemoryImage(signature!),
-                      //   height: 58,
-                      //   width: 200,
-                      //   fit: pw.BoxFit.fill,
-                      //   alignment: pw.Alignment.center,
-                      // ),
                       pw.Text(
                         '${currentUser!.name} ${currentUser!.lastName}, Employee',
                         style: const pw.TextStyle(

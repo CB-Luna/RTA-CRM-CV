@@ -10,10 +10,6 @@ import 'widgets/animated_containers/animated_control_container.dart';
 import 'widgets/animated_containers/animated_risk_container.dart';
 import 'widgets/animated_containers/animated_step_container.dart';
 
-TextEditingController titleController = TextEditingController();
-TextEditingController taskController = TextEditingController();
-TextEditingController companyController = TextEditingController();
-
 class CustomDocCreationTaskRiskControl extends StatefulWidget {
   const CustomDocCreationTaskRiskControl({
     Key? key,
@@ -26,10 +22,11 @@ class CustomDocCreationTaskRiskControl extends StatefulWidget {
 
 class _CustomDocCreationTaskRiskControlState
     extends State<CustomDocCreationTaskRiskControl> {
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     JsaProvider provider = Provider.of<JsaProvider>(context);
-    final formKey = GlobalKey<FormState>();
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
@@ -60,8 +57,8 @@ class _CustomDocCreationTaskRiskControlState
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               // mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                // const SizedBox(height: 8.0),
+                              // children: <Widget>[
+                              children: [
                                 CustomTextInput(
                                     title: 'Step Name',
                                     controller: provider.stepNameController),
@@ -82,30 +79,29 @@ class _CustomDocCreationTaskRiskControlState
                                     )),
                                     onPressed: () {
                                       // Save your data or perform any action here
-                                      if (formKey.currentState!.validate()) {
-                                        if (editStep == false) {
-                                          provider.addJsaSteps(
-                                              provider.stepNameController.text,
-                                              provider.stepDescriptionController
-                                                  .text);
-                                        } else {
-                                          provider.jsa.jsaStepsJson!
-                                              .forEach((element) {
-                                            if (element.id == id) {
-                                              element.title = provider
-                                                  .stepNameController.text;
-                                              element.description = provider
-                                                  .stepDescriptionController
-                                                  .text;
-                                            }
-                                          });
-                                          provider.notifyEdit();
-                                        }
-                                        provider.stepNameController.clear();
-                                        provider.stepDescriptionController
-                                            .clear();
-                                        setState(() {});
+                                      if (formKey.currentState!.validate()) {}
+                                      if (editStep == false) {
+                                        provider.addJsaSteps(
+                                            provider.stepNameController.text,
+                                            provider.stepDescriptionController
+                                                .text);
+                                      } else {
+                                        provider.jsa.jsaStepsJson!
+                                            .forEach((element) {
+                                          if (element.id == id) {
+                                            element.title = provider
+                                                .stepNameController.text;
+                                            element.description = provider
+                                                .stepDescriptionController.text;
+                                          }
+                                        });
+                                        provider.notifyEdit();
                                       }
+                                      provider.stepNameController.clear();
+                                      provider.stepDescriptionController
+                                          .clear();
+                                      setState(() {});
+                                      // }
                                     },
                                     child: const Row(
                                       mainAxisAlignment:
@@ -123,19 +119,6 @@ class _CustomDocCreationTaskRiskControlState
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: <Widget>[
-                                    // ElevatedButton(
-                                    //   style: ButtonStyle(
-                                    //       backgroundColor: MaterialStateProperty.all<Color>(
-                                    //     const Color(0xFF335594),
-                                    //   )),
-                                    //   onPressed: () {
-                                    //     Navigator.of(context).pop();
-                                    //   },
-                                    //   child: const Text('Cancel',
-                                    //       style: TextStyle(
-                                    //         color: Colors.white,
-                                    //       )),
-                                    // ),
                                     SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
@@ -176,7 +159,6 @@ class _CustomDocCreationTaskRiskControlState
                   provider.setButtonViewTaped(0);
                   provider.setIcons(0);
                   provider.searchUserController.clear();
-
                   setState(() {});
                 },
                 child: Container(
@@ -201,6 +183,9 @@ class _CustomDocCreationTaskRiskControlState
               ),
               InkWell(
                 onTap: () {
+                  if (!formKey.currentState!.validate()) {
+                    return;
+                  }
                   provider.setButtonViewTaped(2);
                   provider.setIcons(2);
                   setState(() {});
