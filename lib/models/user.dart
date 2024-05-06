@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/models.dart';
 
 class User {
@@ -130,7 +131,7 @@ class User {
   bool get isRepresentativeJSA => currentRole.id == 27;
 
   String get currentAppRole =>
-      roles.where((role) => role.application == currentRole.application).toList().first.roleName;
+      roles.where((role) => role.application == currentUser!.currentRole.application).toList().first.roleName;
 
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
