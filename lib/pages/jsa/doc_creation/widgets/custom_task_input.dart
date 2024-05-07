@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class CustomtaskTextInput extends StatefulWidget {
   final String task;
   final TextEditingController controller;
-  const CustomtaskTextInput({Key? key, required this.task, required this.controller}) : super(key: key);
+  const CustomtaskTextInput(
+      {Key? key, required this.task, required this.controller})
+      : super(key: key);
 
   @override
   _CustomtaskTextInputState createState() => _CustomtaskTextInputState();
@@ -28,7 +30,7 @@ class _CustomtaskTextInputState extends State<CustomtaskTextInput> {
               color: Color(0xFF737373),
             ),
           ),
-          const SizedBox(height: 8.0),
+          const SizedBox(height: 3.0),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
