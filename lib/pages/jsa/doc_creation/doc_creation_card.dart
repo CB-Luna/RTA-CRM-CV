@@ -44,6 +44,8 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
     });
   }
 
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     JsaProvider provider = Provider.of<JsaProvider>(context);
@@ -63,22 +65,25 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
                 title: "General Info",
                 height: MediaQuery.of(context).size.height * 0.38,
                 width: MediaQuery.of(context).size.width * 0.2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const CustomDrop(
-                      title: "OpCo Name",
-                    ),
-                    CustomtaskTextInput(
-                      task: "Title Name",
-                      controller: provider.titleController,
-                    ),
-                    CustomtaskTextInput(
-                      task: "Task Name",
-                      controller: provider.taskController,
-                    ),
-                    // TeamMemberList(),
-                  ],
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const CustomDrop(
+                        title: "OpCo Name",
+                      ),
+                      CustomtaskTextInput(
+                        task: "Title Name",
+                        controller: provider.titleController,
+                      ),
+                      CustomtaskTextInput(
+                        task: "Task Name",
+                        controller: provider.taskController,
+                      ),
+                      // TeamMemberList(),
+                    ],
+                  ),
                 ),
               ),
               Container(
@@ -93,6 +98,9 @@ class _CustomDocCreationCardState extends State<CustomDocCreationCard> {
           ),
           InkWell(
             onTap: () {
+              if (!formKey.currentState!.validate()) {
+                return;
+              }
               provider.setButtonViewTaped(1);
               provider.setIcons(1);
               provider.createJsaGeneralInfo(

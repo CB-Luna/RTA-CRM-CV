@@ -59,29 +59,57 @@ class _InfoWidgetsState extends State<InfoWidgets> {
                         ),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          context.pop();
-                          context.pop();
-                        });
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        height: MediaQuery.of(context).size.height * 0.04,
-                        margin: const EdgeInsets.all(10),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: AppTheme.of(context).cryPrimary,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Confirm",
-                                style: AppTheme.of(context).subtitle2),
-                          ],
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              context.pop();
+                              context.pop();
+                            });
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.07,
+                            height: MediaQuery.of(context).size.height * 0.04,
+                            margin: const EdgeInsets.all(10),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: AppTheme.of(context).cryPrimary,
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Confirm",
+                                    style: AppTheme.of(context).subtitle2),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              provider.webImage = null;
+                              // context.pop();
+                            });
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.07,
+                            height: MediaQuery.of(context).size.height * 0.04,
+                            margin: const EdgeInsets.all(10),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: AppTheme.of(context).odePrimary,
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Delete Image",
+                                    style: AppTheme.of(context).subtitle2),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

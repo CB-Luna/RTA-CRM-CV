@@ -6,15 +6,11 @@ import 'package:go_router/go_router.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
-import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/success_toast.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_safety_briefing_provider.dart';
-import 'package:rta_crm_cv/services/api_error_handler.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
-import '../../../../helpers/globals.dart';
 import '../../../../widgets/custom_card.dart';
 import 'Briefing_form.dart';
 import 'create_info_form.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' as supabaseFlutter;
 
 class CustomCardJSB extends StatefulWidget {
   const CustomCardJSB({super.key});
@@ -36,20 +32,12 @@ class _CustomCardJSBState extends State<CustomCardJSB> {
         listen: false,
       );
 
-      await provider.clearAll();
-
-      // provider.titleController.text = "Titulo";
-      // provider.UserController.text = "Usuario";
-      // provider.teamMembers = [];
-      // provider.dateController.text = "22/04/2024";
-      // provider.issueController.text = "aaa";
-      // provider.backgroundController.text = "bbb";
-      // provider.analisisController.text = "ccc";
-      // provider.recomendationsController.text = "ddd";
-
+      // await provider.clearAll();
       await provider.clientPDF();
     });
   }
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -59,23 +47,26 @@ class _CustomCardJSBState extends State<CustomCardJSB> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Column(
-          children: [
-            CustomCard(
-                title: "Create Info",
+        Form(
+          key: formKey,
+          child: Column(
+            children: [
+              CustomCard(
+                  title: "Create Info",
+                  height: MediaQuery.of(context).size.height * 0.43,
+                  width: MediaQuery.of(context).size.width * 0.20,
+                  child: const CreateInfoForm()),
+              const SizedBox(
+                height: 30,
+              ),
+              CustomCard(
+                title: "Briefing Details",
                 height: MediaQuery.of(context).size.height * 0.43,
                 width: MediaQuery.of(context).size.width * 0.20,
-                child: const CreateInfoForm()),
-            const SizedBox(
-              height: 30,
-            ),
-            CustomCard(
-              title: "Briefing Details",
-              height: MediaQuery.of(context).size.height * 0.43,
-              width: MediaQuery.of(context).size.width * 0.20,
-              child: const BriefingForm(),
-            )
-          ],
+                child: const BriefingForm(),
+              )
+            ],
+          ),
         ),
         Column(
           children: [
@@ -127,44 +118,11 @@ class _CustomCardJSBState extends State<CustomCardJSB> {
                 )),
             InkWell(
               onTap: () async {
-                // supabaseFlutter.PostgrestList response =
-                //     await provider.mainUpload();
-                // var teamResponse;
+                if (!formKey.currentState!.validate()) {
+                  return;
+                }
+                await provider.clientPDF();
 
-                // // //DOCUMENT
-                // var uploadCorrect = await provider.uploadDocument(
-                //   currentUser!.sequentialId,
-                //   response[0]['id'],
-                // );
-
-                // // // //USERS
-                // if (uploadCorrect) {
-                //   for (int i = 0; i < provider.teamMembers.length; i++) {
-                //     teamResponse =
-                //         await provider.teamUpload(i, response, teamResponse);
-                //   }
-                // }
-
-                // if (!uploadCorrect) {
-                //   await ApiErrorHandler.callToast(
-                //       'Error to create Safety Briefing Document');
-                //   return;
-                // }
-
-                // if (!mounted) return;
-                // fToast.showToast(
-                //   child: const SuccessToast(
-                //     message: 'Safety Briefing Added Succesfuly',
-                //   ),
-                //   gravity: ToastGravity.BOTTOM,
-                //   toastDuration: const Duration(seconds: 2),
-                // );
-
-                // // context.pushReplacement(routeJSADochument);
-                // if (uploadCorrect) {
-                //   print("Subido con exito a supabase");
-                // }
-                // setState(() {});
                 context.pushReplacement(routeSafetyBriefingResume);
               },
               child: Container(
@@ -178,11 +136,11 @@ class _CustomCardJSBState extends State<CustomCardJSB> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Text("Continue", style: AppTheme.of(context).subtitle2),
                     const Icon(
-                      Icons.arrow_left_outlined,
+                      Icons.arrow_right_outlined,
                       color: Colors.white,
                     ),
-                    Text("Submit", style: AppTheme.of(context).subtitle2),
                   ],
                 ),
               ),
