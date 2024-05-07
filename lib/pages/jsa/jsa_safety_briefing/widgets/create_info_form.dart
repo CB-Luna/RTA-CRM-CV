@@ -2,9 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/custom_task_input.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
@@ -45,13 +43,30 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
       final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(1900),
-        lastDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2040),
       );
       if (picked != null && picked != DateTime.now()) {
         setState(() {
           String formattedDate = DateFormat('MM/dd/yyyy').format(picked);
           provider.dateController.text = formattedDate;
+          // provider.dateController.text = picked
+          //     .toString(); // Aquí puedes formatear la fecha según tus necesidades
+        });
+      }
+    }
+
+    Future<void> selectDateDue(BuildContext context) async {
+      final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2040),
+      );
+      if (picked != null && picked != DateTime.now()) {
+        setState(() {
+          // String formattedDate = DateFormat('MM/dd/yyyy').format(picked);
+          provider.datedueController.text = picked.toString();
           // provider.dateController.text = picked
           //     .toString(); // Aquí puedes formatear la fecha según tus necesidades
         });
@@ -71,6 +86,7 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
         InkWell(
             onTap: () async {
               // await provider.getListUsers(currentUser!.companies.first.company);
+
               await showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -108,24 +124,26 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
                             color: Color(0xFF335594),
                           ),
                         )
-                      : Row(
-                          children: List.generate(provider.teamMembers.length,
-                              (index) {
-                            return Row(
-                              children: [
-                                Text(
-                                  provider.teamMembers[index].name!,
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.normal,
-                                    color: Color(0xFF335594),
+                      : Expanded(
+                          child: Column(
+                            children: List.generate(provider.teamMembers.length,
+                                (index) {
+                              return Row(
+                                children: [
+                                  Text(
+                                    provider.teamMembers[index].name!,
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.normal,
+                                      color: Color(0xFF335594),
+                                    ),
                                   ),
-                                ),
-                                if (index < provider.teamMembers.length - 1)
-                                  const Text(', '),
-                              ],
-                            );
-                          }),
+                                  if (index < provider.teamMembers.length - 1)
+                                    const Text(', '),
+                                ],
+                              );
+                            }),
+                          ),
                         ),
                 ),
               ],
@@ -164,6 +182,39 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
             ),
           ],
         ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: Text(
+                "Due Date",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.normal,
+                  color: Color(0xFF737373),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: TextFormField(
+                controller: provider.datedueController,
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: 'Due Date',
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.event_busy_outlined),
+                    onPressed: () {
+                      selectDateDue(context);
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
         Padding(
           padding: const EdgeInsets.only(bottom: 10),
           child: CustomTextIconButton(
@@ -177,7 +228,8 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
             ),
             color: AppTheme.of(context).primaryColor,
             onTap: () async {
-              await provider.crearPDF();
+              // await provider.crearPDF();
+              await provider.clientPDF();
             },
           ),
         ),

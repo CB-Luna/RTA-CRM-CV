@@ -1,17 +1,20 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
-class CustomtaskTextInput extends StatefulWidget {
+class CustomtaskTextInputSafety extends StatefulWidget {
   final String task;
   final TextEditingController controller;
-  const CustomtaskTextInput(
+  const CustomtaskTextInputSafety(
       {Key? key, required this.task, required this.controller})
       : super(key: key);
 
   @override
-  _CustomtaskTextInputState createState() => _CustomtaskTextInputState();
+  _CustomtaskTextInputSafetyState createState() =>
+      _CustomtaskTextInputSafetyState();
 }
 
-class _CustomtaskTextInputState extends State<CustomtaskTextInput> {
+class _CustomtaskTextInputSafetyState extends State<CustomtaskTextInputSafety> {
   final TextEditingController _taskController = TextEditingController();
 
   @override
@@ -30,7 +33,7 @@ class _CustomtaskTextInputState extends State<CustomtaskTextInput> {
               color: Color(0xFF737373),
             ),
           ),
-          const SizedBox(height: 3.0),
+          const SizedBox(height: 8.0),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
@@ -39,6 +42,7 @@ class _CustomtaskTextInputState extends State<CustomtaskTextInput> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
+                maxLines: 2,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a valid task'; // Message to display when the field is empty

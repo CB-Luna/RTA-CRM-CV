@@ -5,14 +5,10 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 import '../../../providers/jsa/jsa_provider.dart';
 import '../../../theme/theme.dart';
 import 'risks_hazards_widget.dart';
-import 'widgets/CustomTextInput.dart';
 import 'widgets/animated_containers/animated_control_container.dart';
 import 'widgets/animated_containers/animated_risk_container.dart';
 import 'widgets/animated_containers/animated_step_container.dart';
-
-TextEditingController titleController = TextEditingController();
-TextEditingController taskController = TextEditingController();
-TextEditingController companyController = TextEditingController();
+import 'widgets/custom_task_input.dart';
 
 class CustomDocCreationTaskRiskControl extends StatefulWidget {
   const CustomDocCreationTaskRiskControl({
@@ -26,10 +22,11 @@ class CustomDocCreationTaskRiskControl extends StatefulWidget {
 
 class _CustomDocCreationTaskRiskControlState
     extends State<CustomDocCreationTaskRiskControl> {
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     JsaProvider provider = Provider.of<JsaProvider>(context);
-    final formKey = GlobalKey<FormState>();
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
@@ -60,14 +57,14 @@ class _CustomDocCreationTaskRiskControlState
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               // mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                // const SizedBox(height: 8.0),
-                                CustomTextInput(
-                                    title: 'Step Name',
+                              // children: <Widget>[
+                              children: [
+                                CustomtaskTextInput(
+                                    task: 'Step Name',
                                     controller: provider.stepNameController),
                                 const SizedBox(height: 8.0),
-                                CustomTextInput(
-                                    title: 'Step Description',
+                                CustomtaskTextInput(
+                                    task: 'Step Description',
                                     controller:
                                         provider.stepDescriptionController),
                                 const SizedBox(height: 16.0),
@@ -106,6 +103,8 @@ class _CustomDocCreationTaskRiskControlState
                                             .clear();
                                         setState(() {});
                                       }
+
+                                      // }
                                     },
                                     child: const Row(
                                       mainAxisAlignment:
@@ -123,19 +122,6 @@ class _CustomDocCreationTaskRiskControlState
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: <Widget>[
-                                    // ElevatedButton(
-                                    //   style: ButtonStyle(
-                                    //       backgroundColor: MaterialStateProperty.all<Color>(
-                                    //     const Color(0xFF335594),
-                                    //   )),
-                                    //   onPressed: () {
-                                    //     Navigator.of(context).pop();
-                                    //   },
-                                    //   child: const Text('Cancel',
-                                    //       style: TextStyle(
-                                    //         color: Colors.white,
-                                    //       )),
-                                    // ),
                                     SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
@@ -176,7 +162,6 @@ class _CustomDocCreationTaskRiskControlState
                   provider.setButtonViewTaped(0);
                   provider.setIcons(0);
                   provider.searchUserController.clear();
-
                   setState(() {});
                 },
                 child: Container(
@@ -201,6 +186,9 @@ class _CustomDocCreationTaskRiskControlState
               ),
               InkWell(
                 onTap: () {
+                  if (!formKey.currentState!.validate()) {
+                    return;
+                  }
                   provider.setButtonViewTaped(2);
                   provider.setIcons(2);
                   setState(() {});

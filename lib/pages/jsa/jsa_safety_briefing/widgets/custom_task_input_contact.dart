@@ -1,21 +1,39 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
-class CustomtaskTextInput extends StatefulWidget {
+class CustomtaskTextInputContact extends StatefulWidget {
   final String task;
   final TextEditingController controller;
-  const CustomtaskTextInput(
+  const CustomtaskTextInputContact(
       {Key? key, required this.task, required this.controller})
       : super(key: key);
 
   @override
-  _CustomtaskTextInputState createState() => _CustomtaskTextInputState();
+  _CustomtaskTextInputContactState createState() =>
+      _CustomtaskTextInputContactState();
 }
 
-class _CustomtaskTextInputState extends State<CustomtaskTextInput> {
+class _CustomtaskTextInputContactState
+    extends State<CustomtaskTextInputContact> {
   final TextEditingController _taskController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    bool isEmail(String value) {
+      // Expresión regular para validar un correo electrónico
+      final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+      return emailRegex.hasMatch(value);
+    }
+
+// Función para validar número de teléfono
+    bool isPhoneNumber(String value) {
+      // Expresión regular para validar un número de teléfono
+      final RegExp phoneRegex = RegExp(
+          r'^[0-9]{10}$'); // Aquí asumimos un formato específico de 10 dígitos
+      return phoneRegex.hasMatch(value);
+    }
+
     return Container(
       width: MediaQuery.of(context).size.width * .2,
       padding: const EdgeInsets.all(8.0),
@@ -30,7 +48,7 @@ class _CustomtaskTextInputState extends State<CustomtaskTextInput> {
               color: Color(0xFF737373),
             ),
           ),
-          const SizedBox(height: 3.0),
+          const SizedBox(height: 8.0),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
@@ -39,11 +57,24 @@ class _CustomtaskTextInputState extends State<CustomtaskTextInput> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
+                maxLines: 1,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a valid task'; // Message to display when the field is empty
+                    return 'Please enter a valid input'; // Mensaje para campo vacío
                   }
-                  return null; // Return null if the input is valid
+
+                  // Validar si es un correo electrónico
+                  if (isEmail(value)) {
+                    return null; // Es un correo válido
+                  }
+
+                  // Validar si es un número de teléfono
+                  if (isPhoneNumber(value)) {
+                    return null; // Es un número de teléfono válido
+                  }
+
+                  // Si no coincide con ningún formato válido
+                  return 'Please enter a valid email or phone number';
                 },
                 style: const TextStyle(
                   fontSize: 16.0,
