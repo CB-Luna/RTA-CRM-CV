@@ -43,13 +43,30 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
       final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(1900),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2040),
       );
       if (picked != null && picked != DateTime.now()) {
         setState(() {
           String formattedDate = DateFormat('MM/dd/yyyy').format(picked);
           provider.dateController.text = formattedDate;
+          // provider.dateController.text = picked
+          //     .toString(); // Aquí puedes formatear la fecha según tus necesidades
+        });
+      }
+    }
+
+    Future<void> selectDateDue(BuildContext context) async {
+      final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2040),
+      );
+      if (picked != null && picked != DateTime.now()) {
+        setState(() {
+          // String formattedDate = DateFormat('MM/dd/yyyy').format(picked);
+          provider.datedueController.text = picked.toString();
           // provider.dateController.text = picked
           //     .toString(); // Aquí puedes formatear la fecha según tus necesidades
         });
@@ -107,24 +124,26 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
                             color: Color(0xFF335594),
                           ),
                         )
-                      : Row(
-                          children: List.generate(provider.teamMembers.length,
-                              (index) {
-                            return Row(
-                              children: [
-                                Text(
-                                  provider.teamMembers[index].name!,
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.normal,
-                                    color: Color(0xFF335594),
+                      : Expanded(
+                          child: Column(
+                            children: List.generate(provider.teamMembers.length,
+                                (index) {
+                              return Row(
+                                children: [
+                                  Text(
+                                    provider.teamMembers[index].name!,
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.normal,
+                                      color: Color(0xFF335594),
+                                    ),
                                   ),
-                                ),
-                                if (index < provider.teamMembers.length - 1)
-                                  const Text(', '),
-                              ],
-                            );
-                          }),
+                                  if (index < provider.teamMembers.length - 1)
+                                    const Text(', '),
+                                ],
+                              );
+                            }),
+                          ),
                         ),
                 ),
               ],
@@ -188,7 +207,7 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.event_busy_outlined),
                     onPressed: () {
-                      selectDate(context);
+                      selectDateDue(context);
                     },
                   ),
                 ),

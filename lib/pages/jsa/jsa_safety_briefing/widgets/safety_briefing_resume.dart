@@ -177,30 +177,32 @@ class _SafetyBriefingResumeState extends State<SafetyBriefingResume> {
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18,
                                             )),
-                                        Row(
-                                          children: List.generate(
-                                              provider.teamMembers.length,
-                                              (index) {
-                                            return Row(
-                                              children: [
-                                                Text(
-                                                  provider
-                                                      .teamMembers[index].name!,
-                                                  style: const TextStyle(
-                                                    fontSize: 16.0,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: Color(0xFF335594),
+                                        Expanded(
+                                          child: Column(
+                                            children: List.generate(
+                                                provider.teamMembers.length,
+                                                (index) {
+                                              return Row(
+                                                children: [
+                                                  Text(
+                                                    provider.teamMembers[index]
+                                                        .name!,
+                                                    style: const TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: Color(0xFF335594),
+                                                    ),
                                                   ),
-                                                ),
-                                                if (index <
-                                                    provider.teamMembers
-                                                            .length -
-                                                        1)
-                                                  const Text(', '),
-                                              ],
-                                            );
-                                          }),
+                                                  if (index <
+                                                      provider.teamMembers
+                                                              .length -
+                                                          1)
+                                                    const Text(', '),
+                                                ],
+                                              );
+                                            }),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -467,6 +469,40 @@ class _SafetyBriefingResumeState extends State<SafetyBriefingResume> {
                                         ),
                                       ),
                                     ),
+                                    InkWell(
+                                      onTap: () {
+                                        context.pushReplacement(
+                                            routeSafetyBriefing);
+                                      },
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.3,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.04,
+                                        margin: const EdgeInsets.all(10),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            color:
+                                                AppTheme.of(context).odePrimary,
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons.arrow_left_outlined,
+                                              color: Colors.white,
+                                            ),
+                                            Text("Back",
+                                                style: AppTheme.of(context)
+                                                    .subtitle2),
+                                          ],
+                                        ),
+                                      ),
+                                    )
                                   ],
                                 ),
                               )),

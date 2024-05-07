@@ -5,10 +5,10 @@ import 'package:rta_crm_cv/widgets/custom_card.dart';
 import '../../../providers/jsa/jsa_provider.dart';
 import '../../../theme/theme.dart';
 import 'risks_hazards_widget.dart';
-import 'widgets/CustomTextInput.dart';
 import 'widgets/animated_containers/animated_control_container.dart';
 import 'widgets/animated_containers/animated_risk_container.dart';
 import 'widgets/animated_containers/animated_step_container.dart';
+import 'widgets/custom_task_input.dart';
 
 class CustomDocCreationTaskRiskControl extends StatefulWidget {
   const CustomDocCreationTaskRiskControl({
@@ -59,12 +59,12 @@ class _CustomDocCreationTaskRiskControlState
                               // mainAxisSize: MainAxisSize.min,
                               // children: <Widget>[
                               children: [
-                                CustomTextInput(
-                                    title: 'Step Name',
+                                CustomtaskTextInput(
+                                    task: 'Step Name',
                                     controller: provider.stepNameController),
                                 const SizedBox(height: 8.0),
-                                CustomTextInput(
-                                    title: 'Step Description',
+                                CustomtaskTextInput(
+                                    task: 'Step Description',
                                     controller:
                                         provider.stepDescriptionController),
                                 const SizedBox(height: 16.0),
@@ -79,28 +79,31 @@ class _CustomDocCreationTaskRiskControlState
                                     )),
                                     onPressed: () {
                                       // Save your data or perform any action here
-                                      if (formKey.currentState!.validate()) {}
-                                      if (editStep == false) {
-                                        provider.addJsaSteps(
-                                            provider.stepNameController.text,
-                                            provider.stepDescriptionController
-                                                .text);
-                                      } else {
-                                        provider.jsa.jsaStepsJson!
-                                            .forEach((element) {
-                                          if (element.id == id) {
-                                            element.title = provider
-                                                .stepNameController.text;
-                                            element.description = provider
-                                                .stepDescriptionController.text;
-                                          }
-                                        });
-                                        provider.notifyEdit();
+                                      if (formKey.currentState!.validate()) {
+                                        if (editStep == false) {
+                                          provider.addJsaSteps(
+                                              provider.stepNameController.text,
+                                              provider.stepDescriptionController
+                                                  .text);
+                                        } else {
+                                          provider.jsa.jsaStepsJson!
+                                              .forEach((element) {
+                                            if (element.id == id) {
+                                              element.title = provider
+                                                  .stepNameController.text;
+                                              element.description = provider
+                                                  .stepDescriptionController
+                                                  .text;
+                                            }
+                                          });
+                                          provider.notifyEdit();
+                                        }
+                                        provider.stepNameController.clear();
+                                        provider.stepDescriptionController
+                                            .clear();
+                                        setState(() {});
                                       }
-                                      provider.stepNameController.clear();
-                                      provider.stepDescriptionController
-                                          .clear();
-                                      setState(() {});
+
                                       // }
                                     },
                                     child: const Row(

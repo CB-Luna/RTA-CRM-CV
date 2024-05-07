@@ -32,7 +32,7 @@ class _CustomCardJSBState extends State<CustomCardJSB> {
         listen: false,
       );
 
-      await provider.clearAll();
+      // await provider.clearAll();
       await provider.clientPDF();
     });
   }

@@ -484,6 +484,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                           providerJSASP.membersSelection.remove(user);
                           providerJSASP.deleteTeamMembers(user.id.toString());
                         }
+
+                        providerJSASP.clearAll();
                         // final pdfController = await providerJSASP.clientPDF();
 
                         context.pushReplacement(routeSafetyBriefing);

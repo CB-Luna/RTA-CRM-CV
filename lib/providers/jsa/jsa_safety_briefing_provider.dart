@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/models/models.dart';
+import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabaseFlutter;
 import 'package:storage_client/src/types.dart';
 import 'package:rta_crm_cv/models/jsa/team_members.dart';
@@ -313,6 +315,7 @@ class JsaSafetyProvider extends ChangeNotifier {
   Future<supabaseFlutter.PostgrestList> mainUpload() async {
     Map<String, dynamic> mainData = {
       'title': titleController.text,
+      'due_date': datedueController.text,
       'prepared_by': userController.text,
       'date': dateController.text,
       'issue': issueController.text,
@@ -388,7 +391,9 @@ class JsaSafetyProvider extends ChangeNotifier {
       String token;
       token = generateToken("juan.aispuro72@gmail.com", idSafety);
       final link = '${Uri.base.origin}SafetyBriefing?token=$token';
-
+      await supabaseJsa
+          .from('safety_briefing')
+          .update({'link': link}).eq('id', idSafety);
       await sendEmail(
         name: teamMembers[i].name!,
         link: link,
@@ -520,6 +525,10 @@ class JsaSafetyProvider extends ChangeNotifier {
     notifyListeners();
     final logo =
         (await rootBundle.load('assets/images/2.png')).buffer.asUint8List();
+    // final placeHolder = (await rootBundle.load('images/PlaceholderLC.png'))
+    //     .buffer
+    //     .asUint8List();
+
     final pdf = pw.Document();
     pdf.addPage(
       pw.Page(
@@ -538,9 +547,9 @@ class JsaSafetyProvider extends ChangeNotifier {
                   ),
                 ]),
             pw.Container(
-                height: 100,
+                height: 80,
                 width: 700,
-                padding: const pw.EdgeInsets.symmetric(vertical: 10.0),
+                // padding: const pw.EdgeInsets.symmetric(vertical: 10.0),
                 // decoration: pw.BoxDecoration(
                 //     color: pwp.PdfColors.grey300, border: pw.Border.all()),
                 child: pw.Table(
@@ -605,56 +614,6 @@ class JsaSafetyProvider extends ChangeNotifier {
                           children: [
                             pw.Padding(
                               padding: const pw.EdgeInsets.only(left: 10),
-                              child: pw.Text('Prepared For: ',
-                                  textAlign: pw.TextAlign.start,
-                                  style: const pw.TextStyle(
-                                    fontSize: 15,
-                                  )),
-                            ),
-                            pw.Column(
-                              children:
-                                  List.generate(teamMembers.length, (index) {
-                                return pw.Container(
-                                  padding: const pw.EdgeInsets.symmetric(
-                                      vertical:
-                                          5.0), // Ajusta el espaciado vertical entre los nombres
-                                  child: pw.Text(
-                                    "${teamMembers[index].name!}",
-                                    style: pw.TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: pw.FontWeight.normal,
-                                    ),
-                                  ),
-                                );
-                              }),
-                            ),
-                            // pw.Row(
-                            //   children:
-                            //       List.generate(teamMembers.length, (index) {
-                            //     return pw.Row(
-                            //       children: [
-                            //         pw.SizedBox(width: 10),
-                            //         pw.Text(
-                            //           "${teamMembers[index].name!} \n",
-                            //           style: pw.TextStyle(
-                            //             fontSize: 16.0,
-                            //             fontWeight: pw.FontWeight.normal,
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     );
-                            //   }),
-                            // ),
-                          ]),
-                      pw.TableRow(
-                          decoration: const pw.BoxDecoration(
-                            color: pwp.PdfColors.grey300,
-                          ),
-                          verticalAlignment:
-                              pw.TableCellVerticalAlignment.middle,
-                          children: [
-                            pw.Padding(
-                              padding: const pw.EdgeInsets.only(left: 10),
                               child: pw.Text('Date: ',
                                   textAlign: pw.TextAlign.start,
                                   style: const pw.TextStyle(
@@ -667,9 +626,105 @@ class JsaSafetyProvider extends ChangeNotifier {
                                   fontSize: 15,
                                 )),
                           ]),
-                    ])),
+                      // pw.TableRow(
+                      //     decoration: const pw.BoxDecoration(
+                      //       color: pwp.PdfColors.grey300,
+                      //     ),
+                      //     verticalAlignment:
+                      //         pw.TableCellVerticalAlignment.middle,
+                      //     children: [
+                      //       pw.Padding(
+                      //         padding: const pw.EdgeInsets.only(left: 10),
+                      //         child: pw.Text('Prepared For: ',
+                      //             textAlign: pw.TextAlign.start,
+                      //             style: const pw.TextStyle(
+                      //               fontSize: 15,
+                      //             )),
+                      //       ),
 
-            pw.SizedBox(height: 10),
+                      //       // pw.Row(
+                      //       //   children:
+                      //       //       List.generate(teamMembers.length, (index) {
+                      //       //     return pw.Row(
+                      //       //       children: [
+                      //       //         pw.SizedBox(width: 10),
+                      //       //         pw.Text(
+                      //       //           "${teamMembers[index].name!} \n",
+                      //       //           style: pw.TextStyle(
+                      //       //             fontSize: 16.0,
+                      //       //             fontWeight: pw.FontWeight.normal,
+                      //       //           ),
+                      //       //         ),
+                      //       //       ],
+                      //       //     );
+                      //       //   }),
+                      //       // ),
+                    ])),
+            // pw.SizedBox(height: 10),
+            pw.Container(
+                width: 700,
+                height: 50,
+                padding: const pw.EdgeInsets.all(0),
+                decoration: pw.BoxDecoration(
+                    color: pwp.PdfColors.grey300, border: pw.Border.all()),
+                child: pw.Column(children: [
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.only(left: 10),
+                    child: pw.Text('Prepared For: ',
+                        textAlign: pw.TextAlign.start,
+                        style: const pw.TextStyle(
+                          fontSize: 15,
+                        )),
+                  ),
+                  // pw.Column(
+                  //   children: [
+                  //     for (var i = 0; i < teamMembers.length; i++)
+                  //       pw.Row(
+                  //         children: [
+                  //           pw.Expanded(
+                  //             child: pw.Text(
+                  //               teamMembers[i].name!,
+                  //               style: pw.TextStyle(fontSize: 12.0),
+                  //             ),
+                  //           ),
+                  //           if ((i + 1) % 2 == 0 && i != teamMembers.length - 1)
+                  //             pw.SizedBox(
+                  //                 width:
+                  //                     20), // Espacio entre nombres en la misma fila
+                  //         ],
+                  //       ),
+                  //   ],
+                  // ),
+                  pw.Row(
+                    children: List.generate(teamMembers.length, (index) {
+                      return pw.Row(
+                        children: [
+                          pw.Text(
+                            teamMembers[index].name!,
+                            maxLines: 2,
+                            style: pw.TextStyle(
+                              fontSize: 13.0,
+                              fontWeight: pw.FontWeight.normal,
+                            ),
+                          ),
+                          if (index < teamMembers.length - 1) pw.Text(', '),
+                        ],
+                      );
+                      // return pw.Container(
+                      //   padding: const pw.EdgeInsets.symmetric(
+                      //       vertical:
+                      //           5.0), // Ajusta el espaciado vertical entre los nombres
+                      //   child: pw.Text(
+                      //     teamMembers[index].name!,
+                      //     style: pw.TextStyle(
+                      //       fontSize: 12.0,
+                      //       fontWeight: pw.FontWeight.normal,
+                      //     ),
+                      //   ),
+                      // );
+                    }),
+                  ),
+                ])),
 
             pw.SizedBox(height: 15),
             pw.Container(
@@ -691,13 +746,15 @@ class JsaSafetyProvider extends ChangeNotifier {
             pw.SizedBox(height: 15),
             pw.Column(children: [
               pw.Row(children: [
-                pw.Text(
-                  issueController.text,
-                  style: const pw.TextStyle(
-                    fontSize: 10,
-                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                pw.Wrap(children: [
+                  pw.Text(
+                    issueController.text,
+                    style: const pw.TextStyle(
+                      fontSize: 10,
+                      // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
                   ),
-                ),
+                ])
               ]),
               pw.SizedBox(height: 5),
             ]),
@@ -817,21 +874,37 @@ class JsaSafetyProvider extends ChangeNotifier {
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       mainAxisAlignment: pw.MainAxisAlignment.start,
                       children: [
-                        pw.Text("URL: ${urlController.text}"),
+                        pw.Row(children: [
+                          pw.Text("URL: "),
+                          pw.Link(
+                              child: pw.Text(urlController.text,
+                                  style: const pw.TextStyle(
+                                      color: pwp.PdfColors.blue300)),
+                              destination: urlController.text),
+                        ]),
+
+                        // pw.Text("URL: ${urlController.text}"),
                         pw.Text("Image:"),
-                        webImage == null
-                            ? pw.Container(
-                                alignment: pw.Alignment.topLeft,
-                                width: 250,
-                                height: 80,
-                              )
-                            : pw.Container(
-                                alignment: pw.Alignment.topLeft,
-                                width: 250,
-                                height: 80,
-                                child: pw.Image(pw.MemoryImage(webImage!),
-                                    fit: pw.BoxFit.fill),
-                              ),
+                        pw.Column(
+                          mainAxisAlignment: pw.MainAxisAlignment.center,
+                          children: [
+                            webImage == null
+                                ? pw.Container(
+                                    alignment: pw.Alignment.center,
+                                    width: 150,
+                                    height: 150,
+                                    // child: pw.Image(pw.MemoryImage(imageBytes),
+                                    //     fit: pw.BoxFit.contain),
+                                  )
+                                : pw.Container(
+                                    alignment: pw.Alignment.center,
+                                    width: 150,
+                                    height: 150,
+                                    child: pw.Image(pw.MemoryImage(webImage!),
+                                        fit: pw.BoxFit.contain),
+                                  ),
+                          ],
+                        )
                       ]),
                 ),
               ]),
@@ -885,5 +958,8 @@ class JsaSafetyProvider extends ChangeNotifier {
     backgroundController.clear();
     contactController.clear();
     recomendationsController.clear();
+    webImage = null;
+    urlController.clear();
+    datedueController.clear();
   }
 }
