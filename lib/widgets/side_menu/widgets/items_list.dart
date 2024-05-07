@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
@@ -29,6 +31,8 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
   @override
   Widget build(BuildContext context) {
     SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
+    JsaSafetyProvider providerJSASP = Provider.of<JsaSafetyProvider>(context);
+
     // UsersProvider userProvider = Provider.of<UsersProvider>(context);
     final UserState userState = Provider.of<UserState>(context);
     final userPermissions = currentUser!.currentRole.permissions;
@@ -460,7 +464,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(
                       buttonSize: 40,
-                      tooltip: 'JSA Safety Briefing',
+                      tooltip: 'Safety Briefing',
                       fillColor: AppTheme.of(context).primaryColor,
                       icon: Icons.description_outlined,
                       // isTaped: visualState.isTaped[7],
@@ -470,12 +474,52 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                         //     builder: (BuildContext context) {
                         //       return const ConfigPageDashboard();
                         //     });
-                        context.pushReplacement(routeJSASafetyBriefing);
+                        // providerJSASP.createJsaGeneralInfo("", "", "", []);
+
+                        providerJSASP.teamMembers.clear();
+                        var membersCopy =
+                            List.from(providerJSASP.membersSelection);
+
+                        for (var user in membersCopy) {
+                          providerJSASP.membersSelection.remove(user);
+                          providerJSASP.deleteTeamMembers(user.id.toString());
+                        }
+
+                        providerJSASP.clearAll();
+                        // final pdfController = await providerJSASP.clientPDF();
+
+                        context.pushReplacement(routeSafetyBriefing);
                       },
                     ),
                   )
                 : Container(),
-            // JSA Safety Briefing
+            // JSA Safety Briefing List
+            currentUser!.isAdminJSA
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                    child: MenuButton(
+                      buttonSize: 40,
+                      tooltip: 'Safety Briefing List',
+                      fillColor: AppTheme.of(context).primaryColor,
+                      icon: Icons.list_alt_outlined,
+                      // isTaped: visualState.isTaped[7],
+                      onPressed: () async {
+                        // await showDialog(
+                        //     context: context,
+                        //     builder: (BuildContext context) {
+                        //       return const ConfigPageDashboard();
+                        //     });
+                        // providerJSASP.createJsaGeneralInfo("", "", "", []);
+
+                        // await providerJSASP.getListUsers();
+                        // final pdfController = await providerJSASP.clientPDF();
+
+                        context.pushReplacement(routeSafetyBriefingList);
+                      },
+                    ),
+                  )
+                : Container(),
+            // JSA Training
             currentUser!.isAdminJSA
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
@@ -491,11 +535,12 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                         //     builder: (BuildContext context) {
                         //       return const ConfigPageDashboard();
                         //     });
-                        context.pushReplacement(routeJSATraining);
+                        context.pushReplacement(routeTraining);
                       },
                     ),
                   )
                 : Container(),
+
             SideMenuItem(
               selected: provider.indexSelected[12],
               leading: const Icon(Icons.power_settings_new_outlined,

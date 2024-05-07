@@ -1,10 +1,13 @@
 // ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables, unused_local_variable
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabaseFlutter;
 
@@ -34,6 +37,7 @@ class _CustomDocCreationFinalDocumentState
     JsaProvider provider = Provider.of<JsaProvider>(context);
     double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
+
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.87,
@@ -120,7 +124,7 @@ class _CustomDocCreationFinalDocumentState
                     title: "JSA TEMPLATE PREVIEW ",
                     height: MediaQuery.of(context).size.height * 0.3,
                     width: MediaQuery.of(context).size.width * 0.3,
-                    child: Container(
+                    child: SizedBox(
                       child: Row(
                         children: [
                           Container(
@@ -255,6 +259,110 @@ class _CustomDocCreationFinalDocumentState
                   onTap: () async {
                     // provider.setButtonViewTaped(2);
                     // provider.setIcons(2);
+
+                    Completer<bool> completer = Completer<bool>();
+                    showDialog(
+                      context: context,
+                      barrierDismissible:
+                          false, // Impide cerrar el diálogo tocando fuera de él
+                      builder: (BuildContext context) {
+                        return StatefulBuilder(
+                          builder:
+                              (BuildContext context, StateSetter setState) {
+                            return AlertDialog(
+                              key: UniqueKey(),
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              content: Container(
+                                width: width * 420,
+                                height: height * 150,
+                                decoration: BoxDecoration(
+                                  gradient: whiteGradient,
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(21),
+                                  ),
+                                ),
+                                child: FutureBuilder<bool>(
+                                  future: completer.future,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Uploading File Please Wait...',
+                                            textAlign: TextAlign.center,
+                                            style: AppTheme.of(context).title1,
+                                          ),
+                                          const CircularProgressIndicator()
+                                        ],
+                                      );
+                                    } else {
+                                      if (snapshot.hasError ||
+                                          snapshot.data == false) {
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Error Uploading File',
+                                              textAlign: TextAlign.center,
+                                              style: AppTheme.of(context)
+                                                  .title1
+                                                  .override(
+                                                      fontFamily:
+                                                          'Gotham-Regular',
+                                                      useGoogleFonts: false,
+                                                      color: Colors.red),
+                                            ),
+                                            const Icon(
+                                              Icons.error,
+                                              color: Colors.red,
+                                              size: 30,
+                                            ),
+                                          ],
+                                        );
+                                      } else {
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'JSA Created successfully',
+                                              textAlign: TextAlign.center,
+                                              style: AppTheme.of(context)
+                                                  .title1
+                                                  .override(
+                                                      fontFamily:
+                                                          'Gotham-Regular',
+                                                      useGoogleFonts: false,
+                                                      color: Colors.green),
+                                            ),
+                                            const Icon(
+                                              Icons.check,
+                                              color: Colors.green,
+                                              size: 30,
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                    }
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
                     //PDF
                     var pdfDesglose =
                         await provider.finalPdfController!.document;
@@ -307,6 +415,7 @@ class _CustomDocCreationFinalDocumentState
                             response[0]['id']);
                       }
                     }
+
                     context.pushReplacement(routeJSADochument);
 
                     setState(() {});
@@ -322,11 +431,11 @@ class _CustomDocCreationFinalDocumentState
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Text("Submit", style: AppTheme.of(context).subtitle2),
                         const Icon(
-                          Icons.arrow_left_outlined,
+                          Icons.arrow_right_outlined,
                           color: Colors.white,
                         ),
-                        Text("Submit", style: AppTheme.of(context).subtitle2),
                       ],
                     ),
                   ),

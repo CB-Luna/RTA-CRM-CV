@@ -15,7 +15,7 @@ class User {
     this.mobilePhone,
     required this.address,
     this.image,
-    this.company_fk,
+    this.companyFk,
     this.birthDate,
     required this.roles,
     required this.companies,
@@ -39,7 +39,7 @@ class User {
   String? mobilePhone;
   String address;
   String? image;
-  int? company_fk;
+  int? companyFk;
   DateTime? birthDate;
   List<Role> roles;
   List<Company> companies;
@@ -68,47 +68,31 @@ class User {
     }
   }
 
-  bool checkRoles() {
-    return roles.length > 1;
-  }
+  bool checkRoles() => roles.length > 1;
 
   // Both
   bool get isAdmin =>
-      currentUser!.isAdminCrm ||
-      currentUser!.isAdminCv ||
-      currentUser!.isAdminDashboards ||
-      currentUser!.isAdminJSA;
+      isAdminCrm || isAdminCv || isAdminDashboards || isAdminJSA;
 
   // CRM
   bool get isCRM =>
-      currentUser!.isAdminCrm ||
-      currentUser!.isSales ||
-      currentUser!.isSenExec ||
-      currentUser!.isFinance ||
-      currentUser!.isOpperations;
+      isAdminCrm || isSales || isSenExec || isFinance || isOpperations;
 
   // bool get isAdminCrm => roles.any((role) => role.id == 4);
 
-  bool get isAdminCrm => currentUser!.currentRole.id == 4;
-  bool get isSales => currentUser!.currentRole.id == 6;
-  bool get isOpperations => currentUser!.currentRole.id == 7;
-  bool get isFinance => currentUser!.currentRole.id == 8;
-  bool get isSenExec => currentUser!.currentRole.id == 9;
+  bool get isAdminCrm => currentRole.id == 4;
+  bool get isSales => currentRole.id == 6;
+  bool get isOpperations => currentRole.id == 7;
+  bool get isFinance => currentRole.id == 8;
+  bool get isSenExec => currentRole.id == 9;
 
   // CV
-  bool get isCV =>
-      currentUser!.isAdminCv ||
-      currentUser!.isManager ||
-      currentUser!.isEmployee ||
-      currentUser!.isTechSupervisor;
+  bool get isCV => isAdminCv || isManager || isEmployee || isTechSupervisor;
 
-  bool get isAdminCv => currentUser!.currentRole.id == 3;
-  bool get isManager => currentUser!.currentRole.id == 2;
-  bool get isEmployee => currentUser!.currentRole.id == 5;
-  bool get isTechSupervisor => currentUser!.currentRole.id == 10;
-
-  // bool get isTechSupervisor =>
-  //     roles.any((role) => role.roleName == 'Tech Supervisor');
+  bool get isAdminCv => currentRole.id == 3;
+  bool get isManager => currentRole.id == 2;
+  bool get isEmployee => currentRole.id == 5;
+  bool get isTechSupervisor => currentRole.id == 10;
 
   // Dashboards RTATEL
   bool get isDashboardsRTATEL =>
@@ -126,29 +110,22 @@ class User {
       isDashboardsBank2 ||
       isDashboardsBank3;
 
-  bool get isAdminDashboards =>
-      currentUser!.currentRole.id == 1; // Admin Dashboards
-  bool get isDashboardsOperation1 =>
-      currentUser!.currentRole.id == 14; // Operation 1
-  bool get isDashboardsOperation2 =>
-      currentUser!.currentRole.id == 15; // Operation 2
+  bool get isAdminDashboards => currentRole.id == 1; // Admin Dashboards
+  bool get isDashboardsOperation1 => currentRole.id == 14; // Operation 1
+  bool get isDashboardsOperation2 => currentRole.id == 15; // Operation 2
   bool get isDashboardsSupervisor1 =>
-      currentUser!.currentRole.id == 16; // Dashboard Supervisor 1
+      currentRole.id == 16; // Dashboard Supervisor 1
   bool get isDashboardsSupervisor2 =>
-      currentUser!.currentRole.id == 17; // Dashboard Supervisor 2
-  bool get isDashboardsInstaller =>
-      currentUser!.currentRole.id == 22; // Installers 2
-  bool get isDashboardsFinancial1 =>
-      currentUser!.currentRole.id == 11; // Financial 1
-  bool get isDashboardsFinancial2 =>
-      currentUser!.currentRole.id == 12; // Financial 2
-  bool get isDashboardsFinancial3 =>
-      currentUser!.currentRole.id == 13; // Financial 3
-  bool get isDashboardsBank1 => currentUser!.currentRole.id == 18; // Bank 1
-  bool get isDashboardsBank2 => currentUser!.currentRole.id == 19; // Bank 2
-  bool get isDashboardsBank3 => currentUser!.currentRole.id == 20; // Bank 3
+      currentRole.id == 17; // Dashboard Supervisor 2
+  bool get isDashboardsInstaller => currentRole.id == 22; // Installers 2
+  bool get isDashboardsFinancial1 => currentRole.id == 11; // Financial 1
+  bool get isDashboardsFinancial2 => currentRole.id == 12; // Financial 2
+  bool get isDashboardsFinancial3 => currentRole.id == 13; // Financial 3
+  bool get isDashboardsBank1 => currentRole.id == 18; // Bank 1
+  bool get isDashboardsBank2 => currentRole.id == 19; // Bank 2
+  bool get isDashboardsBank3 => currentRole.id == 20; // Bank 3
 
-  bool get isDashboardsCareRep => currentUser!.currentRole.id == 21; // Care Rep
+  bool get isDashboardsCareRep => currentRole.id == 21; // Care Rep
 
   // JSA
   bool get isJSA =>
@@ -157,11 +134,11 @@ class User {
       isLeadJSA ||
       isTechnicianJSA ||
       isRepresentativeJSA;
-  bool get isAdminJSA => currentUser!.currentRole.id == 23;
-  bool get isManagerJSA => currentUser!.currentRole.id == 24;
-  bool get isLeadJSA => currentUser!.currentRole.id == 25;
-  bool get isTechnicianJSA => currentUser!.currentRole.id == 26;
-  bool get isRepresentativeJSA => currentUser!.currentRole.id == 27;
+  bool get isAdminJSA => currentRole.id == 23;
+  bool get isManagerJSA => currentRole.id == 24;
+  bool get isLeadJSA => currentRole.id == 25;
+  bool get isTechnicianJSA => currentRole.id == 26;
+  bool get isRepresentativeJSA => currentRole.id == 27;
 
   String get currentAppRole => roles
       .where((role) => role.application == currentUser!.currentRole.application)
@@ -183,7 +160,7 @@ class User {
       mobilePhone: json['mobile_phone'],
       address: json['address'],
       image: json['image'],
-      company_fk: json["id_company_fk"],
+      companyFk: json["id_company_fk"],
       birthDate:
           json['birthdate'] == null ? null : DateTime.parse(json['birthdate']),
       roles: (json['roles'] as List).map((role) => Role.fromMap(role)).toList(),
