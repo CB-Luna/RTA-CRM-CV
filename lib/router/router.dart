@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/tokens.dart';
+import 'package:rta_crm_cv/functions/tokens_safety.dart';
 import 'package:rta_crm_cv/models/token.dart';
+import 'package:rta_crm_cv/models/token_safety.dart';
 
 import 'package:rta_crm_cv/pages/crm/campaigns/campaigns_page.dart';
 import 'package:rta_crm_cv/pages/crm/reports_page.dart';
 import 'package:rta_crm_cv/pages/crm/schedulings_page.dart';
 import 'package:rta_crm_cv/pages/crm/tickets_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/dashboard/dashboards_page_ctrlv.dart';
-import 'package:rta_crm_cv/pages/ctrlv/download_apk/download_apk_page.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/download_apk_fmt_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/download_apk/dashboard_rtatel_page.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/jsa_doc_creation_screen.dart';
+import 'package:rta_crm_cv/pages/jsa/download_apk/download_apk_jsa_page.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_document_list/jsa_document_list.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_safety_briefing/job_safety_briefing.dart';
+import 'package:rta_crm_cv/pages/jsa/jsa_safety_briefing/widgets/safety_briefing_client.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_training/jsa_training.dart';
 import 'package:rta_crm_cv/pages/login_page/login_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
@@ -35,7 +39,6 @@ import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_docu
 import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 import '../pages/dashboards_rtatel/config_page_dashboard.dart';
 import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
-import '../pages/jsa/download_apk/download_apk_jsa_page_desktop.dart';
 import '../pages/jsa/jsa_dashboard/jsa_dashboards_page.dart';
 
 import '../pages/jsa/jsa_safety_briefing/widgets/safety_briefing_resume.dart';
@@ -54,6 +57,7 @@ final GoRouter router = GoRouter(
     if (state.location == '/change-password') return null;
 
     if (state.location.contains(homeownerFTTHDocumentClient)) return null;
+    if (state.location.contains(routeSafetyBriefingClient)) return null;
 
     //If user is not logged in and not in the login page
     if (!loggedIn && !isLoggingIn) return '/login';
@@ -113,7 +117,7 @@ final GoRouter router = GoRouter(
           } else if (currentUser!.isAdminCv || currentUser!.isManager) {
             return const MonitoryPageDesktop();
           } else if (currentUser!.isEmployee) {
-            return const DownloadAPKPage();
+            return const DownloadAPKFMTPage();
           } else if (currentUser!.isAdminJSA || currentUser!.isManagerJSA) {
             return const JSADashboardsPageDesktop();
           } else if (currentUser!.isTechnicianJSA ||
@@ -173,7 +177,7 @@ final GoRouter router = GoRouter(
                                             // Aqui toma el techsupervisor cuando se supone que no
                                             ? const MonitoryPageDesktop()
                                             : currentUser!.isEmployee
-                                                ? const DownloadAPKPage()
+                                                ? const DownloadAPKFMTPage()
                                                 : currentUser!.isAdminJSA
                                                     ? const JSADashboardsPageDesktop()
                                                     : currentUser!.isManagerJSA
@@ -380,7 +384,7 @@ final GoRouter router = GoRouter(
       path: routeDownloadAPK,
       name: 'Download APK',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DownloadAPKFMTPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -432,7 +436,7 @@ final GoRouter router = GoRouter(
       path: routeDownloadAPKJSA,
       name: 'Download APK JSA',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPageDesktopJSA();
+        return const DownloadAPKJSAPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -465,6 +469,21 @@ final GoRouter router = GoRouter(
       name: 'Training',
       builder: (BuildContext context, GoRouterState state) {
         return const JSATraining();
+        // return SafetyBriefingClient();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+
+    GoRoute(
+      path: routeSafetyBriefingClient,
+      name: 'Safety Briefing Client',
+      builder: (BuildContext context, GoRouterState state) {
+        final String? tokenString = state.queryParameters['token'];
+        if (tokenString == null) return const PageNotFoundPage();
+        final TokenSafety? token = parseTokenSafety(tokenString);
+        if (token == null) return const PageNotFoundPage();
+        return SafetyBriefingClient(token: token);
+        // return SafetyBriefingClient();
       },
       // (context, state, const DetailsPopUp()),
     ),

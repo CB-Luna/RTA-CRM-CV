@@ -1,13 +1,14 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toastJA.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_safety_briefing_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_card.dart';
 import 'package:rta_crm_cv/widgets/get_image_widget.dart';
 
-import '../../../ctrlv/download_apk/widgets/failed_toastJA.dart';
 import '../../doc_creation/widgets/custom_task_input.dart';
 
 class InfoWidgets extends StatefulWidget {
@@ -18,10 +19,10 @@ class InfoWidgets extends StatefulWidget {
 }
 
 class _InfoWidgetsState extends State<InfoWidgets> {
+  FToast fToast = FToast();
+
   @override
   Widget build(BuildContext context) {
-    FToast fToast = FToast();
-
     double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
     JsaSafetyProvider provider = Provider.of<JsaSafetyProvider>(context);
@@ -33,32 +34,69 @@ class _InfoWidgetsState extends State<InfoWidgets> {
                 title: "Add Image",
                 height: height * 320,
                 width: width * 250,
+                // height: height * 520,
+                // width: width * 250,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    InkWell(
-                      onTap: () async {
-                        bool valorImage = await provider.selectImage();
-                        if (!valorImage) {
-                          if (!mounted) return;
-                          fToast.showToast(
-                            child: const FailedToastJA(
-                                message: 'The image is larger than 1 MB'),
-                            gravity: ToastGravity.BOTTOM,
-                            toastDuration: const Duration(seconds: 2),
-                          );
-                        }
-                      },
-                      child: Container(
-                        width: width * 105,
-                        height: height * 105,
-                        clipBehavior: Clip.antiAlias,
-                        decoration: const BoxDecoration(),
-                        child: getAddImageSafetyBrifing(
-                          provider.webImage,
+                    Row(
+                      children: [
+                        Text(
+                          "Select Image",
+                          style: TextStyle(
+                            fontFamily: 'Gotham-Regular',
+                            color: AppTheme.of(context).cryPrimary,
+                            fontSize: 25,
+                          ),
                         ),
-                      ),
+                        InkWell(
+                          onTap: () async {
+                            // provider.selectImagesAndGeneratePdf(context);
+                            bool valorImage = await provider.selectImage();
+                            if (!valorImage) {
+                              if (!mounted) return;
+                              fToast.showToast(
+                                child: const FailedToastJA(
+                                    message: 'The image is larger than 1 MB'),
+                                gravity: ToastGravity.BOTTOM,
+                                toastDuration: const Duration(seconds: 2),
+                              );
+                            }
+                          },
+                          child: Container(
+                            width: width * 105,
+                            height: height * 105,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: const BoxDecoration(),
+                            child: getAddImageSafetyBrifing(
+                              provider.webImage,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+                    // Text(
+                    //   "Ha seleccionado un total de :${provider.imageBytesList.length}",
+                    //   style: TextStyle(
+                    //     fontFamily: 'Gotham-Regular',
+                    //     color: AppTheme.of(context).cryPrimary,
+                    //     fontSize: 15,
+                    //   ),
+                    // ),
+                    // Container(
+                    //   height: 200,
+                    //   width: 200,
+                    //   margin: const EdgeInsets.symmetric(vertical: 15),
+                    //   child: Swiper(
+                    //     itemCount: provider.imageBytesList.length,
+                    //     itemBuilder: (context, index) {
+                    //       final urlImage = provider.imageBytesList[index];
+                    //       return Image.memory(urlImage, fit: BoxFit.fill);
+                    //     },
+                    //     itemWidth: 300.0,
+                    //     layout: SwiperLayout.STACK,
+                    //   ),
+                    // ),
                     Row(
                       children: [
                         InkWell(
@@ -88,7 +126,8 @@ class _InfoWidgetsState extends State<InfoWidgets> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              provider.webImage = null;
+                              // provider.webImage = null;
+                              provider.imageBytesList.clear();
                               // context.pop();
                             });
                           },

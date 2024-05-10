@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_safety_briefing_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';

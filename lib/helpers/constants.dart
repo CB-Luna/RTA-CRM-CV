@@ -3,8 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
-//////// PROD ////////
-final Uri urlFMTAPK = Uri.parse("https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
+
+final Uri urlFMTAPK = Uri.parse(
+    "https://drive.google.com/file/d/1t7K-NSZJMIlhDXZU2Zz58-w55VUo1cGP/view?usp=share_link");
 final Uri urlJSAAPK = Uri.parse(
     "https://drive.google.com/file/d/1UPudBUhTD4XBBQFBCX4PaZbkfG8EebXP/view?usp=share_link");
 const String supabaseUrl = 'https://supa41.rtatel.com';
@@ -288,6 +289,8 @@ const String routeDownloadAPKJSA = '/download_apk_jsa';
 const String routeSafetyBriefing = '/safety_briefing';
 const String routeSafetyBriefingList = '/safety_briefing_list';
 const String routeSafetyBriefingResume = '/safety_briefing_resume';
+const String routeSafetyBriefingClient =
+    '/safety_briefing/safety_briefing_client';
 // Training
 const String routeTraining = '/training';
 const String routeTrainingList = '/training_list';
