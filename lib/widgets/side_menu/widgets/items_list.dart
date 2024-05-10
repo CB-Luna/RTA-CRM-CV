@@ -449,7 +449,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                       buttonSize: 40,
                       tooltip: 'JSA Download APK',
                       fillColor: AppTheme.of(context).primaryColor,
-                      icon: Icons.download_done_outlined,
+                      icon: Icons.download_outlined,
                       // isTaped: visualState.isTaped[7],
                       onPressed: () async {
                         // await showDialog(
