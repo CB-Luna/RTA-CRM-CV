@@ -9,12 +9,13 @@ import 'package:rta_crm_cv/pages/crm/reports_page.dart';
 import 'package:rta_crm_cv/pages/crm/schedulings_page.dart';
 import 'package:rta_crm_cv/pages/crm/tickets_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/dashboard/dashboards_page_ctrlv.dart';
-import 'package:rta_crm_cv/pages/ctrlv/download_apk/download_apk_page.dart';
+import 'package:rta_crm_cv/pages/ctrlv/download_apk/download_apk_fmt_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/download_apk/dashboard_rtatel_page.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/jsa_doc_creation_screen.dart';
+import 'package:rta_crm_cv/pages/jsa/download_apk/download_apk_jsa_page.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_document_list/jsa_document_list.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_safety_briefing/job_safety_briefing.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_training/jsa_training.dart';
@@ -35,7 +36,6 @@ import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_docu
 import '../pages/ctrlv/inventory_page/pop_up/reported_issues_pop_up.dart';
 import '../pages/dashboards_rtatel/config_page_dashboard.dart';
 import '../pages/dashboards_rtatel/migrations/job_complete_technicians_page_desktop.dart';
-import '../pages/jsa/download_apk/download_apk_jsa_page_desktop.dart';
 import '../pages/jsa/jsa_dashboard/jsa_dashboards_page.dart';
 
 import '../pages/jsa/jsa_safety_briefing/widgets/safety_briefing_resume.dart';
@@ -113,7 +113,7 @@ final GoRouter router = GoRouter(
           } else if (currentUser!.isAdminCv || currentUser!.isManager) {
             return const MonitoryPageDesktop();
           } else if (currentUser!.isEmployee) {
-            return const DownloadAPKPage();
+            return const DownloadAPKFMTPage();
           } else if (currentUser!.isAdminJSA || currentUser!.isManagerJSA) {
             return const JSADashboardsPageDesktop();
           } else if (currentUser!.isTechnicianJSA ||
@@ -173,7 +173,7 @@ final GoRouter router = GoRouter(
                                             // Aqui toma el techsupervisor cuando se supone que no
                                             ? const MonitoryPageDesktop()
                                             : currentUser!.isEmployee
-                                                ? const DownloadAPKPage()
+                                                ? const DownloadAPKFMTPage()
                                                 : currentUser!.isAdminJSA
                                                     ? const JSADashboardsPageDesktop()
                                                     : currentUser!.isManagerJSA
@@ -380,7 +380,7 @@ final GoRouter router = GoRouter(
       path: routeDownloadAPK,
       name: 'Download APK',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPage();
+        return const DownloadAPKFMTPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
@@ -432,7 +432,7 @@ final GoRouter router = GoRouter(
       path: routeDownloadAPKJSA,
       name: 'Download APK JSA',
       builder: (BuildContext context, GoRouterState state) {
-        return const DownloadAPKPageDesktopJSA();
+        return const DownloadAPKJSAPage();
       },
       // (context, state, const DetailsPopUp()),
     ),
