@@ -289,6 +289,8 @@ const String routeDownloadAPKJSA = '/download_apk_jsa';
 const String routeSafetyBriefing = '/safety_briefing';
 const String routeSafetyBriefingList = '/safety_briefing_list';
 const String routeSafetyBriefingResume = '/safety_briefing_resume';
+const String routeSafetyBriefingClient =
+    '/safety_briefing/safety_briefing_client';
 // Training
 const String routeTraining = '/training';
 const String routeTrainingList = '/training_list';

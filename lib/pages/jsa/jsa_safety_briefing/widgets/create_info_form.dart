@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/custom_task_input.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
@@ -65,8 +66,8 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
       );
       if (picked != null && picked != DateTime.now()) {
         setState(() {
-          // String formattedDate = DateFormat('MM/dd/yyyy').format(picked);
-          provider.datedueController.text = picked.toString();
+          String formattedDate = DateFormat('MM/dd/yyyy').format(picked);
+          provider.datedueController.text = formattedDate;
           // provider.dateController.text = picked
           //     .toString(); // Aquí puedes formatear la fecha según tus necesidades
         });
@@ -79,9 +80,48 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
           task: "Briefing Name",
           controller: provider.titleController,
         ),
-        CustomtaskTextInput(
-          task: "Prepared By",
-          controller: provider.userController,
+        // CustomtaskTextInput(
+        //   task: "Prepared By",
+        //   controller: provider.userController,
+        // ),
+        Container(
+          width: MediaQuery.of(context).size.width * .2,
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Prepared By",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.normal,
+                  color: Color(0xFF737373),
+                ),
+              ),
+              const SizedBox(height: 3.0),
+              Container(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.symmetric(vertical: 16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    border:
+                        Border.all(color: const Color(0xFF335594), width: 1.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12.0, horizontal: 10),
+                    child: Text(
+                      currentUser!.fullName,
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xFF335594),
+                      ),
+                    ),
+                  )),
+            ],
+          ),
         ),
         InkWell(
             onTap: () async {
