@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_safety_briefing_provider.dart';
+import 'package:rta_crm_cv/widgets/pluto_grid_cells/pluto_grid_cell_status_sb.dart';
 
 import '../../../../functions/sizes.dart';
 import '../../../../helpers/constants.dart';
@@ -162,7 +163,7 @@ class _PlutoGridSafetyBriefingState extends State<PlutoGridSafetyBriefing> {
             width: 300,
             cellPadding: EdgeInsets.zero,
             renderer: (rendererContext) {
-              return PlutoGrdiJsaStatusDocumentList(
+              return PlutoGrdiJsaStatusSafety(
                   text: rendererContext.cell.value ?? "-");
             },
           ),
@@ -233,4 +234,27 @@ class _PlutoGridSafetyBriefingState extends State<PlutoGridSafetyBriefing> {
       ),
     );
   }
+}
+
+Color statusColorSB(String status, BuildContext context) {
+  late Color color;
+
+  switch (status) {
+    case "Received": //Sales Form
+      color = AppTheme.of(context).odePrimary;
+      break;
+    case "Completed": //Sen. Exec. Validate
+      color = Colors.green;
+      break;
+    case "Opened": //Finance Validate
+      color = AppTheme.of(context).employeePrimary;
+      break;
+
+    case "-": //Finance Validate
+      color = AppTheme.of(context).alternate;
+      break;
+    default:
+      return Colors.black;
+  }
+  return color;
 }
