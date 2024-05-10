@@ -76,7 +76,9 @@ class JsaSafetyProvider extends ChangeNotifier {
   bool firmacheck = false;
   int idstatus = 0;
   TeamMembersSafetyModel? teamMember;
-
+  DateTime today = DateTime.now();
+  String? tiempo = '';
+  List<dynamic> nameSafetyBriefing = [];
   // ------------ Variables de los Image ---------------
   String? imageName;
   String? imageUrl;
@@ -96,43 +98,43 @@ class JsaSafetyProvider extends ChangeNotifier {
     2: const pw.FlexColumnWidth(1), // Ancho flexible para la tercera columna
   };
 
-  Future<void> selectImagesAndGeneratePdf(BuildContext context) async {
-    // Permitir al usuario seleccionar hasta 5 imágenes
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: [
-        'jpg',
-        'jpeg',
-        'png'
-      ], // Extensiones de archivo permitidas
-      allowMultiple: true,
-      withData: true, // Obtener datos del archivo como bytes
-    );
+  // Future<void> selectImagesAndGeneratePdf(BuildContext context) async {
+  //   // Permitir al usuario seleccionar hasta 5 imágenes
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
+  //     type: FileType.custom,
+  //     allowedExtensions: [
+  //       'jpg',
+  //       'jpeg',
+  //       'png'
+  //     ], // Extensiones de archivo permitidas
+  //     allowMultiple: true,
+  //     withData: true, // Obtener datos del archivo como bytes
+  //   );
 
-    if (result != null) {
-      List<PlatformFile> files = result.files;
+  //   if (result != null) {
+  //     List<PlatformFile> files = result.files;
 
-      for (var file in files) {
-        Uint8List bytes = file.bytes!; // Obtener bytes del archivo
+  //     for (var file in files) {
+  //       Uint8List bytes = file.bytes!; // Obtener bytes del archivo
 
-        // Verificar si ya se han seleccionado 5 imágenes
-        if (imageBytesList.length >= 5) {
-          // Mostrar un mensaje al usuario (puedes usar un diálogo, snackbar, etc.)
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //   SnackBar(
-          //       content: Text('¡Ya has seleccionado el máximo de 5 imágenes!')),
-          // );
-          break; // Detener el proceso de agregar más imágenes
-        }
+  //       // Verificar si ya se han seleccionado 5 imágenes
+  //       if (imageBytesList.length >= 5) {
+  //         // Mostrar un mensaje al usuario (puedes usar un diálogo, snackbar, etc.)
+  //         // ScaffoldMessenger.of(context).showSnackBar(
+  //         //   SnackBar(
+  //         //       content: Text('¡Ya has seleccionado el máximo de 5 imágenes!')),
+  //         // );
+  //         break; // Detener el proceso de agregar más imágenes
+  //       }
 
-        // Agregar la imagen a la lista si aún no se ha alcanzado el límite
-        imageBytesList.add(bytes);
-      }
-    }
+  //       // Agregar la imagen a la lista si aún no se ha alcanzado el límite
+  //       imageBytesList.add(bytes);
+  //     }
+  //   }
 
-    // Notificar a los listeners que la lista de imágenes ha cambiado
-    notifyListeners();
-  }
+  //   // Notificar a los listeners que la lista de imágenes ha cambiado
+  //   notifyListeners();
+  // }
 
   // Images
   void addMileageImage(ImageEvidence image) {
@@ -283,6 +285,35 @@ class JsaSafetyProvider extends ChangeNotifier {
       pdfController = PdfController(document: PdfDocument.openData(bodyBytes));
     } catch (e) {
       log('Error in pickDocument() - $e');
+      return;
+    }
+    return;
+  }
+
+  // Seleccionar Documento
+  Future<void> pickDocumentSafetyBriefing(int idSafety) async {
+    try {
+      final res = await supabaseJsa
+          .from('safety_briefing')
+          .select("doc_name")
+          .eq('id', idSafety);
+
+      nameSafetyBriefing = (res as List<dynamic>);
+
+      var url = supabase.storage
+          .from('jsa/safety_briefing')
+          .getPublicUrl(nameSafetyBriefing.first["doc_name"]);
+      // var url =
+      //     supabase.storage.from('jsa/safety_briefing').getPublicUrl(document);
+      print(url);
+      // .getPublicUrl("${jsa.id}_${jsa.createdAt}_14.pdf");
+      var bodyBytes = (await http.get(Uri.parse(url))).bodyBytes;
+      documento = bodyBytes;
+
+      pdfController = PdfController(document: PdfDocument.openData(bodyBytes));
+      notifyListeners();
+    } catch (e) {
+      log('Error in pickDocumentSafetyBriefing() - $e');
       return;
     }
     return;
@@ -449,6 +480,7 @@ class JsaSafetyProvider extends ChangeNotifier {
       recomendationsController.text = lista.first.recommendation;
       contactController.text = lista.first.contact;
       statusController.text = lista.first.status.name;
+      webImage = webImage;
       // teamMembers = lista.first.usersjsa;
       // phoneController.text = doc.first.formInfo!.phone!;
       // if (representativeNameController.text.isEmpty) {
@@ -581,7 +613,9 @@ class JsaSafetyProvider extends ChangeNotifier {
   Future<bool> uploadDocument(int seqId, int idJsa) async {
     // ejecBloq = true;
     // notifyListeners();
-
+    today = DateTime.now();
+    tiempo =
+        '${today.year}-${(today.month)}-${(today.day)}_${(today.hour)}:${(today.minute)}:${(today.second)}';
     try {
       if (documento == null) {
         return false;
@@ -589,10 +623,11 @@ class JsaSafetyProvider extends ChangeNotifier {
 //se sube el documento
       await supabase.storage
           .from('jsa/safety_briefing')
-          .uploadBinary('${titleController.text}_$seqId.pdf', documento!);
+          .uploadBinary('${tiempo}_$seqId.pdf', documento!);
 
-      await supabaseJsa.from('safety_briefing').update(
-          {'doc_name': '${titleController.text}_$seqId.pdf'}).eq("id", idJsa);
+      await supabaseJsa
+          .from('safety_briefing')
+          .update({'doc_name': '${tiempo}_$seqId.pdf'}).eq("id", idJsa);
 
       print("subida correcta a Supabase");
     } catch (e) {

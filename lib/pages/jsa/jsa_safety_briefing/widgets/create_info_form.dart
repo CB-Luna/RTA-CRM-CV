@@ -49,7 +49,9 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
       );
       if (picked != null && picked != DateTime.now()) {
         setState(() {
-          String formattedDate = DateFormat('MM/dd/yyyy').format(picked);
+          // String formattedDate = DateFormat('MM/dd/yyyy').format(picked);
+          String formattedDate = DateFormat('MMM/dd/yyyy').format(picked);
+
           provider.dateController.text = formattedDate;
           // provider.dateController.text = picked
           //     .toString(); // Aquí puedes formatear la fecha según tus necesidades
@@ -66,7 +68,7 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
       );
       if (picked != null && picked != DateTime.now()) {
         setState(() {
-          String formattedDate = DateFormat('MM/dd/yyyy').format(picked);
+          String formattedDate = DateFormat('MMM/dd/yyyy').format(picked);
           provider.datedueController.text = formattedDate;
           // provider.dateController.text = picked
           //     .toString(); // Aquí puedes formatear la fecha según tus necesidades
@@ -209,6 +211,13 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
               child: TextFormField(
                 controller: provider.dateController,
                 readOnly: true,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a Date';
+                  }
+                  // Puedes agregar más validaciones aquí (por ejemplo, para verificar un formato de email válido).
+                  return null; // Retorna null si la validación es exitosa.
+                },
                 decoration: InputDecoration(
                   labelText: 'Date',
                   suffixIcon: IconButton(
@@ -242,6 +251,13 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
               child: TextFormField(
                 controller: provider.datedueController,
                 readOnly: true,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a Date';
+                  }
+                  // Puedes agregar más validaciones aquí (por ejemplo, para verificar un formato de email válido).
+                  return null; // Retorna null si la validación es exitosa.
+                },
                 decoration: InputDecoration(
                   labelText: 'Due Date',
                   suffixIcon: IconButton(
