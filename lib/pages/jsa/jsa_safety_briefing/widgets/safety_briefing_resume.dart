@@ -136,205 +136,252 @@ class _SafetyBriefingResumeState extends State<SafetyBriefingResume> {
                               child: SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.7,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text("Title: ",
-                                            style: TextStyle(
-                                              fontFamily: 'Gotham-Light',
-                                              color: AppTheme.of(context)
-                                                  .primaryText,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                            )),
-                                        Text(provider.titleController.text)
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text("Prepared By: ",
-                                            style: TextStyle(
-                                              fontFamily: 'Gotham-Light',
-                                              color: AppTheme.of(context)
-                                                  .primaryText,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                            )),
-                                        Text(provider.userController.text)
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text("Prepared For: ",
-                                            style: TextStyle(
-                                              fontFamily: 'Gotham-Light',
-                                              color: AppTheme.of(context)
-                                                  .primaryText,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                            )),
-                                        Expanded(
-                                          child: Column(
-                                            children: List.generate(
-                                                provider.teamMembers.length,
-                                                (index) {
-                                              return Row(
-                                                children: [
-                                                  Text(
-                                                    provider.teamMembers[index]
-                                                        .name!,
-                                                    style: const TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: Color(0xFF335594),
-                                                    ),
-                                                  ),
-                                                  if (index <
-                                                      provider.teamMembers
-                                                              .length -
-                                                          1)
-                                                    const Text(', '),
-                                                ],
-                                              );
-                                            }),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text("Date: ",
-                                            style: TextStyle(
-                                              fontFamily: 'Gotham-Light',
-                                              color: AppTheme.of(context)
-                                                  .primaryText,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                            )),
-                                        Text(provider.dateController.text)
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text("Issue: ",
-                                            style: TextStyle(
-                                              fontFamily: 'Gotham-Light',
-                                              color: AppTheme.of(context)
-                                                  .primaryText,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                            )),
-                                        Text(provider.issueController.text)
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text("Background: ",
-                                            style: TextStyle(
-                                              fontFamily: 'Gotham-Light',
-                                              color: AppTheme.of(context)
-                                                  .primaryText,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                            )),
-                                        Text(provider.backgroundController.text)
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text("Recommendations: ",
-                                            style: TextStyle(
-                                              fontFamily: 'Gotham-Light',
-                                              color: AppTheme.of(context)
-                                                  .primaryText,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                            )),
-                                        Text(provider
-                                            .recomendationsController.text)
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text("Contact: ",
-                                            style: TextStyle(
-                                              fontFamily: 'Gotham-Light',
-                                              color: AppTheme.of(context)
-                                                  .primaryText,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                            )),
-                                        Text(provider.contactController.text)
-                                      ],
-                                    ),
-                                    InkWell(
-                                      onTap: () async {
-                                        // await provider.crearPDF();
-                                        Completer<bool> completer =
-                                            Completer<bool>();
-                                        showDialog(
-                                          context: context,
-                                          barrierDismissible:
-                                              false, // Impide cerrar el diálogo tocando fuera de él
-                                          builder: (BuildContext context) {
-                                            return StatefulBuilder(
-                                              builder: (BuildContext context,
-                                                  StateSetter setState) {
-                                                return AlertDialog(
-                                                  key: UniqueKey(),
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  shadowColor:
-                                                      Colors.transparent,
-                                                  content: Container(
-                                                    width: width * 420,
-                                                    height: height * 150,
-                                                    decoration: BoxDecoration(
-                                                      gradient: whiteGradient,
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                        Radius.circular(21),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text("Title: ",
+                                              style: TextStyle(
+                                                fontFamily: 'Gotham-Light',
+                                                color: AppTheme.of(context)
+                                                    .primaryText,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              )),
+                                          Text(provider.titleController.text)
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text("Prepared By: ",
+                                              style: TextStyle(
+                                                fontFamily: 'Gotham-Light',
+                                                color: AppTheme.of(context)
+                                                    .primaryText,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              )),
+                                          Text(currentUser!.fullName)
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text("Prepared For: ",
+                                              style: TextStyle(
+                                                fontFamily: 'Gotham-Light',
+                                                color: AppTheme.of(context)
+                                                    .primaryText,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              )),
+                                          Expanded(
+                                            child: Column(
+                                              children: List.generate(
+                                                  provider.teamMembers.length,
+                                                  (index) {
+                                                return Row(
+                                                  children: [
+                                                    Text(
+                                                      provider
+                                                          .teamMembers[index]
+                                                          .name!,
+                                                      style: const TextStyle(
+                                                        fontSize: 16.0,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        color:
+                                                            Color(0xFF335594),
                                                       ),
                                                     ),
-                                                    child: FutureBuilder<bool>(
-                                                      future: completer.future,
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        if (snapshot
-                                                                .connectionState ==
-                                                            ConnectionState
-                                                                .waiting) {
-                                                          return Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Text(
-                                                                'Uploading File Please Wait...',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style: AppTheme.of(
-                                                                        context)
-                                                                    .title1,
-                                                              ),
-                                                              const CircularProgressIndicator()
-                                                            ],
-                                                          );
-                                                        } else {
+                                                    if (index <
+                                                        provider.teamMembers
+                                                                .length -
+                                                            1)
+                                                      const Text(', '),
+                                                  ],
+                                                );
+                                              }),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text("Date: ",
+                                              style: TextStyle(
+                                                fontFamily: 'Gotham-Light',
+                                                color: AppTheme.of(context)
+                                                    .primaryText,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              )),
+                                          Text(provider.dateController.text)
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text("Due Date: ",
+                                              style: TextStyle(
+                                                fontFamily: 'Gotham-Light',
+                                                color: AppTheme.of(context)
+                                                    .primaryText,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              )),
+                                          Text(provider.datedueController.text)
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.1,
+                                            child: Text("Issue: ",
+                                                style: TextStyle(
+                                                  fontFamily: 'Gotham-Light',
+                                                  color: AppTheme.of(context)
+                                                      .primaryText,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.18,
+                                            child: Text(
+                                              provider.issueController.text,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.03,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.1,
+                                            child: Text("Background: ",
+                                                style: TextStyle(
+                                                  fontFamily: 'Gotham-Light',
+                                                  color: AppTheme.of(context)
+                                                      .primaryText,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.18,
+                                            child: Text(
+                                              provider
+                                                  .backgroundController.text,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.03,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.1,
+                                            child: Text("Recommendations: ",
+                                                style: TextStyle(
+                                                  fontFamily: 'Gotham-Light',
+                                                  color: AppTheme.of(context)
+                                                      .primaryText,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.18,
+                                            child: Text(
+                                              provider.recomendationsController
+                                                  .text,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text("Contact: ",
+                                              style: TextStyle(
+                                                fontFamily: 'Gotham-Light',
+                                                color: AppTheme.of(context)
+                                                    .primaryText,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              )),
+                                          Text(provider.contactController.text)
+                                        ],
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+                                          // await provider.crearPDF();
+                                          Completer<bool> completer =
+                                              Completer<bool>();
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible:
+                                                false, // Impide cerrar el diálogo tocando fuera de él
+                                            builder: (BuildContext context) {
+                                              return StatefulBuilder(
+                                                builder: (BuildContext context,
+                                                    StateSetter setState) {
+                                                  return AlertDialog(
+                                                    key: UniqueKey(),
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    shadowColor:
+                                                        Colors.transparent,
+                                                    content: Container(
+                                                      width: width * 420,
+                                                      height: height * 150,
+                                                      decoration: BoxDecoration(
+                                                        gradient: whiteGradient,
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                .all(
+                                                          Radius.circular(21),
+                                                        ),
+                                                      ),
+                                                      child:
+                                                          FutureBuilder<bool>(
+                                                        future:
+                                                            completer.future,
+                                                        builder: (context,
+                                                            snapshot) {
                                                           if (snapshot
-                                                                  .hasError ||
-                                                              snapshot.data ==
-                                                                  false) {
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
                                                             return Column(
                                                               crossAxisAlignment:
                                                                   CrossAxisAlignment
@@ -344,166 +391,197 @@ class _SafetyBriefingResumeState extends State<SafetyBriefingResume> {
                                                                       .center,
                                                               children: [
                                                                 Text(
-                                                                  'Error Uploading File',
+                                                                  'Uploading File Please Wait...',
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
-                                                                  style: AppTheme.of(context).title1.override(
-                                                                      fontFamily:
-                                                                          'Gotham-Regular',
-                                                                      useGoogleFonts:
-                                                                          false,
-                                                                      color: Colors
-                                                                          .red),
+                                                                  style: AppTheme.of(
+                                                                          context)
+                                                                      .title1,
                                                                 ),
-                                                                const Icon(
-                                                                  Icons.error,
-                                                                  color: Colors
-                                                                      .red,
-                                                                  size: 30,
-                                                                ),
+                                                                const CircularProgressIndicator()
                                                               ],
                                                             );
                                                           } else {
-                                                            return Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Text(
-                                                                  'Document sent successfully',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style: AppTheme.of(context).title1.override(
-                                                                      fontFamily:
-                                                                          'Gotham-Regular',
-                                                                      useGoogleFonts:
-                                                                          false,
-                                                                      color: Colors
-                                                                          .green),
-                                                                ),
-                                                                const Icon(
-                                                                  Icons.check,
-                                                                  color: Colors
-                                                                      .green,
-                                                                  size: 30,
-                                                                ),
-                                                              ],
-                                                            );
+                                                            if (snapshot
+                                                                    .hasError ||
+                                                                snapshot.data ==
+                                                                    false) {
+                                                              return Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Text(
+                                                                    'Error Uploading File',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: AppTheme.of(context).title1.override(
+                                                                        fontFamily:
+                                                                            'Gotham-Regular',
+                                                                        useGoogleFonts:
+                                                                            false,
+                                                                        color: Colors
+                                                                            .red),
+                                                                  ),
+                                                                  const Icon(
+                                                                    Icons.error,
+                                                                    color: Colors
+                                                                        .red,
+                                                                    size: 30,
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            } else {
+                                                              return Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Text(
+                                                                    'Document sent successfully',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: AppTheme.of(context).title1.override(
+                                                                        fontFamily:
+                                                                            'Gotham-Regular',
+                                                                        useGoogleFonts:
+                                                                            false,
+                                                                        color: Colors
+                                                                            .green),
+                                                                  ),
+                                                                  const Icon(
+                                                                    Icons.check,
+                                                                    color: Colors
+                                                                        .green,
+                                                                    size: 30,
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            }
                                                           }
-                                                        }
-                                                      },
+                                                        },
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          },
-                                        );
-                                        supabaseFlutter.PostgrestList response =
-                                            await provider.mainUpload();
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          );
+                                          supabaseFlutter.PostgrestList
+                                              response =
+                                              await provider.mainUpload();
 
-                                        var teamResponse;
+                                          var teamResponse;
 
-                                        // // //DOCUMENT
-                                        var uploadCorrect =
-                                            await provider.uploadDocument(
-                                          currentUser!.sequentialId,
-                                          response[0]['id'],
-                                        );
+                                          // // //DOCUMENT
+                                          var uploadCorrect =
+                                              await provider.uploadDocument(
+                                            currentUser!.sequentialId,
+                                            response[0]['id'],
+                                          );
 
-                                        print(provider.teamMembers.length);
-                                        // // // //USERS
-                                        if (uploadCorrect) {
-                                          for (int i = 0;
-                                              i < provider.teamMembers.length;
-                                              i++) {
-                                            teamResponse =
-                                                await provider.teamUpload(
-                                                    i,
-                                                    response,
-                                                    teamResponse,
-                                                    response[0]['id']);
+                                          print(provider.teamMembers.length);
+                                          // // // //USERS
+                                          if (uploadCorrect) {
+                                            for (int i = 0;
+                                                i < provider.teamMembers.length;
+                                                i++) {
+                                              teamResponse =
+                                                  await provider.teamUpload(
+                                                      i,
+                                                      response,
+                                                      teamResponse,
+                                                      response[0]['id']);
+                                            }
                                           }
-                                        }
-                                        // Completa el Future con el resultado del trabajo
-                                        completer.complete(uploadCorrect);
-                                        // Cierra el diálogo después de un tiempo
-                                        await Future.delayed(
-                                            const Duration(seconds: 3));
-                                        Navigator.pop(
-                                            context); // Cierra el diálogo
-                                        context.pushReplacement(
-                                            routeSafetyBriefingList);
-                                      },
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.3,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.04,
-                                        margin: const EdgeInsets.all(10),
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            color:
-                                                AppTheme.of(context).cryPrimary,
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text("Submit",
-                                                style: AppTheme.of(context)
-                                                    .subtitle2),
-                                            const Icon(
-                                              Icons.arrow_right_outlined,
-                                              color: Colors.white,
-                                            ),
-                                          ],
+                                          // Completa el Future con el resultado del trabajo
+                                          completer.complete(uploadCorrect);
+                                          // Cierra el diálogo después de un tiempo
+                                          await Future.delayed(
+                                              const Duration(seconds: 3));
+                                          Navigator.pop(
+                                              context); // Cierra el diálogo
+                                          context.pushReplacement(
+                                              routeSafetyBriefingList);
+                                        },
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.04,
+                                          margin: const EdgeInsets.all(10),
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              color: AppTheme.of(context)
+                                                  .cryPrimary,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text("Submit",
+                                                  style: AppTheme.of(context)
+                                                      .subtitle2),
+                                              const Icon(
+                                                Icons.arrow_right_outlined,
+                                                color: Colors.white,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        context.pushReplacement(
-                                            routeSafetyBriefing);
-                                      },
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.3,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.04,
-                                        margin: const EdgeInsets.all(10),
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            color:
-                                                AppTheme.of(context).odePrimary,
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const Icon(
-                                              Icons.arrow_left_outlined,
-                                              color: Colors.white,
-                                            ),
-                                            Text("Back",
-                                                style: AppTheme.of(context)
-                                                    .subtitle2),
-                                          ],
+                                      InkWell(
+                                        onTap: () {
+                                          context.pushReplacement(
+                                              routeSafetyBriefing);
+                                        },
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.04,
+                                          margin: const EdgeInsets.all(10),
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              color: AppTheme.of(context)
+                                                  .odePrimary,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const Icon(
+                                                Icons.arrow_left_outlined,
+                                                color: Colors.white,
+                                              ),
+                                              Text("Back",
+                                                  style: AppTheme.of(context)
+                                                      .subtitle2),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                  ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )),
                         ],

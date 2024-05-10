@@ -5,6 +5,7 @@ class SafetyBriefing {
   final String title;
   final String preparedBy;
   final DateTime date;
+  final DateTime dueDate;
   final String issue;
   final String background;
   final String contact;
@@ -18,6 +19,7 @@ class SafetyBriefing {
     required this.title,
     required this.preparedBy,
     required this.date,
+    required this.dueDate,
     required this.issue,
     required this.background,
     required this.contact,
@@ -42,6 +44,7 @@ class SafetyBriefing {
         contact: json["contact"],
         recommendation: json["recommendation"],
         docName: json["doc_name"],
+        dueDate: DateTime.parse(json["due_date"]),
         status: SafetyBriefingStatus.fromMap(json["status"]),
         usersjsa: List<Usersjsa>.from(
             json["usersjsa"].map((x) => Usersjsa.fromMap(x))),
@@ -57,6 +60,7 @@ class SafetyBriefing {
         "contact": contact,
         "recommendation": recommendation,
         "doc_name": docName,
+        "due_date": dueDate.toIso8601String,
         "status": status.toMap(),
         "usersjsa": List<dynamic>.from(usersjsa.map((x) => x.toMap())),
       };

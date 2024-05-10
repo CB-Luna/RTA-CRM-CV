@@ -19,16 +19,15 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sf;
 import 'package:rive/rive.dart' as rive;
 import 'package:url_launcher/url_launcher.dart';
 
-class DownloadAPKPageDesktop extends StatefulWidget {
-  const DownloadAPKPageDesktop({super.key});
+class DownloadAPKFMTPageMobile extends StatefulWidget {
+  const DownloadAPKFMTPageMobile({super.key});
 
   @override
-  State<DownloadAPKPageDesktop> createState() => _DownloadAPKPageDesktopState();
+  State<DownloadAPKFMTPageMobile> createState() => _DownloadAPKFMTPageMobileState();
 }
 
-class _DownloadAPKPageDesktopState extends State<DownloadAPKPageDesktop> {
+class _DownloadAPKFMTPageMobileState extends State<DownloadAPKFMTPageMobile> {
   FToast fToast = FToast();
-  
 
   @override
   void initState() {
@@ -73,15 +72,15 @@ class _DownloadAPKPageDesktopState extends State<DownloadAPKPageDesktop> {
                             Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: SizedBox(
-                                  height: 40,
-                                  width: 40,
+                                  height: 30,
+                                  width: 30,
                                   child: sideM.aRDownloadAPK != null ? rive.Rive(artboard: sideM.aRDownloadAPK!) : const CircularProgressIndicator(),
                                 )),
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: SizedBox(
-                                height: 40,
-                                child: Text('Download APK', style: AppTheme.of(context).title1),
+                                height: 30,
+                                child: Text('Download FMT APK', style: AppTheme.of(context).title2),
                               ),
                             ),
                           ],
@@ -120,7 +119,7 @@ class _DownloadAPKPageDesktopState extends State<DownloadAPKPageDesktop> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsetsDirectional.fromSTEB(
-                                                          0, 0, 0, 50),
+                                                          0, 0, 0, 30),
                                                   child: Text(
                                                     "Click on 'Download' to redirect to the FMT APK.",
                                                     textAlign: TextAlign.center,
@@ -130,7 +129,7 @@ class _DownloadAPKPageDesktopState extends State<DownloadAPKPageDesktop> {
                                                           fontFamily: 'Bicyclette-Light',
                                                           color: AppTheme.of(context)
                                                               .primaryColor,
-                                                          fontSize: 60,
+                                                          fontSize: 30,
                                                           fontWeight: FontWeight.w600,
                                                           useGoogleFonts: false,
                                                         ),
@@ -139,23 +138,23 @@ class _DownloadAPKPageDesktopState extends State<DownloadAPKPageDesktop> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsetsDirectional.fromSTEB(
-                                                          0, 0, 0, 50),
+                                                          0, 0, 0, 30),
                                                   child: AppTheme.themeMode == ThemeMode.dark
                                                       ? Image.asset(
                                                           'assets/images/icon.png',
-                                                          height: 200,
+                                                          height: 150,
                                                           fit: BoxFit.cover,
                                                         )
                                                       : Image.asset(
                                                           'assets/images/icon.png',
-                                                          height: 200,
+                                                          height: 150,
                                                           fit: BoxFit.cover,
                                                         ),
                                                 ),
                                                 Padding(
                                                   padding:
                                                       const EdgeInsetsDirectional.fromSTEB(
-                                                          0, 40, 0, 0),
+                                                          0, 30, 0, 0),
                                                   child: CustomButton(
                                                     onPressed: () async {
                                                       //Download
@@ -168,7 +167,7 @@ class _DownloadAPKPageDesktopState extends State<DownloadAPKPageDesktop> {
                                                               shape: RoundedRectangleBorder(
                                                                 borderRadius: BorderRadius.circular(15),
                                                               ),
-                                                              title: const Text('Allow Download FMT.'),
+                                                              title: const Text('Allow Download FMT APK.'),
                                                               content: const Text('Are you sure you want to download FMT APK?'),
                                                               actions: [
                                                                 TextButton(
@@ -179,9 +178,9 @@ class _DownloadAPKPageDesktopState extends State<DownloadAPKPageDesktop> {
                                                                     } else {
                                                                       fToast.showToast(
                                                                         child: const WarningToast(
-                                                                          message: "The actual device don't support APK download",
+                                                                          message: "The actual device\ndon't support FMT APK download",
                                                                         ),
-                                                                        gravity: ToastGravity.BOTTOM,
+                                                                        gravity: ToastGravity.BOTTOM_RIGHT,
                                                                         toastDuration: const Duration(seconds: 3),
                                                                       );
                                                                     }
@@ -222,10 +221,10 @@ class _DownloadAPKPageDesktopState extends State<DownloadAPKPageDesktop> {
                                                       } catch (e) {
                                                         if (e is sf.AuthException) {
                                                           await ApiErrorHandler.callToast(
-                                                              'Failed to download the APK');
+                                                              'Failed to download the FMT APK');
                                                           return;
                                                         }
-                                                        log('Failed to download apk - $e');
+                                                        log('Failed to download fmt apk - $e');
                                                       }
                                                     },
                                                     text: 'Download',
@@ -253,14 +252,12 @@ class _DownloadAPKPageDesktopState extends State<DownloadAPKPageDesktop> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsetsDirectional.fromSTEB(
-                                                          15, 40, 15, 0),
-                                                  child: Row(
+                                                          15, 40, 15, 15),
+                                                  child: Column(
                                                     mainAxisSize: MainAxisSize.min,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.center,
                                                     children: [
                                                       Row(
-                                                        mainAxisSize: MainAxisSize.max,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
                                                           Padding(
                                                             padding:
@@ -278,7 +275,7 @@ class _DownloadAPKPageDesktopState extends State<DownloadAPKPageDesktop> {
                                                                 const EdgeInsetsDirectional
                                                                     .fromSTEB(0, 0, 10, 0),
                                                             child: Text(
-                                                              'Data\nprotected',
+                                                              'Data protected',
                                                               style: AppTheme.of(context)
                                                                   .bodyText1
                                                                   .override(
@@ -293,17 +290,18 @@ class _DownloadAPKPageDesktopState extends State<DownloadAPKPageDesktop> {
                                                         ],
                                                       ),
                                                       Container(
-                                                        width: 2,
-                                                        height: 70,
+                                                        width: MediaQuery.of(context).size.width * 0.8,
+                                                        height: 2,
                                                         decoration: const BoxDecoration(
                                                           color: Color(0xFFE7E7E7),
                                                         ),
                                                       ),
                                                       Padding(
-                                                        padding: const EdgeInsetsDirectional
-                                                            .fromSTEB(10, 0, 0, 2),
+                                                        padding: 
+                                                          const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
                                                         child: Text(
-                                                          "Security is our priority, that's why\nwe adhere to the highest standards.",
+                                                          textAlign: TextAlign.center, 
+                                                          "Security is our priority, that's why we adhere to the highest standards.",
                                                           style: AppTheme.of(context)
                                                               .bodyText1
                                                               .override(
