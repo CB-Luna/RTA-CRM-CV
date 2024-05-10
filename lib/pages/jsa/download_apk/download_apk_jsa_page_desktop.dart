@@ -19,15 +19,15 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sf;
 import 'package:rive/rive.dart' as rive;
 import 'package:url_launcher/url_launcher.dart';
 
-class DownloadAPKPageDesktopJSA extends StatefulWidget {
-  const DownloadAPKPageDesktopJSA({super.key});
+class DownloadAPKJSAPageDesktop extends StatefulWidget {
+  const DownloadAPKJSAPageDesktop({super.key});
 
   @override
-  State<DownloadAPKPageDesktopJSA> createState() =>
-      _DownloadAPKPageDesktopJSAState();
+  State<DownloadAPKJSAPageDesktop> createState() =>
+      _DownloadAPKJSAPageDesktopState();
 }
 
-class _DownloadAPKPageDesktopJSAState extends State<DownloadAPKPageDesktopJSA> {
+class _DownloadAPKJSAPageDesktopState extends State<DownloadAPKJSAPageDesktop> {
   FToast fToast = FToast();
 
   @override
@@ -85,7 +85,7 @@ class _DownloadAPKPageDesktopJSAState extends State<DownloadAPKPageDesktopJSA> {
                               padding: const EdgeInsets.only(right: 10),
                               child: SizedBox(
                                 height: 40,
-                                child: Text('Download APK JSA',
+                                child: Text('Download JSA APK',
                                     style: AppTheme.of(context).title1),
                               ),
                             ),
@@ -184,7 +184,7 @@ class _DownloadAPKPageDesktopJSAState extends State<DownloadAPKPageDesktopJSA> {
                                                                             15),
                                                               ),
                                                               title: const Text(
-                                                                  'Allow Download JSA.'),
+                                                                  'Allow Download JSA APK.'),
                                                               content: const Text(
                                                                   'Are you sure you want to download JSA APK?'),
                                                               actions: [
@@ -198,14 +198,14 @@ class _DownloadAPKPageDesktopJSAState extends State<DownloadAPKPageDesktopJSA> {
                                                                       if (html.contains(
                                                                           "android")) {
                                                                         await launchInBrowser(
-                                                                            urlFMTAPK);
+                                                                            urlJSAAPK);
                                                                       } else {
                                                                         fToast
                                                                             .showToast(
                                                                           child:
                                                                               const WarningToast(
                                                                             message:
-                                                                                "The actual device don't support APK download",
+                                                                                "The actual device don't support JSA APK download",
                                                                           ),
                                                                           gravity:
                                                                               ToastGravity.BOTTOM,
@@ -261,10 +261,10 @@ class _DownloadAPKPageDesktopJSAState extends State<DownloadAPKPageDesktopJSA> {
                                                           is sf.AuthException) {
                                                         await ApiErrorHandler
                                                             .callToast(
-                                                                'Failed to download the APK');
+                                                                'Failed to download the JSA APK');
                                                         return;
                                                       }
-                                                      log('Failed to download apk - $e');
+                                                      log('Failed to download jsa apk - $e');
                                                     }
                                                   },
                                                   text: 'Download',

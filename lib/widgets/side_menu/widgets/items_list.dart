@@ -396,7 +396,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             // JSA Section
 
             // Jsa Dashboards
-            currentUser!.isJSA
+            currentUser!.isAdminJSA ||
+                    currentUser!.isLeadJSA ||
+                    currentUser!.isManagerJSA
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(
@@ -417,7 +419,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
             // JSA Document List
-            currentUser!.isJSA
+            currentUser!.isAdminJSA ||
+                    currentUser!.isLeadJSA ||
+                    currentUser!.isManagerJSA
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(
@@ -459,7 +463,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
             // JSA Safety Briefing
-            currentUser!.isAdminJSA
+            currentUser!.isAdminJSA || currentUser!.isManagerJSA
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(
@@ -494,7 +498,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
             // JSA Safety Briefing List
-            currentUser!.isAdminJSA
+            currentUser!.isAdminJSA || currentUser!.isManagerJSA
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(
@@ -520,7 +524,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
             // JSA Training
-            currentUser!.isAdminJSA
+            currentUser!.isAdminJSA || currentUser!.isManagerJSA
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(

@@ -30,7 +30,7 @@ class _BriefingFormState extends State<BriefingForm> {
           controller: provider.backgroundController,
         ),
         CustomtaskTextInputSafety(
-          task: "Recomendations",
+          task: "recommendations",
           controller: provider.recomendationsController,
         ),
         CustomtaskTextInputContact(
