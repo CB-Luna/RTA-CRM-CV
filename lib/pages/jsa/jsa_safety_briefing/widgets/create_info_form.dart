@@ -166,26 +166,24 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
                             color: Color(0xFF335594),
                           ),
                         )
-                      : Expanded(
-                          child: Column(
-                            children: List.generate(provider.teamMembers.length,
-                                (index) {
-                              return Row(
-                                children: [
-                                  Text(
-                                    provider.teamMembers[index].name!,
-                                    style: const TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.normal,
-                                      color: Color(0xFF335594),
-                                    ),
+                      : Column(
+                          children: List.generate(provider.teamMembers.length,
+                              (index) {
+                            return Row(
+                              children: [
+                                Text(
+                                  provider.teamMembers[index].name!,
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.normal,
+                                    color: Color(0xFF335594),
                                   ),
-                                  if (index < provider.teamMembers.length - 1)
-                                    const Text(', '),
-                                ],
-                              );
-                            }),
-                          ),
+                                ),
+                                if (index < provider.teamMembers.length - 1)
+                                  const Text(', '),
+                              ],
+                            );
+                          }),
                         ),
                 ),
               ],
