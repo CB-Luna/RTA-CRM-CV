@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
-import 'package:rta_crm_cv/providers/jsa/jsa_training.dart';
+import 'package:rta_crm_cv/providers/jsa/jsa_training_provider.dart';
 import 'package:rta_crm_cv/widgets/horizontalscroll.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +14,7 @@ import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 
 import 'models/configuration.dart';
+import 'providers/jsa/jsa_training_list_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,8 @@ void main() async {
   supabaseAuth = SupabaseClient(supabaseUrl, anonKey, schema: 'auth');
 
   supabaseCtrlV = SupabaseClient(supabaseUrl, anonKey, schema: 'ctrl_v');
-  supabaseDashboard = SupabaseClient(supabaseUrl, anonKey, schema: 'dashboards_rta');
+  supabaseDashboard =
+      SupabaseClient(supabaseUrl, anonKey, schema: 'dashboards_rta');
   supabaseJsa = SupabaseClient(supabaseUrl, anonKey, schema: 'jsa');
 
   await Supabase.initialize(url: supabaseUrl, anonKey: anonKey);
@@ -56,7 +58,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => MonitoryProvider()),
         ChangeNotifierProvider(create: (_) => InventoryProvider()),
         ChangeNotifierProvider(create: (_) => IssueReportedProvider()),
-        ChangeNotifierProvider(create: (context) => VisualStateProvider(context)),
+        ChangeNotifierProvider(
+            create: (context) => VisualStateProvider(context)),
         ChangeNotifierProvider(create: (_) => OrdersProvider()),
         ChangeNotifierProvider(create: (_) => DashboardCVProvider()),
         ChangeNotifierProvider(create: (_) => HomeownerFTTHDocumentProvider()),
@@ -69,7 +72,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => JSADashboardProvider()),
         ChangeNotifierProvider(create: (_) => JsaProvider()),
         ChangeNotifierProvider(create: (_) => JsaSafetyProvider()),
-        ChangeNotifierProvider(create: (context) => JsaTraining()),
+        ChangeNotifierProvider(create: (context) => JsaTrainingProvider()),
+        ChangeNotifierProvider(create: (context) => JsaTrainingListProvider()),
       ],
       child: const MyApp(),
     ),
@@ -83,7 +87,8 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 
-  static _MyAppState of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>()!;
+  static _MyAppState of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>()!;
 }
 
 class _MyAppState extends State<MyApp> {
