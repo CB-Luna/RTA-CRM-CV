@@ -178,6 +178,31 @@ Widget? getAddImageSafetyBrifing(dynamic image,
   }
 }
 
+//----------     Safety Briefing
+Widget? getAddImageTraining(dynamic image,
+    {double height = 180, BoxFit boxFit = BoxFit.cover}) {
+  if (image == null) {
+    return Image.asset('assets/images/fadeInAnimation.gif');
+  } else if (image is Uint8List) {
+    return Image.memory(
+      image,
+      height: height,
+      width: double.infinity,
+      fit: boxFit,
+    );
+  } else if (image is String) {
+    return Image.network(
+      image,
+      height: height,
+      width: double.infinity,
+      filterQuality: FilterQuality.high,
+      fit: boxFit,
+    );
+  } else {
+    return Image.asset('assets/images/fadeInAnimation.gif');
+  }
+}
+
 Widget? getImageUpdateSafety(dynamic newImage,
     {double height = 180, BoxFit boxFit = BoxFit.cover}) {
   print("------------");

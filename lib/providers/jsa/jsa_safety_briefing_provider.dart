@@ -2,17 +2,12 @@
 
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:html';
 import 'dart:typed_data';
-import 'dart:ui';
-
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart';
 import 'package:pdf/pdf.dart' as pwp;
 import 'package:pdfx/pdfx.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -20,10 +15,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/models/models.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_safety_briefing/widgets/list_images.dart';
-import 'package:rta_crm_cv/pages/jsa/jsa_safety_briefing/widgets/safety_briefing_client.dart';
-import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabaseFlutter;
-import 'package:storage_client/src/types.dart';
 import 'package:rta_crm_cv/models/jsa/team_members.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
@@ -97,55 +89,6 @@ class JsaSafetyProvider extends ChangeNotifier {
     1: const pw.FlexColumnWidth(1), // Ancho flexible para la segunda columna
     2: const pw.FlexColumnWidth(1), // Ancho flexible para la tercera columna
   };
-
-  // Future<void> selectImagesAndGeneratePdf(BuildContext context) async {
-  //   // Permitir al usuario seleccionar hasta 5 imágenes
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
-  //     type: FileType.custom,
-  //     allowedExtensions: [
-  //       'jpg',
-  //       'jpeg',
-  //       'png'
-  //     ], // Extensiones de archivo permitidas
-  //     allowMultiple: true,
-  //     withData: true, // Obtener datos del archivo como bytes
-  //   );
-
-  //   if (result != null) {
-  //     List<PlatformFile> files = result.files;
-
-  //     for (var file in files) {
-  //       Uint8List bytes = file.bytes!; // Obtener bytes del archivo
-
-  //       // Verificar si ya se han seleccionado 5 imágenes
-  //       if (imageBytesList.length >= 5) {
-  //         // Mostrar un mensaje al usuario (puedes usar un diálogo, snackbar, etc.)
-  //         // ScaffoldMessenger.of(context).showSnackBar(
-  //         //   SnackBar(
-  //         //       content: Text('¡Ya has seleccionado el máximo de 5 imágenes!')),
-  //         // );
-  //         break; // Detener el proceso de agregar más imágenes
-  //       }
-
-  //       // Agregar la imagen a la lista si aún no se ha alcanzado el límite
-  //       imageBytesList.add(bytes);
-  //     }
-  //   }
-
-  //   // Notificar a los listeners que la lista de imágenes ha cambiado
-  //   notifyListeners();
-  // }
-
-  // Images
-  void addMileageImage(ImageEvidence image) {
-    listImages.add(image);
-    notifyListeners();
-  }
-
-  void deleteMileageImage(ImageEvidence image) {
-    listImages.remove(image);
-    notifyListeners();
-  }
 
   String encodeUint8Element(Uint8List element) {
     String encodedElement = base64.encode(element);

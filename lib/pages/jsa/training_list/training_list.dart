@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/widgets/custom_scrollbar.dart';
 import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 import '../../../theme/theme.dart';
-import 'widgets/add_training.dart';
+import 'widgets/custom_card_training.dart';
+import 'widgets/custom_card_training_user.dart';
 
-class Training extends StatefulWidget {
-  const Training({super.key});
+class TrainingList extends StatefulWidget {
+  const TrainingList({super.key});
 
   @override
-  State<Training> createState() => _TrainingState();
+  State<TrainingList> createState() => _TrainingListState();
 }
 
-class _TrainingState extends State<Training> {
+class _TrainingListState extends State<TrainingList> {
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -52,15 +54,16 @@ class _TrainingState extends State<Training> {
                               padding: const EdgeInsets.only(right: 10),
                               child: SizedBox(
                                 height: 40,
-                                child: Text('Add Training',
+                                child: Text('Training List',
                                     style: AppTheme.of(context).title1),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      // const CustomCardTraining()
-                      const AddTraining()
+                      currentUser!.isAdminJSA
+                          ? const CustomCardTraining()
+                          : const ContainerCardTrainingUser()
                     ],
                   ),
                 ),
