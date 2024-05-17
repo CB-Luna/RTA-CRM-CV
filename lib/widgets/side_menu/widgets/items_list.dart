@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/providers/jsa/jsa_training_provider.dart';
 import 'package:rta_crm_cv/providers/providers.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/item.dart';
@@ -517,19 +518,20 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
 
                         // await providerJSASP.getListUsers();
                         // final pdfController = await providerJSASP.clientPDF();
-
                         context.pushReplacement(routeSafetyBriefingList);
                       },
                     ),
                   )
                 : Container(),
             // JSA Training
-            currentUser!.isAdminJSA || currentUser!.isManagerJSA
+            currentUser!.isAdminJSA ||
+                    currentUser!.isManagerJSA ||
+                    currentUser!.isTechnicianJSA
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(
                       buttonSize: 40,
-                      tooltip: 'Training',
+                      tooltip: 'Training List',
                       fillColor: AppTheme.of(context).primaryColor,
                       icon: Icons.topic_outlined,
                       // isTaped: visualState.isTaped[7],
@@ -539,7 +541,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                         //     builder: (BuildContext context) {
                         //       return const ConfigPageDashboard();
                         //     });
-                        context.pushReplacement(routeTraining);
+                        context.pushReplacement(routeTrainingList);
                       },
                     ),
                   )

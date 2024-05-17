@@ -128,7 +128,6 @@ class _CreateInfoFormState extends State<CreateInfoForm> {
         InkWell(
             onTap: () async {
               // await provider.getListUsers(currentUser!.companies.first.company);
-
               await showDialog(
                   context: context,
                   builder: (BuildContext context) {

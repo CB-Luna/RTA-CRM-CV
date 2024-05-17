@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/providers/jsa/jsa_training.dart';
+import 'package:rta_crm_cv/helpers/constants.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
+import 'package:rta_crm_cv/providers/jsa/jsa_training_list_provider.dart';
+import 'package:rta_crm_cv/providers/jsa/jsa_training_provider.dart';
+import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
 import 'package:rta_crm_cv/widgets/custom_text_icon_button.dart';
 
 import '../../../../theme/theme.dart';
-import '../../../../widgets/captura/custom_text_field.dart';
 import '../../../../widgets/custom_card.dart';
+import 'container_card_training.dart';
 
 class CustomCardTraining extends StatefulWidget {
   const CustomCardTraining({super.key});
@@ -20,22 +25,23 @@ class _CustomCardTrainingState extends State<CustomCardTraining> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final JsaTraining provider = Provider.of<JsaTraining>(
+      final JsaTrainingListProvider provider =
+          Provider.of<JsaTrainingListProvider>(
         context,
         listen: false,
       );
-      // await provider.updateState();
+      await provider.updateState();
+      // await provider.getUsersTraining();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    JsaTraining provider = Provider.of<JsaTraining>(context);
-
-    // provider.listJSA.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
-    // provider.listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
-
-    // JsaProvider jsaProvider = Provider.of<JsaProvider>(context);
+    JsaTrainingListProvider provider =
+        Provider.of<JsaTrainingListProvider>(context);
+    double width = MediaQuery.of(context).size.width / 1440;
+    JsaTrainingProvider providerTraining =
+        Provider.of<JsaTrainingProvider>(context);
     return CustomCard(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         title: "Training List",
@@ -63,15 +69,19 @@ class _CustomCardTrainingState extends State<CustomCardTraining> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              SizedBox(
-                                width: 60,
-                                child: CustomTextIconButton(
-                                  color: Colors.white,
-                                  isLoading: false,
-                                  icon: Icon(Icons.filter_alt_outlined,
-                                      color: AppTheme.of(context).primaryText),
-                                  text: ' ',
-                                  // onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  width: 60,
+                                  child: CustomTextIconButton(
+                                    color: Colors.white,
+                                    isLoading: false,
+                                    icon: Icon(Icons.filter_alt_outlined,
+                                        color:
+                                            AppTheme.of(context).primaryText),
+                                    text: ' ',
+                                    // onTap: () => provider.stateManager!.setShowColumnFilter(!provider.stateManager!.showColumnFilter),
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -90,22 +100,21 @@ class _CustomCardTrainingState extends State<CustomCardTraining> {
                                   },
                                 ),
                               ),
-                              CustomTextIconButton(
-                                width: 225,
-                                isLoading: false,
-                                icon: Icon(Icons.add_outlined,
-                                    color:
-                                        AppTheme.of(context).primaryBackground),
-                                text: 'Add Training',
-                                color: AppTheme.of(context).primaryColor,
-                                onTap: () async {
-                                  // jsaProvider.titleController.clear();
-                                  // jsaProvider.taskController.clear();
-                                  // jsaProvider.searchController.clear();
-                                  // jsaProvider.setButtonViewTaped(0);
-                                  // jsaProvider.setIcons(0);
-                                  // context.pushReplacement(routeJSACreation);
-                                },
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CustomTextIconButton(
+                                  width: width * 100,
+                                  isLoading: false,
+                                  icon: Icon(Icons.add_outlined,
+                                      color: AppTheme.of(context)
+                                          .primaryBackground),
+                                  text: 'Add Training',
+                                  color: AppTheme.of(context).primaryColor,
+                                  onTap: () async {
+                                    providerTraining.clearAll();
+                                    context.pushReplacement(routeTraining);
+                                  },
+                                ),
                               ),
                             ],
                           )),
@@ -214,25 +223,46 @@ class _CustomCardTrainingState extends State<CustomCardTraining> {
                 ),
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.50,
-              width: MediaQuery.of(context).size.width,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 3,
-                controller: ScrollController(),
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext ctx, index) {
-                  return Container(
-                    color: Colors.red,
-                    height: 50,
-                    width: 50,
-                  );
-                  // return ContainerCardJSASafety(
-                  //     index: index, isExpanded: false);
-                },
-              ),
-            )
+            currentUser!.isAdminJSA
+                ? SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.50,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      // itemCount: provider.trainingList.length,
+                      itemCount: provider.usersTrainings.length,
+                      controller: ScrollController(),
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (BuildContext ctx, index) {
+                        // return Container(
+                        //   color: Colors.red,
+                        //   height: 50,
+                        //   width: 50,
+                        // );
+                        return ContainerCardTraining(
+                            index: index, isExpanded: false);
+                      },
+                    ),
+                  )
+                : SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.50,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: provider.trainingList.length,
+                      controller: ScrollController(),
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (BuildContext ctx, index) {
+                        // return Container(
+                        //   color: Colors.red,
+                        //   height: 50,
+                        //   width: 50,
+                        // );
+                        return ContainerCardTraining(
+                            index: index, isExpanded: false);
+                      },
+                    ),
+                  )
           ],
         ));
   }
