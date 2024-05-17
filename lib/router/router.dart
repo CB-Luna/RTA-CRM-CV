@@ -22,6 +22,7 @@ import 'package:rta_crm_cv/pages/jsa/jsa_document_list/jsa_document_list.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_safety_briefing/job_safety_briefing.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_safety_briefing/widgets/safety_briefing_client.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_training/jsa_training.dart';
+import 'package:rta_crm_cv/pages/jsa/training_list/training_list.dart';
 import 'package:rta_crm_cv/pages/login_page/login_page.dart';
 import 'package:rta_crm_cv/pages/pages.dart';
 
@@ -468,7 +469,16 @@ final GoRouter router = GoRouter(
       path: routeTraining,
       name: 'Training',
       builder: (BuildContext context, GoRouterState state) {
-        return const JSATraining();
+        return const Training();
+        // return SafetyBriefingClient();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeTrainingList,
+      name: 'Training List',
+      builder: (BuildContext context, GoRouterState state) {
+        return const TrainingList();
         // return SafetyBriefingClient();
       },
       // (context, state, const DetailsPopUp()),
