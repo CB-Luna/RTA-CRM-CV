@@ -61,7 +61,10 @@ class _TrainingListState extends State<TrainingList> {
                           ],
                         ),
                       ),
-                      currentUser!.isAdminJSA
+                      currentUser!.isAdminJSA ||
+                              currentUser!.isManagerJSA ||
+                              currentUser!.isRepresentativeJSA ||
+                              currentUser!.isLeadJSA
                           ? const CustomCardTraining()
                           : const ContainerCardTrainingUser()
                     ],

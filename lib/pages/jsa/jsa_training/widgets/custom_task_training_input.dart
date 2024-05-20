@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:rta_crm_cv/helpers/globals.dart';
 
 class CustomtaskTextTrainingInput extends StatefulWidget {
   final String task;
   final TextEditingController controller;
+  final String name;
   const CustomtaskTextTrainingInput(
-      {Key? key, required this.task, required this.controller})
+      {Key? key,
+      required this.task,
+      required this.controller,
+      required this.name})
       : super(key: key);
 
   @override
@@ -41,6 +46,7 @@ class _CustomtaskTextTrainingInputState
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
+                readOnly: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a valid task'; // Message to display when the field is empty
@@ -54,7 +60,7 @@ class _CustomtaskTextTrainingInputState
                 ),
                 controller: widget.controller,
                 decoration: InputDecoration(
-                  hintText: widget.task,
+                  hintText: widget.name,
                   border: InputBorder.none,
                 ),
                 onChanged: (value) {

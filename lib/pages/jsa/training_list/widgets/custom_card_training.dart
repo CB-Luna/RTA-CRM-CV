@@ -95,7 +95,7 @@ class _CustomCardTrainingState extends State<CustomCardTraining> {
                                   label: 'Search',
                                   keyboardType: TextInputType.text,
                                   onChanged: (String query) async {
-                                    // provider.filterDocuments(query);
+                                    provider.filterDocuments(query);
                                     // provider.updateState();
                                   },
                                 ),
