@@ -98,9 +98,9 @@ class _CustomDocCreationTaskRiskControlState
                                           });
                                           provider.notifyEdit();
                                         }
-                                        provider.stepNameController.clear();
-                                        provider.stepDescriptionController
-                                            .clear();
+                                        // provider.stepNameController.clear();
+                                        // provider.stepDescriptionController
+                                        //     .clear();
                                         setState(() {});
                                       }
 
@@ -191,6 +191,8 @@ class _CustomDocCreationTaskRiskControlState
                   }
                   provider.setButtonViewTaped(2);
                   provider.setIcons(2);
+                  provider.stepNameController.clear();
+                  provider.stepDescriptionController.clear();
                   setState(() {});
                 },
                 child: Container(

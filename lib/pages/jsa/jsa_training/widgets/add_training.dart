@@ -11,6 +11,7 @@ import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/user.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/widgets/custom_task_input.dart';
+import 'package:rta_crm_cv/pages/jsa/jsa_training/widgets/custom_task_training_input.dart';
 import 'package:rta_crm_cv/pages/jsa/jsa_training/widgets/pdf_viewer_page.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_training_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
@@ -137,17 +138,26 @@ class _AddTrainingState extends State<AddTraining> {
                       ),
                     ),
                   ),
+                  // Visibility(
+                  //   visible: currentUser!.isTechnicianJSA,
+                  //   child: CustomtaskTextInput(
+                  //     task: currentUser!.name,
+                  //     controller: provider.nameController,
+                  //   ),
+                  // ),
                   Visibility(
                     visible: currentUser!.isTechnicianJSA,
-                    child: CustomtaskTextInput(
-                      task: currentUser!.name,
+                    child: CustomtaskTextTrainingInput(
+                      task: "Name",
                       controller: provider.nameController,
+                      name: currentUser!.name,
                     ),
                   ),
                   Visibility(
                     visible: currentUser!.isTechnicianJSA,
-                    child: CustomtaskTextInput(
-                      task: currentUser!.lastName,
+                    child: CustomtaskTextTrainingInput(
+                      task: "Last Name",
+                      name: currentUser!.lastName,
                       controller: provider.lastNameController,
                     ),
                   ),

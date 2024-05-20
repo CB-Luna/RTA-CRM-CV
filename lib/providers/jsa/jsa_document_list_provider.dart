@@ -49,13 +49,18 @@ class JSADocumentListProvider extends ChangeNotifier {
     }
     try {
       if (currentUser!.isManagerJSA) {
-        final res = await supabaseJsa.from('jsa_view').select().eq('company_fk', currentUser!.companyFk);
+        final res = await supabaseJsa
+            .from('jsa_view')
+            .select()
+            .eq('company_fk', currentUser!.companyFk);
         if (res == null) {
           print('Error en getDocumentList()');
           return;
         }
         // print(res);
-        listJSA = (res as List<dynamic>).map((jSA) => Jsa.fromJson(jsonEncode(jSA))).toList();
+        listJSA = (res as List<dynamic>)
+            .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
+            .toList();
       } else {
         final res = await supabaseJsa.from('jsa_view').select();
         if (res == null) {
@@ -63,7 +68,9 @@ class JSADocumentListProvider extends ChangeNotifier {
           return;
         }
         // print(res);
-        listJSA = (res as List<dynamic>).map((jSA) => Jsa.fromJson(jsonEncode(jSA))).toList();
+        listJSA = (res as List<dynamic>)
+            .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
+            .toList();
       }
 
       // print("En getInformationJSA con el JSA_FK: con res: $res");
@@ -90,7 +97,8 @@ class JSADocumentListProvider extends ChangeNotifier {
             PlutoRow(
               cells: {
                 'ID_Column': PlutoCell(value: user.sequentialId),
-                'NAME_Column': PlutoCell(value: "${user.name} ${user.lastName}"),
+                'NAME_Column':
+                    PlutoCell(value: "${user.name} ${user.lastName}"),
                 'ROLE_Column': PlutoCell(value: user.role!.name),
                 'STATUS_Column': PlutoCell(value: user.status!.status),
                 'DOCUMENT_Column': PlutoCell(value: user.docName),
@@ -133,13 +141,18 @@ class JSADocumentListProvider extends ChangeNotifier {
 
     if (searchController.text.isEmpty) {
       if (currentUser!.isManagerJSA) {
-        final res = await supabaseJsa.from('jsa_view').select().eq('company_fk', currentUser!.companyFk);
+        final res = await supabaseJsa
+            .from('jsa_view')
+            .select()
+            .eq('company_fk', currentUser!.companyFk);
         if (res == null) {
           print('Error en filterDocuments()');
           return;
         }
         // print(res);
-        listJSA = (res as List<dynamic>).map((jSA) => Jsa.fromJson(jsonEncode(jSA))).toList();
+        listJSA = (res as List<dynamic>)
+            .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
+            .toList();
       } else {
         final res = await supabaseJsa.from('jsa_view').select();
         if (res == null) {
@@ -147,7 +160,9 @@ class JSADocumentListProvider extends ChangeNotifier {
           return;
         }
         // print(res);
-        listJSA = (res as List<dynamic>).map((jSA) => Jsa.fromJson(jsonEncode(jSA))).toList();
+        listJSA = (res as List<dynamic>)
+            .map((jSA) => Jsa.fromJson(jsonEncode(jSA)))
+            .toList();
       }
     } else {
       // listJSA = listJSA
@@ -160,8 +175,12 @@ class JSADocumentListProvider extends ChangeNotifier {
       print("SearchController: ${searchController.text}");
       listJSA = listJSA
           .where((elemento) =>
-              elemento.title != null && elemento.title!.toLowerCase().contains(searchController.text.toLowerCase()) ||
-              elemento.id != null && elemento.id!.toString().contains(searchController.text))
+              elemento.title != null &&
+                  elemento.title!
+                      .toLowerCase()
+                      .contains(searchController.text.toLowerCase()) ||
+              elemento.id != null &&
+                  elemento.id!.toString().contains(searchController.text))
           .toList();
     }
 
