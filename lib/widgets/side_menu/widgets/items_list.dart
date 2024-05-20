@@ -398,7 +398,7 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
 
             // Jsa Dashboards
             currentUser!.isAdminJSA ||
-                    currentUser!.isLeadJSA ||
+                    currentUser!.isRepresentativeJSA ||
                     currentUser!.isManagerJSA
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
@@ -464,7 +464,10 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
             // JSA Safety Briefing
-            currentUser!.isAdminJSA || currentUser!.isManagerJSA
+            currentUser!.isAdminJSA ||
+                    currentUser!.isManagerJSA ||
+                    currentUser!.isLeadJSA ||
+                    currentUser!.isRepresentativeJSA
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(
@@ -499,7 +502,10 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
                   )
                 : Container(),
             // JSA Safety Briefing List
-            currentUser!.isAdminJSA || currentUser!.isManagerJSA
+            currentUser!.isAdminJSA ||
+                    currentUser!.isManagerJSA ||
+                    currentUser!.isRepresentativeJSA ||
+                    currentUser!.isLeadJSA
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(
@@ -526,7 +532,9 @@ class _SideMenuItemsListState extends State<SideMenuItemsList> {
             // JSA Training
             currentUser!.isAdminJSA ||
                     currentUser!.isManagerJSA ||
-                    currentUser!.isTechnicianJSA
+                    currentUser!.isTechnicianJSA ||
+                    currentUser!.isRepresentativeJSA ||
+                    currentUser!.isLeadJSA
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
                     child: MenuButton(

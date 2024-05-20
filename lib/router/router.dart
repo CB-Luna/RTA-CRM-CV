@@ -121,10 +121,12 @@ final GoRouter router = GoRouter(
             return const DownloadAPKFMTPage();
           } else if (currentUser!.isAdminJSA || currentUser!.isManagerJSA) {
             return const JSADashboardsPageDesktop();
-          } else if (currentUser!.isTechnicianJSA ||
-              currentUser!.isRepresentativeJSA ||
-              currentUser!.isLeadJSA) {
+          } else if (currentUser!.isRepresentativeJSA) {
             return const JSADashboardsPageDesktop();
+          } else if (currentUser!.isLeadJSA) {
+            return const JSADocumentList();
+          } else if (currentUser!.isTechnicianJSA) {
+            return const Training();
           } else {
             return const PageNotFoundPage();
           }
@@ -188,10 +190,10 @@ final GoRouter router = GoRouter(
                                                             ? const JSADashboardsPageDesktop()
                                                             : currentUser!
                                                                     .isLeadJSA
-                                                                ? const JSADashboardsPageDesktop()
+                                                                ? const JSADocumentList()
                                                                 : currentUser!
                                                                         .isTechnicianJSA
-                                                                    ? const JSADashboardsPageDesktop()
+                                                                    ? const Training()
                                                                     : currentUser!
                                                                             .isRepresentativeJSA
                                                                         ? const JSADashboardsPageDesktop()
