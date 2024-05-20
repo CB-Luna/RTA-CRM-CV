@@ -37,42 +37,6 @@ class JsaTrainingListProvider extends ChangeNotifier {
     // notifyListeners();
   }
 
-  // void setPageSize(String x) {
-  //   switch (x) {
-  //     case 'more':
-  //       if (pageRowCount < rows.length) pageRowCount++;
-  //       break;
-  //     case 'less':
-  //       if (pageRowCount > 1) pageRowCount--;
-  //       break;
-  //     default:
-  //       return;
-  //   }
-  //   stateManager!.createFooter;
-  //   // notifyListeners();
-  // }
-
-  // void setPage(String x) {
-  //   switch (x) {
-  //     case 'next':
-  //       if (page < stateManager!.totalPage) page++;
-  //       break;
-  //     case 'previous':
-  //       if (page > 1) page--;
-  //       break;
-  //     case 'start':
-  //       page = 1;
-  //       break;
-  //     case 'end':
-  //       page = stateManager!.totalPage;
-  //       break;
-  //     default:
-  //       return;
-  //   }
-  //   stateManager!.setPage(page);
-  //   // notifyListeners();
-  // }
-
   // get de la lista de training, se usa en la pantalla que ve el tecnico
   Future<void> getTrainingList(String userfk) async {
     try {
@@ -158,6 +122,98 @@ class JsaTrainingListProvider extends ChangeNotifier {
     } catch (e) {
       print('Error en getInformationTraining() - $e');
     }
+  }
+
+  Future<void> filterDocuments(String query) async {
+    if (searchController.text.isEmpty) {
+      if (currentUser!.isManagerJSA) {
+        final res = await supabaseJsa.from('user_training_view').select();
+        // .eq('company_fk', currentUser!.companyFk);
+        if (res == null) {
+          print('Error en filterDocuments()');
+          return;
+        }
+        // print(res);
+        usersTrainings = (res as List<dynamic>)
+            .map((training) => UserTraining.fromJson(jsonEncode(training)))
+            .toList();
+      } else {
+        final res = await supabaseJsa.from('user_training_view').select();
+        if (res == null) {
+          print('Error en filterDocuments()');
+          return;
+        }
+        // print(res);
+        usersTrainings = (res as List<dynamic>)
+            .map((jSA) => UserTraining.fromJson(jsonEncode(jSA)))
+            .toList();
+      }
+    } else {
+      usersTrainings = usersTrainings
+          .where((elemento) =>
+              // ignore: unnecessary_null_comparison
+              elemento.name != null &&
+                  elemento.name
+                      .toLowerCase()
+                      .contains(searchController.text.toLowerCase()) ||
+              elemento.lastName
+                  .toLowerCase()
+                  .contains(searchController.text.toLowerCase()))
+          .toList();
+    }
+    notifyListeners();
+  }
+
+  Future<void> filterDocumentsUser(String query) async {
+    if (searchController.text.isEmpty) {
+      if (currentUser!.isManagerJSA) {
+        final res = await supabaseJsa
+            .from('training_view')
+            .select()
+            .eq('company_fk', currentUser!.companyFk);
+        if (res == null) {
+          print('Error en filterDocuments()');
+          return;
+        }
+        // print(res);
+        trainingList = (res as List<dynamic>)
+            .map((training) => Training.fromJson(jsonEncode(training)))
+            .toList();
+
+        print("TrainingList ${trainingList.length}");
+      } else {
+        final res = await supabaseJsa.from('training_view').select();
+        if (res == null) {
+          print('Error en filterDocuments()');
+          return;
+        }
+        // print(res);
+        trainingList = (res as List<dynamic>)
+            .map((jSA) => Training.fromJson(jsonEncode(jSA)))
+            .toList();
+      }
+    } else {
+      print("------------------");
+      print("SearchController: ${searchController.text}");
+      trainingList = trainingList
+          .where((elemento) =>
+              // ignore: unnecessary_null_comparison
+              elemento.title != null &&
+                  elemento.title
+                      .toLowerCase()
+                      .contains(searchController.text.toLowerCase()) ||
+              elemento.idTraining != null &&
+                  elemento.idTraining
+                      .toString()
+                      .contains(searchController.text.toLowerCase()))
+          .toList();
+    }
+    // for (var list in listJSA) {
+    //   print("Name list: ${list.title}");
+    // }
+
+    print("La lista listJSAFiltered: ${trainingList.length}");
+    notifyListeners();
   }
 
   // Selecciona Documento de la base de datos

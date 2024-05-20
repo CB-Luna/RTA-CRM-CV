@@ -295,5 +295,6 @@ class JsaTrainingProvider extends ChangeNotifier {
     titleController.clear();
     creationDateController.clear();
     expirationDateController.clear();
+    companyController.clear();
   }
 }

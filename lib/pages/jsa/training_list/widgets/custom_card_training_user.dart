@@ -97,7 +97,7 @@ class _ContainerCardTrainingUserState extends State<ContainerCardTrainingUser> {
                                   label: 'Search',
                                   keyboardType: TextInputType.text,
                                   onChanged: (String query) async {
-                                    // provider.filterDocuments(query);
+                                    provider.filterDocumentsUser(query);
                                     // provider.updateState();
                                   },
                                 ),
