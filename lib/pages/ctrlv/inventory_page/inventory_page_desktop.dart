@@ -19,7 +19,6 @@ import '../../../theme/theme.dart';
 import '../../../widgets/custom_card.dart';
 import '../../../widgets/custom_icon_button.dart';
 import '../../../widgets/custom_text_icon_button.dart';
-import '../../../widgets/pluto_grid_cells/pluto_grid_company_cell.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_company_cell_inventory.dart';
 import '../../../widgets/pluto_grid_cells/pluto_grid_status_cellCV.dart';
 
