@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -57,6 +58,7 @@ class JsaSafetyProvider extends ChangeNotifier {
   // PDF DATA
   PdfController? finalPdfController;
   late Uint8List documento;
+  late Uint8List documentoComplement;
   final date = DateTime.now();
   JsaGeneralInfo get jsa => jsaGeneralInfo!;
   JsaGeneralInfo? jsaGeneralInfo;
@@ -71,6 +73,7 @@ class JsaSafetyProvider extends ChangeNotifier {
   DateTime today = DateTime.now();
   String? tiempo = '';
   List<dynamic> nameSafetyBriefing = [];
+  String? url;
   // ------------ Variables de los Image ---------------
   String? imageName;
   String? imageUrl;
@@ -79,7 +82,8 @@ class JsaSafetyProvider extends ChangeNotifier {
   Uint8List? webImageClear;
   String? placeHolderImage;
   Uuid uuid = const Uuid();
-
+  FilePickerResult? docProveedorPDF;
+  PdfController? pdfControllerPDF;
   int infowidgets = 0;
   int numberSafetyBrief = 0;
 
@@ -106,6 +110,63 @@ class JsaSafetyProvider extends ChangeNotifier {
   Future<void> updateState() async {
     loadingGrid = false;
     await getSafetyList();
+  }
+
+  Future<void> pickProveedorDoc() async {
+    FilePickerResult? picker = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'xml'],
+    );
+    //get and load pdf
+    if (picker != null) {
+      docProveedorPDF = picker;
+      documentoComplement = picker.files.single.bytes!;
+      // print("documentoComplement: $documentoComplement");
+      print("docproovderpdf: ${docProveedorPDF?.files.single.name}");
+
+      // url = supabase.storage
+      //     .from('jsa/safety_briefing/complement')
+      //     .getPublicUrl("${docProveedorPDF?.files.single.name}");
+      // print(url);
+      pdfControllerPDF = PdfController(
+        document: PdfDocument.openData(picker.files.single.bytes!),
+      );
+      // documento = pdfControllerPDF.openData()
+    }
+
+    return notifyListeners();
+  }
+
+// Subir Documento
+  Future<bool> uploadDocumentComplement() async {
+    // ejecBloq = true;s
+    // notifyListeners();
+    today = DateTime.now();
+    tiempo =
+        '${today.year}-${(today.month)}-${(today.day)}_${(today.hour)}:${(today.minute)}:${(today.second)}';
+    try {
+      if (documentoComplement == null) {
+        print("El documento es nulo");
+        return false;
+      }
+//se sube el documento
+      await supabase.storage
+          .from('jsa/safety_briefing/complement')
+          .uploadBinary('$tiempo.pdf', documentoComplement);
+
+      url = supabase.storage
+          .from('jsa/safety_briefing/complement')
+          .getPublicUrl("$tiempo.pdf");
+      print(url);
+      print("subida correcta a Supabase");
+    } catch (e) {
+      log('Error en uploadDocument() - $e');
+      // ejecBloq = false;
+      // notifyListeners();
+      return false;
+    }
+
+    return true;
   }
 
   // get a list of the safety documents
@@ -170,11 +231,6 @@ class JsaSafetyProvider extends ChangeNotifier {
                       .contains(searchController.text))
           .toList();
     }
-
-    // for (var list in listJSA) {
-    //   print("Name list: ${list.title}");
-    // }
-
     print("La lista listJSAFiltered: ${listSafety.length}");
     notifyListeners();
   }
@@ -224,7 +280,6 @@ class JsaSafetyProvider extends ChangeNotifier {
       // .getPublicUrl("${jsa.id}_${jsa.createdAt}_14.pdf");
       var bodyBytes = (await http.get(Uri.parse(url))).bodyBytes;
       documento = bodyBytes;
-
       pdfController = PdfController(document: PdfDocument.openData(bodyBytes));
     } catch (e) {
       log('Error in pickDocument() - $e');
@@ -448,9 +503,9 @@ class JsaSafetyProvider extends ChangeNotifier {
             .map((usuario) => User.fromMap(usuario))
             .toList();
 
-        for (var user in users) {
-          print("Usuario con nombre: ${user.fullName}");
-        }
+        // for (var user in users) {
+        //   print("Usuario con nombre: ${user.fullName}");
+        // }
       } else {
         res = await supabase
             .from('users')
@@ -459,15 +514,18 @@ class JsaSafetyProvider extends ChangeNotifier {
         users = (res as List<dynamic>)
             .map((usuario) => User.fromMap(usuario))
             .toList();
-        users = users
-            .where((user) => user.roles.any((role) =>
-                role.application == currentUser!.currentRole.application))
-            .toList();
-        // Se supone que esto filtra por el id 26 que es el technician jsa
-        users = users
-            .where((user) =>
-                user.roles.any((role) => role.id == 26 || role.id == 24))
-            .toList();
+
+        print("res ${users.length}");
+        // users = users
+        //     .where((user) => user.roles.any((role) =>
+        //         role.application == currentUser!.currentRole.application))
+        //     .toList();
+
+        // // Se supone que esto filtra por el id 26 que es el technician jsa
+        // users = users
+        //     .where((user) =>
+        //         user.roles.any((role) => role.id == 26 || role.id == 24))
+        //     .toList();
       }
 
       // .eq('company->>company', currentUser!.companies.first.company);
@@ -475,12 +533,6 @@ class JsaSafetyProvider extends ChangeNotifier {
         print('Error en getListUsers()');
         return;
       }
-
-      log("Estoy en getListUsers");
-      log("El length de users es: ${users.length}");
-      log("La compania es :$company");
-
-      // print("En getInformationJSA con el JSA_FK: con res: $res");
     } catch (e) {
       print('Error en getListUsers() - $e');
     }
@@ -498,8 +550,7 @@ class JsaSafetyProvider extends ChangeNotifier {
         taskName: taskName,
         jsaStepsJson: jsaStepsJson,
         teamMembers: list);
-    print(jsaGeneralInfo!.toJson());
-    print("JsaCreation End");
+
     notifyListeners();
   }
 
@@ -717,30 +768,12 @@ class JsaSafetyProvider extends ChangeNotifier {
     return false;
   }
 
-  // Future<void> uploadImage() async {
-  //   try {
-  //     final storageResponse =
-  //         await supabase.storage.from('assets/Vehicles').uploadBinary(
-  //               placeHolderImage!,
-  //               webImage!,
-  //               fileOptions: const FileOptions(
-  //                 cacheControl: '3600',
-  //                 upsert: false,
-  //               ),
-  //             );
+  void deleteFile() {
+    docProveedorPDF = null;
+    pdfControllerPDF = null;
 
-  //     if (storageResponse.isNotEmpty) {
-  //       imageUrl = supabase.storage.from('assets/Vehicles').getPublicUrl(
-  //             placeHolderImage!,
-  //           );
-  //     }
-
-  //     // return imageName;
-  //   } catch (e) {
-  //     log('Error in uploadImage() - $e');
-  //     // return null;
-  //   }
-  // }
+    notifyListeners();
+  }
 
   // Crear PDF
   Future<PdfController?> clientPDF() async {
@@ -760,6 +793,7 @@ class JsaSafetyProvider extends ChangeNotifier {
         recomendationsController.text.length +
         contactController.text.length;
     final pdf = pw.Document();
+
     pdf.addPage(
       pw.Page(
         build: (context) => pw.Column(
@@ -1065,25 +1099,22 @@ class JsaSafetyProvider extends ChangeNotifier {
                                         color: pwp.PdfColors.blue300)),
                                 destination: urlController.text),
                           ]),
-
+                          pw.Row(children: [
+                            pw.Text("PDF Complement: "),
+                            pw.Link(
+                                child: pw.Text(
+                                    url == null
+                                        ? "No complement selected"
+                                        : url!,
+                                    overflow: pw.TextOverflow.span,
+                                    style: const pw.TextStyle(
+                                        color: pwp.PdfColors.blue300)),
+                                destination:
+                                    // "https://mail.google.com/mail/u/0/#inbox"),
+                                    url == null ? "" : url!),
+                          ]),
                           // pw.Text("URL: ${urlController.text}"),
                           pw.Text("Image:"),
-                          // pw.Container(
-                          //   width: 700, // Ancho del contenedor
-                          //   color: pwp.PdfColors.blueGrey,
-                          //   child: pw.Row(
-                          //     // Espacio entre líneas en el wrap
-                          //     children:
-                          //         List.generate(imageBytesList.length, (index) {
-                          //       return pw.Container(
-                          //           width: 150,
-                          //           height: 150,
-                          //           child: pw.Image(
-                          //               pw.MemoryImage(imageBytesList[index])));
-                          //     }),
-                          //   ),
-                          // )
-
                           webImage == null
                               ? pw.Container(
                                   alignment: pw.Alignment.center,
@@ -1226,21 +1257,6 @@ class JsaSafetyProvider extends ChangeNotifier {
 
                             // pw.Text("URL: ${urlController.text}"),
                             pw.Text("Image:"),
-                            // pw.Container(
-                            //   width: 700, // Ancho del contenedor
-                            //   color: pwp.PdfColors.blueGrey,
-                            //   child: pw.Row(
-                            //     // Espacio entre líneas en el wrap
-                            //     children:
-                            //         List.generate(imageBytesList.length, (index) {
-                            //       return pw.Container(
-                            //           width: 150,
-                            //           height: 150,
-                            //           child: pw.Image(
-                            //               pw.MemoryImage(imageBytesList[index])));
-                            //     }),
-                            //   ),
-                            // )
 
                             webImage == null
                                 ? pw.Container(
@@ -1288,6 +1304,56 @@ class JsaSafetyProvider extends ChangeNotifier {
     } else {
       print("Menos de 1000");
     }
+
+    // if (pdfControllerPDF != null) {
+    //   pdf.addPage(pw.Page(build: (pw.Context context) {
+    //     return pw.Container(
+    //         height: 400,
+    //         width: 700,
+    //         child: pw.Column(children: [
+    //           pw.Container(
+
+    //               // child: PdfView(
+    //               //   pageSnapping: false,
+    //               //   scrollDirection: Axis.vertical,
+    //               //   physics: const BouncingScrollPhysics(),
+    //               //   renderer: (PdfPage page) {
+    //               //     if (page.width >= page.height) {
+    //               //       return page.render(
+    //               //         width: page.width * 7,
+    //               //         height: page.height * 4,
+    //               //         format: PdfPageImageFormat.jpeg,
+    //               //         backgroundColor: '#15FF0D',
+    //               //       );
+    //               //     } else if (page.width == page.height) {
+    //               //       return page.render(
+    //               //         width: page.width * 4,
+    //               //         height: page.height * 4,
+    //               //         format: PdfPageImageFormat.jpeg,
+    //               //         backgroundColor: '#15FF0D',
+    //               //       );
+    //               //     } else {
+    //               //       return page.render(
+    //               //         width: page.width * 4,
+    //               //         height: page.height * 7,
+    //               //         format: PdfPageImageFormat.jpeg,
+    //               //         backgroundColor: '#15FF0D',
+    //               //       );
+    //               //     }
+    //               //   },
+    //               //   controller: pdfControllerPDF!,
+    //               //   onDocumentLoaded: (document) {},
+    //               //   onPageChanged: (page) {},
+    //               //   onDocumentError: (error) {},
+    //               // ),
+    //               ),
+    //         ]));
+    //   }));
+    //   print("pdfControllPDF No es nullo");
+    // } else {
+    //   print("Menos de 1000");
+    // }
+
     pdf.save();
     finalPdfController = PdfController(
       document: PdfDocument.openData(pdf.save()),
@@ -1310,5 +1376,7 @@ class JsaSafetyProvider extends ChangeNotifier {
     urlController.clear();
     datedueController.clear();
     listImages.clear();
+    url = null;
+    pdfControllerPDF = null;
   }
 }
