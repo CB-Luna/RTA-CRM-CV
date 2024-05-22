@@ -5,7 +5,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:pdfx/pdfx.dart';
+import 'package:pdfx/pdfx.dart' as pdfx;
+// import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/helpers/constants.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
@@ -505,30 +506,30 @@ class _AddTrainingState extends State<AddTraining> {
                       ? provider.webImage == null
                           ? null // Aquí puedes retornar null o cualquier otro widget que desees cuando imageBytes es nulo
                           : Image.memory(provider.webImage!)
-                      : PdfView(
+                      : pdfx.PdfView(
                           pageSnapping: false,
                           scrollDirection: Axis.vertical,
                           physics: const BouncingScrollPhysics(),
-                          renderer: (PdfPage page) {
+                          renderer: (pdfx.PdfPage page) {
                             if (page.width >= page.height) {
                               return page.render(
                                 width: page.width * 7,
                                 height: page.height * 4,
-                                format: PdfPageImageFormat.jpeg,
+                                format: pdfx.PdfPageImageFormat.jpeg,
                                 backgroundColor: '#15FF0D',
                               );
                             } else if (page.width == page.height) {
                               return page.render(
                                 width: page.width * 4,
                                 height: page.height * 4,
-                                format: PdfPageImageFormat.jpeg,
+                                format: pdfx.PdfPageImageFormat.jpeg,
                                 backgroundColor: '#15FF0D',
                               );
                             } else {
                               return page.render(
                                 width: page.width * 4,
                                 height: page.height * 7,
-                                format: PdfPageImageFormat.jpeg,
+                                format: pdfx.PdfPageImageFormat.jpeg,
                                 backgroundColor: '#15FF0D',
                               );
                             }
