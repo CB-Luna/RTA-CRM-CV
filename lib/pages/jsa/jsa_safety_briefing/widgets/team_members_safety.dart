@@ -64,10 +64,10 @@ class _TeamMembersSafetyState extends State<TeamMembersSafety> {
                                 teamMember = TeamMembersSafetyModel(
                                     name: user.fullName,
                                     role:
-                                        provider.companyController.text == "RTA"
-                                            ? user.roles.first.roleName
-                                            : user.currentAppRole,
-                                    // role: user.currentAppRole,
+                                        // provider.companyController.text == "RTA"
+                                        //     ? user.roles.first.roleName
+                                        //     : user.currentAppRole,
+                                        user.roles.first.roleName,
                                     id: user.id,
                                     pic: user.image,
                                     email: user.email);
@@ -183,11 +183,11 @@ class _TeamMembersSafetyState extends State<TeamMembersSafety> {
                                       teamMember = TeamMembersSafetyModel(
                                           name: user.fullName,
                                           // role: user.currentAppRole,
-                                          role:
-                                              provider.companyController.text ==
-                                                      "RTA"
-                                                  ? user.roles.first.roleName
-                                                  : user.currentAppRole,
+                                          role: user.roles.first.roleName,
+                                          // provider.companyController.text ==
+                                          //         "RTA"
+                                          //     ? user.roles.first.roleName
+                                          //     : user.currentAppRole,
                                           id: user.id,
                                           email: user.email,
                                           pic: user.image);
@@ -221,9 +221,10 @@ class _TeamMembersSafetyState extends State<TeamMembersSafety> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.04,
                                   child: Text(
-                                    provider.companyController.text == "RTA"
-                                        ? user.roles.first.roleName
-                                        : user.currentAppRole,
+                                    user.roles.first.roleName,
+                                    // provider.companyController.text == "RTA"
+                                    //     ? user.roles.first.roleName
+                                    //     : user.currentAppRole,
                                     style: const TextStyle(
                                       fontSize: 15,
                                       fontFamily: "Outfit",
