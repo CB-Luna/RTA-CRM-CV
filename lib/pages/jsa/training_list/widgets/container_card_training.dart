@@ -33,6 +33,9 @@ class _ContainerCardTrainingState extends State<ContainerCardTraining> {
 
     provider.userTrainingSelected?.trainings
         .sort((a, b) => b.idTraining.compareTo(a.idTraining));
+
+    provider.trainingList
+        .sort((a, b) => b.creationDate.compareTo(a.creationDate));
     return currentUser!.isAdmin
         ? Container(
             // height: MediaQuery.of(context).size.height * 0.07,
@@ -84,7 +87,6 @@ class _ContainerCardTrainingState extends State<ContainerCardTraining> {
                               visible: !widget.isExpanded,
                               child: Container(
                                 width: 150,
-                                alignment: Alignment.center,
                                 child: Text(
                                   "${provider.usersTrainings[widget.index].name}\n${provider.usersTrainings[widget.index].lastName}",
                                   overflow: TextOverflow.ellipsis,
