@@ -24,7 +24,6 @@ class _PlutoGridTrainingListState extends State<PlutoGridTrainingList> {
   Widget build(BuildContext context) {
     JsaTrainingListProvider provider =
         Provider.of<JsaTrainingListProvider>(context);
-    // provider.listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
     provider.userTrainingSelected?.trainings
         .sort((a, b) => b.idTraining.compareTo(a.idTraining));

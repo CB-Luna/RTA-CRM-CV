@@ -126,7 +126,7 @@ final GoRouter router = GoRouter(
           } else if (currentUser!.isLeadJSA) {
             return const JSADocumentList();
           } else if (currentUser!.isTechnicianJSA) {
-            return const Training();
+            return const TrainingList();
           } else {
             return const PageNotFoundPage();
           }
@@ -181,23 +181,18 @@ final GoRouter router = GoRouter(
                                             ? const MonitoryPageDesktop()
                                             : currentUser!.isEmployee
                                                 ? const DownloadAPKFMTPage()
-                                                : currentUser!.isAdminJSA
+                                                : currentUser!.isAdminJSA ||
+                                                        currentUser!
+                                                            .isManagerJSA ||
+                                                        currentUser!
+                                                            .isRepresentativeJSA
                                                     ? const JSADashboardsPageDesktop()
-                                                    : currentUser!.isManagerJSA
-                                                        ? const JSADashboardsPageDesktop()
+                                                    : currentUser!.isLeadJSA
+                                                        ? const JSADocumentList()
                                                         : currentUser!
-                                                                .isManagerJSA
-                                                            ? const JSADashboardsPageDesktop()
-                                                            : currentUser!
-                                                                    .isLeadJSA
-                                                                ? const JSADocumentList()
-                                                                : currentUser!
-                                                                        .isTechnicianJSA
-                                                                    ? const Training()
-                                                                    : currentUser!
-                                                                            .isRepresentativeJSA
-                                                                        ? const JSADashboardsPageDesktop()
-                                                                        : const PageNotFoundPage(),
+                                                                .isTechnicianJSA
+                                                            ? const TrainingList()
+                                                            : const PageNotFoundPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(
