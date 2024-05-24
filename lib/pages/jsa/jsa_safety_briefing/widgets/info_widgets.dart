@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
@@ -37,10 +38,10 @@ class _InfoWidgetsState extends State<InfoWidgets> {
         content: provider.infowidgets == 1
             ? CustomCard(
                 title: "Add Image",
-                height: height * 320,
-                width: width * 250,
-                // height: height * 520,
+                // height: height * 320,
                 // width: width * 250,
+                height: height * 520,
+                width: width * 250,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -56,7 +57,7 @@ class _InfoWidgetsState extends State<InfoWidgets> {
                         ),
                         InkWell(
                           onTap: () async {
-                            // provider.selectImagesAndGeneratePdf(context);
+                            // await provider.selectImagesAndGeneratePdf(context);
                             bool valorImage = await provider.selectImage();
                             if (!valorImage) {
                               if (!mounted) return;
@@ -80,28 +81,28 @@ class _InfoWidgetsState extends State<InfoWidgets> {
                         ),
                       ],
                     ),
-                    // Text(
-                    //   "Ha seleccionado un total de :${provider.imageBytesList.length}",
-                    //   style: TextStyle(
-                    //     fontFamily: 'Gotham-Regular',
-                    //     color: AppTheme.of(context).cryPrimary,
-                    //     fontSize: 15,
-                    //   ),
-                    // ),
-                    // Container(
-                    //   height: 200,
-                    //   width: 200,
-                    //   margin: const EdgeInsets.symmetric(vertical: 15),
-                    //   child: Swiper(
-                    //     itemCount: provider.imageBytesList.length,
-                    //     itemBuilder: (context, index) {
-                    //       final urlImage = provider.imageBytesList[index];
-                    //       return Image.memory(urlImage, fit: BoxFit.fill);
-                    //     },
-                    //     itemWidth: 300.0,
-                    //     layout: SwiperLayout.STACK,
-                    //   ),
-                    // ),
+                    Text(
+                      "Ha seleccionado un total de :${provider.imageBytesList.length}",
+                      style: TextStyle(
+                        fontFamily: 'Gotham-Regular',
+                        color: AppTheme.of(context).cryPrimary,
+                        fontSize: 15,
+                      ),
+                    ),
+                    Container(
+                      height: 200,
+                      width: 200,
+                      margin: const EdgeInsets.symmetric(vertical: 15),
+                      child: Swiper(
+                        itemCount: provider.imageBytesList.length,
+                        itemBuilder: (context, index) {
+                          final urlImage = provider.imageBytesList[index];
+                          return Image.memory(urlImage, fit: BoxFit.fill);
+                        },
+                        itemWidth: 300.0,
+                        layout: SwiperLayout.STACK,
+                      ),
+                    ),
                     Row(
                       children: [
                         InkWell(
