@@ -300,35 +300,35 @@ class _ControlMatrixPopupState extends State<ControlMatrixPopup> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return ImagePopup(
-                        imagePath:
-                            'assets/images/3x3-risk-assessment-matrix.png', // Change the path accordingly
-                      );
-                    },
-                  );
-                  // setState(() {});
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  height: MediaQuery.of(context).size.height * 0.04,
-                  margin: const EdgeInsets.all(10),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: AppTheme.of(context).cryPrimary,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Open Image", style: AppTheme.of(context).subtitle2),
-                    ],
-                  ),
-                ),
-              ),
+              // InkWell(
+              //   onTap: () {
+              //     showDialog(
+              //       context: context,
+              //       builder: (BuildContext context) {
+              //         return ImagePopup(
+              //           imagePath:
+              //               'assets/images/3x3-risk-assessment-matrix.png', // Change the path accordingly
+              //         );
+              //       },
+              //     );
+              //     // setState(() {});
+              //   },
+              //   child: Container(
+              //     width: MediaQuery.of(context).size.width * 0.3,
+              //     height: MediaQuery.of(context).size.height * 0.04,
+              //     margin: const EdgeInsets.all(10),
+              //     alignment: Alignment.center,
+              //     decoration: BoxDecoration(
+              //         color: AppTheme.of(context).cryPrimary,
+              //         borderRadius: BorderRadius.circular(20)),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Text("Open Image", style: AppTheme.of(context).subtitle2),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               InkWell(
                 onTap: () {
                   context.pop();

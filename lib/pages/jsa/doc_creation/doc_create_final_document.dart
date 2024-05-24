@@ -92,21 +92,21 @@ class _CustomDocCreationFinalDocumentState
                                   );
                                 }),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: IconButton(
-                              icon: Icon(Icons.file_download_outlined,
-                                  color: AppTheme.of(context).primaryColor),
-                              tooltip: 'Download',
-                              color: AppTheme.of(context).primaryColor,
-                              onPressed: () {
-                                provider.descargarArchivo(provider.documento!,
-                                    '${provider.jsaGeneralInfo!.title}');
-                                // provider.anexo = true;
-                                setState(() {});
-                              },
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(20),
+                          //   child: IconButton(
+                          //     icon: Icon(Icons.file_download_outlined,
+                          //         color: AppTheme.of(context).primaryColor),
+                          //     tooltip: 'Download',
+                          //     color: AppTheme.of(context).primaryColor,
+                          //     onPressed: () {
+                          //       provider.descargarArchivo(provider.documento!,
+                          //           '${provider.jsaGeneralInfo!.title}');
+                          //       // provider.anexo = true;
+                          //       setState(() {});
+                          //     },
+                          //   ),
+                          // ),
                         ],
                       ),
                       provider.finalPdfController == null
