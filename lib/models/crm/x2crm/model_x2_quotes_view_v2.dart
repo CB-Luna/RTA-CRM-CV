@@ -178,7 +178,7 @@ class ModelX2V2QuotesView {
         "accountemail": accountemail,
         "company": company,
         "accountaddress": accountaddress,
-        "accountzipcode":accountzipcode,
+        "accountzipcode": accountzipcode,
         "accountcity": accountcity,
         "accountstate": accountstate,
         "accountcountry": accountcountry,
@@ -388,6 +388,8 @@ class OrderInfo {
   String? demarcationPoint;
   String? existingCircuitId;
   String? dataCenterLocation;
+  double? lat;
+  double? long;
 
   OrderInfo({
     this.type,
@@ -401,6 +403,8 @@ class OrderInfo {
     this.demarcationPoint,
     this.existingCircuitId,
     this.dataCenterLocation,
+    this.lat,
+    this.long,
   });
 
   factory OrderInfo.fromJson(String str) => OrderInfo.fromMap(json.decode(str));
@@ -423,6 +427,8 @@ class OrderInfo {
         demarcationPoint: json["demarcation_point"],
         existingCircuitId: json["existing_circuit_id"],
         dataCenterLocation: json["data_center_location"],
+        lat: json["lat"],
+        long: json["long"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -437,6 +443,8 @@ class OrderInfo {
         "demarcation_point": demarcationPoint,
         "existing_circuit_id": existingCircuitId,
         "data_center_location": dataCenterLocation,
+        "lat": lat,
+        "long": long,
       };
 }
 

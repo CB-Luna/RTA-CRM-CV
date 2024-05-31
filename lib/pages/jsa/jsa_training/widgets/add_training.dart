@@ -147,7 +147,11 @@ class _AddTrainingState extends State<AddTraining> {
                   //   ),
                   // ),
                   Visibility(
-                    visible: currentUser!.isTechnicianJSA,
+                    visible: currentUser!.isTechnicianJSA ||
+                        currentUser!.istraining ||
+                        currentUser!.isManagerJSA ||
+                        currentUser!.isRepresentativeJSA ||
+                        currentUser!.isLeadJSA,
                     child: CustomtaskTextTrainingInput(
                       task: "Name",
                       controller: provider.nameController,
@@ -155,7 +159,11 @@ class _AddTrainingState extends State<AddTraining> {
                     ),
                   ),
                   Visibility(
-                    visible: currentUser!.isTechnicianJSA,
+                    visible: currentUser!.isTechnicianJSA ||
+                        currentUser!.istraining ||
+                        currentUser!.isManagerJSA ||
+                        currentUser!.isRepresentativeJSA ||
+                        currentUser!.isLeadJSA,
                     child: CustomtaskTextTrainingInput(
                       task: "Last Name",
                       name: currentUser!.lastName,
