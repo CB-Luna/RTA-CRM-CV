@@ -506,6 +506,11 @@ class QuotesProvider extends ChangeNotifier {
             'cir': quote.circuitInfo!.cir!,
             'port': quote.circuitInfo!.portSize!,
             'handoff': quote.orderInfo!.handoff!,
+            'carrier': quote.vendor,
+            'street': quote.accountaddress,
+            'state': quote.accountstate,
+            'city': quote.accountcity,
+            'zip': quote.accountzipcode,
           },
         );
 
