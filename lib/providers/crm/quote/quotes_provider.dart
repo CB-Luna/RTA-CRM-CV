@@ -498,6 +498,24 @@ class QuotesProvider extends ChangeNotifier {
           'update_quote_status',
           params: {"id_status": 8, "id": id, "user_uuid": currentUser!.id}, //Order Created
         );
+        //Insertar datos en rta_circuits
+        await supabaseDashboard.from('rta_circuits').insert(
+          {
+            'pccid': pcCustomer?.customerId,
+            'ckttype': quote.circuitInfo!.circuitType!,
+            'cir': quote.circuitInfo!.cir!,
+            'port': quote.circuitInfo!.portSize!,
+            'handoff': quote.orderInfo!.handoff!,
+            'carrier': quote.vendor,
+            'street': quote.accountaddress,
+            'state': quote.accountstate,
+            'city': quote.accountcity,
+            'zip': quote.accountzipcode,
+            'latitude': quote.orderInfo!.lat.toString(),
+            'longitude': quote.orderInfo!.long.toString(),
+          },
+        );
+
         print(resp);
         print('Respuesta exitosa');
         return true;
