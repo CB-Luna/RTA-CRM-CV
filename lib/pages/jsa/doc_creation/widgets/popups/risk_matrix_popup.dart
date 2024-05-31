@@ -297,6 +297,7 @@ class _RiskMatrixPopupState extends State<RiskMatrixPopup> {
             Navigator.of(context).pop();
           },
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
                 onTap: () {
@@ -304,9 +305,10 @@ class _RiskMatrixPopupState extends State<RiskMatrixPopup> {
                     context: context,
                     builder: (BuildContext context) {
                       return ImagePopup(
-                        imagePath:
-                            'assets/images/3x3-risk-assessment-matrix.png', // Change the path accordingly
-                      );
+                          imagePath:
+                              'assets/images/3x3-risk-assessment-matrix.png'
+                          // 'assets/images/3x3-risk-assessment-matrix.png', // Change the path accordingly
+                          );
                     },
                   );
                   // setState(() {});

@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'dart:typed_data';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,6 +22,7 @@ import 'package:rta_crm_cv/models/jsa/team_members.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'dart:html' as html;
+import 'package:image/image.dart' as img;
 
 import '../../helpers/globals.dart';
 import '../../models/jsa/jsa_general_information.dart';
@@ -74,6 +76,8 @@ class JsaSafetyProvider extends ChangeNotifier {
   String? tiempo = '';
   List<dynamic> nameSafetyBriefing = [];
   String? url;
+  bool isLoading = false;
+
   // ------------ Variables de los Image ---------------
   String? imageName;
   String? imageUrl;
@@ -93,23 +97,64 @@ class JsaSafetyProvider extends ChangeNotifier {
     1: const pw.FlexColumnWidth(1), // Ancho flexible para la segunda columna
     2: const pw.FlexColumnWidth(1), // Ancho flexible para la tercera columna
   };
+  // Future<Uint8List> resizeImage(Uint8List bytes, int width) async {
+  //   final originalImage = img.decodeImage(bytes);
+  //   final resizedImage = img.copyResize(originalImage!, width: width);
+  //   print("estoy en el resize ");
+  //   return Uint8List.fromList(img.encodeJpg(resizedImage, quality: 80));
+  // }
 
-  String encodeUint8Element(Uint8List element) {
-    String encodedElement = base64.encode(element);
-    return encodedElement;
+  Future<Uint8List> resizeImage(Uint8List bytes) async {
+    setLoading(true);
+    int width = 600; // Ancho deseado
+    int height = 600;
+    final originalImage = img.decodeImage(bytes);
+    final resizedImage =
+        img.copyResize(originalImage!, width: width, height: height);
+    return Uint8List.fromList(img.encodeJpg(resizedImage, quality: 80));
   }
 
-  List<String> getListImages(List<ImageEvidence> imagesEvidence) {
-    List<String> listImages = [];
-    for (var elementImage in imagesEvidence) {
-      listImages.add(encodeUint8Element(elementImage.uint8List));
+  void setLoading(bool value) {
+    isLoading = value;
+    notifyListeners();
+  }
+
+  Future<void> selectImagesAndGeneratePdf() async {
+    setLoading(true);
+
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png'],
+      allowMultiple: true,
+      withData: true,
+    );
+
+    if (result != null) {
+      List<PlatformFile> files = result.files;
+
+      for (var file in files) {
+        setLoading(true);
+
+        Uint8List bytes = file.bytes!;
+        if (imageBytesList.length >= 5) {
+          setLoading(true);
+
+          break;
+        }
+        // Procesar y actualizar en lotes pequeños
+        Uint8List resizedBytes = await compute(resizeImage, bytes);
+        imageBytesList.add(resizedBytes);
+        // notifyListeners();
+      }
     }
-    return listImages;
+
+    setLoading(false);
   }
 
   Future<void> updateState() async {
     loadingGrid = false;
     await getSafetyList();
+    imageBytesList.clear();
   }
 
   Future<void> pickProveedorDoc() async {
@@ -778,7 +823,9 @@ class JsaSafetyProvider extends ChangeNotifier {
   // Crear PDF
   Future<PdfController?> clientPDF() async {
     log("Documento Creado");
-
+    // for (var imagebytes in imageBytesList) {
+    //   resizeImage(imagebytes, 600);
+    // }
     finalPdfController = null;
     notifyListeners();
     final logo =
@@ -1115,25 +1162,56 @@ class JsaSafetyProvider extends ChangeNotifier {
                           ]),
                           // pw.Text("URL: ${urlController.text}"),
                           pw.Text("Image:"),
-                          webImage == null
-                              ? pw.Container(
-                                  alignment: pw.Alignment.center,
+                          pw.Wrap(
+                            spacing: 10, // Espacio horizontal entre imágenes
+                            runSpacing: 10,
+                            children:
+                                List.generate(imageBytesList.length, (index) {
+                              return pw.Container(
                                   width: 150,
                                   height: 150,
-                                  // child: pw.Image(pw.MemoryImage(imageBytes),
-                                  //     fit: pw.BoxFit.contain),
-                                )
-                              : pw.Container(
-                                  alignment: pw.Alignment.center,
-                                  width: 150,
-                                  height: 150,
-                                  child: pw.Image(pw.MemoryImage(webImage!),
-                                      fit: pw.BoxFit.contain),
-                                ),
+                                  child: pw.Image(
+                                      pw.MemoryImage(imageBytesList[index]),
+                                      fit: pw.BoxFit.contain));
+                            }),
+                          ),
+
+                          // pw.Container(
+                          //   width: 700, // Ancho del contenedor
+                          //   color: pwp.PdfColors.blueGrey,
+                          //   child: pw.Row(
+                          //     // Espacio entre líneas en el wrap
+                          //     children:
+                          //         List.generate(imageBytesList.length, (index) {
+                          //       return pw.Container(
+                          //           width: 150,
+                          //           height: 150,
+                          //           child: pw.Image(
+                          //               pw.MemoryImage(imageBytesList[index]),
+                          //               fit: pw.BoxFit.contain));
+                          //     }),
+                          //   ),
+                          // )
+                          // webImage == null
+                          //     ? pw.Container(
+                          //         alignment: pw.Alignment.center,
+                          //         width: 150,
+                          //         height: 150,
+                          //         // child: pw.Image(pw.MemoryImage(imageBytes),
+                          //         //     fit: pw.BoxFit.contain),
+                          //       )
+                          //     : pw.Container(
+                          //         alignment: pw.Alignment.center,
+                          //         width: 150,
+                          //         height: 150,
+                          //         child: pw.Image(pw.MemoryImage(webImage!),
+                          //             fit: pw.BoxFit.contain),
+                          //       ),
                         ]),
                   ),
                 ]),
               ])),
+
             pw.SizedBox(height: 10),
             if (number < 1900)
               pw.Expanded(
@@ -1258,21 +1336,34 @@ class JsaSafetyProvider extends ChangeNotifier {
                             // pw.Text("URL: ${urlController.text}"),
                             pw.Text("Image:"),
 
-                            webImage == null
-                                ? pw.Container(
-                                    alignment: pw.Alignment.center,
+                            // webImage == null
+                            //     ? pw.Container(
+                            //         alignment: pw.Alignment.center,
+                            //         width: 150,
+                            //         height: 150,
+                            //         // child: pw.Image(pw.MemoryImage(imageBytes),
+                            //         //     fit: pw.BoxFit.contain),
+                            //       )
+                            //     : pw.Container(
+                            //         alignment: pw.Alignment.center,
+                            //         width: 150,
+                            //         height: 150,
+                            //         child: pw.Image(pw.MemoryImage(webImage!),
+                            //             fit: pw.BoxFit.contain),
+                            //       ),
+                            pw.Wrap(
+                              spacing: 10, // Espacio horizontal entre imágenes
+                              runSpacing: 10,
+                              children:
+                                  List.generate(imageBytesList.length, (index) {
+                                return pw.Container(
                                     width: 150,
                                     height: 150,
-                                    // child: pw.Image(pw.MemoryImage(imageBytes),
-                                    //     fit: pw.BoxFit.contain),
-                                  )
-                                : pw.Container(
-                                    alignment: pw.Alignment.center,
-                                    width: 150,
-                                    height: 150,
-                                    child: pw.Image(pw.MemoryImage(webImage!),
-                                        fit: pw.BoxFit.contain),
-                                  ),
+                                    child: pw.Image(
+                                        pw.MemoryImage(imageBytesList[index]),
+                                        fit: pw.BoxFit.contain));
+                              }),
+                            ),
                           ]),
                     ),
                   ]),
@@ -1378,5 +1469,6 @@ class JsaSafetyProvider extends ChangeNotifier {
     listImages.clear();
     url = null;
     pdfControllerPDF = null;
+    imageBytesList.clear();
   }
 }

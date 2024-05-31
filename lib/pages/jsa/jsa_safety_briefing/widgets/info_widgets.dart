@@ -2,12 +2,12 @@
 
 import 'dart:async';
 
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
-import 'package:rta_crm_cv/pages/ctrlv/download_apk/widgets/failed_toastJA.dart';
 import 'package:rta_crm_cv/providers/jsa/jsa_safety_briefing_provider.dart';
 import 'package:rta_crm_cv/public/colors.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
@@ -31,16 +31,17 @@ class _InfoWidgetsState extends State<InfoWidgets> {
     double width = MediaQuery.of(context).size.width / 1440;
     double height = MediaQuery.of(context).size.height / 1024;
     JsaSafetyProvider provider = Provider.of<JsaSafetyProvider>(context);
+    fToast.init(context);
 
     return AlertDialog(
         backgroundColor: Colors.transparent,
         content: provider.infowidgets == 1
             ? CustomCard(
                 title: "Add Image",
-                height: height * 320,
-                width: width * 250,
-                // height: height * 520,
+                // height: height * 320,
                 // width: width * 250,
+                height: height * 520,
+                width: width * 250,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -56,17 +57,19 @@ class _InfoWidgetsState extends State<InfoWidgets> {
                         ),
                         InkWell(
                           onTap: () async {
-                            // provider.selectImagesAndGeneratePdf(context);
-                            bool valorImage = await provider.selectImage();
-                            if (!valorImage) {
-                              if (!mounted) return;
-                              fToast.showToast(
-                                child: const FailedToastJA(
-                                    message: 'The image is larger than 1 MB'),
-                                gravity: ToastGravity.BOTTOM,
-                                toastDuration: const Duration(seconds: 2),
-                              );
-                            }
+                            provider.isLoading = true;
+                            await provider.selectImagesAndGeneratePdf();
+
+                            // bool valorImage = await provider.selectImage();
+                            // if (!valorImage) {
+                            //   if (!mounted) return;
+                            //   fToast.showToast(
+                            //     child: const FailedToastJA(
+                            //         message: 'The image is larger than 1 MB'),
+                            //     gravity: ToastGravity.BOTTOM,
+                            //     toastDuration: const Duration(seconds: 2),
+                            //   );
+                            // }
                           },
                           child: Container(
                             width: width * 105,
@@ -80,28 +83,47 @@ class _InfoWidgetsState extends State<InfoWidgets> {
                         ),
                       ],
                     ),
-                    // Text(
-                    //   "Ha seleccionado un total de :${provider.imageBytesList.length}",
-                    //   style: TextStyle(
-                    //     fontFamily: 'Gotham-Regular',
-                    //     color: AppTheme.of(context).cryPrimary,
-                    //     fontSize: 15,
-                    //   ),
-                    // ),
-                    // Container(
-                    //   height: 200,
-                    //   width: 200,
-                    //   margin: const EdgeInsets.symmetric(vertical: 15),
-                    //   child: Swiper(
-                    //     itemCount: provider.imageBytesList.length,
-                    //     itemBuilder: (context, index) {
-                    //       final urlImage = provider.imageBytesList[index];
-                    //       return Image.memory(urlImage, fit: BoxFit.fill);
-                    //     },
-                    //     itemWidth: 300.0,
-                    //     layout: SwiperLayout.STACK,
-                    //   ),
-                    // ),
+                    Text(
+                      "You have selected a total of :${provider.imageBytesList.length}",
+                      style: TextStyle(
+                        fontFamily: 'Gotham-Regular',
+                        color: AppTheme.of(context).cryPrimary,
+                        fontSize: 15,
+                      ),
+                    ),
+                    Visibility(
+                      visible: provider.isLoading,
+                      child: const Center(
+                        child: AlertDialog(
+                          content: Column(
+                            children: [
+                              // CircularProgressIndicator(),
+                              // SpinKitRotatingCircle(
+                              //   color: Colors.red,
+                              //   size: 50.0,
+                              // ),
+
+                              SizedBox(width: 20),
+                              Text("Loading images, please wait..."),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 200,
+                      width: 200,
+                      margin: const EdgeInsets.symmetric(vertical: 15),
+                      child: Swiper(
+                        itemCount: provider.imageBytesList.length,
+                        itemBuilder: (context, index) {
+                          final urlImage = provider.imageBytesList[index];
+                          return Image.memory(urlImage, fit: BoxFit.contain);
+                        },
+                        itemWidth: 300.0,
+                        layout: SwiperLayout.STACK,
+                      ),
+                    ),
                     Row(
                       children: [
                         InkWell(

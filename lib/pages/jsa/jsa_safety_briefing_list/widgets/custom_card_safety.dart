@@ -33,7 +33,7 @@ class _CustomCardSafetyListState extends State<CustomCardSafetyList> {
   Widget build(BuildContext context) {
     JsaSafetyProvider provider = Provider.of<JsaSafetyProvider>(context);
 
-    provider.listSafety.sort((a, b) => b.id!.compareTo(a.id!));
+    provider.listSafety.sort((a, b) => b.id.compareTo(a.id));
     // provider.listJSA.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
     // JsaProvider jsaProvider = Provider.of<JsaProvider>(context);
