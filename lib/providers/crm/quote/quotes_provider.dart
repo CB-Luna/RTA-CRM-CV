@@ -511,6 +511,8 @@ class QuotesProvider extends ChangeNotifier {
             'state': quote.accountstate,
             'city': quote.accountcity,
             'zip': quote.accountzipcode,
+            'latitude': quote.orderInfo!.lat.toString(),
+            'longitude': quote.orderInfo!.long.toString(),
           },
         );
 
