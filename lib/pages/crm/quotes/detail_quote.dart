@@ -151,6 +151,52 @@ class _DetailQuotePageState extends State<DetailQuotePage> {
                                             },
                                           ),
                                         ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 10),
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 10),
+                                              child: CustomTextField(
+                                                key: const Key('lat'),
+                                                required: true,
+                                                enabled: false,
+                                                width: txfFieldWidth / 2,
+                                                controller: provider.latController,
+                                                label: 'Lat',
+                                                icon: Icons.swap_vert,
+                                                keyboardType: TextInputType.text,
+                                                validator: (value) {
+                                                  if (value == null || value.isEmpty) {
+                                                    return 'Please enter some text';
+                                                  } else if (double.tryParse(value) == null) {
+                                                    return 'Please enter valid Lat';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                            ),
+                                            CustomTextField(
+                                              key: const Key('long'),
+                                              required: true,
+                                              enabled: false,
+                                              width: txfFieldWidth / 2,
+                                              controller: provider.longController,
+                                              label: 'Long',
+                                              icon: Icons.swap_horiz,
+                                              keyboardType: TextInputType.text,
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Please enter some text';
+                                                } else if (double.tryParse(value) == null) {
+                                                  return 'Please enter valid Long';
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                       if (provider.quote.circuitInfo!.bandwidth != null)
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 10),

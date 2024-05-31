@@ -76,6 +76,8 @@ class JsaSafetyProvider extends ChangeNotifier {
   String? tiempo = '';
   List<dynamic> nameSafetyBriefing = [];
   String? url;
+  bool isLoading = false;
+
   // ------------ Variables de los Image ---------------
   String? imageName;
   String? imageUrl;
@@ -101,106 +103,58 @@ class JsaSafetyProvider extends ChangeNotifier {
   //   print("estoy en el resize ");
   //   return Uint8List.fromList(img.encodeJpg(resizedImage, quality: 80));
   // }
-  Uint8List resizeImage(Uint8List bytes) {
-    final int width = 600; // Ancho deseado
-    final int height = 600;
+
+  Future<Uint8List> resizeImage(Uint8List bytes) async {
+    setLoading(true);
+    int width = 600; // Ancho deseado
+    int height = 600;
     final originalImage = img.decodeImage(bytes);
     final resizedImage =
         img.copyResize(originalImage!, width: width, height: height);
     return Uint8List.fromList(img.encodeJpg(resizedImage, quality: 80));
   }
 
-  Future<void> selectImagesAndGeneratePdf(BuildContext context) async {
-    // Permitir al usuario seleccionar hasta 5 imágenes
+  void setLoading(bool value) {
+    isLoading = value;
+    notifyListeners();
+  }
+
+  Future<void> selectImagesAndGeneratePdf() async {
+    setLoading(true);
+
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: [
-        'jpg',
-        'jpeg',
-        'png'
-      ], // Extensiones de archivo permitidas
+      allowedExtensions: ['jpg', 'jpeg', 'png'],
       allowMultiple: true,
-      withData: true, // Obtener datos del archivo como bytes
+      withData: true,
     );
 
     if (result != null) {
       List<PlatformFile> files = result.files;
 
       for (var file in files) {
-        Uint8List bytes = file.bytes!; // Obtener bytes del archivo
+        setLoading(true);
 
-        // Verificar si ya se han seleccionado 5 imágenes
+        Uint8List bytes = file.bytes!;
         if (imageBytesList.length >= 5) {
-          break; // Detener el proceso de agregar más imágenes
+          setLoading(true);
+
+          break;
         }
-
-        // Redimensionar la imagen usando compute para evitar bloquear el hilo principal
-        // Uint8List resizedBytes = await compute(resizeImage, bytes);
-        Uint8List resizedBytes =
-            await compute((Uint8List bytes) => resizeImage(bytes), bytes);
-
+        // Procesar y actualizar en lotes pequeños
+        Uint8List resizedBytes = await compute(resizeImage, bytes);
         imageBytesList.add(resizedBytes);
+        // notifyListeners();
       }
     }
-    notifyListeners();
+
+    setLoading(false);
   }
-
-  // Future<void> selectImagesAndGeneratePdf(BuildContext context) async {
-  //   // Permitir al usuario seleccionar hasta 5 imágenes
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
-  //     type: FileType.custom,
-  //     allowedExtensions: [
-  //       'jpg',
-  //       'jpeg',
-  //       'png'
-  //     ], // Extensiones de archivo permitidas
-  //     allowMultiple: true,
-  //     withData: true, // Obtener datos del archivo como bytes
-  //   );
-
-  //   if (result != null) {
-  //     List<PlatformFile> files = result.files;
-
-  //     for (var file in files) {
-  //       Uint8List bytes = file.bytes!; // Obtener bytes del archivo
-
-  //       // Verificar si ya se han seleccionado 5 imágenes
-  //       if (imageBytesList.length >= 5) {
-  //         break; // Detener el proceso de agregar más imágenes
-  //       }
-
-  //       // Agregar la imagen a la lista si aún no se ha alcanzado el límite
-  //       // imageBytesList.add(bytes);
-  //       // final originalImage = img.decodeImage(bytes);
-  //       // final resizedImage = img.copyResize(originalImage!, width: 600);
-  //       // Uint8List resizedBytes =
-  //       //     Uint8List.fromList(img.encodeJpg(resizedImage, quality: 80));
-  //       // Uint8List resizedBytes = await resizeImage(
-  //       //     bytes, 600); // Redimensionar la imagen a un ancho de 600 píxeles
-  //       Uint8List resizedBytes = await compute(resizeImage, bytes);
-
-  //       imageBytesList.add(resizedBytes);
-  //     }
-  //   }
-  //   notifyListeners();
-  // }
-
-  // String encodeUint8Element(Uint8List element) {
-  //   String encodedElement = base64.encode(element);
-  //   return encodedElement;
-  // }
-
-  // List<String> getListImages(List<ImageEvidence> imagesEvidence) {
-  //   List<String> listImages = [];
-  //   for (var elementImage in imagesEvidence) {
-  //     listImages.add(encodeUint8Element(elementImage.uint8List));
-  //   }
-  //   return listImages;
-  // }
 
   Future<void> updateState() async {
     loadingGrid = false;
     await getSafetyList();
+    imageBytesList.clear();
   }
 
   Future<void> pickProveedorDoc() async {
@@ -1208,20 +1162,19 @@ class JsaSafetyProvider extends ChangeNotifier {
                           ]),
                           // pw.Text("URL: ${urlController.text}"),
                           pw.Text("Image:"),
-
-                          // pw.Wrap(
-                          //   spacing: 10, // Espacio horizontal entre imágenes
-                          //   runSpacing: 10,
-                          //   children:
-                          //       List.generate(imageBytesList.length, (index) {
-                          //     return pw.Container(
-                          //         width: 150,
-                          //         height: 150,
-                          //         child: pw.Image(
-                          //             pw.MemoryImage(imageBytesList[index]),
-                          //             fit: pw.BoxFit.contain));
-                          //   }),
-                          // ),
+                          pw.Wrap(
+                            spacing: 10, // Espacio horizontal entre imágenes
+                            runSpacing: 10,
+                            children:
+                                List.generate(imageBytesList.length, (index) {
+                              return pw.Container(
+                                  width: 150,
+                                  height: 150,
+                                  child: pw.Image(
+                                      pw.MemoryImage(imageBytesList[index]),
+                                      fit: pw.BoxFit.contain));
+                            }),
+                          ),
 
                           // pw.Container(
                           //   width: 700, // Ancho del contenedor
@@ -1239,21 +1192,21 @@ class JsaSafetyProvider extends ChangeNotifier {
                           //     }),
                           //   ),
                           // )
-                          webImage == null
-                              ? pw.Container(
-                                  alignment: pw.Alignment.center,
-                                  width: 150,
-                                  height: 150,
-                                  // child: pw.Image(pw.MemoryImage(imageBytes),
-                                  //     fit: pw.BoxFit.contain),
-                                )
-                              : pw.Container(
-                                  alignment: pw.Alignment.center,
-                                  width: 150,
-                                  height: 150,
-                                  child: pw.Image(pw.MemoryImage(webImage!),
-                                      fit: pw.BoxFit.contain),
-                                ),
+                          // webImage == null
+                          //     ? pw.Container(
+                          //         alignment: pw.Alignment.center,
+                          //         width: 150,
+                          //         height: 150,
+                          //         // child: pw.Image(pw.MemoryImage(imageBytes),
+                          //         //     fit: pw.BoxFit.contain),
+                          //       )
+                          //     : pw.Container(
+                          //         alignment: pw.Alignment.center,
+                          //         width: 150,
+                          //         height: 150,
+                          //         child: pw.Image(pw.MemoryImage(webImage!),
+                          //             fit: pw.BoxFit.contain),
+                          //       ),
                         ]),
                   ),
                 ]),
@@ -1383,21 +1336,34 @@ class JsaSafetyProvider extends ChangeNotifier {
                             // pw.Text("URL: ${urlController.text}"),
                             pw.Text("Image:"),
 
-                            webImage == null
-                                ? pw.Container(
-                                    alignment: pw.Alignment.center,
+                            // webImage == null
+                            //     ? pw.Container(
+                            //         alignment: pw.Alignment.center,
+                            //         width: 150,
+                            //         height: 150,
+                            //         // child: pw.Image(pw.MemoryImage(imageBytes),
+                            //         //     fit: pw.BoxFit.contain),
+                            //       )
+                            //     : pw.Container(
+                            //         alignment: pw.Alignment.center,
+                            //         width: 150,
+                            //         height: 150,
+                            //         child: pw.Image(pw.MemoryImage(webImage!),
+                            //             fit: pw.BoxFit.contain),
+                            //       ),
+                            pw.Wrap(
+                              spacing: 10, // Espacio horizontal entre imágenes
+                              runSpacing: 10,
+                              children:
+                                  List.generate(imageBytesList.length, (index) {
+                                return pw.Container(
                                     width: 150,
                                     height: 150,
-                                    // child: pw.Image(pw.MemoryImage(imageBytes),
-                                    //     fit: pw.BoxFit.contain),
-                                  )
-                                : pw.Container(
-                                    alignment: pw.Alignment.center,
-                                    width: 150,
-                                    height: 150,
-                                    child: pw.Image(pw.MemoryImage(webImage!),
-                                        fit: pw.BoxFit.contain),
-                                  ),
+                                    child: pw.Image(
+                                        pw.MemoryImage(imageBytesList[index]),
+                                        fit: pw.BoxFit.contain));
+                              }),
+                            ),
                           ]),
                     ),
                   ]),
@@ -1503,5 +1469,6 @@ class JsaSafetyProvider extends ChangeNotifier {
     listImages.clear();
     url = null;
     pdfControllerPDF = null;
+    imageBytesList.clear();
   }
 }

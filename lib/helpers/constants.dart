@@ -333,6 +333,10 @@ const String greenwoodFTTHDashboard = '/manager/greenwood_ftth_dashboard';
 // Gigfast Network
 const String monitoringDashboard = '/gigfast_network/monitoring_dashboard';
 const String mapCoverage = '/gigfast_network/map_coverage';
+// Circuits
+const String routeCircuits = '/gigfast_network/circuits';
+const String routeCircuitSelected = '/gigfast_network/circuits/2';
+
 // Call Center
 const String ecommerceRTA = '/call_center/ecommerceRTA';
 const String homeownerFTTHDocument = '/call_center/homeownerFTTHDocument';

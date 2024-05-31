@@ -93,6 +93,8 @@ class CreateQuoteProvider extends ChangeNotifier {
   var tableTopGroup = AutoSizeGroup();
   var tableContentGroup = AutoSizeGroup();
 
+  //TOTALS
+
   int totalItems = 0;
   double revenue = 0;
   double cost = 0;
@@ -101,6 +103,7 @@ class CreateQuoteProvider extends ChangeNotifier {
   double pricePlusTax = 0;
   double margin = 0;
 
+  //ORDER INFO
   List<GenericCat> orderTypesList = [GenericCat(name: 'Internal Circuit')];
   late String orderTypesSelectedValue;
   List<CatOrderInfoTypes> typesList = [CatOrderInfoTypes(name: 'New')];
@@ -115,7 +118,10 @@ class CreateQuoteProvider extends ChangeNotifier {
   List<GenericCat> handoffList = [GenericCat(name: 'New')];
   late String handoffSelectedValue;
   final demarcationPointController = TextEditingController();
+  final latController = TextEditingController();
+  final longController = TextEditingController();
 
+  //CIRCUIT INFO
   List<Vendor> vendorsList = [Vendor(vendorName: 'ATT')];
   String vendorSelectedValue = '';
   bool multicastRequired = false;
@@ -145,11 +151,13 @@ class CreateQuoteProvider extends ChangeNotifier {
   List<GenericCat> portSizeList = [GenericCat(name: 'Empty')];
   late String portSizeSelectedValue;
 
+  //ITEM LIST
   final lineItemCenterController = TextEditingController();
   final unitPriceController = TextEditingController();
   final unitCostController = TextEditingController();
   final quantityController = TextEditingController();
 
+  //CUSTOMER INFO
   List<String> leadsList = [''];
   String leadSelectedValue = '';
   final companyController = TextEditingController();
@@ -261,10 +269,15 @@ class CreateQuoteProvider extends ChangeNotifier {
     } else */
     if (dataCenterSelectedValue == 'New' && newDataCenterController.text.isEmpty) {
       return false;
-    } /* else if (demarcationPointController.text.isEmpty) {
+    }
+    /* else if (demarcationPointController.text.isEmpty) {
       return false;
     } */
-    else if (evcodSelectedValue == 'Existing EVC' && evcCircuitIdController.text.isEmpty) {
+    else if (latController.text.isEmpty || longController.text.isEmpty) {
+      return false;
+    } else if (double.tryParse(latController.text) == null || double.tryParse(longController.text) == null) {
+      return false;
+    } else if (evcodSelectedValue == 'Existing EVC' && evcCircuitIdController.text.isEmpty) {
       return false;
     } else if (globalRows.isEmpty) {
       return false;
@@ -443,6 +456,8 @@ class CreateQuoteProvider extends ChangeNotifier {
       newDataCenterController.clear();
       rackLocationController.clear();
       demarcationPointController.clear();
+      latController.clear();
+      longController.clear();
 
       multicastRequired = false;
       //locationController.clear();
@@ -691,7 +706,10 @@ class CreateQuoteProvider extends ChangeNotifier {
         {
           "created_by": currentUser!.id,
           "updated_by": currentUser!.id,
+
           "x2_quote_nameId": quote.x2Quoteid,
+
+          //ORDER INFO
           "order_type": orderTypesSelectedValue,
           "type": typesSelectedValue,
           "existing_circuit_id": null,
@@ -699,9 +717,14 @@ class CreateQuoteProvider extends ChangeNotifier {
           "address": addressController.text,
           "data_center_type": dataCenterSelectedValue == 'New' ? 'New' : 'Existing',
           "data_center_location": dataCenterSelectedValue == 'New' ? newDataCenterController.text : dataCenterSelectedValue,
+          "demarcation_point": demarcationPointController.text,
+          "lat": latController.text,
+          "long": longController.text,
           "handoff": null,
           "rack_location": null,
-          "demarcation_point": demarcationPointController.text,
+          "bandwidth": null,
+
+          //CIRCUIT INFO
           "vendor_id": vendor.id,
           "multicast": multicastRequired,
           //"location": locationController.text,
@@ -714,14 +737,14 @@ class CreateQuoteProvider extends ChangeNotifier {
               ? evcCircuitIdController.text
               : null,
           "ddos_type": ddosSelectedValue,
-          "bandwidth": null,
           "bgp_type": circuitTypeSelectedValue == "DIA" ? bgpSelectedValue : null,
-          //"ip_type": ipAdressSelectedValue,
-          //"interface_type": ipAdressSelectedValue == 'Interface' ? ipInterfaceSelectedValue : null,
-          //"subnet_type": ipAdressSelectedValue == 'IP Subnet' ? subnetSelectedValue : null,
           "ip_block": circuitTypeSelectedValue == 'DIA' && bgpSelectedValue == 'No' ? ipBlockSelectedValue : null,
           "peering_type": circuitTypeSelectedValue == 'DIA' && bgpSelectedValue == 'Current ASN(s)' ? peeringTypeSelectedValue : null,
+
+          //CUSTOMER INFO
           "contact_id": quote.contactid,
+
+          //TOTALS
           "items": totalItems,
           "subtotal": revenue,
           "cost": cost,
@@ -729,6 +752,10 @@ class CreateQuoteProvider extends ChangeNotifier {
           "total": net,
           "total_tax": pricePlusTax,
           "margin": margin,
+
+          //"ip_type": ipAdressSelectedValue,
+          //"interface_type": ipAdressSelectedValue == 'Interface' ? ipInterfaceSelectedValue : null,
+          //"subnet_type": ipAdressSelectedValue == 'IP Subnet' ? subnetSelectedValue : null,
         },
       ).select())[0];
 
