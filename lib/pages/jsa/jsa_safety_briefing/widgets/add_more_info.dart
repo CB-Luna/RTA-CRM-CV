@@ -71,6 +71,7 @@ class _AddMoreInfoState extends State<AddMoreInfo> {
             InkWell(
               onTap: () async {
                 provider.infowidgets = 2;
+                provider.imageBytesList.clear;
                 await showDialog(
                     context: context,
                     builder: (BuildContext context) {

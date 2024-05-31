@@ -98,7 +98,7 @@ class _ContainerCardJSASafetyState extends State<ContainerCardJSASafety> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                              width: 120,
+                              width: 125,
                               margin: const EdgeInsets.only(left: 50),
                               decoration: BoxDecoration(
                                 color: statusColor(

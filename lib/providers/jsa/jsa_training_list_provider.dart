@@ -10,7 +10,6 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/jsa/training.dart';
 import 'package:rta_crm_cv/models/jsa/user_training.dart';
-import 'package:rta_crm_cv/models/user.dart';
 
 class JsaTrainingListProvider extends ChangeNotifier {
   // ------------ Lista de variables ---------------
@@ -202,10 +201,9 @@ class JsaTrainingListProvider extends ChangeNotifier {
                   elemento.title
                       .toLowerCase()
                       .contains(searchController.text.toLowerCase()) ||
-              elemento.idTraining != null &&
-                  elemento.idTraining
-                      .toString()
-                      .contains(searchController.text.toLowerCase()))
+              elemento.idTraining
+                  .toString()
+                  .contains(searchController.text.toLowerCase()))
           .toList();
     }
     // for (var list in listJSA) {

@@ -134,11 +134,14 @@ class User {
       isLeadJSA ||
       isTechnicianJSA ||
       isRepresentativeJSA;
+
   bool get isAdminJSA => currentRole.id == 23;
   bool get isManagerJSA => currentRole.id == 24;
   bool get isLeadJSA => currentRole.id == 25;
   bool get isTechnicianJSA => currentRole.id == 26;
   bool get isRepresentativeJSA => currentRole.id == 27;
+
+  bool get istraining => currentRole.id == 28;
 
   String get currentAppRole => roles
       .where((role) => role.application == currentUser!.currentRole.application)

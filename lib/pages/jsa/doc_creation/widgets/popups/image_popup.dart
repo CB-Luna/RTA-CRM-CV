@@ -17,7 +17,7 @@ class ImagePopup extends StatelessWidget {
         height: MediaQuery.of(context).size.height *
             0.4, // Set the height to half of the screen height
         width: MediaQuery.of(context).size.width *
-            0.9, // Set the width to 80% of the screen width
+            0.5, // Set the width to 80% of the screen width
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.0)),
 
         child: Center(

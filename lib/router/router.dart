@@ -15,6 +15,8 @@ import 'package:rta_crm_cv/pages/ctrlv/download_apk/download_apk_fmt_page.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/inventory_page_desktop.dart';
 import 'package:rta_crm_cv/pages/ctrlv/inventory_page/pop_up/service_pop_up.dart';
 import 'package:rta_crm_cv/pages/ctrlv/monitory_page/monitory_page_desktop.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/circuits_page_desktop.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/detailed_circuit_desktop.dart';
 import 'package:rta_crm_cv/pages/dashboards_rtatel/download_apk/dashboard_rtatel_page.dart';
 import 'package:rta_crm_cv/pages/jsa/doc_creation/jsa_doc_creation_screen.dart';
 import 'package:rta_crm_cv/pages/jsa/download_apk/download_apk_jsa_page.dart';
@@ -125,7 +127,7 @@ final GoRouter router = GoRouter(
             return const JSADashboardsPageDesktop();
           } else if (currentUser!.isLeadJSA) {
             return const JSADocumentList();
-          } else if (currentUser!.isTechnicianJSA) {
+          } else if (currentUser!.isTechnicianJSA || currentUser!.istraining) {
             return const TrainingList();
           } else {
             return const PageNotFoundPage();
@@ -190,7 +192,9 @@ final GoRouter router = GoRouter(
                                                     : currentUser!.isLeadJSA
                                                         ? const JSADocumentList()
                                                         : currentUser!
-                                                                .isTechnicianJSA
+                                                                    .isTechnicianJSA ||
+                                                                currentUser!
+                                                                    .istraining
                                                             ? const TrainingList()
                                                             : const PageNotFoundPage(),
             transitionsBuilder:
@@ -973,6 +977,25 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return DashboardsRtatelPage(
             title: "Map Coverage", source: "https://dashboards.rtatel.com/");
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+    GoRoute(
+      path: routeCircuits,
+      name: 'Circuits',
+      builder: (BuildContext context, GoRouterState state) {
+        return const CircuitsPageDesktop();
+      },
+      // (context, state, const DetailsPopUp()),
+    ),
+
+    GoRoute(
+      path: routeCircuitSelected,
+      name: 'circuitsSelected',
+      builder: (BuildContext context, GoRouterState state) {
+        // if (state.extra == null) return const CircuitsPageDesktop();
+        // return ReportedIssues(vehicle: state.extra as Vehicle);
+        return const DetailedCircuitsPageDesktop();
       },
       // (context, state, const DetailsPopUp()),
     ),
