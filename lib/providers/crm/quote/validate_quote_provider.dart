@@ -48,6 +48,8 @@ class ValidateQuoteProvider extends ChangeNotifier {
     addressController.clear();
     rackLocationController.clear();
     demarcationPointController.clear();
+    latController.clear();
+    longController.clear();
 
     multicastRequired = false;
     locationController.clear();
@@ -126,6 +128,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
   var tableTopGroup = AutoSizeGroup();
   var tableContentGroup = AutoSizeGroup();
 
+  //TOTALS
   int totalItems = 0;
   double revenue = 0;
   double cost = 0;
@@ -134,6 +137,7 @@ class ValidateQuoteProvider extends ChangeNotifier {
   double pricePlusTax = 0;
   double margin = 0;
 
+  //ORDER INFO
   List<GenericCat> orderTypesList = [GenericCat(name: 'Internal Circuit')];
   late String orderTypesSelectedValue;
   List<CatOrderInfoTypes> typesList = [CatOrderInfoTypes(name: 'New')];
@@ -148,9 +152,11 @@ class ValidateQuoteProvider extends ChangeNotifier {
   List<GenericCat> handoffList = [GenericCat(name: 'New')];
   late String handoffSelectedValue;
   bool? powerMode;
-
   final demarcationPointController = TextEditingController();
+  final latController = TextEditingController();
+  final longController = TextEditingController();
 
+  //CIRCUIT INFO
   List<Vendor> vendorsList = [Vendor(vendorName: 'ATT')];
   String vendorSelectedValue = '';
   bool multicastRequired = false;
@@ -181,11 +187,13 @@ class ValidateQuoteProvider extends ChangeNotifier {
   List<GenericCat> portSizeList = [GenericCat(name: 'Empty')];
   late String portSizeSelectedValue;
 
+  //ITEMS INFO
   final lineItemCenterController = TextEditingController();
   final unitPriceController = TextEditingController();
   final unitCostController = TextEditingController();
   final quantityController = TextEditingController();
 
+  //CUSTOMER INFO
   List<String> leadsList = [''];
   String leadSelectedValue = '';
   final companyController = TextEditingController();
@@ -941,6 +949,9 @@ class ValidateQuoteProvider extends ChangeNotifier {
       } else {
         powerMode = quote.orderInfo!.powerMode;
       }
+
+      latController.text = quote.orderInfo!.lat.toString();
+      longController.text = quote.orderInfo!.long.toString();
 
       ///////////////Circuit Info////////////////////////////////////////////////////////////////////
 

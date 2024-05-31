@@ -40,6 +40,8 @@ class DetailQuoteProvider extends ChangeNotifier {
     newDataCenterController.clear();
     rackLocationController.clear();
     demarcationPointController.clear();
+    latController.clear();
+    longController.clear();
 
     multicastRequired = false;
     //locationController.clear();
@@ -128,6 +130,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   var tableTopGroup = AutoSizeGroup();
   var tableContentGroup = AutoSizeGroup();
 
+  //TOTALS
   int totalItems = 0;
   double revenue = 0;
   double cost = 0;
@@ -136,6 +139,7 @@ class DetailQuoteProvider extends ChangeNotifier {
   double pricePlusTax = 0;
   double margin = 0;
 
+  //ORDER INFO
   List<GenericCat> orderTypesList = [GenericCat(name: 'Internal Circuit')];
   late String orderTypesSelectedValue;
   List<CatOrderInfoTypes> typesList = [CatOrderInfoTypes(name: 'New')];
@@ -152,7 +156,10 @@ class DetailQuoteProvider extends ChangeNotifier {
   late String handoffSelectedValue;
   bool? powerMode;
   late String titulo;
+  final latController = TextEditingController();
+  final longController = TextEditingController();
 
+  //CIRCUIT INFO
   List<Vendor> vendorsList = [Vendor(vendorName: 'ATT')];
   String vendorSelectedValue = '';
   bool multicastRequired = false;
@@ -183,11 +190,13 @@ class DetailQuoteProvider extends ChangeNotifier {
   List<GenericCat> portSizeList = [GenericCat(name: 'Empty')];
   late String portSizeSelectedValue;
 
+  //ITEMS INFO
   final lineItemCenterController = TextEditingController();
   final unitPriceController = TextEditingController();
   final unitCostController = TextEditingController();
   final quantityController = TextEditingController();
 
+  //CUSTOMER INFO
   List<String> leadsList = [''];
   String leadSelectedValue = '';
   final companyController = TextEditingController();
@@ -305,11 +314,14 @@ class DetailQuoteProvider extends ChangeNotifier {
       rackLocationController.text = quote.orderInfo!.rackLocation ?? '';
       handoffSelectedValue = quote.orderInfo!.handoff ?? '';
       powerMode = quote.orderInfo!.powerMode;
-       if (quote.demarcationUrl == null) {
+      if (quote.demarcationUrl == null) {
         titulo = '';
       } else {
         titulo = quote.demarcationUrl!.toString();
       }
+
+      latController.text = quote.orderInfo!.lat.toString();
+      longController.text = quote.orderInfo!.long.toString();
 
       ///////////////Circuit Info////////////////////////////////////////////////////////////////////
 
