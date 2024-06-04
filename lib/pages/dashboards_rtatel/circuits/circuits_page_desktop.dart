@@ -163,6 +163,27 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   });
                                 },
                               ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 30),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomTextIconButton(
+                                        isLoading: false,
+                                        icon: Icon(Icons.save_outlined,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground),
+                                        text: 'Export',
+                                        onTap: () async {
+                                          // if (context.canPop()) context.pop();
+
+                                          await provider.excelActivityReports();
+                                          // ignore: use_build_context_synchronously
+                                        }),
+                                  ],
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -219,7 +240,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   backgroundColor: const Color(0XFF6491F7),
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
-                                        child: Icon(Icons.credit_card_outlined,
+                                        child: Icon(Icons.cable_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
@@ -299,7 +320,8 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   backgroundColor: const Color(0XFF6491F7),
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
-                                        child: Icon(Icons.dialpad_outlined,
+                                        child: Icon(
+                                            Icons.account_circle_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
@@ -397,23 +419,25 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   },
                                 ),
                                 PlutoColumn(
-                                  title: 'CKTSTATUS',
+                                  title: 'STATUS',
                                   field: 'CKTSTATUS_Column',
                                   backgroundColor: const Color(0XFF6491F7),
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
-                                        child: Icon(Icons.car_repair_outlined,
+                                        child: Icon(
+                                            Icons
+                                                .settings_input_component_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
                                         child: SizedBox(width: 10)),
                                     TextSpan(
-                                        text: 'CKTSTATUS',
+                                        text: 'STATUS',
                                         style: AppTheme.of(context)
                                             .encabezadoTablas)
                                   ]),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.11,
+                                      MediaQuery.of(context).size.width * 0.095,
                                   cellPadding: EdgeInsets.zero,
                                   titleTextAlign: PlutoColumnTextAlign.center,
                                   textAlign: PlutoColumnTextAlign.center,
@@ -441,18 +465,18 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   },
                                 ),
                                 PlutoColumn(
-                                  title: 'CktID',
+                                  title: 'ID',
                                   field: 'CktID_Column',
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
                                         child: Icon(
-                                            Icons.label_important_outline,
+                                            Icons.confirmation_number_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
                                         child: SizedBox(width: 10)),
                                     TextSpan(
-                                        text: 'CKTID',
+                                        text: 'ID',
                                         style: AppTheme.of(context)
                                             .encabezadoTablas)
                                   ]),
@@ -489,8 +513,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   backgroundColor: const Color(0XFF6491F7),
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
-                                        child: Icon(
-                                            Icons.local_shipping_outlined,
+                                        child: Icon(Icons.signpost_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
@@ -501,7 +524,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                             .encabezadoTablas)
                                   ]),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.08,
+                                      MediaQuery.of(context).size.width * 0.09,
                                   cellPadding: EdgeInsets.zero,
                                   titleTextAlign: PlutoColumnTextAlign.center,
                                   textAlign: PlutoColumnTextAlign.center,
@@ -534,8 +557,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   backgroundColor: const Color(0XFF6491F7),
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
-                                        child: Icon(
-                                            Icons.local_shipping_outlined,
+                                        child: Icon(Icons.domain_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
@@ -546,7 +568,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                             .encabezadoTablas)
                                   ]),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.10,
+                                      MediaQuery.of(context).size.width * 0.075,
                                   cellPadding: EdgeInsets.zero,
                                   titleTextAlign: PlutoColumnTextAlign.center,
                                   textAlign: PlutoColumnTextAlign.center,
@@ -574,18 +596,19 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   },
                                 ),
                                 PlutoColumn(
-                                  title: 'CKTType',
+                                  title: 'Type',
                                   field: 'CKTType_Column',
                                   backgroundColor: const Color(0XFF6491F7),
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
-                                        child: Icon(Icons.warehouse_outlined,
+                                        child: Icon(
+                                            Icons.settings_input_hdmi_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
                                         child: SizedBox(width: 10)),
                                     TextSpan(
-                                        text: 'CKTType',
+                                        text: 'Type',
                                         style: AppTheme.of(context)
                                             .encabezadoTablas)
                                   ]),
@@ -618,18 +641,18 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   },
                                 ),
                                 PlutoColumn(
-                                  title: 'CKTUSE',
+                                  title: 'USE',
                                   field: 'cktuse_Column',
                                   backgroundColor: const Color(0XFF6491F7),
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
-                                        child: Icon(Icons.warehouse_outlined,
+                                        child: Icon(Icons.router_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
                                         child: SizedBox(width: 10)),
                                     TextSpan(
-                                        text: 'CKTUSE',
+                                        text: 'USE',
                                         style: AppTheme.of(context)
                                             .encabezadoTablas)
                                   ]),
@@ -725,7 +748,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                               onTap: () async {
                                                 provider.getInformationCircuit(
                                                     rendererContext.cell.value);
-
+                                                provider.getComments();
                                                 context.pushReplacement(
                                                     routeCircuitSelected,
                                                     extra: rendererContext
