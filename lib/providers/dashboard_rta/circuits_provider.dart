@@ -166,15 +166,18 @@ class CircuitsProvider extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      // SUPBASECTRlV es el control vehicular
+      final query = await supabase.rpc('search_circuits', params: {
+        'busqueda': searchController.text,
+      });
 
-      final query = supabaseDashboard
-          .from('circuits_view')
-          .select()
-          // .or(
-          //     'rta_customer.ilike.%${searchController.text}%,pccid.ilike.%${searchController.text}%,ckttype.ilike.%${searchController.text}%,carrier.ilike.%${searchController.text}%)');
+      // El problema es la función
+      // final query = supabaseDashboard
+      //     .from('circuits_view')
+      //     .select()
+      //     // .or(
+      //     //     'rta_customer.ilike.%${searchController.text}%,pccid.ilike.%${searchController.text}%,ckttype.ilike.%${searchController.text}%,carrier.ilike.%${searchController.text}%)');
 
-          .like('rta_customer | pccid', '%${searchController.text}%');
+      //     .like('rta_customer | pccid', '%${searchController.text}%');
 
       final res = await query;
       // final res = await supabaseDashboard.from('circuits_view').select();
@@ -213,41 +216,44 @@ class CircuitsProvider extends ChangeNotifier {
   Future<void> getInformationCircuit(int id) async {
     try {
       circuitSelected = listCircuits.firstWhere((element) => element.id == id);
-      pccidController.text = circuitSelected!.pccid.toString();
-      rtaCustomerController.text = circuitSelected!.rtaCustomer.toString();
-      cktStatusController.text = circuitSelected!.cktstatus!;
-      geMapController.text = circuitSelected!.gemap!;
-      carrierController.text = circuitSelected!.carrier!;
-      cktTypeController.text = circuitSelected!.cktid!;
-      cktUseController.text = circuitSelected!.cktuse!;
-      cktIDController.text = circuitSelected!.cktid!;
-      evcController.text = circuitSelected!.evc!;
-      caracctnumController.text = circuitSelected!.caracctnum!;
-      carcontIDController.text = circuitSelected!.carcontid!.toString();
+      pccidController.text = circuitSelected?.pccid.toString() ?? "-";
+      rtaCustomerController.text =
+          circuitSelected?.rtaCustomer.toString() ?? "-";
+      cktStatusController.text = circuitSelected?.cktstatus ?? "-";
+      geMapController.text = circuitSelected?.gemap ?? "-";
+      carrierController.text = circuitSelected?.carrier ?? "-";
+      cktTypeController.text = circuitSelected?.cktid ?? "-";
+      cktUseController.text = circuitSelected?.cktuse ?? "-";
+      cktIDController.text = circuitSelected?.cktid ?? "-";
+      evcController.text = circuitSelected?.evc ?? "-";
+      caracctnumController.text = circuitSelected?.caracctnum ?? "-";
+      carcontIDController.text = circuitSelected?.carcontid?.toString() ?? "-";
+
       contexpController.text =
           DateFormat("MM/dd/yyyy").format(circuitSelected!.contexp!);
-      contLengthController.text = circuitSelected!.contlength!.toString();
-      streetController.text = circuitSelected!.street!;
-      cityController.text = circuitSelected!.city!;
-      stateController.text = circuitSelected!.state!;
-      zipController.text = circuitSelected!.zip!.toString();
-      latitudeController.text = circuitSelected!.latitude!;
-      longitudeController.text = circuitSelected!.longitude!;
-      cirController.text = circuitSelected!.cir!.toString();
-      portController.text = circuitSelected!.port!.toString();
-      handoffController.text = circuitSelected!.handoff!;
-      apopStreetController.text = circuitSelected!.apopstreet!;
-      apopCityController.text = circuitSelected!.apopcity!;
-      apopStateController.text = circuitSelected!.apopzip.toString();
-      apopZipController.text = circuitSelected!.apopzip.toString();
-      apopLatitudeController.text = circuitSelected!.apoplat!;
-      apopLongitudeController.text = circuitSelected!.apoplong!;
-      bpopStreetController.text = circuitSelected!.bpopstreet!;
-      bpopCityController.text = circuitSelected!.bpopcity!;
-      bpopStateController.text = circuitSelected!.bpopstate!;
-      bpopZipController.text = circuitSelected!.bpopzip.toString();
-      bpopLatitudeController.text = circuitSelected!.bpoplat!;
-      bpopLongitudeController.text = circuitSelected!.bpoplong!;
+      contLengthController.text = circuitSelected?.contlength.toString() ?? "-";
+      streetController.text = circuitSelected?.street ?? "-";
+      cityController.text = circuitSelected?.city ?? "-";
+      stateController.text = circuitSelected?.state ?? "-";
+      zipController.text = circuitSelected?.zip?.toString() ?? "-";
+      latitudeController.text = circuitSelected?.latitude ?? "-";
+      longitudeController.text = circuitSelected?.longitude ?? "-";
+      cirController.text = circuitSelected?.cir?.toString() ?? "-";
+      portController.text = circuitSelected?.port?.toString() ?? "-";
+      handoffController.text = circuitSelected?.handoff ?? "-";
+      apopStreetController.text = circuitSelected?.apopstreet ?? "-";
+      apopCityController.text = circuitSelected?.apopcity ?? "-";
+      apopStateController.text = circuitSelected?.apopzip.toString() ?? "-";
+      apopZipController.text = circuitSelected?.apopzip.toString() ?? "-";
+
+      apopLatitudeController.text = circuitSelected?.apoplat ?? "-";
+      apopLongitudeController.text = circuitSelected?.apoplong ?? "-";
+      bpopStreetController.text = circuitSelected?.bpopstreet ?? "-";
+      bpopCityController.text = circuitSelected?.bpopcity ?? "-";
+      bpopStateController.text = circuitSelected?.bpopstate ?? "-";
+      bpopZipController.text = circuitSelected?.bpopzip.toString() ?? "-";
+      bpopLatitudeController.text = circuitSelected?.bpoplat ?? "-";
+      bpopLongitudeController.text = circuitSelected?.bpoplong ?? "-";
       // commentsController.text = circuitSelected!.notes!;
     } catch (e) {
       print('Error en getInformationTraining() - $e');
@@ -261,14 +267,10 @@ class CircuitsProvider extends ChangeNotifier {
       Sheet? sheet = excel.sheets[excel.getDefaultSheet()];
       await getCircuits();
       List<Circuits> circuitList = [];
-      print("Circuits length :${listCircuits.length}");
-
-      print("Boton excelActivityReports presionado");
       //TITULO
       sheet?.merge(
           CellIndex.indexByString("B1"), CellIndex.indexByString("C1"));
-      //Headers de la Tabla
-
+      //Headers de la Tabla, aqui juntamos los dos renglones para una mejor vista.
       sheet?.merge(
           CellIndex.indexByString("A3"), CellIndex.indexByString("A4"));
       sheet?.merge(
@@ -303,21 +305,23 @@ class CircuitsProvider extends ChangeNotifier {
           CellIndex.indexByString("P3"), CellIndex.indexByString("P4"));
       //Headers para secciones
       sheet?.merge(
-          CellIndex.indexByString("Q3"), CellIndex.indexByString("X3"));
+          CellIndex.indexByString("W3"), CellIndex.indexByString("AC3"));
       sheet?.merge(
-          CellIndex.indexByString("Y3"), CellIndex.indexByString("AF3"));
+          CellIndex.indexByString("AD3"), CellIndex.indexByString("AI3"));
 
+      // Aqui damos por ejemplo el primero es el numero de columna y el segundo el width de está
       sheet?.setColWidth(4, 25);
-      sheet?.setColWidth(5, 30);
-      sheet?.setColWidth(11, 50);
-      sheet?.setColWidth(12, 50);
-      sheet?.setColWidth(13, 50);
-      sheet?.setColWidth(14, 25);
-      sheet?.setColWidth(15, 30);
-      sheet?.setColWidth(18, 30);
-      sheet?.setColWidth(20, 30);
-      sheet?.setColWidth(26, 30);
-      sheet?.setColWidth(28, 30);
+      sheet?.setColWidth(2, 25);
+      // sheet?.setColWidth(5, 30);
+      // sheet?.setColWidth(11, 50);
+      // sheet?.setColWidth(12, 50);
+      // sheet?.setColWidth(13, 50);
+      // sheet?.setColWidth(14, 25);
+      // sheet?.setColWidth(15, 30);
+      // sheet?.setColWidth(18, 30);
+      // sheet?.setColWidth(20, 30);
+      // sheet?.setColWidth(26, 30);
+      // sheet?.setColWidth(28, 30);
 
       if (sheet == null) return false;
       CellStyle titulo = CellStyle(

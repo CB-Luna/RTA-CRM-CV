@@ -95,7 +95,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
+                                    horizontal: 30.0),
                                 child: CustomTextIconButton(
                                   isLoading: false,
                                   icon: Icon(Icons.filter_alt_outlined,
@@ -150,18 +150,21 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                               //     },
                               //   ),
                               // ),
-                              CustomTextField(
-                                width: 500,
-                                enabled: true,
-                                controller: provider.searchController,
-                                icon: Icons.search,
-                                label: 'Search',
-                                keyboardType: TextInputType.text,
-                                onChanged: (p0) {
-                                  setState(() {
-                                    provider.updateState();
-                                  });
-                                },
+                              Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child: CustomTextField(
+                                  width: 500,
+                                  enabled: true,
+                                  controller: provider.searchController,
+                                  icon: Icons.search,
+                                  label: 'Search',
+                                  keyboardType: TextInputType.text,
+                                  onChanged: (p0) {
+                                    setState(() {
+                                      provider.updateState();
+                                    });
+                                  },
+                                ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -174,7 +177,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                         icon: Icon(Icons.save_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground),
-                                        text: 'Export',
+                                        text: 'Export Excel',
                                         onTap: () async {
                                           // if (context.canPop()) context.pop();
 
@@ -203,28 +206,36 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   ],
                                   resolveDefaultColumnFilter:
                                       (column, resolver) {
-                                    if (column.field == 'license_plates') {
+                                    if (column.field == 'pccid_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'VIN') {
+                                    } else if (column.field ==
+                                        'rta_customers_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'Make') {
+                                    } else if (column.field ==
+                                        'CKTSTATUS_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'Model') {
+                                    } else if (column.field == 'CktID_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'Status') {
+                                    } else if (column.field ==
+                                        'street_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'Company') {
+                                    } else if (column.field == 'state_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'Mileage') {
+                                    } else if (column.field ==
+                                        'CKTType_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'Actions') {
+                                    } else if (column.field ==
+                                        'cktuse_Column') {
+                                      return resolver<PlutoFilterTypeContains>()
+                                          as PlutoFilterType;
+                                    } else if (column.field == 'actions') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
                                     }
@@ -347,7 +358,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           gradient: whiteGradient),
                                       child: Center(
                                           child: Text(
-                                        rendererContext.cell.value,
+                                        rendererContext.cell.value ?? "-",
                                         style: AppTheme.of(context)
                                             .contenidoTablas
                                             .override(
@@ -452,7 +463,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           gradient: whiteGradient),
                                       child: Center(
                                           child: Text(
-                                        rendererContext.cell.value,
+                                        rendererContext.cell.value ?? "-",
                                         style: AppTheme.of(context)
                                             .contenidoTablas
                                             .override(
@@ -495,7 +506,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           gradient: whiteGradient),
                                       child: Center(
                                           child: Text(
-                                        rendererContext.cell.value,
+                                        rendererContext.cell.value ?? "-",
                                         style: AppTheme.of(context)
                                             .contenidoTablas
                                             .override(
@@ -539,7 +550,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           gradient: whiteGradient),
                                       child: Center(
                                           child: Text(
-                                        rendererContext.cell.value,
+                                        rendererContext.cell.value ?? "-",
                                         style: AppTheme.of(context)
                                             .contenidoTablas
                                             .override(
@@ -583,7 +594,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           gradient: whiteGradient),
                                       child: Center(
                                           child: Text(
-                                        rendererContext.cell.value,
+                                        rendererContext.cell.value ?? "-",
                                         style: AppTheme.of(context)
                                             .contenidoTablas
                                             .override(
@@ -628,7 +639,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           gradient: whiteGradient),
                                       child: Center(
                                           child: Text(
-                                        rendererContext.cell.value,
+                                        rendererContext.cell.value ?? "-",
                                         style: AppTheme.of(context)
                                             .contenidoTablas
                                             .override(
@@ -672,7 +683,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           gradient: whiteGradient),
                                       child: Center(
                                           child: Text(
-                                        rendererContext.cell.value,
+                                        rendererContext.cell.value ?? "-",
                                         style: AppTheme.of(context)
                                             .contenidoTablas
                                             .override(
@@ -746,9 +757,12 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                               color: AppTheme.of(context)
                                                   .primaryColor,
                                               onTap: () async {
-                                                provider.getInformationCircuit(
-                                                    rendererContext.cell.value);
+                                                await provider
+                                                    .getInformationCircuit(
+                                                        rendererContext
+                                                            .cell.value);
                                                 provider.getComments();
+                                                if (!context.mounted) return;
                                                 context.pushReplacement(
                                                     routeCircuitSelected,
                                                     extra: rendererContext
