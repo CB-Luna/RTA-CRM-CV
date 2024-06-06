@@ -1,8 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/delete_circuit_pop_up.dart';
+import 'package:rta_crm_cv/pages/dashboards_rtatel/circuits/edit_circuit_pop_up.dart';
 import 'package:rta_crm_cv/providers/dashboard_rta/circuits_provider.dart';
 import 'package:rta_crm_cv/theme/theme.dart';
 import 'package:rta_crm_cv/widgets/captura/custom_text_field.dart';
@@ -14,6 +18,7 @@ import 'package:rta_crm_cv/widgets/side_menu/sidemenu.dart';
 
 import '../../../helpers/constants.dart';
 import '../../../public/colors.dart';
+import 'add_circuit_pop_up.dart';
 
 class CircuitsPageDesktop extends StatefulWidget {
   const CircuitsPageDesktop({super.key});
@@ -82,40 +87,19 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                     ),
                   ),
                   CustomCard(
-                    width: MediaQuery.of(context).size.width - 200,
+                    width: MediaQuery.of(context).size.width - 198,
                     height: MediaQuery.of(context).size.height,
                     title: "RTA Circuits",
                     child: Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 30),
+                              // vertical: 0, horizontal: 30),
+                              vertical: 0,
+                              horizontal: 15),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: CustomTextIconButton(
-                                  isLoading: false,
-                                  icon: Icon(Icons.filter_alt_outlined,
-                                      color: AppTheme.of(context)
-                                          .primaryBackground),
-                                  text: 'Filter',
-                                  style: AppTheme.of(context)
-                                      .contenidoTablas
-                                      .override(
-                                        fontFamily: 'Gotham-Regular',
-                                        useGoogleFonts: false,
-                                        color: AppTheme.of(context)
-                                            .primaryBackground,
-                                      ),
-                                  onTap: () => provider.stateManager!
-                                      .setShowColumnFilter(!provider
-                                          .stateManager!.showColumnFilter),
-                                ),
-                              ),
-
                               // Padding(
                               //   padding:
                               //       const EdgeInsets.only(left: 10, top: 10),
@@ -150,27 +134,101 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                               //     },
                               //   ),
                               // ),
-                              CustomTextField(
-                                width: 500,
-                                enabled: true,
-                                controller: provider.searchController,
-                                icon: Icons.search,
-                                label: 'Search',
-                                keyboardType: TextInputType.text,
-                                onChanged: (p0) {
-                                  setState(() {
-                                    provider.updateState();
-                                  });
-                                },
+                              Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child: CustomTextField(
+                                  width: 500,
+                                  enabled: true,
+                                  controller: provider.searchController,
+                                  icon: Icons.search,
+                                  label: 'Search',
+                                  keyboardType: TextInputType.text,
+                                  onChanged: (p0) {
+                                    setState(() {
+                                      provider.updateState();
+                                    });
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 30),
+                                child: CustomTextIconButton(
+                                  isLoading: false,
+                                  icon: Icon(Icons.filter_alt_outlined,
+                                      color: AppTheme.of(context)
+                                          .primaryBackground),
+                                  text: 'Filter',
+                                  style: AppTheme.of(context)
+                                      .contenidoTablas
+                                      .override(
+                                        fontFamily: 'Gotham-Regular',
+                                        useGoogleFonts: false,
+                                        color: AppTheme.of(context)
+                                            .primaryBackground,
+                                      ),
+                                  onTap: () => provider.stateManager!
+                                      .setShowColumnFilter(!provider
+                                          .stateManager!.showColumnFilter),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 30),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomTextIconButton(
+                                        isLoading: false,
+                                        icon: Icon(Icons.save_outlined,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground),
+                                        text: 'Export Excel',
+                                        onTap: () async {
+                                          // if (context.canPop()) context.pop();
+
+                                          await provider.excelActivityReports();
+                                        }),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 30),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomTextIconButton(
+                                        isLoading: false,
+                                        icon: Icon(Icons.save_outlined,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground),
+                                        text: 'Add Circuit',
+                                        onTap: () async {
+                                          provider.clearAll();
+
+                                          if (!mounted) return;
+                                          await showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return const AddCircuitPopUp();
+                                              });
+                                          provider.updateState();
+                                        }),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 4.0),
                           child: SizedBox(
                             height: getHeight(850, context),
-                            width: getWidth(2450, context),
+                            // width: getWidth(2450, context),
+                            width: getWidth(2460, context),
+
                             child: PlutoGrid(
                               key: UniqueKey(),
                               configuration: PlutoGridConfiguration(
@@ -182,28 +240,36 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   ],
                                   resolveDefaultColumnFilter:
                                       (column, resolver) {
-                                    if (column.field == 'license_plates') {
+                                    if (column.field == 'pccid_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'VIN') {
+                                    } else if (column.field ==
+                                        'rta_customers_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'Make') {
+                                    } else if (column.field ==
+                                        'CKTSTATUS_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'Model') {
+                                    } else if (column.field == 'CktID_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'Status') {
+                                    } else if (column.field ==
+                                        'street_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'Company') {
+                                    } else if (column.field == 'state_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'Mileage') {
+                                    } else if (column.field ==
+                                        'CKTType_Column') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
-                                    } else if (column.field == 'Actions') {
+                                    } else if (column.field ==
+                                        'cktuse_Column') {
+                                      return resolver<PlutoFilterTypeContains>()
+                                          as PlutoFilterType;
+                                    } else if (column.field == 'actions') {
                                       return resolver<PlutoFilterTypeContains>()
                                           as PlutoFilterType;
                                     }
@@ -219,7 +285,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   backgroundColor: const Color(0XFF6491F7),
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
-                                        child: Icon(Icons.credit_card_outlined,
+                                        child: Icon(Icons.cable_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
@@ -230,7 +296,8 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                             .encabezadoTablas)
                                   ]),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.10,
+                                      // MediaQuery.of(context).size.width * 0.10,
+                                      MediaQuery.of(context).size.width * 0.08,
                                   cellPadding: EdgeInsets.zero,
                                   titleTextAlign: PlutoColumnTextAlign.center,
                                   textAlign: PlutoColumnTextAlign.center,
@@ -299,7 +366,8 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   backgroundColor: const Color(0XFF6491F7),
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
-                                        child: Icon(Icons.dialpad_outlined,
+                                        child: Icon(
+                                            Icons.account_circle_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
@@ -325,7 +393,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           gradient: whiteGradient),
                                       child: Center(
                                           child: Text(
-                                        rendererContext.cell.value,
+                                        rendererContext.cell.value ?? "-",
                                         style: AppTheme.of(context)
                                             .contenidoTablas
                                             .override(
@@ -397,23 +465,26 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   },
                                 ),
                                 PlutoColumn(
-                                  title: 'CKTSTATUS',
+                                  title: 'Status',
                                   field: 'CKTSTATUS_Column',
                                   backgroundColor: const Color(0XFF6491F7),
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
-                                        child: Icon(Icons.car_repair_outlined,
+                                        child: Icon(
+                                            Icons
+                                                .settings_input_component_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
                                         child: SizedBox(width: 10)),
                                     TextSpan(
-                                        text: 'CKTSTATUS',
+                                        text: 'Status',
                                         style: AppTheme.of(context)
                                             .encabezadoTablas)
                                   ]),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.11,
+                                      // MediaQuery.of(context).size.width * 0.095,
+                                      MediaQuery.of(context).size.width * 0.082,
                                   cellPadding: EdgeInsets.zero,
                                   titleTextAlign: PlutoColumnTextAlign.center,
                                   textAlign: PlutoColumnTextAlign.center,
@@ -428,7 +499,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           gradient: whiteGradient),
                                       child: Center(
                                           child: Text(
-                                        rendererContext.cell.value,
+                                        rendererContext.cell.value ?? "-",
                                         style: AppTheme.of(context)
                                             .contenidoTablas
                                             .override(
@@ -441,18 +512,18 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   },
                                 ),
                                 PlutoColumn(
-                                  title: 'CktID',
+                                  title: 'ID',
                                   field: 'CktID_Column',
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
                                         child: Icon(
-                                            Icons.label_important_outline,
+                                            Icons.confirmation_number_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
                                         child: SizedBox(width: 10)),
                                     TextSpan(
-                                        text: 'CKTID',
+                                        text: 'ID',
                                         style: AppTheme.of(context)
                                             .encabezadoTablas)
                                   ]),
@@ -471,7 +542,7 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           gradient: whiteGradient),
                                       child: Center(
                                           child: Text(
-                                        rendererContext.cell.value,
+                                        rendererContext.cell.value ?? "-",
                                         style: AppTheme.of(context)
                                             .contenidoTablas
                                             .override(
@@ -489,147 +560,13 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                   backgroundColor: const Color(0XFF6491F7),
                                   titleSpan: TextSpan(children: [
                                     WidgetSpan(
-                                        child: Icon(
-                                            Icons.local_shipping_outlined,
+                                        child: Icon(Icons.signpost_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
                                     const WidgetSpan(
                                         child: SizedBox(width: 10)),
                                     TextSpan(
                                         text: 'Street',
-                                        style: AppTheme.of(context)
-                                            .encabezadoTablas)
-                                  ]),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.08,
-                                  cellPadding: EdgeInsets.zero,
-                                  titleTextAlign: PlutoColumnTextAlign.center,
-                                  textAlign: PlutoColumnTextAlign.center,
-                                  type: PlutoColumnType.text(),
-                                  enableEditingMode: false,
-                                  renderer: (rendererContext) {
-                                    return Container(
-                                      height: rowHeight,
-                                      // width: rendererContext
-                                      //.cell.column.width,                                                    .cell.column.width,
-                                      decoration: BoxDecoration(
-                                          gradient: whiteGradient),
-                                      child: Center(
-                                          child: Text(
-                                        rendererContext.cell.value,
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false,
-                                                color: AppTheme.of(context)
-                                                    .primaryColor),
-                                      )),
-                                    );
-                                  },
-                                ),
-                                PlutoColumn(
-                                  title: 'State',
-                                  field: 'state_Column',
-                                  backgroundColor: const Color(0XFF6491F7),
-                                  titleSpan: TextSpan(children: [
-                                    WidgetSpan(
-                                        child: Icon(
-                                            Icons.local_shipping_outlined,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground)),
-                                    const WidgetSpan(
-                                        child: SizedBox(width: 10)),
-                                    TextSpan(
-                                        text: 'State',
-                                        style: AppTheme.of(context)
-                                            .encabezadoTablas)
-                                  ]),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.10,
-                                  cellPadding: EdgeInsets.zero,
-                                  titleTextAlign: PlutoColumnTextAlign.center,
-                                  textAlign: PlutoColumnTextAlign.center,
-                                  type: PlutoColumnType.text(),
-                                  enableEditingMode: false,
-                                  renderer: (rendererContext) {
-                                    return Container(
-                                      height: rowHeight,
-                                      // width: rendererContext
-                                      //.cell.column.width,                                                    .cell.column.width,
-                                      decoration: BoxDecoration(
-                                          gradient: whiteGradient),
-                                      child: Center(
-                                          child: Text(
-                                        rendererContext.cell.value,
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false,
-                                                color: AppTheme.of(context)
-                                                    .primaryColor),
-                                      )),
-                                    );
-                                  },
-                                ),
-                                PlutoColumn(
-                                  title: 'CKTType',
-                                  field: 'CKTType_Column',
-                                  backgroundColor: const Color(0XFF6491F7),
-                                  titleSpan: TextSpan(children: [
-                                    WidgetSpan(
-                                        child: Icon(Icons.warehouse_outlined,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground)),
-                                    const WidgetSpan(
-                                        child: SizedBox(width: 10)),
-                                    TextSpan(
-                                        text: 'CKTType',
-                                        style: AppTheme.of(context)
-                                            .encabezadoTablas)
-                                  ]),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.10,
-                                  cellPadding: EdgeInsets.zero,
-                                  titleTextAlign: PlutoColumnTextAlign.center,
-                                  textAlign: PlutoColumnTextAlign.center,
-                                  type: PlutoColumnType.text(),
-                                  enableEditingMode: false,
-                                  renderer: (rendererContext) {
-                                    return Container(
-                                      height: rowHeight,
-                                      // width: rendererContext
-                                      //.cell.column.width,                                                    .cell.column.width,
-                                      decoration: BoxDecoration(
-                                          gradient: whiteGradient),
-                                      child: Center(
-                                          child: Text(
-                                        rendererContext.cell.value,
-                                        style: AppTheme.of(context)
-                                            .contenidoTablas
-                                            .override(
-                                                fontFamily: 'Gotham-Regular',
-                                                useGoogleFonts: false,
-                                                color: AppTheme.of(context)
-                                                    .primaryColor),
-                                      )),
-                                    );
-                                  },
-                                ),
-                                PlutoColumn(
-                                  title: 'CKTUSE',
-                                  field: 'cktuse_Column',
-                                  backgroundColor: const Color(0XFF6491F7),
-                                  titleSpan: TextSpan(children: [
-                                    WidgetSpan(
-                                        child: Icon(Icons.warehouse_outlined,
-                                            color: AppTheme.of(context)
-                                                .primaryBackground)),
-                                    const WidgetSpan(
-                                        child: SizedBox(width: 10)),
-                                    TextSpan(
-                                        text: 'CKTUSE',
                                         style: AppTheme.of(context)
                                             .encabezadoTablas)
                                   ]),
@@ -649,7 +586,140 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                           gradient: whiteGradient),
                                       child: Center(
                                           child: Text(
-                                        rendererContext.cell.value,
+                                        rendererContext.cell.value ?? "-",
+                                        style: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false,
+                                                color: AppTheme.of(context)
+                                                    .primaryColor),
+                                      )),
+                                    );
+                                  },
+                                ),
+                                PlutoColumn(
+                                  title: 'State',
+                                  field: 'state_Column',
+                                  backgroundColor: const Color(0XFF6491F7),
+                                  titleSpan: TextSpan(children: [
+                                    WidgetSpan(
+                                        child: Icon(Icons.domain_outlined,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground)),
+                                    const WidgetSpan(
+                                        child: SizedBox(width: 10)),
+                                    TextSpan(
+                                        text: 'State',
+                                        style: AppTheme.of(context)
+                                            .encabezadoTablas)
+                                  ]),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.075,
+                                  cellPadding: EdgeInsets.zero,
+                                  titleTextAlign: PlutoColumnTextAlign.center,
+                                  textAlign: PlutoColumnTextAlign.center,
+                                  type: PlutoColumnType.text(),
+                                  enableEditingMode: false,
+                                  renderer: (rendererContext) {
+                                    return Container(
+                                      height: rowHeight,
+                                      // width: rendererContext
+                                      //.cell.column.width,                                                    .cell.column.width,
+                                      decoration: BoxDecoration(
+                                          gradient: whiteGradient),
+                                      child: Center(
+                                          child: Text(
+                                        rendererContext.cell.value ?? "-",
+                                        style: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false,
+                                                color: AppTheme.of(context)
+                                                    .primaryColor),
+                                      )),
+                                    );
+                                  },
+                                ),
+                                PlutoColumn(
+                                  title: 'Type',
+                                  field: 'CKTType_Column',
+                                  backgroundColor: const Color(0XFF6491F7),
+                                  titleSpan: TextSpan(children: [
+                                    WidgetSpan(
+                                        child: Icon(
+                                            Icons.settings_input_hdmi_outlined,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground)),
+                                    const WidgetSpan(child: SizedBox(width: 5)),
+                                    TextSpan(
+                                        text: 'Type',
+                                        style: AppTheme.of(context)
+                                            .encabezadoTablas)
+                                  ]),
+                                  width:
+                                      // MediaQuery.of(context).size.width * 0.10,
+                                      MediaQuery.of(context).size.width * 0.068,
+                                  cellPadding: EdgeInsets.zero,
+                                  titleTextAlign: PlutoColumnTextAlign.center,
+                                  textAlign: PlutoColumnTextAlign.center,
+                                  type: PlutoColumnType.text(),
+                                  enableEditingMode: false,
+                                  renderer: (rendererContext) {
+                                    return Container(
+                                      height: rowHeight,
+                                      // width: rendererContext
+                                      //.cell.column.width,                                                    .cell.column.width,
+                                      decoration: BoxDecoration(
+                                          gradient: whiteGradient),
+                                      child: Center(
+                                          child: Text(
+                                        rendererContext.cell.value ?? "-",
+                                        style: AppTheme.of(context)
+                                            .contenidoTablas
+                                            .override(
+                                                fontFamily: 'Gotham-Regular',
+                                                useGoogleFonts: false,
+                                                color: AppTheme.of(context)
+                                                    .primaryColor),
+                                      )),
+                                    );
+                                  },
+                                ),
+                                PlutoColumn(
+                                  title: 'USE',
+                                  field: 'cktuse_Column',
+                                  backgroundColor: const Color(0XFF6491F7),
+                                  titleSpan: TextSpan(children: [
+                                    WidgetSpan(
+                                        child: Icon(Icons.router_outlined,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground)),
+                                    const WidgetSpan(child: SizedBox(width: 5)),
+                                    TextSpan(
+                                        text: 'USE',
+                                        style: AppTheme.of(context)
+                                            .encabezadoTablas)
+                                  ]),
+                                  width:
+                                      // MediaQuery.of(context).size.width * 0.09,
+                                      MediaQuery.of(context).size.width * 0.063,
+                                  cellPadding: EdgeInsets.zero,
+                                  titleTextAlign: PlutoColumnTextAlign.center,
+                                  textAlign: PlutoColumnTextAlign.center,
+                                  type: PlutoColumnType.text(),
+                                  enableEditingMode: false,
+                                  renderer: (rendererContext) {
+                                    return Container(
+                                      height: rowHeight,
+                                      // width: rendererContext
+                                      //.cell.column.width,                                                    .cell.column.width,
+                                      decoration: BoxDecoration(
+                                          gradient: whiteGradient),
+                                      child: Center(
+                                          child: Text(
+                                        rendererContext.cell.value ?? "-",
                                         style: AppTheme.of(context)
                                             .contenidoTablas
                                             .override(
@@ -671,15 +741,15 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                             Icons.call_to_action_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground)),
-                                    const WidgetSpan(
-                                        child: SizedBox(width: 10)),
+                                    const WidgetSpan(child: SizedBox(width: 5)),
                                     TextSpan(
                                         text: 'Actions',
                                         style: AppTheme.of(context)
                                             .encabezadoTablas)
                                   ]),
                                   width:
-                                      MediaQuery.of(context).size.width * 0.09,
+                                      // MediaQuery.of(context).size.width * 0.17,
+                                      MediaQuery.of(context).size.width * 0.19,
                                   cellPadding: EdgeInsets.zero,
                                   titleTextAlign: PlutoColumnTextAlign.center,
                                   textAlign: PlutoColumnTextAlign.center,
@@ -694,23 +764,26 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
                                         children: [
-                                          // Issue
+                                          // More Info
                                           Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0, right: 8.0),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4),
                                             child: CustomTextIconButton(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.08,
+                                                  // 0.08,
+                                                  0.06,
                                               isLoading: false,
                                               icon: Icon(
                                                   Icons.remove_red_eye_outlined,
                                                   color: AppTheme.of(context)
                                                       .primaryBackground),
-                                              text: 'Preview',
+                                              // text: 'More Info',
+                                              text: 'More',
+
                                               style: AppTheme.of(context)
                                                   .contenidoTablas
                                                   .override(
@@ -723,9 +796,12 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                               color: AppTheme.of(context)
                                                   .primaryColor,
                                               onTap: () async {
-                                                provider.getInformationCircuit(
-                                                    rendererContext.cell.value);
-
+                                                await provider
+                                                    .getInformationCircuit(
+                                                        rendererContext
+                                                            .cell.value);
+                                                provider.getComments();
+                                                if (!context.mounted) return;
                                                 context.pushReplacement(
                                                     routeCircuitSelected,
                                                     extra: rendererContext
@@ -733,160 +809,89 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                               },
                                             ),
                                           ),
-                                          // CustomTextIconButton(
-                                          //   mainAxisAlignment:
-                                          //       MainAxisAlignment.center,
-                                          //   width: MediaQuery.of(context)
-                                          //           .size
-                                          //           .width *
-                                          //       0.06,
-                                          //   isLoading: false,
-                                          //   icon: Icon(
-                                          //     Icons.fact_check_outlined,
-                                          //     color: AppTheme.of(context)
-                                          //         .primaryBackground,
-                                          //   ),
-                                          //   text: 'Edit',
-                                          //   style: AppTheme.of(context)
-                                          //       .contenidoTablas
-                                          //       .override(
-                                          //         fontFamily: 'Gotham-Regular',
-                                          //         useGoogleFonts: false,
-                                          //         color: AppTheme.of(context)
-                                          //             .primaryBackground,
-                                          //       ),
-                                          //   onTap: () async {
-                                          //     //provider.clearControllers();
-                                          //     await provider.getCompanies(
-                                          //         notify: false);
-                                          //     await provider.getStatus(
-                                          //         notify: false);
-                                          //     await provider.getOwnerShip(
-                                          //         notify: false);
-                                          //     provider.inicializeColor(
-                                          //         rendererContext.cell.value);
-
-                                          //     provider.inicializeImage(
-                                          //         rendererContext.cell.value);
-                                          //     provider
-                                          //         .updateInventoryControllers(
-                                          //             rendererContext
-                                          //                 .cell.value);
-                                          //     // provider
-                                          //     //     .serviceDateControllerAvailable
-                                          //     //     .clear();
-                                          //     // provider.problemControllerUpdate
-                                          //     //     .text = "";
-                                          //     provider.getProblemVehicle(
-                                          //         rendererContext.cell.value);
-                                          //     provider.problemControllerUpdate
-                                          //         .clear();
-                                          //     provider.visibilty = false;
-                                          //     // ignore: use_build_context_synchronously
-                                          //     await showDialog(
-                                          //         context: context,
-                                          //         builder:
-                                          //             (BuildContext context) {
-                                          //           return StatefulBuilder(
-                                          //               builder: (context,
-                                          //                   setState) {
-                                          //             return UpdateVehiclePopUp(
-                                          //               vehicle: rendererContext
-                                          //                   .cell.value,
-                                          //             );
-                                          //           });
-                                          //         });
-                                          //     await provider.updateState();
-                                          //   },
-                                          // ),
-                                          // CustomTextIconButton(
-                                          //   mainAxisAlignment:
-                                          //       MainAxisAlignment.center,
-                                          //   width: MediaQuery.of(context)
-                                          //           .size
-                                          //           .width *
-                                          //       0.07,
-                                          //   isLoading: false,
-                                          //   icon: Icon(
-                                          //     Icons.shopping_basket_outlined,
-                                          //     color: AppTheme.of(context)
-                                          //         .primaryBackground,
-                                          //   ),
-                                          //   color: secondaryColor,
-                                          //   text: 'Delete',
-                                          //   style: AppTheme.of(context)
-                                          //       .contenidoTablas
-                                          //       .override(
-                                          //         fontFamily: 'Gotham-Regular',
-                                          //         useGoogleFonts: false,
-                                          //         color: AppTheme.of(context)
-                                          //             .primaryBackground,
-                                          //       ),
-                                          //   onTap: () async {
-                                          //     await showDialog(
-                                          //         context: context,
-                                          //         builder:
-                                          //             (BuildContext context) {
-                                          //           return StatefulBuilder(
-                                          //               builder: (context,
-                                          //                   setState) {
-                                          //             return DeletePopUp(
-                                          //               vehicle: rendererContext
-                                          //                   .cell.value,
-                                          //             );
-                                          //           });
-                                          //         });
-                                          //   },
-                                          // ),
-                                          // CustomTextIconButton(
-                                          //   mainAxisAlignment:
-                                          //       MainAxisAlignment.center,
-                                          //   width: MediaQuery.of(context)
-                                          //           .size
-                                          //           .width *
-                                          //       0.08,
-                                          //   isLoading: false,
-                                          //   icon: Icon(Icons.list_alt_outlined,
-                                          //       color: AppTheme.of(context)
-                                          //           .primaryBackground),
-                                          //   text: 'Services',
-                                          //   style: AppTheme.of(context)
-                                          //       .contenidoTablas
-                                          //       .override(
-                                          //         fontFamily: 'Gotham-Regular',
-                                          //         useGoogleFonts: false,
-                                          //         color: AppTheme.of(context)
-                                          //             .primaryBackground,
-                                          //       ),
-                                          //   color: AppTheme.of(context)
-                                          //       .primaryColor,
-                                          //   onTap: () async {
-                                          //     isssueReportedProvider
-                                          //         .selectVehicle(
-                                          //       rendererContext.cell.value,
-                                          //       notify: false,
-                                          //     );
-                                          //     provider.clearControllerService();
-                                          //     await provider.getServices(
-                                          //         notify: false);
-                                          //     provider.selectVehicle(
-                                          //         rendererContext.cell.value);
-
-                                          //     await provider.getServicesPage();
-                                          //     // // ignore: use_build_context_synchronously
-                                          //     // showDialog(
-                                          //     //     context: context,
-                                          //     //     builder:
-                                          //     //         (BuildContext context) {
-                                          //     //       return const AddServicePopUp();
-                                          //     //     });
-                                          //     if (!mounted) return;
-                                          //     context.pushReplacement(
-                                          //         routeService,
-                                          //         extra: rendererContext
-                                          //             .cell.value);
-                                          //   },
-                                          // ),
+                                          Padding(
+                                            // padding: const EdgeInsets.only(
+                                            //     left: 8.0, right: 8.0),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 0),
+                                            child: CustomTextIconButton(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  // 0.08,
+                                                  0.045,
+                                              isLoading: false,
+                                              icon: Icon(Icons.edit_square,
+                                                  color: AppTheme.of(context)
+                                                      .primaryBackground),
+                                              text: 'Edit',
+                                              style: AppTheme.of(context)
+                                                  .contenidoTablas
+                                                  .override(
+                                                    fontFamily:
+                                                        'Gotham-Regular',
+                                                    useGoogleFonts: false,
+                                                    color: AppTheme.of(context)
+                                                        .primaryBackground,
+                                                  ),
+                                              color: AppTheme.of(context)
+                                                  .primaryColor,
+                                              onTap: () async {
+                                                provider.editCircuit(
+                                                    rendererContext.cell.value);
+                                                if (!mounted) return;
+                                                await showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return const EditCircuitPopUp();
+                                                    });
+                                                provider.updateState();
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4),
+                                            child: CustomTextIconButton(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  // 0.08,
+                                                  0.06,
+                                              isLoading: false,
+                                              icon: Icon(Icons.delete_outlined,
+                                                  color: AppTheme.of(context)
+                                                      .primaryBackground),
+                                              text: 'Delete',
+                                              style: AppTheme.of(context)
+                                                  .contenidoTablas
+                                                  .override(
+                                                    fontFamily:
+                                                        'Gotham-Regular',
+                                                    useGoogleFonts: false,
+                                                    color: AppTheme.of(context)
+                                                        .primaryBackground,
+                                                  ),
+                                              color: AppTheme.of(context)
+                                                  .odePrimary,
+                                              onTap: () async {
+                                                await provider.selectCircuit(
+                                                    rendererContext.cell.value);
+                                                // if (!mounted) return;
+                                                await showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return const DeleteCIrcuitPopUp();
+                                                    });
+                                              },
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     );
