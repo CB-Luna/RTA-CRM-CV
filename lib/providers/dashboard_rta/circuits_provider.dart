@@ -9,6 +9,7 @@ import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/circuits.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/comments.dart';
 import 'package:rta_crm_cv/public/colors.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CircuitsProvider extends ChangeNotifier {
   int pageRowCount = 11;
@@ -18,6 +19,7 @@ class CircuitsProvider extends ChangeNotifier {
 
   // Individual
   Circuits? circuitSelected;
+
   // Listas
   List<Circuits> listCircuits = [];
 
@@ -106,12 +108,34 @@ class CircuitsProvider extends ChangeNotifier {
 
   Future<void> updateState() async {
     rows.clear();
+    await setIndex(0);
+
     await getCircuits();
+  }
+
+  List<bool> indexSelected = [
+    true, // Order Info
+    false, // Order Info 2
+    false, // APOPS
+    false, // BPOPS
+  ];
+
+  Future setIndex(int index, {bool notify = true}) async {
+    for (var i = 0; i < indexSelected.length; i++) {
+      indexSelected[i] = false;
+    }
+    indexSelected[index] = true;
+
+    // notifyListeners();
+    if (notify) notifyListeners();
+
+    // if (stateManager != null) stateManager!.notifyListeners();
   }
 
   // final commentController = TextEditingController();
   List<CommentCircuit> comments = [];
 
+  // Agregar Comentario en la detailedCircuit
   Future<void> addComment() async {
     try {
       if (commentsController.text.isNotEmpty) {
@@ -143,6 +167,47 @@ class CircuitsProvider extends ChangeNotifier {
     }
   }
 
+  // Agregar a la lista el comentario en Add Circuit
+  Future<void> addCommentWait() async {
+    try {
+      comments.add(
+        CommentCircuit(
+          userFk: currentUser!.id,
+          // id: circuitSelected!.id,
+          // id: 15,
+          comment: commentsController.text,
+          sended: DateTime.now(),
+        ),
+      );
+      commentsController.clear();
+      notifyListeners();
+    } catch (e) {
+      print("Error in addCommentWait $e");
+    }
+  }
+
+  // Enviar el comentario a supabase
+  Future<void> sendComments(int id) async {
+    try {
+      for (var element in comments) {
+        await supabaseDashboard.from('circuit_comments').insert(
+          {
+            "user_fk": currentUser!.id,
+            "id_circuit": id,
+            // "id_circuit": 15,
+            "comment": element.comment,
+            "sended": DateTime.now().toIso8601String(),
+          },
+        );
+        print("Se envio a supabase;");
+      }
+      notifyListeners();
+    } catch (e) {
+      print("Error in sendComments $e");
+    }
+  }
+
+  // Traer Los comentarios que tienen los circuitos
   Future<void> getComments() async {
     try {
       comments.clear();
@@ -160,6 +225,7 @@ class CircuitsProvider extends ChangeNotifier {
     }
   }
 
+  // Traer los circuitos
   Future<void> getCircuits() async {
     if (stateManager != null) {
       stateManager!.setShowLoading(true);
@@ -169,7 +235,7 @@ class CircuitsProvider extends ChangeNotifier {
       final query = await supabase.rpc('search_circuits', params: {
         'busqueda': searchController.text,
       });
-
+      print("getCircuits");
       // El problema es la función
       // final query = supabaseDashboard
       //     .from('circuits_view')
@@ -212,7 +278,137 @@ class CircuitsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Nos trae la información de los trainings por usuarios
+  Future<void> selectCircuit(int id) async {
+    try {
+      final res =
+          await supabaseDashboard.from("rta_circuits").select().eq('id', id);
+      List<Circuits> circuitss = [];
+      circuitss = (res as List<dynamic>)
+          .map((circuit) => Circuits.fromJson(jsonEncode(circuit)))
+          .toList();
+      circuitSelected = circuitss.first;
+
+      print(
+          "circuitSelected en el selectCircuit: ${circuitSelected?.rtaCustomer}");
+      notifyListeners();
+    } catch (e) {
+      print("Error in selectCircuit - $e");
+    }
+  }
+
+  // Agarrar info supabase del circuito seleccionado
+  Future<void> editCircuit(int id) async {
+    try {
+      final res =
+          await supabaseDashboard.from("rta_circuits").select().eq('id', id);
+      List<Circuits> circuitss = [];
+      circuitss = (res as List<dynamic>)
+          .map((circuit) => Circuits.fromJson(jsonEncode(circuit)))
+          .toList();
+      circuitSelected = circuitss.first;
+
+      print(circuitSelected?.rtaCustomer);
+      pccidController.text = circuitSelected?.pccid.toString() ?? "-";
+      rtaCustomerController.text =
+          circuitSelected?.rtaCustomer.toString() ?? "-";
+      cktStatusController.text = circuitSelected?.cktstatus ?? "-";
+      geMapController.text = circuitSelected?.gemap ?? "-";
+      carrierController.text = circuitSelected?.carrier ?? "-";
+      cktTypeController.text = circuitSelected?.cktid ?? "-";
+      cktUseController.text = circuitSelected?.cktuse ?? "-";
+      cktIDController.text = circuitSelected?.cktid ?? "-";
+      evcController.text = circuitSelected?.evc ?? "-";
+      caracctnumController.text = circuitSelected?.caracctnum ?? "-";
+      carcontIDController.text = circuitSelected?.carcontid?.toString() ?? "-";
+
+      contexpController.text =
+          DateFormat("MM/dd/yyyy").format(circuitSelected!.contexp!);
+      contLengthController.text = circuitSelected?.contlength.toString() ?? "-";
+      streetController.text = circuitSelected?.street ?? "-";
+      cityController.text = circuitSelected?.city ?? "-";
+      stateController.text = circuitSelected?.state ?? "-";
+      zipController.text = circuitSelected?.zip?.toString() ?? "-";
+      latitudeController.text = circuitSelected?.latitude ?? "-";
+      longitudeController.text = circuitSelected?.longitude ?? "-";
+      cirController.text = circuitSelected?.cir?.toString() ?? "-";
+      portController.text = circuitSelected?.port?.toString() ?? "-";
+      handoffController.text = circuitSelected?.handoff ?? "-";
+      apopStreetController.text = circuitSelected?.apopstreet ?? "-";
+      apopCityController.text = circuitSelected?.apopcity ?? "-";
+      apopStateController.text = circuitSelected?.apopzip.toString() ?? "-";
+      apopZipController.text = circuitSelected?.apopzip.toString() ?? "-";
+
+      apopLatitudeController.text = circuitSelected?.apoplat ?? "-";
+      apopLongitudeController.text = circuitSelected?.apoplong ?? "-";
+      bpopStreetController.text = circuitSelected?.bpopstreet ?? "-";
+      bpopCityController.text = circuitSelected?.bpopcity ?? "-";
+      bpopStateController.text = circuitSelected?.bpopstate ?? "-";
+      bpopZipController.text = circuitSelected?.bpopzip.toString() ?? "-";
+      bpopLatitudeController.text = circuitSelected?.bpoplat ?? "-";
+      bpopLongitudeController.text = circuitSelected?.bpoplong ?? "-";
+    } catch (e) {
+      print("Error in EditCircuit - $e");
+    }
+  }
+
+  // Función para eliminar un vehiculo
+  Future<bool> deleteCircuit(int id) async {
+    try {
+      await supabaseDashboard.from('rta_circuits').delete().match({'id': id});
+      return true;
+    } catch (e) {
+      log('Error in deleteCircuit() - $e');
+      return false;
+    }
+  }
+
+  // Update Circuit
+  Future<bool> updateCircuit() async {
+    try {
+      await supabaseDashboard.from('rta_circuits').update({
+        "pccid": pccidController.text,
+        "rta_customer": rtaCustomerController.text,
+        'cktstatus': cktStatusController.text,
+        "gemap": geMapController.text,
+        "carrier": carrierController.text,
+        "ckttype": cktTypeController.text,
+        "cktuse": cktUseController.text,
+        "cktid": cktTypeController.text,
+        "evc": evcController.text,
+        "caracctnum": caracctnumController.text,
+        "carcontid": carcontIDController.text,
+        "contlength": contLengthController.text,
+        "street": streetController.text,
+        "state": stateController.text,
+        "city": cityController.text,
+        "zip": zipController.text,
+        "latitude": latitudeController.text,
+        "longitude": longitudeController.text,
+        "cir": cirController.text,
+        "port": portController.text,
+        "handoff": handoffController.text,
+        "apopstreet": apopStreetController.text,
+        "apopcity": apopCityController.text,
+        "apopzip": apopZipController.text,
+        "apopstate": apopStateController.text,
+        "apoplat": apopLatitudeController.text,
+        "apoplong": apopLongitudeController.text,
+        "bpopstreet": bpopStreetController.text,
+        "bpopcity": bpopCityController.text,
+        "bpopstate": bpopStateController.text,
+        "bpopzip": bpopZipController.text,
+        "bpoplat": bpopLatitudeController.text,
+        "bpoplong": bpopLongitudeController.text,
+        "contexp": contexpController.text,
+      }).eq("id", circuitSelected!.id);
+      return true;
+    } catch (e) {
+      print("Error in updateCircuit - $e");
+      return false;
+    }
+  }
+
+  // Nos trae la información del circuito seleccionado
   Future<void> getInformationCircuit(int id) async {
     try {
       circuitSelected = listCircuits.firstWhere((element) => element.id == id);
@@ -260,6 +456,100 @@ class CircuitsProvider extends ChangeNotifier {
     }
   }
 
+  // Limpiar los Controladores
+  void clearAll() {
+    pccidController.clear();
+    rtaCustomerController.clear();
+    cktStatusController.clear();
+    geMapController.clear();
+    carrierController.clear();
+    cktTypeController.clear();
+    cktUseController.clear();
+    cktIDController.clear();
+    evcController.clear();
+    caracctnumController.clear();
+    carcontIDController.clear();
+
+    contexpController.clear();
+    contLengthController.clear();
+    streetController.clear();
+    cityController.clear();
+    stateController.clear();
+    zipController.clear();
+
+    latitudeController.clear();
+    longitudeController.clear();
+    cirController.clear();
+    portController.clear();
+    handoffController.clear();
+    apopStreetController.clear();
+    apopCityController.clear();
+    apopStateController.clear();
+    apopZipController.clear();
+
+    apopLatitudeController.clear();
+    apopLongitudeController.clear();
+    bpopStreetController.clear();
+    bpopCityController.clear();
+    bpopStateController.clear();
+    bpopZipController.clear();
+    bpopLatitudeController.clear();
+    bpopLongitudeController.clear();
+    comments.clear();
+    setIndex(0);
+  }
+
+  // Función para crear un Circuito
+  Future<bool> createCircuit() async {
+    try {
+      final id = await supabaseDashboard.from('rta_circuits').insert(
+        {
+          "pccid": pccidController.text,
+          "rta_customer": rtaCustomerController.text,
+          'cktstatus': cktStatusController.text,
+          "gemap": geMapController.text,
+          "carrier": carrierController.text,
+          "ckttype": cktTypeController.text,
+          "cktuse": cktUseController.text,
+          "cktid": cktTypeController.text,
+          "evc": evcController.text,
+          "caracctnum": caracctnumController.text,
+          "carcontid": carcontIDController.text,
+          "contlength": contLengthController.text,
+          "street": streetController.text,
+          "state": stateController.text,
+          "city": cityController.text,
+          "zip": zipController.text,
+          "latitude": latitudeController.text,
+          "longitude": longitudeController.text,
+          "cir": cirController.text,
+          "port": portController.text,
+          "handoff": handoffController.text,
+          "apopstreet": apopStreetController.text,
+          "apopcity": apopCityController.text,
+          "apopzip": apopZipController.text,
+          "apopstate": apopStateController.text,
+          "apoplat": apopLatitudeController.text,
+          "apoplong": apopLongitudeController.text,
+          "bpopstreet": bpopStreetController.text,
+          "bpopcity": bpopCityController.text,
+          "bpopstate": bpopStateController.text,
+          "bpopzip": bpopZipController.text,
+          "bpoplat": bpopLatitudeController.text,
+          "bpoplong": bpopLongitudeController.text,
+          "contexp": contexpController.text,
+        },
+      ).select<PostgrestList>('id');
+
+      sendComments(id.first["id"]);
+      return true;
+    } catch (e) {
+      print('Error in createCircuit() - $e');
+      return false;
+    }
+  }
+
+  // Excel de los reportes
   Future<bool> excelActivityReports() async {
     try {
       //Crear excel
@@ -303,15 +593,37 @@ class CircuitsProvider extends ChangeNotifier {
           CellIndex.indexByString("O3"), CellIndex.indexByString("O4"));
       sheet?.merge(
           CellIndex.indexByString("P3"), CellIndex.indexByString("P4"));
+      sheet?.merge(
+          CellIndex.indexByString("Q3"), CellIndex.indexByString("Q4"));
+
+      sheet?.merge(
+          CellIndex.indexByString("R3"), CellIndex.indexByString("R4"));
+      sheet?.merge(
+          CellIndex.indexByString("S3"), CellIndex.indexByString("S4"));
+      sheet?.merge(
+          CellIndex.indexByString("T3"), CellIndex.indexByString("T4"));
+      sheet?.merge(
+          CellIndex.indexByString("U3"), CellIndex.indexByString("U4"));
+      sheet?.merge(
+          CellIndex.indexByString("V3"), CellIndex.indexByString("V4"));
+
       //Headers para secciones
+      // Fusión Apops
       sheet?.merge(
-          CellIndex.indexByString("W3"), CellIndex.indexByString("AC3"));
+          CellIndex.indexByString("W3"), CellIndex.indexByString("AB3"));
+      // Fusión BPOPS
       sheet?.merge(
-          CellIndex.indexByString("AD3"), CellIndex.indexByString("AI3"));
+          CellIndex.indexByString("AC3"), CellIndex.indexByString("AH3"));
 
       // Aqui damos por ejemplo el primero es el numero de columna y el segundo el width de está
-      sheet?.setColWidth(4, 25);
-      sheet?.setColWidth(2, 25);
+      sheet?.setColWidth(1, 25);
+      sheet?.setColWidth(7, 25);
+      sheet?.setColWidth(10, 25);
+      sheet?.setColWidth(11, 25); // ContEXP
+      sheet?.setColWidth(13, 25); // Street
+      sheet?.setColWidth(22, 25); // APOPSTREET
+      sheet?.setColWidth(28, 25); // BPOPSTREET
+
       // sheet?.setColWidth(5, 30);
       // sheet?.setColWidth(11, 50);
       // sheet?.setColWidth(12, 50);
@@ -419,75 +731,74 @@ class CircuitsProvider extends ChangeNotifier {
       cell16.value = "state";
       cell16.cellStyle = cellStyle;
 
-      var cell17 = sheet.cell(CellIndex.indexByString("Q4"));
+      var cell17 = sheet.cell(CellIndex.indexByString("Q3"));
       cell17.value = "Zip";
       cell17.cellStyle = cellStyle;
-      var cell19 = sheet.cell(CellIndex.indexByString("R4"));
+      var cell19 = sheet.cell(CellIndex.indexByString("R3"));
       cell19.value = "latitude";
       cell19.cellStyle = cellStyle;
-      var cell20 = sheet.cell(CellIndex.indexByString("S4"));
+      var cell20 = sheet.cell(CellIndex.indexByString("S3"));
       cell20.value = "longitude";
       cell20.cellStyle = cellStyle;
-      var cell21 = sheet.cell(CellIndex.indexByString("T4"));
+      var cell21 = sheet.cell(CellIndex.indexByString("T3"));
       cell21.value = "cir";
       cell21.cellStyle = cellStyle;
-      var cell22 = sheet.cell(CellIndex.indexByString("U4"));
+      var cell22 = sheet.cell(CellIndex.indexByString("U3"));
       cell22.value = "port";
       cell22.cellStyle = cellStyle;
-      var cell23 = sheet.cell(CellIndex.indexByString("V4"));
+      var cell23 = sheet.cell(CellIndex.indexByString("V3"));
       cell23.value = "handoff";
       cell23.cellStyle = cellStyle;
 
       //Sección Apops
       // Titulo de los apops
-      var cell37 = sheet.cell(CellIndex.indexByString("Q3"));
+      var cell37 = sheet.cell(CellIndex.indexByString("W3"));
       cell37.value = "APOPS";
       cell37.cellStyle = cellStyle;
 
       var cell24 = sheet.cell(CellIndex.indexByString("W4"));
       cell24.value = "apopstreet";
       cell24.cellStyle = cellStyle;
-
-      var cell25 = sheet.cell(CellIndex.indexByString("Y4"));
+      var cell25 = sheet.cell(CellIndex.indexByString("X4"));
       cell25.value = "apopcity";
       cell25.cellStyle = cellStyle;
-      var cell26 = sheet.cell(CellIndex.indexByString("Z4"));
+      var cell26 = sheet.cell(CellIndex.indexByString("Y4"));
       cell26.value = "apopstate";
       cell26.cellStyle = cellStyle;
-      var cell27 = sheet.cell(CellIndex.indexByString("AA4"));
+      var cell27 = sheet.cell(CellIndex.indexByString("Z4"));
       cell27.value = "apopzip";
       cell27.cellStyle = cellStyle;
-      var cell28 = sheet.cell(CellIndex.indexByString("AB4"));
+      var cell28 = sheet.cell(CellIndex.indexByString("AA4"));
       cell28.value = "apoplat";
       cell28.cellStyle = cellStyle;
-      var cell29 = sheet.cell(CellIndex.indexByString("AC4"));
+      var cell29 = sheet.cell(CellIndex.indexByString("AB4"));
       cell29.value = "apoplong";
       cell29.cellStyle = cellStyle;
-      var cell30 = sheet.cell(CellIndex.indexByString("AD4"));
 
       //Seccion  BPOPS
-      var cell38 = sheet.cell(CellIndex.indexByString("AB3"));
+      var cell38 = sheet.cell(CellIndex.indexByString("AC3"));
       cell38.value = "BPOPS";
       cell38.cellStyle = cellStyle;
 
+      var cell30 = sheet.cell(CellIndex.indexByString("AC4"));
       cell30.value = "bpopstreet";
       cell30.cellStyle = cellStyle;
-      var cell31 = sheet.cell(CellIndex.indexByString("AE4"));
+      var cell31 = sheet.cell(CellIndex.indexByString("AD4"));
       cell31.value = "bpopcity";
       cell31.cellStyle = cellStyle;
-      var cell32 = sheet.cell(CellIndex.indexByString("AF4"));
+      var cell32 = sheet.cell(CellIndex.indexByString("AE4"));
       cell32.value = "bpopstate";
       cell32.cellStyle = cellStyle;
-      var cell33 = sheet.cell(CellIndex.indexByString("AG4"));
+      var cell33 = sheet.cell(CellIndex.indexByString("AF4"));
       cell33.value = "bpopzip";
       cell33.cellStyle = cellStyle;
-      var cell34 = sheet.cell(CellIndex.indexByString("AH4"));
+      var cell34 = sheet.cell(CellIndex.indexByString("AG4"));
       cell34.value = "bpoplat";
       cell34.cellStyle = cellStyle;
-      var cell35 = sheet.cell(CellIndex.indexByString("AI4"));
+      var cell35 = sheet.cell(CellIndex.indexByString("AH4"));
       cell35.value = "bpoplong";
       cell35.cellStyle = cellStyle;
-      var cell36 = sheet.cell(CellIndex.indexByString("AJ4"));
+      var cell36 = sheet.cell(CellIndex.indexByString("AI4"));
       cell36.value = "notes";
       cell36.cellStyle = cellStyle;
 

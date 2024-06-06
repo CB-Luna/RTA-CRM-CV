@@ -947,7 +947,7 @@ class _DetailedCircuitsPageDesktopState
                       //   },
                       // )
 
-                      CustomScrollBar(
+                      const CustomScrollBar(
                         scrollDirection: Axis.horizontal,
                         child: SizedBox(
                           // color: Colors.black,
@@ -955,7 +955,7 @@ class _DetailedCircuitsPageDesktopState
                           // margin: const EdgeInsets.all(0),
                           child: Row(
                             children: [
-                              const Padding(
+                              Padding(
                                 padding: EdgeInsets.only(left: 20, top: 20),
                                 child: DetailCircuitComments(),
                               ),
@@ -1046,7 +1046,8 @@ class _DetailCircuitCommentsState extends State<DetailCircuitComments> {
                             children: [
                               Container(
                                 width:
-                                    MediaQuery.of(context).size.width / 5 - 60,
+                                    // MediaQuery.of(context).size.width / 5 - 60,
+                                    MediaQuery.of(context).size.width / 3 - 60,
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
