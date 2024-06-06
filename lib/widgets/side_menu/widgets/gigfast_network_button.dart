@@ -90,21 +90,21 @@ class _GigfastNetworkButtonState extends State<GigfastNetworkButton> {
                                 .withOpacity(0.4),
                           )
                         : const SizedBox.shrink(),
-                    // ListTile(
-                    //   title: Text(
-                    //     'Circuits',
-                    //     style: AppTheme.of(context).bodyText1.override(
-                    //           fontFamily: 'Gotham-Bold',
-                    //           color: AppTheme.of(context).gris,
-                    //           useGoogleFonts: false,
-                    //         ),
-                    //   ),
-                    //   onTap: () async {
-                    //     context.pushReplacement(routeCircuits);
-                    //   },
-                    //   hoverColor:
-                    //       AppTheme.of(context).primaryColor.withOpacity(0.4),
-                    // )
+                    ListTile(
+                      title: Text(
+                        'Circuits',
+                        style: AppTheme.of(context).bodyText1.override(
+                              fontFamily: 'Gotham-Bold',
+                              color: AppTheme.of(context).gris,
+                              useGoogleFonts: false,
+                            ),
+                      ),
+                      onTap: () async {
+                        context.pushReplacement(routeCircuits);
+                      },
+                      hoverColor:
+                          AppTheme.of(context).primaryColor.withOpacity(0.4),
+                    )
                   ],
                 ),
               ),

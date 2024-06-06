@@ -101,7 +101,8 @@ class _CustomTextFieldCircuitState extends State<CustomTextFieldCircuit> {
                     fontSize: 14,
                     color: widget.enabled
                         ? AppTheme.of(context).primaryText
-                        : AppTheme.of(context).hintText.color),
+                        // : AppTheme.of(context).hintText.color),
+                        : AppTheme.of(context).cryPrimary),
                 children: widget.required
                     ? [
                         TextSpan(
@@ -109,8 +110,10 @@ class _CustomTextFieldCircuitState extends State<CustomTextFieldCircuit> {
                           style: TextStyle(
                               fontSize: 14,
                               color: widget.enabled
-                                  ? AppTheme.of(context).primaryText
-                                  : AppTheme.of(context).hintText.color),
+                                  // ? AppTheme.of(context).primaryText
+                                  ? AppTheme.of(context).cryPrimary
+                                  // : AppTheme.of(context).hintText.color),
+                                  : AppTheme.of(context).cryPrimary),
                         )
                       ]
                     : null,
