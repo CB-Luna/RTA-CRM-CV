@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:rta_crm_cv/functions/sizes.dart';
@@ -46,6 +47,72 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
     // SideMenuProvider provider = Provider.of<SideMenuProvider>(context);
     CircuitsProvider provider = Provider.of<CircuitsProvider>(context);
 
+    // List<String> titulos = [
+    //   "pccid",
+    //   "rta_customers",
+    //   "cktid",
+    //   "street",
+    //   "cktcity"
+    // ];
+
+    // final List<PlutoColumn> columns;
+    // final List<PlutoRow> rows;
+    // columns = titulos.map((title) {
+    //   return PlutoColumn(
+    //     title: title,
+    //     field: title,
+    //     type: PlutoColumnType.text(),
+    //   );
+    // }).toList();
+    // rows = List.generate(provider.listCircuits.length, (index) {
+    //   print("Lista circuit: ${provider.listCircuits.length}");
+    //   return PlutoRow(
+    //     cells: {
+    //       // "pccid": PlutoCell(value: 'pccid $index'),
+    //       // "rta_customers": PlutoCell(value: 'rta_customers $index'),
+    //       // "cktid": PlutoCell(value: 'cktid $index'),
+    //       // "street": PlutoCell(value: 'street $index'),
+    //       // "cktcity": PlutoCell(value: 'cktcity $index'),
+    //       "pccid": PlutoCell(value: provider.listCircuits[index].pccid),
+    //       "rta_customers":
+    //           PlutoCell(value: provider.listCircuits[index].rtaCustomer),
+    //       "cktid": PlutoCell(value: provider.listCircuits[index].cktid),
+    //       "street": PlutoCell(value: provider.listCircuits[index].street),
+    //       "cktcity": PlutoCell(value: provider.listCircuits[index].city),
+    //     },
+    //   );
+    // });
+    // final List<PlutoColumn> columns = List.generate(4, (index) {
+    //   return PlutoColumn(
+    //     // title: 'Column $index',
+    //     // field: 'column$index',
+    //     title: titulos[index],
+    //     field: titulos[index],
+    //     type: PlutoColumnType.text(),
+    //   );
+    // });
+
+    // // final List<Map<String, dynamic>> data = List.generate(100, (index) {
+    // final List<Map<String, dynamic>> data =
+    //     List.generate(provider.listCircuits.length, (index) {
+    //   return Map.fromIterable(
+    //     List.generate(4, (i) => i),
+    //     // key: (i) => 'column$i',
+    //     key: (i) => '${titulos[i]}',
+    //     value: (i) => 'Row $index Column $i',
+    //   );
+    // });
+
+    // final List<PlutoRow> rows = [];
+
+    // for (var item in data) {
+    //   rows.add(
+    //     PlutoRow(
+    //       cells:
+    //           item.map((key, value) => MapEntry(key, PlutoCell(value: value))),
+    //     ),
+    //   );
+    // }
     return Material(
         child: SizedBox(
       height: MediaQuery.of(context).size.height,
@@ -100,40 +167,6 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // Padding(
-                              //   padding:
-                              //       const EdgeInsets.only(left: 10, top: 10),
-                              //   child: CustomTextIconButton(
-                              //     mainAxisAlignment: MainAxisAlignment.center,
-                              //     width:
-                              //         MediaQuery.of(context).size.width * 0.10,
-                              //     isLoading: false,
-                              //     icon: Icon(
-                              //         Icons.download_for_offline_outlined,
-                              //         color: AppTheme.of(context)
-                              //             .primaryBackground),
-                              //     text: 'Export Data',
-                              //     style: AppTheme.of(context)
-                              //         .contenidoTablas
-                              //         .override(
-                              //           fontFamily: 'Gotham-Regular',
-                              //           useGoogleFonts: false,
-                              //           color: AppTheme.of(context)
-                              //               .primaryBackground,
-                              //         ),
-                              //     color: AppTheme.of(context).primaryColor,
-                              //     onTap: () async {
-                              //       provider.clearControllerExportData(
-                              //           notify: false);
-                              //       if (!mounted) return;
-                              //       await showDialog(
-                              //           context: context,
-                              //           builder: (BuildContext context) {
-                              //             return const ExportUsers();
-                              //           });
-                              //     },
-                              //   ),
-                              // ),
                               Padding(
                                 padding: const EdgeInsets.all(0.0),
                                 child: CustomTextField(
@@ -203,6 +236,27 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                                         icon: Icon(Icons.save_outlined,
                                             color: AppTheme.of(context)
                                                 .primaryBackground),
+                                        text: 'Export PDF',
+                                        onTap: () async {
+                                          // if (context.canPop()) context.pop();
+                                          provider.exportToPDF();
+                                          // await provider.clientPDF(
+                                          //     context, columns, rows);
+                                        }),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 30),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomTextIconButton(
+                                        isLoading: false,
+                                        icon: Icon(Icons.save_outlined,
+                                            color: AppTheme.of(context)
+                                                .primaryBackground),
                                         text: 'Add Circuit',
                                         onTap: () async {
                                           provider.clearAll();
@@ -221,6 +275,99 @@ class _CircuitsPageDesktopState extends State<CircuitsPageDesktop> {
                             ],
                           ),
                         ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(20),
+                        //   child: IconButton(
+                        //       icon: Icon(Icons.fullscreen,
+                        //           color: AppTheme.of(context).primaryColor),
+                        //       tooltip: 'Full Screen',
+                        //       color: AppTheme.of(context).primaryColor,
+                        //       onPressed: () async {
+                        //         await showDialog(
+                        //           context: context,
+                        //           builder: (BuildContext context) {
+                        //             return AlertDialog(
+                        //                 backgroundColor: Colors.transparent,
+                        //                 shadowColor: Colors.transparent,
+                        //                 content: SizedBox(
+                        //                   width: 1000,
+                        //                   height: 1000,
+                        //                   child: PdfView(
+                        //                     backgroundDecoration:
+                        //                         const BoxDecoration(
+                        //                       color: Colors.transparent,
+                        //                       borderRadius: BorderRadius.all(
+                        //                         Radius.circular(21),
+                        //                       ),
+                        //                     ),
+                        //                     controller:
+                        //                         provider.finalPdfController!,
+                        //                   ),
+                        //                 ));
+                        //           },
+                        //         );
+                        //       }),
+                        // ),
+                        // CustomCard(
+                        //     title: "JSA TEMPLATE PREVIEW ",
+                        //     height: MediaQuery.of(context).size.height * 0.3,
+                        //     width: MediaQuery.of(context).size.width * 0.3,
+                        //     child: SizedBox(
+                        //       child: Row(
+                        //         children: [
+                        //           Container(
+                        //             color: Colors.grey,
+                        //             height: MediaQuery.of(context).size.height *
+                        //                 0.2,
+                        //             // width: MediaQuery.of(context).size.width * 0.3,
+                        //             width: MediaQuery.of(context).size.height *
+                        //                 0.2,
+                        //             child: provider.finalPdfController == null
+                        //                 ? const CircularProgressIndicator()
+                        //                 : PdfView(
+                        //                     pageSnapping: false,
+                        //                     scrollDirection: Axis.vertical,
+                        //                     physics:
+                        //                         const BouncingScrollPhysics(),
+                        //                     renderer: (PdfPage page) {
+                        //                       if (page.width >= page.height) {
+                        //                         return page.render(
+                        //                           width: page.width * 7,
+                        //                           height: page.height * 4,
+                        //                           format:
+                        //                               PdfPageImageFormat.jpeg,
+                        //                           backgroundColor: '#15FF0D',
+                        //                         );
+                        //                       } else if (page.width ==
+                        //                           page.height) {
+                        //                         return page.render(
+                        //                           width: page.width * 4,
+                        //                           height: page.height * 4,
+                        //                           format:
+                        //                               PdfPageImageFormat.jpeg,
+                        //                           backgroundColor: '#15FF0D',
+                        //                         );
+                        //                       } else {
+                        //                         return page.render(
+                        //                           width: page.width * 4,
+                        //                           height: page.height * 7,
+                        //                           format:
+                        //                               PdfPageImageFormat.jpeg,
+                        //                           backgroundColor: '#15FF0D',
+                        //                         );
+                        //                       }
+                        //                     },
+                        //                     controller:
+                        //                         provider.finalPdfController!,
+                        //                     onDocumentLoaded: (document) {},
+                        //                     onPageChanged: (page) {},
+                        //                     onDocumentError: (error) {},
+                        //                   ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     )),
+
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 4.0),

@@ -1,15 +1,21 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdfx/pdfx.dart' as pdfx;
 import 'package:pluto_grid/pluto_grid.dart';
+import 'package:pluto_grid_export/pluto_grid_export.dart';
 import 'package:rta_crm_cv/helpers/globals.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/circuits.dart';
 import 'package:rta_crm_cv/models/dashboard_rta/comments.dart';
-import 'package:rta_crm_cv/public/colors.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:pluto_grid_export/pluto_grid_export.dart' as pluto_grid_export;
 
 class CircuitsProvider extends ChangeNotifier {
   int pageRowCount = 11;
@@ -19,7 +25,16 @@ class CircuitsProvider extends ChangeNotifier {
 
   // Individual
   Circuits? circuitSelected;
+  pdfx.PdfController? finalPdfController;
+  Uint8List? documento;
+  final date = DateTime.now();
 
+  final borderStyle = const pw.BorderSide(width: 1);
+  final columnWidths = {
+    0: const pw.FlexColumnWidth(1), // Ancho flexible para la primera columna
+    1: const pw.FlexColumnWidth(1), // Ancho flexible para la segunda columna
+    2: const pw.FlexColumnWidth(1), // Ancho flexible para la tercera columna
+  };
   // Listas
   List<Circuits> listCircuits = [];
 
@@ -69,6 +84,122 @@ class CircuitsProvider extends ChangeNotifier {
   final bpopLongitudeController = TextEditingController();
 
   final commentsController = TextEditingController();
+
+  // void exportToPDF(PlutoGridStateManager stateManager) async {
+  //   // Genera el documento PDF
+  //   final pdf = pw.Document();
+
+  //   // Obtiene la lista de columnas y filas del PlutoGrid
+  //   final columns = stateManager.columns;
+  //   final rows = stateManager.rows;
+
+  //   // Crea una tabla en el PDF
+  //   pdf.addPage(
+  //     pw.Page(
+  //       build: (context) {
+  //         return pw.Table.fromTextArray(
+  //           headers: columns.map((col) => col.title).toList(),
+  //           data: rows.map((row) {
+  //             return row.cells.values
+  //                 .map((cell) => cell.value.toString())
+  //                 .toList();
+  //           }).toList(),
+  //         );
+  //       },
+  //     ),
+  //   );
+
+  //   // Muestra el diálogo de impresión para guardar o imprimir el PDF
+  //   await Printing.layoutPdf(
+  //     onLayout: (PdfPageFormat format) async => pdf.save(),
+  //   );
+  // }
+  void exportToPDF() async {
+    // Genera el documento PDF
+    final pdf = pw.Document();
+
+    // Crear tabla en el PDF
+    pdf.addPage(
+      pw.Page(
+        build: (context) {
+          return pw.Table.fromTextArray(
+            headers: [
+              'Columna1',
+              'Columna2',
+              'Columna3'
+            ], // Reemplazar con los nombres de las columnas
+            data: listCircuits.map((circuit) {
+              return [
+                circuit.pccid,
+                circuit.rtaCustomer,
+                circuit.cktstatus,
+                circuit.gemap,
+                circuit.carrier,
+                circuit.ckttype,
+                circuit.cktuse,
+                circuit.cktid,
+                circuit.evc,
+                circuit.caracctnum,
+                circuit.carcontid,
+                circuit.contexp,
+                circuit.contlength,
+                circuit.street,
+                circuit.city,
+                circuit.state,
+                circuit.zip,
+                circuit.latitude,
+                circuit.longitude,
+                circuit.cir,
+                circuit.port,
+                circuit.handoff,
+                circuit.apopstreet,
+                circuit.apopcity,
+                circuit.apopstate,
+                circuit.apopzip,
+                circuit.apoplat,
+                circuit.apoplong,
+                circuit.bpopstreet,
+                circuit.bpopcity,
+                circuit.bpopstate,
+                circuit.bpopzip,
+                circuit.bpoplat,
+                circuit.bpoplong,
+                circuit.notes,
+              ]; // Reemplazar con los nombres de los campos de Circuit
+            }).toList(),
+          );
+        },
+      ),
+    );
+
+    // Muestra el diálogo de impresión para guardar o imprimir el PDF
+    await Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) async => pdf.save(),
+    );
+  }
+
+  // void exportToPdf() async {
+  //   final themeData = pluto_grid_export.ThemeData.withFont(
+  //     base: pluto_grid_export.Font.ttf(
+  //       await rootBundle.load('fonts/open_sans/OpenSans-Regular.ttf'),
+  //     ),
+  //     bold: pluto_grid_export.Font.ttf(
+  //       await rootBundle.load('fonts/open_sans/OpenSans-Bold.ttf'),
+  //     ),
+  //   );
+
+  //   var plutoGridPdfExport = pluto_grid_export.PlutoGridDefaultPdfExport(
+  //     title: "Pluto Grid Sample pdf print",
+  //     creator: "Pluto Grid Rocks!",
+  //     format: pluto_grid_export.PdfPageFormat.a4.landscape,
+  //     themeData: themeData,
+  //   );
+
+  //   await pluto_grid_export.Printing.sharePdf(
+  //     bytes: await plutoGridPdfExport.export(stateManager!),
+  //     filename: plutoGridPdfExport.getFilename(),
+  //   );
+  // }
 
   void setPageSize(String x) {
     switch (x) {
@@ -854,18 +985,6 @@ class CircuitsProvider extends ChangeNotifier {
         ];
         sheet.appendRow(row);
       }
-      //   var cell = sheet
-      //       .cell(CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: i + 3));
-      //   cell.cellStyle = CellStyle(
-      //     backgroundColorHex: colorFinal, // Cambia el color aquí
-      //   );
-
-      //   var cellCO = sheet
-      //       .cell(CellIndex.indexByColumnRow(columnIndex: 23, rowIndex: i + 2));
-      //   var style = cellCO.cellStyle ?? CellStyle();
-      //   style.rightBorder.borderStyle;
-      //   cellCO.cellStyle = style;
-      // }
 
       //Descargar
       final List<int>? fileBytes = excel.save(fileName: "RTA_Circuits.xlsx");
@@ -880,5 +999,333 @@ class CircuitsProvider extends ChangeNotifier {
       print("Error in excelActivityReport -$e");
       return false;
     }
+  }
+
+  // Crear PDF
+  Future<pdfx.PdfController> clientPDF(BuildContext context,
+      List<PlutoColumn> columns, List<PlutoRow> rows) async {
+    finalPdfController = null;
+    // notifyListeners();
+    final logo = (await rootBundle.load('assets/images/rta_logo.png'))
+        .buffer
+        .asUint8List();
+
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4.landscape,
+        build: (pw.Context context) {
+          return pw.Table.fromTextArray(
+            headers: columns.map((column) => column.title).toList(),
+            data: rows
+                .map((row) => columns.map((column) {
+                      final cellValue = row.cells[column.field]?.value ?? '';
+                      return cellValue.toString();
+                    }).toList())
+                .toList(),
+          );
+        },
+      ),
+    );
+/*
+    pdf.addPage(
+      pw.Page(
+        build: (context) => pw.Column(
+          children: [
+            pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Container(
+                    alignment: pw.Alignment.topLeft,
+                    width: 250,
+                    height: 80,
+                    child: pw.Image(pw.MemoryImage(logo), fit: pw.BoxFit.fill),
+                  ),
+                  //Titulo
+                  pw.Column(children: [
+                    pw.Text(
+                      textAlign: pw.TextAlign.end,
+                      'JSA No._______________________',
+                      style: const pw.TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ]),
+                ]),
+
+            pw.SizedBox(height: 10),
+            // pw.Row(children: [
+            //   pw.Text('Company Name: ___${generalInfo!.company}___',
+            //       textAlign: pw.TextAlign.start),
+            //   pw.Text('Title:__${generalInfo.title}__')
+            // ]),
+            //Contenido
+            pw.SizedBox(height: 15),
+            pw.Container(
+              alignment: pw.Alignment.center,
+              child: pw.Table(
+                  border: pw.TableBorder(
+                    left: borderStyle,
+                    right: borderStyle,
+                    top: borderStyle,
+                    bottom: borderStyle,
+                    verticalInside: borderStyle,
+                    horizontalInside: borderStyle,
+                  ),
+                  columnWidths: columnWidths,
+                  children: [
+                    pw.TableRow(
+                        verticalAlignment: pw.TableCellVerticalAlignment.middle,
+                        children: [
+                          pw.Text('Job Steps',
+                              textAlign: pw.TextAlign.center,
+                              style: const pw.TextStyle(
+                                fontSize: 15,
+                              )),
+                          pw.Text('Hazards',
+                              textAlign: pw.TextAlign.center,
+                              style: const pw.TextStyle(
+                                fontSize: 15,
+                              )),
+                          pw.Text('Barriers or Controls',
+                              textAlign: pw.TextAlign.center,
+                              style: const pw.TextStyle(
+                                fontSize: 15,
+                              ))
+                        ]),
+                    //Builder de los diferentes Steps
+                    //HACER CONSULTA DOBLE EN CUANTO A  LOS STEPS PARA RIESGOS Y CONTROL
+                  ]),
+            ),
+            // pw.ListView.builder(
+            //     itemBuilder: (context, index) {
+            //       return pw.Table(
+            //           border: pw.TableBorder(
+            //             left: borderStyle,
+            //             right: borderStyle,
+            //             top: borderStyle,
+            //             bottom: borderStyle,
+            //             verticalInside: borderStyle,
+            //             horizontalInside: borderStyle,
+            //           ),
+            //           columnWidths: columnWidths,
+            //           children: [
+            //             pw.TableRow(
+            //               children: [
+            //                 // pw.Text(
+            //                 //   generalInfo.jsaStepsJson![index].title,
+            //                 //   textAlign: pw.TextAlign.center,
+            //                 //   style: const pw.TextStyle(
+            //                 //     fontSize: 13,
+            //                 //   ),
+            //                 // ),
+            //                 // pw.Container(
+            //                 //   child: pw.Column(children: [
+            //                 //     pw.ListView.builder(
+            //                 //       itemCount: generalInfo
+            //                 //           .jsaStepsJson![index].risks.length,
+            //                 //       itemBuilder: (context, indexR) {
+            //                 //         print(
+            //                 //             "Riesgos: ${generalInfo.jsaStepsJson![index].risks[indexR].title}");
+            //                 //         return pw.Text(
+            //                 //           textAlign: pw.TextAlign.center,
+            //                 //           "${generalInfo.jsaStepsJson![index].risks[indexR].title}",
+            //                 //           style: const pw.TextStyle(
+            //                 //             fontSize: 11,
+            //                 //           ),
+            //                 //         );
+            //                 //       },
+            //                 //     ),
+            //                 //     pw.Text(
+            //                 //         '${generalInfo.jsaStepsJson![index].riskLevel}')
+            //                 //   ]),
+            //                 // ),
+            //                 // pw.Container(
+            //                 //   child: pw.Column(children: [
+            //                 //     pw.ListView.builder(
+            //                 //       itemCount: generalInfo
+            //                 //           .jsaStepsJson![index].controls.length,
+            //                 //       itemBuilder: (context, indexC) {
+            //                 //         return pw.Text(
+            //                 //           textAlign: pw.TextAlign.center,
+            //                 //           "${generalInfo.jsaStepsJson![index].controls[indexC].title}",
+            //                 //           style: const pw.TextStyle(
+            //                 //             fontSize: 11,
+            //                 //           ),
+            //                 //         );
+            //                 //       },
+            //                 //     ),
+            //                 //     pw.Text(
+            //                 //         '${generalInfo.jsaStepsJson![index].controlLevel}')
+            //                 //   ]),
+            //                 // ),
+            //               ],
+            //             )
+            //           ]);
+            //     },
+            //     itemCount: step),
+            pw.SizedBox(height: 15),
+            pw.Container(
+                child: pw.Table(
+                    border: pw.TableBorder(
+                      left: borderStyle,
+                      right: borderStyle,
+                      top: borderStyle,
+                      bottom: borderStyle,
+                      verticalInside: borderStyle,
+                      horizontalInside: borderStyle,
+                    ),
+                    children: [
+                  pw.TableRow(children: [
+                    pw.Center(
+                      child: pw.Text("Team Members",
+                          style: const pw.TextStyle(
+                            fontSize: 15,
+                          )),
+                    ),
+                    pw.Container(
+                      child: pw.Column(children: [
+                        // pw.ListView.builder(
+                        //   itemCount: generalInfo.teamMembers!.length,
+                        //   itemBuilder: (context, indexC) {
+                        //     return pw.Text(
+                        //       textAlign: pw.TextAlign.center,
+                        //       "${generalInfo.teamMembers![indexC].name}",
+                        //       style: const pw.TextStyle(
+                        //         fontSize: 11,
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
+                      ]),
+                    ),
+                  ]),
+                ])),
+            pw.SizedBox(height: 15),
+            pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text(
+                    'Prepared By:_____${currentUser!.name} ${currentUser!.lastName}________',
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                  pw.Text(
+                    'Date Approved:____${DateFormat("MMM/dd/yyyy").format(date)}_________',
+                    textAlign: pw.TextAlign.end,
+                    style: const pw.TextStyle(
+                      fontSize: 13,
+                      // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                    ),
+                  ),
+                ]),
+
+            pw.SizedBox(height: 10),
+            pw.Text(
+              'Instructions:',
+              style: const pw.TextStyle(
+                fontSize: 15,
+                // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+              ),
+            ),
+            pw.SizedBox(height: 10),
+            pw.Column(children: [
+              pw.Row(children: [
+                pw.Text(
+                  '1. To be prepared by the supervisor most directly involved in the work.',
+                  style: const pw.TextStyle(
+                    fontSize: 10,
+                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                  ),
+                ),
+              ]),
+              pw.SizedBox(height: 5),
+              pw.Row(children: [
+                pw.Text(
+                  "2. Must be approved by preparer's management supervisor",
+                  style: const pw.TextStyle(
+                    fontSize: 10,
+                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                  ),
+                ),
+              ]),
+              pw.SizedBox(height: 5),
+              pw.Row(children: [
+                pw.Text(
+                  '3. Must be reviewed by all workers involved in the work.',
+                  style: const pw.TextStyle(
+                    fontSize: 10,
+                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                  ),
+                ),
+              ]),
+              pw.SizedBox(height: 5),
+              pw.Row(children: [
+                pw.Text(
+                  '4. Emergency plan must be considered',
+                  style: const pw.TextStyle(
+                    fontSize: 10,
+                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                  ),
+                ),
+              ]),
+              pw.SizedBox(height: 5),
+              pw.Row(children: [
+                pw.Text(
+                  '5. If the work plan changes and the JSA is amended, changes must be reviewed \nby all workers involved in the work',
+                  style: const pw.TextStyle(
+                    fontSize: 10,
+                    // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                  ),
+                ),
+              ]),
+            ]),
+            pw.SizedBox(height: 20),
+            pw.Expanded(
+              child: pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.center,
+                  children: [
+                    pw.Column(children: [
+                      pw.Text(
+                        'Accepted and Agreed to by RTA:',
+                        style: const pw.TextStyle(
+                          fontSize: 13,
+                          // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                        ),
+                      ),
+                      // pw.Image(
+                      //   pw.MemoryImage(signature!),
+                      //   height: 58,
+                      //   width: 200,
+                      //   fit: pw.BoxFit.fill,
+                      //   alignment: pw.Alignment.center,
+                      // ),
+                      pw.Text(
+                        '${currentUser!.name} ${currentUser!.lastName}, Employee',
+                        style: const pw.TextStyle(
+                          fontSize: 13,
+                          // color: pdfcolor.PdfColor.fromInt(0xFF060606),
+                        ),
+                      ),
+                    ]),
+                  ]),
+            )
+          ],
+        ),
+      ),
+    );
+    
+    */
+    pdf.save();
+    finalPdfController = pdfx.PdfController(
+      document: pdfx.PdfDocument.openData(pdf.save()),
+    );
+    documento = await pdf.save();
+
+    notifyListeners();
+
+    return finalPdfController!;
   }
 }

@@ -34,6 +34,7 @@ import 'package:rta_crm_cv/pages/crm/quotes/create_quote.dart';
 import 'package:rta_crm_cv/pages/crm/quotes/detail_quote.dart';
 import 'package:rta_crm_cv/pages/crm/quotes/quotes_page.dart';
 import 'package:rta_crm_cv/pages/crm/quotes/validate_quote.dart';
+import 'package:rta_crm_cv/providers/dashboard_rta/circuits_provider.dart';
 import 'package:rta_crm_cv/providers/users_provider.dart';
 import 'package:rta_crm_cv/services/navigation_service.dart';
 import 'package:rta_crm_cv/widgets/side_menu/widgets/surveys/homeowner_ftth_document/homeowner_ftth_document_client.dart';

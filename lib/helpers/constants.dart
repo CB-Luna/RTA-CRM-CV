@@ -352,8 +352,10 @@ const String greenwoodFTTHDashboard = '/manager/greenwood_ftth_dashboard';
 const String monitoringDashboard = '/gigfast_network/monitoring_dashboard';
 const String mapCoverage = '/gigfast_network/map_coverage';
 // Circuits
+
 const String routeCircuits = '/gigfast_network/circuits';
-const String routeCircuitSelected = '/gigfast_network/circuits/2';
+const String routeCircuitSelected =
+    '/gigfast_network/circuits/detailed_circuit';
 
 // Call Center
 const String ecommerceRTA = '/call_center/ecommerceRTA';
